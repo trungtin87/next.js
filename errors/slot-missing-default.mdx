@@ -1,26 +1,26 @@
 ---
-title: Missing Required default.js for Parallel Route
+title: Thiếu default.js Bắt Buộc cho Parallel Route
 ---
 
-> Parallel route slots require a `default.js` file to serve as a fallback during navigation.
+> Parallel route slots yêu cầu một file `default.js` để phục vụ như một fallback trong quá trình điều hướng.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You're using [parallel routes](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes#defaultjs) in your Next.js application, but one of your parallel route slots is missing a required `default.js` file, which causes a build error.
+Bạn đang sử dụng [parallel routes](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes#defaultjs) trong ứng dụng Next.js của bạn, nhưng một trong các parallel route slots của bạn bị thiếu file `default.js` bắt buộc, điều này gây ra lỗi build.
 
-When using parallel routes, Next.js needs to know what to render in each slot when:
+Khi sử dụng parallel routes, Next.js cần biết những gì cần render trong mỗi slot khi:
 
-- Navigating between pages that have different slot structures
-- A slot doesn't match the current navigation (only during hard navigation)
-- After a page refresh when Next.js cannot determine the active state for a slot
+- Điều hướng giữa các trang có cấu trúc slot khác nhau
+- Một slot không khớp với điều hướng hiện tại (chỉ trong quá trình hard navigation)
+- Sau khi refresh trang khi Next.js không thể xác định trạng thái active cho một slot
 
-The `default.js` file serves as a fallback to render when Next.js cannot determine the active state of a slot based on the current URL. Without this file, the build will fail.
+File `default.js` phục vụ như một fallback để render khi Next.js không thể xác định trạng thái active của một slot dựa trên URL hiện tại. Nếu không có file này, build sẽ thất bại.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Create a `default.js` (or `.jsx`, `.tsx`) file in the parallel route slot directory that's mentioned in the error message.
+Tạo một file `default.js` (hoặc `.jsx`, `.tsx`) trong thư mục parallel route slot được đề cập trong thông báo lỗi.
 
-For example, if you have this structure where different slots have pages at different paths:
+Ví dụ, nếu bạn có cấu trúc này nơi các slots khác nhau có các trang tại các đường dẫn khác nhau:
 
 ```
 app/
@@ -33,27 +33,27 @@ app/
     └── page.js
 ```
 
-You need to add `default.js` files for each slot, excluding the children slot:
+Bạn cần thêm các file `default.js` cho mỗi slot, ngoại trừ slot children:
 
 ```
 app/
 ├── layout.js
 ├── page.js
-├── default.js         // Optiona: add this (for children slot)
+├── default.js         // Tùy chọn: thêm file này (cho slot children)
 ├── @team/
-│   ├── default.js     // Add this
+│   ├── default.js     // Thêm file này
 │   └── settings/
 │       └── page.js
 └── @analytics/
-    ├── default.js     // Add this
+    ├── default.js     // Thêm file này
     └── page.js
 ```
 
-Without the root `default.js`, navigating to `/settings` would result in a 404, even though `@team/settings/page.js` exists. The `default.js` in the root tells Next.js what to render in the children slot when there's no matching page at that path. It's not required as other named slots default files are, but it's good to add to help improve the experience for your applications.
+Nếu không có `default.js` gốc, việc điều hướng đến `/settings` sẽ dẫn đến 404, ngay cả khi `@team/settings/page.js` tồn tại. `default.js` trong thư mục gốc cho Next.js biết những gì cần render trong slot children khi không có trang phù hợp tại đường dẫn đó. Nó không bắt buộc như các file default của các slots được đặt tên khác, nhưng tốt hơn hết là nên thêm vào để giúp cải thiện trải nghiệm cho các ứng dụng của bạn.
 
-### Example `default.js` file:
+### Ví dụ file `default.js`:
 
-The simplest implementation returns `null` to render nothing:
+Implementation đơn giản nhất trả về `null` để không render gì cả:
 
 ```jsx filename="app/@analytics/default.js"
 export default function Default() {
@@ -61,7 +61,7 @@ export default function Default() {
 }
 ```
 
-You can also preserve the old behavior of returning a 404:
+Bạn cũng có thể giữ lại hành vi cũ là trả về 404:
 
 ```jsx filename="app/@team/default.js"
 import { notFound } from 'next/navigation'
@@ -71,10 +71,10 @@ export default function Default() {
 }
 ```
 
-### When you need `default.js`
+### Khi nào bạn cần `default.js`
 
-You need a `default.js` file for each parallel route slot (directories starting with `@`) at each route segment.
+Bạn cần một file `default.js` cho mỗi parallel route slot (các thư mục bắt đầu bằng `@`) tại mỗi segment route.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Parallel Routes Documentation](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes#defaultjs)
+- [Tài liệu Parallel Routes](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes#defaultjs)

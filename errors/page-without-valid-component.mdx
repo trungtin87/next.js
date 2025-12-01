@@ -1,20 +1,20 @@
 ---
-title: Page Without Valid React Component
+title: Page Không Có React Component Hợp Lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A page that does not export a valid React Component was found while analyzing the build output.
+Một trang không export React Component hợp lệ đã được tìm thấy khi phân tích đầu ra build.
 
-This is a hard error because the page would error when rendered, and causes poor build performance.
+Đây là một lỗi nghiêm trọng vì trang sẽ bị lỗi khi được render, và gây ra hiệu suất build kém.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Investigate the list of page(s) specified in the error message.
-For each, you'll want to check if the file is meant to be a page.
+Điều tra danh sách (các) trang được chỉ định trong thông báo lỗi.
+Đối với mỗi trang, bạn sẽ muốn kiểm tra xem file có được dự định là một trang hay không.
 
-If the file is not meant to be a page, and instead, is a shared component or file, move the file to a different folder like `components` or `lib`.
+Nếu file không được dự định là một trang, và thay vào đó, là một component hoặc file được chia sẻ, hãy di chuyển file đến một thư mục khác như `components` hoặc `lib`.
 
-If the file is meant to be a page, double check you have an `export default` with the React Component instead of an `export`. If you're already using `export default`, make sure the returned value is a valid React Component.
+Nếu file được dự định là một trang, hãy kiểm tra kỹ xem bạn có `export default` với React Component thay vì `export` hay không. Nếu bạn đã sử dụng `export default`, hãy đảm bảo giá trị được trả về là một React Component hợp lệ.
 
-If you need to support a different file extension for a page component (such as `.mdx`) or would like to include non-page files in the `pages` directory, configure [Custom Page Extensions](/docs/pages/api-reference/config/next-config-js/pageExtensions) in the `next.config.js`.
+Nếu bạn cần hỗ trợ một phần mở rộng file khác cho một component trang (như `.mdx`) hoặc muốn bao gồm các file không phải trang trong thư mục `pages`, hãy cấu hình [Custom Page Extensions](/docs/pages/api-reference/config/next-config-js/pageExtensions) trong `next.config.js`.

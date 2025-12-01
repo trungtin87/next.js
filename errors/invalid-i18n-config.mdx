@@ -1,31 +1,31 @@
 ---
-title: Invalid i18n config
+title: Cấu hình i18n không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In your `next.config.js` file, you provided an invalid config for the `i18n` field. This could mean the limit for 100 locale items was exceeded.
+Trong file `next.config.js` của bạn, bạn đã cung cấp một cấu hình không hợp lệ cho trường `i18n`. Điều này có thể có nghĩa là giới hạn cho 100 mục locale đã bị vượt quá.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure your `i18n` field follows the allowed config shape, limits, and values:
+Đảm bảo trường `i18n` của bạn tuân theo hình dạng cấu hình, giới hạn và giá trị được phép:
 
 ```js filename="next.config.js"
 module.exports = {
   i18n: {
-    // These are all the locales you want to support in
-    // your application
+    // Đây là tất cả các locales bạn muốn hỗ trợ trong
+    // ứng dụng của bạn
     locales: ['en-US', 'es', 'fr', 'nl-NL'],
-    // This is the default locale you want to be used when visiting
-    // a non-locale prefixed path e.g. `/hello`
+    // Đây là locale mặc định bạn muốn được sử dụng khi truy cập
+    // một đường dẫn không có tiền tố locale ví dụ `/hello`
     defaultLocale: 'en-US',
-    // This is a list of locale domains and the default locale they
-    // should handle (these are only required when setting up domain routing)
+    // Đây là danh sách các domain locale và locale mặc định mà chúng
+    // nên xử lý (chúng chỉ bắt buộc khi thiết lập domain routing)
     domains: [
       {
         domain: 'example.com',
         defaultLocale: 'en-US',
-        // other locales that should be handled on this domain
+        // các locales khác nên được xử lý trên domain này
         locales: ['es'],
       },
       {
@@ -41,6 +41,6 @@ module.exports = {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Internationalized Routing Documentation](/docs/pages/guides/internationalization)
+- [Tài liệu Internationalized Routing](/docs/pages/guides/internationalization)

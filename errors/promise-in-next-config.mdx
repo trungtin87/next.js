@@ -1,10 +1,10 @@
 ---
-title: Promise In Next Config
+title: Promise Trong Next Config
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The webpack function in `next.config.js` returned a promise which is not supported in Next.js. For example, below is not supported:
+Hàm webpack trong `next.config.js` trả về một promise không được hỗ trợ trong Next.js. Ví dụ, dưới đây không được hỗ trợ:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -14,10 +14,10 @@ module.exports = {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-In Next.js versions above `12.0.10`, `module.exports = async () =>` is supported.
+Trong các phiên bản Next.js trên `12.0.10`, `module.exports = async () =>` được hỗ trợ.
 
-For older versions, you can check your `next.config.js` for `async` or `return Promise`.
+Đối với các phiên bản cũ hơn, bạn có thể kiểm tra `next.config.js` của mình để tìm `async` hoặc `return Promise`.
 
-Potentially a plugin is returning a `Promise` from the webpack function.
+Có thể một plugin đang trả về `Promise` từ hàm webpack.

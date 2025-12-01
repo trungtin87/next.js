@@ -1,14 +1,14 @@
 ---
-title: Multiple Tabs
+title: Nhiều Tabs
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In development mode Next.js creates 2 persistent connections to the server to receive hot updates and to keep pages active. Each browser has their own limit for the number of concurrent connections to a specific server a site is allowed to have so if you open the same Next.js site in multiple tabs of the same browser you could exceed your browser's limit.
+Trong chế độ development, Next.js tạo 2 kết nối liên tục đến server để nhận các bản cập nhật nóng (hot updates) và giữ cho các trang hoạt động. Mỗi trình duyệt có giới hạn riêng về số lượng kết nối đồng thời đến một server cụ thể mà một trang web được phép có, vì vậy nếu bạn mở cùng một trang web Next.js trong nhiều tab của cùng một trình duyệt, bạn có thể vượt quá giới hạn của trình duyệt.
 
-More info here: https://tools.ietf.org/html/rfc6202#section-5.1
+Thông tin thêm tại đây: https://tools.ietf.org/html/rfc6202#section-5.1
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Don't have too many tabs open to the same Next.js site open in development in the same browser at the same time.
-- If using Firefox you can increase this limit by navigating to `about:config` and setting `network.http.max-persistent-connections-per-server` to a higher number
+- Đừng mở quá nhiều tab đến cùng một trang web Next.js trong chế độ development trong cùng một trình duyệt cùng một lúc.
+- Nếu sử dụng Firefox, bạn có thể tăng giới hạn này bằng cách điều hướng đến `about:config` và đặt `network.http.max-persistent-connections-per-server` thành một số cao hơn.

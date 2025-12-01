@@ -1,21 +1,21 @@
 ---
-title: Invalid Page / API Route Config
+title: Cấu hình Page / API Route không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In one of your pages or API Routes, you used `export const config` with an invalid value.
+Trong một trong các trang hoặc API Routes của bạn, bạn đã sử dụng `export const config` với một giá trị không hợp lệ.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- The page's `config` must be an object initialized directly when being exported and not modified dynamically.
-- The `config` object must only contain static constant literals without expressions.
+- `config` của trang phải là một object được khởi tạo trực tiếp khi được export và không được sửa đổi động.
+- Object `config` chỉ được chứa các literal hằng số tĩnh mà không có biểu thức.
 
 <table>
 <thead>
   <tr>
-    <th>Not Allowed</th>
-    <th>Allowed</th>
+    <th>Không Được Phép</th>
+    <th>Được Phép</th>
   </tr>
 </thead>
 <tbody>
@@ -24,7 +24,7 @@ In one of your pages or API Routes, you used `export const config` with an inval
 <td>
 
 ```js
-// `config` should be an object
+// `config` nên là một object
 export const config = 'hello world'
 ```
 
@@ -42,7 +42,7 @@ export const config = {}
 <td>
 
 ```js
-// `config.runtime` contains a dynamic expression
+// `config.runtime` chứa một biểu thức động
 export const config = {
   runtime: `node${'js'}`,
 }
@@ -67,7 +67,7 @@ export const config = {
 <td>
 
 ```js
-// Re-exported `config` is not allowed
+// Re-exported `config` không được phép
 export { config } from '../config'
 ```
 
@@ -84,7 +84,7 @@ export const config = {}
 </tbody>
 </table>
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [API Routes Request Helpers](/docs/pages/building-your-application/routing/api-routes)
 - [Edge Runtime](/docs/app/api-reference/edge)

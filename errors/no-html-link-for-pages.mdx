@@ -1,20 +1,20 @@
 ---
-title: No HTML link for pages
+title: Không có HTML link cho pages
 ---
 
-> Prevent usage of `<a>` elements to navigate to internal Next.js pages.
+> Ngăn chặn việc sử dụng phần tử `<a>` để điều hướng đến các trang Next.js nội bộ.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-An `<a>` element was used to navigate to a page route without using the `next/link` component, causing unnecessary full-page refreshes.
+Một phần tử `<a>` đã được sử dụng để điều hướng đến một route trang mà không sử dụng component `next/link`, gây ra việc làm mới toàn bộ trang không cần thiết.
 
-The `Link` component is required to enable client-side route transitions between pages and provide a single-page app experience.
+Component `Link` là bắt buộc để kích hoạt các chuyển đổi route phía client giữa các trang và cung cấp trải nghiệm ứng dụng một trang.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure to import the `Link` component and wrap anchor elements that route to different page routes.
+Đảm bảo import component `Link` và bọc các phần tử anchor route đến các route trang khác nhau.
 
-**Before:**
+**Trước:**
 
 ```jsx filename="pages/index.js"
 function Home() {
@@ -26,7 +26,7 @@ function Home() {
 }
 ```
 
-**After:**
+**Sau:**
 
 ```jsx filename="pages/index.js"
 import Link from 'next/link'
@@ -42,15 +42,15 @@ function Home() {
 export default Home
 ```
 
-### Options
+### Tùy Chọn
 
 #### `pagesDir`
 
-This rule can normally locate your `pages` directory automatically.
+Quy tắc này thường có thể tự động xác định thư mục `pages` của bạn.
 
-If you're working in a monorepo, we recommend configuring the [`rootDir`](/docs/pages/api-reference/config/eslint#specifying-a-root-directory-within-a-monorepo) setting in `eslint-plugin-next`, which `pagesDir` will use to locate your `pages` directory.
+Nếu bạn đang làm việc trong một monorepo, chúng tôi khuyên bạn nên cấu hình cài đặt [`rootDir`](/docs/pages/api-reference/config/eslint#specifying-a-root-directory-within-a-monorepo) trong `eslint-plugin-next`, mà `pagesDir` sẽ sử dụng để xác định thư mục `pages` của bạn.
 
-In some cases, you may also need to configure this rule directly by providing a `pages` directory. This can be a path or an array of paths.
+Trong một số trường hợp, bạn cũng có thể cần cấu hình quy tắc này trực tiếp bằng cách cung cấp thư mục `pages`. Đây có thể là một đường dẫn hoặc một mảng các đường dẫn.
 
 ```json filename="eslint.config.json"
 {
@@ -60,6 +60,6 @@ In some cases, you may also need to configure this rule directly by providing a 
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [next/link API Reference](/docs/pages/api-reference/components/link)
+- [Tham chiếu API next/link](/docs/pages/api-reference/components/link)

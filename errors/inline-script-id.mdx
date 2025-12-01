@@ -2,15 +2,15 @@
 title: Inline script id
 ---
 
-> Enforce `id` attribute on `next/script` components with inline content.
+> Bắt buộc thuộc tính `id` trên các component `next/script` với nội dung inline.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`next/script` components with inline content require an `id` attribute to be defined to track and optimize the script.
+Các component `next/script` với nội dung inline yêu cầu một thuộc tính `id` được định nghĩa để theo dõi và tối ưu hóa script.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Add an `id` attribute to the `next/script` component.
+Thêm một thuộc tính `id` vào component `next/script`.
 
 ```jsx filename="pages/_app.js"
 import Script from 'next/script'
@@ -25,6 +25,6 @@ export default function App({ Component, pageProps }) {
 }
 ```
 
-## Useful links
+## Các Liên Kết Hữu Ích
 
-- [Docs for Next.js Script component](/docs/pages/guides/scripts)
+- [Tài liệu cho component Next.js Script](/docs/pages/guides/scripts)

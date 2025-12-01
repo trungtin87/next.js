@@ -1,14 +1,14 @@
 ---
-title: 'Improper webpack `devtool` used in development mode'
+title: Sử dụng webpack `devtool` không đúng cách trong chế độ development
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Next.js chooses the most optimal `devtool` for use with webpack. Changing the `devtool` in development mode will cause severe performance regressions with your application.
+Next.js chọn `devtool` tối ưu nhất để sử dụng với webpack. Việc thay đổi `devtool` trong chế độ development sẽ gây ra sự suy giảm hiệu suất nghiêm trọng cho ứng dụng của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Please remove the custom `devtool` override or only apply it to production builds in your `next.config.js`.
+Vui lòng xóa ghi đè `devtool` tùy chỉnh hoặc chỉ áp dụng nó cho các bản build production trong `next.config.js` của bạn.
 
 ```js filename="next.config.js"
 module.exports = {

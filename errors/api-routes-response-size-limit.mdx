@@ -1,15 +1,15 @@
 ---
-title: Addressing "API Routes Response Size Limited to 4MB" Error in Next.js
-description: This document explains the "API Routes Response Size Limited to 4MB" error in Next.js and guides developers on how to modify response size limits.
+title: Giải quyết lỗi "API Routes Response Size Limited to 4MB" trong Next.js
+description: Tài liệu này giải thích lỗi "API Routes Response Size Limited to 4MB" trong Next.js và hướng dẫn các nhà phát triển cách sửa đổi giới hạn kích thước phản hồi.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The "API Routes Response Size Limited to 4MB" error arises when your API Route is trying to send a response larger than the allowed size of `4MB`. API Routes in Next.js are designed to deliver quick responses and are not built to support the transmission of large amounts of data.
+Lỗi "API Routes Response Size Limited to 4MB" phát sinh khi API Route của bạn đang cố gắng gửi một phản hồi lớn hơn kích thước cho phép là `4MB`. API Routes trong Next.js được thiết kế để cung cấp phản hồi nhanh chóng và không được xây dựng để hỗ trợ truyền tải lượng dữ liệu lớn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-If you are not utilizing Next.js in a serverless environment, and you're fully aware of the performance implications, you can disable this limit in your API Route. Here is how you can set `responseLimit` to `false`:
+Nếu bạn không sử dụng Next.js trong môi trường serverless và bạn hoàn toàn nhận thức được những tác động về hiệu suất, bạn có thể vô hiệu hóa giới hạn này trong API Route của mình. Dưới đây là cách bạn có thể đặt `responseLimit` thành `false`:
 
 ```js filename="pages/api/example.js"
 export const config = {
@@ -19,7 +19,7 @@ export const config = {
 }
 ```
 
-Alternatively, `responseLimit` can also accept a numeric value (in bytes) or any string format supported by the `bytes` module. This can be a value like `1000`, `'500kb'`, or `'3mb'`. This value will set the maximum response size before a warning is displayed. For example, to set the limit to 8MB:
+Ngoài ra, `responseLimit` cũng có thể chấp nhận một giá trị số (tính bằng bytes) hoặc bất kỳ định dạng chuỗi nào được hỗ trợ bởi module `bytes`. Đây có thể là một giá trị như `1000`, `'500kb'`, hoặc `'3mb'`. Giá trị này sẽ đặt kích thước phản hồi tối đa trước khi một cảnh báo được hiển thị. Ví dụ, để đặt giới hạn thành 8MB:
 
 ```js filename="pages/api/example.js"
 export const config = {
@@ -29,4 +29,4 @@ export const config = {
 }
 ```
 
-> **Note**: Increasing the response limit can have significant impacts on performance and should only be done after careful consideration.
+> **Lưu ý**: Việc tăng giới hạn phản hồi có thể có những tác động đáng kể đến hiệu suất và chỉ nên được thực hiện sau khi cân nhắc kỹ lưỡng.

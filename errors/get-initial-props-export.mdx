@@ -1,17 +1,17 @@
 ---
-title: '`getInitialProps` Export Warning'
+title: Cảnh Báo Export `getInitialProps`
 ---
 
-## Why This Warning Occurred
+## Tại Sao Cảnh Báo Này Xuất Hiện
 
-You attempted to statically export your application via `output: 'export'` or `next export`, however, one or more of your pages uses `getInitialProps`.
+Bạn đã cố gắng export tĩnh ứng dụng của mình thông qua `output: 'export'` hoặc `next export`, tuy nhiên, một hoặc nhiều trang của bạn sử dụng `getInitialProps`.
 
-Next.js discourages you to use `getInitialProps` in this scenario.
+Next.js không khuyến khích bạn sử dụng `getInitialProps` trong kịch bản này.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Use `getStaticProps` instead for proper SSG support.
+Sử dụng `getStaticProps` thay thế để hỗ trợ SSG thích hợp.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`getStaticProps` Documentation](/docs/pages/building-your-application/data-fetching/get-static-props)
+- [Tài liệu `getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props)

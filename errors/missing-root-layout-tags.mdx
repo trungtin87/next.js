@@ -1,14 +1,14 @@
 ---
-title: Missing Root Layout tags
+title: Thiếu các thẻ Root Layout
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You forgot to define the `<html>` and/or `<body>` tags in your Root Layout.
+Bạn đã quên định nghĩa các thẻ `<html>` và/hoặc `<body>` trong Root Layout của mình.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To fix this error, make sure that both `<html>` and `<body>` are present in your Root Layout.
+Để khắc phục lỗi này, hãy đảm bảo rằng cả `<html>` và `<body>` đều có mặt trong Root Layout của bạn.
 
 ```diff filename="app/layout.tsx"
 
@@ -24,6 +24,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Root Layout](/docs/app/api-reference/file-conventions/layout#root-layout)

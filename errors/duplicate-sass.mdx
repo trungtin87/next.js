@@ -1,35 +1,31 @@
 ---
-title: Duplicate Sass Dependencies
+title: Các Sass Dependencies Bị Trùng Lặp
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Your project has a direct dependency on both `sass` and `node-sass`, two
-different packages that both compile Sass files!
+Dự án của bạn có sự phụ thuộc trực tiếp vào cả `sass` và `node-sass`, hai gói khác nhau đều biên dịch các file Sass!
 
-Next.js will only use one of these, so it is suggested that you remove one or the
-other.
+Next.js sẽ chỉ sử dụng một trong số này, vì vậy bạn nên xóa một trong hai.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-The `sass` package is a modern implementation of Sass in JavaScript that
-supports all the new features and does not require any native dependencies.
+Gói `sass` là một triển khai hiện đại của Sass trong JavaScript hỗ trợ tất cả các tính năng mới và không yêu cầu bất kỳ dependencies gốc (native) nào.
 
-Since `sass` is now the canonical implementation, we suggest removing the older
-`node-sass` package, which should speed up your builds and project install time.
+Vì `sass` hiện là triển khai chính thức, chúng tôi khuyên bạn nên xóa gói `node-sass` cũ hơn, điều này sẽ tăng tốc độ build và thời gian cài đặt dự án của bạn.
 
-**Via npm**
+**Qua npm**
 
 ```bash filename="Terminal"
 npm uninstall node-sass
 ```
 
-**Via Yarn**
+**Qua Yarn**
 
 ```bash filename="Terminal"
 yarn remove node-sass
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`sass` package documentation](https://github.com/sass/dart-sass)
+- [tài liệu gói `sass`](https://github.com/sass/dart-sass)

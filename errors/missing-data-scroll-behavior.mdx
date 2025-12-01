@@ -1,16 +1,16 @@
 ---
-title: 'Missing data-scroll-behavior Attribute for Smooth Scroll'
+title: Thiếu thuộc tính data-scroll-behavior cho Smooth Scroll
 ---
 
-## Why This Warning Occurred
+## Tại Sao Cảnh Báo Này Xảy Ra
 
-Your application has smooth scrolling enabled via CSS (`scroll-behavior: smooth`), but you haven't added the `data-scroll-behavior="smooth"` attribute to your `<html>` element.
+Ứng dụng của bạn đã bật cuộn mượt mà (smooth scrolling) thông qua CSS (`scroll-behavior: smooth`), nhưng bạn chưa thêm thuộc tính `data-scroll-behavior="smooth"` vào phần tử `<html>` của mình.
 
-Next.js automatically attempts to detect the smooth scrolling configuration to ensure that navigating back/forward through the router doesn't also trigger the smooth scrolling behavior, as this is often not desired.
+Next.js tự động cố gắng phát hiện cấu hình cuộn mượt mà để đảm bảo rằng việc điều hướng quay lại/tiến tới thông qua router không kích hoạt hành vi cuộn mượt mà, vì điều này thường không mong muốn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Add `data-scroll-behavior="smooth"` to your `<html>` element if you want to disable smooth scrolling when routing via Next.js.
+Thêm `data-scroll-behavior="smooth"` vào phần tử `<html>` của bạn nếu bạn muốn vô hiệu hóa cuộn mượt mà khi định tuyến qua Next.js.
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -36,6 +36,6 @@ export default function RootLayout({ children }) {
 }
 ```
 
-## Why This Optimization Matters
+## Tại Sao Tối Ưu Hóa Này Quan Trọng
 
-Next.js will only attempt to modify the `scroll-behavior` style on the `<html>` element when the data attribute is present to ensure smooth scrolling isn't triggered. This avoids unnecessary style recalculation unless explicitly opted into.
+Next.js sẽ chỉ cố gắng sửa đổi kiểu `scroll-behavior` trên phần tử `<html>` khi thuộc tính data có mặt để đảm bảo cuộn mượt mà không được kích hoạt. Điều này tránh việc tính toán lại kiểu không cần thiết trừ khi được chọn tham gia một cách rõ ràng.

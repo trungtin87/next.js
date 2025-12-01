@@ -1,18 +1,18 @@
 ---
-title: '`next/dynamic` has deprecated loading multiple modules at once'
+title: '`next/dynamic` đã phản đối việc tải nhiều module cùng lúc'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The ability to load multiple modules at once has been deprecated in `next/dynamic` to be closer to React's implementation (`React.lazy` and `Suspense`).
+Khả năng tải nhiều module cùng lúc đã bị phản đối trong `next/dynamic` để gần hơn với cách triển khai của React (`React.lazy` và `Suspense`).
 
-Updating code that relies on this behavior is relatively straightforward! We've provided an example of a before/after to help you migrate your application:
+Cập nhật mã dựa vào hành vi này tương đối đơn giản! Chúng tôi đã cung cấp một ví dụ về trước/sau để giúp bạn di chuyển ứng dụng của mình:
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Migrate to using separate dynamic calls for each module.
+Di chuyển sang sử dụng các lệnh gọi dynamic riêng biệt cho mỗi module.
 
-**Before**
+**Trước**
 
 ```jsx filename="example.js"
 import dynamic from 'next/dynamic'
@@ -42,7 +42,7 @@ function DynamicBundle() {
 export default DynamicBundle
 ```
 
-**After**
+**Sau**
 
 ```jsx filename="example.js"
 import dynamic from 'next/dynamic'

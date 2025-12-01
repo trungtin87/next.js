@@ -1,37 +1,37 @@
 ---
-title: Text content does not match server-rendered HTML
+title: Nội dung văn bản không khớp với HTML được render từ server
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-While rendering your application, there was a difference between the React tree that was pre-rendered from the server and the React tree that was rendered during the first render in the browser (hydration).
+Trong khi render ứng dụng của bạn, đã có sự khác biệt giữa React tree được pre-render từ server và React tree được render trong lần render đầu tiên ở trình duyệt (hydration).
 
-[Hydration](https://react.dev/reference/react-dom/client/hydrateRoot) is when React converts the pre-rendered HTML from the server into a fully interactive application by attaching event handlers.
+[Hydration](https://react.dev/reference/react-dom/client/hydrateRoot) là khi React chuyển đổi HTML đã được pre-render từ server thành một ứng dụng tương tác đầy đủ bằng cách gắn các event handlers.
 
-### Common Causes
+### Các Nguyên Nhân Phổ Biến
 
-Hydration errors can occur from:
+Lỗi hydration có thể xảy ra do:
 
-1. Incorrect nesting of HTML tags
-   1. `<p>` nested in another `<p>` tag
-   2. `<div>` nested in a `<p>` tag
-   3. `<ul>` or `<ol>` nested in a `<p>` tag
-   4. [Interactive Content](https://html.spec.whatwg.org/#interactive-content-2) cannot be nested (`<a>` nested in a `<a>` tag, `<button>` nested in a `<button>` tag, etc.)
-2. Using checks like `typeof window !== 'undefined'` in your rendering logic
-3. Using browser-only APIs like `window` or `localStorage` in your rendering logic
-4. Using time-dependent APIs such as the `Date()` constructor in your rendering logic
-5. [Browser extensions](https://github.com/facebook/react/issues/24430) modifying the HTML
-6. Incorrectly configured [CSS-in-JS libraries](/docs/app/guides/css-in-js)
-   1. Ensure your code is following [our official examples](https://github.com/vercel/next.js/tree/canary/examples)
-7. Incorrectly configured Edge/CDN that attempts to modify the html response, such as Cloudflare [Auto Minify](https://developers.cloudflare.com/speed/optimization/content/troubleshooting/disable-auto-minify/)
+1. Lồng các thẻ HTML không chính xác
+   1. `<p>` được lồng trong thẻ `<p>` khác
+   2. `<div>` được lồng trong thẻ `<p>`
+   3. `<ul>` hoặc `<ol>` được lồng trong thẻ `<p>`
+   4. [Nội dung tương tác](https://html.spec.whatwg.org/#interactive-content-2) không thể được lồng vào nhau (`<a>` lồng trong thẻ `<a>`, `<button>` lồng trong thẻ `<button>`, v.v.)
+2. Sử dụng các kiểm tra như `typeof window !== 'undefined'` trong logic render của bạn
+3. Sử dụng các API chỉ dành cho trình duyệt như `window` hoặc `localStorage` trong logic render của bạn
+4. Sử dụng các API phụ thuộc thời gian như constructor `Date()` trong logic render của bạn
+5. [Browser extensions](https://github.com/facebook/react/issues/24430) sửa đổi HTML
+6. Cấu hình không chính xác [thư viện CSS-in-JS](/docs/app/guides/css-in-js)
+   1. Đảm bảo code của bạn tuân theo [các ví dụ chính thức của chúng tôi](https://github.com/vercel/next.js/tree/canary/examples)
+7. Cấu hình Edge/CDN không chính xác cố gắng sửa đổi phản hồi html, chẳng hạn như Cloudflare [Auto Minify](https://developers.cloudflare.com/speed/optimization/content/troubleshooting/disable-auto-minify/)
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-The following strategies can help address this error:
+Các chiến lược sau có thể giúp giải quyết lỗi này:
 
-### Solution 1: Using `useEffect` to run on the client only
+### Giải pháp 1: Sử dụng `useEffect` để chỉ chạy trên client
 
-Ensure that the component renders the same content server-side as it does during the initial client-side render to prevent a hydration mismatch. You can intentionally render different content on the client with the `useEffect` hook.
+Đảm bảo rằng component render cùng một nội dung phía server như nó làm trong lần render client-side ban đầu để ngăn chặn sự không khớp hydration. Bạn có thể chủ ý render nội dung khác nhau trên client với hook `useEffect`.
 
 ```jsx
 import { useState, useEffect } from 'react'
@@ -47,11 +47,11 @@ export default function App() {
 }
 ```
 
-During React hydration, `useEffect` is called. This means browser APIs like `window` are available to use without hydration mismatches.
+Trong quá trình React hydration, `useEffect` được gọi. Điều này có nghĩa là các API trình duyệt như `window` có sẵn để sử dụng mà không gây ra sự không khớp hydration.
 
-### Solution 2: Disabling SSR on specific components
+### Giải pháp 2: Vô hiệu hóa SSR trên các component cụ thể
 
-Next.js allows you to [disable prerendering](/docs/app/guides/lazy-loading#skipping-ssr) on specific components, which can prevent hydration mismatches.
+Next.js cho phép bạn [vô hiệu hóa prerendering](/docs/app/guides/lazy-loading#skipping-ssr) trên các component cụ thể, điều này có thể ngăn chặn sự không khớp hydration.
 
 ```jsx
 import dynamic from 'next/dynamic'
@@ -67,24 +67,24 @@ export default function Page() {
 }
 ```
 
-### Solution 3: Using `suppressHydrationWarning`
+### Giải pháp 3: Sử dụng `suppressHydrationWarning`
 
-Sometimes content will inevitably differ between the server and client, such as a timestamp. You can silence the hydration mismatch warning by adding `suppressHydrationWarning={true}` to the element.
+Đôi khi nội dung chắc chắn sẽ khác nhau giữa server và client, chẳng hạn như timestamp. Bạn có thể tắt cảnh báo không khớp hydration bằng cách thêm `suppressHydrationWarning={true}` vào phần tử.
 
 ```jsx
 <time datetime="2016-10-25" suppressHydrationWarning />
 ```
 
-> **Good to know:**
+> **Cần biết:**
 >
-> - This only works one level deep, and is intended to be an escape hatch. Don’t overuse it.
-> - React will **not** attempt to patch mismatched text content when `suppressHydrationWarning={true}` is set.
+> - Điều này chỉ hoạt động ở độ sâu một cấp, và được dùng như một lối thoát (escape hatch). Đừng lạm dụng nó.
+> - React sẽ **không** cố gắng vá nội dung văn bản không khớp khi `suppressHydrationWarning={true}` được thiết lập.
 
-## Common iOS issues
+## Các vấn đề iOS phổ biến
 
-iOS attempts to detect phone numbers, email addresses, and other data in text content and convert them into links, leading to hydration mismatches.
+iOS cố gắng phát hiện số điện thoại, địa chỉ email, và các dữ liệu khác trong nội dung văn bản và chuyển đổi chúng thành các liên kết, dẫn đến sự không khớp hydration.
 
-This can be disabled with the following `meta` tag:
+Điều này có thể bị vô hiệu hóa với thẻ `meta` sau:
 
 ```jsx
 <meta

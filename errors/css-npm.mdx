@@ -1,29 +1,24 @@
 ---
-title: CSS Imported by a Dependency
+title: CSS Được Import Bởi Một Dependency
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-One of your dependencies (`node_modules`) imports a CSS file.
+Một trong các dependencies (`node_modules`) của bạn import một file CSS.
 
-This normally happens when a package's source files are accidentally consumed,
-instead of the built package.
+Điều này thường xảy ra khi các file nguồn của một gói (package) vô tình được sử dụng, thay vì gói đã được build.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Reach out to the maintainer and ask for them to publish a compiled version of
-their dependency.
+Liên hệ với người bảo trì (maintainer) và yêu cầu họ xuất bản một phiên bản đã biên dịch của dependency của họ.
 
-Compiled dependencies do not have references to CSS files, or any other files
-that require bundler-specific integrations.
+Các dependencies đã biên dịch không có tham chiếu đến các file CSS, hoặc bất kỳ file nào khác yêu cầu tích hợp cụ thể của bundler.
 
-The dependency should also provide instructions about what CSS needs to be
-imported by you, in your application.
+Dependency cũng nên cung cấp hướng dẫn về những CSS nào cần được import bởi bạn, trong ứng dụng của bạn.
 
-Importing CSS files within `node_modules` cannot be supported because we cannot
-know the correct behavior:
+Việc import các file CSS trong `node_modules` không thể được hỗ trợ vì chúng tôi không thể biết hành vi chính xác:
 
-- Should the file be consumed as Global CSS or CSS Modules?
-- If Global, in what order does the file need to be injected?
-- If Modules, what are the emitted class names? As-is, camel-case, snake case?
-- Etc.
+- File có nên được sử dụng như Global CSS hay CSS Modules không?
+- Nếu là Global, file cần được inject theo thứ tự nào?
+- Nếu là Modules, tên class được phát ra là gì? Giữ nguyên, camel-case, snake case?
+- Vân vân.

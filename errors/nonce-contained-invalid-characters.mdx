@@ -1,24 +1,22 @@
 ---
-title: nonce contained invalid characters
+title: nonce chứa các ký tự không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A request to your Next.js application contained a `Content-Security-Policy`
-header with a `script-src` directive and `nonce` that contains
-invalid characters (any one of `<>&` characters). For example:
+Một request đến ứng dụng Next.js của bạn chứa header `Content-Security-Policy` với directive `script-src` và `nonce` chứa các ký tự không hợp lệ (bất kỳ ký tự nào trong `<>&`). Ví dụ:
 
-- `'nonce-<script />'`: not allowed
-- `'nonce-/>script<>'`: not allowed
-- `'nonce-PHNjcmlwdCAvPg=='`: allowed
-- `'nonce-Lz5zY3JpcHQ8Pg=='`: allowed
+- `'nonce-<script />'`: không được phép
+- `'nonce-/>escript<>'`: không được phép
+- `'nonce-PHNjcmlwdCAvPg=='`: được phép
+- `'nonce-Lz5zY3JpcHQ8Pg=='`: được phép
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-We recommend using a randomly generated UUID for your nonce.
+Chúng tôi khuyến nghị sử dụng UUID được tạo ngẫu nhiên cho nonce của bạn.
 
-Learn more about how to use nonces with Next.js in our [Content Security Policy](/docs/app/guides/content-security-policy) docs.
+Tìm hiểu thêm về cách sử dụng nonces với Next.js trong tài liệu [Content Security Policy](/docs/app/guides/content-security-policy) của chúng tôi.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [Content Security Policy](/docs/app/guides/content-security-policy)

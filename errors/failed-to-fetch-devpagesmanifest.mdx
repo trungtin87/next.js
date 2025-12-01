@@ -1,20 +1,20 @@
 ---
-title: 'Failed to fetch `devPagesManifest`'
+title: 'Không thể fetch `devPagesManifest`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The network request to load `_devPagesManifest.json` did not succeed.
+Yêu cầu mạng để tải `_devPagesManifest.json` đã không thành công.
 
-The dev pages manifest file is used by `next/link` to retrieve the list of pages to be (pre-)loaded by Next.js.
-If it fails, Next.js cannot properly navigate and link between pages.
+File dev pages manifest được sử dụng bởi `next/link` để truy xuất danh sách các trang cần được (pre-)load bởi Next.js.
+Nếu nó thất bại, Next.js không thể điều hướng và liên kết giữa các trang một cách chính xác.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Make sure your browser developer tools, extensions, and any other network tools aren't blocking that request.
-- If you're running your Next.js application through a proxy, nginx, or other network layer, make sure links like `/_next/*` are configured to be allowed.
+- Đảm bảo rằng các công cụ phát triển trình duyệt, tiện ích mở rộng và bất kỳ công cụ mạng nào khác của bạn không chặn yêu cầu đó.
+- Nếu bạn đang chạy ứng dụng Next.js của mình qua proxy, nginx hoặc lớp mạng khác, hãy đảm bảo các liên kết như `/_next/*` được cấu hình để cho phép.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Original GitHub Issue Thread](https://github.com/vercel/next.js/issues/16874)
-- [GitHub Issue Thread With Reproduction](https://github.com/vercel/next.js/issues/38047)
+- [Luồng Vấn Đề GitHub Gốc](https://github.com/vercel/next.js/issues/16874)
+- [Luồng Vấn Đề GitHub Với Tái Tạo Lỗi](https://github.com/vercel/next.js/issues/38047)

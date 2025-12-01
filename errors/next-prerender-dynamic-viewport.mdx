@@ -1,22 +1,22 @@
 ---
-title: Cannot access Request information or uncached data in `generateViewport()`
+title: Không thể truy cập thông tin Request hoặc dữ liệu uncached trong `generateViewport()`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When `cacheComponents` is enabled, Next.js requires that `generateViewport()` not depend on uncached data or Request data unless you explicitly opt into having a fully dynamic page. If you encountered this error, it means that `generateViewport` depends on one of these types of data and you have not specifically indicated that the affected route should be entirely dynamic.
+Khi `cacheComponents` được bật, Next.js yêu cầu rằng `generateViewport()` không phụ thuộc vào dữ liệu uncached hoặc dữ liệu Request trừ khi bạn chọn rõ ràng có một trang hoàn toàn động. Nếu bạn gặp lỗi này, điều đó có nghĩa là `generateViewport` phụ thuộc vào một trong các loại dữ liệu này và bạn chưa chỉ định cụ thể rằng route bị ảnh hưởng nên hoàn toàn động.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-To fix this issue, you must first determine your goal for the affected route.
+Để khắc phục vấn đề này, trước tiên bạn phải xác định mục tiêu của mình cho route bị ảnh hưởng.
 
-Normally, the way you indicate to Next.js that you want to allow reading Request data or uncached external data is by performing this data access inside a component with an ancestor Suspense boundary. With Viewport, however, you aren't directly in control of wrapping the location where this metadata will be rendered, and even if you could wrap it in a Suspense boundary, it would not be correct to render it with a fallback. This is because this metadata is critical to properly loading resources such as images and must be part of the initial App Shell (the initial HTML containing the document head as well as the first paintable UI).
+Thông thường, cách bạn chỉ ra cho Next.js rằng bạn muốn cho phép đọc Request data hoặc dữ liệu bên ngoài uncached là bằng cách thực hiện việc truy cập dữ liệu này bên trong một component với một Suspense boundary tổ tiên. Tuy nhiên với Viewport, bạn không trực tiếp kiểm soát việc bao bọc vị trí mà metadata này sẽ được render, và ngay cả khi bạn có thể bao bọc nó trong một Suspense boundary, việc render nó với một fallback sẽ không đúng. Điều này là do metadata này rất quan trọng để tải đúng các resources như images và phải là một phần của App Shell ban đầu (HTML ban đầu chứa document head cũng như UI có thể vẽ đầu tiên).
 
-### If you must access Request Data or your external data is uncacheable
+### Nếu bạn phải truy cập Request Data hoặc dữ liệu bên ngoài của bạn không thể cache
 
-The only way to use Request data or uncacheable external data within `generateViewport` is to make this route entirely dynamic. While Next.js can operate in this mode, it does preclude future use of the prerendering capabilities of Next.js, so you should be certain this is necessary for your use case. To indicate the route should be entirely dynamic, you must add a Suspense boundary above where you render the document body.
+Cách duy nhất để sử dụng Request data hoặc dữ liệu bên ngoài không thể cache trong `generateViewport` là làm cho route này hoàn toàn động. Mặc dù Next.js có thể hoạt động ở chế độ này, nó không cho phép sử dụng khả năng prerendering của Next.js trong tương lai, vì vậy bạn nên chắc chắn rằng điều này là cần thiết cho trường hợp sử dụng của bạn. Để chỉ ra route nên hoàn toàn động, bạn phải thêm một Suspense boundary phía trên nơi bạn render document body.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/layout.tsx"
 import { cookies } from 'next/headers'
@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/layout.tsx"
 import { Suspense } from 'react'
@@ -61,11 +61,11 @@ export default function RootLayout({ children }) {
 }
 ```
 
-### Caching External Data
+### Caching Dữ Liệu Bên Ngoài
 
-When external data is cached, Next.js can prerender with it, which ensures that the App Shell always has the complete viewport metadata available. Consider using `"use cache"` to mark the function producing the external data as cacheable.
+Khi dữ liệu bên ngoài được cached, Next.js có thể prerender với nó, điều này đảm bảo rằng App Shell luôn có metadata viewport đầy đủ khả dụng. Hãy xem xét sử dụng `"use cache"` để đánh dấu function tạo ra dữ liệu bên ngoài là có thể cache.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/.../layout.tsx"
 import { db } from './db'
@@ -83,7 +83,7 @@ export default async function Layout({ children }) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/.../layout.tsx"
 import { db } from './db'
@@ -102,7 +102,7 @@ export default async function Layout({ children }) {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [`generateViewport()`](/docs/app/api-reference/functions/generate-viewport)
 - [`cookies()`](/docs/app/api-reference/functions/cookies)

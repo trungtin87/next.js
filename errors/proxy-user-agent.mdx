@@ -1,10 +1,10 @@
 ---
-title: Removed req.ua from Proxy API
+title: Đã Xóa req.ua khỏi Proxy API
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Your proxy is interacting with `req.ua` and this feature needs to opt-in.
+Proxy của bạn đang tương tác với `req.ua` và tính năng này cần được kích hoạt (opt-in).
 
 ```ts filename="proxy.ts"
 import { NextRequest, NextResponse } from 'next/server'
@@ -17,9 +17,9 @@ export function proxy(request: NextRequest) {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To parse the user agent, import `userAgent` function from `next/server` and give it your request:
+Để phân tích user agent, import hàm `userAgent` từ `next/server` và truyền request của bạn vào:
 
 ```ts filename="proxy.ts"
 import { NextRequest, NextResponse, userAgent } from 'next/server'

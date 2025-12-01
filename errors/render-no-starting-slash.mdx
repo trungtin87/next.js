@@ -1,11 +1,11 @@
 ---
-title: Rendering Without Starting Slash
+title: Rendering Không Có Dấu Gạch Chéo Bắt Đầu
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When calling `app.render(req, res, path)` the `path` did not begin with a slash (`/`). This causes unexpected behavior and should be corrected.
+Khi gọi `app.render(req, res, path)`, `path` không bắt đầu bằng dấu gạch chéo (`/`). Điều này gây ra hành vi không mong muốn và nên được sửa chữa.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure the `path` being passed to `app.render` always starts with a slash (`/`)
+Đảm bảo `path` được truyền vào `app.render` luôn bắt đầu bằng dấu gạch chéo (`/`)

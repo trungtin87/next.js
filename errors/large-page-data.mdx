@@ -1,21 +1,21 @@
 ---
-title: Large Page Data
+title: Dữ liệu trang lớn
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-One of your pages includes a large amount of page data (>= 128kB). This can negatively impact performance since page data must be parsed by the client before the page is hydrated.
+Một trong các trang của bạn bao gồm một lượng lớn dữ liệu trang (>= 128kB). Điều này có thể ảnh hưởng tiêu cực đến hiệu suất vì dữ liệu trang phải được phân tích cú pháp bởi client trước khi trang được hydrate.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Reduce the amount of data returned from `getStaticProps`, `getServerSideProps`, or `getInitialProps` to only the essential data to render the page. The default threshold of 128kB can be configured in `largePageDataBytes` if absolutely necessary and the performance implications are understood.
+Giảm lượng dữ liệu trả về từ `getStaticProps`, `getServerSideProps`, hoặc `getInitialProps` xuống chỉ còn dữ liệu thiết yếu để render trang. Ngưỡng mặc định 128kB có thể được cấu hình trong `largePageDataBytes` nếu thực sự cần thiết và các tác động hiệu suất được hiểu rõ.
 
-To inspect the props passed to your page, you can inspect the below element's content in your browser devtools:
+Để kiểm tra các props được truyền đến trang của bạn, bạn có thể kiểm tra nội dung của phần tử bên dưới trong devtools trình duyệt của bạn:
 
 ```bash filename="Terminal"
 JSON.parse(document.getElementById("__NEXT_DATA__").textContent)
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Data Fetching Documentation](/docs/pages/building-your-application/data-fetching)
+- [Tài liệu Data Fetching](/docs/pages/building-your-application/data-fetching)

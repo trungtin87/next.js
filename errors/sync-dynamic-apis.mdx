@@ -1,70 +1,67 @@
 ---
-title: Dynamic APIs are Asynchronous
-description: Learn more about why accessing certain APIs synchronously now warns.
+title: Dynamic APIs Là Bất Đồng Bộ
+description: Tìm hiểu thêm về lý do tại sao việc truy cập một số API đồng bộ hiện đang cảnh báo.
 ---
 
-## Why This Warning Occurred
+## Tại Sao Cảnh Báo Này Xảy Ra
 
-Somewhere in your code you used an API that opts into [dynamic rendering](/docs/app/guides/caching#dynamic-rendering).
+Ở đâu đó trong code của bạn, bạn đã sử dụng một API chọn vào [dynamic rendering](/docs/app/guides/caching#dynamic-rendering).
 
-Dynamic APIs are:
+Dynamic APIs là:
 
-- The `params` and `searchParams` props that get provided to pages, layouts, metadata APIs, and route handlers.
-- `cookies()`, `draftMode()`, and `headers()` from `next/headers`
+- Props `params` và `searchParams` được cung cấp cho pages, layouts, metadata APIs, và route handlers.
+- `cookies()`, `draftMode()`, và `headers()` từ `next/headers`
 
-In Next 15, these APIs have been made asynchronous. You can read more about this in the Next.js 15 [Upgrade Guide](/docs/app/guides/upgrading/version-15).
+Trong Next 15, các API này đã được làm bất đồng bộ. Bạn có thể đọc thêm về điều này trong [Hướng dẫn Nâng cấp](/docs/app/guides/upgrading/version-15) Next.js 15.
 
-For example, the following code will issue a warning:
+Ví dụ, đoạn code sau sẽ phát ra cảnh báo:
 
 ```jsx filename="app/[id]/page.js"
 function Page({ params }) {
-  // direct access of `params.id`.
+  // truy cập trực tiếp `params.id`.
   return <p>ID: {params.id}</p>
 }
 ```
 
-This also includes enumerating (e.g. `{...params}`, or `Object.keys(params)`) or iterating over the return
-value of these APIs (e.g. `[...headers()]` or `for (const cookie of cookies())`, or explicitly with `cookies()[Symbol.iterator]()`).
+Điều này cũng bao gồm việc liệt kê (ví dụ: `{...params}`, hoặc `Object.keys(params)`) hoặc lặp qua giá trị trả về của các API này (ví dụ: `[...headers()]` hoặc `for (const cookie of cookies())`, hoặc rõ ràng với `cookies()[Symbol.iterator]()`).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-The [`next-async-request-api` codemod](/docs/app/guides/upgrading/codemods#next-async-request-api) can fix many of these cases automatically:
+Codemod [`next-async-request-api`](/docs/app/guides/upgrading/codemods#next-async-request-api) có thể tự động sửa nhiều trường hợp này:
 
 ```bash filename="Terminal"
 npx @next/codemod@canary next-async-request-api .
 ```
 
-The codemod cannot cover all cases, so you may need to manually adjust some code.
+Codemod không thể bao gồm tất cả các trường hợp, vì vậy bạn có thể cần điều chỉnh một số code thủ công.
 
-If the warning occurred on the Server (e.g. a route handler, or a Server Component),
-you must `await` the dynamic API to access its properties:
+Nếu cảnh báo xảy ra trên Server (ví dụ: một route handler, hoặc một Server Component), bạn phải `await` dynamic API để truy cập các thuộc tính của nó:
 
 ```jsx filename="app/[id]/page.js"
 async function Page({ params }) {
-  // asynchronous access of `params.id`.
+  // truy cập bất đồng bộ `params.id`.
   const { id } = await params
   return <p>ID: {id}</p>
 }
 ```
 
-If the warning occurred in a synchronous component (e.g. a Client component),
-you must use `React.use()` to unwrap the Promise first:
+Nếu cảnh báo xảy ra trong một synchronous component (ví dụ: một Client component), bạn phải sử dụng `React.use()` để unwrap Promise trước:
 
 ```jsx filename="app/[id]/page.js"
 'use client'
 import * as React from 'react'
 
 function Page({ params }) {
-  // asynchronous access of `params.id`.
+  // truy cập bất đồng bộ `params.id`.
   const { id } = React.use(params)
   return <p>ID: {id}</p>
 }
 ```
 
-### Unmigratable Cases
+### Các Trường Hợp Không Thể Di Chuyển
 
-If Next.js codemod found anything that is not able to be migrated by the codemod, it will leave a comment with `@next-codemod-error` prefix and the suggested action, for example:
-In this case, you need to manually await the call to `cookies()`, and change the function to async. Then refactor the usages of the function to be properly awaited:
+Nếu codemod Next.js tìm thấy bất cứ điều gì không thể được di chuyển bởi codemod, nó sẽ để lại một comment với prefix `@next-codemod-error` và hành động được đề xuất, ví dụ:
+Trong trường hợp này, bạn cần thủ công await lời gọi đến `cookies()`, và thay đổi function thành async. Sau đó refactor các cách sử dụng của function để được await đúng cách:
 
 ```ts
 export function MyCookiesComponent() {
@@ -75,18 +72,18 @@ export function MyCookiesComponent() {
 }
 ```
 
-### Enforced Migration with Linter
+### Migration Được Thực Thi Với Linter
 
-If you didn't address the comments that starting with `@next-codemod-error` left by the codemod, Next.js will error in both dev and build to enforce you to address the issues.
-You can review the changes and follow the suggestion in the comments. You can either make the necessary changes and remove the comment, or replace the comment prefix `@next-codemod-error` with `@next-codemod-ignore`
-If there's no action to be taken, the comment prefix `@next-codemod-ignore` will bypass the build error.
+Nếu bạn không giải quyết các comments bắt đầu bằng `@next-codemod-error` được để lại bởi codemod, Next.js sẽ báo lỗi trong cả dev và build để thực thi bạn giải quyết các vấn đề.
+Bạn có thể xem lại các thay đổi và làm theo đề xuất trong các comments. Bạn có thể thực hiện các thay đổi cần thiết và xóa comment, hoặc thay thế prefix comment `@next-codemod-error` bằng `@next-codemod-ignore`
+Nếu không có hành động nào cần thực hiện, prefix comment `@next-codemod-ignore` sẽ bỏ qua lỗi build.
 
 ```diff
 - /* @next-codemod-error <suggested message> */
 + /* @next-codemod-ignore */
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> You can delay unwrapping the Promise (either with `await` or `React.use`) until you actually need to consume the value.
-> This will allow Next.js to statically render more of your page.
+> Bạn có thể trì hoãn việc unwrap Promise (bằng `await` hoặc `React.use`) cho đến khi bạn thực sự cần sử dụng giá trị.
+> Điều này sẽ cho phép Next.js render tĩnh nhiều hơn trang của bạn.

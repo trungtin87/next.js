@@ -1,24 +1,24 @@
 ---
-title: Uncached data was accessed outside of `<Suspense>`
+title: Dữ liệu chưa được cache đã được truy cập bên ngoài `<Suspense>`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When the `cacheComponents` feature is enabled, Next.js expects a parent `Suspense` boundary around any component that awaits data that should be accessed on every user request. The purpose of this requirement is so that Next.js can provide a useful fallback while this data is accessed and rendered.
+Khi tính năng `cacheComponents` được bật, Next.js mong đợi một `Suspense` boundary cha bao quanh bất kỳ component nào chờ dữ liệu cần được truy cập trên mỗi yêu cầu của người dùng. Mục đích của yêu cầu này là để Next.js có thể cung cấp một fallback hữu ích trong khi dữ liệu này được truy cập và hiển thị.
 
-While some data is inherently only available when a user request is being handled, such as request headers, Next.js assumes that by default any asynchronous data is expected to be accessed each time a user request is being handled unless you specifically cache it using `"use cache"`.
+Trong khi một số dữ liệu vốn chỉ có sẵn khi yêu cầu của người dùng đang được xử lý, chẳng hạn như request headers, Next.js giả định rằng theo mặc định, bất kỳ dữ liệu bất đồng bộ nào cũng được mong đợi sẽ được truy cập mỗi khi yêu cầu của người dùng được xử lý trừ khi bạn lưu trữ cụ thể nó bằng cách sử dụng `"use cache"`.
 
-The proper fix for this specific error depends on what data you are accessing and how you want your Next.js app to behave.
+Cách sửa lỗi thích hợp cho lỗi cụ thể này phụ thuộc vào dữ liệu bạn đang truy cập và cách bạn muốn ứng dụng Next.js của mình hoạt động.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-### Accessing Data
+### Truy Cập Dữ Liệu
 
-When you access data using `fetch`, a database client, or any other module which does asynchronous IO, Next.js interprets your intent as expecting the data to load on every user request.
+Khi bạn truy cập dữ liệu bằng `fetch`, một database client, hoặc bất kỳ module nào khác thực hiện IO bất đồng bộ, Next.js diễn giải ý định của bạn là mong đợi dữ liệu tải trên mỗi yêu cầu của người dùng.
 
-If you are expecting this data to be used while fully or partially prerendering a page you must cache is using `"use cache"`.
+Nếu bạn đang mong đợi dữ liệu này được sử dụng trong khi prerendering hoàn toàn hoặc một phần trang, bạn phải cache nó bằng cách sử dụng `"use cache"`.
 
-Before:
+Trước:
 
 ```jsx filename="app/page.js"
 async function getRecentArticles() {
@@ -31,18 +31,18 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau:
 
 ```jsx filename="app/page.js"
 import { cacheTag, cacheLife } from 'next/cache'
 
 async function getRecentArticles() {
   "use cache"
-  // This cache can be revalidated by webhook or server action
-  // when you call revalidateTag("articles")
+  // Cache này có thể được xác thực lại bằng webhook hoặc server action
+  // khi bạn gọi revalidateTag("articles")
   cacheTag("articles")
-  // This cache will revalidate after an hour even if no explicit
-  // revalidate instruction was received
+  // Cache này sẽ xác thực lại sau một giờ ngay cả khi không nhận được
+  // hướng dẫn xác thực lại rõ ràng nào
   cacheLife('hours')
   return db.query(...)
 }
@@ -53,9 +53,9 @@ export default async function Page() {
 }
 ```
 
-If this data should be accessed on every user request you must provide a fallback UI using `Suspense` from React. Where you put this Suspense boundary in your application should be informed by the kind of fallback UI you want to render. It can be immediately above the component accessing this data or even in your Root Layout.
+Nếu dữ liệu này nên được truy cập trên mỗi yêu cầu của người dùng, bạn phải cung cấp một fallback UI bằng cách sử dụng `Suspense` từ React. Nơi bạn đặt Suspense boundary này trong ứng dụng của mình nên được thông báo bởi loại fallback UI bạn muốn hiển thị. Nó có thể nằm ngay phía trên component truy cập dữ liệu này hoặc thậm chí trong Root Layout của bạn.
 
-Before:
+Trước:
 
 ```jsx filename="app/page.js"
 async function getLatestTransactions() {
@@ -68,7 +68,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau:
 
 ```jsx filename="app/page.js"
 import { Suspense } from 'react'
@@ -93,9 +93,9 @@ export default async function Page() {
 
 ### Headers
 
-If you are accessing request headers using `headers()`, `cookies()`, or `draftMode()`. Consider whether you can move the use of these APIs deeper into your existing component tree.
+Nếu bạn đang truy cập request headers bằng `headers()`, `cookies()`, hoặc `draftMode()`. Hãy xem xét liệu bạn có thể di chuyển việc sử dụng các API này sâu hơn vào cây component hiện có của mình hay không.
 
-Before:
+Trước:
 
 ```jsx filename="app/inbox.js"
 export async function Inbox({ token }) {
@@ -125,7 +125,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau:
 
 ```jsx filename="app/inbox.js"
 import { cookies } from 'next/headers'
@@ -155,13 +155,13 @@ export default async function Page() {
 }
 ```
 
-Alternatively you can add a Suspense boundary above the component that is accessing Request headers.
+Ngoài ra, bạn có thể thêm một Suspense boundary phía trên component đang truy cập Request headers.
 
-### Params and SearchParams
+### Params và SearchParams
 
-Layout `params`, and Page `params` and `searchParams` props are promises. If you await them in the Layout or Page component you might be accessing these props higher than is actually required. Try passing these props to deeper components as a promise and awaiting them closer to where the actual param or searchParam is required
+Layout `params`, và Page `params` và `searchParams` props là các promises. Nếu bạn await chúng trong Layout hoặc Page component, bạn có thể đang truy cập các props này ở mức cao hơn mức thực sự cần thiết. Hãy thử truyền các props này đến các component sâu hơn dưới dạng promise và await chúng gần hơn với nơi param hoặc searchParam thực tế được yêu cầu.
 
-Before:
+Trước:
 
 ```jsx filename="app/map.js"
 export async function Map({ lat, lng }) {
@@ -185,7 +185,7 @@ export default async function Page({ searchParams }) {
 }
 ```
 
-After:
+Sau:
 
 ```jsx filename="app/map.js"
 export async function Map({ coords }) {
@@ -210,24 +210,24 @@ export default async function Page({ searchParams }) {
 }
 ```
 
-Alternatively you can add a Suspense boundary above the component that is accessing `params` or `searchParams` so Next.js understands what UI should be used when while waiting for this request data to be accessed.
+Ngoài ra, bạn có thể thêm một Suspense boundary phía trên component đang truy cập `params` hoặc `searchParams` để Next.js hiểu UI nào nên được sử dụng trong khi chờ dữ liệu yêu cầu này được truy cập.
 
-### Short-lived Caches
+### Short-lived Caches (Cache ngắn hạn)
 
-`"use cache"` allows you to describe a [`cacheLife()`](/docs/app/api-reference/functions/cacheLife) that might be too short to be practical to prerender. The utility of doing this is that it can still describe a non-zero caching time for the client router cache to reuse the cache entry in the browser and it can also be useful for protecting upstream APIs while experiencing high request traffic.
+`"use cache"` cho phép bạn mô tả một [`cacheLife()`](/docs/app/api-reference/functions/cacheLife) có thể quá ngắn để thực tế cho việc prerender. Tiện ích của việc làm này là nó vẫn có thể mô tả thời gian lưu trữ khác không cho bộ nhớ cache của router phía client để sử dụng lại mục nhập cache trong trình duyệt và nó cũng có thể hữu ích để bảo vệ các API ngược dòng trong khi gặp lưu lượng yêu cầu cao.
 
-If you expected the `"use cache"` entry to be prerenderable try describing a slightly longer `cacheLife()`.
+Nếu bạn mong đợi mục nhập `"use cache"` có thể prerender được, hãy thử mô tả `cacheLife()` dài hơn một chút.
 
-Before:
+Trước:
 
 ```jsx filename="app/page.js"
 import { cacheLife } from 'next/cache'
 
 async function getDashboard() {
   "use cache"
-  // This cache will revalidate after 1 second. It is so short
-  // Next.js won't prerender it on the server but the client router
-  // can reuse the result for up to 30 seconds unless the user manually refreshes
+  // Cache này sẽ xác thực lại sau 1 giây. Nó quá ngắn
+  // Next.js sẽ không prerender nó trên server nhưng client router
+  // có thể sử dụng lại kết quả trong tối đa 30 giây trừ khi người dùng làm mới thủ công
   cacheLife('seconds')
   return db.query(...)
 }
@@ -238,15 +238,15 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau:
 
 ```jsx filename="app/page.js"
 import { cacheLife } from 'next/cache'
 
 async function getDashboard() {
   "use cache"
-  // This cache will revalidate after 1 minute. It's long enough that
-  // Next.js will still produce a fully or partially prerendered page
+  // Cache này sẽ xác thực lại sau 1 phút. Nó đủ dài để
+  // Next.js vẫn sẽ tạo ra một trang được prerender hoàn toàn hoặc một phần
   cacheLife('minutes')
   return db.query(...)
 }
@@ -257,14 +257,14 @@ export default async function Page() {
 }
 ```
 
-Alternatively you can add a Suspense boundary above the component that is accessing this short-lived cached data so Next.js understands what UI should be used while accessing this data on a user request.
+Ngoài ra, bạn có thể thêm một Suspense boundary phía trên component đang truy cập dữ liệu được cache ngắn hạn này để Next.js hiểu UI nào nên được sử dụng trong khi truy cập dữ liệu này theo yêu cầu của người dùng.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [`Suspense` React API](https://react.dev/reference/react/Suspense)
-- [`headers` function](/docs/app/api-reference/functions/headers)
-- [`cookies` function](/docs/app/api-reference/functions/cookies)
-- [`draftMode` function](/docs/app/api-reference/functions/draft-mode)
-- [`connection` function](/docs/app/api-reference/functions/connection)
-- [`cacheLife` function](/docs/app/api-reference/functions/cacheLife)
-- [`cacheTag` function](/docs/app/api-reference/functions/cacheTag)
+- [Hàm `headers`](/docs/app/api-reference/functions/headers)
+- [Hàm `cookies`](/docs/app/api-reference/functions/cookies)
+- [Hàm `draftMode`](/docs/app/api-reference/functions/draft-mode)
+- [Hàm `connection`](/docs/app/api-reference/functions/connection)
+- [Hàm `cacheLife`](/docs/app/api-reference/functions/cacheLife)
+- [Hàm `cacheTag`](/docs/app/api-reference/functions/cacheTag)

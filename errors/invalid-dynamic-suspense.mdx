@@ -1,33 +1,33 @@
 ---
-title: 'Invalid Usage of `suspense` Option of `next/dynamic`'
+title: Sử dụng tùy chọn `suspense` của `next/dynamic` không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-- You are using `{ suspense: true }` with React version older than 18.
-- You are using `{ suspense: true, ssr: false }`.
-- You are using `{ suspense: true, loading }`.
+- Bạn đang sử dụng `{ suspense: true }` với phiên bản React cũ hơn 18.
+- Bạn đang sử dụng `{ suspense: true, ssr: false }`.
+- Bạn đang sử dụng `{ suspense: true, loading }`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-**If you are using `{ suspense: true }` with React version older than 18**
+**Nếu bạn đang sử dụng `{ suspense: true }` với phiên bản React cũ hơn 18**
 
-- You can try upgrading to React 18 or newer
-- If upgrading React is not an option, remove `{ suspense: true }` from `next/dynamic` usages.
+- Bạn có thể thử nâng cấp lên React 18 hoặc mới hơn
+- Nếu nâng cấp React không phải là một lựa chọn, hãy xóa `{ suspense: true }` khỏi các cách sử dụng `next/dynamic`.
 
-**If you are using `{ suspense: true, ssr: false }`**
+**Nếu bạn đang sử dụng `{ suspense: true, ssr: false }`**
 
-Next.js will use `React.lazy` when `suspense` is set to true. React 18 or newer will always try to resolve the Suspense boundary on the server. This behavior can not be disabled, thus the `ssr: false` is ignored with `suspense: true`.
+Next.js sẽ sử dụng `React.lazy` khi `suspense` được đặt thành true. React 18 hoặc mới hơn sẽ luôn cố gắng giải quyết Suspense boundary trên server. Hành vi này không thể bị vô hiệu hóa, do đó `ssr: false` bị bỏ qua với `suspense: true`.
 
-- You should write code that works in both client-side and server-side.
-- If rewriting the code is not an option, remove `{ suspense: true }` from `next/dynamic` usages.
+- Bạn nên viết mã hoạt động ở cả client-side và server-side.
+- Nếu viết lại mã không phải là một lựa chọn, hãy xóa `{ suspense: true }` khỏi các cách sử dụng `next/dynamic`.
 
-**If you are using `{ suspense: true, loading }`**
+**Nếu bạn đang sử dụng `{ suspense: true, loading }`**
 
-Next.js will use `React.lazy` when `suspense` is set to true, when your dynamic-imported component is loading, React will use the closest suspense boundary's fallback.
+Next.js sẽ sử dụng `React.lazy` khi `suspense` được đặt thành true, khi component được import động của bạn đang tải, React sẽ sử dụng fallback của suspense boundary gần nhất.
 
-You should remove `loading` from `next/dynamic` usages, and use `<Suspense />`'s `fallback` prop.
+Bạn nên xóa `loading` khỏi các cách sử dụng `next/dynamic`, và sử dụng prop `fallback` của `<Suspense />`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Dynamic Import Suspense Usage](/docs/pages/guides/lazy-loading#nextdynamic)
+- [Sử dụng Dynamic Import Suspense](/docs/pages/guides/lazy-loading#nextdynamic)

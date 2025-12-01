@@ -1,15 +1,15 @@
 ---
-title: 'Empty Object Returned From `getInitialProps`'
+title: 'Object Rỗng Được Trả Về Từ `getInitialProps`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In one of your page components you added a `getInitialProps` that returned an empty object. This de-optimizes automatic static optimization. If you **meant** to do this and understand the **consequences** you can ignore this message as it is only shown in development.
+Trong một trong các page components của bạn, bạn đã thêm một `getInitialProps` trả về một object rỗng. Điều này làm giảm tối ưu hóa tĩnh tự động. Nếu bạn **có ý định** làm điều này và hiểu **hậu quả**, bạn có thể bỏ qua thông báo này vì nó chỉ được hiển thị trong môi trường development.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-Look for any page's using `getInitialProps` that return an empty object `{}`. You might also need to update higher order components (HOCs) to only add `getInitialProps` if they are present on the passed component.
+Tìm kiếm bất kỳ trang nào sử dụng `getInitialProps` trả về một object rỗng `{}`. Bạn cũng có thể cần cập nhật các higher order components (HOCs) để chỉ thêm `getInitialProps` nếu chúng có mặt trên component được truyền vào.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Automatic Static Optimization Documentation](/docs/pages/building-your-application/rendering/automatic-static-optimization)
+- [Tài liệu Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization)

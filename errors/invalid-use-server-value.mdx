@@ -1,43 +1,43 @@
 ---
-title: 'Invalid "use server" Value'
+title: Giá trị "use server" không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-This error occurs when a `"use server"` file exports a value that is not an async function. It might happen when you unintentionally export something like a configuration object, an arbitrary value, or missed the `async` keyword in the exported function declaration.
+Lỗi này xảy ra khi một file `"use server"` export một giá trị không phải là một hàm async. Điều này có thể xảy ra khi bạn vô tình export một cái gì đó như một đối tượng cấu hình, một giá trị tùy ý, hoặc bỏ lỡ từ khóa `async` trong khai báo hàm được export.
 
-These functions are required to be defined as async, because `"use server"` marks them as [Server Actions](/docs/app/getting-started/updating-data) and they can be invoked directly from the client through a network request.
+Các hàm này được yêu cầu phải được định nghĩa là async, bởi vì `"use server"` đánh dấu chúng là [Server Actions](/docs/app/getting-started/updating-data) và chúng có thể được gọi trực tiếp từ client thông qua một yêu cầu mạng.
 
-Examples of incorrect code:
+Ví dụ về mã không chính xác:
 
 ```js
 'use server'
 
-// ❌ This is incorrect: only async functions are allowed.
+// ❌ Điều này là không chính xác: chỉ các hàm async được phép.
 export const value = 1
 
-// ❌ This is incorrect: missed the `async` keyword.
+// ❌ Điều này là không chính xác: bỏ lỡ từ khóa `async`.
 export function getServerData() {
   return '...'
 }
 ```
 
-Correct code:
+Mã chính xác:
 
 ```js
 'use server'
 
-// ✅ This is correct: an async function is exported.
+// ✅ Điều này là chính xác: một hàm async được export.
 export async function getServerData() {
   return '...'
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Check all exported values in the `"use server"` file (including `export *`) and make sure that they are all defined as async functions.
+Kiểm tra tất cả các giá trị được export trong file `"use server"` (bao gồm `export *`) và đảm bảo rằng tất cả chúng đều được định nghĩa là các hàm async.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Server Actions and Mutations - Next.js](/docs/app/getting-started/updating-data)
-- ['use server' directive - React](https://react.dev/reference/react/use-server)
+- [Server Actions và Mutations - Next.js](/docs/app/getting-started/updating-data)
+- [Chỉ thị 'use server' - React](https://react.dev/reference/react/use-server)

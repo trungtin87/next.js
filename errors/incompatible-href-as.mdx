@@ -1,14 +1,14 @@
 ---
-title: 'Incompatible `href` and `as` values'
+title: Giá trị `href` và `as` không tương thích
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Somewhere you are utilizing the `next/link` component, `Router#push`, or `Router#replace` with a dynamic route in your `href` that has an incompatible `as` value. The `as` value is incompatible when the path doesn't provide only the expected parameters for the dynamic route.
+Ở đâu đó bạn đang sử dụng component `next/link`, `Router#push`, hoặc `Router#replace` với một route động trong `href` của bạn có giá trị `as` không tương thích. Giá trị `as` không tương thích khi đường dẫn không cung cấp chỉ các tham số mong đợi cho route động.
 
-> **Note**: this error will only show when the `next/link` component is clicked not when only rendered.
+> **Lưu ý**: lỗi này sẽ chỉ hiển thị khi component `next/link` được nhấp vào chứ không phải khi chỉ được render.
 
-**Incompatible `href` and `as`**
+**`href` và `as` không tương thích**
 
 ```jsx filename="pages/blog.js"
 import Link from 'next/link'
@@ -24,7 +24,7 @@ export default function Page(props) {
 }
 ```
 
-**Compatible `href` and `as`**
+**`href` và `as` tương thích**
 
 ```jsx filename="pages/blog.js"
 import Link from 'next/link'
@@ -40,11 +40,11 @@ export default function Page(props) {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Look for any usage of the `next/link` component, `Router#push`, or `Router#replace` and make sure that the provided `href` and `as` values are compatible
+Tìm kiếm bất kỳ việc sử dụng nào của component `next/link`, `Router#push`, hoặc `Router#replace` và đảm bảo rằng các giá trị `href` và `as` được cung cấp là tương thích.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Routing section in Documentation](/docs/pages/building-your-application/routing)
-- [Dynamic routing section in Documentation](/docs/pages/building-your-application/routing/dynamic-routes)
+- [Phần Routing trong Tài liệu](/docs/pages/building-your-application/routing)
+- [Phần Dynamic routing trong Tài liệu](/docs/pages/building-your-application/routing/dynamic-routes)

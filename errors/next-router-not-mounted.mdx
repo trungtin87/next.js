@@ -1,23 +1,23 @@
 ---
-title: '`NextRouter` was not mounted'
+title: '`NextRouter` không được mount'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A component used `useRouter` outside a Next.js application, or was rendered outside a Next.js application. This can happen when doing unit testing on components that use the `useRouter` hook as they are not configured with Next.js' contexts.
+Một component đã sử dụng `useRouter` bên ngoài ứng dụng Next.js, hoặc được render bên ngoài ứng dụng Next.js. Điều này có thể xảy ra khi thực hiện unit testing trên các component sử dụng hook `useRouter` vì chúng không được cấu hình với các context của Next.js.
 
-This can also happen when you try to use the `useRouter` hook from `next/router` inside the `app` directory, as the App Router's `useRouter` from `next/navigation` has different behavior to the `useRouter` hook in `pages`.
+Điều này cũng có thể xảy ra khi bạn cố gắng sử dụng hook `useRouter` từ `next/router` bên trong thư mục `app`, vì `useRouter` của App Router từ `next/navigation` có hành vi khác với hook `useRouter` trong `pages`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-If used in a test, mock out the router by mocking the `next/router`'s `useRouter()` hook.
+Nếu được sử dụng trong một test, hãy mock router bằng cách mock hook `useRouter()` của `next/router`.
 
-If used in the `app` directory, migrate to the new hooks imported from `next/navigation`.
+Nếu được sử dụng trong thư mục `app`, hãy di chuyển sang các hook mới được import từ `next/navigation`.
 
-If used in the `pages` directory, try to update the export to [`next/compat/router`](/docs/pages/api-reference/functions/use-router#the-nextcompatrouter-export). This is the same `useRouter` hook but does not throw this error, intended to be used while migrating from `pages` to `app`.
+Nếu được sử dụng trong thư mục `pages`, hãy thử cập nhật export sang [`next/compat/router`](/docs/pages/api-reference/functions/use-router#the-nextcompatrouter-export). Đây là cùng một hook `useRouter` nhưng không ném lỗi này, được dự định sử dụng trong khi di chuyển từ `pages` sang `app`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [next-router-mock](https://www.npmjs.com/package/next-router-mock)
-- [App Router Migration](/docs/app/guides/migrating/app-router-migration#step-5-migrating-routing-hooks)
+- [Di chuyển App Router](/docs/app/guides/migrating/app-router-migration#step-5-migrating-routing-hooks)
 - [useRouter](/docs/app/api-reference/functions/use-router)

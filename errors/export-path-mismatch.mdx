@@ -1,28 +1,28 @@
 ---
-title: The provided export path doesn't match the page.
+title: Export path được cung cấp không khớp với trang.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-An `exportPathMap` path was improperly matched to a dynamically routed page.
-This would result in the page missing its URL parameters.
+Một path `exportPathMap` đã được khớp không đúng với một trang được định tuyến động.
+Điều này sẽ dẫn đến trang thiếu các URL parameters của nó.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Change your `exportPathMap` function in `next.config.js` to have a path that matches the dynamically routed page.
+Thay đổi function `exportPathMap` của bạn trong `next.config.js` để có một path khớp với trang được định tuyến động.
 
 ```js filename="next.config.js"
 module.exports = {
   exportPathMap: function () {
     return {
       '/': { page: '/' },
-      // '/blog/nextjs': { page: '/blog/[post]/comment/[id]' },        // wrong
-      '/blog/nextjs/comment/1': { page: '/blog/[post]/comment/[id]' }, // correct
+      // '/blog/nextjs': { page: '/blog/[post]/comment/[id]' },        // sai
+      '/blog/nextjs/comment/1': { page: '/blog/[post]/comment/[id]' }, // đúng
     }
   },
 }
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [exportPathMap](/docs/pages/api-reference/config/next-config-js/exportPathMap) documentation
+- Tài liệu [exportPathMap](/docs/pages/api-reference/config/next-config-js/exportPathMap)

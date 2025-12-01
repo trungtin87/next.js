@@ -1,30 +1,30 @@
 ---
-title: Caches Bypassed in Development Mode
+title: Cache bị bỏ qua trong Chế độ Development
 ---
 
-## Disabling Caches in Development Mode
+## Vô hiệu hóa Caches trong Chế độ Development
 
-While running Next.js in development mode with `next dev` an initial page load or client navigation was handled with a `cache-control: no-store` header. The most common reason for this is that you have your web browser's DevTools open with "Disable Cache" enabled. Another common reason is you performed a hard refresh (Cmd + Shift + R / Ctrl + Shift + R).
+Trong khi chạy Next.js ở chế độ development với `next dev`, một lần tải trang ban đầu hoặc điều hướng client được xử lý với header `cache-control: no-store`. Lý do phổ biến nhất cho điều này là bạn đã mở DevTools của trình duyệt web với tùy chọn "Disable Cache" được bật. Một lý do phổ biến khác là bạn đã thực hiện hard refresh (Cmd + Shift + R / Ctrl + Shift + R).
 
-Disabling caches while in development mode affects the debugging experience of Cache Components. Read on to understand more about how Next.js handles caches in development mode and what changes when they are intentionally disabled.
+Vô hiệu hóa caches trong chế độ development ảnh hưởng đến trải nghiệm gỡ lỗi của Cache Components. Đọc tiếp để hiểu thêm về cách Next.js xử lý caches trong chế độ development và những gì thay đổi khi chúng bị vô hiệu hóa một cách có chủ ý.
 
-## Understanding Cache handling in Development Mode
+## Hiểu về xử lý Cache trong Chế độ Development
 
-In development mode, Next.js ensures that Cache Components render in the right environment to allow for React DevTools to highlight which components are part of the available for prerendering statically before any user request, which are available when prefetching segments at runtime before a navigation occurs, and finally which are dynamic and will only be fetched on user navigation.
+Trong chế độ development, Next.js đảm bảo rằng Cache Components render trong môi trường phù hợp để cho phép React DevTools làm nổi bật những components nào là một phần của khả năng prerendering tĩnh trước bất kỳ yêu cầu nào của người dùng, những components nào có sẵn khi prefetching các segments tại runtime trước khi điều hướng xảy ra, và cuối cùng là những components nào là động và sẽ chỉ được fetch khi người dùng điều hướng.
 
-This behavior has a small cost when a cold cache is encountered. Rather than streaming immediately Next.js will wait to fill this cache before streaming the response. As you navigate around you App in development mode these caches will fill and most navigations to cached content should feel instant once warm.
+Hành vi này có một chi phí nhỏ khi gặp phải cache lạnh (cold cache). Thay vì streaming ngay lập tức, Next.js sẽ đợi để điền vào cache này trước khi streaming phản hồi. Khi bạn điều hướng xung quanh Ứng dụng của mình trong chế độ development, các caches này sẽ được điền và hầu hết các điều hướng đến nội dung đã được cache sẽ cảm thấy tức thì khi đã ấm (warm).
 
-However if you instruct Next.js to skip all server caches using something like the "Disable Cache" option in your browser's DevTools, this behavior would be detrimental since every cache will be considered cold on every request leading to blocking navigations. Instead Next.js prints a warning that this particular request is not suitable for debugging Cache Components and then renders fresh results as fast as possible.
+Tuy nhiên, nếu bạn hướng dẫn Next.js bỏ qua tất cả các server caches bằng cách sử dụng một cái gì đó như tùy chọn "Disable Cache" trong DevTools của trình duyệt, hành vi này sẽ gây bất lợi vì mọi cache sẽ được coi là lạnh trên mọi yêu cầu dẫn đến việc điều hướng bị chặn. Thay vào đó, Next.js in ra một cảnh báo rằng yêu cầu cụ thể này không phù hợp để gỡ lỗi Cache Components và sau đó render kết quả mới nhanh nhất có thể.
 
-## Should you use "Disable Cache"?
+## Bạn có nên sử dụng "Disable Cache"?
 
-Chrome, in particular, defaults all network request to "Disable Cache" when DevTools is open. For Next.js this is not recommended because it is overly aggressive in what is not cached and can provide a false impression of page performance that doesn't represent realistic usage of a web app.
+Chrome, cụ thể, mặc định tất cả các yêu cầu mạng thành "Disable Cache" khi DevTools được mở. Đối với Next.js, điều này không được khuyến nghị vì nó quá tích cực trong những gì không được cache và có thể cung cấp một ấn tượng sai về hiệu suất trang không đại diện cho việc sử dụng thực tế của một ứng dụng web.
 
-However there are times when disabling a server caches can be useful. For instance if you know some upstream data system has updated but these updates are not connected to your local dev environment through features like `revalidateTag`.
+Tuy nhiên, có những lúc việc vô hiệu hóa server caches có thể hữu ích. Ví dụ, nếu bạn biết một số hệ thống dữ liệu ngược dòng đã cập nhật nhưng các bản cập nhật này không được kết nối với môi trường dev cục bộ của bạn thông qua các tính năng như `revalidateTag`.
 
-If you must turn on "Disable Cache" to force a refresh we recommend that you disable the option once you've achieved your goal.
+Nếu bạn phải bật "Disable Cache" để buộc làm mới, chúng tôi khuyên bạn nên tắt tùy chọn này sau khi bạn đã đạt được mục tiêu của mình.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`revalidateTag` function](/docs/app/api-reference/functions/revalidateTag)
-- [`"use cache"` directive](/docs/app/api-reference/directives/use-cache)
+- [Hàm `revalidateTag`](/docs/app/api-reference/functions/revalidateTag)
+- [Chỉ thị `"use cache"`](/docs/app/api-reference/directives/use-cache)

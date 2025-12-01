@@ -1,18 +1,18 @@
 ---
-title: Static directory is deprecated
+title: Thư mục Static đã bị phản đối
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In versions prior to 9.0.6 the `static` directory was used to serve static assets in a Next.js application. This has been deprecated in favor of a `public` directory.
+Trong các phiên bản trước 9.0.6, thư mục `static` được sử dụng để phục vụ các tài sản tĩnh (static assets) trong một ứng dụng Next.js. Điều này đã bị phản đối để ưu tiên thư mục `public`.
 
-The reason we want to support a `public` directory instead is to not require the `/static` prefix for assets anymore and there is no reason to maintain both paths.
+Lý do chúng tôi muốn hỗ trợ thư mục `public` thay thế là để không yêu cầu tiền tố `/static` cho các tài sản nữa và không có lý do gì để duy trì cả hai đường dẫn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-You can move your `static` directory inside of the `public` directory and all URLs will stay the same as they were before.
+Bạn có thể di chuyển thư mục `static` của bạn vào bên trong thư mục `public` và tất cả các URL sẽ giữ nguyên như trước đây.
 
-**Before**
+**Trước**
 
 ```txt
   .
@@ -22,7 +22,7 @@ You can move your `static` directory inside of the `public` directory and all UR
       └── my-image.jpg
 ```
 
-**After**
+**Sau**
 
 ```txt
   .
@@ -33,6 +33,6 @@ You can move your `static` directory inside of the `public` directory and all UR
           └── my-image.jpg
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Static file serving docs](/docs/pages/api-reference/file-conventions/public-folder)
+- [Tài liệu phục vụ file tĩnh](/docs/pages/api-reference/file-conventions/public-folder)

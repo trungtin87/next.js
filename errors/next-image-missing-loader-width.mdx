@@ -1,19 +1,19 @@
 ---
-title: 'Missing `width` in the URL Returned by the Loader Prop on `next/image`'
+title: Thiếu `width` trong URL được trả về bởi Loader Prop trên `next/image`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The [`loader`](/docs/pages/api-reference/components/image#loader) prop on the `next/image` component allows you to override the built-in URL resolution with a custom implementation in order to support any 3rd party cloud provider that can perform Image Optimization.
+Prop [`loader`](/docs/pages/api-reference/components/image#loader) trên component `next/image` cho phép bạn ghi đè việc phân giải URL tích hợp bằng một triển khai tùy chỉnh để hỗ trợ bất kỳ nhà cung cấp cloud bên thứ ba nào có thể thực hiện Tối ưu hóa Hình ảnh.
 
-This error occurred because the provided `loader()` function did not use `width` in the returned URL string. This means that the image will likely not be resized and therefore degrade performance.
+Lỗi này xảy ra vì hàm `loader()` được cung cấp không sử dụng `width` trong chuỗi URL được trả về. Điều này có nghĩa là hình ảnh có thể sẽ không được thay đổi kích thước và do đó làm giảm hiệu suất.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Ensure your Image Optimization provider can resize images. Then use the `width` parameter from the [`loader()`](/docs/pages/api-reference/components/image#loader) function to construct the correct URL string.
-- Add the [`unoptimized`](/docs/pages/api-reference/components/image#unoptimized) prop.
+- Đảm bảo nhà cung cấp Tối ưu hóa Hình ảnh của bạn có thể thay đổi kích thước hình ảnh. Sau đó sử dụng tham số `width` từ hàm [`loader()`](/docs/pages/api-reference/components/image#loader) để xây dựng chuỗi URL chính xác.
+- Thêm prop [`unoptimized`](/docs/pages/api-reference/components/image#unoptimized).
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Image Optimization Documentation](/docs/pages/api-reference/components/image)
-- [`next/image` Documentation](/docs/pages/api-reference/components/image)
+- [Tài liệu Tối ưu hóa Hình ảnh](/docs/pages/api-reference/components/image)
+- [Tài liệu `next/image`](/docs/pages/api-reference/components/image)

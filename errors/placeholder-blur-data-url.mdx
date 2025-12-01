@@ -1,17 +1,17 @@
 ---
-title: '`placeholder=blur` without `blurDataURL`'
+title: '`placeholder=blur` không có `blurDataURL`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are attempting use the `next/image` component with `placeholder=blur` property but no `blurDataURL` property.
+Bạn đang cố gắng sử dụng component `next/image` với thuộc tính `placeholder=blur` nhưng không có thuộc tính `blurDataURL`.
 
-The `blurDataURL` might be missing because you're using a string for `src` instead of a static import.
+`blurDataURL` có thể bị thiếu vì bạn đang sử dụng một chuỗi cho `src` thay vì static import.
 
-Or `blurDataURL` might be missing because the static import is an unsupported image format. Only jpg, png, webp, and avif are supported at this time, though animated images are not supported.
+Hoặc `blurDataURL` có thể bị thiếu vì static import là một định dạng hình ảnh không được hỗ trợ. Chỉ jpg, png, webp, và avif được hỗ trợ tại thời điểm này, mặc dù hình ảnh động không được hỗ trợ.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Add a [`blurDataURL`](/docs/pages/api-reference/components/image#blurdataurl) property, the contents should be a small Data URL to represent the image
-- Change the [`src`](/docs/pages/api-reference/components/image#src) property to a static import with one of the supported file types: jpg, png, webp, or avif (animated images not supported)
-- Remove the [`placeholder`](/docs/pages/api-reference/components/image#placeholder) property, effectively no blur effect
+- Thêm thuộc tính [`blurDataURL`](/docs/pages/api-reference/components/image#blurdataurl), nội dung phải là một Data URL nhỏ để đại diện cho hình ảnh
+- Thay đổi thuộc tính [`src`](/docs/pages/api-reference/components/image#src) thành static import với một trong các loại file được hỗ trợ: jpg, png, webp, hoặc avif (hình ảnh động không được hỗ trợ)
+- Xóa thuộc tính [`placeholder`](/docs/pages/api-reference/components/image#placeholder), hiệu quả là không có hiệu ứng blur

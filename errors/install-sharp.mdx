@@ -1,16 +1,16 @@
 ---
-title: 'Install `sharp` to Use Built-In Image Optimization'
+title: Cài đặt `sharp` để sử dụng Tối ưu hóa Hình ảnh tích hợp
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Using Next.js' built-in [Image Optimization](/docs/pages/api-reference/components/image) requires [sharp](https://www.npmjs.com/package/sharp) as a dependency.
+Việc sử dụng [Tối ưu hóa Hình ảnh](/docs/pages/api-reference/components/image) tích hợp của Next.js yêu cầu [sharp](https://www.npmjs.com/package/sharp) như một dependency.
 
-You are seeing this error because your OS was unable to [install sharp](https://sharp.pixelplumbing.com/install) properly, either using pre-built binaries or building from source.
+Bạn thấy lỗi này vì hệ điều hành của bạn không thể [cài đặt sharp](https://sharp.pixelplumbing.com/install) đúng cách, hoặc sử dụng các tệp nhị phân dựng sẵn hoặc xây dựng từ nguồn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Option 1: Use a different version of Node.js and try to install `sharp` again.
+Tùy chọn 1: Sử dụng một phiên bản Node.js khác và thử cài đặt `sharp` lại.
 
 ```bash filename="Terminal"
 npm i sharp
@@ -28,12 +28,12 @@ pnpm add sharp
 bun add sharp
 ```
 
-Option 2: Try installing the wasm variant of `sharp` by running `npm install --cpu=wasm32 sharp`.
+Tùy chọn 2: Thử cài đặt biến thể wasm của `sharp` bằng cách chạy `npm install --cpu=wasm32 sharp`.
 
-Option 3: If using macOS, ensure XCode Build Tools are installed and try to install `sharp` again.
+Tùy chọn 3: Nếu sử dụng macOS, đảm bảo XCode Build Tools đã được cài đặt và thử cài đặt `sharp` lại.
 
-For example, see [macOS Catalina instructions](https://github.com/nodejs/node-gyp/blob/66c0f0446749caa591ad841cd029b6d5b5c8da42/macOS_Catalina.md).
+Ví dụ, xem [hướng dẫn macOS Catalina](https://github.com/nodejs/node-gyp/blob/66c0f0446749caa591ad841cd029b6d5b5c8da42/macOS_Catalina.md).
 
-Option 4: Use a different OS and try to install `sharp` again.
+Tùy chọn 4: Sử dụng một hệ điều hành khác và thử cài đặt `sharp` lại.
 
-For example, if you're using Windows, try using [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) (Windows Subsystem for Linux).
+Ví dụ, nếu bạn đang sử dụng Windows, hãy thử sử dụng [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) (Windows Subsystem for Linux).

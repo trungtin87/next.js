@@ -1,18 +1,18 @@
 ---
-title: No Before Interactive Script Outside Document
+title: Không có Script Before Interactive bên ngoài Document
 ---
 
-> Prevent usage of `next/script`'s `beforeInteractive` strategy outside of `app/layout.jsx` or `pages/_document.js`.
+> Ngăn chặn việc sử dụng chiến lược `beforeInteractive` của `next/script` bên ngoài `app/layout.jsx` hoặc `pages/_document.js`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You cannot use the `next/script` component with the `beforeInteractive` strategy outside `app/layout.jsx` or `pages/_document.js`. That's because `beforeInteractive` strategy only works inside **`app/layout.jsx`** or **`pages/_document.js`** and is designed to load scripts that are needed by the entire site (i.e. the script will load when any page in the application has been loaded server-side).
+Bạn không thể sử dụng component `next/script` với chiến lược `beforeInteractive` bên ngoài `app/layout.jsx` hoặc `pages/_document.js`. Đó là vì chiến lược `beforeInteractive` chỉ hoạt động bên trong **`app/layout.jsx`** hoặc **`pages/_document.js`** và được thiết kế để tải các script cần thiết cho toàn bộ trang web (tức là script sẽ tải khi bất kỳ trang nào trong ứng dụng đã được tải phía server).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
 ### App Router
 
-If you want a global script, and you are using the App Router, move the script inside `app/layout.jsx`.
+Nếu bạn muốn một script toàn cục, và bạn đang sử dụng App Router, hãy di chuyển script vào trong `app/layout.jsx`.
 
 ```jsx filename="app/layout.jsx"
 import Script from 'next/script'
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
 
 ### Pages Router
 
-If you want a global script, and you are using the Pages Router, move the script inside `pages/_document.js`.
+Nếu bạn muốn một script toàn cục, và bạn đang sử dụng Pages Router, hãy di chuyển script vào trong `pages/_document.js`.
 
 ```jsx filename="pages/_document.js"
 import { Html, Head, Main, NextScript } from 'next/document'
@@ -55,7 +55,7 @@ export default function Document() {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [App Router Script Optimization](/docs/app/guides/scripts)
-- [Pages Router Script Optimization](/docs/pages/guides/scripts)
+- [Tối ưu hóa Script trong App Router](/docs/app/guides/scripts)
+- [Tối ưu hóa Script trong Pages Router](/docs/pages/guides/scripts)

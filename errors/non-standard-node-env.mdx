@@ -1,31 +1,31 @@
 ---
-title: 'Non-Standard `NODE_ENV`'
+title: '`NODE_ENV` Không Chuẩn'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Your environment has a non-standard `NODE_ENV` value configured.
+Môi trường của bạn có giá trị `NODE_ENV` không chuẩn được cấu hình.
 
-This may be by accident, so if you're unaware where the value is coming from, check the following:
+Điều này có thể là do vô tình, vì vậy nếu bạn không biết giá trị đến từ đâu, hãy kiểm tra những điều sau:
 
-- The `.env*` files in your project, if present
-- Your `~/.bash_profile`, if present
-- Your `~/.zshrc`, if present
+- Các file `.env*` trong dự án của bạn, nếu có
+- `~/.bash_profile` của bạn, nếu có
+- `~/.zshrc` của bạn, nếu có
 
-The greater React ecosystem treats `NODE_ENV` as a convention, only permitting three (3) values:
+Hệ sinh thái React rộng lớn hơn coi `NODE_ENV` như một quy ước, chỉ cho phép ba (3) giá trị:
 
-- `production`: When your application is built with `next build`
-- `development`: When your application is run with `next dev`
-- `test`: When your application is being tested (e.g. `jest`)
+- `production`: Khi ứng dụng của bạn được build với `next build`
+- `development`: Khi ứng dụng của bạn được chạy với `next dev`
+- `test`: Khi ứng dụng của bạn đang được test (ví dụ: `jest`)
 
-Setting a non-standard `NODE_ENV` value may cause dependencies to behave unexpectedly, or worse, **break dead code elimination**.
+Đặt giá trị `NODE_ENV` không chuẩn có thể khiến các dependency hoạt động không mong muốn, hoặc tệ hơn, **phá vỡ dead code elimination**.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To fix this error, identify the source of the erroneous `NODE_ENV` value and get rid of it: Next.js automatically sets the correct value for you.
+Để sửa lỗi này, hãy xác định nguồn của giá trị `NODE_ENV` sai và loại bỏ nó: Next.js tự động đặt giá trị chính xác cho bạn.
 
-If you need the concept of different environments in your application, e.g. `staging`, you should use a different environment variable name like `APP_ENV`.
+Nếu bạn cần khái niệm về các môi trường khác nhau trong ứng dụng của mình, ví dụ: `staging`, bạn nên sử dụng tên biến môi trường khác như `APP_ENV`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Environment Variables](https://en.wikipedia.org/wiki/Environment_variable)
+- [Biến Môi Trường](https://en.wikipedia.org/wiki/Environment_variable)

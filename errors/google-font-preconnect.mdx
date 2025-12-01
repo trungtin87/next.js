@@ -1,27 +1,27 @@
 ---
-title: Google Font Preconnect
+title: Preconnect Google Font
 ---
 
-> **Note**: Next.js automatically adds `<link rel="preconnect" />` after version `12.0.1`.
+> **Lưu ý**: Next.js tự động thêm `<link rel="preconnect" />` sau phiên bản `12.0.1`.
 
-> Ensure `preconnect` is used with Google Fonts.
+> Đảm bảo `preconnect` được sử dụng với Google Fonts.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A preconnect resource hint was not used with a request to the Google Fonts domain. Adding `preconnect` is recommended to initiate an early connection to the origin.
+Một gợi ý tài nguyên preconnect đã không được sử dụng với một yêu cầu đến miền Google Fonts. Việc thêm `preconnect` được khuyến nghị để bắt đầu kết nối sớm đến nguồn gốc (origin).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Add `rel="preconnect"` to the Google Font domain `<link>` tag:
+Thêm `rel="preconnect"` vào thẻ `<link>` miền Google Font:
 
 ```jsx filename="pages/_document.js"
 <link rel="preconnect" href="https://fonts.gstatic.com" />
 ```
 
-> **Note**: a **separate** link with `dns-prefetch` can be used as a fallback for browsers that don't support `preconnect` although this is not required.
+> **Lưu ý**: một liên kết **riêng biệt** với `dns-prefetch` có thể được sử dụng như một dự phòng cho các trình duyệt không hỗ trợ `preconnect` mặc dù điều này không bắt buộc.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Preconnect to required origins](https://web.dev/uses-rel-preconnect/)
-- [Preconnect and dns-prefetch](https://web.dev/preconnect-and-dns-prefetch/#resolve-domain-name-early-with-reldns-prefetch)
-- [Next.js Font Optimization](/docs/pages/api-reference/components/font)
+- [Preconnect đến các nguồn gốc bắt buộc](https://web.dev/uses-rel-preconnect/)
+- [Preconnect và dns-prefetch](https://web.dev/preconnect-and-dns-prefetch/#resolve-domain-name-early-with-reldns-prefetch)
+- [Tối ưu hóa Font Next.js](/docs/pages/api-reference/components/font)

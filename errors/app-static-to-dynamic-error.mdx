@@ -1,23 +1,23 @@
 ---
-title: Resolving "app/ Static to Dynamic Error" in Next.js
-description: This document explains the "app/ Static to Dynamic Error" in Next.js and provides potential solutions to resolve it.
+title: Giải quyết lỗi "app/ Static to Dynamic Error" trong Next.js
+description: Tài liệu này giải thích lỗi "app/ Static to Dynamic Error" trong Next.js và cung cấp các giải pháp tiềm năng để giải quyết nó.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The "`app/` Static to Dynamic Error" happens when one of your routes in the `app/` directory is initially generated statically at build time, but during runtime it attempts to use dynamic server values (such as `cookies` or `headers`) either for a fallback path or while a path is being revalidated.
+Lỗi "`app/` Static to Dynamic Error" xảy ra khi một trong các routes của bạn trong thư mục `app/` ban đầu được tạo tĩnh (statically generated) tại thời điểm build, nhưng trong thời gian chạy (runtime), nó cố gắng sử dụng các giá trị server động (như `cookies` hoặc `headers`) cho một đường dẫn fallback hoặc trong khi một đường dẫn đang được xác thực lại (revalidated).
 
-Currently, Next.js does not support switching between static and dynamic types during runtime, so the system throws an error.
+Hiện tại, Next.js không hỗ trợ chuyển đổi giữa các loại tĩnh và động trong thời gian chạy, vì vậy hệ thống sẽ báo lỗi.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To resolve this issue, you have two main options:
+Để giải quyết vấn đề này, bạn có hai lựa chọn chính:
 
-1. Prevent the conditional use of dynamic server values that may cause the static/dynamic mode of the page to differ between build time and runtime. This ensures consistency in the rendering mode of your page.
+1. Ngăn chặn việc sử dụng có điều kiện các giá trị server động có thể khiến chế độ tĩnh/động của trang khác nhau giữa thời điểm build và thời gian chạy. Điều này đảm bảo tính nhất quán trong chế độ hiển thị của trang của bạn.
 
-2. Leverage the `dynamic` export to control the handling of your page. If you want to ensure your page is always handled statically, regardless of the usage of dynamic server values, you can use `export const dynamic = 'force-static'`. Conversely, if you prefer your page to always be dynamic, you can use `export const dynamic = 'force-dynamic'`, and your page won't attempt to be statically generated.
+2. Tận dụng `dynamic` export để kiểm soát việc xử lý trang của bạn. Nếu bạn muốn đảm bảo trang của mình luôn được xử lý tĩnh, bất kể việc sử dụng các giá trị server động, bạn có thể sử dụng `export const dynamic = 'force-static'`. Ngược lại, nếu bạn muốn trang của mình luôn là động, bạn có thể sử dụng `export const dynamic = 'force-dynamic'`, và trang của bạn sẽ không cố gắng được tạo tĩnh.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Static and Dynamic Rendering](/docs/app/guides/caching#rendering-strategies) - Learn more about the differences between static and dynamic rendering in Next.js.
-- [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) - Understand more about the usage of dynamic server functions in your Next.js application.
+- [Render Tĩnh và Động](/docs/app/guides/caching#rendering-strategies) - Tìm hiểu thêm về sự khác biệt giữa render tĩnh và động trong Next.js.
+- [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) - Hiểu thêm về việc sử dụng các hàm server động trong ứng dụng Next.js của bạn.

@@ -1,16 +1,16 @@
 ---
-title: No CSS Tags
+title: Không có Thẻ CSS
 ---
 
-> Prevent manual stylesheet tags.
+> Ngăn chặn các thẻ stylesheet thủ công.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A `link` element was used to link to an external stylesheet. This can negatively affect CSS resource loading on your webpage.
+Một phần tử `link` đã được sử dụng để liên kết đến một stylesheet bên ngoài. Điều này có thể ảnh hưởng tiêu cực đến việc tải tài nguyên CSS trên trang web của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-There are multiple ways to include styles using Next.js' built-in CSS support, including the option to use `@import` within the root stylesheet that is imported in `pages/_app.js`:
+Có nhiều cách để bao gồm styles bằng cách sử dụng hỗ trợ CSS tích hợp của Next.js, bao gồm tùy chọn sử dụng `@import` trong stylesheet gốc được import trong `pages/_app.js`:
 
 ```css filename="styles.css"
 /* Root stylesheet */
@@ -21,7 +21,7 @@ body {
 }
 ```
 
-Another option is to use CSS Modules to import the CSS file scoped specifically to the component.
+Một tùy chọn khác là sử dụng CSS Modules để import file CSS được phạm vi cụ thể cho component.
 
 ```jsx filename="pages/index.js"
 import styles from './extra.module.css'
@@ -39,4 +39,4 @@ export class Home {
 }
 ```
 
-Refer to the [Built-In CSS Support](/docs/app/getting-started/css) documentation to learn about all the ways to include CSS to your application.
+Tham khảo tài liệu [Hỗ trợ CSS Tích hợp](/docs/app/getting-started/css) để tìm hiểu về tất cả các cách để bao gồm CSS vào ứng dụng của bạn.

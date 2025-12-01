@@ -1,16 +1,16 @@
 ---
-title: Invalid Multi-match
+title: Multi-match không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In one of your custom-routes you specified a multi-match `/:path*` and used it in your `destination` without adding the `*` in your `destination` e.g. `destination: '/another/:path'`
+Trong một trong các custom-routes của bạn, bạn đã chỉ định một multi-match `/:path*` và sử dụng nó trong `destination` của bạn mà không thêm `*` trong `destination` của bạn, ví dụ `destination: '/another/:path'`
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Add `*` to your usage of the multi-match param in your `destination`.
+Thêm `*` vào việc sử dụng tham số multi-match trong `destination` của bạn.
 
-**Before**
+**Trước**
 
 ```js
 {
@@ -19,7 +19,7 @@ Add `*` to your usage of the multi-match param in your `destination`.
 }
 ```
 
-**After**
+**Sau**
 
 ```js
 {

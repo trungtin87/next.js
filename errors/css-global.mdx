@@ -1,23 +1,23 @@
 ---
-title: 'Global CSS Must Be in Your Custom `<App>`'
+title: 'Global CSS Phải Nằm Trong `<App>` Tùy Chỉnh Của Bạn'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-An attempt to import Global CSS from a file outside of [`pages/_app.js`](/docs/pages/building-your-application/routing/custom-app) was made.
+Một nỗ lực import Global CSS từ một file bên ngoài [`pages/_app.js`](/docs/pages/building-your-application/routing/custom-app) đã được thực hiện.
 
-Global CSS cannot be used in files other than your [custom `_app.js` file](/docs/pages/building-your-application/routing/custom-app) due to ordering problems and side-effects.
+Global CSS không thể được sử dụng trong các files khác ngoài [file `_app.js` tùy chỉnh](/docs/pages/building-your-application/routing/custom-app) của bạn do các vấn đề về thứ tự và tác dụng phụ (side-effects).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-There are two possible ways to fix this error:
+Có hai cách có thể để khắc phục lỗi này:
 
-- Move all global CSS imports to your [`pages/_app.js` file](/docs/pages/building-your-application/routing/custom-app).
-- If you do not wish your stylesheet to be global, update it to use [CSS Modules](/docs/app/getting-started/css). This will allow you to import the stylesheet and scope the styles to a specific component.
+- Di chuyển tất cả các imports global CSS vào [file `pages/_app.js`](/docs/pages/building-your-application/routing/custom-app) của bạn.
+- Nếu bạn không muốn stylesheet của mình là global, hãy cập nhật nó để sử dụng [CSS Modules](/docs/app/getting-started/css). Điều này sẽ cho phép bạn import stylesheet và phạm vi (scope) các styles cho một component cụ thể.
 
-### Example
+### Ví dụ
 
-Consider the stylesheet named [`styles.css`](/docs/app/getting-started/css)
+Xem xét stylesheet có tên [`styles.css`](/docs/app/getting-started/css)
 
 ```css filename="styles.css"
 body {
@@ -32,7 +32,7 @@ body {
 
 **Global CSS**:
 
-Create a [`pages/_app.js` file](/docs/pages/building-your-application/routing/custom-app) if not already present. Then import the `styles.css` file:
+Tạo một [file `pages/_app.js`](/docs/pages/building-your-application/routing/custom-app) nếu chưa có. Sau đó import file `styles.css`:
 
 ```jsx filename="pages/_app.js"
 import '../styles.css'
@@ -44,7 +44,7 @@ export default function MyApp({ Component, pageProps }) {
 
 **CSS Modules**:
 
-Rename the `styles.css` file to `styles.module.css`. Then import the file in the component or page where you want to use the styles.
+Đổi tên file `styles.css` thành `styles.module.css`. Sau đó import file trong component hoặc page nơi bạn muốn sử dụng các styles.
 
 ```jsx filename="pages/index.js"
 import styles from '../../styles.module.css'

@@ -1,18 +1,18 @@
 ---
-title: Cannot access Request information synchronously in route.js without awaiting connection first
+title: Không thể truy cập thông tin Request đồng bộ trong route.js mà không await connection trước
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When `cacheComponents` is enabled Next.js treats most access to Request information as explicitly dynamic. However routes have a Request object and you can read values like the current pathname from that object synchronously. If you need to access Request information in a route handler you should first call `await connection()` to inform Next.js that everything after this point is explicitly dynamic.
+Khi `cacheComponents` được bật, Next.js xử lý hầu hết việc truy cập vào thông tin Request như rõ ràng động. Tuy nhiên các routes có một đối tượng Request và bạn có thể đọc các giá trị như pathname hiện tại từ đối tượng đó đồng bộ. Nếu bạn cần truy cập thông tin Request trong một route handler, trước tiên bạn nên gọi `await connection()` để thông báo cho Next.js rằng mọi thứ sau điểm này là rõ ràng động.
 
-This is only needed in `GET` handlers because `GET` is the only handler Next.js will attempt to prerender.
+Điều này chỉ cần thiết trong các `GET` handlers vì `GET` là handler duy nhất mà Next.js sẽ cố gắng prerender.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-Look for access of the Request object in your route.js and add `await connection()` before you access any properties of the Request.
+Tìm kiếm việc truy cập đối tượng Request trong route.js của bạn và thêm `await connection()` trước khi bạn truy cập bất kỳ thuộc tính nào của Request.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/.../route.js"
 export default function GET(request) {
@@ -21,7 +21,7 @@ export default function GET(request) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/.../route.js"
 import { connection } from 'next/server'
@@ -33,9 +33,9 @@ export default async function GET(request) {
 }
 ```
 
-It is unexpected that you would run the codemod and not successfully convert all instances of `params` and `searchParams` to async or have a marker string to help you locate unconverted cases. If you do find yourself in this situation please report this to [Next.js on Github](https://github.com/vercel/next.js/issues).
+Không mong đợi rằng bạn sẽ chạy codemod và không chuyển đổi thành công tất cả các instance của `params` và `searchParams` sang async hoặc có một chuỗi đánh dấu để giúp bạn xác định vị trí các trường hợp chưa được chuyển đổi. Nếu bạn thấy mình trong tình huống này, vui lòng báo cáo điều này cho [Next.js trên Github](https://github.com/vercel/next.js/issues).
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`connection` function](/docs/app/api-reference/functions/connection)
-- [`route.js` file convention](/docs/app/api-reference/file-conventions/route)
+- [Hàm `connection`](/docs/app/api-reference/functions/connection)
+- [Quy ước file `route.js`](/docs/app/api-reference/file-conventions/route)

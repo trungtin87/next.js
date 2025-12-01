@@ -1,27 +1,27 @@
 ---
-title: Reserved Port
+title: Port Dành Riêng
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Server was started on a reserved port. For example, `4045` is reserved for the Network Paging Protocol (npp).
+Server đã được khởi động trên một port dành riêng. Ví dụ, `4045` được dành riêng cho Network Paging Protocol (npp).
 
 ```bash filename="Terminal"
 next start -p 4045
 ```
 
-or
+hoặc
 
 ```bash filename="Terminal"
 next dev --port 4045
 ```
 
-Starting the server on a reserved port will result in an error.
+Khởi động server trên một port dành riêng sẽ dẫn đến lỗi.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Change the provided port to ensure it's not listed in the [Port Blocking](https://fetch.spec.whatwg.org/#port-blocking) section of WHATWG's fetch spec.
+Thay đổi port được cung cấp để đảm bảo nó không được liệt kê trong phần [Port Blocking](https://fetch.spec.whatwg.org/#port-blocking) của fetch spec của WHATWG.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [Port blocking](https://fetch.spec.whatwg.org/#port-blocking)

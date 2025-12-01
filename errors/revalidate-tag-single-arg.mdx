@@ -1,53 +1,53 @@
 ---
-title: revalidateTag Single Argument Deprecated
+title: revalidateTag Với Một Tham Số Đã Bị Loại Bỏ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are using `revalidateTag` without providing the second argument, which is now deprecated. The function now requires a second argument to specify the revalidation behavior.
+Bạn đang sử dụng `revalidateTag` mà không cung cấp tham số thứ hai, điều này hiện đã bị loại bỏ. Hàm này hiện yêu cầu tham số thứ hai để chỉ định hành vi revalidation.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-### Option 1: Add the second argument
+### Tùy Chọn 1: Thêm tham số thứ hai
 
-Update your `revalidateTag` calls to include the second argument `"max"`:
+Cập nhật các lệnh gọi `revalidateTag` của bạn để bao gồm tham số thứ hai `"max"`:
 
 ```js
-// Before (deprecated)
+// Trước đây (đã loại bỏ)
 revalidateTag('posts')
 
-// After
+// Sau khi sửa
 revalidateTag('posts', 'max')
 ```
 
-### Option 2: Use updateTag in Server Actions
+### Tùy Chọn 2: Sử dụng updateTag trong Server Actions
 
-If you're calling this from a Server Action and need immediate expiration for read-your-own-writes, use `updateTag` instead:
+Nếu bạn đang gọi điều này từ một Server Action và cần hết hạn ngay lập tức cho read-your-own-writes, hãy sử dụng `updateTag` thay thế:
 
 ```js
-// In a Server Action
+// Trong một Server Action
 import { updateTag } from 'next/cache'
 
 export async function createPost() {
-  // ... create post ...
+  // ... tạo post ...
 
-  // Immediately expire the cache
+  // Hết hạn cache ngay lập tức
   updateTag('posts')
 }
 ```
 
-## Revalidation Behavior
+## Hành Vi Revalidation
 
-- **`revalidateTag(tag, "max")` (recommended)**: The tag entry is marked as stale, and the next time a resource with that tag is visited, it will use stale-while-revalidate semantics. This means the stale content is served while fresh content is fetched in the background.
+- **`revalidateTag(tag, "max")` (khuyến nghị)**: Entry tag được đánh dấu là cũ, và lần tiếp theo một resource với tag đó được truy cập, nó sẽ sử dụng ngữ nghĩa stale-while-revalidate. Điều này có nghĩa là nội dung cũ được phục vụ trong khi nội dung mới được tải về trong nền.
 
-- **`revalidateTag(tag, profile)`**: For advanced usage, you can specify any cache life profile that your application has defined in your `next.config` instead of `"max"`, allowing for custom revalidation behaviors.
+- **`revalidateTag(tag, profile)`**: Đối với việc sử dụng nâng cao, bạn có thể chỉ định bất kỳ cache life profile nào mà ứng dụng của bạn đã định nghĩa trong `next.config` của bạn thay vì `"max"`, cho phép các hành vi revalidation tùy chỉnh.
 
-- **`updateTag(tag)`**: Only available in Server Actions. The tag entry is expired immediately, and the next request to that resource will be a blocking revalidate/cache miss. This ensures read-your-own-writes consistency.
+- **`updateTag(tag)`**: Chỉ khả dụng trong Server Actions. Entry tag hết hạn ngay lập tức, và request tiếp theo đến resource đó sẽ là một blocking revalidate/cache miss. Điều này đảm bảo tính nhất quán read-your-own-writes.
 
-- **`revalidateTag(tag)` without second argument (deprecated)**: Same behavior as `updateTag` but shows this deprecation warning.
+- **`revalidateTag(tag)` không có tham số thứ hai (đã loại bỏ)**: Hành vi giống như `updateTag` nhưng hiển thị cảnh báo loại bỏ này.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [revalidateTag Documentation](/docs/app/api-reference/functions/revalidateTag)
-- [updateTag Documentation](/docs/app/api-reference/functions/updateTag)
-- [Caching in Next.js](/docs/app/getting-started/caching-and-revalidating)
+- [Tài liệu revalidateTag](/docs/app/api-reference/functions/revalidateTag)
+- [Tài liệu updateTag](/docs/app/api-reference/functions/updateTag)
+- [Caching trong Next.js](/docs/app/getting-started/caching-and-revalidating)

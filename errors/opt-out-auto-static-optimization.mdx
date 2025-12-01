@@ -1,21 +1,21 @@
 ---
-title: Opt-out of Automatic Static Optimization
+title: Thoát khỏi Tối Ưu Hóa Tĩnh Tự Động
 ---
 
-## Why This Warning Occurred
+## Tại Sao Cảnh Báo Này Xảy Ra
 
-You are using `getInitialProps` in your [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) file.
+Bạn đang sử dụng `getInitialProps` trong file [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) của bạn.
 
-This causes **all pages** that do not use [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) into Server-side Rendering (at runtime) and disables [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization).
+Điều này khiến **tất cả các trang** không sử dụng [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) chuyển sang Server-side Rendering (tại runtime) và vô hiệu hóa [Tối Ưu Hóa Tĩnh Tự Động](/docs/pages/building-your-application/rendering/automatic-static-optimization).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Verify if you need to use `getInitialProps` in `pages/_app`. There are some valid use cases for this, but it's often better to use `getInitialProps` in individual pages.
+Xác minh xem bạn có cần sử dụng `getInitialProps` trong `pages/_app` hay không. Có một số trường hợp sử dụng hợp lệ cho điều này, nhưng thường tốt hơn là sử dụng `getInitialProps` trong các trang riêng lẻ.
 
-- Check for any [higher-order components](https://reactjs.org/docs/higher-order-components.html) that may have added `getInitialProps` to your [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app).
-- If you previously copied the [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) example from the old docs, you can remove `getInitialProps`.
+- Kiểm tra bất kỳ [higher-order components](https://reactjs.org/docs/higher-order-components.html) nào có thể đã thêm `getInitialProps` vào [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) của bạn.
+- Nếu bạn trước đây đã sao chép ví dụ [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) từ tài liệu cũ, bạn có thể xóa `getInitialProps`.
 
-The following `getInitialProps` can be removed:
+`getInitialProps` sau đây có thể được xóa:
 
 ```jsx filename="pages/_app.js"
 class MyApp extends App {

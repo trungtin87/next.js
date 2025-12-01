@@ -1,27 +1,24 @@
 ---
-title: Using Google Analytics with Next.js (through `next/script`)
+title: Sử Dụng Google Analytics Với Next.js (thông qua `next/script`)
 ---
 
-> Prefer `next/script` component when using the inline script for Google Analytics.
+> Ưu tiên component `next/script` khi sử dụng inline script cho Google Analytics.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-An inline script was used for Google Analytics which might impact your webpage's performance. Instead, we recommend using `next/script` through the `@next/third-parties` library.
+Một inline script đã được sử dụng cho Google Analytics có thể ảnh hưởng đến hiệu suất trang web của bạn. Thay vào đó, chúng tôi khuyến nghị sử dụng `next/script` thông qua thư viện `@next/third-parties`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-### Use `@next/third-parties` to add Google Analytics
+### Sử dụng `@next/third-parties` để thêm Google Analytics
 
-**`@next/third-parties`** is a library that provides a collection of components and utilities that improve the performance and developer experience of loading popular third-party libraries in your Next.js application. It is available with Next.js 14 (install `next@latest`).
+**`@next/third-parties`** là một thư viện cung cấp một bộ sưu tập các components và utilities cải thiện hiệu suất và trải nghiệm developer khi tải các thư viện third-party phổ biến trong ứng dụng Next.js của bạn. Nó có sẵn với Next.js 14 (cài đặt `next@latest`).
 
-The `GoogleAnalytics` component can be used to include [Google Analytics
-4](https://developers.google.com/analytics/devguides/collection/ga4) to your page via the Google tag (`gtag.js`). By default, it fetches the original scripts after hydration occurs on the page.
+Component `GoogleAnalytics` có thể được sử dụng để bao gồm [Google Analytics 4](https://developers.google.com/analytics/devguides/collection/ga4) vào trang của bạn thông qua Google tag (`gtag.js`). Theo mặc định, nó fetch các scripts gốc sau khi hydration xảy ra trên trang.
 
-> **Recommendation**: If Google Tag Manager is already included in your application, you can
-> configure Google Analytics directly using it, rather than including Google Analytics as a separate component. Refer to the [documentation](https://developers.google.com/analytics/devguides/collection/ga4/tag-options#what-is-gtm)
-> to learn more about the differences between Tag Manager and `gtag.js`.
+> **Khuyến nghị**: Nếu Google Tag Manager đã được bao gồm trong ứng dụng của bạn, bạn có thể cấu hình Google Analytics trực tiếp bằng cách sử dụng nó, thay vì bao gồm Google Analytics như một component riêng biệt. Tham khảo [tài liệu](https://developers.google.com/analytics/devguides/collection/ga4/tag-options#what-is-gtm) để tìm hiểu thêm về sự khác biệt giữa Tag Manager và `gtag.js`.
 
-To load Google Analytics for all routes, include the component directly in your root layout and pass in your measurement ID:
+Để tải Google Analytics cho tất cả các routes, hãy bao gồm component trực tiếp trong root layout của bạn và truyền vào measurement ID của bạn:
 
 ```tsx filename="app/layout.tsx" switcher
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -53,7 +50,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-To load Google Analytics for a single route, include the component in your page file:
+Để tải Google Analytics cho một route duy nhất, hãy bao gồm component trong file page của bạn:
 
 ```jsx filename="app/page.js"
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -63,13 +60,13 @@ export default function Page() {
 }
 ```
 
-> **Good to know:**
+> **Cần biết:**
 >
-> - If you are using the Pages Router, please refer to the [`pages/` documentation](/docs/pages/guides/third-party-libraries).
-> - `@next/third-parties` also supports [Google Tag Manager](/docs/app/guides/third-party-libraries#google-tag-manager) and other third parties.
-> - Using `@next/third-parties` is not required. You can also use the `next/script` component directly. Refer to the [`next/script` documentation](/docs/app/guides/scripts) to learn more.
+> - Nếu bạn đang sử dụng Pages Router, vui lòng tham khảo [tài liệu `pages/`](/docs/pages/guides/third-party-libraries).
+> - `@next/third-parties` cũng hỗ trợ [Google Tag Manager](/docs/app/guides/third-party-libraries#google-tag-manager) và các third parties khác.
+> - Sử dụng `@next/third-parties` không bắt buộc. Bạn cũng có thể sử dụng component `next/script` trực tiếp. Tham khảo [tài liệu `next/script`](/docs/app/guides/scripts) để tìm hiểu thêm.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [`@next/third-parties` Documentation](/docs/app/guides/third-party-libraries)
-- [`next/script` Documentation](/docs/app/guides/scripts)
+- [Tài liệu `@next/third-parties`](/docs/app/guides/third-party-libraries)
+- [Tài liệu `next/script`](/docs/app/guides/scripts)

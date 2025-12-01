@@ -1,12 +1,12 @@
 ---
-title: Deleting Query Parameters In Proxies
+title: Xóa Query Parameters Trong Proxies
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In previous versions of Next.js, we were merging query parameters with the incoming request for rewrites happening in proxies, to match the behavior of static rewrites declared in the config. This forced Next.js users to use empty query parameters values to delete keys.
+Trong các phiên bản trước của Next.js, chúng tôi đã hợp nhất các tham số truy vấn (query parameters) với yêu cầu đến cho các rewrites xảy ra trong proxies, để khớp với hành vi của các rewrites tĩnh được khai báo trong config. Điều này buộc người dùng Next.js phải sử dụng các giá trị tham số truy vấn trống để xóa các keys.
 
-We are changing this behavior to allow extra flexibility and a more streamlined experience for users. So from now on, query parameters will not be merged and thus the warning.
+Chúng tôi đang thay đổi hành vi này để cho phép linh hoạt hơn và trải nghiệm hợp lý hơn cho người dùng. Vì vậy từ giờ trở đi, các tham số truy vấn sẽ không được hợp nhất và do đó có cảnh báo.
 
 ```ts filename="proxy.ts"
 import type { NextRequest } from 'next/server'
@@ -14,14 +14,14 @@ import { NextResponse } from 'next/server'
 
 export default function proxy(request: NextRequest) {
   const nextUrl = request.nextUrl
-  nextUrl.searchParams.delete('key') // <-- this is now possible!
+  nextUrl.searchParams.delete('key') // <-- điều này bây giờ là có thể!
   return NextResponse.rewrite(nextUrl)
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-If you are relying on the old behavior, please add the query parameters manually to the rewritten URL. Using `request.nextUrl` would do that automatically for you.
+Nếu bạn đang dựa vào hành vi cũ, vui lòng thêm các tham số truy vấn thủ công vào URL được viết lại. Sử dụng `request.nextUrl` sẽ tự động làm điều đó cho bạn.
 
 ```ts filename="proxy.ts"
 import type { NextRequest } from 'next/server'
@@ -34,4 +34,4 @@ export default function proxy(request: NextRequest) {
 }
 ```
 
-This warning will be removed in the next version of Next.js.
+Cảnh báo này sẽ bị xóa trong phiên bản tiếp theo của Next.js.

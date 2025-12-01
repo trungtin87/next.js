@@ -1,23 +1,23 @@
 ---
-title: DynamicServerError - Dynamic Server Usage
+title: DynamicServerError - Sử Dụng Server Động
 ---
 
-## Why This Message Occurred
+## Tại Sao Thông Báo Này Xuất Hiện
 
-You attempted to use a Next.js function that depends on Async Context (such as `headers` or `cookies` from `next/headers`) but it was not bound to the same call stack as the function that ran it (e.g., calling `cookies()` inside of a `setTimeout` or `setInterval`).
+Bạn đã cố gắng sử dụng một hàm Next.js phụ thuộc vào Async Context (như `headers` hoặc `cookies` từ `next/headers`) nhưng nó không được liên kết với cùng một call stack như hàm đã chạy nó (ví dụ: gọi `cookies()` bên trong `setTimeout` hoặc `setInterval`).
 
-While generating static pages, Next.js will throw a `DynamicServerError` if it detects usage of a dynamic function, and catch it to automatically opt the page into dynamic rendering. However, when it's uncaught, it will result in this build-time error.
+Trong khi tạo các trang tĩnh, Next.js sẽ ném ra `DynamicServerError` nếu nó phát hiện việc sử dụng một hàm động, và bắt nó để tự động chọn tham gia render động cho trang. Tuy nhiên, khi nó không được bắt, nó sẽ dẫn đến lỗi build-time này.
 
-## What is Async Context?
+## Async Context Là Gì?
 
-[Async Context](https://github.com/tc39/proposal-async-context) is a way to pass data within the same call stack, even through asynchronous operations. This is very useful in Next.js, where functions like cookies or headers might be called from anywhere within a React component tree or other functions during React rendering.
+[Async Context](https://github.com/tc39/proposal-async-context) là một cách để truyền dữ liệu trong cùng một call stack, ngay cả qua các hoạt động bất đồng bộ. Điều này rất hữu ích trong Next.js, nơi các hàm như cookies hoặc headers có thể được gọi từ bất kỳ đâu trong cây React component hoặc các hàm khác trong quá trình render React.
 
-## Scenarios that can cause this to happen
+## Các Kịch Bản Có Thể Gây Ra Điều Này
 
-- The function was called inside of a `setTimeout` or `setInterval`, causing the value to be read outside of the call stack that the context was bound to.
-- The function was called after an async operation, but the promise wasn't awaited. This can cause the function to be called after the async operation has completed, resulting in a new execution context and loss of the original async context.
+- Hàm được gọi bên trong `setTimeout` hoặc `setInterval`, khiến giá trị được đọc bên ngoài call stack mà context đã được liên kết.
+- Hàm được gọi sau một hoạt động bất đồng bộ, nhưng promise không được await. Điều này có thể khiến hàm được gọi sau khi hoạt động bất đồng bộ đã hoàn thành, dẫn đến một execution context mới và mất async context ban đầu.
 
-### Example of Incorrect Usage
+### Ví Dụ Về Cách Sử Dụng Sai
 
 ```jsx filename="app/page.js"
 import { cookies } from 'next/headers'
@@ -25,7 +25,7 @@ import { cookies } from 'next/headers'
 async function getCookieData() {
   return new Promise((resolve) =>
     setTimeout(async () => {
-      // cookies will be called outside of the async context, causing a build-time error
+      // cookies sẽ được gọi bên ngoài async context, gây ra lỗi build-time
       const cookieStore = await cookies()
       resolve(cookieStore.getAll())
     }, 1000)
@@ -38,14 +38,14 @@ export default async function Page() {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-**Manage Execution Contexts Correctly:** JavaScript operations like `setTimeout`, `setInterval`, event handlers, and Promises create new execution contexts. You need to maintain the async context when using these operations. Some strategies include:
+**Quản Lý Execution Contexts Một Cách Chính Xác:** Các hoạt động JavaScript như `setTimeout`, `setInterval`, event handlers, và Promises tạo ra các execution contexts mới. Bạn cần duy trì async context khi sử dụng các hoạt động này. Một số chiến lược bao gồm:
 
-- Invoke the function that depends on the async context outside of the function that creates a new execution context.
-- Ensure that you await Promises that invoke a function that depends on async context, otherwise the function may be called after the async operation has completed.
+- Gọi hàm phụ thuộc vào async context bên ngoài hàm tạo ra execution context mới.
+- Đảm bảo rằng bạn await các Promises gọi một hàm phụ thuộc vào async context, nếu không hàm có thể được gọi sau khi hoạt động bất đồng bộ đã hoàn thành.
 
-### Example of Correct Usage
+### Ví Dụ Về Cách Sử Dụng Đúng
 
 ```jsx filename="app/page.js"
 import { cookies } from 'next/headers'

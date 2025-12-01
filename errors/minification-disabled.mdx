@@ -1,16 +1,16 @@
 ---
-title: Minification Disabled in Production
+title: Minification bị vô hiệu hóa trong Production
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Code optimization has been disabled for your **production build**.
-The `optimization.minimize` or `optimization.minimizer` was incorrectly overridden in `next.config.js`.
+Tối ưu hóa mã đã bị vô hiệu hóa cho **production build** của bạn.
+`optimization.minimize` hoặc `optimization.minimizer` đã bị ghi đè không chính xác trong `next.config.js`.
 
-This severely degrades your application's performance at runtime. It can also result in server-side-only code being downloaded by your users.
+Điều này làm giảm nghiêm trọng hiệu suất ứng dụng của bạn khi chạy. Nó cũng có thể dẫn đến việc mã server-side-only được tải xuống bởi người dùng của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Be sure your `next.config.js` has not modified `optimization.minimize` or `optimization.minimizer`.
+Hãy chắc chắn rằng `next.config.js` của bạn không sửa đổi `optimization.minimize` hoặc `optimization.minimizer`.
 
-You can file an issue on our GitHub if you do not understand why minification is being disabled by your `next.config.js`.
+Bạn có thể gửi một issue trên GitHub của chúng tôi nếu bạn không hiểu tại sao minification bị vô hiệu hóa bởi `next.config.js` của bạn.

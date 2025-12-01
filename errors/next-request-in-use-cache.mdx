@@ -1,16 +1,16 @@
 ---
-title: Cannot access `cookies()` or `headers()` in `"use cache"`
+title: Không thể truy cập `cookies()` hoặc `headers()` trong `"use cache"`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A function is trying to read from the current incoming request inside the scope of a function annotated with `"use cache"`. This is not supported because it would make the cache invalidated by every request which is probably not what you intended.
+Một function đang cố gắng đọc từ incoming request hiện tại bên trong scope của một function được chú thích với `"use cache"`. Điều này không được hỗ trợ vì nó sẽ làm cho cache bị invalidated bởi mỗi request, điều này có lẽ không phải là điều bạn dự định.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Instead of calling this inside the `"use cache"` function, move it outside the function and pass the value in as an argument. The specific value will now be part of the cache key through its arguments.
+Thay vì gọi điều này bên trong function `"use cache"`, hãy di chuyển nó ra ngoài function và truyền giá trị vào như một argument. Giá trị cụ thể bây giờ sẽ là một phần của cache key thông qua các arguments của nó.
 
-Before:
+Trước:
 
 ```jsx filename="app/page.js" highlight={5}
 import { cookies } from 'next/headers'
@@ -27,7 +27,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau:
 
 ```jsx filename="app/page.js" highlight={9}
 import { cookies } from 'next/headers'
@@ -44,8 +44,8 @@ export default async function Page() {
 }
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [`headers()` function](/docs/app/api-reference/functions/headers)
-- [`cookies()` function](/docs/app/api-reference/functions/cookies)
-- [`draftMode()` function](/docs/app/api-reference/functions/draft-mode)
+- [Function `headers()`](/docs/app/api-reference/functions/headers)
+- [Function `cookies()`](/docs/app/api-reference/functions/cookies)
+- [Function `draftMode()`](/docs/app/api-reference/functions/draft-mode)

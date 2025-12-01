@@ -1,22 +1,22 @@
 ---
-title: No Stylesheets In Head Component
+title: Không có Stylesheet trong Component Head
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A `<link rel="stylesheet">` tag was added using the `next/head` component.
+Một thẻ `<link rel="stylesheet">` đã được thêm bằng cách sử dụng component `next/head`.
 
-We don't recommend this pattern because it will potentially break when used with Suspense and/or streaming. In these contexts, `next/head` tags aren't:
+Chúng tôi không khuyến nghị mẫu này vì nó có khả năng bị lỗi khi sử dụng với Suspense và/hoặc streaming. Trong các ngữ cảnh này, các thẻ `next/head` không:
 
-- guaranteed to be included in the initial SSR response, so loading could be delayed until client-side rendering, regressing performance.
+- được đảm bảo được bao gồm trong phản hồi SSR ban đầu, vì vậy việc tải có thể bị trзадержка cho đến khi render phía client, làm giảm hiệu suất.
 
-- loaded in any particular order. The order that the app's Suspense boundaries resolve will determine the loading order of your stylesheets.
+- được tải theo bất kỳ thứ tự cụ thể nào. Thứ tự mà các ranh giới Suspense của ứng dụng được giải quyết sẽ xác định thứ tự tải của các stylesheet của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
 ### Document
 
-Add the stylesheet in a custom `Document` component.
+Thêm stylesheet trong component `Document` tùy chỉnh.
 
 ```jsx filename="pages/_document.js"
 import { Html, Head, Main, NextScript } from 'next/document'
@@ -36,8 +36,8 @@ export default function Document() {
 }
 ```
 
-Note that the functional syntax for `Document` above is preferred over the `class` syntax, so that it will be compatible with React Server Components down the line.
+Lưu ý rằng cú pháp hàm cho `Document` ở trên được ưu tiên hơn cú pháp `class`, để nó tương thích với React Server Components trong tương lai.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Custom Document](/docs/pages/building-your-application/routing/custom-document)

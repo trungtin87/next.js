@@ -1,26 +1,26 @@
 ---
-title: Export with Image Optimization API
+title: Export với Image Optimization API
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You configured `output: 'export'` (or ran `next export`) while importing the `next/image` component using the default `loader` configuration.
+Bạn đã cấu hình `output: 'export'` (hoặc chạy `next export`) trong khi import component `next/image` sử dụng cấu hình `loader` mặc định.
 
-However, the default `loader` relies on the Image Optimization API which is not available for exported applications.
+Tuy nhiên, `loader` mặc định dựa vào Image Optimization API không khả dụng cho các ứng dụng đã export.
 
-This is because Next.js optimizes images on-demand, as users request them (not at build time).
+Điều này là vì Next.js tối ưu hóa hình ảnh on-demand, khi người dùng yêu cầu chúng (không phải tại thời điểm build).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Use [`next start`](/docs/pages/api-reference/cli/next#next-start-options) to run a server, which includes the Image Optimization API.
-- Use any provider which supports Image Optimization (such as [Vercel](https://vercel.com)).
-- [Configure `loader`](/docs/pages/api-reference/components/image#loader) in `next.config.js`.
-- [Configure `unoptimized`](/docs/pages/api-reference/components/image#unoptimized) in `next.config.js`.
+- Sử dụng [`next start`](/docs/pages/api-reference/cli/next#next-start-options) để chạy một server, bao gồm Image Optimization API.
+- Sử dụng bất kỳ provider nào hỗ trợ Image Optimization (như [Vercel](https://vercel.com)).
+- [Cấu hình `loader`](/docs/pages/api-reference/components/image#loader) trong `next.config.js`.
+- [Cấu hình `unoptimized`](/docs/pages/api-reference/components/image#unoptimized) trong `next.config.js`.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Deployment Documentation](/docs/pages/getting-started/deploying)
-- [Image Optimization Documentation](/docs/pages/api-reference/components/image)
-- [`output: 'export'` Documentation](/docs/pages/guides/static-exports)
-- [`next/image` Documentation](/docs/pages/api-reference/components/image)
-- [Vercel Documentation](https://vercel.com/docs/concepts/next.js/image-optimization)
+- [Tài liệu Deployment](/docs/pages/getting-started/deploying)
+- [Tài liệu Image Optimization](/docs/pages/api-reference/components/image)
+- [Tài liệu `output: 'export'`](/docs/pages/guides/static-exports)
+- [Tài liệu `next/image`](/docs/pages/api-reference/components/image)
+- [Tài liệu Vercel](https://vercel.com/docs/concepts/next.js/image-optimization)

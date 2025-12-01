@@ -1,21 +1,21 @@
 ---
-title: Missing Env Value
+title: Thiếu giá trị Env
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In one of your pages you attempted to access an environment value that is not provided in the environment.
+Trong một trong các trang của bạn, bạn đã cố gắng truy cập một giá trị môi trường không được cung cấp trong môi trường.
 
-When accessing environment variables on the client they must be prefixed with `NEXT_PUBLIC_` to signify they are safe to be inlined for the client.
+Khi truy cập các biến môi trường trên client, chúng phải được thêm tiền tố `NEXT_PUBLIC_` để biểu thị rằng chúng an toàn để được inline cho client.
 
-When accessing environment variables on the server in `getStaticProps`, `getServerSideProps`, or an API route the value must be provided in the environment at runtime.
+Khi truy cập các biến môi trường trên server trong `getStaticProps`, `getServerSideProps`, hoặc một API route, giá trị phải được cung cấp trong môi trường tại thời điểm chạy (runtime).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Either remove the code accessing the env value, populate it in your `.env` file, or manually populate it in your environment before running `next dev` or `next build`.
+Hoặc xóa mã truy cập giá trị env, điền nó vào file `.env` của bạn, hoặc điền thủ công vào môi trường của bạn trước khi chạy `next dev` hoặc `next build`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [dotenv](https://npmjs.com/package/dotenv)
 - [dotenv-expand](https://npmjs.com/package/dotenv-expand)
-- [Environment Variables](https://en.wikipedia.org/wiki/Environment_variable)
+- [Biến Môi Trường](https://en.wikipedia.org/wiki/Environment_variable)

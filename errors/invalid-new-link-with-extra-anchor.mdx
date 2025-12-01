@@ -1,21 +1,21 @@
 ---
-title: 'Invalid `<Link>` with `<a>` child'
+title: `<Link>` không hợp lệ với con `<a>`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Starting with Next.js 13, `<Link>` renders as `<a>`, so attempting to use `<a>` as a child is invalid.
+Bắt đầu từ Next.js 13, `<Link>` render thành `<a>`, vì vậy việc cố gắng sử dụng `<a>` như một con là không hợp lệ.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Run the `new-link` codemod to automatically upgrade previous versions of Next.js to the new `<Link>` usage:
+Chạy codemod `new-link` để tự động nâng cấp các phiên bản trước của Next.js sang cách sử dụng `<Link>` mới:
 
 ```bash filename="Terminal"
 npx @next/codemod new-link .
 ```
 
-This will change `<Link><a id="link">Home</a></Link>` to `<Link id="link">Home</Link>`.
+Điều này sẽ thay đổi `<Link><a id="link">Home</a></Link>` thành `<Link id="link">Home</Link>`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [next/link](/docs/pages/api-reference/components/link)

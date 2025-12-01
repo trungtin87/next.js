@@ -1,18 +1,18 @@
 ---
-title: Images cannot be imported into your custom document.
+title: Hình ảnh không thể được import vào custom document của bạn.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-An attempt to import an image file into [`pages/_document.js`](/docs/pages/building-your-application/routing/custom-document) was made.
+Một nỗ lực import một file hình ảnh vào [`pages/_document.js`](/docs/pages/building-your-application/routing/custom-document) đã được thực hiện.
 
-Custom documents aren't compiled for the browser and images statically imported like this will not be displayed.
+Custom documents không được biên dịch cho trình duyệt và các hình ảnh được import tĩnh như thế này sẽ không được hiển thị.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-If your image needs to be displayed on every page you can relocate it to your [`pages/_app.js`](/docs/pages/building-your-application/routing/custom-app) file.
+Nếu hình ảnh của bạn cần được hiển thị trên mọi trang, bạn có thể di chuyển nó đến file [`pages/_app.js`](/docs/pages/building-your-application/routing/custom-app) của bạn.
 
-### Example
+### Ví dụ
 
 ```jsx filename="pages/_app.js"
 import yourImage from 'path/to/your/image'
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
 export default MyApp
 ```
 
-If your application is not using image imports with `next/image`, you can disable the built-in loader with the following `next.config.js`:
+Nếu ứng dụng của bạn không sử dụng image imports với `next/image`, bạn có thể vô hiệu hóa built-in loader với `next.config.js` sau:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -40,9 +40,9 @@ module.exports = {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Custom `Document`](/docs/pages/building-your-application/routing/custom-document)
 - [Custom `App`](/docs/pages/building-your-application/routing/custom-app)
-- [Static File Serving](/docs/pages/api-reference/file-conventions/public-folder)
-- [Disable Static Image Imports](/docs/pages/api-reference/components/image#disablestaticimages)
+- [Phục Vụ File Tĩnh](/docs/pages/api-reference/file-conventions/public-folder)
+- [Vô Hiệu Hóa Static Image Imports](/docs/pages/api-reference/components/image#disablestaticimages)

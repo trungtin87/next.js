@@ -1,21 +1,21 @@
 ---
-title: 'Must not access ServerResponse after `getServerSideProps` resolves'
+title: Không được truy cập ServerResponse sau khi `getServerSideProps` giải quyết
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`getServerSideProps()` surfaces a `ServerResponse` object through the `res` property of its `context` arg. This object is not intended to be accessed or changed after `getServerSideProps()` resolves.
+`getServerSideProps()` hiển thị một đối tượng `ServerResponse` thông qua thuộc tính `res` của đối số `context` của nó. Đối tượng này không được thiết kế để truy cập hoặc thay đổi sau khi `getServerSideProps()` giải quyết.
 
-This is because the framework tries to optimize when items like headers or status codes are flushed to the browser. If they are changed after `getServerSideProps()` completes, we can't guarantee that the changes will work.
+Điều này là do framework cố gắng tối ưu hóa khi các mục như headers hoặc mã trạng thái được đẩy (flushed) đến trình duyệt. Nếu chúng bị thay đổi sau khi `getServerSideProps()` hoàn thành, chúng tôi không thể đảm bảo rằng các thay đổi sẽ hoạt động.
 
-For this reason, accessing the object after this time is disallowed.
+Vì lý do này, việc truy cập đối tượng sau thời gian này bị cấm.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-You can fix this error by moving any access of the `res` object into `getServerSideProps()` itself or any functions that run before `getServerSideProps()` returns.
+Bạn có thể sửa lỗi này bằng cách di chuyển bất kỳ truy cập nào của đối tượng `res` vào chính `getServerSideProps()` hoặc bất kỳ hàm nào chạy trước khi `getServerSideProps()` trả về.
 
-If you’re using a custom server and running into this problem due to session proxy like `next-session` or `express-session`, try installing the proxy in the server instead of `getServerSideProps()`.
+Nếu bạn đang sử dụng một server tùy chỉnh và gặp vấn đề này do session proxy như `next-session` hoặc `express-session`, hãy thử cài đặt proxy trong server thay vì `getServerSideProps()`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Data Fetching Docs](/docs/pages/building-your-application/data-fetching)
+- [Tài liệu Data Fetching](/docs/pages/building-your-application/data-fetching)

@@ -2,18 +2,18 @@
 title: {{title}}
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-<!-- Explain why the error occurred. Ensure the description makes it clear why the warning/error exists -->
+<!-- Giải thích tại sao lỗi xảy ra. Đảm bảo mô tả làm rõ tại sao cảnh báo/lỗi tồn tại -->
 
 {{why}}
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-<!-- Explain how to fix the warning/error, potentially by providing alternative approaches. Ensure this section is actionable by users -->
+<!-- Giải thích cách khắc phục cảnh báo/lỗi, có thể bằng cách cung cấp các cách tiếp cận thay thế. Đảm bảo phần này có thể thực hiện được bởi người dùng -->
 
 {{fix}}
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-<!-- Add links to relevant documentation -->
+<!-- Thêm các liên kết đến tài liệu liên quan -->

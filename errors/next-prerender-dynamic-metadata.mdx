@@ -1,30 +1,30 @@
 ---
-title: Cannot access Request information or uncached data in `generateMetadata()` in an otherwise entirely static route
+title: Không thể truy cập thông tin Request hoặc dữ liệu uncached trong `generateMetadata()` trong một route hoàn toàn tĩnh
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When `cacheComponents` is enabled, Next.js requires that `generateMetadata()` not depend on uncached data or Request data unless some other part of the page also has similar requirements. The reason for this is that while you normally control your intention for what is allowed to be dynamic by adding or removing Suspense boundaries in your Layout and Page components you are not in control of rendering metadata itself.
+Khi `cacheComponents` được bật, Next.js yêu cầu rằng `generateMetadata()` không phụ thuộc vào dữ liệu uncached hoặc dữ liệu Request trừ khi một số phần khác của trang cũng có yêu cầu tương tự. Lý do cho điều này là trong khi bạn thường kiểm soát ý định của mình về những gì được phép động bằng cách thêm hoặc xóa các Suspense boundaries trong các Layout và Page components của bạn, bạn không kiểm soát việc render metadata.
 
-The heuristic Next.js uses to understand your intent with `generateMetadata()` is to look at the data requirements of the rest of the route. If other components depend on Request data or uncached data, then we allow `generateMetadata()` to have similar data requirements. If the rest of your page has no dependence on this type of data, we require that `generateMetadata()` also not have this type of data dependence.
+Heuristic mà Next.js sử dụng để hiểu ý định của bạn với `generateMetadata()` là xem xét các yêu cầu dữ liệu của phần còn lại của route. Nếu các components khác phụ thuộc vào dữ liệu Request hoặc dữ liệu uncached, thì chúng tôi cho phép `generateMetadata()` có các yêu cầu dữ liệu tương tự. Nếu phần còn lại của trang của bạn không phụ thuộc vào loại dữ liệu này, chúng tôi yêu cầu rằng `generateMetadata()` cũng không có sự phụ thuộc dữ liệu loại này.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-To fix this issue, you must first determine your goal for the affected route.
+Để khắc phục vấn đề này, trước tiên bạn phải xác định mục tiêu của mình cho route bị ảnh hưởng.
 
-### Caching External Data
+### Caching Dữ Liệu Bên Ngoài
 
-If your metadata does not depend on any request data, then it may be possible for you to indicate that the data is cacheable, which would allow Next.js to include it in the prerender for this route. Consider using `"use cache"` to mark the function producing the external data as cacheable.
+Nếu metadata của bạn không phụ thuộc vào bất kỳ request data nào, thì có thể bạn có thể chỉ ra rằng dữ liệu có thể cache được, điều này sẽ cho phép Next.js bao gồm nó trong prerender cho route này. Hãy xem xét sử dụng `"use cache"` để đánh dấu function tạo ra dữ liệu bên ngoài là có thể cache.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/.../page.tsx"
 import { cms } from './cms'
 
 export async function generateMetadata() {
-  // This data lookup is not cached at the moment so
-  // Next.js will interpret this as needing to be rendered
-  // on every request.
+  // Việc tra cứu dữ liệu này hiện không được cached nên
+  // Next.js sẽ hiểu điều này là cần được render
+  // trên mỗi request.
   const { title } = await cms.getPageData('/.../page')
   return {
     title,
@@ -38,21 +38,21 @@ async function getPageText() {
 }
 
 export default async function Page() {
-  // This text is cached so the main content of this route
-  // is prerenderable.
+  // Text này được cached nên nội dung chính của route này
+  // có thể prerender được.
   const text = await getPageText()
   return <article>{text}</article>
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/.../page.tsx"
 import { cms } from './cms'
 
 export async function generateMetadata() {
-  // By marking this function as cacheable, Next.js
-  // can now include it in the prerender for this route.
+  // Bằng cách đánh dấu function này là có thể cache, Next.js
+  // bây giờ có thể bao gồm nó trong prerender cho route này.
   'use cache'
   const { title } = await cms.getPageData('/.../page')
   return {
@@ -67,27 +67,27 @@ async function getPageText() {
 }
 
 export default async function Page() {
-  // This text is cached so the main content of this route
-  // is prerenderable.
+  // Text này được cached nên nội dung chính của route này
+  // có thể prerender được.
   const text = await getPageText()
   return <article>{text}</article>
 }
 ```
 
-### If you must access Request Data or your external data is uncacheable
+### Nếu bạn phải truy cập Request Data hoặc dữ liệu bên ngoài của bạn không thể cache
 
-If your metadata requires Request data or depends on external data which is not cacheable then Next.js will need to render this page dynamically on every request. However if you got this error, the rest of your page is able to be completely static. This is generally pretty rare, but if this is your actual constraint, you can indicate to Next.js that the page should be allowed to be dynamic by rendering any other component that is dynamic. Since your route doesn't have any genuine need for Request data, you can indicate an intentional dependency on a Request with `await connection()`. This is like telling Next.js that this component is never prerenderable and must be rendered on every user request.
+Nếu metadata của bạn yêu cầu Request data hoặc phụ thuộc vào dữ liệu bên ngoài không thể cache thì Next.js sẽ cần render trang này động trên mỗi request. Tuy nhiên nếu bạn gặp lỗi này, phần còn lại của trang của bạn có thể hoàn toàn tĩnh. Điều này thường khá hiếm, nhưng nếu đây là ràng buộc thực tế của bạn, bạn có thể chỉ ra cho Next.js rằng trang nên được phép động bằng cách render bất kỳ component nào khác là động. Vì route của bạn không có nhu cầu thực sự về Request data, bạn có thể chỉ ra sự phụ thuộc có chủ ý vào một Request với `await connection()`. Điều này giống như nói với Next.js rằng component này không bao giờ có thể prerender được và phải được render trên mỗi request của người dùng.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/.../page.tsx"
 import { cookies } from 'next/headers'
 import { getPersonalizedTitle } from './my-api'
 
 export async function generateMetadata() {
-  // In this example, we are assuming we must fetch our title
-  // from a protected external API. While the response is potentially
-  // cacheable, the it still requires accessing a token from the Request cookies.
+  // Trong ví dụ này, chúng ta giả định rằng chúng ta phải fetch title của mình
+  // từ một external API được bảo vệ. Mặc dù response có thể
+  // cache được, nó vẫn yêu cầu truy cập token từ Request cookies.
   const token = (await cookies()).get('token')
   const response = await getPersonalizedTitle(token)
   return {
@@ -100,7 +100,7 @@ export default function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/.../page.tsx"
 import { Suspense } from 'react'
@@ -116,8 +116,8 @@ export async function generateMetadata() {
 }
 
 async function DynamicMarker() {
-  // This component renders nothing, but it will always
-  // be dynamic because it waits for an actual connection.
+  // Component này không render gì, nhưng nó sẽ luôn
+  // là động vì nó chờ một connection thực tế.
   const Connection = async () => {
     await connection()
     return null
@@ -133,17 +133,17 @@ export default function Page() {
   return (
     <>
       <article>This article is completely static</article>
-      {/* Rendering this DynamicMarker component tells Next.js that
-          this Page has some dynamic content. */}
+      {/* Việc render DynamicMarker component này nói với Next.js rằng
+          Page này có một số nội dung động. */}
       <DynamicMarker />
     </>
   )
 }
 ```
 
-Note: The reason to structure this `DynamicMarker` as a self-contained Suspense boundary is to avoid blocking the actual content of the page from being prerendered. When Partial Prerendering is enabled alongside `cacheComponents`, the static shell will still contain all of the prerenderable content, and only the metadata will stream in dynamically.
+Lưu ý: Lý do để cấu trúc `DynamicMarker` này như một Suspense boundary độc lập là để tránh chặn nội dung thực tế của trang khỏi việc được prerender. Khi Partial Prerendering được bật cùng với `cacheComponents`, static shell vẫn sẽ chứa tất cả nội dung có thể prerender được, và chỉ metadata sẽ stream vào động.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [`generateMetadata()`](/docs/app/api-reference/functions/generate-metadata)
 - [`connection()`](/docs/app/api-reference/functions/connection)

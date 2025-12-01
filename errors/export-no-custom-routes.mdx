@@ -2,21 +2,21 @@
 title: Export Custom Routes
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In your `next.config.js` you defined `rewrites`, `redirects`, or `headers` along with `output: 'export'` (or you ran `next export`).
+Trong `next.config.js` của bạn, bạn đã định nghĩa `rewrites`, `redirects`, hoặc `headers` cùng với `output: 'export'` (hoặc bạn đã chạy `next export`).
 
-These configs do not apply when exporting your Next.js application manually.
+Các cấu hình này không áp dụng khi export ứng dụng Next.js của bạn thủ công.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Remove `rewrites`, `redirects`, and `headers` from your `next.config.js` to disable these features or
-- Remove `output: 'export'` (or `next export`) in favor of [`next start`](/docs/pages/api-reference/cli/next#next-start-options) to run a production server
+- Xóa `rewrites`, `redirects`, và `headers` khỏi `next.config.js` của bạn để vô hiệu hóa các tính năng này hoặc
+- Xóa `output: 'export'` (hoặc `next export`) để ưu tiên [`next start`](/docs/pages/api-reference/cli/next#next-start-options) để chạy một production server
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Deployment Documentation](/docs/pages/getting-started/deploying)
-- [`output: 'export'` Documentation](/docs/pages/guides/static-exports)
-- [Rewrites Documentation](/docs/pages/api-reference/config/next-config-js/rewrites)
-- [Redirects Documentation](/docs/pages/api-reference/config/next-config-js/redirects)
-- [Headers Documentation](/docs/pages/api-reference/config/next-config-js/headers)
+- [Tài liệu Deployment](/docs/pages/getting-started/deploying)
+- [Tài liệu `output: 'export'`](/docs/pages/guides/static-exports)
+- [Tài liệu Rewrites](/docs/pages/api-reference/config/next-config-js/rewrites)
+- [Tài liệu Redirects](/docs/pages/api-reference/config/next-config-js/redirects)
+- [Tài liệu Headers](/docs/pages/api-reference/config/next-config-js/headers)

@@ -1,16 +1,16 @@
 ---
-title: '`popstate` called with empty state'
+title: '`popstate` được gọi với state rỗng'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When using the browser back button the popstate event is triggered. Next.js sees a
-`popstate` event being triggered but `event.state` did not have `url` or `as`, causing a route change failure.
+Khi sử dụng nút back của trình duyệt, sự kiện popstate được kích hoạt. Next.js thấy một
+sự kiện `popstate` được kích hoạt nhưng `event.state` không có `url` hoặc `as`, gây ra lỗi thay đổi route.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-The only known cause of this issue is manually manipulating `window.history` instead of using `next/router`. Starting from version 9.5, Next.js will ignore `popstate` events that contain `event.state` not created by its own router.
+Nguyên nhân duy nhất được biết đến của vấn đề này là thao tác thủ công `window.history` thay vì sử dụng `next/router`. Bắt đầu từ phiên bản 9.5, Next.js sẽ bỏ qua các sự kiện `popstate` có chứa `event.state` không được tạo bởi router của chính nó.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [The issue this was reported in: #4994](https://github.com/vercel/next.js/issues/4994)
+- [Issue mà điều này được báo cáo: #4994](https://github.com/vercel/next.js/issues/4994)

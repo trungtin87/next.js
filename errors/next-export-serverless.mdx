@@ -1,11 +1,11 @@
 ---
-title: 'Using `next export` with `target` not set to `server`'
+title: Sử dụng `next export` với `target` không được đặt thành `server`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Next.js can only handle exporting when the `target` is set to `server` (this is the default value). A serverless build, for instance, has no handler for requests–this is usually implemented by a hosting provider.
+Next.js chỉ có thể xử lý export khi `target` được đặt thành `server` (đây là giá trị mặc định). Một serverless build, chẳng hạn, không có handler cho các request–điều này thường được triển khai bởi nhà cung cấp hosting.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Change `target` to `server`, run `next build`, then run `next export` again.
+Thay đổi `target` thành `server`, chạy `next build`, sau đó chạy `next export` lại.

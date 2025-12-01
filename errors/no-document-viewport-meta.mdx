@@ -1,15 +1,15 @@
 ---
-title: 'Viewport `meta` tags should not be used in `_document.js` `<Head>`'
+title: Thẻ `meta` Viewport không nên được sử dụng trong `<Head>` của `_document.js`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Adding `<meta name="viewport" ...>` in `pages/_document.js` will lead to unexpected results since it cannot be deduped.
-The viewport tag should be handled by `next/head` in `pages/_app.js`.
+Thêm `<meta name="viewport" ...>` trong `pages/_document.js` sẽ dẫn đến kết quả không mong muốn vì nó không thể được dedup.
+Thẻ viewport nên được xử lý bởi `next/head` trong `pages/_app.js`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Set your viewport `meta` tag in `pages/_app.js` instead:
+Đặt thẻ `meta` viewport của bạn trong `pages/_app.js` thay thế:
 
 ```jsx filename="pages/_app.js"
 import Head from 'next/head'
@@ -28,6 +28,6 @@ function MyApp({ Component, pageProps }) {
 export default MyApp
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Issue #13230](https://github.com/vercel/next.js/issues/13230), which led to the creation of this warning.
+- [Issue #13230](https://github.com/vercel/next.js/issues/13230), dẫn đến việc tạo ra cảnh báo này.

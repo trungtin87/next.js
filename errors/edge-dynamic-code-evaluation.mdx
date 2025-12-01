@@ -1,20 +1,20 @@
 ---
-title: Dynamic code evaluation is not available in Proxy
+title: Đánh giá mã động không khả dụng trong Proxy
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`eval()`, `new Function()` or compiling WASM binaries dynamically is not allowed in Proxy.
-Specifically, the following APIs are not supported:
+`eval()`, `new Function()` hoặc biên dịch WASM binaries động không được phép trong Proxy.
+Cụ thể, các APIs sau không được hỗ trợ:
 
 - `eval()`
 - `new Function()`
 - `WebAssembly.compile`
-- `WebAssembly.instantiate` with [a buffer parameter](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate#primary_overload_%E2%80%94_taking_wasm_binary_code)
+- `WebAssembly.instantiate` với [một tham số buffer](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate#primary_overload_%E2%80%94_taking_wasm_binary_code)
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-You can bundle your WASM binaries using `import`:
+Bạn có thể bundle các WASM binaries của mình bằng cách sử dụng `import`:
 
 ```ts filename="proxy.ts"
 import { NextResponse } from 'next/server'
@@ -30,18 +30,18 @@ export default async function proxy() {
 }
 ```
 
-In rare cases, your code could contain (or import) some dynamic code evaluation statements which _can not be reached at runtime_ and which can not be removed by tree-shaking.
-You can relax the check to allow specific files with your Proxy [configuration](/docs/pages/api-reference/edge#unsupported-apis):
+Trong một số trường hợp hiếm hoi, mã của bạn có thể chứa (hoặc import) một số câu lệnh đánh giá mã động mà _không thể truy cập được khi chạy (runtime)_ và không thể bị loại bỏ bởi tree-shaking.
+Bạn có thể nới lỏng kiểm tra để cho phép các file cụ thể với [cấu hình Proxy](/docs/pages/api-reference/edge#unsupported-apis) của bạn:
 
 ```ts filename="pages/api/example.ts"
 export const config = {
   unstable_allowDynamic: [
-    '/lib/utilities.js', // allows a single file
-    '**/node_modules/function-bind/**', // use a glob to allow anything in the function-bind 3rd party module
+    '/lib/utilities.js', // cho phép một file duy nhất
+    '**/node_modules/function-bind/**', // sử dụng glob để cho phép bất cứ thứ gì trong module bên thứ 3 function-bind
   ],
 }
 ```
 
-`unstable_allowDynamic` is a glob, or an array of globs, ignoring dynamic code evaluation for specific files. The globs are relative to your application root folder.
+`unstable_allowDynamic` là một glob, hoặc một mảng các globs, bỏ qua đánh giá mã động cho các file cụ thể. Các globs là tương đối với thư mục gốc ứng dụng của bạn.
 
-Be warned that if these statements are executed on the Edge, _they will throw and cause a runtime error_.
+Hãy cảnh báo rằng nếu các câu lệnh này được thực thi trên Edge, _chúng sẽ ném ra lỗi và gây ra lỗi runtime_.

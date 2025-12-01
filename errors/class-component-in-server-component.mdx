@@ -1,16 +1,16 @@
 ---
-title: React Class component rendered in a Server Component
+title: React Class component được render trong một Server Component
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are rendering a React Class Component in a Server Component, `React.Component` and `React.PureComponent` only works in Client Components.
+Bạn đang render một React Class Component trong một Server Component, `React.Component` và `React.PureComponent` chỉ hoạt động trong Client Components.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Use a Function Component.
+Sử dụng một Function Component.
 
-### Before
+### Trước
 
 ```jsx filename="app/page.js"
 export default class Page extends React.Component {
@@ -20,7 +20,7 @@ export default class Page extends React.Component {
 }
 ```
 
-### After
+### Sau
 
 ```jsx filename="app/page.js"
 export default function Page() {
@@ -28,9 +28,9 @@ export default function Page() {
 }
 ```
 
-Mark the component rendering the React Class Component as a Client Component by adding `'use client'` at the top of the file.
+Đánh dấu component render React Class Component là một Client Component bằng cách thêm `'use client'` ở đầu file.
 
-### Before
+### Trước
 
 ```jsx filename="app/page.js"
 export default class Page extends React.Component {
@@ -40,7 +40,7 @@ export default class Page extends React.Component {
 }
 ```
 
-### After
+### Sau
 
 ```jsx filename="app/page.js"
 'use client'
@@ -52,6 +52,6 @@ export default class Page extends React.Component {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Server Components](/docs/app/getting-started/server-and-client-components)

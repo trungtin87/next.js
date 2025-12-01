@@ -1,26 +1,26 @@
 ---
-title: Sharp Version Does Not Support AVIF
+title: Phiên Bản Sharp Không Hỗ Trợ AVIF
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The `next/image` component's default loader uses [`sharp`](https://www.npmjs.com/package/sharp) if its installed.
+Loader mặc định của component `next/image` sử dụng [`sharp`](https://www.npmjs.com/package/sharp) nếu nó được cài đặt.
 
-You are seeing this error because you have an outdated version of [`sharp`](https://www.npmjs.com/package/sharp) installed that does not support the AVIF image format.
+Bạn đang thấy lỗi này vì bạn đã cài đặt một phiên bản [`sharp`](https://www.npmjs.com/package/sharp) lỗi thời không hỗ trợ định dạng hình ảnh AVIF.
 
-AVIF support was added to [`sharp`](https://www.npmjs.com/package/sharp) in version 0.27.0 (December 2020) so your installed version is likely older.
+Hỗ trợ AVIF đã được thêm vào [`sharp`](https://www.npmjs.com/package/sharp) trong phiên bản 0.27.0 (tháng 12 năm 2020) vì vậy phiên bản đã cài đặt của bạn có thể cũ hơn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Install the latest version of `sharp` by running `npm i sharp@latest` in your project directory
-- If you're using the `NEXT_SHARP_PATH` environment variable, then update the `sharp` install referenced in that path, for example `cd "$NEXT_SHARP_PATH/../" && npm i sharp@latest`
-- If you cannot upgrade `sharp`, you can instead disable AVIF by configuring [`formats`](/docs/pages/api-reference/components/image#formats) in your `next.config.js`
+- Cài đặt phiên bản mới nhất của `sharp` bằng cách chạy `npm i sharp@latest` trong thư mục dự án của bạn
+- Nếu bạn đang sử dụng biến môi trường `NEXT_SHARP_PATH`, hãy cập nhật bản cài đặt `sharp` được tham chiếu trong đường dẫn đó, ví dụ `cd "$NEXT_SHARP_PATH/../" && npm i sharp@latest`
+- Nếu bạn không thể nâng cấp `sharp`, bạn có thể vô hiệu hóa AVIF bằng cách cấu hình [`formats`](/docs/pages/api-reference/components/image#formats) trong `next.config.js` của bạn
 
-After choosing an option above, reboot the server by running either `next dev` or `next start` for development or production respectively.
+Sau khi chọn một tùy chọn ở trên, khởi động lại server bằng cách chạy `next dev` hoặc `next start` cho development hoặc production tương ứng.
 
-> **Note**: This is not necessary for Vercel deployments, since `sharp` is installed automatically for you.
+> **Lưu ý**: Điều này không cần thiết cho deployments trên Vercel, vì `sharp` được cài đặt tự động cho bạn.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Image Optimization Documentation](/docs/pages/api-reference/components/image)
-- [`next/image` Documentation](/docs/pages/api-reference/components/image)
+- [Tài liệu Image Optimization](/docs/pages/api-reference/components/image)
+- [Tài liệu `next/image`](/docs/pages/api-reference/components/image)

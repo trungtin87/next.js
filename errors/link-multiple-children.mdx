@@ -1,12 +1,12 @@
 ---
-title: 'Multiple children were passed to `<Link>`'
+title: Nhiều con đã được truyền vào `<Link>`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In your application code multiple children were passed to `next/link` but only one child is supported:
+Trong mã ứng dụng của bạn, nhiều con đã được truyền vào `next/link` nhưng chỉ hỗ trợ một con:
 
-For example:
+Ví dụ:
 
 ```jsx filename="example.js"
 import Link from 'next/link'
@@ -21,9 +21,9 @@ export default function Home() {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure only one child is used when using `<Link>`:
+Đảm bảo chỉ sử dụng một con khi sử dụng `<Link>`:
 
 ```jsx filename="example.js"
 import Link from 'next/link'
@@ -37,6 +37,6 @@ export default function Home() {
 }
 ```
 
-> **Good to know**:
+> **Thông tin hữu ích**:
 >
-> - As on Next.js 13.0, `<Link>` no longer requires a child `<a>` tag. A [codemod](/docs/app/guides/upgrading/codemods#remove-a-tags-from-link-components) is provided to automatically update your codebase.
+> - Kể từ Next.js 13.0, `<Link>` không còn yêu cầu thẻ con `<a>`. Một [codemod](/docs/app/guides/upgrading/codemods#remove-a-tags-from-link-components) được cung cấp để tự động cập nhật codebase của bạn.

@@ -1,15 +1,15 @@
 ---
-title: 'Circular structure in `getInitialProps` result'
+title: 'Cấu trúc vòng trong kết quả `getInitialProps`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`getInitialProps` is serialized to JSON using `JSON.stringify` and sent to the client side for hydrating the page.
+`getInitialProps` được serialize thành JSON bằng cách sử dụng `JSON.stringify` và gửi đến phía client để hydrate trang.
 
-However, the result returned from `getInitialProps` can't be serialized when it has a circular structure.
+Tuy nhiên, kết quả trả về từ `getInitialProps` không thể được serialize khi nó có cấu trúc vòng (circular structure).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Circular structures are not supported, so the way to fix this error is removing the circular structure from the object that is returned from `getInitialProps`.
+Các cấu trúc vòng không được hỗ trợ, vì vậy cách để khắc phục lỗi này là loại bỏ cấu trúc vòng khỏi object được trả về từ `getInitialProps`.
 
-For example, the `req` instance exposed is a circular object and can not be serialized, instead the specific fields such as relevant headers on the instance should be passed specifically.
+Ví dụ, instance `req` được expose là một object vòng và không thể được serialize, thay vào đó các trường cụ thể như các headers liên quan trên instance nên được truyền cụ thể.

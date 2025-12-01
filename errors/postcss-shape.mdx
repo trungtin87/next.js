@@ -1,22 +1,22 @@
 ---
-title: Invalid PostCSS Configuration
+title: Cấu Hình PostCSS Không Hợp Lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-PostCSS configuration was provided in an unsupported shape.
+Cấu hình PostCSS được cung cấp ở dạng không được hỗ trợ.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-PostCSS configuration must be defined in the following shape:
+Cấu hình PostCSS phải được định nghĩa theo dạng sau:
 
 ```js filename="postcss.config.js"
 module.exports = {
   plugins: [
-    // A plugin that does not require configuration:
+    // Một plugin không yêu cầu cấu hình:
     'simple-plugin-example',
 
-    // A plugin which needs a configuration object:
+    // Một plugin cần một đối tượng cấu hình:
     [
       'plugin-with-configuration',
       {
@@ -24,7 +24,7 @@ module.exports = {
       },
     ],
 
-    // A plugin that is toggled on or off based on environment:
+    // Một plugin được bật hoặc tắt dựa trên môi trường:
     [
       'plugin-toggled',
       process.env.NODE_ENV === 'production'
@@ -34,18 +34,18 @@ module.exports = {
         : false,
     ],
 
-    // Boolean expressions are also valid.
-    // `true` enables the plugin, `false` disables the plugin:
+    // Biểu thức Boolean cũng hợp lệ.
+    // `true` bật plugin, `false` tắt plugin:
     ['plugin-toggled-2', true /* a === b, etc */],
   ],
 }
 ```
 
-You can [read more about configuring PostCSS in Next.js here](/docs/pages/guides/post-css).
+Bạn có thể [đọc thêm về cấu hình PostCSS trong Next.js tại đây](/docs/pages/guides/post-css).
 
-### Common Errors
+### Các Lỗi Phổ Biến
 
-**Before: plugin is require()'d**
+**Trước: plugin được require()'d**
 
 ```js filename="postcss.config.js"
 const pluginA = require('postcss-plugin-a')
@@ -54,7 +54,7 @@ module.exports = {
 }
 ```
 
-**After**
+**Sau**
 
 ```js filename="postcss.config.js"
 module.exports = {
@@ -64,7 +64,7 @@ module.exports = {
 
 ---
 
-**Before: plugin is instantiated with configuration**
+**Trước: plugin được khởi tạo với cấu hình**
 
 ```js filename="postcss.config.js"
 module.exports = {
@@ -76,13 +76,13 @@ module.exports = {
 }
 ```
 
-**After**
+**Sau**
 
 ```js filename="postcss.config.js"
 module.exports = {
   plugins: [
-    // Pay attention to this nested array. The first index is the plugin name,
-    // the second index is the configuration.
+    // Chú ý đến mảng lồng nhau này. Index đầu tiên là tên plugin,
+    // index thứ hai là cấu hình.
     [
       'postcss-plugin',
       {
@@ -95,7 +95,7 @@ module.exports = {
 
 ---
 
-**Before: plugin is missing configuration**
+**Trước: plugin thiếu cấu hình**
 
 ```js filename="postcss.config.js"
 module.exports = {
@@ -106,14 +106,14 @@ module.exports = {
         optionA: '...',
       },
     ],
-    // This single-entry array is detected as misconfigured because it's
-    // missing the second element. To fix, unwrap the value.
+    // Mảng một phần tử này được phát hiện là cấu hình sai vì nó
+    // thiếu phần tử thứ hai. Để sửa, hãy unwrap giá trị.
     ['postcss-plugin-2'],
   ],
 }
 ```
 
-**After**
+**Sau**
 
 ```js filename="postcss.config.js"
 module.exports = {
@@ -124,7 +124,7 @@ module.exports = {
         optionA: '...',
       },
     ],
-    // Only string:
+    // Chỉ chuỗi:
     'postcss-plugin-2',
   ],
 }

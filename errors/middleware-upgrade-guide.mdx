@@ -1,58 +1,58 @@
 ---
-title: Middleware Upgrade Guide
+title: Hướng dẫn Nâng cấp Middleware
 ---
 
-As we work on improving Middleware for General Availability (GA), we've made some changes to the Middleware APIs (and how you define Middleware in your application) based on your feedback.
+Khi chúng tôi làm việc để cải thiện Middleware cho General Availability (GA), chúng tôi đã thực hiện một số thay đổi đối với API Middleware (và cách bạn định nghĩa Middleware trong ứng dụng của mình) dựa trên phản hồi của bạn.
 
-This upgrade guide will help you understand the changes, why they were made, and how to migrate your existing Middleware to the new API. The guide is for Next.js developers who:
+Hướng dẫn nâng cấp này sẽ giúp bạn hiểu các thay đổi, lý do tại sao chúng được thực hiện và cách di chuyển Middleware hiện có của bạn sang API mới. Hướng dẫn này dành cho các nhà phát triển Next.js, những người:
 
-- Currently use the beta Next.js Middleware features
-- Choose to upgrade to the next stable version of Next.js (`v12.2`)
+- Hiện đang sử dụng các tính năng beta Next.js Middleware
+- Chọn nâng cấp lên phiên bản ổn định tiếp theo của Next.js (`v12.2`)
 
-You can start upgrading your Middleware usage today with the latest release (`npm i next@latest`).
+Bạn có thể bắt đầu nâng cấp việc sử dụng Middleware của mình ngay hôm nay với bản phát hành mới nhất (`npm i next@latest`).
 
-> **Note**: These changes described in this guide are included in Next.js `12.2`. You can keep your current site structure, including nested Middleware, until you move to `12.2` (or a `canary` build of Next.js).
+> **Lưu ý**: Những thay đổi được mô tả trong hướng dẫn này được bao gồm trong Next.js `12.2`. Bạn có thể giữ cấu trúc trang web hiện tại của mình, bao gồm cả Middleware lồng nhau, cho đến khi bạn chuyển sang `12.2` (hoặc bản build `canary` của Next.js).
 
-If you have ESLint configured, you will need to run `npm i eslint-config-next@latest --save-dev` to upgrade your ESLint configuration to ensure the same version is being used as the Next.js version. You might also need to restart VSCode for the changes to take effect.
+Nếu bạn đã cấu hình ESLint, bạn sẽ cần chạy `npm i eslint-config-next@latest --save-dev` để nâng cấp cấu hình ESLint của mình nhằm đảm bảo phiên bản tương tự đang được sử dụng như phiên bản Next.js. Bạn cũng có thể cần khởi động lại VSCode để các thay đổi có hiệu lực.
 
-## Using Next.js Middleware on Vercel
+## Sử dụng Next.js Middleware trên Vercel
 
-If you're using Next.js on Vercel, your existing deploys using Middleware will continue to work, and you can continue to deploy your site using Middleware. When you upgrade your site to the next stable version of Next.js (`v12.2`), you will need to follow this upgrade guide to update your Middleware.
+Nếu bạn đang sử dụng Next.js trên Vercel, các bản deploy hiện tại của bạn sử dụng Middleware sẽ tiếp tục hoạt động và bạn có thể tiếp tục deploy trang web của mình bằng Middleware. Khi bạn nâng cấp trang web của mình lên phiên bản ổn định tiếp theo của Next.js (`v12.2`), bạn sẽ cần làm theo hướng dẫn nâng cấp này để cập nhật Middleware của mình.
 
-## Breaking changes
+## Các thay đổi phá vỡ (Breaking changes)
 
-1. [No Nested Middleware](#no-nested-middleware)
-2. [No Response Body](#no-response-body)
-3. [Cookies API Revamped](#cookies-api-revamped)
-4. [New User-Agent Helper](#new-user-agent-helper)
-5. [No More Page Match Data](#no-more-page-match-data)
-6. [Executing Middleware on Internal Next.js Requests](#executing-middleware-on-internal-nextjs-requests)
+1. [Không có Middleware lồng nhau](#no-nested-middleware)
+2. [Không có Body phản hồi](#no-response-body)
+3. [Cookies API được cải tiến](#cookies-api-revamped)
+4. [User-Agent Helper mới](#new-user-agent-helper)
+5. [Không còn dữ liệu khớp trang (Page Match Data)](#no-more-page-match-data)
+6. [Thực thi Middleware trên các yêu cầu nội bộ của Next.js](#executing-middleware-on-internal-nextjs-requests)
 
-## No Nested Middleware
+## Không có Middleware lồng nhau
 
-### Summary of changes
+### Tóm tắt các thay đổi
 
-- Define a single Middleware file next to your `pages` folder
-- No need to prefix the file with an underscore
-- A custom matcher can be used to define matching routes using an exported config object
+- Định nghĩa một file Middleware duy nhất bên cạnh thư mục `pages` của bạn
+- Không cần thêm tiền tố gạch dưới cho file
+- Một matcher tùy chỉnh có thể được sử dụng để định nghĩa các route khớp bằng cách sử dụng một đối tượng config được export
 
-### Explanation
+### Giải thích
 
-Previously, you could create a `_middleware.ts` file under the `pages` directory at any level. Middleware execution was based on the file path where it was created.
+Trước đây, bạn có thể tạo một file `_middleware.ts` dưới thư mục `pages` ở bất kỳ cấp độ nào. Việc thực thi Middleware dựa trên đường dẫn file nơi nó được tạo.
 
-Based on customer feedback, we have replaced this API with a single root Middleware, which provides the following improvements:
+Dựa trên phản hồi của khách hàng, chúng tôi đã thay thế API này bằng một Middleware gốc duy nhất, cung cấp các cải tiến sau:
 
-- **Faster execution with lower latency**: With nested Middleware, a single request could invoke multiple Middleware functions. A single Middleware means a single function execution, which is more efficient.
-- **Less expensive**: Middleware usage is billed per invocation. Using nested Middleware, a single request could invoke multiple Middleware functions, meaning multiple Middleware charges per request. A single Middleware means a single invocation per request and is more cost effective.
-- **Middleware can conveniently filter on things besides routes**: With nested Middleware, the Middleware files were located in the `pages` directory and Middleware was executed based on request paths. By moving to a single root Middleware, you can still execute code based on request paths, but you can now more conveniently execute Middleware based on other conditions, like `cookies` or the presence of a request header.
-- **Deterministic execution ordering**: With nested Middleware, a single request could match multiple Middleware functions. For example, a request to `/dashboard/users/*` would invoke Middleware defined in both `/dashboard/users/_middleware.ts` and `/dashboard/_middleware.js`. However, the execution order is difficult to reason about. Moving to a single, root Middleware more explicitly defines execution order.
-- **Supports Next.js Layouts (RFC)**: Moving to a single, root Middleware helps support the new [Layouts (RFC) in Next.js](/blog/layouts-rfc).
+- **Thực thi nhanh hơn với độ trễ thấp hơn**: Với Middleware lồng nhau, một yêu cầu duy nhất có thể gọi nhiều hàm Middleware. Một Middleware duy nhất có nghĩa là một lần thực thi hàm duy nhất, hiệu quả hơn.
+- **Ít tốn kém hơn**: Việc sử dụng Middleware được tính phí cho mỗi lần gọi. Sử dụng Middleware lồng nhau, một yêu cầu duy nhất có thể gọi nhiều hàm Middleware, nghĩa là nhiều khoản phí Middleware cho mỗi yêu cầu. Một Middleware duy nhất có nghĩa là một lần gọi cho mỗi yêu cầu và tiết kiệm chi phí hơn.
+- **Middleware có thể lọc thuận tiện trên những thứ ngoài routes**: Với Middleware lồng nhau, các file Middleware được đặt trong thư mục `pages` và Middleware được thực thi dựa trên đường dẫn yêu cầu. Bằng cách chuyển sang một Middleware gốc duy nhất, bạn vẫn có thể thực thi mã dựa trên đường dẫn yêu cầu, nhưng giờ đây bạn có thể thực thi Middleware thuận tiện hơn dựa trên các điều kiện khác, như `cookies` hoặc sự hiện diện của một header yêu cầu.
+- **Thứ tự thực thi xác định**: Với Middleware lồng nhau, một yêu cầu duy nhất có thể khớp với nhiều hàm Middleware. Ví dụ: một yêu cầu đến `/dashboard/users/*` sẽ gọi Middleware được định nghĩa trong cả `/dashboard/users/_middleware.ts` và `/dashboard/_middleware.js`. Tuy nhiên, thứ tự thực thi rất khó để suy luận. Chuyển sang một Middleware gốc duy nhất xác định thứ tự thực thi rõ ràng hơn.
+- **Hỗ trợ Next.js Layouts (RFC)**: Chuyển sang một Middleware gốc duy nhất giúp hỗ trợ [Layouts (RFC) mới trong Next.js](/blog/layouts-rfc).
 
-### How to upgrade
+### Cách nâng cấp
 
-You should declare **one single Middleware file** in your application, which should be located next to the `pages` directory and named **without** an `_` prefix. Your Middleware file can still have either a `.ts` or `.js` extension.
+Bạn nên khai báo **một file Middleware duy nhất** trong ứng dụng của mình, file này nên được đặt bên cạnh thư mục `pages` và được đặt tên **không có** tiền tố `_`. File Middleware của bạn vẫn có thể có phần mở rộng `.ts` hoặc `.js`.
 
-Middleware will be invoked for **every route in the app**, and a custom matcher can be used to define matching filters. The following is an example for a Middleware that triggers for `/about/*` and `/dashboard/:path*`, the custom matcher is defined in an exported config object:
+Middleware sẽ được gọi cho **mọi route trong ứng dụng**, và một matcher tùy chỉnh có thể được sử dụng để định nghĩa các bộ lọc khớp. Sau đây là ví dụ cho một Middleware kích hoạt cho `/about/*` và `/dashboard/:path*`, matcher tùy chỉnh được định nghĩa trong một đối tượng config được export:
 
 ```ts filename="middleware.ts"
 import { NextResponse } from 'next/server'
@@ -62,19 +62,19 @@ export function middleware(request: NextRequest) {
   return NextResponse.rewrite(new URL('/about-2', request.url))
 }
 
-// Supports both a single string value or an array of matchers
+// Hỗ trợ cả giá trị chuỗi đơn hoặc mảng các matchers
 export const config = {
   matcher: ['/about/:path*', '/dashboard/:path*'],
 }
 ```
 
-The matcher config also allows full regex so matching like negative lookaheads or character matching is supported. An example of a negative lookahead to match all except specific paths can be seen here:
+Cấu hình matcher cũng cho phép regex đầy đủ để việc khớp như negative lookaheads hoặc khớp ký tự được hỗ trợ. Một ví dụ về negative lookahead để khớp tất cả ngoại trừ các đường dẫn cụ thể có thể được xem tại đây:
 
 ```ts filename="middleware.ts"
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Khớp tất cả các đường dẫn yêu cầu ngoại trừ các đường dẫn bắt đầu bằng:
      * - api (API routes)
      * - _next/static (static files)
      * - favicon.ico (favicon file)
@@ -84,35 +84,35 @@ export const config = {
 }
 ```
 
-While the config option is preferred since it doesn't get invoked on every request, you can also use conditional statements to only run the Middleware when it matches specific paths. One advantage of using conditionals is defining explicit ordering for when Middleware executes. The following example shows how you can merge two previously nested Middleware:
+Mặc dù tùy chọn config được ưu tiên vì nó không được gọi trên mọi yêu cầu, bạn cũng có thể sử dụng các câu lệnh điều kiện để chỉ chạy Middleware khi nó khớp với các đường dẫn cụ thể. Một lợi thế của việc sử dụng các điều kiện là xác định thứ tự rõ ràng cho thời điểm Middleware thực thi. Ví dụ sau đây cho thấy cách bạn có thể hợp nhất hai Middleware lồng nhau trước đây:
 
 ```ts filename="middleware.ts"
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/about')) {
-    // This logic is only applied to /about
+    // Logic này chỉ được áp dụng cho /about
   }
 
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    // This logic is only applied to /dashboard
+    // Logic này chỉ được áp dụng cho /dashboard
   }
 }
 ```
 
-## No Response Body
+## Không có Body phản hồi
 
-### Summary of changes
+### Tóm tắt các thay đổi
 
-- Middleware can no longer produce a response body
-- If your Middleware _does_ respond with a body, a runtime error will be thrown
-- Migrate to using `rewrite`/`redirect` to pages/APIs handling a response
+- Middleware không còn có thể tạo ra body phản hồi
+- Nếu Middleware của bạn _có_ phản hồi với một body, một lỗi runtime sẽ được ném ra
+- Di chuyển sang sử dụng `rewrite`/`redirect` đến các pages/APIs xử lý phản hồi
 
-### Explanation
+### Giải thích
 
-To respect the differences in client-side and server-side navigation, and to help ensure that developers do not build insecure Middleware, we are removing the ability to send response bodies in Middleware. This ensures that Middleware is only used to `rewrite`, `redirect`, or modify the incoming request (e.g. [setting cookies](#cookies-api-revamped)).
+Để tôn trọng sự khác biệt trong điều hướng phía client và phía server, và để giúp đảm bảo rằng các nhà phát triển không xây dựng Middleware không an toàn, chúng tôi đang loại bỏ khả năng gửi body phản hồi trong Middleware. Điều này đảm bảo rằng Middleware chỉ được sử dụng để `rewrite`, `redirect`, hoặc sửa đổi yêu cầu đến (ví dụ: [thiết lập cookies](#cookies-api-revamped)).
 
-The following patterns will no longer work:
+Các mẫu sau đây sẽ không còn hoạt động:
 
 ```js
 new Response('a text value')
@@ -121,11 +121,11 @@ new Response(JSON.stringify(obj), { headers: 'application/json' })
 NextResponse.json()
 ```
 
-### How to upgrade
+### Cách nâng cấp
 
-For cases where Middleware is used to respond (such as authorization), you should migrate to use `rewrite`/`redirect` to pages that show an authorization error, login forms, or to an API Route.
+Đối với các trường hợp Middleware được sử dụng để phản hồi (chẳng hạn như xác thực), bạn nên di chuyển sang sử dụng `rewrite`/`redirect` đến các trang hiển thị lỗi xác thực, biểu mẫu đăng nhập, hoặc đến một API Route.
 
-#### Before
+#### Trước
 
 ```ts filename="pages/_middleware.ts"
 import { NextResponse } from 'next/server'
@@ -133,7 +133,7 @@ import type { NextRequest } from 'next/server'
 import { isAuthValid } from './lib/auth'
 
 export function middleware(request: NextRequest) {
-  // Example function to validate auth
+  // Hàm ví dụ để xác thực auth
   if (isAuthValid(request)) {
     return NextResponse.next()
   }
@@ -142,7 +142,7 @@ export function middleware(request: NextRequest) {
 }
 ```
 
-#### After
+#### Sau
 
 ```ts filename="middleware.ts"
 import { NextResponse } from 'next/server'
@@ -150,7 +150,7 @@ import type { NextRequest } from 'next/server'
 import { isAuthValid } from './lib/auth'
 
 export function middleware(request: NextRequest) {
-  // Example function to validate auth
+  // Hàm ví dụ để xác thực auth
   if (isAuthValid(request)) {
     return NextResponse.next()
   }
@@ -164,7 +164,7 @@ export function middleware(request: NextRequest) {
 
 #### Edge API Routes
 
-If you were previously using Middleware to forward headers to an external API, you can now use [Edge API Routes](/docs/pages/building-your-application/routing/api-routes):
+Nếu bạn trước đây đã sử dụng Middleware để chuyển tiếp headers đến một API bên ngoài, bây giờ bạn có thể sử dụng [Edge API Routes](/docs/pages/building-your-application/routing/api-routes):
 
 ```ts filename="pages/api/proxy.ts"
 import { type NextRequest } from 'next/server'
@@ -185,45 +185,45 @@ export default async function handler(req: NextRequest) {
 }
 ```
 
-## Cookies API Revamped
+## Cookies API được cải tiến
 
-### Summary of changes
+### Tóm tắt các thay đổi
 
-| Added                    | Removed       |
+| Đã thêm                  | Đã xóa        |
 | ------------------------ | ------------- |
 | `cookies.set`            | `cookie`      |
 | `cookies.delete`         | `clearCookie` |
 | `cookies.getWithOptions` | `cookies`     |
 
-### Explanation
+### Giải thích
 
-Based on beta feedback, we are changing the Cookies API in `NextRequest` and `NextResponse` to align more to a `get`/`set` model. The `Cookies` API extends Map, including methods like [entries](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map/entries) and [values](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map/entries).
+Dựa trên phản hồi beta, chúng tôi đang thay đổi Cookies API trong `NextRequest` và `NextResponse` để phù hợp hơn với mô hình `get`/`set`. `Cookies` API mở rộng Map, bao gồm các phương thức như [entries](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map/entries) và [values](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map/entries).
 
-### How to upgrade
+### Cách nâng cấp
 
-`NextResponse` now has a `cookies` instance with:
+`NextResponse` hiện có một instance `cookies` với:
 
 - `cookies.delete`
 - `cookies.set`
 - `cookies.getWithOptions`
 
-As well as other extended methods from `Map`.
+Cũng như các phương thức mở rộng khác từ `Map`.
 
-#### Before
+#### Trước
 
 ```ts filename="pages/_middleware.ts"
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // create an instance of the class to access the public methods. This uses `next()`,
-  // you could use `redirect()` or `rewrite()` as well
+  // tạo một instance của class để truy cập các phương thức public. Điều này sử dụng `next()`,
+  // bạn cũng có thể sử dụng `redirect()` hoặc `rewrite()`
   let response = NextResponse.next()
-  // get the cookies from the request
+  // lấy cookies từ request
   let cookieFromRequest = request.cookies['my-cookie']
-  // set the `cookie`
+  // đặt `cookie`
   response.cookie('hello', 'world')
-  // set the `cookie` with options
+  // đặt `cookie` với options
   const cookieWithOptions = response.cookie('hello', 'world', {
     path: '/',
     maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -231,56 +231,56 @@ export function middleware(request: NextRequest) {
     sameSite: 'strict',
     domain: 'example.com',
   })
-  // clear the `cookie`
+  // xóa `cookie`
   response.clearCookie('hello')
 
   return response
 }
 ```
 
-#### After
+#### Sau
 
 ```ts filename="middleware.ts"
 export function middleware() {
   const response = new NextResponse()
 
-  // set a cookie
+  // đặt một cookie
   response.cookies.set('vercel', 'fast')
 
-  // set another cookie with options
+  // đặt một cookie khác với options
   response.cookies.set('nextjs', 'awesome', { path: '/test' })
 
-  // get all the details of a cookie
+  // lấy tất cả chi tiết của một cookie
   const { value, ...options } = response.cookies.getWithOptions('vercel')
   console.log(value) // => 'fast'
   console.log(options) // => { name: 'vercel', Path: '/test' }
 
-  // deleting a cookie will mark it as expired
+  // xóa một cookie sẽ đánh dấu nó là hết hạn
   response.cookies.delete('vercel')
 
   return response
 }
 ```
 
-## New User-Agent Helper
+## User-Agent Helper mới
 
-### Summary of changes
+### Tóm tắt các thay đổi
 
-- Accessing the user agent is no longer available on the request object
-- We've added a new `userAgent` helper to reduce Middleware size by `17kb`
+- Truy cập user agent không còn khả dụng trên đối tượng request
+- Chúng tôi đã thêm một helper `userAgent` mới để giảm kích thước Middleware đi `17kb`
 
-### Explanation
+### Giải thích
 
-To help reduce the size of your Middleware, we have extracted the user agent from the request object and created a new helper `userAgent`.
+Để giúp giảm kích thước Middleware của bạn, chúng tôi đã trích xuất user agent từ đối tượng request và tạo một helper mới `userAgent`.
 
-The helper is imported from `next/server` and allows you to opt in to using the user agent. The helper gives you access to the same properties that were available from the request object.
+Helper được import từ `next/server` và cho phép bạn chọn tham gia sử dụng user agent. Helper cung cấp cho bạn quyền truy cập vào các thuộc tính tương tự đã có sẵn từ đối tượng request.
 
-### How to upgrade
+### Cách nâng cấp
 
-- Import the `userAgent` helper from `next/server`
-- Destructure the properties you need to work with
+- Import helper `userAgent` từ `next/server`
+- Destructure các thuộc tính bạn cần làm việc với
 
-#### Before
+#### Trước
 
 ```ts filename="pages/_middleware.ts"
 import { NextRequest, NextResponse } from 'next/server'
@@ -293,7 +293,7 @@ export function middleware(request: NextRequest) {
 }
 ```
 
-#### After
+#### Sau
 
 ```ts filename="middleware.ts"
 import { NextRequest, NextResponse, userAgent } from 'next/server'
@@ -307,23 +307,23 @@ export function middleware(request: NextRequest) {
 }
 ```
 
-## No More Page Match Data
+## Không còn dữ liệu khớp trang (Page Match Data)
 
-### Summary of changes
+### Tóm tắt các thay đổi
 
-- Use [`URLPattern`](https://developer.mozilla.org/docs/Web/API/URLPattern) to check if a Middleware is being invoked for a certain page match
+- Sử dụng [`URLPattern`](https://developer.mozilla.org/docs/Web/API/URLPattern) để kiểm tra xem một Middleware có đang được gọi cho một khớp trang nhất định hay không
 
-### Explanation
+### Giải thích
 
-Currently, Middleware estimates whether you are serving an asset of a Page based on the Next.js routes manifest (internal configuration). This value is surfaced through `request.page`.
+Hiện tại, Middleware ước tính xem bạn có đang phục vụ một tài sản của một Trang hay không dựa trên manifest routes của Next.js (cấu hình nội bộ). Giá trị này được hiển thị thông qua `request.page`.
 
-To make page and asset matching more accurate, we are now using the web standard `URLPattern` API.
+Để làm cho việc khớp trang và tài sản chính xác hơn, chúng tôi hiện đang sử dụng API tiêu chuẩn web `URLPattern`.
 
-### How to upgrade
+### Cách nâng cấp
 
-Use [`URLPattern`](https://developer.mozilla.org/docs/Web/API/URLPattern) to check if a Middleware is being invoked for a certain page match.
+Sử dụng [`URLPattern`](https://developer.mozilla.org/docs/Web/API/URLPattern) để kiểm tra xem một Middleware có đang được gọi cho một khớp trang nhất định hay không.
 
-#### Before
+#### Trước
 
 ```ts filename="pages/_middleware.ts"
 import { NextResponse } from 'next/server'
@@ -341,7 +341,7 @@ export function middleware(request: NextRequest, event: NextFetchEvent) {
 }
 ```
 
-#### After
+#### Sau
 
 ```ts filename="middleware.ts"
 import { NextResponse } from 'next/server'
@@ -379,16 +379,16 @@ export function middleware(request: NextRequest) {
 }
 ```
 
-## Executing Middleware on Internal Next.js Requests
+## Thực thi Middleware trên các yêu cầu nội bộ của Next.js
 
-### Summary of changes
+### Tóm tắt các thay đổi
 
-- Middleware will be executed for _all_ requests, including `_next`
+- Middleware sẽ được thực thi cho _tất cả_ các yêu cầu, bao gồm `_next`
 
-### Explanation
+### Giải thích
 
-Prior to Next.js `v12.2`, Middleware was not executed for `_next` requests.
+Trước Next.js `v12.2`, Middleware không được thực thi cho các yêu cầu `_next`.
 
-For cases where Middleware is used for authorization, you should migrate to use `rewrite`/`redirect` to Pages that show an authorization error, login forms, or to an API Route.
+Đối với các trường hợp Middleware được sử dụng để xác thực, bạn nên di chuyển sang sử dụng `rewrite`/`redirect` đến các Trang hiển thị lỗi xác thực, biểu mẫu đăng nhập, hoặc đến một API Route.
 
-See [No Response Body](#no-response-body) for an example of how to migrate to use `rewrite`/`redirect`.
+Xem [Không có Body phản hồi](#no-response-body) để biết ví dụ về cách di chuyển sang sử dụng `rewrite`/`redirect`.

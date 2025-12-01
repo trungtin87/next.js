@@ -1,20 +1,20 @@
 ---
-title: Failed to find Server Action
+title: Không tìm thấy Server Action
 ---
 
-## Why This Message Occurred
+## Tại Sao Thông Báo Này Xuất Hiện
 
-For security purposes, Next.js creates encrypted, non-deterministic keys (IDs) to allow for the client to reference and call the [Server Action](/docs/app/getting-started/updating-data). These keys are periodically recalculated between builds for enhanced security.
+Vì mục đích bảo mật, Next.js tạo ra các khóa (IDs) mã hóa, không xác định để cho phép client tham chiếu và gọi [Server Action](/docs/app/getting-started/updating-data). Các khóa này được tính toán lại định kỳ giữa các lần build để tăng cường bảo mật.
 
-When self-hosting your Next.js application across multiple servers, each server instance may end up with a different encryption key, leading to potential inconsistencies.
+Khi tự host ứng dụng Next.js của bạn trên nhiều server, mỗi instance server có thể kết thúc với một khóa mã hóa khác nhau, dẫn đến sự không nhất quán tiềm ẩn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To mitigate this, you can overwrite the encryption key using the `process.env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` environment variable. Specifying this variable ensures that your encryption keys are persistent across builds, and all server instances use the same key. This variable **must** be AES-GCM encrypted.
+Để giảm thiểu điều này, bạn có thể ghi đè khóa mã hóa bằng cách sử dụng biến môi trường `process.env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY`. Việc chỉ định biến này đảm bảo rằng các khóa mã hóa của bạn là nhất quán giữa các lần build, và tất cả các server instances sử dụng cùng một khóa. Biến này **phải** được mã hóa AES-GCM.
 
-If you are deploying your Next.js application to Vercel, you can use the feature [Skew Protection](https://vercel.com/docs/deployments/skew-protection) to ensure assets and functions from the previous version are still available, even after a new version is deployed.
+Nếu bạn đang triển khai ứng dụng Next.js của mình lên Vercel, bạn có thể sử dụng tính năng [Skew Protection](https://vercel.com/docs/deployments/skew-protection) để đảm bảo các assets và functions từ phiên bản trước vẫn khả dụng, ngay cả sau khi một phiên bản mới được triển khai.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Server Actions - Security](/docs/app/guides/data-security)
-- [Overwriting encryption keys (advanced)](/docs/app/guides/data-security#overwriting-encryption-keys-advanced)
+- [Server Actions - Bảo Mật](/docs/app/guides/data-security)
+- [Ghi đè khóa mã hóa (nâng cao)](/docs/app/guides/data-security#overwriting-encryption-keys-advanced)

@@ -1,24 +1,24 @@
 ---
-title: 'Missing specified subset for a `next/font/google` font'
+title: 'Thiếu subset được chỉ định cho một font `next/font/google`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Preload is enabled for a font that is missing a specified subset.
+Preload được kích hoạt cho một font bị thiếu một subset được chỉ định.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-### Specify which subsets to preload for that font.
+### Chỉ định các subsets nào cần preload cho font đó.
 
 ```js filename="example.js"
 const inter = Inter({ subsets: ['latin'] })
 ```
 
-> **Note**: previously it was possible to specify default subsets in your `next.config.js` with the `experimental.fontLoaders` option, but this is no longer supported.
+> **Lưu ý**: trước đây có thể chỉ định các subsets mặc định trong `next.config.js` của bạn với tùy chọn `experimental.fontLoaders`, nhưng điều này không còn được hỗ trợ nữa.
 
-### Disable preloading for that font
+### Vô hiệu hóa preloading cho font đó
 
-If it's not possible to preload your intended subset you can disable preloading.
+Nếu không thể preload subset dự định của bạn, bạn có thể vô hiệu hóa preloading.
 
 ```js filename="example.js"
 const notoSansJapanese = Noto_Sans_JP({
@@ -27,6 +27,6 @@ const notoSansJapanese = Noto_Sans_JP({
 })
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Specifying a subset](/docs/pages/api-reference/components/font#specifying-a-subset)
+- [Chỉ định một subset](/docs/pages/api-reference/components/font#specifying-a-subset)

@@ -1,13 +1,13 @@
 ---
-title: Invalid Layout or Page Export
+title: Export Layout hoặc Page không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Your [layout](/docs/app/api-reference/file-conventions/layout) or [page](/docs/app/api-reference/file-conventions/page) inside the app directory exports an invalid field. In these files, you're only allowed to export a default React component, or [Segment Configuration Options](/docs/app/api-reference/file-conventions/route-segment-config) for layout and pages, such as `revalidate`, `generateStaticParams`, etc.
+[Layout](/docs/app/api-reference/file-conventions/layout) hoặc [page](/docs/app/api-reference/file-conventions/page) của bạn bên trong thư mục app export một trường không hợp lệ. Trong các file này, bạn chỉ được phép export một component React mặc định, hoặc [Các Tùy Chọn Cấu Hình Segment](/docs/app/api-reference/file-conventions/route-segment-config) cho layout và pages, chẳng hạn như `revalidate`, `generateStaticParams`, v.v.
 
-Other custom exports are not allowed to catch misspelt configuration options and prevent conflicts with future options.
+Các export tùy chỉnh khác không được phép để bắt các tùy chọn cấu hình sai chính tả và ngăn chặn xung đột với các tùy chọn trong tương lai.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-You can create a new file and co-locate it with the page or layout. In the new file, you can export any custom fields and import it from anywhere.
+Bạn có thể tạo một file mới và đặt nó cùng vị trí với page hoặc layout. Trong file mới, bạn có thể export bất kỳ trường tùy chỉnh nào và import nó từ bất kỳ đâu.

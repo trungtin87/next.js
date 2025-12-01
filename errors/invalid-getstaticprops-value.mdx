@@ -1,14 +1,14 @@
 ---
-title: 'Invalid `getStaticProps` Return Value'
+title: Giá trị trả về `getStaticProps` không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In one of the page's `getStaticProps` the return value had the incorrect shape.
+Trong một trong các `getStaticProps` của trang, giá trị trả về có hình dạng không chính xác.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure to return the following shape from `getStaticProps`:
+Đảm bảo trả về hình dạng sau từ `getStaticProps`:
 
 ```tsx filename="pages/example.tsx"
 export async function getStaticProps(ctx: {
@@ -22,6 +22,6 @@ export async function getStaticProps(ctx: {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`getStaticProps` Documentation](/docs/pages/api-reference/functions/get-static-props)
+- [Tài liệu `getStaticProps`](/docs/pages/api-reference/functions/get-static-props)

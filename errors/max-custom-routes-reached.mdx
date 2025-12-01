@@ -1,19 +1,19 @@
 ---
-title: Max Custom Routes Reached
+title: Đạt giới hạn Custom Routes tối đa
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The number of combined routes from `headers`, `redirects`, and `rewrites` exceeds 1000. This can impact performance because each request will iterate over all routes to check for a match in the worst case.
+Số lượng routes kết hợp từ `headers`, `redirects`, và `rewrites` vượt quá 1000. Điều này có thể ảnh hưởng đến hiệu suất vì mỗi yêu cầu sẽ lặp qua tất cả các routes để kiểm tra sự trùng khớp trong trường hợp xấu nhất.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Leverage dynamic routes inside of the `pages` folder to reduce the number of rewrites needed
-- Combine headers routes into dynamic matches e.g. `/first-header-route` `/second-header-route` -> `/(first-header-route$|second-header-route$)`
+- Tận dụng dynamic routes bên trong thư mục `pages` để giảm số lượng rewrites cần thiết
+- Kết hợp các headers routes thành các dynamic matches ví dụ `/first-header-route` `/second-header-route` -> `/(first-header-route$|second-header-route$)`
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Dynamic Routes documentation](/docs/pages/building-your-application/routing/dynamic-routes)
-- [Rewrites documentation](/docs/pages/api-reference/config/next-config-js/rewrites)
-- [Redirects documentation](/docs/pages/api-reference/config/next-config-js/redirects)
-- [Headers documentation](/docs/pages/api-reference/config/next-config-js/headers)
+- [Tài liệu Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes)
+- [Tài liệu Rewrites](/docs/pages/api-reference/config/next-config-js/rewrites)
+- [Tài liệu Redirects](/docs/pages/api-reference/config/next-config-js/redirects)
+- [Tài liệu Headers](/docs/pages/api-reference/config/next-config-js/headers)

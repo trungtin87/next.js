@@ -1,26 +1,26 @@
 ---
-title: Cannot access Request information synchronously with Page or Layout or Route `params` or Page `searchParams`
+title: Không thể truy cập thông tin Request đồng bộ với Page hoặc Layout hoặc Route `params` hoặc Page `searchParams`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In Next.js 15 `params` passed into Page and Layout components and `searchParams` passed into Page components are now Promises.
+Trong Next.js 15, `params` được truyền vào các Page và Layout components và `searchParams` được truyền vào các Page components giờ đây là Promises.
 
-To support migrating to the async `params` and `searchParams` Next.js 15 still supports accessing param and searchParam values directly on the Promise object. However when `cacheComponents` is enabled it is an error to do so.
+Để hỗ trợ việc di chuyển sang `params` và `searchParams` async, Next.js 15 vẫn hỗ trợ việc truy cập các giá trị param và searchParam trực tiếp trên đối tượng Promise. Tuy nhiên khi `cacheComponents` được bật, việc làm như vậy là một lỗi.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-If you haven't already followed the Next.js 15 upgrade guide which includes running a codemod to auto-convert to the necessary async form of `params` and `searchParams` start there.
+Nếu bạn chưa làm theo hướng dẫn nâng cấp Next.js 15 bao gồm việc chạy một codemod để tự động chuyển đổi sang dạng async cần thiết của `params` và `searchParams`, hãy bắt đầu từ đó.
 
-[Next 15 Upgrade Guide](/docs/app/guides/upgrading/version-15#async-request-apis-breaking-change)
+[Hướng Dẫn Nâng Cấp Next 15](/docs/app/guides/upgrading/version-15#async-request-apis-breaking-change)
 
-If you have already run the codemod on your project look for instances of the string `@next-codemod-error` to see where the codemod was unable to convert to the async form. You will have to refactor your code manually here to make it compatible with the new result type.
+Nếu bạn đã chạy codemod trên dự án của mình, hãy tìm các instance của chuỗi `@next-codemod-error` để xem nơi mà codemod không thể chuyển đổi sang dạng async. Bạn sẽ phải refactor code của mình thủ công ở đây để làm cho nó tương thích với kiểu kết quả mới.
 
-Before:
+Trước đây:
 
 ```jsx filename=".../some-file.js"
-// This component ends up being the Page component even though it is defined outside of
-// page.js due to how it is reexported in page.js
+// Component này cuối cùng trở thành Page component mặc dù nó được định nghĩa bên ngoài
+// page.js do cách nó được reexport trong page.js
 export default function ComponentThatWillBeExportedAsPage({ params, searchParams }) {
   const { slug } = params;
   const { page } = searchParams
@@ -29,18 +29,18 @@ export default function ComponentThatWillBeExportedAsPage({ params, searchParams
 ```
 
 ```jsx filename="app/page.js"
-// the codemod cannot find the actual Page component so the Page may still have remaining
-// synchronous access to params and searchParams
+// codemod không thể tìm thấy Page component thực tế nên Page vẫn có thể còn
+// truy cập đồng bộ vào params và searchParams
 
 // @next-codemod-error
 export * from '.../some-file'
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename=".../some-file.js"
-// This component ends up being the Page component even though it is defined outside of
-// page.js due to how it is reexported in page.js
+// Component này cuối cùng trở thành Page component mặc dù nó được định nghĩa bên ngoài
+// page.js do cách nó được reexport trong page.js
 export default async function ComponentThatWillBeExportedAsPage({ params, searchParams }) {
   const { slug } = await params;
   const { page } = await searchParams
@@ -52,10 +52,10 @@ export default async function ComponentThatWillBeExportedAsPage({ params, search
 export * from '.../some-file'
 ```
 
-It is unexpected that you would run the codemod and not successfully convert all instances of `params` and `searchParams` to async or have a marker string to help you locate unconverted cases. If you do find yourself in this situation please report this to [Next.js on Github](https://github.com/vercel/next.js/issues).
+Không mong đợi rằng bạn sẽ chạy codemod và không chuyển đổi thành công tất cả các instance của `params` và `searchParams` sang async hoặc có một chuỗi đánh dấu để giúp bạn xác định vị trí các trường hợp chưa được chuyển đổi. Nếu bạn thấy mình trong tình huống này, vui lòng báo cáo điều này cho [Next.js trên Github](https://github.com/vercel/next.js/issues).
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`page.js` file convention](/docs/app/api-reference/file-conventions/page)
-- [`layout.js` file convention](/docs/app/api-reference/file-conventions/layout)
-- [`route.js` file convention](/docs/app/api-reference/file-conventions/route)
+- [Quy ước file `page.js`](/docs/app/api-reference/file-conventions/page)
+- [Quy ước file `layout.js`](/docs/app/api-reference/file-conventions/layout)
+- [Quy ước file `route.js`](/docs/app/api-reference/file-conventions/route)

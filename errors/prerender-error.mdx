@@ -1,25 +1,25 @@
 ---
-title: Prerender Error with Next.js
+title: Lỗi Prerender với Next.js
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-While prerendering a page during `next build`, an error occurred. This can happen for various reasons, including:
+Trong khi prerender một trang trong quá trình `next build`, một lỗi đã xảy ra. Điều này có thể xảy ra vì nhiều lý do, bao gồm:
 
-1. Incorrect file structure or non-page files in the `pages/` directory
-2. Expecting props to be populated which are not available during prerendering
-3. Using browser-only APIs in components without proper checks
-4. Incorrect configuration in `getStaticProps` or `getStaticPaths`
+1. Cấu trúc file không chính xác hoặc các file không phải trang trong thư mục `pages/`
+2. Mong đợi props được điền nhưng không có sẵn trong quá trình prerendering
+3. Sử dụng các API chỉ dành cho trình duyệt trong các component mà không có kiểm tra phù hợp
+4. Cấu hình không chính xác trong `getStaticProps` hoặc `getStaticPaths`
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-### 1. Ensure correct file structure and use App Router for colocation
+### 1. Đảm bảo cấu trúc file chính xác và sử dụng App Router để colocation
 
 #### Pages Router
 
-In the Pages Router, only special files are allowed to generate pages. You cannot colocate other files (e.g., components, styles) within the `pages` directory.
+Trong Pages Router, chỉ các file đặc biệt được phép tạo trang. Bạn không thể colocate các file khác (ví dụ: components, styles) trong thư mục `pages`.
 
-Correct structure:
+Cấu trúc đúng:
 
 ```txt
   .
@@ -34,9 +34,9 @@ Correct structure:
 
 #### App Router (Next.js 13+)
 
-The App Router allows [colocation](/docs/app/getting-started/project-structure#colocation) of pages and other files in the same folder. This provides a more intuitive project structure.
+App Router cho phép [colocation](/docs/app/getting-started/project-structure#colocation) các trang và các file khác trong cùng một thư mục. Điều này cung cấp cấu trúc dự án trực quan hơn.
 
-Example folder structure:
+Ví dụ cấu trúc thư mục:
 
 ```txt
   .
@@ -50,11 +50,11 @@ Example folder structure:
       └── page.tsx
 ```
 
-### 2. Handle undefined props and missing data
+### 2. Xử lý props không xác định và dữ liệu thiếu
 
 #### Pages Router
 
-For the Pages Router, use conditional checks and return appropriate props or a 404 page:
+Đối với Pages Router, sử dụng kiểm tra có điều kiện và trả về props phù hợp hoặc trang 404:
 
 ```jsx
 export async function getStaticProps(context) {
@@ -70,9 +70,9 @@ export async function getStaticProps(context) {
 }
 ```
 
-### 3. Handle fallback in dynamic routes
+### 3. Xử lý fallback trong dynamic routes
 
-If you're using `fallback: true` or `fallback: 'blocking'` in `getStaticPaths`, ensure your page component can handle the loading state:
+Nếu bạn đang sử dụng `fallback: true` hoặc `fallback: 'blocking'` trong `getStaticPaths`, hãy đảm bảo component trang của bạn có thể xử lý trạng thái loading:
 
 ```jsx
 import { useRouter } from 'next/router'
@@ -93,9 +93,9 @@ function Post({ post }) {
 }
 ```
 
-### 4. Avoid exporting pages with server-side rendering
+### 4. Tránh export các trang với server-side rendering
 
-If you're using `next export` or `output: 'export'` in your `next.config.js`, ensure that none of your pages use `getServerSideProps`. Instead, use `getStaticProps` for data fetching:
+Nếu bạn đang sử dụng `next export` hoặc `output: 'export'` trong `next.config.js` của bạn, hãy đảm bảo rằng không có trang nào của bạn sử dụng `getServerSideProps`. Thay vào đó, hãy sử dụng `getStaticProps` để fetch dữ liệu:
 
 ```jsx
 export async function getStaticProps() {
@@ -109,9 +109,9 @@ export async function getStaticProps() {
 }
 ```
 
-### 5. Disable server-side rendering for components using browser APIs
+### 5. Vô hiệu hóa server-side rendering cho các component sử dụng browser APIs
 
-If a component relies on browser-only APIs like `window`, you can disable server-side rendering for that component:
+Nếu một component dựa vào các API chỉ dành cho trình duyệt như `window`, bạn có thể vô hiệu hóa server-side rendering cho component đó:
 
 ```jsx
 import dynamic from 'next/dynamic'
@@ -131,9 +131,9 @@ export default function Page() {
 }
 ```
 
-## Additional Resources
+## Tài Nguyên Bổ Sung
 
-- [Handling Errors in Next.js](/docs/app/getting-started/error-handling)
-- [Data Fetching in Next.js](/docs/app/getting-started/fetching-data)
+- [Xử Lý Lỗi trong Next.js](/docs/app/getting-started/error-handling)
+- [Fetch Dữ Liệu trong Next.js](/docs/app/getting-started/fetching-data)
 
-If you continue to experience issues after trying these solutions, consider checking your server logs for more detailed error messages or reaching out to the Next.js community for support.
+Nếu bạn tiếp tục gặp vấn đề sau khi thử các giải pháp này, hãy xem xét kiểm tra log server của bạn để biết thông báo lỗi chi tiết hơn hoặc liên hệ với cộng đồng Next.js để được hỗ trợ.

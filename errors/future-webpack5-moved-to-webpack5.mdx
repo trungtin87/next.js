@@ -1,20 +1,20 @@
 ---
-title: '`future.webpack5` has been moved to `webpack5`'
+title: '`future.webpack5` đã được chuyển sang `webpack5`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The `future.webpack5` option has been moved to `webpack5` in `next.config.js`.
+Tùy chọn `future.webpack5` đã được chuyển sang `webpack5` trong `next.config.js`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-If you had the value `true` you can remove the option as webpack 5 is now the default for all Next.js apps unless opted out.
+Nếu bạn có giá trị `true`, bạn có thể xóa tùy chọn này vì webpack 5 hiện là mặc định cho tất cả các ứng dụng Next.js trừ khi chọn không tham gia.
 
-If you had the value `false` you can update `next.config.js`:
+Nếu bạn có giá trị `false`, bạn có thể cập nhật `next.config.js`:
 
-Change `future.webpack5` to `webpack5`.
+Thay đổi `future.webpack5` thành `webpack5`.
 
-Current `next.config.js`:
+`next.config.js` hiện tại:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 }
 ```
 
-Updated `next.config.js`:
+`next.config.js` đã cập nhật:
 
 ```js filename="next.config.js"
 module.exports = {

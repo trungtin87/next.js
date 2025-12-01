@@ -1,16 +1,16 @@
 ---
-title: No Head Import in Document
+title: Không Import Head trong Document
 ---
 
-> Prevent usage of `next/head` in `pages/_document.js`.
+> Ngăn chặn việc sử dụng `next/head` trong `pages/_document.js`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`next/head` was imported in `pages/_document.js`. This can cause unexpected issues in your application.
+`next/head` đã được import trong `pages/_document.js`. Điều này có thể gây ra các vấn đề không mong muốn trong ứng dụng của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Only import and use `next/document` within `pages/_document.js` to override the default `Document` component. If you are importing `next/head` to use the `Head` component, import it from `next/document` instead in order to modify `<head>` code across all pages:
+Chỉ import và sử dụng `next/document` trong `pages/_document.js` để ghi đè component `Document` mặc định. Nếu bạn đang import `next/head` để sử dụng component `Head`, hãy import nó từ `next/document` thay thế để sửa đổi code `<head>` trên tất cả các trang:
 
 ```jsx filename="pages/_document.js"
 import Document, { Html, Head, Main, NextScript } from 'next/document'
@@ -32,6 +32,6 @@ class MyDocument extends Document {
 export default MyDocument
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Custom Document](/docs/pages/building-your-application/routing/custom-document)

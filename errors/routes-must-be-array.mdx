@@ -1,16 +1,16 @@
 ---
-title: Custom Routes must return an array
+title: Custom Routes phải trả về một mảng
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When defining custom routes an array wasn't returned from either `headers`, `rewrites`, or `redirects`.
+Khi định nghĩa custom routes, một mảng không được trả về từ `headers`, `rewrites`, hoặc `redirects`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure to return an array that contains the routes.
+Đảm bảo trả về một mảng chứa các routes.
 
-**Before**
+**Trước**
 
 ```js filename="next.config.js"
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 }
 ```
 
-**After**
+**Sau**
 
 ```js filename="next.config.js"
 module.exports = {

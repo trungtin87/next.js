@@ -1,16 +1,16 @@
 ---
-title: No Head Element
+title: Không có Phần Tử Head
 ---
 
-> Prevent usage of `<head>` element.
+> Ngăn chặn việc sử dụng phần tử `<head>`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A `<head>` element was used to include page-level metadata, but this can cause unexpected behavior in a Next.js application. Use Next.js' built-in `next/head` component instead.
+Một phần tử `<head>` đã được sử dụng để bao gồm metadata cấp trang, nhưng điều này có thể gây ra hành vi không mong muốn trong ứng dụng Next.js. Sử dụng component `next/head` tích hợp của Next.js thay thế.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Import and use the `<Head />` component:
+Import và sử dụng component `<Head />`:
 
 ```jsx filename="pages/index.js"
 import Head from 'next/head'
@@ -29,6 +29,6 @@ function Index() {
 export default Index
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [next/head](/docs/pages/api-reference/components/head)

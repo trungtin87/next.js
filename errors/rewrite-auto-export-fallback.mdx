@@ -1,20 +1,20 @@
 ---
-title: Rewriting to Auto Export or Fallback Dynamic Route
+title: Rewriting Đến Auto Export Hoặc Fallback Dynamic Route
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-One of your rewrites in your `next.config.js` point to a [dynamic route](/docs/pages/building-your-application/routing/dynamic-routes) that is automatically statically optimized or is a [fallback SSG page](/docs/pages/api-reference/functions/get-static-paths#getstaticpaths-return-values).
+Một trong các rewrites của bạn trong `next.config.js` trỏ đến một [dynamic route](/docs/pages/building-your-application/routing/dynamic-routes) được tối ưu hóa tĩnh tự động hoặc là một [trang SSG fallback](/docs/pages/api-reference/functions/get-static-paths#getstaticpaths-return-values).
 
-Rewriting to these pages are not yet supported since rewrites are not available client-side and the dynamic route params are unable to be parsed. Support for this may be added in a future release.
+Việc rewriting đến các trang này chưa được hỗ trợ vì rewrites không khả dụng ở phía client và các tham số dynamic route không thể được phân tích cú pháp. Hỗ trợ cho điều này có thể được thêm vào trong một bản phát hành tương lai.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-For fallback SSG pages you can add the page to the list of [prerendered paths](/docs/pages/api-reference/functions/get-static-paths#paths).
+Đối với các trang SSG fallback, bạn có thể thêm trang vào danh sách các [đường dẫn được prerender](/docs/pages/api-reference/functions/get-static-paths#paths).
 
-For static dynamic routes, you will currently need to either rewrite to non-dynamic route or opt the page out of the static optimization with [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props)
+Đối với các static dynamic routes, hiện tại bạn sẽ cần phải rewrite đến một route không động hoặc loại trang ra khỏi tối ưu hóa tĩnh với [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props)
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Dynamic Routes Documentation](/docs/pages/building-your-application/routing/dynamic-routes)
-- [Fallback Documentation](/docs/pages/api-reference/functions/get-static-paths#getstaticpaths-return-values)
+- [Tài liệu Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes)
+- [Tài liệu Fallback](/docs/pages/api-reference/functions/get-static-paths#getstaticpaths-return-values)

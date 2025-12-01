@@ -1,26 +1,26 @@
 ---
-title: SWC Failed to Load
+title: SWC Không Thể Tải
 ---
 
-## Why This Message Occurred
+## Tại Sao Thông Báo Này Xuất Hiện
 
-Next.js now uses Rust-based compiler [SWC](https://swc.rs/) to compile JavaScript/TypeScript. This new compiler is up to 17x faster than Babel when compiling individual files and up to 5x faster Fast Refresh.
+Next.js hiện sử dụng trình biên dịch dựa trên Rust [SWC](https://swc.rs/) để biên dịch JavaScript/TypeScript. Trình biên dịch mới này nhanh hơn tới 17 lần so với Babel khi biên dịch các file riêng lẻ và nhanh hơn tới 5 lần Fast Refresh.
 
-SWC requires a binary to be downloaded that is compatible with your system. In some cases this binary may fail to load either from failing to download or an incompatibility with your architecture.
+SWC yêu cầu tải xuống một tệp nhị phân tương thích với hệ thống của bạn. Trong một số trường hợp, tệp nhị phân này có thể không tải được do tải xuống thất bại hoặc không tương thích với kiến trúc của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-When on an M1 Mac and switching from a Node.js version without M1 support to one with, e.g. v14 to v16, you may need a different swc dependency which can require re-installing `node_modules` (`npm i --force` or `yarn install --force`).
+Khi sử dụng M1 Mac và chuyển từ phiên bản Node.js không hỗ trợ M1 sang phiên bản có hỗ trợ, ví dụ: v14 sang v16, bạn có thể cần một dependency swc khác, điều này có thể yêu cầu cài đặt lại `node_modules` (`npm i --force` hoặc `yarn install --force`).
 
-On Windows make sure you have Microsoft Visual C++ Redistributable installed. https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist
+Trên Windows, hãy đảm bảo bạn đã cài đặt Microsoft Visual C++ Redistributable. https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist
 
-Alternatively, you might need to allow optional packages to be installed by your package manager (remove `--no-optional` flag) for the package to download correctly.
+Ngoài ra, bạn có thể cần cho phép trình quản lý gói của mình cài đặt các gói tùy chọn (xóa cờ `--no-optional`) để gói tải xuống chính xác.
 
-In some cases your package manager (e.g. `npm`) might have generated a lockfile that only includes `optionalDependencies` specific to the platform it was generated on, preventing the `optionalDependency` needed for CI from being installed.
+Trong một số trường hợp, trình quản lý gói của bạn (ví dụ: `npm`) có thể đã tạo ra một lockfile chỉ bao gồm `optionalDependencies` cụ thể cho nền tảng mà nó được tạo ra, ngăn cản `optionalDependency` cần thiết cho CI được cài đặt.
 
-This can be fixed by removing the lockfile and regenerating it with a newer version of your package manager `npm i -g npm@latest`.
+Điều này có thể được khắc phục bằng cách xóa lockfile và tạo lại nó với phiên bản mới hơn của trình quản lý gói của bạn `npm i -g npm@latest`.
 
-If SWC continues to fail to load you can opt-out by disabling `swcMinify` in your `next.config.js` or by adding a `.babelrc` to your project with the following content:
+Nếu SWC tiếp tục không tải được, bạn có thể chọn không tham gia bằng cách vô hiệu hóa `swcMinify` trong `next.config.js` của bạn hoặc bằng cách thêm `.babelrc` vào dự án của bạn với nội dung sau:
 
 ```json filename=".babelrc"
 {
@@ -28,9 +28,9 @@ If SWC continues to fail to load you can opt-out by disabling `swcMinify` in you
 }
 ```
 
-Be sure to report the issue on [the feedback thread](https://github.com/vercel/next.js/discussions/30468) so that we can investigate it further.
+Hãy chắc chắn báo cáo vấn đề trên [luồng phản hồi](https://github.com/vercel/next.js/discussions/30468) để chúng tôi có thể điều tra thêm.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [SWC Feedback Thread](https://github.com/vercel/next.js/discussions/30468)
-- [SWC Disabled Document](/docs/messages/swc-disabled)
+- [Luồng Phản Hồi SWC](https://github.com/vercel/next.js/discussions/30468)
+- [Tài Liệu SWC Bị Vô Hiệu Hóa](/docs/messages/swc-disabled)

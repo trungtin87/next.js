@@ -1,16 +1,16 @@
 ---
-title: No assign module variable
+title: Không gán biến module
 ---
 
-> Prevent assignment to the `module` variable.
+> Ngăn chặn việc gán cho biến `module`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A value is being assigned to the `module` variable. The `module` variable is already used and it is highly likely that assigning to this variable will cause errors.
+Một giá trị đang được gán cho biến `module`. Biến `module` đã được sử dụng và rất có thể việc gán cho biến này sẽ gây ra lỗi.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Use a different variable name:
+Sử dụng một tên biến khác:
 
 ```js filename="example.js"
 let myModule = {...}

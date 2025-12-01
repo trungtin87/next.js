@@ -1,23 +1,23 @@
 ---
-title: Understanding "API Routes in Static Export" Warning in Next.js
-description: This document explains the "API Routes in Static Export" warning in Next.js and offers steps to resolve it.
+title: Hiểu cảnh báo "API Routes in Static Export" trong Next.js
+description: Tài liệu này giải thích cảnh báo "API Routes in Static Export" trong Next.js và đưa ra các bước để giải quyết nó.
 ---
 
-## Why This Warning Occurred
+## Tại Sao Cảnh Báo Này Xảy Ra
 
-The "API Routes in Static Export" warning is typically raised when an `exportPathMap` path is matched to an API route while trying to statically export a Next.js application via the `next export` command. This command disables API routes as it is designed for a static-only setup.
+Cảnh báo "API Routes in Static Export" thường được đưa ra khi một đường dẫn `exportPathMap` khớp với một API route trong khi cố gắng xuất tĩnh (statically export) một ứng dụng Next.js thông qua lệnh `next export`. Lệnh này vô hiệu hóa các API routes vì nó được thiết kế cho một thiết lập chỉ tĩnh (static-only).
 
-Running `next export` is not necessary to make your application static. Pages in your application that do not have server-side data dependencies will be automatically statically optimized when you run `next build`. This includes pages powered by `getStaticProps`.
+Chạy `next export` là không cần thiết để làm cho ứng dụng của bạn trở thành tĩnh. Các trang trong ứng dụng của bạn không có phụ thuộc dữ liệu phía server (server-side data dependencies) sẽ được tự động tối ưu hóa tĩnh khi bạn chạy `next build`. Điều này bao gồm các trang được hỗ trợ bởi `getStaticProps`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To resolve this issue, you have two main options:
+Để giải quyết vấn đề này, bạn có hai lựa chọn chính:
 
-1. Use the `next build` command instead of `next export` if you're deploying your application on platforms that don't require `next export`. For example, [Vercel](https://vercel.com) is a popular hosting platform for Next.js applications that supports this feature.
-2. If you still need to use `next export`, make sure to remove any paths that use API routes from your `exportPathMap` in your `next.config.js` file.
-3. Consider [incrementally adopting the App Router](/docs/app/guides/migrating/app-router-migration), which supports [Route Handlers](/docs/app/api-reference/file-conventions/route). These "API Routes" can be used to create endpoints that can be statically exported in your application.
+1. Sử dụng lệnh `next build` thay vì `next export` nếu bạn đang triển khai ứng dụng của mình trên các nền tảng không yêu cầu `next export`. Ví dụ, [Vercel](https://vercel.com) là một nền tảng hosting phổ biến cho các ứng dụng Next.js hỗ trợ tính năng này.
+2. Nếu bạn vẫn cần sử dụng `next export`, hãy đảm bảo xóa bất kỳ đường dẫn nào sử dụng API routes khỏi `exportPathMap` trong file `next.config.js` của bạn.
+3. Cân nhắc [dần dần áp dụng App Router](/docs/app/guides/migrating/app-router-migration), hỗ trợ [Route Handlers](/docs/app/api-reference/file-conventions/route). Các "API Routes" này có thể được sử dụng để tạo các endpoints có thể được xuất tĩnh trong ứng dụng của bạn.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Static HTML export](/docs/pages/guides/static-exports) - Learn more about how you can create a static HTML export of your Next.js application.
-- [Route Handlers](/docs/app/api-reference/file-conventions/route) - Learn more about how you can use Route Handlers to create endpoints that can be statically exported in your application.
+- [Xuất HTML Tĩnh (Static HTML export)](/docs/pages/guides/static-exports) - Tìm hiểu thêm về cách bạn có thể tạo một bản xuất HTML tĩnh cho ứng dụng Next.js của mình.
+- [Route Handlers](/docs/app/api-reference/file-conventions/route) - Tìm hiểu thêm về cách bạn có thể sử dụng Route Handlers để tạo các endpoints có thể được xuất tĩnh trong ứng dụng của bạn.

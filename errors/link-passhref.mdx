@@ -1,18 +1,18 @@
 ---
-title: 'Link `passHref`'
+title: Link `passHref`
 ---
 
-> **Note**: Starting with version `16`, Next.js does not support the `passHref` and `legacyBehavior` props for a `Link` component anymore.
+> **Lưu ý**: Bắt đầu từ phiên bản `16`, Next.js không còn hỗ trợ các prop `passHref` và `legacyBehavior` cho component `Link` nữa.
 
-> Ensure `passHref` is used with custom `Link` components.
+> Đảm bảo `passHref` được sử dụng với các component `Link` tùy chỉnh.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`passHref` was not used for a `Link` component that wraps a custom component. This is needed in order to pass the `href` to the child `<a>` tag.
+`passHref` đã không được sử dụng cho một component `Link` bao bọc một component tùy chỉnh. Điều này là cần thiết để truyền `href` cho thẻ con `<a>`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-If you're using a custom component that wraps an `<a>` tag, make sure to add `passHref` and `legacyBehavior`:
+Nếu bạn đang sử dụng một component tùy chỉnh bao bọc một thẻ `<a>`, hãy đảm bảo thêm `passHref` và `legacyBehavior`:
 
 ```jsx filename="nav-link.js"
 import Link from 'next/link'

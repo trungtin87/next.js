@@ -1,14 +1,14 @@
 ---
-title: 'Invalid relative `href` and external `as` values'
+title: Giá trị `href` tương đối và `as` bên ngoài không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Somewhere you are utilizing the `next/link` component, `Router#push`, or `Router#replace` with a relative route in your `href` that has an external `as` value. The `as` value must be relative also or only `href` should be used with an external URL.
+Ở đâu đó bạn đang sử dụng component `next/link`, `Router#push`, hoặc `Router#replace` với một route tương đối trong `href` của bạn có giá trị `as` bên ngoài. Giá trị `as` cũng phải là tương đối hoặc chỉ `href` nên được sử dụng với một URL bên ngoài.
 
-> **Note**: this error will only show when the `next/link` component is clicked not when only rendered.
+> **Lưu ý**: lỗi này sẽ chỉ hiển thị khi component `next/link` được nhấp vào chứ không phải khi chỉ được render.
 
-**Incompatible `href` and `as`**
+**`href` và `as` không tương thích**
 
 ```jsx filename="pages/example.js"
 import Link from 'next/link'
@@ -24,7 +24,7 @@ export default function Page(props) {
 }
 ```
 
-**Compatible `href` and `as`**
+**`href` và `as` tương thích**
 
 ```jsx filename="pages/example.js"
 import Link from 'next/link'
@@ -40,10 +40,10 @@ export default function Page(props) {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Look for any usage of the `next/link` component, `Router#push`, or `Router#replace` and make sure that the provided `href` and `as` values are compatible
+Tìm kiếm bất kỳ việc sử dụng nào của component `next/link`, `Router#push`, hoặc `Router#replace` và đảm bảo rằng các giá trị `href` và `as` được cung cấp là tương thích.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Routing section in Documentation](/docs/pages/building-your-application/routing)
+- [Phần Routing trong Tài liệu](/docs/pages/building-your-application/routing)

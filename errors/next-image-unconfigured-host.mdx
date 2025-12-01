@@ -1,36 +1,36 @@
 ---
-title: '`next/image` Un-configured Host'
+title: Host Chưa Được Cấu Hình cho `next/image`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-One of your pages that leverages the `next/image` component, passed a `src` value that uses a hostname in the URL that isn't defined in the `images.remotePatterns` in `next.config.js`.
+Một trong các trang của bạn sử dụng component `next/image`, đã truyền giá trị `src` sử dụng hostname trong URL không được định nghĩa trong `images.remotePatterns` trong `next.config.js`.
 
-Each part of the `src` value is strictly matched against your `images.remotePatterns` definitions. Matching is exact and case-sensitive, meaning a mismatch in any single part will fail the check.
+Mỗi phần của giá trị `src` được khớp chặt chẽ với các định nghĩa `images.remotePatterns` của bạn. Khớp là chính xác và phân biệt chữ hoa chữ thường, nghĩa là sự không khớp trong bất kỳ phần đơn lẻ nào sẽ làm kiểm tra thất bại.
 
-For a URL like `https://example.org/images/example?v=1234`, the following parts must match the pattern you configured:
+Đối với một URL như `https://example.org/images/example?v=1234`, các phần sau phải khớp với mẫu bạn đã cấu hình:
 
-- **Protocol**: `http` vs `https` must match exactly.
-- **Hostname**: `example.org` is different from `www.example.org` and from subdomains like `assets.example.org`.
-- **Port**: If present (e.g. `:3000`), it must be included.
-- **Pathname**: The path must be covered by your glob, e.g. `/**` or `/images/**`.
-- **Search**: If specified in a pattern, it must match the full search string exactly (including the leading `?`). Globs are not supported for search.
+- **Protocol**: `http` vs `https` phải khớp chính xác.
+- **Hostname**: `example.org` khác với `www.example.org` và khác với các subdomain như `assets.example.org`.
+- **Port**: Nếu có (ví dụ: `:3000`), nó phải được bao gồm.
+- **Pathname**: Đường dẫn phải được bao phủ bởi glob của bạn, ví dụ: `/**` hoặc `/images/**`.
+- **Search**: Nếu được chỉ định trong một mẫu, nó phải khớp chính xác chuỗi search đầy đủ (bao gồm cả `?` đầu tiên). Globs không được hỗ trợ cho search.
 
-If any of these differ from the actual `src`, the image will be rejected.
+Nếu bất kỳ phần nào trong số này khác với `src` thực tế, hình ảnh sẽ bị từ chối.
 
-Common pitfalls that cause this error:
+Các lỗi phổ biến gây ra lỗi này:
 
-- Using `https` in `src` but only allowing `http` (or vice‑versa).
-- Loading from a subdomain like `assets.example.com` while only configuring `example.com`.
-- Missing a port during local/dev usage, e.g. `http://localhost:3000`.
-- A too‑narrow pathname pattern (e.g. `/images/` instead of `/images/**`).
-- When using the `URL` constructor, if no `search` is specified, then the `search` property is set to an empty string `''`, which means search params are **NOT** allowed.
+- Sử dụng `https` trong `src` nhưng chỉ cho phép `http` (hoặc ngược lại).
+- Tải từ một subdomain như `assets.example.com` trong khi chỉ cấu hình `example.com`.
+- Thiếu port trong quá trình sử dụng local/dev, ví dụ: `http://localhost:3000`.
+- Một mẫu pathname quá hẹp (ví dụ: `/images/` thay vì `/images/**`).
+- Khi sử dụng constructor `URL`, nếu không chỉ định `search`, thì thuộc tính `search` được đặt thành chuỗi rỗng `''`, có nghĩa là search params **KHÔNG** được phép.
 
-See the [Remote Patterns](/docs/pages/api-reference/components/image#remotepatterns) reference for details.
+Xem tham chiếu [Remote Patterns](/docs/pages/api-reference/components/image#remotepatterns) để biết chi tiết.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Add the protocol, hostname, port, and pathname to the `images.remotePatterns` config in `next.config.js`:
+Thêm protocol, hostname, port và pathname vào cấu hình `images.remotePatterns` trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -40,9 +40,9 @@ module.exports = {
 }
 ```
 
-### With specific search params
+### Với search params cụ thể
 
-To allow a single search param, `v=1234`:
+Để cho phép một search param duy nhất, `v=1234`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -54,9 +54,9 @@ module.exports = {
 }
 ```
 
-### Any search params
+### Bất kỳ search params nào
 
-To allow any search parameter, use the remote pattern object, omitting the `search` key.
+Để cho phép bất kỳ search parameter nào, hãy sử dụng đối tượng remote pattern, bỏ qua key `search`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -73,12 +73,12 @@ module.exports = {
 }
 ```
 
-### Fixing older versions of Next.js
+### Sửa các phiên bản Next.js cũ hơn
 
 <details>
-  <summary>Using Next.js prior to 15.3.0?</summary>
+  <summary>Sử dụng Next.js trước 15.3.0?</summary>
   
-Older versions of Next.js can configure `images.remotePatterns` using the object:
+Các phiên bản Next.js cũ hơn có thể cấu hình `images.remotePatterns` bằng cách sử dụng đối tượng:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -99,9 +99,9 @@ module.exports = {
 </details>
 
 <details>
-  <summary>Using Next.js prior to 12.3.0?</summary>
+  <summary>Sử dụng Next.js trước 12.3.0?</summary>
   
-Older versions of Next.js can configure `images.domains` instead:
+Các phiên bản Next.js cũ hơn có thể cấu hình `images.domains` thay thế:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -113,7 +113,7 @@ module.exports = {
 
 </details>
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Image Optimization Documentation](/docs/pages/api-reference/components/image)
-- [Remote Patterns Documentation](/docs/pages/api-reference/components/image#remotepatterns)
+- [Tài liệu Tối ưu hóa Hình ảnh](/docs/pages/api-reference/components/image)
+- [Tài liệu Remote Patterns](/docs/pages/api-reference/components/image#remotepatterns)

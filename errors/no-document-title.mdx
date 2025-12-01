@@ -1,14 +1,14 @@
 ---
-title: '`<title>` should not be used in _document.js `<Head>`'
+title: '`<title>` không nên được sử dụng trong `<Head>` của _document.js'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Adding `<title>` in `pages/_document.js` will lead to unexpected results with `next/head` since `_document.js` is only rendered on the initial pre-render.
+Thêm `<title>` trong `pages/_document.js` sẽ dẫn đến kết quả không mong muốn với `next/head` vì `_document.js` chỉ được render trong lần pre-render ban đầu.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Set `<title>` in `pages/_app.js` instead:
+Đặt `<title>` trong `pages/_app.js` thay thế:
 
 ```jsx filename="pages/_app.js"
 import React from 'react'
@@ -28,6 +28,6 @@ function MyApp({ Component, pageProps }) {
 export default MyApp
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [The issue this was reported in: #4596](https://github.com/vercel/next.js/issues/4596)
+- [Issue mà điều này được báo cáo: #4596](https://github.com/vercel/next.js/issues/4596)

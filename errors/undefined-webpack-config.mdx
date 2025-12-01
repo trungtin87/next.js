@@ -1,28 +1,28 @@
 ---
-title: Missing webpack config
+title: Thiếu webpack config
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The value returned from the custom `webpack` function in your `next.config.js` was undefined. This can occur from the initial config value not being returned.
+Giá trị được trả về từ function `webpack` tùy chỉnh trong `next.config.js` của bạn là undefined. Điều này có thể xảy ra do giá trị config ban đầu không được trả về.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure to return the `webpack` config from your custom `webpack` function in your `next.config.js`
+Đảm bảo trả về `webpack` config từ function `webpack` tùy chỉnh của bạn trong `next.config.js`
 
 ```js filename="next.config.js"
 module.exports = {
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Note: we provide webpack above so you should not `require` it
-    // Perform customizations to webpack config
+    // Lưu ý: chúng tôi cung cấp webpack ở trên nên bạn không nên `require` nó
+    // Thực hiện các tùy chỉnh cho webpack config
     config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//))
 
-    // Important: return the modified config
+    // Quan trọng: trả về config đã sửa đổi
     return config
   },
 }
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Custom webpack config Documentation](/docs/pages/api-reference/config/next-config-js/webpack)
+- [Tài liệu webpack config tùy chỉnh](/docs/pages/api-reference/config/next-config-js/webpack)

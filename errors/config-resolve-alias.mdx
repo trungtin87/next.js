@@ -1,24 +1,24 @@
 ---
-title: Invalid webpack resolve alias
+title: Webpack resolve alias không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When overriding `config.resolve.alias` incorrectly in `next.config.js` webpack will throw an error because private-next-pages is not defined.
+Khi ghi đè `config.resolve.alias` không chính xác trong `next.config.js`, webpack sẽ báo lỗi vì private-next-pages không được định nghĩa.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-This is not a bug in Next.js, it's related to the user adding a custom webpack(config) config to next.config.js and overriding internals by not applying Next.js' aliases. Solution would be:
+Đây không phải là một lỗi trong Next.js, nó liên quan đến việc người dùng thêm một cấu hình webpack(config) tùy chỉnh vào next.config.js và ghi đè các phần nội bộ bằng cách không áp dụng các bí danh (aliases) của Next.js. Giải pháp sẽ là:
 
 ```js filename="next.config.js"
 webpack(config) {
   config.resolve.alias = {
     ...config.resolve.alias,
-    // your aliases
+    // các bí danh của bạn
   }
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Related issue](https://github.com/vercel/next.js/issues/6681)
+- [Vấn đề liên quan](https://github.com/vercel/next.js/issues/6681)

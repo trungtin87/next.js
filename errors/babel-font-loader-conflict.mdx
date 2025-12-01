@@ -1,17 +1,17 @@
 ---
-title: Resolving "Babel and `next/font` Conflict" in Next.js
-description: This document explains the "Babel and `next/font` Conflict" in Next.js and provides a solution to resolve this issue.
+title: Giải quyết xung đột "Babel và `next/font`" trong Next.js
+description: Tài liệu này giải thích xung đột "Babel và `next/font`" trong Next.js và cung cấp giải pháp để giải quyết vấn đề này.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The "Babel and `next/font` Conflict" error arises when you attempt to use `next/font` in conjunction with a custom Babel configuration in your Next.js application. When you have a custom Babel config, you opt out of the Next.js Compiler, which is a requirement for using `next/font`.
+Lỗi "Babel and `next/font` Conflict" phát sinh khi bạn cố gắng sử dụng `next/font` kết hợp với cấu hình Babel tùy chỉnh trong ứng dụng Next.js của mình. Khi bạn có cấu hình Babel tùy chỉnh, bạn chọn không tham gia (opt out) Next.js Compiler, đây là yêu cầu để sử dụng `next/font`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To address this issue, you should remove your custom Babel configuration (e.g. `.babelrc`) and instead make use of the Next.js Compiler. This ensures compatibility between your Babel configuration and `next/font`.
+Để giải quyết vấn đề này, bạn nên xóa cấu hình Babel tùy chỉnh của mình (ví dụ: `.babelrc`) và thay vào đó sử dụng Next.js Compiler. Điều này đảm bảo khả năng tương thích giữa cấu hình Babel của bạn và `next/font`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Next.js Compiler](/docs/architecture/nextjs-compiler) - Learn more about the Next.js Compiler and how it benefits your application.
-- [Customizing Babel Config](/docs/pages/guides/babel) - Understand more about how to customize your Babel configuration in a Next.js application, and the implications of doing so.
+- [Next.js Compiler](/docs/architecture/nextjs-compiler) - Tìm hiểu thêm về Next.js Compiler và cách nó mang lại lợi ích cho ứng dụng của bạn.
+- [Tùy chỉnh Cấu hình Babel](/docs/pages/guides/babel) - Hiểu thêm về cách tùy chỉnh cấu hình Babel của bạn trong ứng dụng Next.js và những tác động của việc làm đó.

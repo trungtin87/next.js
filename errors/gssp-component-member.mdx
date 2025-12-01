@@ -1,18 +1,18 @@
 ---
-title: '`getStaticProps` / `getServerSideProps` can not be attached to the page component'
+title: '`getStaticProps` / `getServerSideProps` không thể được gắn vào component trang'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-On one of your page's components you attached either `getStaticProps`, `getStaticPaths`, or `getServerSideProps` as a member instead of as a separate export.
+Trên một trong các components trang của bạn, bạn đã gắn `getStaticProps`, `getStaticPaths`, hoặc `getServerSideProps` như một thành viên thay vì như một export riêng biệt.
 
-These methods can not be attached in the same way as `getInitialProps` and must be their own export
+Các phương thức này không thể được gắn theo cùng cách như `getInitialProps` và phải là export riêng của chúng.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Move the method to it's own export from your page.
+Di chuyển phương thức sang export riêng của nó từ trang của bạn.
 
-**Before**
+**Trước**
 
 ```jsx filename="pages/index.js"
 function Page(props) {
@@ -28,7 +28,7 @@ Page.getStaticProps = () => ({
 export default Page
 ```
 
-**After**
+**Sau**
 
 ```jsx filename="pages/index.js"
 function Page(props) {
@@ -44,6 +44,6 @@ export const getStaticProps = () => ({
 })
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Data Fetching Docs](/docs/pages/building-your-application/data-fetching)
+- [Tài Liệu Data Fetching](/docs/pages/building-your-application/data-fetching)

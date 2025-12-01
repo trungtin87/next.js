@@ -1,16 +1,16 @@
 ---
-title: React client hook in Server Component
+title: React client hook trong Server Component
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are using a React client hook in a Server Component.
+Bạn đang sử dụng một React client hook trong Server Component.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Mark the component using the hook as a Client Component by adding `'use client'` at the top of the file.
+Đánh dấu component sử dụng hook là Client Component bằng cách thêm `'use client'` ở đầu file.
 
-### Before
+### Trước
 
 ```jsx filename="app/example.js"
 import { useEffect } from 'react'
@@ -23,7 +23,7 @@ export default function Example() {
 }
 ```
 
-### After
+### Sau
 
 ```jsx filename="app/example.js"
 'use client'
@@ -38,6 +38,6 @@ export default function Example() {
 }
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [Server Components](/docs/app/getting-started/server-and-client-components)

@@ -1,20 +1,20 @@
 ---
-title: 'Invalid Custom Route `source`'
+title: Custom Route `source` không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A pattern could not be parsed when defining custom routes or a proxy `matcher`.
+Một mẫu không thể được phân tích cú pháp khi định nghĩa các custom routes hoặc một proxy `matcher`.
 
-This could have been due to trying to use normal `RegExp` syntax like negative lookaheads (`?!exclude`) without following [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp)'s syntax.
+Điều này có thể là do cố gắng sử dụng cú pháp `RegExp` thông thường như negative lookaheads (`?!exclude`) mà không tuân theo cú pháp của [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Wrap the `RegExp` part of your `source` as an un-named parameter.
+Bao bọc phần `RegExp` của `source` của bạn như một tham số không tên (un-named parameter).
 
 ### Custom Routes
 
-**Before**
+**Trước**
 
 ```js
 {
@@ -23,7 +23,7 @@ Wrap the `RegExp` part of your `source` as an un-named parameter.
 }
 ```
 
-**After**
+**Sau**
 
 ```js
 {
@@ -34,7 +34,7 @@ Wrap the `RegExp` part of your `source` as an un-named parameter.
 
 ### Proxy
 
-**Before**
+**Trước**
 
 ```ts filename="proxy.ts"
 const config = {
@@ -42,7 +42,7 @@ const config = {
 }
 ```
 
-**After**
+**Sau**
 
 ```ts filename="proxy.ts"
 const config = {
@@ -50,7 +50,7 @@ const config = {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [path-to-regexp](https://github.com/pillarjs/path-to-regexp)
-- [un-named parameters](https://github.com/pillarjs/path-to-regexp#unnamed-parameters)
+- [tham số không tên](https://github.com/pillarjs/path-to-regexp#unnamed-parameters)

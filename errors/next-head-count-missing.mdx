@@ -1,13 +1,13 @@
 ---
-title: '`next-head-count` is missing'
+title: '`next-head-count` bị thiếu'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You have a custom `pages/_document.js` that doesn't have the components required for Next.js to render correctly.
+Bạn có một `pages/_document.js` tùy chỉnh không có các component cần thiết để Next.js render chính xác.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Ensure that your `_document.js` is importing and rendering all of the [required components](/docs/pages/building-your-application/routing/custom-document).
+Đảm bảo rằng `_document.js` của bạn đang import và render tất cả các [component bắt buộc](/docs/pages/building-your-application/routing/custom-document).
 
-In this case you are most likely not rendering the `<Head>` component imported from `next/document`.
+Trong trường hợp này, rất có thể bạn không render component `<Head>` được import từ `next/document`.

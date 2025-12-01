@@ -1,22 +1,22 @@
 ---
-title: Cannot access `Math.random()` from a Client Component without a fallback UI defined
+title: Không thể truy cập `Math.random()` từ Client Component mà không có fallback UI được định nghĩa
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A Client Component is calling `Math.random()`.
+Một Client Component đang gọi `Math.random()`.
 
-Client Components primarily run in the browser however on an initial page visit, Next.js will serve an HTML page produced by simulating the client environment on the server. This process is called Server Side Rendering or SSR. Next.js will attempt to prerender this HTML ahead of time however if a Client Component accesses a random source during this prerender, it cannot include this component in the prerendered HTML, otherwise the value will be fixed on each user request and not random like expected. Next.js will use the nearest Suspense boundary around this component to prerender a fallback instead however in this instance there was no Suspense boundary.
+Client Components chủ yếu chạy trong trình duyệt tuy nhiên khi truy cập trang lần đầu, Next.js sẽ phục vụ một trang HTML được tạo ra bằng cách mô phỏng môi trường client trên server. Quá trình này được gọi là Server Side Rendering hay SSR. Next.js sẽ cố gắng prerender HTML này trước thời gian tuy nhiên nếu một Client Component truy cập nguồn ngẫu nhiên trong quá trình prerender này, nó không thể bao gồm component này trong HTML được prerender, nếu không giá trị sẽ được cố định trên mỗi request của người dùng và không ngẫu nhiên như mong đợi. Next.js sẽ sử dụng Suspense boundary gần nhất xung quanh component này để prerender một fallback thay thế tuy nhiên trong trường hợp này không có Suspense boundary.
 
-There are a number of ways you might fix this issue depending on the specifics of your use case.
+Có một số cách bạn có thể khắc phục vấn đề này tùy thuộc vào chi tiết của trường hợp sử dụng của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-### Provide Fallback UI
+### Cung Cấp Fallback UI
 
-Typically it is not possible to use `Math.random()` in a Client Component that is Server Rendered without introducing a hydration error. However if you find yourself with a component that calls `Math.random()` during rendering, and you already handle the tricky case of hydrating this value consistently, then you can add a Suspense boundary around the component that calls `Math.random()` to allow Next.js to prerender a fallback UI and fill in an actual random value when the user requests the page.
+Thông thường không thể sử dụng `Math.random()` trong một Client Component được Server Rendered mà không gây ra lỗi hydration. Tuy nhiên nếu bạn thấy mình có một component gọi `Math.random()` trong quá trình rendering, và bạn đã xử lý trường hợp khó khăn của việc hydrating giá trị này một cách nhất quán, thì bạn có thể thêm một Suspense boundary xung quanh component gọi `Math.random()` để cho phép Next.js prerender một fallback UI và điền vào giá trị ngẫu nhiên thực tế khi người dùng request trang.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/user-avatar.js"
 'use client'
@@ -25,15 +25,15 @@ export function UserAvatar({ avatar }) {
   let backgroundColor = avatar.preferredBackground
   if (!backgroundColor) {
     const randomColor = `#${Math.random().toString(16).slice(2, 8)}`
-    // imagine safelyGetRandomColor is a function that handles synchronizing
-    // the random color chosen between SSR and hydration to avoid hydration errors
+    // tưởng tượng safelyGetRandomColor là một function xử lý đồng bộ hóa
+    // màu ngẫu nhiên được chọn giữa SSR và hydration để tránh lỗi hydration
     backgroundColor = safelyGetRandomColor(randomColor)
   }
   return <Avatar background={backgroundColor} src={avatar.src} />
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/user-avatar.js"
 "use client"
@@ -54,19 +54,19 @@ function DynamicUserAvatar({ avatar }) {
   let backgroundColor = avatar.preferredBackground
   if (!backgroundColor) {
     const randomColor = `#${Math.random().toString(16).slice(2, 8)}`
-    // imagine safelyGetRandomColor is a function that handles synchronizing
-    // the random color chosen between SSR and hydration to avoid hydration errors
+    // tưởng tượng safelyGetRandomColor là một function xử lý đồng bộ hóa
+    // màu ngẫu nhiên được chọn giữa SSR và hydration để tránh lỗi hydration
     backgroundColor = safelyGetRandomColor(randomColor)
   }
   return <Avatar background={backgroundColor} src={avatar.src} />
 }
 ```
 
-### Only access `Math.random` in the browser
+### Chỉ truy cập `Math.random` trong trình duyệt
 
-If your random value is only intended for use in the browser you can move the call into an effect or event handler. React does not run effects during server rendering and there are no events during server rendering so neither option will require the prerender to exclude this component.
+Nếu giá trị ngẫu nhiên của bạn chỉ được dự định để sử dụng trong trình duyệt, bạn có thể di chuyển lệnh gọi vào một effect hoặc event handler. React không chạy effects trong quá trình server rendering và không có events trong quá trình server rendering nên cả hai tùy chọn đều không yêu cầu prerender loại trừ component này.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/workflow.js"
 'use client'
@@ -98,7 +98,7 @@ export default function Workflow({ currentStep, onNext, onPrev }) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/workflow.js"
 'use client'
@@ -139,6 +139,6 @@ export default function Workflow({ currentStep, onNext, onPrev }) {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`Suspense` React API](https://react.dev/reference/react/Suspense)
+- [React API `Suspense`](https://react.dev/reference/react/Suspense)

@@ -1,48 +1,48 @@
 ---
-title: Webpack 5 Adoption
+title: Áp Dụng Webpack 5
 ---
 
-## Why This Message Occurred
+## Tại Sao Thông Báo Này Xuất Hiện
 
-Next.js has adopted webpack 5 as the default for compilation. We've spent a lot of effort into ensuring the transition from webpack 4 to 5 will be as smooth as possible.
+Next.js đã áp dụng webpack 5 làm mặc định cho việc biên dịch. Chúng tôi đã dành rất nhiều nỗ lực để đảm bảo quá trình chuyển đổi từ webpack 4 sang 5 sẽ suôn sẻ nhất có thể.
 
-Your application currently has webpack 5 disabled using the `webpack5: false` flag which has been removed in Next.js 12:
+Ứng dụng của bạn hiện đang vô hiệu hóa webpack 5 bằng cách sử dụng cờ `webpack5: false`, cờ này đã bị xóa trong Next.js 12:
 
 ```js filename="next.config.js"
 module.exports = {
-  // Webpack 5 is enabled by default
-  // You can still use webpack 4 while upgrading to the latest version of Next.js by adding the "webpack5: false" flag
+  // Webpack 5 được kích hoạt theo mặc định
+  // Bạn vẫn có thể sử dụng webpack 4 trong khi nâng cấp lên phiên bản mới nhất của Next.js bằng cách thêm cờ "webpack5: false"
   webpack5: false,
 }
 ```
 
-Using webpack 5 in your application has many benefits, notably:
+Sử dụng webpack 5 trong ứng dụng của bạn có nhiều lợi ích, đáng chú ý là:
 
-- Improved Disk Caching: `next build` is significantly faster on subsequent builds
-- Improved Fast Refresh: Fast Refresh work is prioritized
-- Improved Long Term Caching of Assets: Deterministic code output that is less likely to change between builds
-- Improved Tree Shaking
-- Support for assets using `new URL("file.png", import.meta.url)`
-- Support for web workers using `new Worker(new URL("worker.js", import.meta.url))`
-- Support for `exports`/`imports` field in `package.json`
+- Cải thiện Disk Caching: `next build` nhanh hơn đáng kể trong các lần build tiếp theo
+- Cải thiện Fast Refresh: Công việc Fast Refresh được ưu tiên
+- Cải thiện Long Term Caching của Assets: Đầu ra code xác định ít có khả năng thay đổi giữa các lần build
+- Cải thiện Tree Shaking
+- Hỗ trợ cho assets sử dụng `new URL("file.png", import.meta.url)`
+- Hỗ trợ cho web workers sử dụng `new Worker(new URL("worker.js", import.meta.url))`
+- Hỗ trợ cho trường `exports`/`imports` trong `package.json`
 
-In the past releases we have gradually rolled out webpack 5 to Next.js applications:
+Trong các bản phát hành trước đây, chúng tôi đã dần dần triển khai webpack 5 cho các ứng dụng Next.js:
 
-- In Next.js 10.2 we automatically opted-in applications without custom webpack configuration in `next.config.js`
-- In Next.js 10.2 we automatically opted-in applications that do not have a `next.config.js`
-- In Next.js 11 webpack 5 was enabled by default for all applications. You could still opt-out and use webpack 4 to help with backwards compatibility using `webpack5: false` in `next.config.js`
-- In Next.js 12 webpack 4 support was removed.
+- Trong Next.js 10.2, chúng tôi tự động chọn tham gia cho các ứng dụng không có cấu hình webpack tùy chỉnh trong `next.config.js`
+- Trong Next.js 10.2, chúng tôi tự động chọn tham gia cho các ứng dụng không có `next.config.js`
+- Trong Next.js 11, webpack 5 đã được kích hoạt theo mặc định cho tất cả các ứng dụng. Bạn vẫn có thể chọn không tham gia và sử dụng webpack 4 để giúp tương thích ngược bằng cách sử dụng `webpack5: false` trong `next.config.js`
+- Trong Next.js 12, hỗ trợ webpack 4 đã bị xóa.
 
-## Custom webpack configuration
+## Cấu hình webpack tùy chỉnh
 
-In case you do have custom webpack configuration, either through custom plugins or your own modifications you'll have to take a few steps to ensure your applications works with webpack 5.
+Trong trường hợp bạn có cấu hình webpack tùy chỉnh, thông qua các plugin tùy chỉnh hoặc sửa đổi của riêng bạn, bạn sẽ phải thực hiện một vài bước để đảm bảo ứng dụng của bạn hoạt động với webpack 5.
 
-- When using `next-transpile-modules` make sure you use the latest version which includes [this patch](https://github.com/martpie/next-transpile-modules/pull/179)
-- When using `@zeit/next-css` / `@zeit/next-sass` make sure you use the [built-in CSS/Sass support](/docs/app/getting-started/css) instead
-- When using `@zeit/next-preact` use [this example](https://github.com/vercel/next.js/tree/canary/examples/using-preact) instead
-- When using `@zeit/next-source-maps` use the [built-in production Source Map support](/docs/pages/api-reference/config/next-config-js/productionBrowserSourceMaps)
-- When using webpack plugins make sure they're upgraded to the latest version, in most cases the latest version will include webpack 5 support. In some cases these upgraded webpack plugins will only support webpack 5.
+- Khi sử dụng `next-transpile-modules`, hãy đảm bảo bạn sử dụng phiên bản mới nhất bao gồm [bản vá này](https://github.com/martpie/next-transpile-modules/pull/179)
+- Khi sử dụng `@zeit/next-css` / `@zeit/next-sass`, hãy đảm bảo bạn sử dụng [hỗ trợ CSS/Sass tích hợp](/docs/app/getting-started/css) thay thế
+- Khi sử dụng `@zeit/next-preact`, hãy sử dụng [ví dụ này](https://github.com/vercel/next.js/tree/canary/examples/using-preact) thay thế
+- Khi sử dụng `@zeit/next-source-maps`, hãy sử dụng [hỗ trợ Source Map production tích hợp](/docs/pages/api-reference/config/next-config-js/productionBrowserSourceMaps)
+- Khi sử dụng webpack plugins, hãy đảm bảo chúng được nâng cấp lên phiên bản mới nhất, trong hầu hết các trường hợp, phiên bản mới nhất sẽ bao gồm hỗ trợ webpack 5. Trong một số trường hợp, các webpack plugins được nâng cấp này sẽ chỉ hỗ trợ webpack 5.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-In case you're running into issues you can connect with the community in [this help discussion](https://github.com/vercel/next.js/discussions/23498).
+Trong trường hợp bạn gặp sự cố, bạn có thể kết nối với cộng đồng trong [thảo luận trợ giúp này](https://github.com/vercel/next.js/discussions/23498).

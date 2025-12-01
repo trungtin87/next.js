@@ -1,22 +1,22 @@
 ---
-title: Env Loading Disabled
+title: Tải Env Bị Vô Hiệu Hóa
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In your project you have `dotenv` listed as a `dependency` or a `devDependency` which opts-out of Next.js' automatic loading to prevent creating a conflict with any existing `dotenv` behavior in your project.
+Trong dự án của bạn, bạn có `dotenv` được liệt kê như một `dependency` hoặc `devDependency` điều này opt-out khỏi việc tải tự động của Next.js để ngăn tạo xung đột với bất kỳ hành vi `dotenv` hiện có nào trong dự án của bạn.
 
-This is also disabled if a `package.json` isn't able to found in your project somehow.
+Điều này cũng bị vô hiệu hóa nếu `package.json` không thể được tìm thấy trong dự án của bạn bằng cách nào đó.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Update to the latest version of Next.js (>= v9.4.1) where this support is enabled regardless of `dotenv` being installed.
+Cập nhật lên phiên bản mới nhất của Next.js (>= v9.4.1) nơi hỗ trợ này được bật bất kể `dotenv` có được cài đặt hay không.
 
-Remove `dotenv` from your `devDependencies` or `dependencies` and allow Next.js to load your `dotenv` files for you.
+Xóa `dotenv` khỏi `devDependencies` hoặc `dependencies` của bạn và cho phép Next.js tải các file `dotenv` cho bạn.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [dotenv](https://npmjs.com/package/dotenv)
 - [dotenv-expand](https://npmjs.com/package/dotenv-expand)
 - [Environment Variables](https://en.wikipedia.org/wiki/Environment_variable)
-- [Next.js Environment Variables Docs](/docs/pages/guides/environment-variables)
+- [Tài liệu Environment Variables của Next.js](/docs/pages/guides/environment-variables)

@@ -1,16 +1,16 @@
 ---
-title: Webpack Build Worker automatic opt-out
+title: Tự động từ chối Webpack Build Worker
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The Next.js config contains custom webpack configuration, as a result, the webpack build worker optimization was disabled.
+Cấu hình Next.js chứa cấu hình webpack tùy chỉnh, kết quả là, tối ưu hóa webpack build worker đã bị vô hiệu hóa.
 
-The webpack build worker optimization helps alleviate memory stress during builds and reduce out-of-memory errors although some custom configurations may not be compatible.
+Tối ưu hóa webpack build worker giúp giảm bớt căng thẳng bộ nhớ trong quá trình build và giảm lỗi hết bộ nhớ (out-of-memory), mặc dù một số cấu hình tùy chỉnh có thể không tương thích.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Upgrade Next.js to latest (>= 14.1.0) to remove this warning.
+Nâng cấp Next.js lên phiên bản mới nhất (>= 14.1.0) để loại bỏ cảnh báo này.
 
 ```bash filename"Terminal"
 npm i next@latest

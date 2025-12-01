@@ -1,15 +1,15 @@
 ---
-title: Invalid External Rewrite
+title: External Rewrite Không Hợp Lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A rewrite was defined with both `basePath: false` and an internal `destination`. Rewrites that capture urls outside of the `basePath` must route externally, as they are intended for proxying in the case of incremental adoption of Next.js in a project.
+Một rewrite đã được định nghĩa với cả `basePath: false` và một `destination` nội bộ. Các rewrites bắt các urls bên ngoài `basePath` phải định tuyến ra bên ngoài, vì chúng được thiết kế để proxy trong trường hợp áp dụng dần dần Next.js trong một dự án.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Look for any rewrite where `basePath` is `false` and make sure its `destination` starts with `http://` or `https://`.
+Tìm kiếm bất kỳ rewrite nào mà `basePath` là `false` và đảm bảo `destination` của nó bắt đầu bằng `http://` hoặc `https://`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Rewrites section in Documentation](/docs/pages/api-reference/config/next-config-js/rewrites)
+- [Phần Rewrites trong Tài liệu](/docs/pages/api-reference/config/next-config-js/rewrites)

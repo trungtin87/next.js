@@ -1,25 +1,25 @@
 ---
-title: Resolving "Built-in next/font" Error in Next.js
-description: This document offers a detailed guide on fixing the "Built-in `next/font`" error in Next.js, which typically occurs when you're still using the `@next/font` package in Next.js 13.2 and later.
+title: Giải quyết lỗi "Built-in next/font" trong Next.js
+description: Tài liệu này cung cấp hướng dẫn chi tiết về cách sửa lỗi "Built-in `next/font`" trong Next.js, thường xảy ra khi bạn vẫn đang sử dụng gói `@next/font` trong Next.js 13.2 trở lên.
 ---
 
-`next/font` will automatically optimize your fonts (including custom fonts) and remove external network requests for improved privacy and performance.
+`next/font` sẽ tự động tối ưu hóa fonts của bạn (bao gồm cả custom fonts) và loại bỏ các yêu cầu mạng bên ngoài để cải thiện quyền riêng tư và hiệu suất.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The "Built-in `next/font`" error is triggered when the `@next/font` package is still installed and used in your Next.js application.
+Lỗi "Built-in `next/font`" được kích hoạt khi gói `@next/font` vẫn được cài đặt và sử dụng trong ứng dụng Next.js của bạn.
 
-From version 13.2 onward, **`next/font` has been built into Next.js**, making the `@next/font` package redundant. The `@next/font` package will be completely removed in Next.js 14.
+Từ phiên bản 13.2 trở đi, **`next/font` đã được tích hợp vào Next.js**, khiến gói `@next/font` trở nên dư thừa. Gói `@next/font` sẽ bị loại bỏ hoàn toàn trong Next.js 14.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To resolve this issue, you need to uninstall `@next/font` and replace all `@next/font` imports with `next/font` in your project. This can be done automatically using the `built-in-next-font` codemod:
+Để giải quyết vấn đề này, bạn cần gỡ cài đặt `@next/font` và thay thế tất cả các import `@next/font` bằng `next/font` trong dự án của bạn. Điều này có thể được thực hiện tự động bằng cách sử dụng `built-in-next-font` codemod:
 
 ```sh filename="Terminal"
 npx @next/codemod built-in-next-font .
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Codemods](/docs/app/guides/upgrading/codemods) - Understand more about codemods and how they can help automate large-scale codebase refactors.
-- [Optimizing Fonts](/docs/app/api-reference/components/font) - Learn how to optimize fonts in your Next.js applications for improved performance.
+- [Codemods](/docs/app/guides/upgrading/codemods) - Hiểu thêm về codemods và cách chúng có thể giúp tự động hóa việc tái cấu trúc codebase quy mô lớn.
+- [Tối ưu hóa Fonts](/docs/app/api-reference/components/font) - Tìm hiểu cách tối ưu hóa fonts trong các ứng dụng Next.js của bạn để cải thiện hiệu suất.

@@ -1,10 +1,10 @@
 ---
-title: Removed page from Proxy API
+title: Đã Xóa page khỏi Proxy API
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Your application is interacting with `request.page` which has been deprecated.
+Ứng dụng của bạn đang tương tác với `request.page` đã bị phản đối (deprecated).
 
 ```ts filename="proxy.ts"
 import { NextRequest, NextResponse } from 'next/server'
@@ -21,9 +21,9 @@ export function proxy(request: NextRequest) {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-You can use [URLPattern](https://developer.mozilla.org/docs/Web/API/URLPattern) instead to have the same behavior:
+Bạn có thể sử dụng [URLPattern](https://developer.mozilla.org/docs/Web/API/URLPattern) thay thế để có cùng hành vi:
 
 ```ts filename="proxy.ts"
 import { NextRequest, NextResponse } from 'next/server'

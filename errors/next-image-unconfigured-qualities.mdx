@@ -1,14 +1,14 @@
 ---
-title: '`next/image` Un-configured qualities'
+title: '`next/image` qualities Chưa Được Cấu Hình'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-One of your pages that leverages the `next/image` component, passed a `quality` value that isn't defined in the `images.qualities` property in `next.config.js`.
+Một trong các trang của bạn sử dụng component `next/image`, đã truyền một giá trị `quality` không được định nghĩa trong thuộc tính `images.qualities` trong `next.config.js`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Add an entry to `images.qualities` array in `next.config.js` with the expected value. For example:
+Thêm một entry vào mảng `images.qualities` trong `next.config.js` với giá trị mong đợi. Ví dụ:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
 }
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Image Optimization Documentation](/docs/pages/api-reference/components/image)
-- [Qualities Config Documentation](/docs/pages/api-reference/components/image#qualities)
+- [Tài liệu Image Optimization](/docs/pages/api-reference/components/image)
+- [Tài liệu Qualities Config](/docs/pages/api-reference/components/image#qualities)

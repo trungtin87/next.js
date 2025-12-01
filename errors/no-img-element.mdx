@@ -1,26 +1,26 @@
 ---
-title: No img element
+title: Không có phần tử img
 ---
 
-> Prevent usage of `<img>` element due to slower LCP and higher bandwidth.
+> Ngăn chặn việc sử dụng phần tử `<img>` do LCP chậm hơn và băng thông cao hơn.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-An `<img>` element was used to display an image instead of `<Image />` from `next/image`.
+Một phần tử `<img>` đã được sử dụng để hiển thị hình ảnh thay vì `<Image />` từ `next/image`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-1. Use [`next/image`](/docs/pages/api-reference/components/image) to improve performance with automatic [Image Optimization](/docs/pages/api-reference/components/image).
+1. Sử dụng [`next/image`](/docs/pages/api-reference/components/image) để cải thiện hiệu suất với [Tối ưu hóa Hình ảnh](/docs/pages/api-reference/components/image) tự động.
 
-> **Note**: If deploying to a [managed hosting provider](/docs/pages/getting-started/deploying), remember to check provider pricing since optimized images might be charged differently than the original images.
+> **Lưu ý**: Nếu triển khai lên [nhà cung cấp hosting được quản lý](/docs/pages/getting-started/deploying), hãy nhớ kiểm tra giá của nhà cung cấp vì hình ảnh được tối ưu hóa có thể được tính phí khác với hình ảnh gốc.
 >
-> Common image optimization platform pricing:
+> Giá nền tảng tối ưu hóa hình ảnh phổ biến:
 >
-> - [Vercel pricing](https://vercel.com/pricing)
-> - [Cloudinary pricing](https://cloudinary.com/pricing)
-> - [imgix pricing](https://imgix.com/pricing)
+> - [Giá Vercel](https://vercel.com/pricing)
+> - [Giá Cloudinary](https://cloudinary.com/pricing)
+> - [Giá imgix](https://imgix.com/pricing)
 
-> **Note**: If self-hosting, remember to install [`sharp`](https://www.npmjs.com/package/sharp) and check if your server has enough storage to cache the optimized images.
+> **Lưu ý**: Nếu tự hosting, hãy nhớ cài đặt [`sharp`](https://www.npmjs.com/package/sharp) và kiểm tra xem máy chủ của bạn có đủ dung lượng lưu trữ để cache các hình ảnh được tối ưu hóa hay không.
 
 ```jsx filename="pages/index.js"
 import Image from 'next/image'
@@ -39,7 +39,7 @@ function Home() {
 export default Home
 ```
 
-2. If you would like to use `next/image` features such as blur-up placeholders but disable Image Optimization, you can do so using [unoptimized](/docs/pages/api-reference/components/image#unoptimized):
+2. Nếu bạn muốn sử dụng các tính năng của `next/image` như placeholder mờ dần nhưng vô hiệu hóa Tối ưu hóa Hình ảnh, bạn có thể làm như vậy bằng cách sử dụng [unoptimized](/docs/pages/api-reference/components/image#unoptimized):
 
 ```jsx filename="pages/index.js"
 import Image from 'next/image'
@@ -49,7 +49,7 @@ const UnoptimizedImage = (props) => {
 }
 ```
 
-3. You can also use the `<picture>` element with the nested `<img>` element:
+3. Bạn cũng có thể sử dụng phần tử `<picture>` với phần tử `<img>` lồng nhau:
 
 ```jsx filename="pages/index.js"
 function Home() {
@@ -68,7 +68,7 @@ function Home() {
 }
 ```
 
-4. You can use a [custom image loader](/docs/pages/api-reference/components/image#loader) to optimize images. Set [loaderFile](/docs/pages/api-reference/components/image#loaderfile) to the path of your custom loader.
+4. Bạn có thể sử dụng [custom image loader](/docs/pages/api-reference/components/image#loader) để tối ưu hóa hình ảnh. Đặt [loaderFile](/docs/pages/api-reference/components/image#loaderfile) thành đường dẫn của loader tùy chỉnh của bạn.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -79,9 +79,9 @@ module.exports = {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Image Component and Image Optimization](/docs/pages/api-reference/components/image)
-- [next/image API Reference](/docs/pages/api-reference/components/image)
+- [Component Image và Tối ưu hóa Hình ảnh](/docs/pages/api-reference/components/image)
+- [Tham chiếu API next/image](/docs/pages/api-reference/components/image)
 - [Largest Contentful Paint (LCP)](/learn/seo/web-performance/lcp)
-- [Next.js config loaderFile option](/docs/pages/api-reference/components/image#loaderfile)
+- [Tùy chọn loaderFile trong cấu hình Next.js](/docs/pages/api-reference/components/image#loaderfile)

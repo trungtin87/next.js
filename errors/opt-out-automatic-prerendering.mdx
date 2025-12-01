@@ -1,21 +1,21 @@
 ---
-title: Opt-out of Automatic Static Optimization
+title: Thoát khỏi Tối Ưu Hóa Tĩnh Tự Động
 ---
 
-## Why This Warning Occurred
+## Tại Sao Cảnh Báo Này Xảy Ra
 
-You are using `getInitialProps` in your [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app).
+Bạn đang sử dụng `getInitialProps` trong [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) của bạn.
 
-This causes **all pages** to be executed on the server -- disabling [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization).
+Điều này khiến **tất cả các trang** được thực thi trên server -- vô hiệu hóa [Tối Ưu Hóa Tĩnh Tự Động](/docs/pages/building-your-application/rendering/automatic-static-optimization).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Be sure you meant to use `getInitialProps` in `pages/_app`!
-There are some valid use cases for this, but it is often better to handle `getInitialProps` on a _per-page_ basis.
+Hãy chắc chắn rằng bạn có ý định sử dụng `getInitialProps` trong `pages/_app`!
+Có một số trường hợp sử dụng hợp lệ cho điều này, nhưng thường tốt hơn là xử lý `getInitialProps` trên cơ sở _từng trang_.
 
-If you previously copied the [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) example, you may be able to remove your `getInitialProps`.
+Nếu bạn trước đây đã sao chép ví dụ [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app), bạn có thể xóa `getInitialProps` của mình.
 
-The following `getInitialProps` does nothing and may be removed:
+`getInitialProps` sau đây không làm gì và có thể được xóa:
 
 ```jsx filename="pages/_app.js"
 class MyApp extends App {

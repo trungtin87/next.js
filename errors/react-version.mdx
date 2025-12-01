@@ -1,42 +1,37 @@
 ---
-title: Minimum React Version
+title: Phiên Bản React Tối Thiểu
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Your project is using an old version of `react` or `react-dom` that does not
-meet the suggested minimum version requirement.
+Dự án của bạn đang sử dụng một phiên bản cũ của `react` hoặc `react-dom` không đáp ứng yêu cầu phiên bản tối thiểu được đề xuất.
 
-Next.js suggests using, at a minimum, `react@18.2.0` and `react-dom@18.2.0`.
-Older versions of `react` and `react-dom` do work with Next.js, however, they do
-not enable all of Next.js' features.
+Next.js đề xuất sử dụng tối thiểu `react@18.2.0` và `react-dom@18.2.0`.
+Các phiên bản cũ hơn của `react` và `react-dom` vẫn hoạt động với Next.js, tuy nhiên, chúng không kích hoạt tất cả các tính năng của Next.js.
 
-For example, the following features are not enabled with old React versions:
+Ví dụ, các tính năng sau không được kích hoạt với các phiên bản React cũ:
 
-- [Fast Refresh](/docs/architecture/fast-refresh): instantly
-  view edits to your app without losing component state
-- Component stack trace in development: see the component tree that lead up to
-  an error
-- Hydration mismatch warnings: trace down discrepancies in your React tree that
-  cause performance problems
+- [Fast Refresh](/docs/architecture/fast-refresh): xem ngay các chỉnh sửa đối với ứng dụng của bạn mà không làm mất trạng thái component
+- Component stack trace trong development: xem cây component dẫn đến lỗi
+- Cảnh báo không khớp hydration: truy tìm các sự khác biệt trong React tree của bạn gây ra vấn đề hiệu suất
 
-This list is not exhaustive, but illustrative in the value of upgrading React!
+Danh sách này không đầy đủ, nhưng minh họa giá trị của việc nâng cấp React!
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-**Via npm**
+**Thông qua npm**
 
 ```bash filename="Terminal"
 npm upgrade react@latest react-dom@latest
 ```
 
-**Via Yarn**
+**Thông qua Yarn**
 
 ```bash filename="Terminal"
 yarn add react@latest react-dom@latest
 ```
 
-**Manually** Open your `package.json` and upgrade `react` and `react-dom`:
+**Thủ công** Mở `package.json` của bạn và nâng cấp `react` và `react-dom`:
 
 ```json filename="package.json"
 {
@@ -47,7 +42,7 @@ yarn add react@latest react-dom@latest
 }
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Fast Refresh blog post](/blog/next-9-4#fast-refresh)
-- [Fast Refresh docs](/docs/architecture/fast-refresh)
+- [Bài viết blog về Fast Refresh](/blog/next-9-4#fast-refresh)
+- [Tài liệu Fast Refresh](/docs/architecture/fast-refresh)

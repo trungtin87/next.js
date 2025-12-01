@@ -1,16 +1,16 @@
 ---
-title: No Duplicate Head
+title: Không Trùng Lặp Head
 ---
 
-> Prevent duplicate usage of `<Head>` in `pages/_document.js`.
+> Ngăn chặn việc sử dụng trùng lặp `<Head>` trong `pages/_document.js`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-More than a single instance of the `<Head />` component was used in a single custom document. This can cause unexpected behavior in your application.
+Nhiều hơn một instance của component `<Head />` đã được sử dụng trong một custom document. Điều này có thể gây ra hành vi không mong muốn trong ứng dụng của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Only use a single `<Head />` component in your custom document in `pages/_document.js`.
+Chỉ sử dụng một component `<Head />` duy nhất trong custom document của bạn trong `pages/_document.js`.
 
 ```jsx filename="pages/_document.js"
 import Document, { Html, Head, Main, NextScript } from 'next/document'
@@ -36,6 +36,6 @@ class MyDocument extends Document {
 export default MyDocument
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Custom Document](/docs/pages/building-your-application/routing/custom-document)

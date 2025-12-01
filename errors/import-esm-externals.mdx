@@ -1,21 +1,21 @@
 ---
-title: ESM packages need to be imported
+title: Các gói ESM cần được import
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Packages in node_modules that are published as EcmaScript Module, need to be `import`ed via `import ... from 'package'` or `import('package')`.
+Các gói trong node_modules được xuất bản dưới dạng EcmaScript Module, cần được `import` thông qua `import ... from 'package'` hoặc `import('package')`.
 
-You get this error when using a different way to reference the package, e. g. `require()`.
+Bạn gặp lỗi này khi sử dụng một cách khác để tham chiếu gói, ví dụ `require()`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-1. Use `import` or `import()` to reference the package instead. (Recommended)
+1. Sử dụng `import` hoặc `import()` để tham chiếu gói thay thế. (Được khuyến nghị)
 
-2. If you are already using `import`, make sure that this is not changed by a transpiler, e. g. TypeScript or Babel.
+2. Nếu bạn đã sử dụng `import`, hãy đảm bảo rằng điều này không bị thay đổi bởi một trình biên dịch (transpiler), ví dụ TypeScript hoặc Babel.
 
-3. Switch to loose mode (`experimental.esmExternals: 'loose'`), which tries to automatically correct this error.
+3. Chuyển sang chế độ loose (`experimental.esmExternals: 'loose'`), chế độ này cố gắng tự động sửa lỗi này.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Node.js ESM require docs](https://nodejs.org/dist/latest-v16.x/docs/api/esm.html#esm_require)
+- [Tài liệu Node.js ESM require](https://nodejs.org/dist/latest-v16.x/docs/api/esm.html#esm_require)

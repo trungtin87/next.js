@@ -1,18 +1,18 @@
 ---
-title: Invalid Project Directory Casing
+title: Casing thư mục dự án không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When starting Next.js, the current directory is a different casing than the actual directory on your filesystem. This can cause files to resolve inconsistently.
+Khi khởi động Next.js, thư mục hiện tại có casing (chữ hoa/thường) khác với thư mục thực tế trên hệ thống tệp của bạn. Điều này có thể khiến các tệp được giải quyết không nhất quán.
 
-This can occur when using a case-insensitive filesystem. For example, opening PowerShell on Windows navigating to `cd path/to/myproject` instead of `cd path/to/MyProject`.
+Điều này có thể xảy ra khi sử dụng hệ thống tệp không phân biệt chữ hoa chữ thường. Ví dụ, mở PowerShell trên Windows điều hướng đến `cd path/to/myproject` thay vì `cd path/to/MyProject`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Ensure the casing for the current working directory matches the actual case of the real directory. Use a terminal that enforces case-sensitivity.
+Đảm bảo casing cho thư mục làm việc hiện tại khớp với casing thực tế của thư mục thật. Sử dụng terminal thực thi phân biệt chữ hoa chữ thường.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Next.js CLI documentation](/docs/pages/api-reference/cli/next)
-- [Case sensitivity in filesystems](https://en.wikipedia.org/wiki/Case_sensitivity#In_filesystems)
+- [Tài liệu Next.js CLI](/docs/pages/api-reference/cli/next)
+- [Phân biệt chữ hoa chữ thường trong hệ thống tệp](https://en.wikipedia.org/wiki/Case_sensitivity#In_filesystems)

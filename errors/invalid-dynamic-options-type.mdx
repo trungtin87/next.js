@@ -1,14 +1,14 @@
 ---
-title: 'Invalid options type in a `next/dynamic` call'
+title: Loại tùy chọn không hợp lệ trong một lệnh gọi `next/dynamic`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You have an invalid options type in a `next/dynamic` call. The options must be an object literal.
+Bạn có một loại tùy chọn không hợp lệ trong một lệnh gọi `next/dynamic`. Các tùy chọn phải là một object literal.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-**Before**
+**Trước**
 
 ```jsx filename="example.js"
 import dynamic from 'next/dynamic'
@@ -17,7 +17,7 @@ const options = { loading: () => <p>...</p>, ssr: false }
 const DynamicComponent = dynamic(() => import('../components/hello'), options)
 ```
 
-**After**
+**Sau**
 
 ```jsx filename="example.js"
 import dynamic from 'next/dynamic'
@@ -28,6 +28,6 @@ const DynamicComponent = dynamic(() => import('../components/hello'), {
 })
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Dynamic Import](/docs/pages/guides/lazy-loading)

@@ -1,14 +1,14 @@
 ---
-title: 'Nested `<style jsx>` tags'
+title: Các thẻ `<style jsx>` lồng nhau
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You have nested `<style jsx>` tags in a component. `<style jsx>` tags must be at the root of a `styled-jsx` scope.
+Bạn đã lồng các thẻ `<style jsx>` trong một component. Các thẻ `<style jsx>` phải ở gốc của phạm vi `styled-jsx`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-**Before**
+**Trước**
 
 ```jsx filename="example.js"
 const Component = () => (
@@ -30,7 +30,7 @@ const Component = () => (
 )
 ```
 
-**After**
+**Sau**
 
 ```jsx filename="example.js"
 const Component = () => (
@@ -50,7 +50,7 @@ const Component = () => (
 )
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Built-In CSS-in-JS](/docs/pages/guides/css-in-js)
-- [styled-jsx documentation](https://github.com/vercel/styled-jsx)
+- [CSS-in-JS Tích Hợp](/docs/pages/guides/css-in-js)
+- [Tài liệu styled-jsx](https://github.com/vercel/styled-jsx)

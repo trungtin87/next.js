@@ -1,16 +1,16 @@
 ---
-title: No Sync Scripts
+title: Không có Script Đồng Bộ
 ---
 
-> Prevent synchronous scripts.
+> Ngăn chặn các script đồng bộ.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A synchronous script was used which can impact your webpage performance.
+Một script đồng bộ đã được sử dụng có thể ảnh hưởng đến hiệu suất trang web của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-### Script component (recommended)
+### Component Script (khuyến nghị)
 
 ```jsx filename="pages/index.js"
 import Script from 'next/script'
@@ -27,13 +27,13 @@ function Home() {
 export default Home
 ```
 
-### Use `async` or `defer`
+### Sử dụng `async` hoặc `defer`
 
 ```html
 <script src="https://third-party-script.js" async />
 <script src="https://third-party-script.js" defer />
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Efficiently load third-party JavaScript](https://web.dev/efficiently-load-third-party-javascript/)
+- [Tải JavaScript của bên thứ ba một cách hiệu quả](https://web.dev/efficiently-load-third-party-javascript/)

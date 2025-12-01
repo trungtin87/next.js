@@ -1,18 +1,18 @@
 ---
-title: PostCSS Configuration Is a Function
+title: Cấu Hình PostCSS Là Một Function
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The project's custom PostCSS configuration exports a function instead of an object.
+Cấu hình PostCSS tùy chỉnh của dự án export một function thay vì một object.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Adjust the custom PostCSS configuration to not export a function. Instead, return a plain object.
+Điều chỉnh cấu hình PostCSS tùy chỉnh để không export một function. Thay vào đó, trả về một plain object.
 
-If you need environment information, read it from `process.env`.
+Nếu bạn cần thông tin môi trường, hãy đọc nó từ `process.env`.
 
-**Before**
+**Trước**
 
 ```js filename="postcss.config.js"
 module.exports = ({ env }) => ({
@@ -22,7 +22,7 @@ module.exports = ({ env }) => ({
 })
 ```
 
-**After**
+**Sau**
 
 ```js filename="postcss.config.js"
 module.exports = {

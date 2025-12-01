@@ -1,14 +1,14 @@
 ---
-title: '`getInitialProps` was defined as an instance method'
+title: '`getInitialProps` được định nghĩa như một phương thức instance'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`getInitialProps` must be a static method in order to be called by next.js.
+`getInitialProps` phải là một phương thức tĩnh (static method) để được gọi bởi next.js.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Use the static keyword.
+Sử dụng từ khóa static.
 
 ```jsx filename="pages/example.js"
 export default class YourEntryComponent extends React.Component {
@@ -22,7 +22,7 @@ export default class YourEntryComponent extends React.Component {
 }
 ```
 
-or
+hoặc
 
 ```jsx filename="pages/example.js"
 const YourEntryComponent = function () {
@@ -36,6 +36,6 @@ YourEntryComponent.getInitialProps = () => {
 export default YourEntryComponent
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Fetching data and component lifecycle](/docs/pages/api-reference/functions/get-initial-props)
+- [Lấy dữ liệu và vòng đời component](/docs/pages/api-reference/functions/get-initial-props)

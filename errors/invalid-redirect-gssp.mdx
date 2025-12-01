@@ -1,14 +1,14 @@
 ---
-title: 'Invalid Redirect `getStaticProps` / `getServerSideProps`'
+title: Redirect không hợp lệ `getStaticProps` / `getServerSideProps`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The `redirect` value returned from your `getStaticProps` or `getServerSideProps` function had invalid values.
+Giá trị `redirect` được trả về từ hàm `getStaticProps` hoặc `getServerSideProps` của bạn có các giá trị không hợp lệ.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure you return the proper values for the `redirect` value.
+Đảm bảo bạn trả về các giá trị thích hợp cho giá trị `redirect`.
 
 ```tsx filename="pages/index.tsx" switcher
 import type { InferGetStaticPropsType, GetStaticProps } from 'next'
@@ -25,7 +25,7 @@ export const getStaticProps = (async (context) => {
   if (!repo) {
     return {
       redirect: {
-        permanent: false, // or true
+        permanent: false, // hoặc true
         destination: '/404',
       },
     }
@@ -51,7 +51,7 @@ export async function getStaticPaths() {
   if (!repo) {
     return {
       redirect: {
-        permanent: false, // or true
+        permanent: false, // hoặc true
         destination: '/404',
       },
     }
@@ -65,6 +65,6 @@ export default function Page({ repo }) {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Data Fetching Documentation](/docs/pages/building-your-application/data-fetching/get-static-props)
+- [Tài liệu Data Fetching](/docs/pages/building-your-application/data-fetching/get-static-props)

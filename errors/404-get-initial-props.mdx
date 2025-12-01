@@ -1,21 +1,21 @@
 ---
-title: 404.js Cannot Have getInitialProps
-description: This document provides an understanding of the "404.js Cannot Have getInitialProps" error in Next.js and offers solutions to fix it.
+title: 404.js Không Thể Có getInitialProps
+description: Tài liệu này cung cấp sự hiểu biết về lỗi "404.js Cannot Have getInitialProps" trong Next.js và đưa ra các giải pháp để khắc phục nó.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The "404.js Cannot Have `getInitialProps`" error usually occurs when either `getInitialProps` or `getServerSideProps` is used in your `404.js` page. The `404.js` page in Next.js is designed to be static to ensure consistent performance.
+Lỗi "404.js Cannot Have `getInitialProps`" thường xảy ra khi `getInitialProps` hoặc `getServerSideProps` được sử dụng trong trang `404.js` của bạn. Trang `404.js` trong Next.js được thiết kế để tĩnh (static) nhằm đảm bảo hiệu suất nhất quán.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Adding `getInitialProps` or `getServerSideProps` to your `404.js` page will cause it to be rendered on the server-side.
+Việc thêm `getInitialProps` hoặc `getServerSideProps` vào trang `404.js` của bạn sẽ khiến nó được render phía server (server-side).
 
-To fix this error, you should remove `getInitialProps` from your `404.js` page. Additionally, ensure that no Higher-Order Components (HOCs) used in the `404.js` page are attaching `getInitialProps`.
+Để khắc phục lỗi này, bạn nên xóa `getInitialProps` khỏi trang `404.js` của mình. Ngoài ra, hãy đảm bảo rằng không có Higher-Order Components (HOCs) nào được sử dụng trong trang `404.js` đang đính kèm `getInitialProps`.
 
-If your `404.js` page requires data fetching, we recommend incrementally adopting the App Router and the [`not-found`](/docs/app/api-reference/file-conventions/not-found) file, which does support fetching data before displaying the 404 page.
+Nếu trang `404.js` của bạn yêu cầu data fetching, chúng tôi khuyên bạn nên dần dần áp dụng App Router và file [`not-found`](/docs/app/api-reference/file-conventions/not-found), hỗ trợ fetching data trước khi hiển thị trang 404.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization) - Learn more about how Next.js automatically optimizes your pages for better performance.
+- [Tối ưu hóa Tĩnh Tự động (Automatic Static Optimization)](/docs/pages/building-your-application/rendering/automatic-static-optimization) - Tìm hiểu thêm về cách Next.js tự động tối ưu hóa các trang của bạn để có hiệu suất tốt hơn.
 - [`not-found`](/docs/app/api-reference/file-conventions/not-found)

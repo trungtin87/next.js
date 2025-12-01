@@ -1,18 +1,18 @@
 ---
-title: No Script Tags In Head Component
+title: Không có Thẻ Script trong Component Head
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A `<script>` tag was added using the `next/head` component.
+Một thẻ `<script>` đã được thêm bằng cách sử dụng component `next/head`.
 
-For the best performance, we recommend using `next/script`. Using `next/script` also ensures compatibility with React Suspense and streaming server-rendering.
+Để có hiệu suất tốt nhất, chúng tôi khuyến nghị sử dụng `next/script`. Sử dụng `next/script` cũng đảm bảo tương thích với React Suspense và streaming server-rendering.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-### Script Component
+### Component Script
 
-The **Script component**, [`next/script`](/docs/pages/api-reference/components/script), allows you to optimally load third-party scripts anywhere in your Next.js application. It is an extension of the HTML `<script>` element and enables you to choose between multiple loading strategies to fit your use case.
+**Component Script**, [`next/script`](/docs/pages/api-reference/components/script), cho phép bạn tải các script bên thứ ba một cách tối ưu ở bất kỳ đâu trong ứng dụng Next.js của bạn. Nó là một phần mở rộng của phần tử HTML `<script>` và cho phép bạn chọn giữa nhiều chiến lược tải để phù hợp với trường hợp sử dụng của bạn.
 
 ```jsx filename="pages/dashboard.js"
 import Script from 'next/script'
@@ -26,7 +26,7 @@ export default function Dashboard() {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Optimizing Scripts](/docs/pages/guides/scripts)
-- [`next/script` API Reference](/docs/pages/api-reference/components/script)
+- [Tối ưu hóa Scripts](/docs/pages/guides/scripts)
+- [Tham chiếu API `next/script`](/docs/pages/api-reference/components/script)

@@ -1,15 +1,15 @@
 ---
-title: Redirect During getStaticProps Prerendering
+title: Chuyển hướng Trong Quá Trình Prerendering getStaticProps
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The `redirect` value was returned from `getStaticProps` during prerendering which is invalid.
+Giá trị `redirect` đã được trả về từ `getStaticProps` trong quá trình prerendering, điều này là không hợp lệ.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Remove any paths that result in a redirect from being prerendered in `getStaticPaths` and enable `fallback: true` to handle redirecting for these pages.
+Xóa bất kỳ đường dẫn nào dẫn đến chuyển hướng khỏi việc được prerender trong `getStaticPaths` và bật `fallback: true` để xử lý chuyển hướng cho các trang này.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Data Fetching Documentation](/docs/pages/building-your-application/data-fetching/get-static-props)
+- [Tài liệu Data Fetching](/docs/pages/building-your-application/data-fetching/get-static-props)

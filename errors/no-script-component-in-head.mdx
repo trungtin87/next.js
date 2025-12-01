@@ -1,18 +1,18 @@
 ---
-title: No Script Component in Head
+title: Không có Component Script trong Head
 ---
 
-> Prevent usage of `next/script` in `next/head` component.
+> Ngăn chặn việc sử dụng `next/script` trong component `next/head`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The `next/script` component should not be used in a `next/head` component.
+Component `next/script` không nên được sử dụng trong component `next/head`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Move the `<Script />` component outside of `<Head>` instead.
+Di chuyển component `<Script />` ra ngoài `<Head>` thay thế.
 
-**Before**
+**Trước**
 
 ```jsx filename="pages/index.js"
 import Script from 'next/script'
@@ -28,7 +28,7 @@ export default function Index() {
 }
 ```
 
-**After**
+**Sau**
 
 ```jsx filename="pages/index.js"
 import Script from 'next/script'
@@ -46,7 +46,7 @@ export default function Index() {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [next/head](/docs/pages/api-reference/components/head)
 - [next/script](/docs/pages/guides/scripts)

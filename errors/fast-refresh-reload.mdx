@@ -1,21 +1,21 @@
 ---
-title: Fast Refresh had to perform full reload
+title: Fast Refresh phải thực hiện tải lại đầy đủ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Fast Refresh had to perform a full reload when you edited a file. It may be because:
+Fast Refresh phải thực hiện tải lại đầy đủ khi bạn chỉnh sửa một file. Điều này có thể là do:
 
-- The file you're editing might have other exports in addition to a React component.
-- Your React component is an anonymous function.
-- The component name is in camelCase and not PascalCase, for example `textField` instead of `TextField`.
+- File bạn đang chỉnh sửa có thể có các exports khác ngoài React component.
+- React component của bạn là một hàm ẩn danh (anonymous function).
+- Tên component ở dạng camelCase và không phải PascalCase, ví dụ `textField` thay vì `TextField`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Move your other exports to a separate file.
-- Use a named function for your React component.
-- Rename your component name to pascal case.
+- Di chuyển các exports khác của bạn sang một file riêng biệt.
+- Sử dụng một hàm có tên (named function) cho React component của bạn.
+- Đổi tên component của bạn sang pascal case.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Fast Refresh documentation](/docs/architecture/fast-refresh)
+- [Tài liệu Fast Refresh](/docs/architecture/fast-refresh)

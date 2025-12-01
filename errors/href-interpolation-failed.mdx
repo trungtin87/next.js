@@ -1,14 +1,14 @@
 ---
-title: '`href` Interpolation Failed'
+title: Nội suy `href` thất bại
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Somewhere you are utilizing the `next/link` component, `Router#push`, or `Router#replace` with `href` interpolation to build dynamic routes but did not provide all of the needed dynamic route params to properly interpolate the `href`.
+Ở đâu đó bạn đang sử dụng component `next/link`, `Router#push`, hoặc `Router#replace` với nội suy `href` để xây dựng các routes động nhưng không cung cấp tất cả các params route động cần thiết để nội suy `href` một cách chính xác.
 
-> **Note**: this error will only show when the `next/link` component is clicked not when only rendered.
+> **Lưu ý**: lỗi này sẽ chỉ hiển thị khi component `next/link` được nhấp vào chứ không phải khi chỉ được render.
 
-**Invalid `href` interpolation**
+**Nội suy `href` không hợp lệ**
 
 ```jsx filename="blog-link.js"
 import Link from 'next/link'
@@ -27,7 +27,7 @@ export default function BlogLink() {
 }
 ```
 
-**Valid `href` interpolation**
+**Nội suy `href` hợp lệ**
 
 ```jsx filename="blog-link.js"
 import Link from 'next/link'
@@ -46,11 +46,11 @@ export default function BlogLink() {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Look for any usage of the `next/link` component, `Router#push`, or `Router#replace` and make sure that the provided `href` has all needed dynamic params in the query.
+Tìm kiếm bất kỳ việc sử dụng nào của component `next/link`, `Router#push`, hoặc `Router#replace` và đảm bảo rằng `href` được cung cấp có tất cả các params động cần thiết trong query.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Routing section in Documentation](/docs/pages/building-your-application/routing)
-- [Dynamic routing section in Documentation](/docs/pages/building-your-application/routing/dynamic-routes)
+- [Phần Routing trong Tài liệu](/docs/pages/building-your-application/routing)
+- [Phần Dynamic routing trong Tài liệu](/docs/pages/building-your-application/routing/dynamic-routes)

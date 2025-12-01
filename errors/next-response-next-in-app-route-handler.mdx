@@ -1,18 +1,18 @@
 ---
-title: '`NextResponse.next()` used in a Route Handler in the App Router'
+title: '`NextResponse.next()` được sử dụng trong Route Handler trong App Router'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Route Handlers in the Next.js App Router do not support using the `NextResponse.next()` method to forward to the next Proxy.
+Route Handlers trong Next.js App Router không hỗ trợ sử dụng method `NextResponse.next()` để chuyển tiếp đến Proxy tiếp theo.
 
-The Route Handler is considered the end of the proxy "chain". Handlers must always return a `Response` object instead.
+Route Handler được coi là điểm cuối của "chuỗi" proxy. Handlers phải luôn trả về một object `Response` thay thế.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Remove the `NextResponse.next()` and replace it with a correct response handler.
+Xóa `NextResponse.next()` và thay thế nó bằng một response handler chính xác.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [Route Handlers](/docs/app/api-reference/file-conventions/route)
 - [`NextResponse`](/docs/app/api-reference/functions/next-response)

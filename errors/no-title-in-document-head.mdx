@@ -1,16 +1,16 @@
 ---
-title: No Title in Document Head
+title: Không có Title trong Document Head
 ---
 
-> Prevent usage of `<title>` with `Head` component from `next/document`.
+> Ngăn chặn việc sử dụng `<title>` với component `Head` từ `next/document`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A `<title>` element was defined within the `Head` component imported from `next/document`, which should only be used for any `<head>` code that is common for all pages. Title tags should be defined at the page-level using `next/head` instead.
+Một phần tử `<title>` đã được định nghĩa trong component `Head` được import từ `next/document`, component này chỉ nên được sử dụng cho bất kỳ code `<head>` nào chung cho tất cả các trang. Thẻ title nên được định nghĩa ở cấp trang bằng cách sử dụng `next/head` thay thế.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Within a page or component, import and use `next/head` to define a page title:
+Trong một trang hoặc component, import và sử dụng `next/head` để định nghĩa tiêu đề trang:
 
 ```jsx filename="pages/index.js"
 import Head from 'next/head'
@@ -26,7 +26,7 @@ export function Home() {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [next/head](/docs/pages/api-reference/components/head)
 - [Custom Document](/docs/pages/building-your-application/routing/custom-document)

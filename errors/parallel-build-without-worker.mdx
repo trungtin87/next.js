@@ -1,18 +1,15 @@
 ---
-title: Parallel Build Without Build Worker
+title: Parallel Build Không Có Build Worker
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The `experimental.parallelServerCompiles` and `experimental.parallelServerBuildTraces`
-options require that the `experimental.webpackBuildWorker` option is set to `true`. These
-options use workers to improve the parallelization of the build which may improve performance,
-but the build may use more memory at the same time.
+Các tùy chọn `experimental.parallelServerCompiles` và `experimental.parallelServerBuildTraces` yêu cầu tùy chọn `experimental.webpackBuildWorker` được đặt thành `true`. Các tùy chọn này sử dụng workers để cải thiện song song hóa của build có thể cải thiện hiệu suất, nhưng build có thể sử dụng nhiều bộ nhớ hơn cùng một lúc.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Build workers are enabled by default unless you have a custom webpack config. You can force enable the option by setting `experimental.webpackBuildWorker: true` in your `next.config.js` file, but some webpack configuration options may not be compatible.
+Build workers được bật theo mặc định trừ khi bạn có cấu hình webpack tùy chỉnh. Bạn có thể buộc bật tùy chọn bằng cách đặt `experimental.webpackBuildWorker: true` trong file `next.config.js` của bạn, nhưng một số tùy chọn cấu hình webpack có thể không tương thích.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [Webpack Build Worker automatic opt-out](/docs/messages/webpack-build-worker-opt-out)

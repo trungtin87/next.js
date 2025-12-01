@@ -1,21 +1,21 @@
 ---
-title: Collecting page data timed out after multiple attempts
+title: Thu thập dữ liệu trang hết thời gian sau nhiều lần thử
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Next.js tries to restart the worker pool of the page data collection when no progress happens for a while, to avoid hanging builds.
+Next.js cố gắng khởi động lại worker pool của việc thu thập dữ liệu trang khi không có tiến triển trong một thời gian, để tránh build bị treo.
 
-When restarted it will retry all uncompleted jobs, but if a job was unsuccessfully attempted multiple times, this will lead to an error.
+Khi được khởi động lại, nó sẽ thử lại tất cả các công việc chưa hoàn thành, nhưng nếu một công việc đã được thử không thành công nhiều lần, điều này sẽ dẫn đến lỗi.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Make sure that there is no infinite loop during execution.
-- Make sure all Promises in `getStaticPaths` `resolve` or `reject` correctly.
-- Avoid very long timeouts for network requests.
-- Increase the timeout by changing the `config.staticPageGenerationTimeout` configuration option (default `60` in seconds).
+- Đảm bảo rằng không có vòng lặp vô hạn trong quá trình thực thi.
+- Đảm bảo tất cả Promises trong `getStaticPaths` `resolve` hoặc `reject` một cách chính xác.
+- Tránh timeout rất dài cho các network requests.
+- Tăng timeout bằng cách thay đổi tùy chọn cấu hình `config.staticPageGenerationTimeout` (mặc định `60` giây).
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [`getStaticPaths`](/docs/pages/building-your-application/data-fetching/get-static-paths)
 - [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props)

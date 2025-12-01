@@ -1,18 +1,18 @@
 ---
-title: Invalid API Route Status/Body Response
+title: Phản hồi Status/Body API Route không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In one of your API routes a 204 or 304 status code was used as well as sending a response body.
+Trong một trong các API routes của bạn, mã trạng thái 204 hoặc 304 đã được sử dụng đồng thời gửi một body phản hồi.
 
-This is invalid as a 204 or 304 status code dictates no response body should be present.
+Điều này là không hợp lệ vì mã trạng thái 204 hoặc 304 quy định không nên có body phản hồi.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Send an empty body when using a 204 or 304 status code or use a different status code while sending a response body.
+Gửi một body trống khi sử dụng mã trạng thái 204 hoặc 304 hoặc sử dụng một mã trạng thái khác trong khi gửi một body phản hồi.
 
-Before
+Trước
 
 ```js filename="pages/api/example.js"
 export default function handler(req, res) {
@@ -20,7 +20,7 @@ export default function handler(req, res) {
 }
 ```
 
-After
+Sau
 
 ```js filename="pages/api/example.js"
 export default function handler(req, res) {
@@ -28,7 +28,7 @@ export default function handler(req, res) {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [204 status code documentation](https://developer.mozilla.org/docs/Web/HTTP/Status/204)
-- [304 status code documentation](https://developer.mozilla.org/docs/Web/HTTP/Status/304)
+- [Tài liệu mã trạng thái 204](https://developer.mozilla.org/docs/Web/HTTP/Status/204)
+- [Tài liệu mã trạng thái 304](https://developer.mozilla.org/docs/Web/HTTP/Status/304)

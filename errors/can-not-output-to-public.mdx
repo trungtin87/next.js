@@ -1,17 +1,17 @@
 ---
-title: Cannot output to /public
+title: Không thể xuất ra /public
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Either you set `distDir` to `public` in your `next.config.js` or during `next export` you tried to export to the `public` directory.
+Hoặc bạn đã đặt `distDir` thành `public` trong `next.config.js` của mình hoặc trong quá trình `next export`, bạn đã cố gắng xuất ra thư mục `public`.
 
-This is not allowed because `public` is used by Next.js to serve static assets.
+Điều này không được phép vì `public` được Next.js sử dụng để phục vụ các tài sản tĩnh (static assets).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Use a different `distDir` or export to a different folder.
+Sử dụng một `distDir` khác hoặc xuất ra một thư mục khác.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Static file serving docs](/docs/pages/api-reference/file-conventions/public-folder)
+- [Tài liệu phục vụ file tĩnh](/docs/pages/api-reference/file-conventions/public-folder)

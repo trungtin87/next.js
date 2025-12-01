@@ -1,18 +1,17 @@
 ---
-title: Dynamic WASM compilation is not available in Proxies
+title: Biên Dịch WASM Động Không Khả Dụng Trong Proxies
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Compiling WASM binaries dynamically is not allowed in Proxies. Specifically,
-the following APIs are not supported:
+Biên dịch WASM binaries một cách động không được phép trong Proxies. Cụ thể, các API sau không được hỗ trợ:
 
 - `WebAssembly.compile`
-- `WebAssembly.instantiate` with [a buffer parameter](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate#primary_overload_%E2%80%94_taking_wasm_binary_code)
+- `WebAssembly.instantiate` với [tham số buffer](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate#primary_overload_%E2%80%94_taking_wasm_binary_code)
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Bundle your WASM binaries using `import`:
+Bundle WASM binaries của bạn bằng cách sử dụng `import`:
 
 ```ts filename="proxy.ts"
 import { NextResponse } from 'next/server'

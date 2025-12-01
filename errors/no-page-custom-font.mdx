@@ -1,17 +1,17 @@
 ---
-title: No Page Custom Font
+title: Không có Font Tùy Chỉnh cho Page
 ---
 
-> Prevent page-only custom fonts.
+> Ngăn chặn font tùy chỉnh chỉ dành cho page.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-- The custom font you're adding was added to a page - this only adds the font to the specific page and not the entire application.
-- The custom font you're adding was added to a separate component within `pages/_document.js` - this disables automatic font optimization.
+- Font tùy chỉnh bạn đang thêm đã được thêm vào một page - điều này chỉ thêm font vào trang cụ thể đó chứ không phải toàn bộ ứng dụng.
+- Font tùy chỉnh bạn đang thêm đã được thêm vào một component riêng biệt trong `pages/_document.js` - điều này vô hiệu hóa tối ưu hóa font tự động.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Create the file `./pages/_document.js` and add the font to a custom Document:
+Tạo file `./pages/_document.js` và thêm font vào một Custom Document:
 
 ```jsx filename="pages/_document.js"
 import Document, { Html, Head, Main, NextScript } from 'next/document'
@@ -38,7 +38,7 @@ class MyDocument extends Document {
 export default MyDocument
 ```
 
-Or as a function component:
+Hoặc dưới dạng function component:
 
 ```jsx filename="pages/_document.js"
 import { Html, Head, Main, NextScript } from 'next/document'
@@ -61,11 +61,11 @@ export default function Document() {
 }
 ```
 
-### When Not To Use It
+### Khi Nào Không Sử Dụng Quy Tắc Này
 
-If you have a reason to only load a font for a particular page or don't care about font optimization, then you can disable this rule.
+Nếu bạn có lý do để chỉ tải font cho một trang cụ thể hoặc không quan tâm đến tối ưu hóa font, thì bạn có thể vô hiệu hóa quy tắc này.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Custom Document](/docs/pages/building-your-application/routing/custom-document)
-- [Font Optimization](/docs/pages/api-reference/components/font)
+- [Tối ưu hóa Font](/docs/pages/api-reference/components/font)

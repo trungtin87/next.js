@@ -1,20 +1,20 @@
 ---
-title: Entire page deopted into client-side rendering
+title: Toàn bộ trang bị chuyển sang client-side rendering
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-During static rendering, the entire page was deopted into client-side rendering by `useSearchParams` as there was no [Suspense boundary](/docs/app/api-reference/functions/use-search-params#static-rendering) that caught it.
+Trong quá trình render tĩnh (static rendering), toàn bộ trang đã bị chuyển sang (deopted) client-side rendering bởi `useSearchParams` vì không có [Suspense boundary](/docs/app/api-reference/functions/use-search-params#static-rendering) nào bắt được nó.
 
-If a route is statically rendered, calling `useSearchParams()` will cause the tree up to the closest [Suspense boundary](/docs/app/api-reference/functions/use-search-params#static-rendering) to be client-side rendered.
+Nếu một route được render tĩnh, việc gọi `useSearchParams()` sẽ khiến cây lên đến [Suspense boundary](/docs/app/api-reference/functions/use-search-params#static-rendering) gần nhất được render phía client.
 
-This allows a part of the page to be statically rendered while the dynamic part that uses `searchParams` can be client-side rendered.
+Điều này cho phép một phần của trang được render tĩnh trong khi phần động sử dụng `searchParams` có thể được render phía client.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-You can reduce the portion of the route that is client-side rendered by wrapping the component that uses useSearchParams in a Suspense boundary.
+Bạn có thể giảm phần của route được render phía client bằng cách bao bọc component sử dụng useSearchParams trong một Suspense boundary.
 
-For example if `app/dashboard/search-bar.tsx` uses `useSearchParams` wrap the component in a [Suspense boundary](/docs/app/api-reference/functions/use-search-params#static-rendering) as shown in `app/dashboard/page.tsx`.
+Ví dụ nếu `app/dashboard/search-bar.tsx` sử dụng `useSearchParams`, hãy bao bọc component trong một [Suspense boundary](/docs/app/api-reference/functions/use-search-params#static-rendering) như được hiển thị trong `app/dashboard/page.tsx`.
 
 ```tsx filename="app/dashboard/search-bar.tsx"
 'use client'
@@ -26,7 +26,7 @@ export default function SearchBar() {
 
   const search = searchParams.get('search')
 
-  // This will not be logged on the server when using static rendering
+  // Điều này sẽ không được log trên server khi sử dụng static rendering
   console.log(search)
 
   return <>Search: {search}</>
@@ -37,10 +37,10 @@ export default function SearchBar() {
 import { Suspense } from 'react'
 import SearchBar from './search-bar'
 
-// This component passed as fallback to the Suspense boundary
-// will be rendered in place of the search bar in the initial HTML.
-// When the value is available during React hydration the fallback
-// will be replaced with the `<SearchBar>` component.
+// Component này được truyền dưới dạng fallback cho Suspense boundary
+// sẽ được render thay cho search bar trong HTML ban đầu.
+// Khi giá trị có sẵn trong quá trình React hydration, fallback
+// sẽ được thay thế bằng component `<SearchBar>`.
 function SearchBarFallback() {
   return <>placeholder</>
 }
@@ -59,6 +59,6 @@ export default function Page() {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`useSearchParams` static rendering documentation](/docs/app/api-reference/functions/use-search-params#static-rendering)
+- [Tài liệu `useSearchParams` static rendering](/docs/app/api-reference/functions/use-search-params#static-rendering)

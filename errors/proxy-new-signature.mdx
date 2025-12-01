@@ -1,10 +1,10 @@
 ---
-title: Deprecated Proxy API Signature
+title: Chữ Ký Proxy API Đã Bị Phản Đối
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Your application is using a Proxy function that is using parameters from the deprecated API.
+Ứng dụng của bạn đang sử dụng một hàm Proxy đang sử dụng các tham số từ API đã bị phản đối.
 
 ```ts filename="proxy.ts"
 import { NextResponse } from 'next/server'
@@ -20,9 +20,9 @@ export function proxy(event) {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Update to use the new API for Proxy:
+Cập nhật để sử dụng API mới cho Proxy:
 
 ```ts filename="proxy.ts"
 import { NextResponse } from 'next/server'

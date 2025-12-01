@@ -1,42 +1,42 @@
 ---
-title: '`next/image` changed in version 13'
+title: '`next/image` đã thay đổi trong phiên bản 13'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Starting in Next.js 13, the `next/image` component has undergone some major changes.
+Bắt đầu từ Next.js 13, component `next/image` đã trải qua một số thay đổi lớn.
 
-Compared to the legacy component, the new `next/image` component has the following changes:
+So với legacy component, component `next/image` mới có các thay đổi sau:
 
-- Removes `<span>` wrapper around `<img>` in favor of [native computed aspect ratio](https://caniuse.com/mdn-html_elements_img_aspect_ratio_computed_from_attributes)
-- Adds support for canonical `style` prop
-  - Removes `layout` prop in favor of `style` or `className`
-  - Removes `objectFit` prop in favor of `style` or `className`
-  - Removes `objectPosition` prop in favor of `style` or `className`
-- Removes `IntersectionObserver` implementation in favor of [native lazy loading](https://caniuse.com/loading-lazy-attr)
-  - Removes `lazyBoundary` prop since there is no native equivalent
-  - Removes `lazyRoot` prop since there is no native equivalent
-- Removes `loader` config in favor of [`loader`](/docs/app/api-reference/components/image#loader) prop
-- Changed `alt` prop from optional to required
+- Xóa wrapper `<span>` xung quanh `<img>` để ưu tiên [native computed aspect ratio](https://caniuse.com/mdn-html_elements_img_aspect_ratio_computed_from_attributes)
+- Thêm hỗ trợ cho canonical `style` prop
+  - Xóa `layout` prop để ưu tiên `style` hoặc `className`
+  - Xóa `objectFit` prop để ưu tiên `style` hoặc `className`
+  - Xóa `objectPosition` prop để ưu tiên `style` hoặc `className`
+- Xóa implementation `IntersectionObserver` để ưu tiên [native lazy loading](https://caniuse.com/loading-lazy-attr)
+  - Xóa `lazyBoundary` prop vì không có tương đương native
+  - Xóa `lazyRoot` prop vì không có tương đương native
+- Xóa `loader` config để ưu tiên [`loader`](/docs/app/api-reference/components/image#loader) prop
+- Thay đổi `alt` prop từ optional thành required
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Run the [next-image-to-legacy-image](/docs/pages/guides/upgrading/codemods#next-image-to-legacy-image) codemod to automatically change `next/image` imports to `next/legacy/image`, for example:
+Chạy codemod [next-image-to-legacy-image](/docs/pages/guides/upgrading/codemods#next-image-to-legacy-image) để tự động thay đổi imports `next/image` thành `next/legacy/image`, ví dụ:
 
 ```bash filename="Terminal"
 npx @next/codemod next-image-to-legacy-image .
 ```
 
-After running this codemod, you can optionally upgrade `next/legacy/image` to the new `next/image` with another codemod, for example:
+Sau khi chạy codemod này, bạn có thể tùy chọn nâng cấp `next/legacy/image` lên `next/image` mới với một codemod khác, ví dụ:
 
 ```bash filename="Terminal"
 npx @next/codemod next-image-experimental .
 ```
 
-Please note this second codemod is experimental and only covers static usage (such as `<Image src={img} layout="responsive" />`) but not dynamic usage (such as `<Image {...props} />`).
+Xin lưu ý codemod thứ hai này là experimental và chỉ bao gồm static usage (như `<Image src={img} layout="responsive" />`) nhưng không bao gồm dynamic usage (như `<Image {...props} />`).
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Next.js 13 Blog Post](/blog/next-13)
-- [`next/image` Documentation](/docs/pages/api-reference/components/image)
-- [`next/legacy/image` Documentation](/docs/pages/api-reference/components/image-legacy)
+- [Bài viết Blog Next.js 13](/blog/next-13)
+- [Tài liệu `next/image`](/docs/pages/api-reference/components/image)
+- [Tài liệu `next/legacy/image`](/docs/pages/api-reference/components/image-legacy)

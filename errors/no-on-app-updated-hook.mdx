@@ -1,14 +1,14 @@
 ---
-title: '`Router.onAppUpdated` has been removed'
+title: '`Router.onAppUpdated` đã bị xóa'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Due to [this bug fix](https://github.com/vercel/next.js/pull/3849), we had to remove the `Router.onAppUpdated` hook. But the default functionality of this feature is still in effect.
+Do [sửa lỗi này](https://github.com/vercel/next.js/pull/3849), chúng tôi đã phải xóa hook `Router.onAppUpdated`. Nhưng chức năng mặc định của tính năng này vẫn có hiệu lực.
 
-We use this hook to detect a new app deployment when switching pages and act accordingly.
+Chúng tôi sử dụng hook này để phát hiện một triển khai ứng dụng mới khi chuyển trang và hành động tương ứng.
 
-Although there are many things you can do in this hook, it's often used to navigate the page via the server as shown below:
+Mặc dù có nhiều thứ bạn có thể làm trong hook này, nó thường được sử dụng để điều hướng trang qua server như được hiển thị bên dưới:
 
 ```js filename="example.js"
 Router.onAppUpdated = function (nextRoute) {
@@ -16,13 +16,13 @@ Router.onAppUpdated = function (nextRoute) {
 }
 ```
 
-In this hook, you can't wait for a network request or a promise to get resolved. And you can't block the page navigation. So, the things you can do is limited.
+Trong hook này, bạn không thể chờ một request mạng hoặc một promise được giải quyết. Và bạn không thể chặn điều hướng trang. Vì vậy, những gì bạn có thể làm bị giới hạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-One real use of this hook is to persist your application state to local-storage before the page navigation. For that, you can use the [`window.onbeforeunload`](https://developer.mozilla.org/docs/Web/API/WindowEventHandlers/onbeforeunload) hook instead.
+Một cách sử dụng thực tế của hook này là lưu trạng thái ứng dụng của bạn vào local-storage trước khi điều hướng trang. Để làm điều đó, bạn có thể sử dụng hook [`window.onbeforeunload`](https://developer.mozilla.org/docs/Web/API/WindowEventHandlers/onbeforeunload) thay thế.
 
-This is code for that:
+Đây là code cho điều đó:
 
 ```js filename="example.js"
 window.onbeforeunload = function (e) {

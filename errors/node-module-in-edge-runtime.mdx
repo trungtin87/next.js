@@ -1,20 +1,20 @@
 ---
-title: Using Node.js Modules in Edge Runtime
+title: Sử Dụng Node.js Modules Trong Edge Runtime
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The code in your [Proxy](/docs/pages/api-reference/file-conventions/proxy) or your [Edge API Routes](/docs/pages/building-your-application/routing/api-routes) is using a feature from Node.js runtime.
+Code trong [Proxy](/docs/pages/api-reference/file-conventions/proxy) hoặc [Edge API Routes](/docs/pages/building-your-application/routing/api-routes) của bạn đang sử dụng một tính năng từ Node.js runtime.
 
-However, the Edge Runtime does not support [Node.js APIs and globals](/docs/pages/api-reference/edge#unsupported-apis).
+Tuy nhiên, Edge Runtime không hỗ trợ [Node.js APIs và globals](/docs/pages/api-reference/edge#unsupported-apis).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-When running Next.js locally with `next dev`, your application will show in the console, and in your browser, which file is importing and using an unsupported module. This module must be avoided: either by not importing it, or by replacing it with a polyfill.
+Khi chạy Next.js locally với `next dev`, ứng dụng của bạn sẽ hiển thị trong console và trong trình duyệt của bạn, file nào đang import và sử dụng một module không được hỗ trợ. Module này phải được tránh: bằng cách không import nó, hoặc bằng cách thay thế nó bằng một polyfill.
 
-For example, you might replace the Node.js `crypto` module with the [Web Crypto API](https://developer.mozilla.org/docs/Web/API/Web_Crypto_API).
+Ví dụ, bạn có thể thay thế module `crypto` của Node.js bằng [Web Crypto API](https://developer.mozilla.org/docs/Web/API/Web_Crypto_API).
 
-## Useful Links
+## Liên Kết Hữu Ích
 
 - [Edge Runtime Supported APIs](/docs/pages/api-reference/edge)
 - [Next.js Proxy](/docs/pages/api-reference/file-conventions/proxy)

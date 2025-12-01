@@ -1,16 +1,16 @@
 ---
-title: No Cache Detected
+title: Không Phát Hiện Cache
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A Next.js build was triggered in a continuous integration environment, but no cache was detected.
+Một Next.js build đã được kích hoạt trong môi trường tích hợp liên tục (continuous integration), nhưng không phát hiện được cache.
 
-This results in slower builds and can hurt Next.js' filesystem cache of client-side bundles across builds.
+Điều này dẫn đến các bản build chậm hơn và có thể làm tổn hại đến cache filesystem của Next.js cho các bundle phía client giữa các lần build.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-> **Note**: If this is a new project, or being built for the first time in your CI, you can ignore this error.
-> However, you'll want to make sure it doesn't continue to happen and fix it if it does!
+> **Lưu ý**: Nếu đây là một dự án mới, hoặc đang được build lần đầu tiên trong CI của bạn, bạn có thể bỏ qua lỗi này.
+> Tuy nhiên, bạn sẽ muốn đảm bảo rằng nó không tiếp tục xảy ra và sửa nó nếu có!
 
-Follow the instructions in [CI Build Caching](/docs/pages/guides/ci-build-caching) to ensure your Next.js cache is persisted between builds.
+Làm theo hướng dẫn trong [CI Build Caching](/docs/pages/guides/ci-build-caching) để đảm bảo cache Next.js của bạn được duy trì giữa các lần build.

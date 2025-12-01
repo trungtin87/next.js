@@ -1,20 +1,20 @@
 ---
-title: config.analytics is deprecated
+title: config.analytics đã bị phản đối
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The Core Web Vitals of your Next.js application could be tracked and sent to any backend of your choice.
+Core Web Vitals của ứng dụng Next.js của bạn có thể được theo dõi và gửi đến bất kỳ backend nào bạn chọn.
 
-Earlier version of Next.js enable tracking by specifying `analyticsId` into your `next.config.js` file.
+Phiên bản trước của Next.js cho phép theo dõi bằng cách chỉ định `analyticsId` vào file `next.config.js` của bạn.
 
-This configuration mechanism will be removed in nextjs@15, as it could be elegantly replaced with `useReportWebVitals` built-in hook.
+Cơ chế cấu hình này sẽ bị xóa trong nextjs@15, vì nó có thể được thay thế một cách thanh lịch bằng hook tích hợp sẵn `useReportWebVitals`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To remove this warning, you must remove `analyticsId` from your `next.config.js` file.
+Để xóa cảnh báo này, bạn phải xóa `analyticsId` khỏi file `next.config.js` của mình.
 
-To keep tracking your Core Web Vitals, you could:
+Để tiếp tục theo dõi Core Web Vitals của bạn, bạn có thể:
 
-- use `useReportWebVitals` hook as explained [here](/docs/app/api-reference/functions/use-report-web-vitals) and send the metrics to any backend of your choice.
-- [install and use](https://vercel.com/docs/speed-insights/quickstart) `@vercel/speed-insights` package into your application
+- sử dụng hook `useReportWebVitals` như được giải thích [tại đây](/docs/app/api-reference/functions/use-report-web-vitals) và gửi các số liệu đến bất kỳ backend nào bạn chọn.
+- [cài đặt và sử dụng](https://vercel.com/docs/speed-insights/quickstart) gói `@vercel/speed-insights` vào ứng dụng của bạn

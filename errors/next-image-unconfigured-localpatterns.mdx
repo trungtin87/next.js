@@ -1,14 +1,14 @@
 ---
-title: '`next/image` Un-configured localPatterns'
+title: '`next/image` localPatterns Chưa Được Cấu Hình'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-One of your pages that leverages the `next/image` component, passed a `src` value that uses a URL that isn't defined in the `images.localPatterns` property in `next.config.js`.
+Một trong các trang của bạn sử dụng component `next/image`, đã truyền một giá trị `src` sử dụng URL không được định nghĩa trong thuộc tính `images.localPatterns` trong `next.config.js`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Add an entry to `images.localPatterns` array in `next.config.js` with the expected URL pattern. For example:
+Thêm một entry vào mảng `images.localPatterns` trong `next.config.js` với URL pattern mong đợi. Ví dụ:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -22,9 +22,9 @@ module.exports = {
 }
 ```
 
-Omitting the `search` will allow all query strings.
+Bỏ qua `search` sẽ cho phép tất cả các query strings.
 
-If you want to prevent the query string from matching, you can use the empty string, for example:
+Nếu bạn muốn ngăn query string khớp, bạn có thể sử dụng chuỗi rỗng, ví dụ:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -39,7 +39,7 @@ module.exports = {
 }
 ```
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Image Optimization Documentation](/docs/pages/api-reference/components/image)
-- [Local Patterns Documentation](/docs/pages/api-reference/components/image#localpatterns)
+- [Tài liệu Image Optimization](/docs/pages/api-reference/components/image)
+- [Tài liệu Local Patterns](/docs/pages/api-reference/components/image#localpatterns)

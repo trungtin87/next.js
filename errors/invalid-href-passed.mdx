@@ -1,20 +1,20 @@
 ---
-title: 'Invalid `href` passed to router'
+title: `href` không hợp lệ được truyền tới router
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Next.js provides a router which can be utilized via a component imported via `next/link`, a wrapper `withRouter(Component)`, and now a hook `useRouter()`.
-When using any of these, it is expected they are only used for internal navigation, i.e. navigating between pages in the same Next.js application.
+Next.js cung cấp một router có thể được sử dụng thông qua một component được import qua `next/link`, một wrapper `withRouter(Component)`, và bây giờ là một hook `useRouter()`.
+Khi sử dụng bất kỳ cái nào trong số này, người ta mong đợi chúng chỉ được sử dụng cho điều hướng nội bộ, tức là điều hướng giữa các trang trong cùng một ứng dụng Next.js.
 
-Either you passed a non-internal `href` to a `next/link` component or you called `Router#push` or `Router#replace` with one.
+Hoặc bạn đã truyền một `href` không phải nội bộ cho một component `next/link` hoặc bạn đã gọi `Router#push` hoặc `Router#replace` với một cái như vậy.
 
-Invalid `href`s include external sites (https://google.com) and `mailto:` links. In the past, usage of these invalid `href`s could have gone unnoticed, but since they can cause unexpected behavior we now show a warning in development for them.
+Các `href` không hợp lệ bao gồm các trang web bên ngoài (https://google.com) và các liên kết `mailto:`. Trước đây, việc sử dụng các `href` không hợp lệ này có thể không được chú ý, nhưng vì chúng có thể gây ra hành vi không mong muốn, chúng tôi hiện hiển thị cảnh báo trong quá trình development cho chúng.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Look for any usage of `next/link` or `next/router` that is being passed a non-internal `href` and replace them with either an anchor tag (`<a>`) or `window.location.href = YOUR_HREF`.
+Tìm kiếm bất kỳ việc sử dụng nào của `next/link` hoặc `next/router` đang được truyền một `href` không phải nội bộ và thay thế chúng bằng thẻ neo (`<a>`) hoặc `window.location.href = YOUR_HREF`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Routing section in Documentation](/docs/pages/building-your-application/routing)
+- [Phần Routing trong Tài liệu](/docs/pages/building-your-application/routing)

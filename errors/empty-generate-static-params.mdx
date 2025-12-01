@@ -1,47 +1,47 @@
 ---
-title: Empty generateStaticParams with Cache Components
+title: generateStaticParams Rỗng Với Cache Components
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You're using [Cache Components](https://nextjs.org/docs/beta/app/api-reference/config/next-config-js/cacheComponents) in your Next.js application, and one of your `generateStaticParams` functions returned an empty array, which causes a build error.
+Bạn đang sử dụng [Cache Components](https://nextjs.org/docs/beta/app/api-reference/config/next-config-js/cacheComponents) trong ứng dụng Next.js của mình, và một trong các function `generateStaticParams` của bạn đã trả về một mảng rỗng, điều này gây ra lỗi build.
 
-When Cache Components is enabled, Next.js performs build-time validation to ensure your routes can be properly prerendered without runtime dynamic access errors. If `generateStaticParams` returns an empty array, Next.js cannot validate that your route won't access dynamic values (like `await cookies()`, `await headers()`, or `await searchParams`) at runtime, which would cause errors.
+Khi Cache Components được bật, Next.js thực hiện xác thực tại build-time để đảm bảo các routes của bạn có thể được prerender đúng cách mà không có lỗi truy cập động runtime. Nếu `generateStaticParams` trả về một mảng rỗng, Next.js không thể xác thực rằng route của bạn sẽ không truy cập các giá trị động (như `await cookies()`, `await headers()`, hoặc `await searchParams`) tại runtime, điều này sẽ gây ra lỗi.
 
-This strict requirement ensures:
+Yêu cầu nghiêm ngặt này đảm bảo:
 
-- Build-time validation catches potential runtime errors early
-- All routes using Cache Components have at least one static variant to validate against
-- You don't accidentally deploy routes that will fail at runtime
+- Xác thực tại build-time phát hiện các lỗi runtime tiềm ẩn sớm
+- Tất cả các routes sử dụng Cache Components có ít nhất một biến thể tĩnh để xác thực
+- Bạn không vô tình triển khai các routes sẽ thất bại tại runtime
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-### Option 1: Return at least one static param
+### Tùy Chọn 1: Trả về ít nhất một static param
 
-Modify your `generateStaticParams` function to return at least one set of parameters. This is the most common fix and allows build-time validation to work properly.
+Sửa đổi function `generateStaticParams` của bạn để trả về ít nhất một tập hợp các parameters. Đây là cách sửa phổ biến nhất và cho phép xác thực tại build-time hoạt động đúng cách.
 
 ```tsx filename="app/blog/[slug]/page.tsx"
-// ❌ This will cause an error with Cache Components
+// ❌ Điều này sẽ gây ra lỗi với Cache Components
 export async function generateStaticParams() {
-  return [] // Empty array not allowed
+  return [] // Mảng rỗng không được phép
 }
 
-// ✅ Return at least one param
+// ✅ Trả về ít nhất một param
 export async function generateStaticParams() {
   return [{ slug: 'hello-world' }, { slug: 'getting-started' }]
 }
 ```
 
-### Option 2: Use a placeholder param for validation
+### Tùy Chọn 2: Sử dụng placeholder param để xác thực
 
-If you don't know the actual values at build time but still want Cache Components, you can return a placeholder param for build-time validation:
+Nếu bạn không biết các giá trị thực tế tại build time nhưng vẫn muốn Cache Components, bạn có thể trả về một placeholder param để xác thực tại build-time:
 
-> This is not recommended and should only be used if you absolutely need to as it prevents build-time validation from working which will likely cause runtime errors.
+> Điều này không được khuyến nghị và chỉ nên được sử dụng nếu bạn thực sự cần vì nó ngăn chặn xác thực tại build-time hoạt động, điều này có thể gây ra lỗi runtime.
 
 ```tsx filename="app/blog/[slug]/page.tsx"
 export async function generateStaticParams() {
-  // Return a placeholder for build-time validation
-  // Real params will be generated at runtime via ISR
+  // Trả về một placeholder để xác thực tại build-time
+  // Các params thực tế sẽ được tạo tại runtime thông qua ISR
   return [{ slug: '__placeholder__' }]
 }
 
@@ -52,18 +52,18 @@ export default async function Page({
 }) {
   const { slug } = await params
 
-  // Handle placeholder case
+  // Xử lý trường hợp placeholder
   if (slug === '__placeholder__') {
     notFound()
   }
 
-  // Your actual page logic
+  // Logic trang thực tế của bạn
   const post = await getPost(slug)
   return <div>{post.title}</div>
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Cache Components Documentation](https://nextjs.org/docs/beta/app/api-reference/config/next-config-js/cacheComponents)
-- [generateStaticParams API Reference](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)
+- [Tài liệu Cache Components](https://nextjs.org/docs/beta/app/api-reference/config/next-config-js/cacheComponents)
+- [Tham chiếu API generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)

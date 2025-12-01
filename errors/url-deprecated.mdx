@@ -1,21 +1,21 @@
 ---
-title: '`url` is deprecated'
+title: '`url` đã bị loại bỏ'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In versions prior to 6.x the `url` property got magically injected into every `Page` component (every page inside the `pages` directory).
+Trong các phiên bản trước 6.x, thuộc tính `url` được tự động chèn vào mọi component `Page` (mọi trang bên trong thư mục `pages`).
 
-The reason this is going away is that we want to make things very predictable and explicit. Having a magical url property coming out of nowhere doesn't aid that goal.
+Lý do điều này bị loại bỏ là vì chúng tôi muốn làm cho mọi thứ trở nên rất dự đoán được và rõ ràng. Việc có một thuộc tính url kỳ diệu xuất hiện từ đâu không giúp ích cho mục tiêu đó.
 
-> **Note**: ⚠️ In some cases using React Dev Tools may trigger this warning even if you do not reference `url` anywhere in your code. Try temporarily disabling the extension and see if the warning persists.
+> **Lưu ý**: ⚠️ Trong một số trường hợp, việc sử dụng React Dev Tools có thể kích hoạt cảnh báo này ngay cả khi bạn không tham chiếu `url` ở bất kỳ đâu trong code của mình. Hãy thử tạm thời vô hiệu hóa extension và xem liệu cảnh báo có còn tồn tại không.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-Since Next 5 we provide a way to explicitly inject the Next.js router object into pages and all their descending components.
-The `router` property that is injected will hold the same values as `url`, like `pathname`, `asPath`, and `query`.
+Kể từ Next 5, chúng tôi cung cấp một cách để chèn rõ ràng đối tượng router của Next.js vào các trang và tất cả các component con của chúng.
+Thuộc tính `router` được chèn vào sẽ giữ các giá trị giống như `url`, như `pathname`, `asPath`, và `query`.
 
-Here's an example of using `withRouter`:
+Đây là một ví dụ về việc sử dụng `withRouter`:
 
 ```jsx filename="pages/index.js"
 import { withRouter } from 'next/router'
@@ -31,6 +31,6 @@ class Page extends React.Component {
 export default withRouter(Page)
 ```
 
-We provide a codemod (a code to code transformation) to automatically change the `url` property usages to `withRouter`.
+Chúng tôi cung cấp một codemod (một chuyển đổi từ code sang code) để tự động thay đổi các cách sử dụng thuộc tính `url` thành `withRouter`.
 
-You can find this codemod and instructions on how to run it here: [Use `withRouter`](/docs/pages/guides/upgrading/codemods#url-to-withrouter)
+Bạn có thể tìm thấy codemod này và hướng dẫn về cách chạy nó tại đây: [Sử dụng `withRouter`](/docs/pages/guides/upgrading/codemods#url-to-withrouter)

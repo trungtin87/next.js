@@ -1,16 +1,16 @@
 ---
-title: createContext in a Server Component
+title: createContext trong một Server Component
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are using `createContext` in a Server Component but it only works in Client Components.
+Bạn đang sử dụng `createContext` trong một Server Component nhưng nó chỉ hoạt động trong Client Components.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Mark the component using `createContext` as a Client Component by adding `'use client'` at the top of the file.
+Đánh dấu component sử dụng `createContext` là một Client Component bằng cách thêm `'use client'` ở đầu file.
 
-### Before
+### Trước
 
 ```jsx filename="app/example-component.js"
 import { createContext } from 'react'
@@ -18,7 +18,7 @@ import { createContext } from 'react'
 const Context = createContext()
 ```
 
-### After
+### Sau
 
 ```jsx filename="app/example-component.js"
 'use client'
@@ -27,6 +27,6 @@ import { createContext } from 'react'
 const Context = createContext()
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Server and Client Components Composition Patterns](/docs/app/getting-started/server-and-client-components#examples)
+- [Các Mẫu Thành Phần Server và Client Components](/docs/app/getting-started/server-and-client-components#examples)

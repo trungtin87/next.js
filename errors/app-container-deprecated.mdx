@@ -1,19 +1,19 @@
 ---
-title: Addressing "App Container Deprecated" Error in Next.js
-description: This document guides developers on how to resolve the "App Container Deprecated" error in Next.js by updating their custom App component.
+title: Giải quyết lỗi "App Container Deprecated" trong Next.js
+description: Tài liệu này hướng dẫn các nhà phát triển cách giải quyết lỗi "App Container Deprecated" trong Next.js bằng cách cập nhật component App tùy chỉnh của họ.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The "App Container Deprecated" error usually occurs when you are using the `<Container>` component in your custom `<App>` (`pages/_app.js`). Prior to version `9.0.4` of Next.js, the `<Container>` component was used to handle scrolling to hashes.
+Lỗi "App Container Deprecated" thường xảy ra khi bạn đang sử dụng component `<Container>` trong `<App>` tùy chỉnh của mình (`pages/_app.js`). Trước phiên bản `9.0.4` của Next.js, component `<Container>` được sử dụng để xử lý việc cuộn đến các hashes.
 
-From version `9.0.4` onwards, this functionality was moved up the component tree, rendering the `<Container>` component unnecessary in your custom `<App>`.
+Từ phiên bản `9.0.4` trở đi, chức năng này đã được chuyển lên cây component, khiến component `<Container>` trở nên không cần thiết trong `<App>` tùy chỉnh của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To resolve this issue, you need to remove the `<Container>` component from your custom `<App>` (`pages/_app.js`).
+Để giải quyết vấn đề này, bạn cần xóa component `<Container>` khỏi `<App>` tùy chỉnh của mình (`pages/_app.js`).
 
-**Before**
+**Trước**
 
 ```jsx filename="pages/_app.js"
 import React from 'react'
@@ -33,7 +33,7 @@ class MyApp extends App {
 export default MyApp
 ```
 
-**After**
+**Sau**
 
 ```jsx filename="pages/_app.js"
 import React from 'react'
@@ -49,8 +49,8 @@ class MyApp extends App {
 export default MyApp
 ```
 
-After making this change, your custom `<App>` should work as expected without the `<Container>` component.
+Sau khi thực hiện thay đổi này, `<App>` tùy chỉnh của bạn sẽ hoạt động như mong đợi mà không cần component `<Container>`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Custom App](/docs/pages/building-your-application/routing/custom-app)

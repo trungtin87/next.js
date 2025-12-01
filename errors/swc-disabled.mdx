@@ -1,24 +1,24 @@
 ---
-title: SWC disabled
+title: SWC bị vô hiệu hóa
 ---
 
-## Why This Message Occurred
+## Tại Sao Thông Báo Này Xuất Hiện
 
-Next.js now uses Rust-based compiler [SWC](https://swc.rs/) to compile JavaScript/TypeScript. This new compiler is up to 17x faster than Babel when compiling individual files and up to 5x faster Fast Refresh.
+Next.js hiện sử dụng trình biên dịch dựa trên Rust là [SWC](https://swc.rs/) để biên dịch JavaScript/TypeScript. Trình biên dịch mới này nhanh hơn tới 17 lần so với Babel khi biên dịch các file riêng lẻ và Fast Refresh nhanh hơn tới 5 lần.
 
-Next.js provides full backwards compatibility with applications that have [custom Babel configuration](/docs/pages/guides/babel). All transformations that Next.js handles by default like styled-jsx and tree-shaking of `getStaticProps` / `getStaticPaths` / `getServerSideProps` have been ported to Rust.
+Next.js cung cấp khả năng tương thích ngược hoàn toàn với các ứng dụng có [cấu hình Babel tùy chỉnh](/docs/pages/guides/babel). Tất cả các chuyển đổi (transformations) mà Next.js xử lý theo mặc định như styled-jsx và tree-shaking của `getStaticProps` / `getStaticPaths` / `getServerSideProps` đã được port sang Rust.
 
-When an application has custom Babel configuration Next.js will automatically opt-out of using SWC for compiling JavaScript/Typescript and will fall back to using Babel in the same way that it was used in Next.js 11.
+Khi một ứng dụng có cấu hình Babel tùy chỉnh, Next.js sẽ tự động chọn không sử dụng SWC để biên dịch JavaScript/Typescript và sẽ quay trở lại sử dụng Babel theo cách tương tự như đã được sử dụng trong Next.js 11.
 
-Many of the integrations with external libraries that currently require custom Babel transformations will be ported to Rust-based SWC transforms in the near future. These include but are not limited to:
+Nhiều tích hợp với các thư viện bên ngoài hiện yêu cầu các chuyển đổi Babel tùy chỉnh sẽ được port sang các chuyển đổi SWC dựa trên Rust trong tương lai gần. Chúng bao gồm nhưng không giới hạn ở:
 
 - Emotion
 
-In order to prioritize transforms that will help you adopt SWC please provide your `.babelrc` on [the feedback thread](https://github.com/vercel/next.js/discussions/30174).
+Để ưu tiên các chuyển đổi sẽ giúp bạn áp dụng SWC, vui lòng cung cấp `.babelrc` của bạn trên [thread phản hồi](https://github.com/vercel/next.js/discussions/30174).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-If you want to use SWC despite the presence of a `.babelrc` file you can force it in your `next.config.js` file.
+Nếu bạn muốn sử dụng SWC bất chấp sự hiện diện của file `.babelrc`, bạn có thể buộc sử dụng nó trong file `next.config.js` của bạn.
 
 ```js filename="next.config.js"
 module.exports = {

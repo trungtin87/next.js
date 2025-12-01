@@ -1,16 +1,16 @@
 ---
-title: Re-exporting all exports from a page is disallowed
+title: Re-export tất cả các exports từ một trang bị cấm
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The following export can potentially break Next.js' compilation of pages:
+Việc export sau đây có khả năng phá vỡ quá trình biên dịch các trang của Next.js:
 
 ```jsx filename="pages/example.js"
 export * from '...'
 ```
 
-This is because Node.js code may be leaked to the browser build, causing an error. For example, the following two pages:
+Điều này là do mã Node.js có thể bị rò rỉ sang bản build trình duyệt, gây ra lỗi. Ví dụ, hai trang sau:
 
 ```jsx filename="pages/example-a.js"
 import fs from 'fs'
@@ -29,26 +29,26 @@ export function getStaticProps() {
 export * from './example-a'
 ```
 
-Would cause the following error:
+Sẽ gây ra lỗi sau:
 
 ```txt
 Module not found: Can't resolve 'fs' in './pages/example-b.js'
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Update your page to re-export the default component only:
+Cập nhật trang của bạn để chỉ re-export component mặc định:
 
 ```jsx filename="pages/example-a.js"
 export { default } from './example-b'
 ```
 
-If the other page uses `getServerSideProps` or `getStaticProps`, you can re-export those individually too:
+Nếu trang khác sử dụng `getServerSideProps` hoặc `getStaticProps`, bạn cũng có thể re-export chúng riêng lẻ:
 
 ```jsx filename="pages/example-a.js"
 export { default, getServerSideProps } from './example-b'
-// or
+// hoặc
 export { default, getStaticProps } from './example-b'
-// or
+// hoặc
 export { default, getStaticProps, getStaticPaths } from './example-b/[dynamic]'
 ```

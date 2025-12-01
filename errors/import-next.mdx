@@ -1,19 +1,19 @@
 ---
-title: 'Invalid `next` Import'
+title: Import `next` Không Hợp Lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Somewhere in your application, you imported `next` directly which is only meant to be used with legacy custom servers.
+Ở đâu đó trong ứng dụng của bạn, bạn đã import `next` trực tiếp, điều này chỉ dành cho việc sử dụng với các server tùy chỉnh cũ (legacy custom servers).
 
-You should not import `next` inside of pages or components.
+Bạn không nên import `next` bên trong các trang hoặc components.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Ensure any usage of `import next from "next"` is specific to custom server usage and isn't included in your pages or components.
+Đảm bảo bất kỳ việc sử dụng `import next from "next"` nào là cụ thể cho việc sử dụng server tùy chỉnh và không được bao gồm trong các trang hoặc components của bạn.
 
-Also ensure any type imports are kept inside of TypeScript files e.g. ensure `import { PageConfig } from 'next'` isn't used in JavaScript files.
+Cũng đảm bảo bất kỳ type imports nào được giữ bên trong các file TypeScript, ví dụ đảm bảo `import { PageConfig } from 'next'` không được sử dụng trong các file JavaScript.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Custom Server Documentation](/docs/pages/guides/custom-server)
+- [Tài liệu Server Tùy Chỉnh](/docs/pages/guides/custom-server)

@@ -1,16 +1,16 @@
 ---
-title: 'SSG `fallback: true` Export Error'
+title: 'Lỗi Export SSG `fallback: true`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You attempted to export a page with a `fallback: true` return value from `getStaticPaths` which is invalid. `fallback: true` is meant for building pages on-demand after a build has occurred, exporting disables this functionality
+Bạn đã cố gắng export một trang với giá trị trả về `fallback: true` từ `getStaticPaths`, điều này không hợp lệ. `fallback: true` được dùng để xây dựng các trang theo yêu cầu sau khi quá trình build đã xảy ra, việc export sẽ vô hiệu hóa chức năng này.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-If you would like the `fallback: true` behavior, you must remove `output: 'export'` and remove `next export` in favor of a different [deployment solution](/docs/pages/getting-started/deploying).
+Nếu bạn muốn hành vi `fallback: true`, bạn phải xóa `output: 'export'` và xóa `next export` để sử dụng một [giải pháp triển khai](/docs/pages/getting-started/deploying) khác.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Deployment documentation](/docs/pages/getting-started/deploying)
-- [`fallback: true` documentation](/docs/pages/api-reference/functions/get-static-paths#fallback-true)
+- [Tài liệu Triển khai](/docs/pages/getting-started/deploying)
+- [Tài liệu `fallback: true`](/docs/pages/api-reference/functions/get-static-paths#fallback-true)

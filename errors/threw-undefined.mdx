@@ -1,10 +1,10 @@
 ---
-title: 'Threw `undefined` / `null`'
+title: 'Ném ra `undefined` / `null`'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Somewhere in your code you `throw` an `undefined` or `null` value. Since this isn't a valid error there isn't a stack trace. We show this error instead to let you know what to look for.
+Ở đâu đó trong code của bạn, bạn `throw` một giá trị `undefined` hoặc `null`. Vì đây không phải là một lỗi hợp lệ nên không có stack trace. Chúng tôi hiển thị lỗi này để cho bạn biết cần tìm kiếm điều gì.
 
 ```js filename="pages/index.js"
 function getData() {
@@ -18,6 +18,6 @@ function Page() {
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-Look in your pages and find where an error could be throwing `undefined` or `null` values and ensure `new Error()` is used instead.
+Tìm trong các trang của bạn và tìm nơi mà một lỗi có thể ném ra các giá trị `undefined` hoặc `null` và đảm bảo sử dụng `new Error()` thay thế.

@@ -1,42 +1,42 @@
 ---
-title: Module Not Found
+title: Không Tìm Thấy Module
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A module not found error can occur for many different reasons:
+Lỗi không tìm thấy module có thể xảy ra vì nhiều lý do khác nhau:
 
-- The module you're trying to import is not installed in your dependencies
-- The module you're trying to import is in a different directory
-- The module you're trying to import has a different casing
-- The module you're trying to import uses Node.js specific modules, for example `dns`, outside of `getStaticProps` / `getStaticPaths` / `getServerSideProps`
+- Module bạn đang cố gắng import không được cài đặt trong dependencies của bạn
+- Module bạn đang cố gắng import nằm trong một thư mục khác
+- Module bạn đang cố gắng import có casing (chữ hoa/thường) khác
+- Module bạn đang cố gắng import sử dụng các module cụ thể của Node.js, ví dụ `dns`, bên ngoài `getStaticProps` / `getStaticPaths` / `getServerSideProps`
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-### The module you're trying to import is not installed in your dependencies
+### Module bạn đang cố gắng import không được cài đặt trong dependencies của bạn
 
-When importing a module from [npm](https://npmjs.com) this module has to be installed locally.
+Khi import một module từ [npm](https://npmjs.com), module này phải được cài đặt cục bộ.
 
-For example when importing the `swr` package:
+Ví dụ khi import gói `swr`:
 
 ```js filename="example.js"
 import useSWR from 'swr'
 ```
 
-The `swr` module has to be installed using a package manager.
+Module `swr` phải được cài đặt bằng trình quản lý gói.
 
-- When using `npm`: `npm install swr`
-- When using `yarn`: `yarn add swr`
+- Khi sử dụng `npm`: `npm install swr`
+- Khi sử dụng `yarn`: `yarn add swr`
 
-### The module you're trying to import is in a different directory
+### Module bạn đang cố gắng import nằm trong một thư mục khác
 
-Make sure that the path you're importing refers to the right directory and file.
+Đảm bảo rằng đường dẫn bạn đang import tham chiếu đến đúng thư mục và file.
 
-### The module you're trying to import has a different casing
+### Module bạn đang cố gắng import có casing khác
 
-Make sure the casing of the file is correct.
+Đảm bảo casing của file là chính xác.
 
-Example:
+Ví dụ:
 
 ```jsx filename="components/MyComponent.js"
 export default function MyComponent() {
@@ -45,21 +45,21 @@ export default function MyComponent() {
 ```
 
 ```jsx filename="pages/index.js"
-// Note how `components/MyComponent` exists but `Mycomponent` without the capital `c` is imported
+// Lưu ý cách `components/MyComponent` tồn tại nhưng `Mycomponent` không có chữ `c` viết hoa được import
 import MyComponent from '../components/Mycomponent'
 ```
 
-Incorrect casing will lead to build failures on case-sensitive environments like most Linux-based continuous integration and can cause issues with Fast Refresh.
+Casing không chính xác sẽ dẫn đến lỗi build trên các môi trường phân biệt chữ hoa chữ thường như hầu hết các tích hợp liên tục (CI) dựa trên Linux và có thể gây ra sự cố với Fast Refresh.
 
-### The module you're trying to import uses Node.js specific modules
+### Module bạn đang cố gắng import sử dụng các module cụ thể của Node.js
 
-`getStaticProps`, `getStaticPaths`, and `getServerSideProps` allow for using modules that can only run in the Node.js environment. This allows you to do direct database queries or reading data from Redis to name a few examples.
+`getStaticProps`, `getStaticPaths`, và `getServerSideProps` cho phép sử dụng các module chỉ có thể chạy trong môi trường Node.js. Điều này cho phép bạn thực hiện các truy vấn cơ sở dữ liệu trực tiếp hoặc đọc dữ liệu từ Redis để nêu tên một vài ví dụ.
 
-The tree shaking only runs on top level pages, so it can't be relied on in separate React components.
+Tree shaking chỉ chạy trên các trang cấp cao nhất, vì vậy nó không thể được dựa vào trong các React components riêng biệt.
 
-You can verify the tree shaking on [next-code-elimination.vercel.app](https://next-code-elimination.vercel.app/).
+Bạn có thể xác minh tree shaking trên [next-code-elimination.vercel.app](https://next-code-elimination.vercel.app/).
 
-Example of correctly tree-shaken code:
+Ví dụ về mã được tree-shaken chính xác:
 
 ```js filename="lib/redis.js"
 import Redis from 'ioredis'
@@ -84,7 +84,7 @@ export default function Home({ message }) {
 }
 ```
 
-Example of code that would break:
+Ví dụ về mã sẽ bị lỗi:
 
 ```js filename="lib/redis.js"
 import Redis from 'ioredis'
@@ -95,9 +95,9 @@ export default redis
 ```
 
 ```jsx filename="pages/index.js"
-// Redis is a Node.js specific library that can't run in the browser
-// Trying to use it in code that runs on both Node.js and the browser will result in a module not found error for modules that ioredis relies on
-// If you run into such an error it's recommended to move the code to `getStaticProps` or `getServerSideProps` as those methods guarantee that the code is only run in Node.js.
+// Redis là một thư viện cụ thể của Node.js không thể chạy trong trình duyệt
+// Cố gắng sử dụng nó trong mã chạy trên cả Node.js và trình duyệt sẽ dẫn đến lỗi không tìm thấy module cho các module mà ioredis dựa vào
+// Nếu bạn gặp phải lỗi như vậy, bạn nên di chuyển mã sang `getStaticProps` hoặc `getServerSideProps` vì các phương thức đó đảm bảo rằng mã chỉ được chạy trong Node.js.
 import redis from '../lib/redis'
 import { useEffect, useState } from 'react'
 
@@ -112,13 +112,13 @@ export default function Home() {
 }
 ```
 
-Example of code that would break:
+Ví dụ về mã sẽ bị lỗi:
 
 ```js filename="lib/redis.js"
 import Redis from 'ioredis'
 
-// Modules that hold Node.js-only code can't also export React components
-// Tree shaking of getStaticProps/getStaticPaths/getServerSideProps is ran only on page files
+// Các module chứa mã chỉ dành cho Node.js cũng không thể export React components
+// Tree shaking của getStaticProps/getStaticPaths/getServerSideProps chỉ được chạy trên các file trang
 const redis = new Redis(process.env.REDIS_URL)
 
 export function MyComponent() {
@@ -129,7 +129,7 @@ export default redis
 ```
 
 ```jsx filename="pages/index.js"
-// In practice you'll want to refactor the `MyComponent` to be a separate file so that tree shaking ensures that specific import is not included for the browser compilation
+// Trong thực tế, bạn sẽ muốn cấu trúc lại `MyComponent` thành một file riêng biệt để tree shaking đảm bảo rằng import cụ thể đó không được bao gồm cho quá trình biên dịch trình duyệt
 import redis, { MyComponent } from '../lib/redis'
 
 export async function getStaticProps() {

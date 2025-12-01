@@ -1,22 +1,22 @@
 ---
-title: Static Bail Out Caught
+title: Đã Bắt Lỗi Static Bail Out
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-When Partial Prerendering (PPR) is enabled, using APIs that opt into Dynamic Rendering like `cookies`, `headers`, or `fetch` (such as with `cache: 'no-store'` or `revalidate: 0`) will cause React to throw a special error object to know which part of the page cannot be statically generated - while still letting the rest of it be partially static. If you catch this error, it is not safe for us to generate any static data, and your build will fail.
+Khi Partial Prerendering (PPR) được bật, việc sử dụng các API chọn Dynamic Rendering như `cookies`, `headers`, hoặc `fetch` (chẳng hạn như với `cache: 'no-store'` hoặc `revalidate: 0`) sẽ khiến React throw một error object đặc biệt để biết phần nào của trang không thể được tạo tĩnh - trong khi vẫn để phần còn lại của nó là partial static. Nếu bạn bắt lỗi này, việc tạo bất kỳ dữ liệu tĩnh nào là không an toàn và build của bạn sẽ thất bại.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-- Ensure that you are not wrapping Next.js APIs that opt into dynamic rendering in a `try/catch` block.
-- If you do wrap these APIs in a try/catch, make sure you re-throw the original error so it can be caught by Next.js.
-- Alternatively, insert [`unstable_noStore()`](/docs/app/api-reference/functions/unstable_noStore) before the try/catch.
+- Đảm bảo rằng bạn không bọc các API Next.js chọn dynamic rendering trong một khối `try/catch`.
+- Nếu bạn bọc các API này trong try/catch, hãy đảm bảo bạn re-throw lỗi gốc để nó có thể được Next.js bắt.
+- Ngoài ra, chèn [`unstable_noStore()`](/docs/app/api-reference/functions/unstable_noStore) trước try/catch.
 
 ```js
 import { unstable_noStore } from 'next/cache'
 
 async function fetchData() {
-  unstable_noStore() // opt out before we even get to the try/catch
+  unstable_noStore() // opt out trước khi chúng ta đến try/catch
   try {
     const response = await fetch(url);
     ...

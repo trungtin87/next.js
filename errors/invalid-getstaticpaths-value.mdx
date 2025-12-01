@@ -1,14 +1,14 @@
 ---
-title: 'Invalid `getStaticPaths` Return Value'
+title: Giá trị trả về `getStaticPaths` không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In one of the page's `getStaticPaths` the return value had the incorrect shape.
+Trong một trong các `getStaticPaths` của trang, giá trị trả về có hình dạng không chính xác.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure to return the following shape from `getStaticPaths`:
+Đảm bảo trả về hình dạng sau từ `getStaticPaths`:
 
 ```js filename="pages/blog/[slug].js"
 export async function getStaticPaths() {
@@ -19,21 +19,21 @@ export async function getStaticPaths() {
 }
 ```
 
-There are two required properties:
+Có hai thuộc tính bắt buộc:
 
 ### `paths`
 
-This property is an [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) of URLs ("paths") that should be statically generated at build-time. The returned paths must match the dynamic route shape.
+Thuộc tính này là một [Mảng](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array) các URLs ("paths") cần được tạo tĩnh tại thời điểm build. Các paths trả về phải khớp với hình dạng route động.
 
-- You may return a [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) or an [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) that explicitly defines all URL `params`.
+- Bạn có thể trả về một [Chuỗi](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) hoặc một [Đối tượng](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object) định nghĩa rõ ràng tất cả các `params` URL.
 
   ```js filename="pages/blog/[slug].js"
   export async function getStaticPaths() {
     return {
       paths: [
-        // String variant:
+        // Biến thể chuỗi:
         '/blog/first-post',
-        // Object variant:
+        // Biến thể đối tượng:
         { params: { slug: 'second-post' } },
       ],
       fallback: true,
@@ -43,8 +43,8 @@ This property is an [Array](https://developer.mozilla.org/docs/Web/JavaScript/Re
 
 ### `fallback`
 
-This property can be a [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), specifying whether or not a fallback version of this page should be generated, or a string `'blocking'` to wait for the generation:
+Thuộc tính này có thể là một [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), chỉ định liệu một phiên bản fallback của trang này có nên được tạo hay không, hoặc một chuỗi `'blocking'` để chờ việc tạo:
 
-- Enabling `fallback` (via `true`) allows you to return a subset of all the possible paths that should be statically generated. At runtime, Next.js will statically generate the remaining paths the **first time they are requested**. Consecutive calls to the path will be served as-if it was statically generated at build-time. This reduces build times when dealing with thousands or millions of pages.
-- Disabling `fallback` (via `false`) requires you return the full collection of paths you would like to statically generate at build-time. At runtime, any path that was not generated at build-time **will 404**.
-- If `fallback` is `'blocking'`, new paths not returned by getStaticPaths will wait for the HTML to be generated, identical to SSR (hence why blocking), and then be cached for future requests so it only happens once per path.
+- Bật `fallback` (thông qua `true`) cho phép bạn trả về một tập hợp con của tất cả các paths có thể cần được tạo tĩnh. Tại runtime, Next.js sẽ tạo tĩnh các paths còn lại **lần đầu tiên chúng được yêu cầu**. Các cuộc gọi liên tiếp đến path sẽ được phục vụ như thể nó đã được tạo tĩnh tại thời điểm build. Điều này giảm thời gian build khi xử lý hàng ngàn hoặc hàng triệu trang.
+- Tắt `fallback` (thông qua `false`) yêu cầu bạn trả về bộ sưu tập đầy đủ các paths bạn muốn tạo tĩnh tại thời điểm build. Tại runtime, bất kỳ path nào không được tạo tại thời điểm build **sẽ bị lỗi 404**.
+- Nếu `fallback` là `'blocking'`, các paths mới không được trả về bởi getStaticPaths sẽ chờ HTML được tạo, giống hệt như SSR (đó là lý do tại sao gọi là blocking), và sau đó được cache cho các yêu cầu trong tương lai để nó chỉ xảy ra một lần cho mỗi path.

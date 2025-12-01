@@ -1,22 +1,22 @@
 ---
-title: Cannot access `crypto.getRandomValue()`, `crypto.randomUUID()`, or another web or node crypto API that generates random values synchronously before other uncached data or Request data in a Server Component
+title: Không thể truy cập `crypto.getRandomValue()`, `crypto.randomUUID()`, hoặc API crypto web hoặc node khác tạo giá trị ngẫu nhiên đồng bộ trước dữ liệu uncached khác hoặc dữ liệu Request trong Server Component
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-An API that produces a random value synchronously from the Web Crypto API or from Node's `crypto` package was used in a Server Component before accessing other uncached data through APIs like `fetch()` and native database drivers, or Request data through Next.js APIs like `cookies()`, `headers()`, `connection()` and `searchParams`. Accessing random values synchronously in this way interferes with the prerendering and prefetching capabilities of Next.js.
+Một API tạo ra giá trị ngẫu nhiên đồng bộ từ Web Crypto API hoặc từ package `crypto` của Node đã được sử dụng trong một Server Component trước khi truy cập dữ liệu uncached khác thông qua các API như `fetch()` và native database drivers, hoặc dữ liệu Request thông qua các API của Next.js như `cookies()`, `headers()`, `connection()` và `searchParams`. Việc truy cập các giá trị ngẫu nhiên đồng bộ theo cách này can thiệp vào khả năng prerendering và prefetching của Next.js.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-If the random crypto value is appropriate to be prerendered and prefetched consider moving it into a Cache Component or Cache Function with the `"use cache"` directive.
+Nếu giá trị crypto ngẫu nhiên phù hợp để được prerender và prefetch, hãy xem xét di chuyển nó vào một Cache Component hoặc Cache Function với directive `"use cache"`.
 
-If the random crypto value is intended to be generated on every user request consider whether an async API exists that achieves the same result. If not consider whether you can move the random crypto value generation later, behind other existing uncached data or Request data access. If there is no way to do this you can always precede the random crypto value generation with Request data access by using `await connection()`.
+Nếu giá trị crypto ngẫu nhiên được dự định để được tạo ra trên mỗi request của người dùng, hãy xem xét liệu có tồn tại một async API đạt được kết quả tương tự hay không. Nếu không, hãy xem xét liệu bạn có thể di chuyển việc tạo giá trị crypto ngẫu nhiên về sau, sau khi truy cập dữ liệu uncached hoặc dữ liệu Request hiện có khác. Nếu không có cách nào để làm điều này, bạn luôn có thể đặt trước việc tạo giá trị crypto ngẫu nhiên bằng cách truy cập dữ liệu Request bằng cách sử dụng `await connection()`.
 
-### Cache the token value
+### Cache giá trị token
 
-If you are generating a token to talk to a database that itself should be cached move the token generation inside the `"use cache"`.
+Nếu bạn đang tạo một token để giao tiếp với một database mà bản thân nó nên được cached, hãy di chuyển việc tạo token vào bên trong `"use cache"`.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 async function getCachedData(token: string) {
@@ -31,7 +31,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/page.js"
 async function getCachedData() {
@@ -46,11 +46,11 @@ export default async function Page() {
 }
 ```
 
-### Use an async API at request-time
+### Sử dụng async API tại request-time
 
-If you require this random value to be unique per Request and an async version of the API exists switch to it instead. Also ensure that there is a parent Suspense boundary that defines a fallback UI Next.js can use while rendering this component on each Request.
+Nếu bạn yêu cầu giá trị ngẫu nhiên này là duy nhất cho mỗi Request và tồn tại phiên bản async của API, hãy chuyển sang sử dụng nó thay thế. Đồng thời đảm bảo rằng có một Suspense boundary cha định nghĩa fallback UI mà Next.js có thể sử dụng trong khi render component này trên mỗi Request.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 import { generateKeySync } from 'node:crypto'
@@ -62,7 +62,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/page.js"
 import { generateKey } from 'node:crypto'
@@ -74,11 +74,11 @@ export default async function Page() {
 }
 ```
 
-### Use `await connection()` at request-time
+### Sử dụng `await connection()` tại request-time
 
-If you require this random value to be unique per Request and an async version of the API does not exist, call `await connection()`. Also ensure that there is a parent Suspense boundary that defines a fallback UI Next.js can use while rendering this component on each Request.
+Nếu bạn yêu cầu giá trị ngẫu nhiên này là duy nhất cho mỗi Request và không tồn tại phiên bản async của API, hãy gọi `await connection()`. Đồng thời đảm bảo rằng có một Suspense boundary cha định nghĩa fallback UI mà Next.js có thể sử dụng trong khi render component này trên mỗi Request.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 export default async function Page() {
@@ -87,7 +87,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/page.js"
 import { connection } from 'next/server'
@@ -99,9 +99,9 @@ export default async function Page() {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`connection` function](/docs/app/api-reference/functions/connection)
+- [Hàm `connection`](/docs/app/api-reference/functions/connection)
 - [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 - [Node Crypto API](https://nodejs.org/docs/latest/api/crypto.html)
-- [`Suspense` React API](https://react.dev/reference/react/Suspense)
+- [React API `Suspense`](https://react.dev/reference/react/Suspense)

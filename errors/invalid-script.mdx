@@ -1,22 +1,22 @@
 ---
-title: Invalid Script
+title: Script không hợp lệ
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Somewhere in your application, you are using the `next/script` component without including an inline script or `src` attribute.
+Ở đâu đó trong ứng dụng của bạn, bạn đang sử dụng component `next/script` mà không bao gồm một inline script hoặc thuộc tính `src`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Look for any usage of the `next/script` component and make sure that `src` is provided or an inline script is used.
+Tìm kiếm bất kỳ việc sử dụng nào của component `next/script` và đảm bảo rằng `src` được cung cấp hoặc một inline script được sử dụng.
 
-**Compatible `src` attribute**
+**Thuộc tính `src` tương thích**
 
 ```jsx
 <Script src="https://example.com/analytics.js" />
 ```
 
-**Compatible inline script with curly braces**
+**Inline script tương thích với dấu ngoặc nhọn**
 
 ```jsx
 <Script id="show-banner">
@@ -24,7 +24,7 @@ Look for any usage of the `next/script` component and make sure that `src` is pr
 </Script>
 ```
 
-**Compatible inline script with `dangerouslySetInnerHtml`**
+**Inline script tương thích với `dangerouslySetInnerHtml`**
 
 ```jsx
 <Script
@@ -35,6 +35,6 @@ Look for any usage of the `next/script` component and make sure that `src` is pr
 />
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Script Component in Documentation](/docs/pages/guides/scripts)
+- [Component Script trong Tài liệu](/docs/pages/guides/scripts)

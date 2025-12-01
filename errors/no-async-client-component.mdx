@@ -1,32 +1,32 @@
 ---
-title: No async Client Component
+title: Không có Client Component Async
 ---
 
-> Client components cannot be async functions.
+> Client component không thể là các hàm async.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-The error occurs when you try to define a Client Component as an async function. React Client Components [do not support](https://github.com/acdlite/rfcs/blob/first-class-promises/text/0000-first-class-support-for-promises.md#why-cant-client-components-be-async-functions) async functions. For example:
+Lỗi xảy ra khi bạn cố gắng định nghĩa một Client Component như một hàm async. React Client Components [không hỗ trợ](https://github.com/acdlite/rfcs/blob/first-class-promises/text/0000-first-class-support-for-promises.md#why-cant-client-components-be-async-functions) các hàm async. Ví dụ:
 
 ```tsx
 'use client'
 
-// This will cause an error
+// Điều này sẽ gây ra lỗi
 async function ClientComponent() {
   // ...
 }
 ```
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-1. **Convert to a Server Component**: If possible, convert your Client Component to a Server Component. This allows you to use `async`/`await` directly in your component.
-2. **Remove the `async` keyword**: If you need to keep it as a Client Component, remove the `async` keyword and handle data fetching differently.
-3. **Use React Hooks for data fetching**: Utilize hooks like `useEffect` for client-side data fetching, or use third-party libraries.
-4. **Leverage the `use` hook with a Context Provider**: Pass promises to child components using context, then resolve them with the `use` hook.
+1. **Chuyển đổi thành Server Component**: Nếu có thể, hãy chuyển đổi Client Component của bạn thành Server Component. Điều này cho phép bạn sử dụng `async`/`await` trực tiếp trong component của mình.
+2. **Xóa từ khóa `async`**: Nếu bạn cần giữ nó như một Client Component, hãy xóa từ khóa `async` và xử lý data fetching theo cách khác.
+3. **Sử dụng React Hooks để fetch dữ liệu**: Sử dụng các hook như `useEffect` để fetch dữ liệu phía client, hoặc sử dụng các thư viện bên thứ ba.
+4. **Tận dụng hook `use` với Context Provider**: Truyền promises cho các component con bằng cách sử dụng context, sau đó giải quyết chúng bằng hook `use`.
 
-### Recommended: Server-side data fetching
+### Khuyến nghị: Fetch dữ liệu phía server
 
-We recommend fetching data on the server. For example:
+Chúng tôi khuyến nghị fetch dữ liệu trên server. Ví dụ:
 
 ```tsx filename="app/page.tsx"
 export default async function Page() {
@@ -42,11 +42,11 @@ export default async function Page() {
 }
 ```
 
-### Using `use` with Context Provider
+### Sử dụng `use` với Context Provider
 
-Another pattern to explore is using the React `use` hook with a Context Provider. This allows you to pass Promises to child components and resolve them using the `use` hook . Here's an example:
+Một mẫu khác để khám phá là sử dụng hook `use` của React với Context Provider. Điều này cho phép bạn truyền Promises cho các component con và giải quyết chúng bằng hook `use`. Đây là một ví dụ:
 
-First, let's create a separate file for the context provider:
+Đầu tiên, hãy tạo một file riêng cho context provider:
 
 ```tsx filename="app/context.tsx"
 'use client'
@@ -76,7 +76,7 @@ export function useBlogContext() {
 }
 ```
 
-Now, let's create the Promise in a Server Component and stream it to the client:
+Bây giờ, hãy tạo Promise trong Server Component và stream nó đến client:
 
 ```tsx filename="app/page.tsx"
 import { BlogProvider } from './context'
@@ -94,7 +94,7 @@ export default function Page() {
 }
 ```
 
-Here is the blog posts component:
+Đây là component blog posts:
 
 ```tsx filename="app/blog-posts.tsx"
 'use client'
@@ -110,11 +110,11 @@ export function BlogPosts() {
 }
 ```
 
-This pattern allows you to start data fetching early and pass the Promise down to child components, which can then use the `use` hook to access the data when it's ready.
+Mẫu này cho phép bạn bắt đầu fetch dữ liệu sớm và truyền Promise xuống các component con, sau đó có thể sử dụng hook `use` để truy cập dữ liệu khi nó sẵn sàng.
 
-### Client-side data fetching
+### Fetch dữ liệu phía client
 
-In scenarios where client fetching is needed, you can call `fetch` in `useEffect` (not recommended), or lean on popular React libraries in the community (such as [SWR](https://swr.vercel.app/) or [React Query](https://tanstack.com/query/latest)) for client fetching.
+Trong các tình huống mà cần fetch phía client, bạn có thể gọi `fetch` trong `useEffect` (không được khuyến nghị), hoặc dựa vào các thư viện React phổ biến trong cộng đồng (như [SWR](https://swr.vercel.app/) hoặc [React Query](https://tanstack.com/query/latest)) để fetch phía client.
 
 ```tsx filename="app/page.tsx"
 'use client'

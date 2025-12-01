@@ -1,22 +1,22 @@
 ---
-title: Cannot access current time from a Client Component without a fallback UI defined
+title: Không thể truy cập thời gian hiện tại từ Client Component mà không có fallback UI được định nghĩa
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A Client Component is accessing the current time with `Date.now()`, `Date()`, or `new Date()`.
+Một Client Component đang truy cập thời gian hiện tại với `Date.now()`, `Date()`, hoặc `new Date()`.
 
-Client Components primarily run in the browser however on an initial page visit, Next.js will serve an HTML page produced by simulating the client environment on the server. This process is called Server Side Rendering or SSR. Next.js will attempt to prerender this HTML ahead of time however if a Client Component accesses the current time during this prerender, it cannot include this component in the prerendered HTML, otherwise it might contain content based on a time very different from when the HTML is sent to a user. Next.js will use the nearest Suspense boundary around this component to prerender a fallback instead however in this instance there was no Suspense boundary.
+Client Components chủ yếu chạy trong trình duyệt tuy nhiên khi truy cập trang lần đầu, Next.js sẽ phục vụ một trang HTML được tạo ra bằng cách mô phỏng môi trường client trên server. Quá trình này được gọi là Server Side Rendering hay SSR. Next.js sẽ cố gắng prerender HTML này trước thời gian tuy nhiên nếu một Client Component truy cập thời gian hiện tại trong quá trình prerender này, nó không thể bao gồm component này trong HTML được prerender, nếu không nó có thể chứa nội dung dựa trên thời gian rất khác so với khi HTML được gửi đến người dùng. Next.js sẽ sử dụng Suspense boundary gần nhất xung quanh component này để prerender một fallback thay thế tuy nhiên trong trường hợp này không có Suspense boundary.
 
-There are a number of ways you might fix this issue depending on the specifics of your use case.
+Có một số cách bạn có thể khắc phục vấn đề này tùy thuộc vào chi tiết của trường hợp sử dụng của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-### Provide Fallback UI
+### Cung Cấp Fallback UI
 
-If you want the time value to be part of the server rendered HTML you can add a Suspense boundary around the component which allows Next.js to prerender a fallback UI ahead of a user's request and fill in the actual content when the user request occurs.
+Nếu bạn muốn giá trị thời gian là một phần của HTML được render trên server, bạn có thể thêm một Suspense boundary xung quanh component cho phép Next.js prerender một fallback UI trước request của người dùng và điền vào nội dung thực tế khi request của người dùng xảy ra.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/article.js"
 'use client'
@@ -38,7 +38,7 @@ export default function Article({ articleData }) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/article.js"
 'use client'
@@ -62,11 +62,11 @@ export default function Article({ articleData }) {
 }
 ```
 
-### Only access the time in the browser
+### Chỉ truy cập thời gian trong trình duyệt
 
-If you do not want to provide a fallback UI you may be able to move the time access into an effect. React does not run effects during server rendering so the time access will only occur in the browser.
+Nếu bạn không muốn cung cấp fallback UI, bạn có thể di chuyển việc truy cập thời gian vào một effect. React không chạy effects trong quá trình server rendering nên việc truy cập thời gian sẽ chỉ xảy ra trong trình duyệt.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/article.js"
 'use client'
@@ -88,7 +88,7 @@ export default function Article({ articleData }) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/article.js"
 'use client'
@@ -98,7 +98,7 @@ import { useState, useEffect } from 'react'
 export function RelativeTime({ timestamp }) {
   const [timeAgo, setTimeAgo] = useState('')
   useEffect(() => {
-    // The effect won't run while rendering on the server
+    // Effect sẽ không chạy trong khi render trên server
     const now = Date.now()
     setTimeAgo(computeTimeAgo({ timestamp, now }))
   }, [timestamp])
@@ -115,11 +115,11 @@ export default function Article({ articleData }) {
 }
 ```
 
-### Cache the time in a Server Component
+### Cache thời gian trong Server Component
 
-While Next.js will treat reading the current time in a Server Component the same as in a Client Component, you have the additional option of caching the time read using `"use cache"`. With this approach the time value can be included in the prerendered HTML because you are explicitly indicating the value does not need to reflect the time of the user's request.
+Trong khi Next.js sẽ xử lý việc đọc thời gian hiện tại trong Server Component giống như trong Client Component, bạn có tùy chọn bổ sung là cache thời gian đọc bằng cách sử dụng `"use cache"`. Với cách tiếp cận này, giá trị thời gian có thể được bao gồm trong HTML được prerender vì bạn đang chỉ định rõ ràng rằng giá trị không cần phản ánh thời gian của request của người dùng.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/home/layout.js"
 'use client'
@@ -136,7 +136,7 @@ export default function Layout({ children }) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/home/layout.js"
 async function getCurrentYear() {
@@ -156,11 +156,11 @@ export default async function Layout({ children }) {
 }
 ```
 
-### Performance use case
+### Trường hợp sử dụng hiệu suất
 
-If you are using the current time for performance tracking with elapsed time, use `performance.now()`.
+Nếu bạn đang sử dụng thời gian hiện tại để theo dõi hiệu suất với thời gian đã trôi qua, hãy sử dụng `performance.now()`.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 "use client"
@@ -175,7 +175,7 @@ export default function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/page.js"
 "use client"
@@ -189,13 +189,13 @@ export default async function Page() {
 }
 ```
 
-> **Note**: If you need report an absolute time to an observability tool you can also use `performance.timeOrigin + performance.now()`.
+> **Lưu ý**: Nếu bạn cần báo cáo thời gian tuyệt đối cho một công cụ observability, bạn cũng có thể sử dụng `performance.timeOrigin + performance.now()`.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`Date.now` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now)
-- [`Date constructor` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date)
+- [API `Date.now`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now)
+- [API `Date constructor`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date)
 - [`"use cache"`](/docs/app/api-reference/directives/use-cache)
-- [`performance` Web API](https://developer.mozilla.org/en-US/docs/Web/API/Performance)
-- [`Suspense` React API](https://react.dev/reference/react/Suspense)
-- [`useEffect` React Hook](https://react.dev/reference/react/useEffect)
+- [Web API `performance`](https://developer.mozilla.org/en-US/docs/Web/API/Performance)
+- [React API `Suspense`](https://react.dev/reference/react/Suspense)
+- [React Hook `useEffect`](https://react.dev/reference/react/useEffect)

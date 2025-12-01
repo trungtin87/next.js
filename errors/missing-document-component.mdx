@@ -1,21 +1,21 @@
 ---
-title: Missing Document Components
+title: Thiếu các Component Document
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In your custom `pages/_document` an expected sub-component was not rendered.
+Trong `pages/_document` tùy chỉnh của bạn, một sub-component dự kiến đã không được render.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure to import and render all of the expected `Document` components:
+Đảm bảo import và render tất cả các component `Document` dự kiến:
 
 - `<Html />`
 - `<Head />`
 - `<Main />`
 - `<NextScript />`
 
-For example:
+Ví dụ:
 
 ```tsx filename="pages/_document.tsx"
 import Document, { Html, Head, Main, NextScript } from 'next/document'
@@ -35,6 +35,6 @@ export default class MyDocument extends Document {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Custom Document Docs](/docs/pages/building-your-application/routing/custom-document)
+- [Tài liệu Custom Document](/docs/pages/building-your-application/routing/custom-document)

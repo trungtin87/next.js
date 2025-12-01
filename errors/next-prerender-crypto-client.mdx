@@ -1,22 +1,22 @@
 ---
-title: Cannot access `crypto.getRandomValue()`, `crypto.randomUUID()`, or another web or node crypto API that generates random values synchronously from a Client Component without a fallback UI defined
+title: Không thể truy cập `crypto.getRandomValue()`, `crypto.randomUUID()`, hoặc API crypto web hoặc node khác tạo giá trị ngẫu nhiên đồng bộ từ Client Component mà không có fallback UI được định nghĩa
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-A Client Component is accessing a random value synchronously from the Web Crypto API or from Node's `crypto` API.
+Một Client Component đang truy cập giá trị ngẫu nhiên đồng bộ từ Web Crypto API hoặc từ `crypto` API của Node.
 
-Client Components primarily run in the browser however on an initial page visit, Next.js will serve an HTML page produced by simulating the client environment on the server. This process is called Server Side Rendering or SSR. Next.js will attempt to prerender this HTML ahead of time however if a Client Component accesses a random source during this prerender, it cannot include this component in the prerendered HTML, otherwise the value will be fixed on each user request and not random like expected. Next.js will use the nearest Suspense boundary around this component to prerender a fallback instead however in this instance there was no Suspense boundary.
+Client Components chủ yếu chạy trong trình duyệt tuy nhiên khi truy cập trang lần đầu, Next.js sẽ phục vụ một trang HTML được tạo ra bằng cách mô phỏng môi trường client trên server. Quá trình này được gọi là Server Side Rendering hay SSR. Next.js sẽ cố gắng prerender HTML này trước thời gian tuy nhiên nếu một Client Component truy cập nguồn ngẫu nhiên trong quá trình prerender này, nó không thể bao gồm component này trong HTML được prerender, nếu không giá trị sẽ được cố định trên mỗi request của người dùng và không ngẫu nhiên như mong đợi. Next.js sẽ sử dụng Suspense boundary gần nhất xung quanh component này để prerender một fallback thay thế tuy nhiên trong trường hợp này không có Suspense boundary.
 
-There are a number of ways you might fix this issue depending on the specifics of your use case.
+Có một số cách bạn có thể khắc phục vấn đề này tùy thuộc vào chi tiết của trường hợp sử dụng của bạn.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-### Provide Fallback UI
+### Cung Cấp Fallback UI
 
-If your random value is intended to be unique per Request, add a Suspense boundary around the component that calls the crypto API that produces this value. This allows Next.js to prerender a fallback UI and fill in an actual random value when the user requests the page.
+Nếu giá trị ngẫu nhiên của bạn được dự định là duy nhất cho mỗi Request, hãy thêm một Suspense boundary xung quanh component gọi crypto API tạo ra giá trị này. Điều này cho phép Next.js prerender một fallback UI và điền vào giá trị ngẫu nhiên thực tế khi người dùng request trang.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/blog/new/page.js"
 'use client'
@@ -27,7 +27,7 @@ export default function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/blog/new/page.js"
 "use client"
@@ -52,11 +52,11 @@ function DynamicAuthoringView() {
 }
 ```
 
-### Only access crypto in the browser
+### Chỉ truy cập crypto trong trình duyệt
 
-If your random value is only intended for use in the browser you can move the call into an effect or event handler. React does not run effects during server rendering and there are no events during server rendering so neither option will require the prerender to exclude this component.
+Nếu giá trị ngẫu nhiên của bạn chỉ được dự định để sử dụng trong trình duyệt, bạn có thể di chuyển lệnh gọi vào một effect hoặc event handler. React không chạy effects trong quá trình server rendering và không có events trong quá trình server rendering nên cả hai tùy chọn đều không yêu cầu prerender loại trừ component này.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/workflow.js"
 'use client'
@@ -94,7 +94,7 @@ export default function Workflow({ currentStep, onNext, onPrev }) {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/workflow.js"
 'use client'
@@ -141,9 +141,9 @@ export default function Workflow({ currentStep, onNext, onPrev }) {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`connection` function](/docs/app/api-reference/functions/connection)
+- [Hàm `connection`](/docs/app/api-reference/functions/connection)
 - [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 - [Node Crypto API](https://nodejs.org/docs/latest/api/crypto.html)
-- [`Suspense` React API](https://react.dev/reference/react/Suspense)
+- [React API `Suspense`](https://react.dev/reference/react/Suspense)

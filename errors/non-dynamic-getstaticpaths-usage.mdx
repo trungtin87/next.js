@@ -1,16 +1,16 @@
 ---
-title: '`getStaticPaths` Used on Non-Dynamic Page'
+title: '`getStaticPaths` Được Sử Dụng Trên Trang Không Động'
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-On a non-dynamic SSG page `getStaticPaths` was incorrectly exported as this can only be used on dynamic pages to return the paths to prerender.
+Trên một trang SSG không động, `getStaticPaths` đã được export không chính xác vì điều này chỉ có thể được sử dụng trên các trang động để trả về các paths cần prerender.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Remove the `getStaticPaths` export on the non-dynamic page or rename the page to be a dynamic page.
+Xóa export `getStaticPaths` trên trang không động hoặc đổi tên trang thành một trang động.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [Dynamic Routes Documentation](/docs/pages/building-your-application/routing/dynamic-routes)
-- [`getStaticPaths` Documentation](/docs/pages/building-your-application/routing/dynamic-routes)
+- [Tài liệu Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes)
+- [Tài liệu `getStaticPaths`](/docs/pages/building-your-application/routing/dynamic-routes)

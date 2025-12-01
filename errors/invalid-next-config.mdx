@@ -1,47 +1,47 @@
 ---
-title: 'Invalid `next.config.js`'
+title: `next.config.js` không hợp lệ
 ---
 
-## Why this error occurred
+## Tại sao lỗi này xảy ra
 
-In your `next.config.js` file, you passed invalid options that either are the incorrect type or an unknown field. This warning is shown to help catch typos, deprecated or updated options.
+Trong file `next.config.js` của bạn, bạn đã truyền các tùy chọn không hợp lệ, hoặc là sai kiểu dữ liệu hoặc là một trường không xác định. Cảnh báo này được hiển thị để giúp bắt các lỗi chính tả, các tùy chọn đã lỗi thời hoặc đã được cập nhật.
 
-## Possible ways to fix it
+## Các cách có thể để khắc phục
 
-You can use the `NextConfig` type to help ensure your config is correct.
+Bạn có thể sử dụng kiểu `NextConfig` để giúp đảm bảo config của bạn là chính xác.
 
 ```js filename="next.config.js"
 /**
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  /* config options here */
+  /* các tùy chọn config ở đây */
 }
 
 module.exports = nextConfig
 ```
 
-Alternatively, you can use `next.config.ts` for better type safety and auto-completion:
+Ngoài ra, bạn có thể sử dụng `next.config.ts` để có an toàn kiểu và tự động hoàn thành tốt hơn:
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* các tùy chọn config ở đây */
 }
 
 export default nextConfig
 ```
 
-### Deprecated or updated options
+### Các tùy chọn đã lỗi thời hoặc đã được cập nhật
 
-Some configuration options have been removed or updated in recent versions of Next.js. For example:
+Một số tùy chọn cấu hình đã bị xóa hoặc cập nhật trong các phiên bản gần đây của Next.js. Ví dụ:
 
-- `eslint` configuration option has been removed from `next.config`. Remove the `eslint` option and use the ESLint CLI instead. See the [ESLint](/docs/app/api-reference/config/eslint) documentation.
-- `experimental.turbo` configuration has moved to a top-level `turbopack` configuration. See the [`turbopack` option](/docs/app/api-reference/config/next-config-js/turbopack) documentation.
+- Tùy chọn cấu hình `eslint` đã bị xóa khỏi `next.config`. Xóa tùy chọn `eslint` và sử dụng ESLint CLI thay thế. Xem tài liệu [ESLint](/docs/app/api-reference/config/eslint).
+- Cấu hình `experimental.turbo` đã chuyển sang cấu hình `turbopack` cấp cao nhất. Xem tài liệu [tùy chọn `turbopack`](/docs/app/api-reference/config/next-config-js/turbopack).
 
-See the [`next.config.js` docs](/docs/app/api-reference/config/next-config-js) for a list of all available and legacy options.
+Xem [tài liệu `next.config.js`](/docs/app/api-reference/config/next-config-js) để biết danh sách tất cả các tùy chọn có sẵn và cũ.
 
-## Useful links
+## Các liên kết hữu ích
 
 - [`next.config.js`](/docs/pages/api-reference/config/next-config-js)

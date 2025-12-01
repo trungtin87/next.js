@@ -1,36 +1,36 @@
 ---
-title: Renaming Middleware to Proxy
+title: Đổi tên Middleware thành Proxy
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are using the `middleware` file convention, which is deprecated and has been renamed to [`proxy`](/docs/app/api-reference/file-conventions/proxy).
+Bạn đang sử dụng quy ước file `middleware`, quy ước này đã bị phản đối và được đổi tên thành [`proxy`](/docs/app/api-reference/file-conventions/proxy).
 
-## Migration to Proxy
+## Di chuyển sang Proxy
 
-### Why the Change
+### Tại sao thay đổi
 
-The reason behind the renaming of `middleware` is that the term "middleware" can often be confused with Express.js middleware, leading to a misinterpretation of its purpose. Also, Middleware is highly capable, so it may encourage the usage; however, this feature is recommended to be used as a last resort.
+Lý do đằng sau việc đổi tên `middleware` là thuật ngữ "middleware" thường có thể bị nhầm lẫn với middleware của Express.js, dẫn đến hiểu sai mục đích của nó. Ngoài ra, Middleware có khả năng rất cao, vì vậy nó có thể khuyến khích việc sử dụng; tuy nhiên, tính năng này được khuyến nghị sử dụng như một phương sách cuối cùng.
 
-Next.js is moving forward to provide better APIs with better ergonomics so that developers can achieve their goals without Middleware. This is the reason behind the renaming of `middleware`.
+Next.js đang tiến tới cung cấp các API tốt hơn với công thái học tốt hơn để các nhà phát triển có thể đạt được mục tiêu của họ mà không cần Middleware. Đây là lý do đằng sau việc đổi tên `middleware`.
 
-### Why "Proxy"
+### Tại sao là "Proxy"
 
-The name Proxy clarifies what Middleware is capable of. The term "proxy" implies that it has a network boundary in front of the app, which is the behavior of Middleware. Also, Middleware defaults to run at the [Edge Runtime](/docs/app/api-reference/edge), which can run closer to the client, separated from the app's region. These behaviors align better with the term "proxy" and provide a clearer purpose of the feature.
+Cái tên Proxy làm rõ những gì Middleware có khả năng làm. Thuật ngữ "proxy" ngụ ý rằng nó có một ranh giới mạng phía trước ứng dụng, đó là hành vi của Middleware. Ngoài ra, Middleware mặc định chạy tại [Edge Runtime](/docs/app/api-reference/edge), có thể chạy gần client hơn, tách biệt khỏi vùng của ứng dụng. Những hành vi này phù hợp hơn với thuật ngữ "proxy" và cung cấp mục đích rõ ràng hơn của tính năng.
 
-### How to Migrate
+### Cách Di chuyển
 
-We recommend users avoid relying on Middleware unless no other options exist. Our goal is to give them APIs with better ergonomics so they can achieve their goals without Middleware.
+Chúng tôi khuyên người dùng tránh dựa vào Middleware trừ khi không còn lựa chọn nào khác. Mục tiêu của chúng tôi là cung cấp cho họ các API với công thái học tốt hơn để họ có thể đạt được mục tiêu của mình mà không cần Middleware.
 
-The term “middleware” often confuses users with Express.js middleware, which can encourage misuse. To clarify our direction, we are renaming the file convention to “proxy.” This highlights that we are moving away from Middleware, breaking down its overloaded features, and making the Proxy clear in its purpose.
+Thuật ngữ “middleware” thường gây nhầm lẫn cho người dùng với middleware của Express.js, điều này có thể khuyến khích việc sử dụng sai. Để làm rõ hướng đi của chúng tôi, chúng tôi đang đổi tên quy ước file thành “proxy.” Điều này làm nổi bật rằng chúng tôi đang rời xa Middleware, chia nhỏ các tính năng quá tải của nó và làm cho Proxy rõ ràng trong mục đích của nó.
 
-Next.js provides a codemod to migrate from `middleware.ts` to `proxy.ts`. You can run the following command to migrate:
+Next.js cung cấp một codemod để di chuyển từ `middleware.ts` sang `proxy.ts`. Bạn có thể chạy lệnh sau để di chuyển:
 
 ```bash
 npx @next/codemod@canary middleware-to-proxy .
 ```
 
-The codemod will rename the file and the function name from `middleware` to `proxy`.
+Codemod sẽ đổi tên file và tên hàm từ `middleware` sang `proxy`.
 
 ```diff
 // middleware.ts -> proxy.ts
@@ -39,6 +39,6 @@ The codemod will rename the file and the function name from `middleware` to `pro
 + export function proxy() {
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Proxy Docs](/docs/app/api-reference/file-conventions/proxy)
+- [Tài liệu Proxy](/docs/app/api-reference/file-conventions/proxy)

@@ -1,15 +1,15 @@
 ---
-title: No Router Instance
+title: Không có Router Instance
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-During Pre-rendering (SSR or SSG) you tried to access a router method `push`, `replace`, `back`, which is not supported.
+Trong quá trình Pre-rendering (SSR hoặc SSG), bạn đã cố gắng truy cập một phương thức router `push`, `replace`, `back`, điều này không được hỗ trợ.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-In a function Component you can move the code into the `useEffect` hook.
+Trong một Function Component, bạn có thể di chuyển code vào hook `useEffect`.
 
-In a class Component, move any calls to router methods to the `componentDidMount` lifecycle method.
+Trong một Class Component, di chuyển bất kỳ lệnh gọi nào đến các phương thức router vào phương thức vòng đời `componentDidMount`.
 
-This way the calls to the router methods are only executed in the browser.
+Bằng cách này, các lệnh gọi đến các phương thức router chỉ được thực thi trong trình duyệt.

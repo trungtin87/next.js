@@ -1,26 +1,26 @@
 ---
-title: Cannot access `Date.now()`, `Date()`, or `new Date()` before other uncached data or Request data in a Server Component
+title: Không thể truy cập `Date.now()`, `Date()`, hoặc `new Date()` trước dữ liệu uncached khác hoặc dữ liệu Request trong Server Component
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`Date.now()`, `Date()`, or `new Date()` was used in a Server Component before accessing other uncached data through APIs like `fetch()` and native database drivers, or Request data through built-in APIs like `cookies()`, `headers()`, `connection()` and `searchParams`. Accessing the current time in this way interferes with the prerendering and prefetching capabilities of Next.js.
+`Date.now()`, `Date()`, hoặc `new Date()` đã được sử dụng trong một Server Component trước khi truy cập dữ liệu uncached khác thông qua các API như `fetch()` và native database drivers, hoặc dữ liệu Request thông qua các built-in API như `cookies()`, `headers()`, `connection()` và `searchParams`. Việc truy cập thời gian hiện tại theo cách này can thiệp vào khả năng prerendering và prefetching của Next.js.
 
-## Possible Ways to Fix It
+## Các Cách Khắc Phục Có Thể
 
-If the current time is being used for diagnostic purposes such as logging or performance tracking consider using `performance.now()` instead.
+Nếu thời gian hiện tại đang được sử dụng cho mục đích chẩn đoán như logging hoặc theo dõi hiệu suất, hãy xem xét sử dụng `performance.now()` thay thế.
 
-If the current time is appropriate to be prerendered and prefetched consider moving it into a Cache Component or Cache Function with the `"use cache"` directive.
+Nếu thời gian hiện tại phù hợp để được prerender và prefetch, hãy xem xét di chuyển nó vào một Cache Component hoặc Cache Function với directive `"use cache"`.
 
-If the current time is intended to be accessed dynamically on every user request first consider whether it is more appropriate to access it in a Client Component, which can often be the case when reading the time for display purposes. If a Client Component isn't the right choice then consider whether you can move the current time access later, behind other existing uncached data or Request data access. If there is no way to do this you can always precede the current time access with Request data access by using `await connection()`.
+Nếu thời gian hiện tại được dự định để được truy cập động trên mỗi request của người dùng, trước tiên hãy xem xét liệu có phù hợp hơn không để truy cập nó trong một Client Component, điều này thường có thể là trường hợp khi đọc thời gian cho mục đích hiển thị. Nếu Client Component không phải là lựa chọn đúng thì hãy xem xét liệu bạn có thể di chuyển việc truy cập thời gian hiện tại về sau, sau khi truy cập dữ liệu uncached hoặc dữ liệu Request hiện có khác. Nếu không có cách nào để làm điều này, bạn luôn có thể đặt trước việc truy cập thời gian hiện tại bằng cách truy cập dữ liệu Request bằng cách sử dụng `await connection()`.
 
-> **Note**: Sometimes the place that accesses the current time is inside 3rd party code. While you can't easily convert the time access to `performance.now()` the other strategies can be applied in your own project code regardless of how deeply the time is read.
+> **Lưu ý**: Đôi khi nơi truy cập thời gian hiện tại nằm bên trong code của bên thứ ba. Mặc dù bạn không thể dễ dàng chuyển đổi việc truy cập thời gian sang `performance.now()` nhưng các chiến lược khác có thể được áp dụng trong code dự án của riêng bạn bất kể thời gian được đọc sâu đến mức nào.
 
-### Performance use case
+### Trường hợp sử dụng hiệu suất
 
-If you are using the current time for performance tracking with elapsed time use `performance.now()`.
+Nếu bạn đang sử dụng thời gian hiện tại để theo dõi hiệu suất với thời gian đã trôi qua, hãy sử dụng `performance.now()`.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 export default async function Page() {
@@ -33,7 +33,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/page.js"
 export default async function Page() {
@@ -45,14 +45,14 @@ export default async function Page() {
 }
 ```
 
-> **Note**: If you need report an absolute time to an observability tool you can also use `performance.timeOrigin + performance.now()`.
-> **Note**: It is essential that the values provided by `performance.now()` do not influence the rendered output of your Component and should never be passed into Cache Functions as arguments or props.
+> **Lưu ý**: Nếu bạn cần báo cáo thời gian tuyệt đối cho một công cụ observability, bạn cũng có thể sử dụng `performance.timeOrigin + performance.now()`.
+> **Lưu ý**: Điều quan trọng là các giá trị được cung cấp bởi `performance.now()` không ảnh hưởng đến đầu ra được render của Component của bạn và không bao giờ được truyền vào Cache Functions dưới dạng arguments hoặc props.
 
-### Cacheable use cases
+### Các trường hợp sử dụng có thể cache
 
-If you want to read the time when some cache entry is created (such as when a Next.js page is rendered at build-time or when revalidating a static page), move the current time read inside a cached function using `"use cache"`.
+Nếu bạn muốn đọc thời gian khi một cache entry được tạo (chẳng hạn như khi một trang Next.js được render tại build-time hoặc khi revalidating một trang tĩnh), hãy di chuyển việc đọc thời gian hiện tại vào bên trong một cached function sử dụng `"use cache"`.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 async function InformationTable() {
@@ -75,7 +75,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/page.js"
 async function InformationTable() {
@@ -101,15 +101,15 @@ export default async function Page() {
 }
 ```
 
-### Request-time use case
+### Trường hợp sử dụng Request-time
 
-#### Moving time to the client
+#### Di chuyển thời gian sang client
 
-If the current time must be evaluated on each user Request consider moving the current time read into a Client Component. You might also find that this is more convenient when you want to do things like update the time independent of a page navigation. For instance imagine you have a relative time component. Instead of rendering the relative time in a Server Component on each Request you can render the relative time when the Client Component renders and then update it periodically.
+Nếu thời gian hiện tại phải được đánh giá trên mỗi Request của người dùng, hãy xem xét di chuyển việc đọc thời gian hiện tại vào một Client Component. Bạn cũng có thể thấy rằng điều này thuận tiện hơn khi bạn muốn làm những việc như cập nhật thời gian độc lập với việc điều hướng trang. Ví dụ, hãy tưởng tượng bạn có một relative time component. Thay vì render relative time trong một Server Component trên mỗi Request, bạn có thể render relative time khi Client Component render và sau đó cập nhật nó định kỳ.
 
-If you go with this approach you will need to ensure the Client Component which reads the time during render has a Suspense boundary above it. You may be able to improve the loading experience by adopting a more narrowly scoped Suspense boundary. Use your judgement about what kind of UI loading sequence you want your users to experience to guide your decision here.
+Nếu bạn đi theo cách tiếp cận này, bạn sẽ cần đảm bảo Client Component đọc thời gian trong quá trình render có một Suspense boundary phía trên nó. Bạn có thể cải thiện trải nghiệm loading bằng cách áp dụng một Suspense boundary có phạm vi hẹp hơn. Sử dụng phán đoán của bạn về loại trình tự loading UI mà bạn muốn người dùng của mình trải nghiệm để hướng dẫn quyết định của bạn ở đây.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 function RelativeTime({ when }) {
@@ -129,7 +129,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/relative-time.js"
 'use client'
@@ -140,9 +140,9 @@ export function RelativeTime({ when }) {
   const [_, update] = useReducer(() => ({}), {})
   const timeAgo = computeTimeAgo(new Date(), when)
 
-  // Whenever the timeAgo value changes a new timeout is
-  // scheduled to update the component. Now the time can
-  // rerender without having the Server Component render again.
+  // Bất cứ khi nào giá trị timeAgo thay đổi, một timeout mới được
+  // lên lịch để cập nhật component. Bây giờ thời gian có thể
+  // render lại mà không cần Server Component render lại.
   useEffect(() => {
     const updateAfter = computeTimeUntilNextUpdate(timeAgo)
     let timeout = setTimeout(() => {
@@ -173,15 +173,15 @@ export default async function Page() {
 }
 ```
 
-> **Note**: Accessing the current time in a Client Component will still cause it to be excluded from prerendered server HTML but Next.js allows this within Client Components because it can either compute the time dynamically when the user requests the HTML page or in the browser.
+> **Lưu ý**: Việc truy cập thời gian hiện tại trong một Client Component vẫn sẽ khiến nó bị loại trừ khỏi HTML server được prerender nhưng Next.js cho phép điều này trong Client Components vì nó có thể tính toán thời gian động khi người dùng request trang HTML hoặc trong trình duyệt.
 
-#### Guarding the time with `await connection()`
+#### Bảo vệ thời gian với `await connection()`
 
-It may be that you want to make some rendering determination using the current time on the server and thus cannot move the time read into a Client Component. In this case you must instruct Next.js that the time read is meant to be evaluated at request time by preceding it with `await connection()`.
+Có thể bạn muốn đưa ra một số quyết định rendering sử dụng thời gian hiện tại trên server và do đó không thể di chuyển việc đọc thời gian vào một Client Component. Trong trường hợp này, bạn phải hướng dẫn Next.js rằng việc đọc thời gian được dự định để được đánh giá tại request time bằng cách đặt trước nó bằng `await connection()`.
 
-Next.js enforces that it can always produce at least a partially static initial HTML page so you will also need to ensure that there is a Suspense boundary somewhere above this component that informs Next.js about the intended fallback UI to use while prerendering this page.
+Next.js yêu cầu rằng nó luôn có thể tạo ra ít nhất một trang HTML ban đầu tĩnh một phần nên bạn cũng sẽ cần đảm bảo rằng có một Suspense boundary ở đâu đó phía trên component này để thông báo cho Next.js về fallback UI dự định sử dụng trong khi prerender trang này.
 
-Before:
+Trước đây:
 
 ```jsx filename="app/page.js"
 export default async function Page() {
@@ -194,7 +194,7 @@ export default async function Page() {
 }
 ```
 
-After:
+Sau khi sửa:
 
 ```jsx filename="app/page.js"
 import { Suspense } from 'react'
@@ -221,14 +221,14 @@ async function DynamicBanner() {
 }
 ```
 
-> **Note**: This example illustrates using `await connection()`, but you could alternatively move where a uncached fetch happens or read cookies before as well.
+> **Lưu ý**: Ví dụ này minh họa việc sử dụng `await connection()`, nhưng bạn cũng có thể di chuyển nơi một uncached fetch xảy ra hoặc đọc cookies trước đó.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [`Date.now` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now)
-- [`Date constructor` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date)
-- [`connection` function](/docs/app/api-reference/functions/connection)
-- [`performance` Web API](https://developer.mozilla.org/en-US/docs/Web/API/Performance)
-- [`Suspense` React API](https://react.dev/reference/react/Suspense)
-- [`useLayoutEffect` React Hook](https://react.dev/reference/react/useLayoutEffect)
-- [`useEffect` React Hook](https://react.dev/reference/react/useEffect)
+- [API `Date.now`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now)
+- [API `Date constructor`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date)
+- [Hàm `connection`](/docs/app/api-reference/functions/connection)
+- [Web API `performance`](https://developer.mozilla.org/en-US/docs/Web/API/Performance)
+- [React API `Suspense`](https://react.dev/reference/react/Suspense)
+- [React Hook `useLayoutEffect`](https://react.dev/reference/react/useLayoutEffect)
+- [React Hook `useEffect`](https://react.dev/reference/react/useEffect)

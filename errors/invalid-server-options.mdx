@@ -1,26 +1,26 @@
 ---
-title: It looks like the next instance is being instantiated incorrectly.
+title: Có vẻ như instance next đang được khởi tạo không chính xác.
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You have passed a null or undefined parameter to the `next()` call.
+Bạn đã truyền một tham số null hoặc undefined vào lệnh gọi `next()`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Make sure you are passing the variables properly:
+Đảm bảo bạn đang truyền các biến đúng cách:
 
 ```js filename="server.js"
 const app = next()
 ```
 
-And make sure you're passing dev as shown in the examples below:
+Và đảm bảo bạn đang truyền dev như được hiển thị trong các ví dụ bên dưới:
 
 ```js filename="server.js"
 const app = next({ dev: boolean })
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [custom-server-express](https://github.com/vercel/next.js/blob/6ca00bfe312c8d3fc5c20d25a9cd8d2741a29332/examples/custom-server-express/server.js#L6)
 - [custom-server](https://github.com/vercel/next.js/blob/6ca00bfe312c8d3fc5c20d25a9cd8d2741a29332/examples/custom-server/server.js#L6)

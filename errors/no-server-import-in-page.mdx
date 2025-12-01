@@ -1,16 +1,16 @@
 ---
-title: No Server Import In Page
+title: Không Import Server trong Page
 ---
 
-> Prevent usage of `next/server` outside of `proxy.js`.
+> Ngăn chặn việc sử dụng `next/server` bên ngoài `proxy.js`.
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-`next/server` was imported outside of `proxy.{js,ts}`.
+`next/server` đã được import bên ngoài `proxy.{js,ts}`.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Only import and use `next/server` in a file located within the project root directory: `proxy.{js,ts}`.
+Chỉ import và sử dụng `next/server` trong một file nằm trong thư mục gốc của dự án: `proxy.{js,ts}`.
 
 ```ts filename="proxy.ts"
 import type { NextFetchEvent, NextRequest } from 'next/server'
@@ -20,6 +20,6 @@ export function proxy(req: NextRequest, ev: NextFetchEvent) {
 }
 ```
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [Proxy](/docs/pages/api-reference/file-conventions/proxy)

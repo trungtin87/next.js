@@ -1,31 +1,31 @@
 ---
-title: Nested Proxy
+title: Proxy Lồng Nhau
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are defining a Proxy file in a location different from `<root>/proxy`, which is not allowed.
+Bạn đang định nghĩa một file Proxy ở một vị trí khác với `<root>/proxy`, điều này không được phép.
 
-While in beta, a Proxy file under specific pages would _only_ be executed when pages below its declaration were matched, allowing nesting Proxy files. Based on customer feedback, we have replaced this API with a single root Proxy.
+Trong khi ở bản beta, một file Proxy dưới các trang cụ thể sẽ _chỉ_ được thực thi khi các trang bên dưới khai báo của nó được khớp, cho phép lồng các file Proxy. Dựa trên phản hồi của khách hàng, chúng tôi đã thay thế API này bằng một Proxy gốc duy nhất.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Declare your Proxy in the root folder and use `NextRequest` parsed URL to define which path the Proxy should be executed for.
+Khai báo Proxy của bạn trong thư mục gốc và sử dụng URL đã phân tích cú pháp của `NextRequest` để xác định đường dẫn nào Proxy nên được thực thi.
 
-For example, a Proxy at `pages/about/_proxy.ts` can move the logic to `<root>/proxy.ts` in the root of your repository. Then, a conditional statement can be used to only run the Proxy when it matches the `about/*` path:
+Ví dụ, một Proxy tại `pages/about/_proxy.ts` có thể di chuyển logic đến `<root>/proxy.ts` trong thư mục gốc của repository của bạn. Sau đó, một câu lệnh điều kiện có thể được sử dụng để chỉ chạy Proxy khi nó khớp với đường dẫn `about/*`:
 
 ```ts filename="proxy.ts"
 import type { NextRequest } from 'next/server'
 
 export function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/about')) {
-    // This logic is only applied to /about
+    // Logic này chỉ được áp dụng cho /about
   }
 
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    // This logic is only applied to /dashboard
+    // Logic này chỉ được áp dụng cho /dashboard
   }
 }
 ```
 
-If you have more than one Proxy, you should combine them into a single file and model their execution depending on the incoming request.
+Nếu bạn có nhiều hơn một Proxy, bạn nên kết hợp chúng thành một file duy nhất và mô hình hóa việc thực thi của chúng tùy thuộc vào yêu cầu đến.

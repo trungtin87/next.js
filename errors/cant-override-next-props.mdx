@@ -1,15 +1,15 @@
 ---
-title: Can't Override Next Props
+title: Không thể ghi đè Next Props
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-In your `pages/_app.js` you returned an object from `getInitialProps` that contained a `router` or `Component` value. These property names are used by Next.js and can not be overwritten.
+Trong `pages/_app.js` của bạn, bạn đã trả về một object từ `getInitialProps` chứa giá trị `router` hoặc `Component`. Những tên thuộc tính này được Next.js sử dụng và không thể bị ghi đè.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-Look in your \_app.js component's `getInitialProps` function and make sure neither of these property names are present in the object returned.
+Kiểm tra hàm `getInitialProps` của component \_app.js của bạn và đảm bảo không có tên thuộc tính nào trong số này hiện diện trong object được trả về.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [The issue this was reported in: #6480](https://github.com/vercel/next.js/issues/6480)
+- [Vấn đề này đã được báo cáo trong: #6480](https://github.com/vercel/next.js/issues/6480)

@@ -1,17 +1,17 @@
 ---
-title: Missing Suspense boundary with useSearchParams
+title: Thiếu Suspense boundary với useSearchParams
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-Reading search parameters through `useSearchParams()` without a Suspense boundary will opt the entire page into client-side rendering. This could cause your page to be blank until the client-side JavaScript has loaded.
+Đọc các tham số tìm kiếm thông qua `useSearchParams()` mà không có Suspense boundary sẽ chọn tham gia toàn bộ trang vào client-side rendering. Điều này có thể khiến trang của bạn bị trắng cho đến khi JavaScript phía client đã tải xong.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-You have a few options depending on your intent:
+Bạn có một vài tùy chọn tùy thuộc vào ý định của mình:
 
-- To keep the route statically generated, wrap the smallest subtree that calls `useSearchParams()` in `Suspense`, for example you may move its usage into a child Client Component and render that component wrapped with `Suspense`. This preserves the static shell and avoids a full CSR bailout.
-- To make the route dynamically rendered, use the [`connection`](/docs/app/api-reference/functions/connection) function in a Server Component (e.g. the Page or a wrapping Layout). This waits for an incoming request and excludes everything below from prerendering.
+- Để giữ cho route được tạo tĩnh (statically generated), hãy bọc cây con nhỏ nhất gọi `useSearchParams()` trong `Suspense`, ví dụ bạn có thể di chuyển việc sử dụng nó vào một Client Component con và render component đó được bọc với `Suspense`. Điều này bảo tồn static shell và tránh CSR bailout hoàn toàn.
+- Để làm cho route được render động (dynamically rendered), hãy sử dụng hàm [`connection`](/docs/app/api-reference/functions/connection) trong một Server Component (ví dụ: Page hoặc một Layout bao bọc). Điều này chờ một yêu cầu đến và loại trừ mọi thứ bên dưới khỏi việc prerendering.
 
 ```tsx filename="app/page.tsx" switcher
 import { connection } from 'next/server'
@@ -31,7 +31,7 @@ export default async function Page() {
 }
 ```
 
-- Before the `connection` API was available setting `export const dynamic = 'force-dynamic'` in a Server Component `page.tsx`, or `layout.tsx`, opted the route into on-demand rendering. Note that setting `dynamic` in a Client Component (`'use client'`) `page.tsx` has no effect.
+- Trước khi API `connection` có sẵn, việc đặt `export const dynamic = 'force-dynamic'` trong một Server Component `page.tsx`, hoặc `layout.tsx`, đã chọn tham gia route vào on-demand rendering. Lưu ý rằng việc đặt `dynamic` trong một Client Component (`'use client'`) `page.tsx` không có tác dụng.
 
 ```tsx filename="app/layout.tsx" switcher
 export const dynamic = 'force-dynamic'
@@ -53,7 +53,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-- Alternatively, a Server Component Page can pass the `searchParams` value down to Client Components. In a Client Component, you can unwrap it with React's `use()` (ensure a surrounding `Suspense` boundary). See [What to use and when](/docs/app/getting-started/layouts-and-pages#what-to-use-and-when).
+- Ngoài ra, một Server Component Page có thể truyền giá trị `searchParams` xuống Client Components. Trong một Client Component, bạn có thể mở gói nó với `use()` của React (đảm bảo một `Suspense` boundary bao quanh). Xem [Sử dụng cái gì và khi nào](/docs/app/getting-started/layouts-and-pages#what-to-use-and-when).
 
 ```tsx filename="app/page.tsx" switcher
 import { Suspense } from 'react'
@@ -111,7 +111,7 @@ export default function ClientSearch({ searchParams }) {
 }
 ```
 
-- Consider making the Page a Server Component again and isolating Client-only code (that uses `useSearchParams`) into child Client Components.
+- Cân nhắc biến Page thành một Server Component một lần nữa và cô lập mã Client-only (sử dụng `useSearchParams`) vào các Client Components con.
 
 ```tsx filename="app/search.tsx" switcher
 'use client'
@@ -127,7 +127,7 @@ function Search() {
 
 export function Searchbar() {
   return (
-    // You could have a loading skeleton as the `fallback` too
+    // Bạn cũng có thể có một loading skeleton làm `fallback`
     <Suspense>
       <Search />
     </Suspense>
@@ -149,7 +149,7 @@ function Search() {
 
 export function Searchbar() {
   return (
-    // You could have a loading skeleton as the `fallback` too
+    // Bạn cũng có thể có một loading skeleton làm `fallback`
     <Suspense>
       <Search />
     </Suspense>
@@ -157,11 +157,11 @@ export function Searchbar() {
 }
 ```
 
-## Disabling
+## Vô hiệu hóa
 
-> **Note**: This is only available with Next.js version 14.x. If you're in versions above 14 please fix it with the approach above.
+> **Lưu ý**: Điều này chỉ có sẵn với Next.js phiên bản 14.x. Nếu bạn đang ở các phiên bản trên 14, vui lòng sửa nó bằng phương pháp trên.
 
-We don't recommend disabling this rule. However, if you need to, you can disable it by setting the `missingSuspenseWithCSRBailout` option to `false` in your `next.config.js`:
+Chúng tôi không khuyến nghị vô hiệu hóa quy tắc này. Tuy nhiên, nếu bạn cần, bạn có thể vô hiệu hóa nó bằng cách đặt tùy chọn `missingSuspenseWithCSRBailout` thành `false` trong `next.config.js` của bạn:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -171,10 +171,10 @@ module.exports = {
 }
 ```
 
-This configuration option will be removed in a future major version.
+Tùy chọn cấu hình này sẽ bị xóa trong một phiên bản chính trong tương lai.
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
 - [`useSearchParams`](/docs/app/api-reference/functions/use-search-params)
 - [`connection`](/docs/app/api-reference/functions/connection)
-- [Dynamic Rendering guide](/docs/app/guides/caching#dynamic-rendering)
+- [Hướng dẫn Dynamic Rendering](/docs/app/guides/caching#dynamic-rendering)

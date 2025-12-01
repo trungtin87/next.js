@@ -1,18 +1,18 @@
 ---
-title: '`getServerSideProps` Export Error'
+title: Lỗi Export `getServerSideProps`
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You attempted to statically export your application via `output: 'export'` or `next export`, however, one or more of your pages uses `getServerSideProps`.
+Bạn đã cố gắng export tĩnh ứng dụng của mình thông qua `output: 'export'` hoặc `next export`, tuy nhiên, một hoặc nhiều trang của bạn sử dụng `getServerSideProps`.
 
-It is not possible to use `getServerSideProps` without a server, so you'll need to use `next start` when self hosting or deploy to a provider like [Vercel](https://vercel.com).
+Không thể sử dụng `getServerSideProps` mà không có server, vì vậy bạn sẽ cần sử dụng `next start` khi tự host hoặc triển khai đến một nhà cung cấp như [Vercel](https://vercel.com).
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-1. If you'd like to keep your application static, you can use `getStaticProps` instead of `getServerSideProps`.
+1. Nếu bạn muốn giữ ứng dụng của mình ở dạng tĩnh, bạn có thể sử dụng `getStaticProps` thay vì `getServerSideProps`.
 
-2. If you want to use server-side rendering, update your build command and remove `output: 'export'` and remove `next export`. For example, in your `package.json`:
+2. Nếu bạn muốn sử dụng server-side rendering, hãy cập nhật lệnh build của bạn và xóa `output: 'export'` và xóa `next export`. Ví dụ, trong `package.json` của bạn:
 
    ```diff
    --- a/package.json
@@ -40,13 +40,13 @@ It is not possible to use `getServerSideProps` without a server, so you'll need 
    }
    ```
 
-> **Note**:
+> **Lưu ý**:
 >
-> - Removing export does not mean your entire application is no longer static.
-> - Pages that use `getStaticProps` or [no lifecycle](/docs/pages/building-your-application/rendering/automatic-static-optimization) **will still be static**!
+> - Việc xóa export không có nghĩa là toàn bộ ứng dụng của bạn không còn tĩnh nữa.
+> - Các trang sử dụng `getStaticProps` hoặc [không có vòng đời](/docs/pages/building-your-application/rendering/automatic-static-optimization) **vẫn sẽ là tĩnh**!
 
-## Useful Links
+## Các Liên Kết Hữu Ích
 
-- [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization)
-- [`getStaticProps` documentation](/docs/pages/building-your-application/data-fetching/get-static-props)
-- [`exportPathMap` documentation](/docs/pages/api-reference/config/next-config-js/exportPathMap)
+- [Tối ưu hóa Tĩnh Tự động](/docs/pages/building-your-application/rendering/automatic-static-optimization)
+- [Tài liệu `getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props)
+- [Tài liệu `exportPathMap`](/docs/pages/api-reference/config/next-config-js/exportPathMap)

@@ -1,14 +1,14 @@
 ---
-title: Proxy Relative URLs
+title: URL Tương Đối Trong Proxy
 ---
 
-## Why This Error Occurred
+## Tại Sao Lỗi Này Xảy Ra
 
-You are using a Proxy function that uses `Response.redirect(url)`, `NextResponse.redirect(url)` or `NextResponse.rewrite(url)` where `url` is a relative or an invalid URL. Prior to Next.js 12.1, we allowed passing relative URLs. However, constructing a request with `new Request(url)` or running `fetch(url)` when `url` is a relative URL **does not** work. For this reason and to bring consistency to Next.js Proxy, this behavior has been deprecated and now removed.
+Bạn đang sử dụng một hàm Proxy sử dụng `Response.redirect(url)`, `NextResponse.redirect(url)` hoặc `NextResponse.rewrite(url)` trong đó `url` là một URL tương đối hoặc URL không hợp lệ. Trước Next.js 12.1, chúng tôi cho phép truyền URL tương đối. Tuy nhiên, việc xây dựng một request với `new Request(url)` hoặc chạy `fetch(url)` khi `url` là URL tương đối **không** hoạt động. Vì lý do này và để mang lại tính nhất quán cho Next.js Proxy, hành vi này đã bị phản đối và hiện đã bị xóa.
 
-## Possible Ways to Fix It
+## Các Cách Có Thể Để Khắc Phục
 
-To fix this error you must always pass absolute URL for redirecting and rewriting. There are several ways to get the absolute URL but the recommended way is to clone `NextURL` and mutate it:
+Để khắc phục lỗi này, bạn phải luôn truyền URL tuyệt đối cho việc redirect và rewrite. Có một số cách để lấy URL tuyệt đối nhưng cách được khuyến nghị là clone `NextURL` và thay đổi nó:
 
 ```ts filename="proxy.ts"
 import type { NextRequest } from 'next/server'
@@ -21,7 +21,7 @@ export function proxy(request: NextRequest) {
 }
 ```
 
-Another way to fix this error could be to use the original URL as the base but this will not consider configuration like `basePath` or `locale`:
+Một cách khác để khắc phục lỗi này có thể là sử dụng URL gốc làm base nhưng điều này sẽ không xem xét cấu hình như `basePath` hoặc `locale`:
 
 ```ts filename="proxy.ts"
 import type { NextRequest } from 'next/server'
@@ -32,9 +32,9 @@ export function proxy(request: NextRequest) {
 }
 ```
 
-You can also pass directly a string containing a valid absolute URL.
+Bạn cũng có thể truyền trực tiếp một chuỗi chứa URL tuyệt đối hợp lệ.
 
-## Useful Links
+## Liên Kết Hữu Ích
 
-- [URL Documentation](https://developer.mozilla.org/docs/Web/API/URL)
-- [Response Documentation](https://developer.mozilla.org/docs/Web/API/Response)
+- [Tài liệu URL](https://developer.mozilla.org/docs/Web/API/URL)
+- [Tài liệu Response](https://developer.mozilla.org/docs/Web/API/Response)
