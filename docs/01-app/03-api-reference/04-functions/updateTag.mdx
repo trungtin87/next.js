@@ -1,37 +1,37 @@
 ---
 title: updateTag
-description: API Reference for the updateTag function.
+description: Tài liệu tham khảo API cho hàm updateTag.
 ---
 
-`updateTag` allows you to update [cached data](/docs/app/guides/caching) on-demand for a specific cache tag from within [Server Actions](/docs/app/getting-started/updating-data).
+`updateTag` cho phép bạn cập nhật [dữ liệu đã cache](/docs/app/guides/caching) theo yêu cầu cho một cache tag cụ thể từ bên trong [Server Actions](/docs/app/getting-started/updating-data).
 
-This function is designed for **read-your-own-writes** scenarios, where a user makes a change (like creating a post), and the UI immediately shows the change, rather than stale data.
+Hàm này được thiết kế cho các kịch bản **read-your-own-writes**, nơi người dùng thực hiện một thay đổi (như tạo một bài đăng), và UI ngay lập tức hiển thị thay đổi đó, thay vì dữ liệu cũ.
 
-## Usage
+## Sử dụng
 
-`updateTag` can **only** be called from within [Server Actions](/docs/app/getting-started/updating-data). It cannot be used in Route Handlers, Client Components, or any other context.
+`updateTag` **chỉ** có thể được gọi từ bên trong [Server Actions](/docs/app/getting-started/updating-data). Nó không thể được sử dụng trong Route Handlers, Client Components, hoặc bất kỳ ngữ cảnh nào khác.
 
-If you need to invalidate cache tags in Route Handlers or other contexts, use [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) instead.
+Nếu bạn cần invalidate cache tags trong Route Handlers hoặc các ngữ cảnh khác, hãy sử dụng [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) thay thế.
 
-> **Good to know**: `updateTag` immediately expires the cached data for the specified tag. The next request will wait to fetch fresh data rather than serving stale content from the cache, ensuring users see their changes immediately.
+> **Lưu ý**: `updateTag` làm hết hạn dữ liệu đã cache ngay lập tức cho tag được chỉ định. Request tiếp theo sẽ đợi để fetch dữ liệu mới thay vì phục vụ nội dung cũ từ cache, đảm bảo người dùng thấy các thay đổi của họ ngay lập tức.
 
-## Parameters
+## Tham số
 
 ```tsx
 updateTag(tag: string): void;
 ```
 
-- `tag`: A string representing the cache tag associated with the data you want to update. Must not exceed 256 characters. This value is case-sensitive.
+- `tag`: Một chuỗi đại diện cho cache tag được liên kết với dữ liệu bạn muốn cập nhật. Không được vượt quá 256 ký tự. Giá trị này phân biệt chữ hoa chữ thường.
 
-Tags must first be assigned to cached data. You can do this in two ways:
+Tags trước tiên phải được gán cho dữ liệu đã cache. Bạn có thể làm điều này theo hai cách:
 
-- Using the [`next.tags`](/docs/app/guides/caching#fetch-optionsnexttags-and-revalidatetag) option with `fetch` for caching external API requests:
+- Sử dụng tùy chọn [`next.tags`](/docs/app/guides/caching#fetch-optionsnexttags-and-revalidatetag) với `fetch` để cache các requests API bên ngoài:
 
 ```tsx
 fetch(url, { next: { tags: ['posts'] } })
 ```
 
-- Using [`cacheTag`](/docs/app/api-reference/functions/cacheTag) inside cached functions or components with the `'use cache'` directive:
+- Sử dụng [`cacheTag`](/docs/app/api-reference/functions/cacheTag) bên trong các hàm hoặc components được cache với directive `'use cache'`:
 
 ```tsx
 import { cacheTag } from 'next/cache'
@@ -43,28 +43,28 @@ async function getData() {
 }
 ```
 
-## Returns
+## Giá trị trả về
 
-`updateTag` does not return a value.
+`updateTag` không trả về giá trị.
 
-## Differences from revalidateTag
+## Sự khác biệt với revalidateTag
 
-While both `updateTag` and `revalidateTag` invalidate cached data, they serve different purposes:
+Trong khi cả `updateTag` và `revalidateTag` đều invalidate dữ liệu đã cache, chúng phục vụ các mục đích khác nhau:
 
 - **`updateTag`**:
-  - Can only be used in Server Actions
-  - Next request waits for fresh data (no stale content served)
-  - Designed for read-your-own-writes scenarios
+  - Chỉ có thể được sử dụng trong Server Actions
+  - Request tiếp theo đợi dữ liệu mới (không phục vụ nội dung cũ)
+  - Được thiết kế cho các kịch bản read-your-own-writes
 
 - **`revalidateTag`**:
-  - Can be used in Server Actions and Route Handlers
-  - With `profile="max"` (recommended): Serves cached data while fetching fresh data in the background (stale-while-revalidate)
-  - With custom profile: Can be configured to any cache life profile for advanced usage
-  - Without profile: legacy behavior which is equivalent to `updateTag`
+  - Có thể được sử dụng trong Server Actions và Route Handlers
+  - Với `profile="max"` (được khuyến nghị): Phục vụ dữ liệu đã cache trong khi fetch dữ liệu mới trong nền (stale-while-revalidate)
+  - Với custom profile: Có thể được cấu hình cho bất kỳ cache life profile nào cho việc sử dụng nâng cao
+  - Không có profile: hành vi cũ tương đương với `updateTag`
 
-## Examples
+## Ví dụ
 
-### Server Action with Read-Your-Own-Writes
+### Server Action với Read-Your-Own-Writes
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -76,18 +76,18 @@ export async function createPost(formData: FormData) {
   const title = formData.get('title')
   const content = formData.get('content')
 
-  // Create the post in your database
+  // Tạo bài đăng trong cơ sở dữ liệu của bạn
   const post = await db.post.create({
     data: { title, content },
   })
 
-  // Invalidate cache tags so the new post is immediately visible
-  // 'posts' tag: affects any page that displays a list of posts
+  // Invalidate cache tags để bài đăng mới hiển thị ngay lập tức
+  // tag 'posts': ảnh hưởng đến bất kỳ trang nào hiển thị danh sách bài đăng
   updateTag('posts')
-  // 'post-{id}' tag: affects the individual post detail page
+  // tag 'post-{id}': ảnh hưởng đến trang chi tiết bài đăng riêng lẻ
   updateTag(`post-${post.id}`)
 
-  // Redirect to the new post - user will see fresh data, not cached
+  // Chuyển hướng đến bài đăng mới - người dùng sẽ thấy dữ liệu mới, không phải cache
   redirect(`/posts/${post.id}`)
 }
 ```
@@ -102,52 +102,52 @@ export async function createPost(formData) {
   const title = formData.get('title')
   const content = formData.get('content')
 
-  // Create the post in your database
+  // Tạo bài đăng trong cơ sở dữ liệu của bạn
   const post = await db.post.create({
     data: { title, content },
   })
 
-  // Invalidate cache tags so the new post is immediately visible
-  // 'posts' tag: affects any page that displays a list of posts
+  // Invalidate cache tags để bài đăng mới hiển thị ngay lập tức
+  // tag 'posts': ảnh hưởng đến bất kỳ trang nào hiển thị danh sách bài đăng
   updateTag('posts')
-  // 'post-{id}' tag: affects the individual post detail page
+  // tag 'post-{id}': ảnh hưởng đến trang chi tiết bài đăng riêng lẻ
   updateTag(`post-${post.id}`)
 
-  // Redirect to the new post - user will see fresh data, not cached
+  // Chuyển hướng đến bài đăng mới - người dùng sẽ thấy dữ liệu mới, không phải cache
   redirect(`/posts/${post.id}`)
 }
 ```
 
-### Error when used outside Server Actions
+### Lỗi khi sử dụng bên ngoài Server Actions
 
 ```ts filename="app/api/posts/route.ts" switcher
 import { updateTag } from 'next/cache'
 
 export async function POST() {
-  // This will throw an error
+  // Điều này sẽ ném ra lỗi
   updateTag('posts')
-  // Error: updateTag can only be called from within a Server Action
+  // Lỗi: updateTag chỉ có thể được gọi từ bên trong một Server Action
 
-  // Use revalidateTag instead in Route Handlers
+  // Sử dụng revalidateTag thay thế trong Route Handlers
   revalidateTag('posts', 'max')
 }
 ```
 
-## When to use updateTag
+## Khi nào sử dụng updateTag
 
-Use `updateTag` when:
+Sử dụng `updateTag` khi:
 
-- You're in a Server Action
-- You need immediate cache invalidation for read-your-own-writes
-- You want to ensure the next request sees updated data
+- Bạn đang ở trong một Server Action
+- Bạn cần invalidate cache ngay lập tức cho read-your-own-writes
+- Bạn muốn đảm bảo request tiếp theo thấy dữ liệu đã cập nhật
 
-Use `revalidateTag` instead when:
+Sử dụng `revalidateTag` thay thế khi:
 
-- You're in a Route Handler or other non-action context
-- You want stale-while-revalidate semantics
-- You're building a webhook or API endpoint for cache invalidation
+- Bạn đang ở trong một Route Handler hoặc ngữ cảnh non-action khác
+- Bạn muốn ngữ nghĩa stale-while-revalidate
+- Bạn đang xây dựng một webhook hoặc API endpoint cho việc invalidate cache
 
-## Related
+## Liên quan
 
-- [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) - For invalidating tags in Route Handlers
-- [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) - For invalidating specific paths
+- [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) - Để invalidate tags trong Route Handlers
+- [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) - Để invalidate các paths cụ thể

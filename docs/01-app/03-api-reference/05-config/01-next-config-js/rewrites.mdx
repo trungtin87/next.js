@@ -1,25 +1,25 @@
 ---
 title: rewrites
-description: Add rewrites to your Next.js app.
+description: Thêm rewrites vào ứng dụng Next.js của bạn.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Rewrites allow you to map an incoming request path to a different destination path.
+Rewrites cho phép bạn ánh xạ một đường dẫn request đến một đường dẫn đích khác.
 
 <AppOnly>
 
-Rewrites act as a URL proxy and mask the destination path, making it appear the user hasn't changed their location on the site. In contrast, [redirects](/docs/app/api-reference/config/next-config-js/redirects) will reroute to a new page and show the URL changes.
+Rewrites hoạt động như một URL proxy và che giấu đường dẫn đích, làm cho nó có vẻ như người dùng chưa thay đổi vị trí của họ trên trang web. Ngược lại, [redirects](/docs/app/api-reference/config/next-config-js/redirects) sẽ định tuyến lại đến một trang mới và hiển thị các thay đổi URL.
 
 </AppOnly>
 
 <PagesOnly>
 
-Rewrites act as a URL proxy and mask the destination path, making it appear the user hasn't changed their location on the site. In contrast, [redirects](/docs/pages/api-reference/config/next-config-js/redirects) will reroute to a new page and show the URL changes.
+Rewrites hoạt động như một URL proxy và che giấu đường dẫn đích, làm cho nó có vẻ như người dùng chưa thay đổi vị trí của họ trên trang web. Ngược lại, [redirects](/docs/pages/api-reference/config/next-config-js/redirects) sẽ định tuyến lại đến một trang mới và hiển thị các thay đổi URL.
 
 </PagesOnly>
 
-To use rewrites you can use the `rewrites` key in `next.config.js`:
+Để sử dụng rewrites bạn có thể sử dụng khóa `rewrites` trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -34,18 +34,18 @@ module.exports = {
 }
 ```
 
-Rewrites are applied to client-side routing. In the example above, navigating to `<Link href="/about">` will serve content from `/` while keeping the URL as `/about`.
+Rewrites được áp dụng cho client-side routing. Trong ví dụ trên, điều hướng đến `<Link href="/about">` sẽ phục vụ nội dung từ `/` trong khi giữ URL là `/about`.
 
-`rewrites` is an async function that expects to return either an array or an object of arrays (see below) holding objects with `source` and `destination` properties:
+`rewrites` là một hàm async mong đợi trả về hoặc một mảng hoặc một object của các mảng (xem bên dưới) chứa các objects với các thuộc tính `source` và `destination`:
 
-- `source`: `String` - is the incoming request path pattern.
-- `destination`: `String` is the path you want to route to.
-- `basePath`: `false` or `undefined` - if false the basePath won't be included when matching, can be used for external rewrites only.
-- `locale`: `false` or `undefined` - whether the locale should not be included when matching.
-- `has` is an array of [has objects](#header-cookie-and-query-matching) with the `type`, `key` and `value` properties.
-- `missing` is an array of [missing objects](#header-cookie-and-query-matching) with the `type`, `key` and `value` properties.
+- `source`: `String` - là mẫu đường dẫn request đến.
+- `destination`: `String` là đường dẫn bạn muốn định tuyến đến.
+- `basePath`: `false` hoặc `undefined` - nếu false basePath sẽ không được bao gồm khi khớp, chỉ có thể được sử dụng cho external rewrites.
+- `locale`: `false` hoặc `undefined` - liệu locale có nên không được bao gồm khi khớp hay không.
+- `has` là một mảng của [has objects](#header-cookie-and-query-matching) với các thuộc tính `type`, `key` và `value`.
+- `missing` là một mảng của [missing objects](#header-cookie-and-query-matching) với các thuộc tính `type`, `key` và `value`.
 
-When the `rewrites` function returns an array, rewrites are applied after checking the filesystem (pages and `/public` files) and before dynamic routes. When the `rewrites` function returns an object of arrays with a specific shape, this behavior can be changed and more finely controlled, as of `v10.1` of Next.js:
+Khi hàm `rewrites` trả về một mảng, rewrites được áp dụng sau khi kiểm tra hệ thống tệp (pages và các tệp `/public`) và trước dynamic routes. Khi hàm `rewrites` trả về một object của các mảng với một hình dạng cụ thể, hành vi này có thể được thay đổi và kiểm soát chặt chẽ hơn, kể từ `v10.1` của Next.js:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -82,36 +82,36 @@ module.exports = {
 }
 ```
 
-> **Good to know**: rewrites in `beforeFiles` do not check the filesystem/dynamic routes immediately after matching a source, they continue until all `beforeFiles` have been checked.
+> **Nên biết**: rewrites trong `beforeFiles` không kiểm tra hệ thống tệp/dynamic routes ngay sau khi khớp một source, chúng tiếp tục cho đến khi tất cả `beforeFiles` đã được kiểm tra.
 
-The order Next.js routes are checked is:
+Thứ tự Next.js routes được kiểm tra là:
 
 <AppOnly>
 
-1. [headers](/docs/app/api-reference/config/next-config-js/headers) are checked/applied
-2. [redirects](/docs/app/api-reference/config/next-config-js/redirects) are checked/applied
+1. [headers](/docs/app/api-reference/config/next-config-js/headers) được kiểm tra/áp dụng
+2. [redirects](/docs/app/api-reference/config/next-config-js/redirects) được kiểm tra/áp dụng
 3. [proxy](/docs/app/api-reference/file-conventions/proxy)
-4. `beforeFiles` rewrites are checked/applied
-5. static files from the [public directory](/docs/app/api-reference/file-conventions/public-folder), `_next/static` files, and non-dynamic pages are checked/served
-6. `afterFiles` rewrites are checked/applied, if one of these rewrites is matched we check dynamic routes/static files after each match
-7. `fallback` rewrites are checked/applied, these are applied before rendering the 404 page and after dynamic routes/all static assets have been checked. If you use [fallback: true/'blocking'](/docs/pages/api-reference/functions/get-static-paths#fallback-true) in `getStaticPaths`, the fallback `rewrites` defined in your `next.config.js` will _not_ be run.
+4. `beforeFiles` rewrites được kiểm tra/áp dụng
+5. static files từ [thư mục public](/docs/app/api-reference/file-conventions/public-folder), các tệp `_next/static`, và các trang non-dynamic được kiểm tra/phục vụ
+6. `afterFiles` rewrites được kiểm tra/áp dụng, nếu một trong những rewrites này được khớp chúng tôi kiểm tra dynamic routes/static files sau mỗi lần khớp
+7. `fallback` rewrites được kiểm tra/áp dụng, chúng được áp dụng trước khi render trang 404 và sau khi dynamic routes/tất cả static assets đã được kiểm tra. Nếu bạn sử dụng [fallback: true/'blocking'](/docs/pages/api-reference/functions/get-static-paths#fallback-true) trong `getStaticPaths`, fallback `rewrites` được định nghĩa trong `next.config.js` của bạn sẽ _không_ được chạy.
 
 </AppOnly>
 
 <PagesOnly>
 
-1. [headers](/docs/pages/api-reference/config/next-config-js/headers) are checked/applied
-2. [redirects](/docs/pages/api-reference/config/next-config-js/redirects) are checked/applied
-3. `beforeFiles` rewrites are checked/applied
-4. static files from the [public directory](/docs/pages/api-reference/file-conventions/public-folder), `_next/static` files, and non-dynamic pages are checked/served
-5. `afterFiles` rewrites are checked/applied, if one of these rewrites is matched we check dynamic routes/static files after each match
-6. `fallback` rewrites are checked/applied, these are applied before rendering the 404 page and after dynamic routes/all static assets have been checked. If you use [fallback: true/'blocking'](/docs/pages/api-reference/functions/get-static-paths#fallback-true) in `getStaticPaths`, the fallback `rewrites` defined in your `next.config.js` will _not_ be run.
+1. [headers](/docs/pages/api-reference/config/next-config-js/headers) được kiểm tra/áp dụng
+2. [redirects](/docs/pages/api-reference/config/next-config-js/redirects) được kiểm tra/áp dụng
+3. `beforeFiles` rewrites được kiểm tra/áp dụng
+4. static files từ [thư mục public](/docs/pages/api-reference/file-conventions/public-folder), các tệp `_next/static`, và các trang non-dynamic được kiểm tra/phục vụ
+5. `afterFiles` rewrites được kiểm tra/áp dụng, nếu một trong những rewrites này được khớp chúng tôi kiểm tra dynamic routes/static files sau mỗi lần khớp
+6. `fallback` rewrites được kiểm tra/áp dụng, chúng được áp dụng trước khi render trang 404 và sau khi dynamic routes/tất cả static assets đã được kiểm tra. Nếu bạn sử dụng [fallback: true/'blocking'](/docs/pages/api-reference/functions/get-static-paths#fallback-true) trong `getStaticPaths`, fallback `rewrites` được định nghĩa trong `next.config.js` của bạn sẽ _không_ được chạy.
 
 </PagesOnly>
 
-## Rewrite parameters
+## Tham số Rewrite
 
-When using parameters in a rewrite the parameters will be passed in the query by default when none of the parameters are used in the `destination`.
+Khi sử dụng các tham số trong một rewrite, các tham số sẽ được truyền trong query theo mặc định khi không có tham số nào được sử dụng trong `destination`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -126,7 +126,7 @@ module.exports = {
 }
 ```
 
-If a parameter is used in the destination none of the parameters will be automatically passed in the query.
+Nếu một tham số được sử dụng trong destination, không có tham số nào sẽ được tự động truyền trong query.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -141,7 +141,7 @@ module.exports = {
 }
 ```
 
-You can still pass the parameters manually in the query if one is already used in the destination by specifying the query in the `destination`.
+Bạn vẫn có thể truyền các tham số thủ công trong query nếu một tham số đã được sử dụng trong destination bằng cách chỉ định query trong `destination`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -159,11 +159,11 @@ module.exports = {
 }
 ```
 
-> **Good to know**: Static pages from [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization) or [prerendering](/docs/pages/building-your-application/data-fetching/get-static-props) params from rewrites will be parsed on the client after hydration and provided in the query.
+> **Nên biết**: Các trang tĩnh từ [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization) hoặc [prerendering](/docs/pages/building-your-application/data-fetching/get-static-props) params từ rewrites sẽ được phân tích trên client sau khi hydration và được cung cấp trong query.
 
 ## Path Matching
 
-Path matches are allowed, for example `/blog/:slug` will match `/blog/hello-world` (no nested paths):
+Khớp đường dẫn được cho phép, ví dụ `/blog/:slug` sẽ khớp `/blog/hello-world` (không có nested paths):
 
 ```js filename="next.config.js"
 module.exports = {
@@ -180,7 +180,7 @@ module.exports = {
 
 ### Wildcard Path Matching
 
-To match a wildcard path you can use `*` after a parameter, for example `/blog/:slug*` will match `/blog/a/b/c/d/hello-world`:
+Để khớp một wildcard path bạn có thể sử dụng `*` sau một tham số, ví dụ `/blog/:slug*` sẽ khớp `/blog/a/b/c/d/hello-world`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -197,7 +197,7 @@ module.exports = {
 
 ### Regex Path Matching
 
-To match a regex path you can wrap the regex in parenthesis after a parameter, for example `/blog/:slug(\\d{1,})` will match `/blog/123` but not `/blog/abc`:
+Để khớp một regex path bạn có thể bọc regex trong dấu ngoặc đơn sau một tham số, ví dụ `/blog/:slug(\\d{1,})` sẽ khớp `/blog/123` nhưng không khớp `/blog/abc`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -212,7 +212,7 @@ module.exports = {
 }
 ```
 
-The following characters `(`, `)`, `{`, `}`, `[`, `]`, `|`, `\`, `^`, `.`, `:`, `*`, `+`, `-`, `?`, `$` are used for regex path matching, so when used in the `source` as non-special values they must be escaped by adding `\\` before them:
+Các ký tự sau `(`, `)`, `{`, `}`, `[`, `]`, `|`, `\`, `^`, `.`, `:`, `*`, `+`, `-`, `?`, `$` được sử dụng cho regex path matching, vì vậy khi được sử dụng trong `source` như các giá trị không đặc biệt, chúng phải được escape bằng cách thêm `\\` trước chúng:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -228,15 +228,15 @@ module.exports = {
 }
 ```
 
-## Header, Cookie, and Query Matching
+## Header, Cookie, và Query Matching
 
-To only match a rewrite when header, cookie, or query values also match the `has` field or don't match the `missing` field can be used. Both the `source` and all `has` items must match and all `missing` items must not match for the rewrite to be applied.
+Để chỉ khớp một rewrite khi các giá trị header, cookie, hoặc query cũng khớp với trường `has` hoặc không khớp với trường `missing`. Cả `source` và tất cả các mục `has` phải khớp và tất cả các mục `missing` phải không khớp để rewrite được áp dụng.
 
-`has` and `missing` items can have the following fields:
+Các mục `has` và `missing` có thể có các trường sau:
 
-- `type`: `String` - must be either `header`, `cookie`, `host`, or `query`.
-- `key`: `String` - the key from the selected type to match against.
-- `value`: `String` or `undefined` - the value to check for, if undefined any value will match. A regex like string can be used to capture a specific part of the value, e.g. if the value `first-(?<paramName>.*)` is used for `first-second` then `second` will be usable in the destination with `:paramName`.
+- `type`: `String` - phải là `header`, `cookie`, `host`, hoặc `query`.
+- `key`: `String` - key từ loại đã chọn để khớp.
+- `value`: `String` hoặc `undefined` - giá trị để kiểm tra, nếu undefined bất kỳ giá trị nào cũng sẽ khớp. Một chuỗi giống regex có thể được sử dụng để bắt một phần cụ thể của giá trị, ví dụ nếu giá trị `first-(?<paramName>.*)` được sử dụng cho `first-second` thì `second` sẽ có thể sử dụng được trong destination với `:paramName`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -317,16 +317,16 @@ module.exports = {
 }
 ```
 
-## Rewriting to an external URL
+## Rewriting đến một external URL
 
 <details>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
 - [Using Multiple Zones](https://github.com/vercel/next.js/tree/canary/examples/with-zones)
 
 </details>
 
-Rewrites allow you to rewrite to an external URL. This is especially useful for incrementally adopting Next.js. The following is an example rewrite for redirecting the `/blog` route of your main app to an external site.
+Rewrites cho phép bạn rewrite đến một external URL. Điều này đặc biệt hữu ích cho việc áp dụng dần dần Next.js. Sau đây là một ví dụ rewrite để chuyển hướng route `/blog` của ứng dụng chính của bạn đến một trang web bên ngoài.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -345,7 +345,7 @@ module.exports = {
 }
 ```
 
-If you're using `trailingSlash: true`, you also need to insert a trailing slash in the `source` parameter. If the destination server is also expecting a trailing slash it should be included in the `destination` parameter as well.
+Nếu bạn đang sử dụng `trailingSlash: true`, bạn cũng cần chèn một dấu gạch chéo ở cuối trong tham số `source`. Nếu server đích cũng mong đợi một dấu gạch chéo ở cuối, nó cũng nên được bao gồm trong tham số `destination`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -365,11 +365,11 @@ module.exports = {
 }
 ```
 
-### Incremental adoption of Next.js
+### Áp dụng dần dần Next.js
 
-You can also have Next.js fall back to proxying to an existing website after checking all Next.js routes.
+Bạn cũng có thể để Next.js dự phòng sang proxying đến một trang web hiện có sau khi kiểm tra tất cả các Next.js routes.
 
-This way you don't have to change the rewrites configuration when migrating more pages to Next.js
+Bằng cách này, bạn không phải thay đổi cấu hình rewrites khi di chuyển nhiều trang hơn sang Next.js
 
 ```js filename="next.config.js"
 module.exports = {
@@ -386,9 +386,9 @@ module.exports = {
 }
 ```
 
-### Rewrites with basePath support
+### Rewrites với hỗ trợ basePath
 
-When leveraging [`basePath` support](/docs/app/api-reference/config/next-config-js/basePath) with rewrites each `source` and `destination` is automatically prefixed with the `basePath` unless you add `basePath: false` to the rewrite:
+Khi tận dụng [hỗ trợ `basePath`](/docs/app/api-reference/config/next-config-js/basePath) với rewrites mỗi `source` và `destination` được tự động thêm tiền tố với `basePath` trừ khi bạn thêm `basePath: false` vào rewrite:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -414,9 +414,9 @@ module.exports = {
 
 <PagesOnly>
 
-### Rewrites with i18n support
+### Rewrites với hỗ trợ i18n
 
-When leveraging [`i18n` support](/docs/pages/guides/internationalization) with rewrites each `source` and `destination` is automatically prefixed to handle the configured `locales` unless you add `locale: false` to the rewrite. If `locale: false` is used you must prefix the `source` and `destination` with a locale for it to be matched correctly.
+Khi tận dụng [hỗ trợ `i18n`](/docs/pages/guides/internationalization) với rewrites mỗi `source` và `destination` được tự động thêm tiền tố để xử lý các `locales` đã cấu hình trừ khi bạn thêm `locale: false` vào rewrite. Nếu `locale: false` được sử dụng bạn phải thêm tiền tố `source` và `destination` với một locale để nó được khớp chính xác.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -462,10 +462,10 @@ module.exports = {
 
 </PagesOnly>
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes          |
-| --------- | ---------------- |
-| `v13.3.0` | `missing` added. |
-| `v10.2.0` | `has` added.     |
-| `v9.5.0`  | Headers added.   |
+| Phiên bản | Thay đổi                 |
+| --------- | ------------------------ |
+| `v13.3.0` | `missing` được thêm vào. |
+| `v10.2.0` | `has` được thêm vào.     |
+| `v9.5.0`  | Headers được thêm vào.   |

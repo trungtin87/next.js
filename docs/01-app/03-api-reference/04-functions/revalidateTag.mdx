@@ -1,27 +1,27 @@
 ---
 title: revalidateTag
-description: API Reference for the revalidateTag function.
+description: Tài liệu tham khảo API cho hàm revalidateTag.
 ---
 
-`revalidateTag` allows you to invalidate [cached data](/docs/app/guides/caching) on-demand for a specific cache tag.
+`revalidateTag` cho phép bạn invalidate [cached data](/docs/app/guides/caching) on-demand cho một cache tag cụ thể.
 
-This function is ideal for content where a slight delay in updates is acceptable, such as blog posts, product catalogs, or documentation. Users receive stale content while fresh data loads in the background.
+Hàm này lý tưởng cho nội dung mà một chút delay trong cập nhật là chấp nhận được, chẳng hạn như blog posts, product catalogs, hoặc documentation. Người dùng nhận được stale content trong khi fresh data tải ở background.
 
-## Usage
+## Cách sử dụng
 
-`revalidateTag` can be called in Server Functions and Route Handlers.
+`revalidateTag` có thể được gọi trong Server Functions và Route Handlers.
 
-`revalidateTag` cannot be called in Client Components or Proxy, as it only works in server environments.
+`revalidateTag` không thể được gọi trong Client Components hoặc Proxy, vì nó chỉ hoạt động trong server environments.
 
-### Revalidation Behavior
+### Hành vi Revalidation
 
-The revalidation behavior depends on whether you provide the second argument:
+Hành vi revalidation phụ thuộc vào việc bạn có cung cấp tham số thứ hai hay không:
 
-- **With `profile="max"` (recommended)**: The tag entry is marked as stale, and the next time a resource with that tag is visited, it will use stale-while-revalidate semantics. This means the stale content is served while fresh content is fetched in the background.
-- **With a custom cache life profile**: For advanced usage, you can specify any cache life profile that your application has defined, allowing for custom revalidation behaviors tailored to your specific caching requirements.
-- **Without the second argument (deprecated)**: The tag entry is expired immediately, and the next request to that resource will be a blocking revalidate/cache miss. This behavior is now deprecated, and you should either use `profile="max"` or migrate to [`updateTag`](/docs/app/api-reference/functions/updateTag).
+- **Với `profile="max"` (khuyến nghị)**: Tag entry được đánh dấu là stale, và lần tiếp theo một resource với tag đó được truy cập, nó sẽ sử dụng stale-while-revalidate semantics. Điều này có nghĩa là stale content được phục vụ trong khi fresh content được fetch ở background.
+- **Với custom cache life profile**: Để sử dụng nâng cao, bạn có thể chỉ định bất kỳ cache life profile nào mà ứng dụng của bạn đã định nghĩa, cho phép các hành vi revalidation tùy chỉnh phù hợp với yêu cầu caching cụ thể của bạn.
+- **Không có tham số thứ hai (deprecated)**: Tag entry hết hạn ngay lập tức, và request tiếp theo đến resource đó sẽ là một blocking revalidate/cache miss. Hành vi này hiện đã deprecated, và bạn nên sử dụng `profile="max"` hoặc migrate sang [`updateTag`](/docs/app/api-reference/functions/updateTag).
 
-> **Good to know**: When using `profile="max"`, `revalidateTag` marks tagged data as stale, but fresh data is only fetched when pages using that tag are next visited. This means calling `revalidateTag` will not immediately trigger many revalidations at once. The invalidation only happens when any page using that tag is next visited.
+> **Nên biết**: Khi sử dụng `profile="max"`, `revalidateTag` đánh dấu tagged data là stale, nhưng fresh data chỉ được fetch khi các trang sử dụng tag đó được truy cập tiếp theo. Điều này có nghĩa là gọi `revalidateTag` sẽ không ngay lập tức kích hoạt nhiều revalidations cùng lúc. Invalidation chỉ xảy ra khi bất kỳ trang nào sử dụng tag đó được truy cập tiếp theo.
 
 ## Parameters
 
@@ -29,18 +29,18 @@ The revalidation behavior depends on whether you provide the second argument:
 revalidateTag(tag: string, profile?: string | { expire?: number }): void;
 ```
 
-- `tag`: A string representing the cache tag associated with the data you want to revalidate. Must not exceed 256 characters. This value is case-sensitive.
-- `profile`: A string that specifies the revalidation behavior. The recommended value is `"max"` which provides stale-while-revalidate semantics, or any of the other default or custom profiles defined in [`cacheLife`](/docs/app/api-reference/config/next-config-js/cacheLife). Alternatively, you can pass an object with an `expire` property for custom expiration behavior.
+- `tag`: Một string đại diện cho cache tag liên kết với dữ liệu bạn muốn revalidate. Không được vượt quá 256 ký tự. Giá trị này phân biệt chữ hoa chữ thường.
+- `profile`: Một string chỉ định hành vi revalidation. Giá trị khuyến nghị là `"max"` cung cấp stale-while-revalidate semantics, hoặc bất kỳ default hoặc custom profiles nào được định nghĩa trong [`cacheLife`](/docs/app/api-reference/config/next-config-js/cacheLife). Ngoài ra, bạn có thể truyền một object với thuộc tính `expire` cho hành vi expiration tùy chỉnh.
 
-Tags must first be assigned to cached data. You can do this in two ways:
+Tags phải được gán cho cached data trước. Bạn có thể làm điều này theo hai cách:
 
-- Using the [`next.tags`](/docs/app/guides/caching#fetch-optionsnexttags-and-revalidatetag) option with `fetch` for caching external API requests:
+- Sử dụng tùy chọn [`next.tags`](/docs/app/guides/caching#fetch-optionsnexttags-and-revalidatetag) với `fetch` để caching external API requests:
 
 ```tsx
 fetch(url, { next: { tags: ['posts'] } })
 ```
 
-- Using [`cacheTag`](/docs/app/api-reference/functions/cacheTag) inside cached functions or components with the `'use cache'` directive:
+- Sử dụng [`cacheTag`](/docs/app/api-reference/functions/cacheTag) bên trong cached functions hoặc components với directive `'use cache'`:
 
 ```tsx
 import { cacheTag } from 'next/cache'
@@ -54,17 +54,17 @@ async function getData() {
 
 ## Returns
 
-`revalidateTag` does not return a value.
+`revalidateTag` không trả về giá trị.
 
-## Relationship with `revalidatePath`
+## Mối quan hệ với `revalidatePath`
 
-`revalidateTag` invalidates data with specific tags across all pages that use those tags, while [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) invalidates specific page or layout paths.
+`revalidateTag` invalidates dữ liệu với các tags cụ thể trên tất cả các trang sử dụng các tags đó, trong khi [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) invalidates các page hoặc layout paths cụ thể.
 
-> **Good to know**: These functions serve different purposes and may need to be used together for comprehensive data consistency. For detailed examples and considerations, see [relationship with revalidateTag and updateTag](/docs/app/api-reference/functions/revalidatePath#relationship-with-revalidatetag-and-updatetag) for more information.
+> **Nên biết**: Các hàm này phục vụ các mục đích khác nhau và có thể cần được sử dụng cùng nhau để có tính nhất quán dữ liệu toàn diện. Để biết các ví dụ chi tiết và cân nhắc, hãy xem [relationship with revalidateTag and updateTag](/docs/app/api-reference/functions/revalidatePath#relationship-with-revalidatetag-and-updatetag) để biết thêm thông tin.
 
-## Examples
+## Ví dụ
 
-The following examples demonstrate how to use `revalidateTag` in different contexts. In both cases, we're using `profile="max"` to mark data as stale and use stale-while-revalidate semantics, which is the recommended approach for most use cases.
+Các ví dụ sau đây minh họa cách sử dụng `revalidateTag` trong các ngữ cảnh khác nhau. Trong cả hai trường hợp, chúng ta đang sử dụng `profile="max"` để đánh dấu dữ liệu là stale và sử dụng stale-while-revalidate semantics, đây là cách tiếp cận được khuyến nghị cho hầu hết các trường hợp sử dụng.
 
 ### Server Action
 
@@ -131,4 +131,4 @@ export async function GET(request) {
 }
 ```
 
-> **Good to know**: For webhooks or third-party services that need immediate expiration, you can pass `{ expire: 0 }` as the second argument: `revalidateTag(tag, { expire: 0 })`. This pattern is necessary when external systems call your Route Handlers and require data to expire immediately. For all other cases, it's recommended to use [`updateTag`](/docs/app/api-reference/functions/updateTag) in Server Actions for immediate updates instead.
+> **Nên biết**: Đối với webhooks hoặc third-party services cần immediate expiration, bạn có thể truyền `{ expire: 0 }` làm tham số thứ hai: `revalidateTag(tag, { expire: 0 })`. Pattern này cần thiết khi các hệ thống bên ngoài gọi Route Handlers của bạn và yêu cầu dữ liệu hết hạn ngay lập tức. Đối với tất cả các trường hợp khác, khuyến nghị sử dụng [`updateTag`](/docs/app/api-reference/functions/updateTag) trong Server Actions để cập nhật ngay lập tức thay thế.

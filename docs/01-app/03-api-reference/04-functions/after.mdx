@@ -1,13 +1,13 @@
 ---
 title: after
-description: API Reference for the after function.
+description: Tài liệu tham khảo API cho hàm after.
 ---
 
-`after` allows you to schedule work to be executed after a response (or prerender) is finished. This is useful for tasks and other side effects that should not block the response, such as logging and analytics.
+`after` cho phép bạn lên lịch công việc sẽ được thực thi sau khi một response (hoặc prerender) hoàn tất. Điều này hữu ích cho các tác vụ và side effects khác không nên chặn response, chẳng hạn như logging và analytics.
 
-It can be used in [Server Components](/docs/app/getting-started/server-and-client-components) (including [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata)), [Server Actions](/docs/app/getting-started/updating-data), [Route Handlers](/docs/app/api-reference/file-conventions/route), and [Proxy](/docs/app/api-reference/file-conventions/proxy).
+Nó có thể được sử dụng trong [Server Components](/docs/app/getting-started/server-and-client-components) (bao gồm [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata)), [Server Actions](/docs/app/getting-started/updating-data), [Route Handlers](/docs/app/api-reference/file-conventions/route), và [Proxy](/docs/app/api-reference/file-conventions/proxy).
 
-The function accepts a callback that will be executed after the response (or prerender) is finished:
+Hàm chấp nhận một callback sẽ được thực thi sau khi response (hoặc prerender) hoàn tất:
 
 ```tsx filename="app/layout.tsx" switcher
 import { after } from 'next/server'
@@ -16,7 +16,7 @@ import { log } from '@/app/utils'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   after(() => {
-    // Execute after the layout is rendered and sent to the user
+    // Thực thi sau khi layout được render và gửi đến người dùng
     log()
   })
   return <>{children}</>
@@ -30,36 +30,36 @@ import { log } from '@/app/utils'
 
 export default function Layout({ children }) {
   after(() => {
-    // Execute after the layout is rendered and sent to the user
+    // Thực thi sau khi layout được render và gửi đến người dùng
     log()
   })
   return <>{children}</>
 }
 ```
 
-> **Good to know:** `after` is not a [Dynamic API](/docs/app/guides/caching#dynamic-rendering) and calling it does not cause a route to become dynamic. If it's used within a static page, the callback will execute at build time, or whenever a page is revalidated.
+> **Lưu ý:** `after` không phải là một [Dynamic API](/docs/app/guides/caching#dynamic-rendering) và việc gọi nó không làm cho một route trở nên dynamic. Nếu nó được sử dụng bên trong một static page, callback sẽ thực thi tại build time, hoặc bất cứ khi nào một page được revalidate.
 
-## Reference
+## Tham khảo
 
-### Parameters
+### Tham số
 
-- A callback function which will be executed after the response (or prerender) is finished.
+- Một hàm callback sẽ được thực thi sau khi response (hoặc prerender) hoàn tất.
 
-### Duration
+### Thời lượng
 
-`after` will run for the platform's default or configured max duration of your route. If your platform supports it, you can configure the timeout limit using the [`maxDuration`](/docs/app/api-reference/file-conventions/route-segment-config#maxduration) route segment config.
+`after` sẽ chạy trong thời gian mặc định của nền tảng hoặc max duration đã cấu hình của route của bạn. Nếu nền tảng của bạn hỗ trợ, bạn có thể cấu hình giới hạn timeout bằng cách sử dụng route segment config [`maxDuration`](/docs/app/api-reference/file-conventions/route-segment-config#maxduration).
 
-## Good to know
+## Lưu ý
 
-- `after` will be executed even if the response didn't complete successfully. Including when an error is thrown or when `notFound` or `redirect` is called.
-- You can use React `cache` to deduplicate functions called inside `after`.
-- `after` can be nested inside other `after` calls, for example, you can create utility functions that wrap `after` calls to add additional functionality.
+- `after` sẽ được thực thi ngay cả khi response không hoàn thành thành công. Bao gồm khi một lỗi được ném ra hoặc khi `notFound` hoặc `redirect` được gọi.
+- Bạn có thể sử dụng React `cache` để deduplicate các hàm được gọi bên trong `after`.
+- `after` có thể được lồng bên trong các lệnh gọi `after` khác, ví dụ, bạn có thể tạo các hàm tiện ích bao bọc các lệnh gọi `after` để thêm chức năng bổ sung.
 
-## Examples
+## Ví dụ
 
-### With request APIs
+### Với request APIs
 
-You can use request APIs such as [`cookies`](/docs/app/api-reference/functions/cookies) and [`headers`](/docs/app/api-reference/functions/headers) inside `after` in [Server Actions](/docs/app/getting-started/updating-data) and [Route Handlers](/docs/app/api-reference/file-conventions/route). This is useful for logging activity after a mutation. For example:
+Bạn có thể sử dụng request APIs như [`cookies`](/docs/app/api-reference/functions/cookies) và [`headers`](/docs/app/api-reference/functions/headers) bên trong `after` trong [Server Actions](/docs/app/getting-started/updating-data) và [Route Handlers](/docs/app/api-reference/file-conventions/route). Điều này hữu ích cho việc logging hoạt động sau một mutation. Ví dụ:
 
 ```ts filename="app/api/route.ts" highlight={2,7-9} switcher
 import { after } from 'next/server'
@@ -67,10 +67,10 @@ import { cookies, headers } from 'next/headers'
 import { logUserAction } from '@/app/utils'
 
 export async function POST(request: Request) {
-  // Perform mutation
+  // Thực hiện mutation
   // ...
 
-  // Log user activity for analytics
+  // Log hoạt động người dùng cho analytics
   after(async () => {
     const userAgent = (await headers().get('user-agent')) || 'unknown'
     const sessionCookie =
@@ -92,10 +92,10 @@ import { cookies, headers } from 'next/headers'
 import { logUserAction } from '@/app/utils'
 
 export async function POST(request) {
-  // Perform mutation
+  // Thực hiện mutation
   // ...
 
-  // Log user activity for analytics
+  // Log hoạt động người dùng cho analytics
   after(async () => {
     const userAgent = (await headers().get('user-agent')) || 'unknown'
     const sessionCookie =
@@ -111,27 +111,27 @@ export async function POST(request) {
 }
 ```
 
-However, you cannot use these request APIs inside `after` in [Server Components](/docs/app/getting-started/server-and-client-components). This is because Next.js needs to know which part of the tree access the request APIs to support [Cache Components](/docs/app/getting-started/cache-components), but `after` runs after React's rendering lifecycle.
+Tuy nhiên, bạn không thể sử dụng các request APIs này bên trong `after` trong [Server Components](/docs/app/getting-started/server-and-client-components). Điều này là do Next.js cần biết phần nào của cây truy cập request APIs để hỗ trợ [Cache Components](/docs/app/getting-started/cache-components), nhưng `after` chạy sau vòng đời rendering của React.
 
-## Platform Support
+## Hỗ trợ nền tảng
 
-| Deployment Option                                                   | Supported         |
-| ------------------------------------------------------------------- | ----------------- |
-| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Yes               |
-| [Docker container](/docs/app/getting-started/deploying#docker)      | Yes               |
-| [Static export](/docs/app/getting-started/deploying#static-export)  | No                |
-| [Adapters](/docs/app/getting-started/deploying#adapters)            | Platform-specific |
+| Tùy chọn triển khai                                                 | Được hỗ trợ  |
+| ------------------------------------------------------------------- | ------------ |
+| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Có           |
+| [Docker container](/docs/app/getting-started/deploying#docker)      | Có           |
+| [Static export](/docs/app/getting-started/deploying#static-export)  | Không        |
+| [Adapters](/docs/app/getting-started/deploying#adapters)            | Tùy nền tảng |
 
-Learn how to [configure `after`](/docs/app/guides/self-hosting#after) when self-hosting Next.js.
+Tìm hiểu cách [cấu hình `after`](/docs/app/guides/self-hosting#after) khi tự host Next.js.
 
 <details id="after-serverless">
-  <summary>Reference: supporting `after` for serverless platforms</summary>
+  <summary>Tham khảo: hỗ trợ `after` cho các nền tảng serverless</summary>
 
-Using `after` in a serverless context requires waiting for asynchronous tasks to finish after the response has been sent. In Next.js and Vercel, this is achieved using a primitive called `waitUntil(promise)`, which extends the lifetime of a serverless invocation until all promises passed to [`waitUntil`](https://vercel.com/docs/functions/functions-api-reference#waituntil) have settled.
+Sử dụng `after` trong ngữ cảnh serverless yêu cầu đợi các tác vụ bất đồng bộ hoàn tất sau khi phản hồi đã được gửi. Trong Next.js và Vercel, điều này đạt được bằng cách sử dụng một primitive gọi là `waitUntil(promise)`, kéo dài thời gian tồn tại của lệnh gọi serverless cho đến khi tất cả các promises được truyền cho [`waitUntil`](https://vercel.com/docs/functions/functions-api-reference#waituntil) đã giải quyết (settled).
 
-If you want your users to be able to run `after`, you will have to provide your implementation of `waitUntil` that behaves in an analogous way.
+Nếu bạn muốn người dùng của mình có thể chạy `after`, bạn sẽ phải cung cấp triển khai `waitUntil` của mình hoạt động theo cách tương tự.
 
-When `after` is called, Next.js will access `waitUntil` like this:
+Khi `after` được gọi, Next.js sẽ truy cập `waitUntil` như thế này:
 
 ```jsx
 const RequestContext = globalThis[Symbol.for('@next/request-context')]
@@ -139,7 +139,7 @@ const contextValue = RequestContext?.get()
 const waitUntil = contextValue?.waitUntil
 ```
 
-Which means that `globalThis[Symbol.for('@next/request-context')]` is expected to contain an object like this:
+Điều này có nghĩa là `globalThis[Symbol.for('@next/request-context')]` được mong đợi chứa một object như thế này:
 
 ```tsx
 type NextRequestContext = {
@@ -151,14 +151,14 @@ type NextRequestContextValue = {
 }
 ```
 
-Here is an example of the implementation.
+Đây là một ví dụ về triển khai.
 
 ```tsx
 import { AsyncLocalStorage } from 'node:async_hooks'
 
 const RequestContextStorage = new AsyncLocalStorage<NextRequestContextValue>()
 
-// Define and inject the accessor that next.js will use
+// Định nghĩa và inject accessor mà next.js sẽ sử dụng
 const RequestContext: NextRequestContext = {
   get() {
     return RequestContextStorage.getStore()
@@ -168,16 +168,16 @@ globalThis[Symbol.for('@next/request-context')] = RequestContext
 
 const handler = (req, res) => {
   const contextValue = { waitUntil: YOUR_WAITUNTIL }
-  // Provide the value
+  // Cung cấp giá trị
   return RequestContextStorage.run(contextValue, () => nextJsHandler(req, res))
 }
 ```
 
 </details>
 
-## Version History
+## Lịch sử phiên bản
 
-| Version History | Description                  |
-| --------------- | ---------------------------- |
-| `v15.1.0`       | `after` became stable.       |
-| `v15.0.0-rc`    | `unstable_after` introduced. |
+| Lịch sử phiên bản | Mô tả                             |
+| ----------------- | --------------------------------- |
+| `v15.1.0`         | `after` trở nên ổn định.          |
+| `v15.0.0-rc`      | `unstable_after` được giới thiệu. |

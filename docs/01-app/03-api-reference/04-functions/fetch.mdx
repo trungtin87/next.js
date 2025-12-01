@@ -1,13 +1,13 @@
 ---
 title: fetch
-description: API reference for the extended fetch function.
+description: Tài liệu tham khảo API cho hàm fetch mở rộng.
 ---
 
-Next.js extends the [Web `fetch()` API](https://developer.mozilla.org/docs/Web/API/Fetch_API) to allow each request on the server to set its own persistent caching and revalidation semantics.
+Next.js mở rộng [Web `fetch()` API](https://developer.mozilla.org/docs/Web/API/Fetch_API) để cho phép mỗi request trên server thiết lập ngữ nghĩa caching và revalidation liên tục của riêng nó.
 
-In the browser, the `cache` option indicates how a fetch request will interact with the _browser's_ HTTP cache. With this extension, `cache` indicates how a _server-side_ fetch request will interact with the framework's persistent [Data Cache](/docs/app/guides/caching#data-cache).
+Trong trình duyệt, tùy chọn `cache` chỉ ra cách một fetch request sẽ tương tác với HTTP cache của _trình duyệt_. Với phần mở rộng này, `cache` chỉ ra cách một fetch request _server-side_ sẽ tương tác với [Data Cache](/docs/app/guides/caching#data-cache) liên tục của framework.
 
-You can call `fetch` with `async` and `await` directly within Server Components.
+Bạn có thể gọi `fetch` với `async` và `await` trực tiếp bên trong Server Components.
 
 ```tsx filename="app/page.tsx" switcher
 export default async function Page() {
@@ -39,21 +39,21 @@ export default async function Page() {
 
 ## `fetch(url, options)`
 
-Since Next.js extends the [Web `fetch()` API](https://developer.mozilla.org/docs/Web/API/Fetch_API), you can use any of the [native options available](https://developer.mozilla.org/docs/Web/API/fetch#parameters).
+Vì Next.js mở rộng [Web `fetch()` API](https://developer.mozilla.org/docs/Web/API/Fetch_API), bạn có thể sử dụng bất kỳ [tùy chọn gốc nào có sẵn](https://developer.mozilla.org/docs/Web/API/fetch#parameters).
 
 ### `options.cache`
 
-Configure how the request should interact with Next.js [Data Cache](/docs/app/guides/caching#data-cache).
+Cấu hình cách request nên tương tác với Next.js [Data Cache](/docs/app/guides/caching#data-cache).
 
 ```ts
 fetch(`https://...`, { cache: 'force-cache' | 'no-store' })
 ```
 
-- **`auto no cache`** (default): Next.js fetches the resource from the remote server on every request in development, but will fetch once during `next build` because the route will be statically prerendered. If [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) are detected on the route, Next.js will fetch the resource on every request.
-- **`no-store`**: Next.js fetches the resource from the remote server on every request, even if Dynamic APIs are not detected on the route.
-- **`force-cache`**: Next.js looks for a matching request in its Data Cache.
-  - If there is a match and it is fresh, it will be returned from the cache.
-  - If there is no match or a stale match, Next.js will fetch the resource from the remote server and update the cache with the downloaded resource.
+- **`auto no cache`** (mặc định): Next.js fetch tài nguyên từ remote server trên mỗi request trong development, nhưng sẽ fetch một lần trong `next build` vì route sẽ được prerender tĩnh. Nếu [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) được phát hiện trên route, Next.js sẽ fetch tài nguyên trên mỗi request.
+- **`no-store`**: Next.js fetch tài nguyên từ remote server trên mỗi request, ngay cả khi Dynamic APIs không được phát hiện trên route.
+- **`force-cache`**: Next.js tìm kiếm một request khớp trong Data Cache của nó.
+  - Nếu có một kết quả khớp và nó còn mới (fresh), nó sẽ được trả về từ cache.
+  - Nếu không có kết quả khớp hoặc kết quả khớp đã cũ (stale), Next.js sẽ fetch tài nguyên từ remote server và cập nhật cache với tài nguyên đã tải xuống.
 
 ### `options.next.revalidate`
 
@@ -61,17 +61,17 @@ fetch(`https://...`, { cache: 'force-cache' | 'no-store' })
 fetch(`https://...`, { next: { revalidate: false | 0 | number } })
 ```
 
-Set the cache lifetime of a resource (in seconds). [Data Cache](/docs/app/guides/caching#data-cache).
+Đặt thời gian tồn tại cache của một tài nguyên (tính bằng giây). [Data Cache](/docs/app/guides/caching#data-cache).
 
-- **`false`** - Cache the resource indefinitely. Semantically equivalent to `revalidate: Infinity`. The HTTP cache may evict older resources over time.
-- **`0`** - Prevent the resource from being cached.
-- **`number`** - (in seconds) Specify the resource should have a cache lifetime of at most `n` seconds.
+- **`false`** - Cache tài nguyên vô thời hạn. Về mặt ngữ nghĩa tương đương với `revalidate: Infinity`. HTTP cache có thể loại bỏ các tài nguyên cũ hơn theo thời gian.
+- **`0`** - Ngăn chặn tài nguyên bị cache.
+- **`number`** - (tính bằng giây) Chỉ định tài nguyên nên có thời gian tồn tại cache tối đa là `n` giây.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - If an individual `fetch()` request sets a `revalidate` number lower than the [default `revalidate`](/docs/app/api-reference/file-conventions/route-segment-config#revalidate) of a route, the whole route revalidation interval will be decreased.
-> - If two fetch requests with the same URL in the same route have different `revalidate` values, the lower value will be used.
-> - Conflicting options such as `{ revalidate: 3600, cache: 'no-store' }` are not allowed, both will be ignored, and in development mode a warning will be printed to the terminal.
+> - Nếu một request `fetch()` riêng lẻ đặt một số `revalidate` thấp hơn [mặc định `revalidate`](/docs/app/api-reference/file-conventions/route-segment-config#revalidate) của một route, khoảng thời gian revalidation của toàn bộ route sẽ bị giảm.
+> - Nếu hai fetch requests với cùng một URL trong cùng một route có các giá trị `revalidate` khác nhau, giá trị thấp hơn sẽ được sử dụng.
+> - Các tùy chọn xung đột như `{ revalidate: 3600, cache: 'no-store' }` không được phép, cả hai sẽ bị bỏ qua, và trong chế độ development một cảnh báo sẽ được in ra terminal.
 
 ### `options.next.tags`
 
@@ -79,26 +79,26 @@ Set the cache lifetime of a resource (in seconds). [Data Cache](/docs/app/guides
 fetch(`https://...`, { next: { tags: ['collection'] } })
 ```
 
-Set the cache tags of a resource. Data can then be revalidated on-demand using [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag). The max length for a custom tag is 256 characters and the max tag items is 128.
+Đặt các cache tags của một tài nguyên. Dữ liệu sau đó có thể được revalidate theo yêu cầu bằng cách sử dụng [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag). Độ dài tối đa cho một tag tùy chỉnh là 256 ký tự và số lượng tag items tối đa là 128.
 
 ## Troubleshooting
 
-### Fetch default `auto no store` and `cache: 'no-store'` not showing fresh data in development
+### Fetch mặc định `auto no store` và `cache: 'no-store'` không hiển thị dữ liệu mới trong development
 
-Next.js caches `fetch` responses in Server Components across Hot Module Replacement (HMR) in local development for faster responses and to reduce costs for billed API calls.
+Next.js cache các phản hồi `fetch` trong Server Components qua Hot Module Replacement (HMR) trong local development để phản hồi nhanh hơn và giảm chi phí cho các lệnh gọi API bị tính phí.
 
-By default, the [HMR cache](/docs/app/api-reference/config/next-config-js/serverComponentsHmrCache) applies to all fetch requests, including those with the default `auto no cache` and `cache: 'no-store'` option. This means uncached requests will not show fresh data between HMR refreshes. However, the cache will be cleared on navigation or full-page reloads.
+Theo mặc định, [HMR cache](/docs/app/api-reference/config/next-config-js/serverComponentsHmrCache) áp dụng cho tất cả các fetch requests, bao gồm cả những requests với tùy chọn mặc định `auto no cache` và `cache: 'no-store'`. Điều này có nghĩa là các requests không được cache sẽ không hiển thị dữ liệu mới giữa các lần refresh HMR. Tuy nhiên, cache sẽ bị xóa khi điều hướng hoặc tải lại toàn trang.
 
-See the [`serverComponentsHmrCache`](/docs/app/api-reference/config/next-config-js/serverComponentsHmrCache) docs for more information.
+Xem tài liệu [`serverComponentsHmrCache`](/docs/app/api-reference/config/next-config-js/serverComponentsHmrCache) để biết thêm thông tin.
 
-### Hard refresh and caching in development
+### Hard refresh và caching trong development
 
-In development mode, if the request includes the `cache-control: no-cache` header, `options.cache`, `options.next.revalidate`, and `options.next.tags` are ignored, and the `fetch` request is served from the source.
+Trong chế độ development, nếu request bao gồm header `cache-control: no-cache`, `options.cache`, `options.next.revalidate`, và `options.next.tags` sẽ bị bỏ qua, và request `fetch` được phục vụ từ nguồn.
 
-Browsers typically include `cache-control: no-cache` when the cache is disabled in developer tools or during a hard refresh.
+Các trình duyệt thường bao gồm `cache-control: no-cache` khi cache bị vô hiệu hóa trong developer tools hoặc trong quá trình hard refresh.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes             |
-| --------- | ------------------- |
-| `v13.0.0` | `fetch` introduced. |
+| Phiên bản | Thay đổi                 |
+| --------- | ------------------------ |
+| `v13.0.0` | `fetch` được giới thiệu. |

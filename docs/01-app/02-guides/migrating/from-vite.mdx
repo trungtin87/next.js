@@ -1,69 +1,65 @@
 ---
-title: How to migrate from Vite to Next.js
+title: Cách di chuyển từ Vite sang Next.js
 nav_title: Vite
-description: Learn how to migrate your existing React application from Vite to Next.js.
+description: Tìm hiểu cách di chuyển ứng dụng React hiện có của bạn từ Vite sang Next.js.
 ---
 
-This guide will help you migrate an existing Vite application to Next.js.
+Hướng dẫn này sẽ giúp bạn di chuyển một ứng dụng Vite hiện có sang Next.js.
 
-## Why Switch?
+## Tại sao nên chuyển đổi?
 
-There are several reasons why you might want to switch from Vite to Next.js:
+Có một số lý do khiến bạn có thể muốn chuyển từ Vite sang Next.js:
 
-### Slow initial page loading time
+### Thời gian tải trang ban đầu chậm
 
-If you have built your application with the [default Vite plugin for React](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react), your application is a purely client-side application. Client-side only applications, also known as single-page applications (SPAs), often experience slow initial page loading time. This happens due to a couple of reasons:
+Nếu bạn đã xây dựng ứng dụng của mình với [default Vite plugin for React](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react), ứng dụng của bạn là một ứng dụng purely client-side. Các ứng dụng chỉ phía client, còn được gọi là single-page applications (SPAs), thường gặp phải thời gian tải trang ban đầu chậm. Điều này xảy ra do một vài lý do:
 
-1. The browser needs to wait for the React code and your entire application bundle to download and run before your code is able to send requests to load some data.
-2. Your application code grows with every new feature and extra dependency you add.
+1. Trình duyệt cần đợi mã React và toàn bộ gói ứng dụng của bạn tải xuống và chạy trước khi mã của bạn có thể gửi yêu cầu tải một số dữ liệu.
+2. Mã ứng dụng của bạn tăng lên với mỗi tính năng mới và dependency bổ sung mà bạn thêm vào.
 
-### No automatic code splitting
+### Không có automatic code splitting
 
-The previous issue of slow loading times can be somewhat managed with code splitting. However, if you try to do code splitting manually, you'll often make performance worse. It's easy to inadvertently introduce network waterfalls when code-splitting manually. Next.js provides automatic code splitting built into its router.
+Vấn đề trước đây về thời gian tải chậm có thể được quản lý phần nào bằng code splitting. Tuy nhiên, nếu bạn cố gắng thực hiện code splitting thủ công, bạn thường sẽ làm cho hiệu suất tồi tệ hơn. Rất dễ vô tình tạo ra network waterfalls khi code-splitting thủ công. Next.js cung cấp automatic code splitting được tích hợp vào router của nó.
 
 ### Network waterfalls
 
-A common cause of poor performance occurs when applications make sequential client-server requests to fetch data. One common pattern for data fetching in an SPA is to initially render a placeholder, and then fetch data after the component has mounted. Unfortunately, this means that a child component that fetches data can't start fetching until the parent component has finished loading its own data.
+Một nguyên nhân phổ biến gây ra hiệu suất kém xảy ra khi các ứng dụng thực hiện các yêu cầu client-server tuần tự để fetch dữ liệu. Một mô hình phổ biến để fetch dữ liệu trong một SPA là ban đầu render một placeholder, và sau đó fetch dữ liệu sau khi component đã mount. Thật không may, điều này có nghĩa là một child component fetch dữ liệu không thể bắt đầu fetch cho đến khi parent component đã tải xong dữ liệu của chính nó.
 
-While fetching data on the client is supported with Next.js, it also gives you the option to shift data fetching to the server, which can eliminate client-server waterfalls.
+Trong khi việc fetch dữ liệu trên client được hỗ trợ với Next.js, nó cũng cung cấp cho bạn tùy chọn chuyển data fetching sang server, điều này có thể loại bỏ client-server waterfalls.
 
-### Fast and intentional loading states
+### Trạng thái tải nhanh và có chủ đích
 
-With built-in support for [streaming through React Suspense](/docs/app/getting-started/linking-and-navigating#streaming), you can be more intentional about which parts of your UI you want to load first and in what order without introducing network waterfalls.
+Với hỗ trợ tích hợp cho [streaming thông qua React Suspense](/docs/app/getting-started/linking-and-navigating#streaming), bạn có thể chủ đích hơn về phần nào của UI bạn muốn tải trước và theo thứ tự nào mà không tạo ra network waterfalls.
 
-This enables you to build pages that are faster to load and eliminate [layout shifts](https://vercel.com/blog/how-core-web-vitals-affect-seo).
+Điều này cho phép bạn xây dựng các trang tải nhanh hơn và loại bỏ [layout shifts](https://vercel.com/blog/how-core-web-vitals-affect-seo).
 
-### Choose the data fetching strategy
+### Chọn chiến lược data fetching
 
-Depending on your needs, Next.js allows you to choose your data fetching strategy on a page and component basis. You can decide to fetch at build time, at request time on the server, or on the client. For example, you can fetch data from your CMS and render your blog posts at build time, which can then be efficiently cached on a CDN.
+Tùy thuộc vào nhu cầu của bạn, Next.js cho phép bạn chọn chiến lược data fetching của mình trên cơ sở từng trang và component. Bạn có thể quyết định fetch tại build time, tại request time trên server, hoặc trên client. Ví dụ, bạn có thể fetch dữ liệu từ CMS của mình và render các bài đăng blog tại build time, sau đó có thể được cache hiệu quả trên CDN.
 
 ### Proxy
 
-[Next.js Proxy](/docs/app/api-reference/file-conventions/proxy) allows you to run code on the server before a request is completed. This is especially useful to avoid having a flash of unauthenticated content when the user visits an authenticated-only page by redirecting the user to a login page. The proxy is also useful for experimentation and [internationalization](/docs/app/guides/internationalization).
+[Next.js Proxy](/docs/app/api-reference/file-conventions/proxy) cho phép bạn chạy mã trên server trước khi một yêu cầu được hoàn thành. Điều này đặc biệt hữu ích để tránh flash nội dung chưa được xác thực khi người dùng truy cập trang chỉ dành cho người đã xác thực bằng cách chuyển hướng người dùng đến trang đăng nhập. Proxy cũng hữu ích cho thử nghiệm và [internationalization](/docs/app/guides/internationalization).
 
-### Built-in Optimizations
+### Tối ưu hóa tích hợp
 
-[Images](/docs/app/api-reference/components/image), [fonts](/docs/app/api-reference/components/font), and [third-party scripts](/docs/app/guides/scripts) often have significant impact on an application's performance. Next.js comes with built-in components that automatically optimize those for you.
+[Images](/docs/app/api-reference/components/image), [fonts](/docs/app/api-reference/components/font), và [third-party scripts](/docs/app/guides/scripts) thường có tác động đáng kể đến hiệu suất của ứng dụng. Next.js đi kèm với các components tích hợp tự động tối ưu hóa những thứ đó cho bạn.
 
-## Migration Steps
+## Các bước di chuyển
 
-Our goal with this migration is to get a working Next.js application as quickly as possible, so that
-you can then adopt Next.js features incrementally. To begin with, we'll keep it as a purely
-client-side application (SPA) without migrating your existing router. This helps minimize the
-chances of encountering issues during the migration process and reduces merge conflicts.
+Mục tiêu của chúng tôi với việc di chuyển này là có được một ứng dụng Next.js hoạt động nhanh nhất có thể, để bạn có thể áp dụng các tính năng Next.js dần dần. Để bắt đầu, chúng tôi sẽ giữ nó như một ứng dụng purely client-side (SPA) mà không di chuyển router hiện có của bạn. Điều này giúp giảm thiểu khả năng gặp sự cố trong quá trình di chuyển và giảm xung đột hợp nhất.
 
-### Step 1: Install the Next.js Dependency
+### Bước 1: Cài đặt Next.js Dependency
 
-The first thing you need to do is to install `next` as a dependency:
+Điều đầu tiên bạn cần làm là cài đặt `next` như một dependency:
 
 ```bash filename="Terminal"
 npm install next@latest
 ```
 
-### Step 2: Create the Next.js Configuration File
+### Bước 2: Tạo File cấu hình Next.js
 
-Create a `next.config.mjs` at the root of your project. This file will hold your
-[Next.js configuration options](/docs/app/api-reference/config/next-config-js).
+Tạo một `next.config.mjs` tại thư mục gốc của dự án của bạn. File này sẽ chứa [các tùy chọn cấu hình Next.js](/docs/app/api-reference/config/next-config-js) của bạn.
 
 ```js filename="next.config.mjs"
 /** @type {import('next').NextConfig} */
@@ -75,24 +71,23 @@ const nextConfig = {
 export default nextConfig
 ```
 
-> **Good to know:** You can use either `.js` or `.mjs` for your Next.js configuration file.
+> **Lưu ý:** Bạn có thể sử dụng `.js` hoặc `.mjs` cho file cấu hình Next.js của mình.
 
-### Step 3: Update TypeScript Configuration
+### Bước 3: Cập nhật cấu hình TypeScript
 
-If you're using TypeScript, you need to update your `tsconfig.json` file with the following changes
-to make it compatible with Next.js. If you're not using TypeScript, you can skip this step.
+Nếu bạn đang sử dụng TypeScript, bạn cần cập nhật file `tsconfig.json` của mình với các thay đổi sau để làm cho nó tương thích với Next.js. Nếu bạn không sử dụng TypeScript, bạn có thể bỏ qua bước này.
 
-1. Remove the [project reference](https://www.typescriptlang.org/tsconfig#references) to `tsconfig.node.json`
-2. Add `./dist/types/**/*.ts` and `./next-env.d.ts` to the [`include` array](https://www.typescriptlang.org/tsconfig#include)
-3. Add `./node_modules` to the [`exclude` array](https://www.typescriptlang.org/tsconfig#exclude)
-4. Add `{ "name": "next" }` to the [`plugins` array in `compilerOptions`](https://www.typescriptlang.org/tsconfig#plugins): `"plugins": [{ "name": "next" }]`
-5. Set [`esModuleInterop`](https://www.typescriptlang.org/tsconfig#esModuleInterop) to `true`: `"esModuleInterop": true`
-6. Set [`jsx`](https://www.typescriptlang.org/tsconfig#jsx) to `react-jsx`: `"jsx": "react-jsx"`
-7. Set [`allowJs`](https://www.typescriptlang.org/tsconfig#allowJs) to `true`: `"allowJs": true`
-8. Set [`forceConsistentCasingInFileNames`](https://www.typescriptlang.org/tsconfig#forceConsistentCasingInFileNames) to `true`: `"forceConsistentCasingInFileNames": true`
-9. Set [`incremental`](https://www.typescriptlang.org/tsconfig#incremental) to `true`: `"incremental": true`
+1. Xóa [project reference](https://www.typescriptlang.org/tsconfig#references) đến `tsconfig.node.json`
+2. Thêm `./dist/types/**/*.ts` và `./next-env.d.ts` vào [`include` array](https://www.typescriptlang.org/tsconfig#include)
+3. Thêm `./node_modules` vào [`exclude` array](https://www.typescriptlang.org/tsconfig#exclude)
+4. Thêm `{ "name": "next" }` vào [`plugins` array trong `compilerOptions`](https://www.typescriptlang.org/tsconfig#plugins): `"plugins": [{ "name": "next" }]`
+5. Đặt [`esModuleInterop`](https://www.typescriptlang.org/tsconfig#esModuleInterop) thành `true`: `"esModuleInterop": true`
+6. Đặt [`jsx`](https://www.typescriptlang.org/tsconfig#jsx) thành `react-jsx`: `"jsx": "react-jsx"`
+7. Đặt [`allowJs`](https://www.typescriptlang.org/tsconfig#allowJs) thành `true`: `"allowJs": true`
+8. Đặt [`forceConsistentCasingInFileNames`](https://www.typescriptlang.org/tsconfig#forceConsistentCasingInFileNames) thành `true`: `"forceConsistentCasingInFileNames": true`
+9. Đặt [`incremental`](https://www.typescriptlang.org/tsconfig#incremental) thành `true`: `"incremental": true`
 
-Here's an example of a working `tsconfig.json` with those changes:
+Đây là một ví dụ về `tsconfig.json` hoạt động với những thay đổi đó:
 
 ```json filename="tsconfig.json"
 {
@@ -123,25 +118,18 @@ Here's an example of a working `tsconfig.json` with those changes:
 }
 ```
 
-You can find more information about configuring TypeScript on the
-[Next.js docs](/docs/app/api-reference/config/typescript#ide-plugin).
+Bạn có thể tìm thêm thông tin về cấu hình TypeScript trên [tài liệu Next.js](/docs/app/api-reference/config/typescript#ide-plugin).
 
-### Step 4: Create the Root Layout
+### Bước 4: Tạo Root Layout
 
-A Next.js [App Router](/docs/app) application must include a
-[root layout](/docs/app/api-reference/file-conventions/layout#root-layout)
-file, which is a [React Server Component](/docs/app/getting-started/server-and-client-components)
-that will wrap all pages in your application. This file is defined at the top level of the `app`
-directory.
+Một ứng dụng Next.js [App Router](/docs/app) phải bao gồm một file [root layout](/docs/app/api-reference/file-conventions/layout#root-layout), là một [React Server Component](/docs/app/getting-started/server-and-client-components) sẽ bao bọc tất cả các trang trong ứng dụng của bạn. File này được xác định ở cấp cao nhất của thư mục `app`.
 
-The closest equivalent to the root layout file in a Vite application is the
-[`index.html` file](https://vitejs.dev/guide/#index-html-and-project-root), which contains your
-`<html>`, `<head>`, and `<body>` tags.
+Tương đương gần nhất với file root layout trong một ứng dụng Vite là [file `index.html`](https://vitejs.dev/guide/#index-html-and-project-root), chứa các thẻ `<html>`, `<head>`, và `<body>` của bạn.
 
-In this step, you'll convert your `index.html` file into a root layout file:
+Trong bước này, bạn sẽ chuyển đổi file `index.html` của mình thành một file root layout:
 
-1. Create a new `app` directory in your `src` folder.
-2. Create a new `layout.tsx` file inside that `app` directory:
+1. Tạo một thư mục `app` mới trong thư mục `src` của bạn.
+2. Tạo một file `layout.tsx` mới bên trong thư mục `app` đó:
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -159,10 +147,9 @@ export default function RootLayout({ children }) {
 }
 ```
 
-> **Good to know**: `.js`, `.jsx`, or `.tsx` extensions can be used for Layout files.
+> **Lưu ý**: Các phần mở rộng `.js`, `.jsx`, hoặc `.tsx` có thể được sử dụng cho các file Layout.
 
-3. Copy the content of your `index.html` file into the previously created `<RootLayout>` component while
-   replacing the `body.div#root` and `body.script` tags with `<div id="root">{children}</div>`:
+3. Sao chép nội dung của file `index.html` của bạn vào component `<RootLayout>` đã tạo trước đó trong khi thay thế các thẻ `body.div#root` và `body.script` bằng `<div id="root">{children}</div>`:
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -206,10 +193,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-4. Next.js already includes by default the
-   [meta charset](https://developer.mozilla.org/docs/Web/HTML/Element/meta#charset) and
-   [meta viewport](https://developer.mozilla.org/docs/Web/HTML/Viewport_meta_tag) tags, so you
-   can safely remove those from your `<head>`:
+4. Next.js đã bao gồm theo mặc định các thẻ [meta charset](https://developer.mozilla.org/docs/Web/HTML/Element/meta#charset) và [meta viewport](https://developer.mozilla.org/docs/Web/HTML/Viewport_meta_tag), vì vậy bạn có thể xóa chúng khỏi `<head>` của mình một cách an toàn:
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -249,12 +233,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-5. Any [metadata files](/docs/app/getting-started/metadata-and-og-images#file-based-metadata)
-   such as `favicon.ico`, `icon.png`, `robots.txt` are automatically added to the application
-   `<head>` tag as long as you have them placed into the top level of the `app` directory. After
-   moving
-   [all supported files](/docs/app/getting-started/metadata-and-og-images#file-based-metadata)
-   into the `app` directory you can safely delete their `<link>` tags:
+5. Bất kỳ [metadata files](/docs/app/getting-started/metadata-and-og-images#file-based-metadata) nào như `favicon.ico`, `icon.png`, `robots.txt` đều được tự động thêm vào thẻ `<head>` của ứng dụng miễn là bạn đặt chúng vào cấp cao nhất của thư mục `app`. Sau khi di chuyển [tất cả các file được hỗ trợ](/docs/app/getting-started/metadata-and-og-images#file-based-metadata) vào thư mục `app`, bạn có thể xóa các thẻ `<link>` của chúng một cách an toàn:
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -292,10 +271,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-6. Finally, Next.js can manage your last `<head>` tags with the
-   [Metadata API](/docs/app/getting-started/metadata-and-og-images). Move your final metadata
-   info into an exported
-   [`metadata` object](/docs/app/api-reference/functions/generate-metadata#metadata-object):
+6. Cuối cùng, Next.js có thể quản lý các thẻ `<head>` cuối cùng của bạn với [Metadata API](/docs/app/getting-started/metadata-and-og-images). Di chuyển thông tin metadata cuối cùng của bạn vào một [`metadata` object](/docs/app/api-reference/functions/generate-metadata#metadata-object) được export:
 
 ```tsx filename="app/layout.tsx" switcher
 import type { Metadata } from 'next'
@@ -337,24 +313,19 @@ export default function RootLayout({ children }) {
 }
 ```
 
-With the above changes, you shifted from declaring everything in your `index.html` to using Next.js'
-convention-based approach built into the framework
-([Metadata API](/docs/app/getting-started/metadata-and-og-images)). This approach enables you
-to more easily improve your SEO and web shareability of your pages.
+Với những thay đổi trên, bạn đã chuyển từ việc khai báo mọi thứ trong `index.html` sang sử dụng cách tiếp cận dựa trên quy ước của Next.js được tích hợp vào framework ([Metadata API](/docs/app/getting-started/metadata-and-og-images)). Cách tiếp cận này cho phép bạn dễ dàng cải thiện SEO và khả năng chia sẻ web của các trang của mình.
 
-### Step 5: Create the Entrypoint Page
+### Bước 5: Tạo Entrypoint Page
 
-On Next.js you declare an entrypoint for your application by creating a `page.tsx` file. The
-closest equivalent of this file on Vite is your `main.tsx` file. In this step, you’ll set up the
-entrypoint of your application.
+Trên Next.js, bạn khai báo một điểm vào cho ứng dụng của mình bằng cách tạo một file `page.tsx`. Tương đương gần nhất của file này trên Vite là file `main.tsx` của bạn. Trong bước này, bạn sẽ thiết lập điểm vào của ứng dụng của mình.
 
-1. **Create a `[[...slug]]` directory in your `app` directory.**
+1. **Tạo một thư mục `[[...slug]]` trong thư mục `app` của bạn.**
 
-Since in this guide we're aiming first to set up our Next.js as an SPA (Single Page Application), you need your page entrypoint to catch all possible routes of your application. For that, create a new `[[...slug]]` directory in your `app` directory.
+Vì trong hướng dẫn này, chúng tôi nhắm mục tiêu đầu tiên là thiết lập Next.js của chúng tôi như một SPA (Single Page Application), bạn cần điểm vào trang của mình để bắt tất cả các routes có thể có của ứng dụng của bạn. Để làm điều đó, hãy tạo một thư mục `[[...slug]]` mới trong thư mục `app` của bạn.
 
-This directory is what is called an [optional catch-all route segment](/docs/app/api-reference/file-conventions/dynamic-routes#optional-catch-all-segments). Next.js uses a file-system based router where folders are used to define routes. This special directory will make sure that all routes of your application will be directed to its containing `page.tsx` file.
+Thư mục này là cái được gọi là [optional catch-all route segment](/docs/app/api-reference/file-conventions/dynamic-routes#optional-catch-all-segments). Next.js sử dụng một router dựa trên hệ thống file nơi các thư mục được sử dụng để xác định routes. Thư mục đặc biệt này sẽ đảm bảo rằng tất cả các routes của ứng dụng của bạn sẽ được chuyển hướng đến file `page.tsx` chứa nó.
 
-2. **Create a new `page.tsx` file inside the `app/[[...slug]]` directory with the following content:**
+2. **Tạo một file `page.tsx` mới bên trong thư mục `app/[[...slug]]` với nội dung sau:**
 
 ```tsx filename="app/[[...slug]]/page.tsx" switcher
 import '../../index.css'
@@ -380,13 +351,13 @@ export default function Page() {
 }
 ```
 
-> **Good to know**: `.js`, `.jsx`, or `.tsx` extensions can be used for Page files.
+> **Lưu ý**: Các phần mở rộng `.js`, `.jsx`, hoặc `.tsx` có thể được sử dụng cho các file Page.
 
-This file is a [Server Component](/docs/app/getting-started/server-and-client-components). When you run `next build`, the file is prerendered into a static asset. It does _not_ require any dynamic code.
+File này là một [Server Component](/docs/app/getting-started/server-and-client-components). Khi bạn chạy `next build`, file được prerendered thành một tài sản tĩnh. Nó _không_ yêu cầu bất kỳ mã động nào.
 
-This file imports our global CSS and tells [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) we are only going to generate one route, the index route at `/`.
+File này import global CSS của chúng tôi và bảo [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) chúng tôi chỉ định tạo một route, route index tại `/`.
 
-Now, let's move the rest of our Vite application which will run client-only.
+Bây giờ, hãy di chuyển phần còn lại của ứng dụng Vite của chúng tôi sẽ chạy client-only.
 
 ```tsx filename="app/[[...slug]]/client.tsx" switcher
 'use client'
@@ -414,16 +385,15 @@ export function ClientOnly() {
 }
 ```
 
-This file is a [Client Component](/docs/app/getting-started/server-and-client-components), defined by the `'use client'`
-directive. Client Components are still [prerendered to HTML](/docs/app/getting-started/server-and-client-components#how-do-server-and-client-components-work-in-nextjs) on the server before being sent to the client.
+File này là một [Client Component](/docs/app/getting-started/server-and-client-components), được xác định bởi directive `'use client'`. Client Components vẫn được [prerendered thành HTML](/docs/app/getting-started/server-and-client-components#how-do-server-and-client-components-work-in-nextjs) trên server trước khi được gửi đến client.
 
-Since we want a client-only application to start, we can configure Next.js to disable prerendering from the `App` component down.
+Vì chúng ta muốn một ứng dụng client-only để bắt đầu, chúng ta có thể cấu hình Next.js để vô hiệu hóa prerendering từ component `App` trở xuống.
 
 ```tsx
 const App = dynamic(() => import('../../App'), { ssr: false })
 ```
 
-Now, update your entrypoint page to use the new component:
+Bây giờ, cập nhật trang điểm vào của bạn để sử dụng component mới:
 
 ```tsx filename="app/[[...slug]]/page.tsx" switcher
 import '../../index.css'
@@ -451,10 +421,9 @@ export default function Page() {
 }
 ```
 
-### Step 6: Update Static Image Imports
+### Bước 6: Cập nhật Static Image Imports
 
-Next.js handles static image imports slightly different from Vite. With Vite, importing an image
-file will return its public URL as a string:
+Next.js xử lý static image imports hơi khác so với Vite. Với Vite, import một file hình ảnh sẽ trả về URL công khai của nó dưới dạng chuỗi:
 
 ```tsx filename="App.tsx"
 import image from './img.png' // `image` will be '/assets/img.2d8efhg.png' in production
@@ -464,22 +433,13 @@ export default function App() {
 }
 ```
 
-With Next.js, static image imports return an object. The object can then be used directly with the
-Next.js [`<Image>` component](/docs/app/api-reference/components/image), or you can use the object's
-`src` property with your existing `<img>` tag.
+Với Next.js, static image imports trả về một đối tượng. Đối tượng sau đó có thể được sử dụng trực tiếp với [`<Image>` component](/docs/app/api-reference/components/image) của Next.js, hoặc bạn có thể sử dụng thuộc tính `src` của đối tượng với thẻ `<img>` hiện có của bạn.
 
-The `<Image>` component has the added benefits of
-[automatic image optimization](/docs/app/api-reference/components/image). The `<Image>`
-component automatically sets the `width` and `height` attributes of the resulting `<img>` based on
-the image's dimensions. This prevents layout shifts when the image loads. However, this can cause
-issues if your app contains images with only one of their dimensions being styled without the other
-styled to `auto`. When not styled to `auto`, the dimension will default to the `<img>` dimension
-attribute's value, which can cause the image to appear distorted.
+Component `<Image>` có thêm lợi ích của [automatic image optimization](/docs/app/api-reference/components/image). Component `<Image>` tự động đặt các thuộc tính `width` và `height` của `<img>` kết quả dựa trên kích thước của hình ảnh. Điều này ngăn chặn layout shifts khi hình ảnh tải. Tuy nhiên, điều này có thể gây ra sự cố nếu ứng dụng của bạn chứa hình ảnh chỉ có một trong các kích thước của chúng được tạo kiểu mà không có kích thước kia được tạo kiểu thành `auto`. Khi không được tạo kiểu thành `auto`, kích thước sẽ mặc định theo giá trị thuộc tính kích thước của `<img>`, điều này có thể khiến hình ảnh bị méo.
 
-Keeping the `<img>` tag will reduce the amount of changes in your application and prevent the above
-issues. You can then optionally later migrate to the `<Image>` component to take advantage of optimizing images by [configuring a loader](/docs/app/api-reference/components/image#loader), or moving to the default Next.js server which has automatic image optimization.
+Giữ thẻ `<img>` sẽ giảm lượng thay đổi trong ứng dụng của bạn và ngăn chặn các vấn đề trên. Sau đó, bạn có thể tùy chọn di chuyển sang component `<Image>` để tận dụng việc tối ưu hóa hình ảnh bằng cách [cấu hình một loader](/docs/app/api-reference/components/image#loader), hoặc chuyển sang server Next.js mặc định có tối ưu hóa hình ảnh tự động.
 
-1. **Convert absolute import paths for images imported from `/public` into relative imports:**
+1. **Chuyển đổi đường dẫn import tuyệt đối cho hình ảnh được import từ `/public` thành import tương đối:**
 
 ```tsx
 // Before
@@ -489,7 +449,7 @@ import logo from '/logo.png'
 import logo from '../public/logo.png'
 ```
 
-2. **Pass the image `src` property instead of the whole image object to your `<img>` tag:**
+2. **Truyền thuộc tính `src` của hình ảnh thay vì toàn bộ đối tượng hình ảnh vào thẻ `<img>` của bạn:**
 
 ```tsx
 // Before
@@ -499,39 +459,33 @@ import logo from '../public/logo.png'
 <img src={logo.src} />
 ```
 
-Alternatively, you can reference the public URL for the image asset based on the filename. For example, `public/logo.png` will serve the image at `/logo.png` for your application, which would be the `src` value.
+Ngoài ra, bạn có thể tham chiếu URL công khai cho tài sản hình ảnh dựa trên tên file. Ví dụ, `public/logo.png` sẽ phục vụ hình ảnh tại `/logo.png` cho ứng dụng của bạn, đây sẽ là giá trị `src`.
 
-> **Warning:** If you're using TypeScript, you might encounter type errors when accessing the `src`
-> property. You can safely ignore those for now. They will be fixed by the end of this guide.
+> **Cảnh báo:** Nếu bạn đang sử dụng TypeScript, bạn có thể gặp lỗi kiểu khi truy cập thuộc tính `src`. Bạn có thể bỏ qua chúng một cách an toàn ngay bây giờ. Chúng sẽ được sửa vào cuối hướng dẫn này.
 
-### Step 7: Migrate the Environment Variables
+### Bước 7: Di chuyển Biến môi trường
 
-Next.js has support for `.env`
-[environment variables](/docs/app/guides/environment-variables)
-similar to Vite. The main difference is the prefix used to expose environment variables on the
-client-side.
+Next.js có hỗ trợ cho `.env` [biến môi trường](/docs/app/guides/environment-variables) tương tự như Vite. Sự khác biệt chính là tiền tố được sử dụng để hiển thị các biến môi trường ở phía client.
 
-- Change all environment variables with the `VITE_` prefix to `NEXT_PUBLIC_`.
+- Thay đổi tất cả các biến môi trường có tiền tố `VITE_` thành `NEXT_PUBLIC_`.
 
-Vite exposes a few built-in environment variables on the special `import.meta.env` object which
-aren’t supported by Next.js. You need to update their usage as follows:
+Vite hiển thị một vài biến môi trường tích hợp trên đối tượng `import.meta.env` đặc biệt không được Next.js hỗ trợ. Bạn cần cập nhật cách sử dụng của chúng như sau:
 
 - `import.meta.env.MODE` ⇒ `process.env.NODE_ENV`
 - `import.meta.env.PROD` ⇒ `process.env.NODE_ENV === 'production'`
 - `import.meta.env.DEV` ⇒ `process.env.NODE_ENV !== 'production'`
 - `import.meta.env.SSR` ⇒ `typeof window !== 'undefined'`
 
-Next.js also doesn't provide a built-in `BASE_URL` environment variable. However, you can still
-configure one, if you need it:
+Next.js cũng không cung cấp biến môi trường `BASE_URL` tích hợp. Tuy nhiên, bạn vẫn có thể cấu hình một biến, nếu bạn cần:
 
-1. **Add the following to your `.env` file:**
+1. **Thêm nội dung sau vào file `.env` của bạn:**
 
 ```bash filename=".env"
 # ...
 NEXT_PUBLIC_BASE_PATH="/some-base-path"
 ```
 
-2. **Set [`basePath`](/docs/app/api-reference/config/next-config-js/basePath) to `process.env.NEXT_PUBLIC_BASE_PATH` in your `next.config.mjs` file:**
+2. **Đặt [`basePath`](/docs/app/api-reference/config/next-config-js/basePath) thành `process.env.NEXT_PUBLIC_BASE_PATH` trong file `next.config.mjs` của bạn:**
 
 ```js filename="next.config.mjs"
 /** @type {import('next').NextConfig} */
@@ -544,13 +498,11 @@ const nextConfig = {
 export default nextConfig
 ```
 
-3. **Update `import.meta.env.BASE_URL` usages to `process.env.NEXT_PUBLIC_BASE_PATH`**
+3. **Cập nhật việc sử dụng `import.meta.env.BASE_URL` thành `process.env.NEXT_PUBLIC_BASE_PATH`**
 
-### Step 8: Update Scripts in `package.json`
+### Bước 8: Cập nhật Scripts trong `package.json`
 
-You should now be able to run your application to test if you successfully migrated to Next.js. But
-before that, you need to update your `scripts` in your `package.json` with Next.js related commands,
-and add `.next` and `next-env.d.ts` to your `.gitignore`:
+Bây giờ bạn sẽ có thể chạy ứng dụng của mình để kiểm tra xem bạn có di chuyển thành công sang Next.js hay không. Nhưng trước đó, bạn cần cập nhật `scripts` trong `package.json` của mình với các lệnh liên quan đến Next.js, và thêm `.next` và `next-env.d.ts` vào `.gitignore` của bạn:
 
 ```json filename="package.json"
 {
@@ -569,34 +521,30 @@ next-env.d.ts
 dist
 ```
 
-Now run `npm run dev`, and open [`http://localhost:3000`](http://localhost:3000). You should see your application now running on Next.js.
+Bây giờ hãy chạy `npm run dev`, và mở [`http://localhost:3000`](http://localhost:3000). Bạn sẽ thấy ứng dụng của mình hiện đang chạy trên Next.js.
 
-> **Example:** Check out [this pull request](https://github.com/inngest/vite-to-nextjs/pull/1) for a
-> working example of a Vite application migrated to Next.js.
+> **Ví dụ:** Xem [pull request này](https://github.com/inngest/vite-to-nextjs/pull/1) để biết ví dụ hoạt động của một ứng dụng Vite được di chuyển sang Next.js.
 
-### Step 9: Clean Up
+### Bước 9: Dọn dẹp
 
-You can now clean up your codebase from Vite related artifacts:
+Bây giờ bạn có thể dọn dẹp codebase của mình khỏi các tạo phẩm liên quan đến Vite:
 
-- Delete `main.tsx`
-- Delete `index.html`
-- Delete `vite-env.d.ts`
-- Delete `tsconfig.node.json`
-- Delete `vite.config.ts`
-- Uninstall Vite dependencies
+- Xóa `main.tsx`
+- Xóa `index.html`
+- Xóa `vite-env.d.ts`
+- Xóa `tsconfig.node.json`
+- Xóa `vite.config.ts`
+- Gỡ cài đặt các dependencies của Vite
 
-## Next Steps
+## Các bước tiếp theo
 
-If everything went according to plan, you now have a functioning Next.js application running as a
-single-page application. However, you aren't yet taking advantage of most of Next.js' benefits, but
-you can now start making incremental changes to reap all the benefits. Here's what you might want to
-do next:
+Nếu mọi thứ diễn ra theo đúng kế hoạch, bây giờ bạn có một ứng dụng Next.js hoạt động chạy như một single-page application. Tuy nhiên, bạn chưa tận dụng hầu hết các lợi ích của Next.js, nhưng bây giờ bạn có thể bắt đầu thực hiện các thay đổi dần dần để gặt hái tất cả các lợi ích. Đây là những gì bạn có thể muốn làm tiếp theo:
 
-- Migrate from React Router to the [Next.js App Router](/docs/app) to get:
+- Di chuyển từ React Router sang [Next.js App Router](/docs/app) để nhận được:
   - Automatic code splitting
   - [Streaming Server-Rendering](/docs/app/api-reference/file-conventions/loading)
   - [React Server Components](/docs/app/getting-started/server-and-client-components)
-- [Optimize images with the `<Image>` component](/docs/app/api-reference/components/image)
-- [Optimize fonts with `next/font`](/docs/app/api-reference/components/font)
-- [Optimize third-party scripts with the `<Script>` component](/docs/app/guides/scripts)
-- [Update your ESLint configuration to support Next.js rules](/docs/app/api-reference/config/eslint)
+- [Tối ưu hóa hình ảnh với `<Image>` component](/docs/app/api-reference/components/image)
+- [Tối ưu hóa fonts với `next/font`](/docs/app/api-reference/components/font)
+- [Tối ưu hóa third-party scripts với `<Script>` component](/docs/app/guides/scripts)
+- [Cập nhật cấu hình ESLint của bạn để hỗ trợ các quy tắc Next.js](/docs/app/api-reference/config/eslint)

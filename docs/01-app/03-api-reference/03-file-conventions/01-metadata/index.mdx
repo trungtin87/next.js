@@ -1,16 +1,16 @@
 ---
-title: Metadata Files API Reference
+title: Tài liệu tham khảo API Metadata Files
 nav_title: Metadata Files
-description: API documentation for the metadata file conventions.
+description: Tài liệu API cho các quy ước metadata file.
 ---
 
-This section of the docs covers **Metadata file conventions**. File-based metadata can be defined by adding special metadata files to route segments.
+Phần này của tài liệu bao gồm **các quy ước Metadata file**. Metadata dựa trên file có thể được định nghĩa bằng cách thêm các tệp metadata đặc biệt vào các đoạn route.
 
-Each file convention can be defined using a static file (e.g. `opengraph-image.jpg`), or a dynamic variant that uses code to generate the file (e.g. `opengraph-image.js`).
+Mỗi quy ước file có thể được định nghĩa bằng cách sử dụng một tệp tĩnh (ví dụ: `opengraph-image.jpg`), hoặc một biến thể động sử dụng mã để tạo tệp (ví dụ: `opengraph-image.js`).
 
-Once a file is defined, Next.js will automatically serve the file (with hashes in production for caching) and update the relevant head elements with the correct metadata, such as the asset's URL, file type, and image size.
+Sau khi một tệp được định nghĩa, Next.js sẽ tự động phục vụ tệp (với hash trong production để caching) và cập nhật các phần tử head liên quan với metadata chính xác, chẳng hạn như URL của tài sản, loại tệp và kích thước hình ảnh.
 
-> **Good to know**:
+> **Thông tin hữu ích**:
 >
-> - Special Route Handlers like [`sitemap.ts`](/docs/app/api-reference/file-conventions/metadata/sitemap), [`opengraph-image.tsx`](/docs/app/api-reference/file-conventions/metadata/opengraph-image), and [`icon.tsx`](/docs/app/api-reference/file-conventions/metadata/app-icons), and other [metadata files](/docs/app/api-reference/file-conventions/metadata) are cached by default.
-> - If using along with [`proxy.ts`](/docs/app/api-reference/file-conventions/proxy), [configure the matcher](/docs/app/api-reference/file-conventions/proxy#matcher) to exclude the metadata files.
+> - Các Route Handler đặc biệt như [`sitemap.ts`](/docs/app/api-reference/file-conventions/metadata/sitemap), [`opengraph-image.tsx`](/docs/app/api-reference/file-conventions/metadata/opengraph-image), và [`icon.tsx`](/docs/app/api-reference/file-conventions/metadata/app-icons), và các [tệp metadata](/docs/app/api-reference/file-conventions/metadata) khác được cache theo mặc định.
+> - Nếu sử dụng cùng với [`proxy.ts`](/docs/app/api-reference/file-conventions/proxy), [cấu hình matcher](/docs/app/api-reference/file-conventions/proxy#matcher) để loại trừ các tệp metadata.

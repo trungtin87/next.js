@@ -1,35 +1,35 @@
 ---
 title: Prefetching
-description: Learn how to configure prefetching in Next.js
+description: Tìm hiểu cách cấu hình prefetching trong Next.js
 ---
 
-Prefetching makes navigating between different routes in your application feel instant. Next.js tries to intelligently prefetch by default, based on the links used in your application code.
+Prefetching làm cho việc điều hướng giữa các route khác nhau trong ứng dụng của bạn cảm thấy tức thì. Next.js cố gắng prefetch một cách thông minh theo mặc định, dựa trên các liên kết được sử dụng trong mã ứng dụng của bạn.
 
-This guide will explain how prefetching works and show common implementation patterns:
+Hướng dẫn này sẽ giải thích cách prefetching hoạt động và hiển thị các mẫu triển khai phổ biến:
 
-- [Automatic prefetch](#automatic-prefetch)
-- [Manual prefetch](#manual-prefetch)
-- [Hover-triggered prefetch](#hover-triggered-prefetch)
-- [Extending or ejecting link](#extending-or-ejecting-link)
-- [Disabled prefetch](#disabled-prefetch)
+- [Automatic prefetch (Tự động prefetch)](#automatic-prefetch)
+- [Manual prefetch (Prefetch thủ công)](#manual-prefetch)
+- [Hover-triggered prefetch (Prefetch kích hoạt khi di chuột)](#hover-triggered-prefetch)
+- [Extending or ejecting link (Mở rộng hoặc loại bỏ link)](#extending-or-ejecting-link)
+- [Disabled prefetch (Vô hiệu hóa prefetch)](#disabled-prefetch)
 
-## How does prefetching work?
+## Prefetching hoạt động như thế nào?
 
-When navigating between routes, the browser requests assets for the page like HTML and JavaScript files. Prefetching is the process of fetching these resources _ahead_ of time, before you navigate to a new route.
+Khi điều hướng giữa các route, trình duyệt yêu cầu các tài sản cho trang như tệp HTML và JavaScript. Prefetching là quá trình fetch các tài nguyên này _trước_ thời hạn, trước khi bạn điều hướng đến một route mới.
 
-Next.js automatically splits your application into smaller JavaScript chunks based on routes. Instead of loading all the code upfront like traditional SPAs, only the code needed for the current route is loaded. This reduces the initial load time while other parts of the app are loaded in the background. By the time you click the link, the resources for the new route have already been loaded into the browser cache.
+Next.js tự động chia nhỏ ứng dụng của bạn thành các đoạn JavaScript nhỏ hơn dựa trên các route. Thay vì tải tất cả mã ngay từ đầu như các SPA truyền thống, chỉ mã cần thiết cho route hiện tại mới được tải. Điều này làm giảm thời gian tải ban đầu trong khi các phần khác của ứng dụng được tải trong nền. Vào thời điểm bạn nhấp vào liên kết, các tài nguyên cho route mới đã được tải vào cache của trình duyệt.
 
-When navigating to the new page, there's no full page reload or browser loading spinner. Instead, Next.js performs a [client-side transition](/docs/app/getting-started/linking-and-navigating#client-side-transitions), making the page navigation feel instant.
+Khi điều hướng đến trang mới, không có tải lại toàn bộ trang hoặc vòng quay tải của trình duyệt. Thay vào đó, Next.js thực hiện một [client-side transition (chuyển đổi phía máy khách)](/docs/app/getting-started/linking-and-navigating#client-side-transitions), làm cho việc điều hướng trang cảm thấy tức thì.
 
 ## Prefetching static vs. dynamic routes
 
-|                                                                   | **Static page** | **Dynamic page**                                                                |
-| ----------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------- |
-| **Prefetched**                                                    | Yes, full route | No, unless [`loading.js`](/docs/app/api-reference/file-conventions/loading)     |
-| [**Client Cache TTL**](/docs/app/guides/caching#full-route-cache) | 5 min (default) | Off, unless [enabled](/docs/app/api-reference/config/next-config-js/staleTimes) |
-| **Server roundtrip on click**                                     | No              | Yes, streamed after [shell](/docs/app/getting-started/cache-components)         |
+|                                                                   | **Trang tĩnh**    | **Trang động**                                                                    |
+| ----------------------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------- |
+| **Prefetched**                                                    | Có, toàn bộ route | Không, trừ khi [`loading.js`](/docs/app/api-reference/file-conventions/loading)   |
+| [**Client Cache TTL**](/docs/app/guides/caching#full-route-cache) | 5 phút (mặc định) | Tắt, trừ khi [được bật](/docs/app/api-reference/config/next-config-js/staleTimes) |
+| **Server roundtrip khi click**                                    | Không             | Có, được stream sau [shell](/docs/app/getting-started/cache-components)           |
 
-> **Good to know:** During the initial navigation, the browser fetches the HTML, JavaScript, and React Server Components (RSC) Payload. For subsequent navigations, the browser will fetch the RSC Payload for Server Components and JS bundle for Client Components.
+> **Cần biết:** Trong lần điều hướng ban đầu, trình duyệt fetch HTML, JavaScript, và React Server Components (RSC) Payload. Đối với các lần điều hướng tiếp theo, trình duyệt sẽ fetch RSC Payload cho Server Components và JS bundle cho Client Components.
 
 ## Automatic prefetch
 
@@ -49,16 +49,16 @@ export default function NavLink() {
 }
 ```
 
-| **Context**       | **Prefetched payload**           | **Client Cache TTL**                                                           |
-| ----------------- | -------------------------------- | ------------------------------------------------------------------------------ |
-| No `loading.js`   | Entire page                      | Until app reload                                                               |
-| With `loading.js` | Layout to first loading boundary | 30s ([configurable](/docs/app/api-reference/config/next-config-js/staleTimes)) |
+| **Ngữ cảnh**       | **Prefetched payload**               | **Client Cache TTL**                                                              |
+| ------------------ | ------------------------------------ | --------------------------------------------------------------------------------- |
+| Không `loading.js` | Toàn bộ trang                        | Cho đến khi tải lại ứng dụng                                                      |
+| Với `loading.js`   | Layout đến loading boundary đầu tiên | 30s ([có thể cấu hình](/docs/app/api-reference/config/next-config-js/staleTimes)) |
 
-Automatic prefetching runs only in production. Disable with `prefetch={false}` or use the wrapper in [Disabled Prefetch](#disabled-prefetch).
+Automatic prefetching chỉ chạy trong production. Vô hiệu hóa với `prefetch={false}` hoặc sử dụng wrapper trong [Disabled Prefetch](#disabled-prefetch).
 
 ## Manual prefetch
 
-To do manual prefetching, import the `useRouter` hook from `next/navigation`, and call `router.prefetch()` to warm routes outside the viewport or in response to analytics, hover, scroll, etc.
+Để thực hiện manual prefetching, hãy import hook `useRouter` từ `next/navigation`, và gọi `router.prefetch()` để làm nóng các route bên ngoài viewport hoặc để phản hồi analytics, hover, scroll, v.v.
 
 ```tsx
 'use client'
@@ -71,22 +71,22 @@ export function PricingCard() {
 
   return (
     <div onMouseEnter={() => router.prefetch('/pricing')}>
-      {/* other UI elements */}
+      {/* các phần tử UI khác */}
       <CustomLink href="/pricing">View Pricing</CustomLink>
     </div>
   )
 }
 ```
 
-If the intent is to prefetch a URL when a component loads, see the extending or rejecting a link [example].
+Nếu mục đích là prefetch một URL khi một component tải, hãy xem [ví dụ] về việc mở rộng hoặc từ chối một liên kết.
 
 ## Hover-triggered prefetch
 
-> **Proceed with caution:** Extending `Link` opts you into maintaining prefetching, cache invalidation, and accessibility concerns. Proceed only if defaults are insufficient.
+> **Tiến hành thận trọng:** Mở rộng `Link` chọn bạn tham gia vào việc duy trì prefetching, cache invalidation, và các mối quan tâm về khả năng truy cập. Chỉ tiến hành nếu các mặc định không đủ.
 
-Next.js tries to do the right prefetching by default, but power users can eject and modify based on their needs. You have the control between performance and resource consumption.
+Next.js cố gắng thực hiện prefetching đúng theo mặc định, nhưng người dùng nâng cao có thể eject và sửa đổi dựa trên nhu cầu của họ. Bạn có quyền kiểm soát giữa hiệu suất và mức tiêu thụ tài nguyên.
 
-For example, you might have to only trigger prefetches on hover, instead of when entering the viewport (the default behavior):
+Ví dụ, bạn có thể chỉ phải kích hoạt prefetches khi hover, thay vì khi vào viewport (hành vi mặc định):
 
 ```tsx
 'use client'
@@ -115,13 +115,13 @@ export function HoverPrefetchLink({
 }
 ```
 
-`prefetch={null}` restores default (static) prefetching once the user shows intent.
+`prefetch={null}` khôi phục prefetching mặc định (tĩnh) khi người dùng thể hiện ý định.
 
 ## Extending or ejecting link
 
-You can extend the `<Link>` component to create your own custom prefetching strategy. For example, using the [ForesightJS](https://foresightjs.com/docs/integrations/nextjs) library which prefetches links by predicting the direction of the user's cursor.
+Bạn có thể mở rộng component `<Link>` để tạo chiến lược prefetching tùy chỉnh của riêng mình. Ví dụ, sử dụng thư viện [ForesightJS](https://foresightjs.com/docs/integrations/nextjs) để prefetch các liên kết bằng cách dự đoán hướng của con trỏ người dùng.
 
-Alternatively, you can use [`useRouter`](/docs/app/api-reference/functions/use-router) to recreate some of the native `<Link>` behavior. However, be aware this opts you into maintaining prefetching and cache invalidation.
+Ngoài ra, bạn có thể sử dụng [`useRouter`](/docs/app/api-reference/functions/use-router) để tạo lại một số hành vi native của `<Link>`. Tuy nhiên, hãy lưu ý điều này chọn bạn tham gia vào việc duy trì prefetching và cache invalidation.
 
 ```tsx
 'use client'
@@ -163,13 +163,13 @@ function ManualPrefetchLink({
 }
 ```
 
-[`onInvalidate`](/docs/app/api-reference/functions/use-router#userouter) is invoked when Next.js suspects cached data is stale, allowing you to refresh the prefetch.
+[`onInvalidate`](/docs/app/api-reference/functions/use-router#userouter) được gọi khi Next.js nghi ngờ dữ liệu đã cache bị cũ, cho phép bạn làm mới prefetch.
 
-> **Good to know:** Using an `a` tag will cause a full page navigation to the destination route, you can use `onClick` to prevent the full page navigation, and then invoke `router.push` to navigate to the destination.
+> **Cần biết:** Sử dụng thẻ `a` sẽ gây ra điều hướng toàn trang đến route đích, bạn có thể sử dụng `onClick` để ngăn điều hướng toàn trang, và sau đó gọi `router.push` để điều hướng đến đích.
 
 ## Disabled prefetch
 
-You can fully disable prefetching for certain routes for more fine-grained control over resource consumption.
+Bạn có thể vô hiệu hóa hoàn toàn prefetching cho các route nhất định để kiểm soát chi tiết hơn về mức tiêu thụ tài nguyên.
 
 ```tsx
 'use client'
@@ -184,50 +184,50 @@ function NoPrefetchLink({
 }
 ```
 
-For example, you may still want to have consistent usage of `<Link>` in your application, but links in your footer might not need to be prefetched when entering the viewport.
+Ví dụ, bạn vẫn có thể muốn sử dụng nhất quán `<Link>` trong ứng dụng của mình, nhưng các liên kết trong footer của bạn có thể không cần phải được prefetch khi vào viewport.
 
-## Prefetching optimizations
+## Tối ưu hóa prefetching
 
-> **Good to know:** Layout deduplication and prefetch scheduling are part of upcoming optimizations. Currently available in Next.js canary via the `experimental.clientSegmentCache` flag.
+> **Cần biết:** Layout deduplication và prefetch scheduling là một phần của các tối ưu hóa sắp tới. Hiện có sẵn trong Next.js canary thông qua cờ `experimental.clientSegmentCache`.
 
 ### Client cache
 
-Next.js stores prefetched React Server Component payloads in memory, keyed by route segments. When navigating between sibling routes (e.g. `/dashboard/settings` → `/dashboard/analytics`), it reuses the parent layout and only fetches the updated leaf page. This reduces network traffic and improves navigation speed.
+Next.js lưu trữ các payloads React Server Component đã prefetch trong bộ nhớ, được khóa bởi các phân đoạn route. Khi điều hướng giữa các route anh em (v.d. `/dashboard/settings` → `/dashboard/analytics`), nó sử dụng lại layout cha và chỉ fetch trang lá đã cập nhật. Điều này làm giảm lưu lượng mạng và cải thiện tốc độ điều hướng.
 
 ### Prefetch scheduling
 
-Next.js maintains a small task queue, which prefetches in the following order:
+Next.js duy trì một hàng đợi tác vụ nhỏ, thực hiện prefetch theo thứ tự sau:
 
-1. Links in the viewport
-2. Links showing user intent (hover or touch)
-3. Newer links replace older ones
-4. Links scrolled off-screen are discarded
+1. Các liên kết trong viewport
+2. Các liên kết hiển thị ý định của người dùng (hover hoặc touch)
+3. Các liên kết mới hơn thay thế các liên kết cũ hơn
+4. Các liên kết cuộn ra khỏi màn hình bị loại bỏ
 
-The scheduler prioritizes likely navigations while minimizing unused downloads.
+Bộ lập lịch ưu tiên các điều hướng có khả năng xảy ra trong khi giảm thiểu các tải xuống không sử dụng.
 
 ### Partial Prerendering (PPR)
 
-When PPR is enabled, a page is divided into a static shell and a streamed dynamic section:
+Khi PPR được bật, một trang được chia thành một shell tĩnh và một phần động được stream:
 
-- The shell, which can be prefetched, streams immediately
-- Dynamic data streams when ready
-- Data invalidations (`revalidateTag`, `revalidatePath`) silently refresh associated prefetches
+- Shell, có thể được prefetch, stream ngay lập tức
+- Dữ liệu động stream khi sẵn sàng
+- Data invalidations (`revalidateTag`, `revalidatePath`) âm thầm làm mới các prefetches liên quan
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Triggering unwanted side-effects during prefetching
+### Kích hoạt các side-effects không mong muốn trong quá trình prefetching
 
-If your layouts or pages are not [pure](https://react.dev/learn/keeping-components-pure#purity-components-as-formulas) and have side-effects (e.g. tracking analytics), these might be triggered when the route is prefetched, not when the user visits the page.
+Nếu các layouts hoặc pages của bạn không [pure (thuần túy)](https://react.dev/learn/keeping-components-pure#purity-components-as-formulas) và có side-effects (v.d. theo dõi analytics), những điều này có thể được kích hoạt khi route được prefetch, không phải khi người dùng truy cập trang.
 
-To avoid this, you should move side-effects to a `useEffect` hook or a Server Action triggered from a Client Component.
+Để tránh điều này, bạn nên di chuyển các side-effects sang một `useEffect` hook hoặc một Server Action được kích hoạt từ một Client Component.
 
-**Before**:
+**Trước**:
 
 ```tsx filename="app/dashboard/layout.tsx" switcher
 import { trackPageView } from '@/lib/analytics'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  // This runs during prefetch
+  // Điều này chạy trong quá trình prefetch
   trackPageView()
 
   return <div>{children}</div>
@@ -238,14 +238,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 import { trackPageView } from '@/lib/analytics'
 
 export default function Layout({ children }) {
-  // This runs during prefetch
+  // Điều này chạy trong quá trình prefetch
   trackPageView()
 
   return <div>{children}</div>
 }
 ```
 
-**After**:
+**Sau**:
 
 ```tsx filename="app/ui/analytics-tracker.tsx" switcher
 'use client'
@@ -303,13 +303,13 @@ export default function Layout({ children }) {
 }
 ```
 
-### Preventing too many prefetches
+### Ngăn chặn quá nhiều prefetches
 
-Next.js automatically prefetches links in the viewport when using the `<Link>` component.
+Next.js tự động prefetches các liên kết trong viewport khi sử dụng component `<Link>`.
 
-There may be cases where you want to prevent this to avoid unnecessary usage of resources, such as when rendering a large list of links (e.g. an infinite scroll table).
+Có thể có các trường hợp bạn muốn ngăn chặn điều này để tránh sử dụng tài nguyên không cần thiết, chẳng hạn như khi render một danh sách lớn các liên kết (v.d. một bảng cuộn vô hạn).
 
-You can disable prefetching by setting the `prefetch` prop of the `<Link>` component to `false`.
+Bạn có thể vô hiệu hóa prefetching bằng cách đặt prop `prefetch` của component `<Link>` thành `false`.
 
 ```tsx filename="app/ui/no-prefetch-link.tsx" switcher
 <Link prefetch={false} href={`/blog/${post.id}`}>
@@ -317,9 +317,9 @@ You can disable prefetching by setting the `prefetch` prop of the `<Link>` compo
 </Link>
 ```
 
-However, this means static routes will only be fetched on click, and dynamic routes will wait for the server to render before navigating.
+Tuy nhiên, điều này có nghĩa là các route tĩnh sẽ chỉ được fetch khi nhấp, và các route động sẽ đợi server render trước khi điều hướng.
 
-To reduce resource usage without disabling prefetch entirely, you can defer prefetching until the user hovers over a link. This targets only links the user is likely to visit.
+Để giảm sử dụng tài nguyên mà không vô hiệu hóa prefetch hoàn toàn, bạn có thể trì hoãn prefetching cho đến khi người dùng di chuột qua một liên kết. Điều này chỉ nhắm mục tiêu các liên kết mà người dùng có khả năng truy cập.
 
 ```tsx filename="app/ui/hover-prefetch-link.tsx" switcher
 'use client'

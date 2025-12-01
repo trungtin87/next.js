@@ -1,9 +1,9 @@
 ---
 title: bundlePagesRouterDependencies
-description: Enable automatic dependency bundling for Pages Router
+description: Kích hoạt tự động đóng gói dependency cho Pages Router
 ---
 
-Enable automatic server-side dependency bundling for Pages Router applications. Matches the automatic dependency bundling in App Router.
+Kích hoạt tự động đóng gói dependency phía server cho các ứng dụng Pages Router. Tương ứng với việc tự động đóng gói dependency trong App Router.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -14,10 +14,10 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-Explicitly opt-out certain packages from being bundled using the [`serverExternalPackages`](/docs/pages/api-reference/config/next-config-js/serverExternalPackages) option.
+Chọn không tham gia (opt-out) một cách rõ ràng một số gói nhất định khỏi việc bị đóng gói bằng cách sử dụng tùy chọn [`serverExternalPackages`](/docs/pages/api-reference/config/next-config-js/serverExternalPackages).
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                   |
-| --------- | --------------------------------------------------------------------------------------------------------- |
-| `v15.0.0` | Moved from experimental to stable. Renamed from `bundlePagesExternals` to `bundlePagesRouterDependencies` |
+| Phiên bản | Thay đổi                                                                                                    |
+| --------- | ----------------------------------------------------------------------------------------------------------- |
+| `v15.0.0` | Chuyển từ experimental sang stable. Đổi tên từ `bundlePagesExternals` thành `bundlePagesRouterDependencies` |

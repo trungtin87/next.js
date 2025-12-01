@@ -1,25 +1,25 @@
 ---
 title: refresh
-description: API Reference for the refresh function.
+description: Tài liệu tham khảo API cho hàm refresh.
 ---
 
-`refresh` allows you to refresh the client router from within a [Server Action](/docs/app/getting-started/updating-data).
+`refresh` cho phép bạn làm mới client router từ bên trong một [Server Action](/docs/app/getting-started/updating-data).
 
-## Usage
+## Cách sử dụng
 
-`refresh` can **only** be called from within Server Actions. It cannot be used in Route Handlers, Client Components, or any other context.
+`refresh` **chỉ** có thể được gọi từ bên trong Server Actions. Nó không thể được sử dụng trong Route Handlers, Client Components, hoặc bất kỳ ngữ cảnh nào khác.
 
-## Parameters
+## Tham số
 
 ```tsx
 refresh(): void;
 ```
 
-## Returns
+## Giá trị trả về
 
-`refresh` does not return a value.
+`refresh` không trả về giá trị.
 
-## Examples
+## Ví dụ
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -31,7 +31,7 @@ export async function createPost(formData: FormData) {
   const title = formData.get('title')
   const content = formData.get('content')
 
-  // Create the post in your database
+  // Tạo bài viết trong cơ sở dữ liệu của bạn
   const post = await db.post.create({
     data: { title, content },
   })
@@ -50,7 +50,7 @@ export async function createPost(formData) {
   const title = formData.get('title')
   const content = formData.get('content')
 
-  // Create the post in your database
+  // Tạo bài viết trong cơ sở dữ liệu của bạn
   const post = await db.post.create({
     data: { title, content },
   })
@@ -59,13 +59,13 @@ export async function createPost(formData) {
 }
 ```
 
-### Error when used outside Server Actions
+### Lỗi khi sử dụng bên ngoài Server Actions
 
 ```ts filename="app/api/posts/route.ts" switcher
 import { refresh } from 'next/cache'
 
 export async function POST() {
-  // This will throw an error
+  // Điều này sẽ ném ra lỗi
   refresh()
 }
 ```

@@ -1,15 +1,15 @@
 ---
 title: Route Groups
-description: Route Groups can be used to partition your Next.js application into different sections.
+description: Route Groups có thể được sử dụng để phân vùng ứng dụng Next.js của bạn thành các phần khác nhau.
 ---
 
-Route Groups are a folder convention that let you organize routes by category or team.
+Route Groups là một quy ước thư mục cho phép bạn tổ chức các route theo danh mục hoặc nhóm.
 
-## Convention
+## Quy ước
 
-A route group can be created by wrapping a folder's name in parenthesis: `(folderName)`.
+Một route group có thể được tạo bằng cách bọc tên thư mục trong dấu ngoặc đơn: `(folderName)`.
 
-This convention indicates the folder is for organizational purposes and should **not be included** in the route's URL path.
+Quy ước này chỉ ra rằng thư mục dành cho mục đích tổ chức và **không nên được bao gồm** trong đường dẫn URL của route.
 
 <Image
   alt="An example folder structure using route groups"
@@ -19,14 +19,14 @@ This convention indicates the folder is for organizational purposes and should *
   height="849"
 />
 
-## Use cases
+## Trường hợp sử dụng
 
-- Organizing routes by team, concern, or feature.
-- Defining multiple [root layouts](/docs/app/api-reference/file-conventions/layout#root-layout).
-- Opting specific route segments into sharing a layout, while keeping others out.
+- Tổ chức các route theo nhóm, mối quan tâm hoặc tính năng.
+- Định nghĩa nhiều [root layouts](/docs/app/api-reference/file-conventions/layout#root-layout).
+- Chọn các đoạn route cụ thể để chia sẻ một layout, trong khi giữ các đoạn khác ra ngoài.
 
-## Caveats
+## Lưu ý
 
-- **Full page load**: If you navigate between routes that use different root layouts, it'll trigger a full page reload. For example, navigating from `/cart` that uses `app/(shop)/layout.js` to `/blog` that uses `app/(marketing)/layout.js`. This **only** applies to multiple root layouts.
-- **Conflicting paths**: Routes in different groups should not resolve to the same URL path. For example, `(marketing)/about/page.js` and `(shop)/about/page.js` would both resolve to `/about` and cause an error.
-- **Top-level root layout**: If you use multiple root layouts without a top-level `layout.js` file, make sure your home route (/) is defined within one of the route groups, e.g. app/(marketing)/page.js.
+- **Tải lại toàn bộ trang**: Nếu bạn điều hướng giữa các route sử dụng các root layout khác nhau, nó sẽ kích hoạt tải lại toàn bộ trang. Ví dụ, điều hướng từ `/cart` sử dụng `app/(shop)/layout.js` đến `/blog` sử dụng `app/(marketing)/layout.js`. Điều này **chỉ** áp dụng cho nhiều root layout.
+- **Đường dẫn xung đột**: Các route trong các nhóm khác nhau không nên giải quyết thành cùng một đường dẫn URL. Ví dụ, `(marketing)/about/page.js` và `(shop)/about/page.js` sẽ đều giải quyết thành `/about` và gây ra lỗi.
+- **Root layout cấp cao nhất**: Nếu bạn sử dụng nhiều root layout mà không có tệp `layout.js` cấp cao nhất, hãy đảm bảo route trang chủ (/) của bạn được định nghĩa trong một trong các route group, ví dụ: app/(marketing)/page.js.

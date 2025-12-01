@@ -1,36 +1,36 @@
 ---
-title: Server and Client Components
-description: Learn how you can use React Server and Client Components to render parts of your application on the server or the client.
+title: Server và Client Components
+description: Tìm hiểu cách bạn có thể sử dụng React Server và Client Components để render các phần của ứng dụng trên server hoặc client.
 related:
-  title: Next Steps
-  description: Learn more about the APIs mentioned in this page.
+  title: Các bước tiếp theo
+  description: Tìm hiểu thêm về các API được đề cập trong trang này.
   links:
     - app/api-reference/directives/use-client
 ---
 
-By default, layouts and pages are [Server Components](https://react.dev/reference/rsc/server-components), which lets you fetch data and render parts of your UI on the server, optionally cache the result, and stream it to the client. When you need interactivity or browser APIs, you can use [Client Components](https://react.dev/reference/rsc/use-client) to layer in functionality.
+Theo mặc định, layouts và pages là [Server Components](https://react.dev/reference/rsc/server-components), cho phép bạn fetch dữ liệu và render các phần của UI trên server, tùy chọn cache kết quả, và stream nó đến client. Khi bạn cần tính tương tác hoặc browser APIs, bạn có thể sử dụng [Client Components](https://react.dev/reference/rsc/use-client) để thêm vào các chức năng.
 
-This page explains how Server and Client Components work in Next.js and when to use them, with examples of how to compose them together in your application.
+Trang này giải thích cách Server và Client Components hoạt động trong Next.js và khi nào nên sử dụng chúng, với các ví dụ về cách kết hợp chúng cùng nhau trong ứng dụng của bạn.
 
-## When to use Server and Client Components?
+## Khi nào sử dụng Server và Client Components?
 
-The client and server environments have different capabilities. Server and Client components allow you to run logic in each environment depending on your use case.
+Môi trường client và server có các khả năng khác nhau. Server và Client components cho phép bạn chạy logic trong mỗi môi trường tùy thuộc vào trường hợp sử dụng của bạn.
 
-Use **Client Components** when you need:
+Sử dụng **Client Components** khi bạn cần:
 
-- [State](https://react.dev/learn/managing-state) and [event handlers](https://react.dev/learn/responding-to-events). E.g. `onClick`, `onChange`.
-- [Lifecycle logic](https://react.dev/learn/lifecycle-of-reactive-effects). E.g. `useEffect`.
-- Browser-only APIs. E.g. `localStorage`, `window`, `Navigator.geolocation`, etc.
+- [State](https://react.dev/learn/managing-state) và [event handlers](https://react.dev/learn/responding-to-events). Ví dụ: `onClick`, `onChange`.
+- [Lifecycle logic](https://react.dev/learn/lifecycle-of-reactive-effects). Ví dụ: `useEffect`.
+- Browser-only APIs. Ví dụ: `localStorage`, `window`, `Navigator.geolocation`, v.v.
 - [Custom hooks](https://react.dev/learn/reusing-logic-with-custom-hooks).
 
-Use **Server Components** when you need:
+Sử dụng **Server Components** khi bạn cần:
 
-- Fetch data from databases or APIs close to the source.
-- Use API keys, tokens, and other secrets without exposing them to the client.
-- Reduce the amount of JavaScript sent to the browser.
-- Improve the [First Contentful Paint (FCP)](https://web.dev/fcp/), and stream content progressively to the client.
+- Fetch dữ liệu từ databases hoặc APIs gần nguồn.
+- Sử dụng API keys, tokens, và các bí mật khác mà không để lộ cho client.
+- Giảm lượng JavaScript gửi đến trình duyệt.
+- Cải thiện [First Contentful Paint (FCP)](https://web.dev/fcp/), và stream nội dung dần dần đến client.
 
-For example, the `<Page>` component is a Server Component that fetches data about a post, and passes it as props to the `<LikeButton>` which handles client-side interactivity.
+Ví dụ, component `<Page>` là một Server Component fetch dữ liệu về một bài đăng, và truyền nó dưới dạng props cho `<LikeButton>`, component này xử lý tính tương tác phía client.
 
 ```tsx filename="app/[id]/page.tsx" highlight={1,12} switcher
 import LikeButton from '@/app/ui/like-button'
@@ -95,47 +95,47 @@ export default function LikeButton({ likes }) {
 }
 ```
 
-## How do Server and Client Components work in Next.js?
+## Server và Client Components hoạt động như thế nào trong Next.js?
 
-### On the server
+### Trên server
 
-On the server, Next.js uses React's APIs to orchestrate rendering. The rendering work is split into chunks, by individual route segments ([layouts and pages](/docs/app/getting-started/layouts-and-pages)):
+Trên server, Next.js sử dụng các API của React để điều phối việc rendering. Công việc rendering được chia thành các phần (chunks), theo từng route segments riêng lẻ ([layouts và pages](/docs/app/getting-started/layouts-and-pages)):
 
-- **Server Components** are rendered into a special data format called the React Server Component Payload (RSC Payload).
-- **Client Components** and the RSC Payload are used to [pre-render](/docs/app/guides/caching#rendering-strategies) HTML.
+- **Server Components** được render thành một định dạng dữ liệu đặc biệt gọi là React Server Component Payload (RSC Payload).
+- **Client Components** và RSC Payload được sử dụng để [pre-render](/docs/app/guides/caching#rendering-strategies) HTML.
 
-> **What is the React Server Component Payload (RSC)?**
+> **React Server Component Payload (RSC) là gì?**
 >
-> The RSC Payload is a compact binary representation of the rendered React Server Components tree. It's used by React on the client to update the browser's DOM. The RSC Payload contains:
+> RSC Payload là một biểu diễn nhị phân nhỏ gọn của cây React Server Components đã được render. Nó được React sử dụng trên client để cập nhật DOM của trình duyệt. RSC Payload chứa:
 >
-> - The rendered result of Server Components
-> - Placeholders for where Client Components should be rendered and references to their JavaScript files
-> - Any props passed from a Server Component to a Client Component
+> - Kết quả render của Server Components
+> - Các placeholders cho nơi Client Components sẽ được render và tham chiếu đến các file JavaScript của chúng
+> - Bất kỳ props nào được truyền từ Server Component sang Client Component
 
-### On the client (first load)
+### Trên client (lần tải đầu tiên)
 
-Then, on the client:
+Sau đó, trên client:
 
-1. **HTML** is used to immediately show a fast non-interactive preview of the route to the user.
-2. **RSC Payload** is used to reconcile the Client and Server Component trees.
-3. **JavaScript** is used to hydrate Client Components and make the application interactive.
+1. **HTML** được sử dụng để hiển thị ngay lập tức bản xem trước nhanh không tương tác của route cho người dùng.
+2. **RSC Payload** được sử dụng để đối chiếu (reconcile) cây Client và Server Component.
+3. **JavaScript** được sử dụng để hydrate Client Components và làm cho ứng dụng có tính tương tác.
 
-> **What is hydration?**
+> **Hydration là gì?**
 >
-> Hydration is React's process for attaching [event handlers](https://react.dev/learn/responding-to-events) to the DOM, to make the static HTML interactive.
+> Hydration là quá trình React gắn các [event handlers](https://react.dev/learn/responding-to-events) vào DOM, để làm cho HTML tĩnh trở nên tương tác.
 
-### Subsequent Navigations
+### Các lần điều hướng tiếp theo
 
-On subsequent navigations:
+Trong các lần điều hướng tiếp theo:
 
-- The **RSC Payload** is prefetched and cached for instant navigation.
-- **Client Components** are rendered entirely on the client, without the server-rendered HTML.
+- **RSC Payload** được prefetched và cached để điều hướng tức thì.
+- **Client Components** được render hoàn toàn trên client, không có HTML được render từ server.
 
-## Examples
+## Ví dụ
 
-### Using Client Components
+### Sử dụng Client Components
 
-You can create a Client Component by adding the [`"use client"`](https://react.dev/reference/react/use-client) directive at the top of the file, above your imports.
+Bạn có thể tạo một Client Component bằng cách thêm directive [`"use client"`](https://react.dev/reference/react/use-client) ở đầu file, phía trên các imports của bạn.
 
 ```tsx filename="app/ui/counter.tsx" highlight={1} switcher
 'use client'
@@ -171,15 +171,15 @@ export default function Counter() {
 }
 ```
 
-`"use client"` is used to declare a **boundary** between the Server and Client module graphs (trees).
+`"use client"` được sử dụng để khai báo một **ranh giới** giữa các biểu đồ module (cây) Server và Client.
 
-Once a file is marked with `"use client"`, **all its imports and child components are considered part of the client bundle**. This means you don't need to add the directive to every component that is intended for the client.
+Khi một file được đánh dấu với `"use client"`, **tất cả các imports và child components của nó được coi là một phần của client bundle**. Điều này có nghĩa là bạn không cần thêm directive vào mọi component dành cho client.
 
-### Reducing JS bundle size
+### Giảm kích thước JS bundle
 
-To reduce the size of your client JavaScript bundles, add `'use client'` to specific interactive components instead of marking large parts of your UI as Client Components.
+Để giảm kích thước của các gói JavaScript client, hãy thêm `'use client'` vào các interactive components cụ thể thay vì đánh dấu các phần lớn của UI là Client Components.
 
-For example, the `<Layout>` component contains mostly static elements like a logo and navigation links, but includes an interactive search bar. `<Search />` is interactive and needs to be a Client Component, however, the rest of the layout can remain a Server Component.
+Ví dụ, component `<Layout>` chứa chủ yếu các phần tử tĩnh như logo và các liên kết điều hướng, nhưng bao gồm một thanh tìm kiếm tương tác. `<Search />` là tương tác và cần phải là một Client Component, tuy nhiên, phần còn lại của layout có thể vẫn là một Server Component.
 
 ```tsx filename="app/layout.tsx" highlight={12} switcher
 // Client Component
@@ -237,9 +237,9 @@ export default function Search() {
 }
 ```
 
-### Passing data from Server to Client Components
+### Truyền dữ liệu từ Server sang Client Components
 
-You can pass data from Server Components to Client Components using props.
+Bạn có thể truyền dữ liệu từ Server Components sang Client Components bằng cách sử dụng props.
 
 ```tsx filename="app/[id]/page.tsx" highlight={1,7} switcher
 import LikeButton from '@/app/ui/like-button'
@@ -284,15 +284,15 @@ export default function LikeButton({ likes }) {
 }
 ```
 
-Alternatively, you can stream data from a Server Component to a Client Component with the [`use` Hook](https://react.dev/reference/react/use). See an [example](/docs/app/getting-started/fetching-data#streaming-data-with-the-use-hook).
+Ngoài ra, bạn có thể stream dữ liệu từ Server Component sang Client Component với [`use` Hook](https://react.dev/reference/react/use). Xem một [ví dụ](/docs/app/getting-started/fetching-data#streaming-data-with-the-use-hook).
 
-> **Good to know**: Props passed to Client Components need to be [serializable](https://react.dev/reference/react/use-server#serializable-parameters-and-return-values) by React.
+> **Lưu ý**: Props được truyền cho Client Components cần phải [serializable](https://react.dev/reference/react/use-server#serializable-parameters-and-return-values) bởi React.
 
-### Interleaving Server and Client Components
+### Đan xen Server và Client Components
 
-You can pass Server Components as a prop to a Client Component. This allows you to visually nest server-rendered UI within Client components.
+Bạn có thể truyền Server Components như một prop cho một Client Component. Điều này cho phép bạn lồng UI được render bởi server bên trong Client components một cách trực quan.
 
-A common pattern is to use `children` to create a _slot_ in a `<ClientComponent>`. For example, a `<Cart>` component that fetches data on the server, inside a `<Modal>` component that uses client state to toggle visibility.
+Một pattern phổ biến là sử dụng `children` để tạo một _slot_ trong một `<ClientComponent>`. Ví dụ, một component `<Cart>` fetch dữ liệu trên server, bên trong một component `<Modal>` sử dụng client state để chuyển đổi khả năng hiển thị.
 
 ```tsx filename="app/ui/modal.tsx" switcher
 'use client'
@@ -310,7 +310,7 @@ export default function Modal({ children }) {
 }
 ```
 
-Then, in a parent Server Component (e.g.`<Page>`), you can pass a `<Cart>` as the child of the `<Modal>`:
+Sau đó, trong một parent Server Component (ví dụ `<Page>`), bạn có thể truyền một `<Cart>` làm con của `<Modal>`:
 
 ```tsx filename="app/page.tsx"  highlight={7} switcher
 import Modal from './ui/modal'
@@ -338,13 +338,13 @@ export default function Page() {
 }
 ```
 
-In this pattern, all Server Components will be rendered on the server ahead of time, including those as props. The resulting RSC payload will contain references of where Client Components should be rendered within the component tree.
+Trong pattern này, tất cả Server Components sẽ được render trên server trước thời hạn, bao gồm cả những component là props. RSC payload kết quả sẽ chứa các tham chiếu về nơi Client Components sẽ được render trong component tree.
 
 ### Context providers
 
-[React context](https://react.dev/learn/passing-data-deeply-with-context) is commonly used to share global state like the current theme. However, React context is not supported in Server Components.
+[React context](https://react.dev/learn/passing-data-deeply-with-context) thường được sử dụng để chia sẻ global state như theme hiện tại. Tuy nhiên, React context không được hỗ trợ trong Server Components.
 
-To use context, create a Client Component that accepts `children`:
+Để sử dụng context, tạo một Client Component chấp nhận `children`:
 
 ```tsx filename="app/theme-provider.tsx" switcher
 'use client'
@@ -374,7 +374,7 @@ export default function ThemeProvider({ children }) {
 }
 ```
 
-Then, import it into a Server Component (e.g. `layout`):
+Sau đó, import nó vào một Server Component (ví dụ `layout`):
 
 ```tsx filename="app/layout.tsx" switcher
 import ThemeProvider from './theme-provider'
@@ -408,17 +408,17 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Your Server Component will now be able to directly render your provider, and all other Client Components throughout your app will be able to consume this context.
+Server Component của bạn bây giờ sẽ có thể render trực tiếp provider của bạn, và tất cả các Client Components khác trong ứng dụng của bạn sẽ có thể tiêu thụ context này.
 
-> **Good to know**: You should render providers as deep as possible in the tree – notice how `ThemeProvider` only wraps `{children}` instead of the entire `<html>` document. This makes it easier for Next.js to optimize the static parts of your Server Components.
+> **Lưu ý**: Bạn nên render providers sâu nhất có thể trong cây - lưu ý cách `ThemeProvider` chỉ bao bọc `{children}` thay vì toàn bộ tài liệu `<html>`. Điều này giúp Next.js dễ dàng tối ưu hóa các phần tĩnh của Server Components của bạn hơn.
 
 ### Third-party components
 
-When using a third-party component that relies on client-only features, you can wrap it in a Client Component to ensure it works as expected.
+Khi sử dụng một third-party component dựa vào các tính năng client-only, bạn có thể bọc nó trong một Client Component để đảm bảo nó hoạt động như mong đợi.
 
-For example, the `<Carousel />` can be imported from the `acme-carousel` package. This component uses `useState`, but it doesn't yet have the `"use client"` directive.
+Ví dụ, `<Carousel />` có thể được import từ package `acme-carousel`. Component này sử dụng `useState`, nhưng nó chưa có directive `"use client"`.
 
-If you use `<Carousel />` within a Client Component, it will work as expected:
+Nếu bạn sử dụng `<Carousel />` bên trong một Client Component, nó sẽ hoạt động như mong đợi:
 
 ```tsx filename="app/gallery.tsx" switcher
 'use client'
@@ -458,9 +458,9 @@ export default function Gallery() {
 }
 ```
 
-However, if you try to use it directly within a Server Component, you'll see an error. This is because Next.js doesn't know `<Carousel />` is using client-only features.
+Tuy nhiên, nếu bạn cố gắng sử dụng nó trực tiếp bên trong một Server Component, bạn sẽ thấy một lỗi. Điều này là do Next.js không biết `<Carousel />` đang sử dụng các tính năng client-only.
 
-To fix this, you can wrap third-party components that rely on client-only features in your own Client Components:
+Để khắc phục điều này, bạn có thể bọc các third-party components dựa vào các tính năng client-only trong Client Components của riêng bạn:
 
 ```tsx filename="app/carousel.tsx" switcher
 'use client'
@@ -478,7 +478,7 @@ import { Carousel } from 'acme-carousel'
 export default Carousel
 ```
 
-Now, you can use `<Carousel />` directly within a Server Component:
+Bây giờ, bạn có thể sử dụng `<Carousel />` trực tiếp bên trong một Server Component:
 
 ```tsx filename="app/page.tsx" switcher
 import Carousel from './carousel'
@@ -508,15 +508,15 @@ export default function Page() {
 }
 ```
 
-> **Advice for Library Authors**
+> **Lời khuyên cho các tác giả thư viện**
 >
-> If you’re building a component library, add the `"use client"` directive to entry points that rely on client-only features. This lets your users import components into Server Components without needing to create wrappers.
+> Nếu bạn đang xây dựng một thư viện component, hãy thêm directive `"use client"` vào các entry points dựa vào các tính năng client-only. Điều này cho phép người dùng của bạn import components vào Server Components mà không cần tạo wrappers.
 >
-> It's worth noting some bundlers might strip out `"use client"` directives. You can find an example of how to configure esbuild to include the `"use client"` directive in the [React Wrap Balancer](https://github.com/shuding/react-wrap-balancer/blob/main/tsup.config.ts#L10-L13) and [Vercel Analytics](https://github.com/vercel/analytics/blob/main/packages/web/tsup.config.js#L26-L30) repositories.
+> Đáng chú ý là một số bundlers có thể loại bỏ các directives `"use client"`. Bạn có thể tìm thấy một ví dụ về cách cấu hình esbuild để bao gồm directive `"use client"` trong các kho lưu trữ [React Wrap Balancer](https://github.com/shuding/react-wrap-balancer/blob/main/tsup.config.ts#L10-L13) và [Vercel Analytics](https://github.com/vercel/analytics/blob/main/packages/web/tsup.config.js#L26-L30).
 
-### Preventing environment poisoning
+### Ngăn chặn environment poisoning
 
-JavaScript modules can be shared between both Server and Client Components modules. This means it's possible to accidentally import server-only code into the client. For example, consider the following function:
+Các module JavaScript có thể được chia sẻ giữa cả Server và Client Components modules. Điều này có nghĩa là có thể vô tình import mã server-only vào client. Ví dụ, hãy xem xét hàm sau:
 
 ```ts filename="lib/data.ts" switcher
 export async function getData() {
@@ -542,15 +542,15 @@ export async function getData() {
 }
 ```
 
-This function contains an `API_KEY` that should never be exposed to the client.
+Hàm này chứa một `API_KEY` không bao giờ được để lộ cho client.
 
-In Next.js, only environment variables prefixed with `NEXT_PUBLIC_` are included in the client bundle. If variables are not prefixed, Next.js replaces them with an empty string.
+Trong Next.js, chỉ các biến môi trường có tiền tố `NEXT_PUBLIC_` mới được bao gồm trong client bundle. Nếu các biến không có tiền tố, Next.js thay thế chúng bằng một chuỗi rỗng.
 
-As a result, even though `getData()` can be imported and executed on the client, it won't work as expected.
+Kết quả là, mặc dù `getData()` có thể được import và thực thi trên client, nó sẽ không hoạt động như mong đợi.
 
-To prevent accidental usage in Client Components, you can use the [`server-only` package](https://www.npmjs.com/package/server-only).
+Để ngăn chặn việc sử dụng ngẫu nhiên trong Client Components, bạn có thể sử dụng [`server-only` package](https://www.npmjs.com/package/server-only).
 
-Then, import the package into a file that contains server-only code:
+Sau đó, import package vào một file chứa mã server-only:
 
 ```js filename="lib/data.js"
 import 'server-only'
@@ -566,11 +566,11 @@ export async function getData() {
 }
 ```
 
-Now, if you try to import the module into a Client Component, there will be a build-time error.
+Bây giờ, nếu bạn cố gắng import module vào một Client Component, sẽ có một lỗi build-time.
 
-The corresponding [`client-only` package](https://www.npmjs.com/package/client-only) can be used to mark modules that contain client-only logic like code that accesses the `window` object.
+[`client-only` package](https://www.npmjs.com/package/client-only) tương ứng có thể được sử dụng để đánh dấu các modules chứa logic client-only như mã truy cập đối tượng `window`.
 
-In Next.js, installing `server-only` or `client-only` is **optional**. However, if your linting rules flag extraneous dependencies, you may install them to avoid issues.
+Trong Next.js, việc cài đặt `server-only` hoặc `client-only` là **tùy chọn**. Tuy nhiên, nếu các quy tắc linting của bạn gắn cờ các dependencies thừa, bạn có thể cài đặt chúng để tránh các vấn đề.
 
 ```bash package="npm"
 npm install server-only
@@ -588,6 +588,6 @@ pnpm add server-only
 bun add server-only
 ```
 
-Next.js handles `server-only` and `client-only` imports internally to provide clearer error messages when a module is used in the wrong environment. The contents of these packages from NPM are not used by Next.js.
+Next.js xử lý các imports `server-only` và `client-only` nội bộ để cung cấp các thông báo lỗi rõ ràng hơn khi một module được sử dụng sai môi trường. Nội dung của các packages này từ NPM không được Next.js sử dụng.
 
-Next.js also provides its own type declarations for `server-only` and `client-only`, for TypeScript configurations where [`noUncheckedSideEffectImports`](https://www.typescriptlang.org/tsconfig/#noUncheckedSideEffectImports) is active.
+Next.js cũng cung cấp các khai báo kiểu riêng cho `server-only` và `client-only`, cho các cấu hình TypeScript nơi [`noUncheckedSideEffectImports`](https://www.typescriptlang.org/tsconfig/#noUncheckedSideEffectImports) đang hoạt động.

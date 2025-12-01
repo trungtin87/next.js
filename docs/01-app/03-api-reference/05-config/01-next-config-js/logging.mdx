@@ -1,17 +1,17 @@
 ---
 title: logging
-description: Configure how data fetches are logged to the console when running Next.js in development mode.
+description: Cấu hình cách data fetches được ghi vào console khi chạy Next.js trong chế độ phát triển.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-## Options
+## Tùy chọn
 
 ### Fetching
 
-You can configure the logging level and whether the full URL is logged to the console when running Next.js in development mode.
+Bạn có thể cấu hình mức độ logging và liệu URL đầy đủ có được ghi vào console hay không khi chạy Next.js trong chế độ phát triển.
 
-Currently, `logging` only applies to data fetching using the `fetch` API. It does not yet apply to other logs inside of Next.js.
+Hiện tại, `logging` chỉ áp dụng cho data fetching sử dụng API `fetch`. Nó chưa áp dụng cho các log khác bên trong Next.js.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 }
 ```
 
-Any `fetch` requests that are restored from the [Server Components HMR cache](/docs/app/api-reference/config/next-config-js/serverComponentsHmrCache) are not logged by default. However, this can be enabled by setting `logging.fetches.hmrRefreshes` to `true`.
+Bất kỳ yêu cầu `fetch` nào được khôi phục từ [Server Components HMR cache](/docs/app/api-reference/config/next-config-js/serverComponentsHmrCache) đều không được ghi theo mặc định. Tuy nhiên, điều này có thể được kích hoạt bằng cách đặt `logging.fetches.hmrRefreshes` thành `true`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -37,20 +37,20 @@ module.exports = {
 
 ### Incoming Requests
 
-By default all the incoming requests will be logged in the console during development. You can use the `incomingRequests` option to decide which requests to ignore.
-Since this is only logged in development, this option doesn't affect production builds.
+Theo mặc định, tất cả các yêu cầu đến sẽ được ghi vào console trong quá trình phát triển. Bạn có thể sử dụng tùy chọn `incomingRequests` để quyết định yêu cầu nào cần bỏ qua.
+Vì điều này chỉ được ghi trong quá trình phát triển, tùy chọn này không ảnh hưởng đến các bản build production.
 
 ```js filename="next.config.js"
 module.exports = {
   logging: {
     incomingRequests: {
-      ignore: [/\api\/v1\/health/],
+      ignore: [/\\api\\/v1\\/health/],
     },
   },
 }
 ```
 
-Or you can disable incoming request logging by setting `incomingRequests` to `false`.
+Hoặc bạn có thể vô hiệu hóa logging yêu cầu đến bằng cách đặt `incomingRequests` thành `false`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -60,9 +60,9 @@ module.exports = {
 }
 ```
 
-### Disabling Logging
+### Vô hiệu hóa Logging
 
-In addition, you can disable the development logging by setting `logging` to `false`.
+Ngoài ra, bạn có thể vô hiệu hóa logging phát triển bằng cách đặt `logging` thành `false`.
 
 ```js filename="next.config.js"
 module.exports = {

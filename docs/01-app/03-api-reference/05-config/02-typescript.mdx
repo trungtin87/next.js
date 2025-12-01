@@ -1,27 +1,27 @@
 ---
 title: TypeScript
-description: Next.js provides a TypeScript-first development experience for building your React application.
+description: Next.js cung cấp trải nghiệm phát triển TypeScript-first để xây dựng ứng dụng React của bạn.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-Next.js comes with built-in TypeScript, automatically installing the necessary packages and configuring the proper settings when you create a new project with `create-next-app`.
+Next.js đi kèm với TypeScript tích hợp sẵn, tự động cài đặt các gói cần thiết và định cấu hình cài đặt phù hợp khi bạn tạo dự án mới với `create-next-app`.
 
-To add TypeScript to an existing project, rename a file to `.ts` / `.tsx`. Run `next dev` and `next build` to automatically install the necessary dependencies and add a `tsconfig.json` file with the recommended config options.
+Để thêm TypeScript vào một dự án hiện có, hãy đổi tên tệp thành `.ts` / `.tsx`. Chạy `next dev` và `next build` để tự động cài đặt các phụ thuộc cần thiết và thêm tệp `tsconfig.json` với các tùy chọn cấu hình được đề xuất.
 
-> **Good to know**: If you already have a `jsconfig.json` file, copy the `paths` compiler option from the old `jsconfig.json` into the new `tsconfig.json` file, and delete the old `jsconfig.json` file.
+> **Cần biết**: Nếu bạn đã có tệp `jsconfig.json`, hãy sao chép tùy chọn trình biên dịch `paths` từ `jsconfig.json` cũ vào tệp `tsconfig.json` mới và xóa tệp `jsconfig.json` cũ.
 
 <AppOnly>
 
-## IDE Plugin
+## Plugin IDE
 
-Next.js includes a custom TypeScript plugin and type checker, which VSCode and other code editors can use for advanced type-checking and auto-completion.
+Next.js bao gồm một plugin TypeScript và trình kiểm tra kiểu (type checker) tùy chỉnh, mà VSCode và các trình soạn thảo mã khác có thể sử dụng để kiểm tra kiểu nâng cao và tự động hoàn thành.
 
-You can enable the plugin in VS Code by:
+Bạn có thể bật plugin trong VS Code bằng cách:
 
-1. Opening the command palette (`Ctrl/⌘` + `Shift` + `P`)
-2. Searching for "TypeScript: Select TypeScript Version"
-3. Selecting "Use Workspace Version"
+1. Mở command palette (`Ctrl/⌘` + `Shift` + `P`)
+2. Tìm kiếm "TypeScript: Select TypeScript Version"
+3. Chọn "Use Workspace Version"
 
 <Image
   alt="TypeScript Command Palette"
@@ -31,33 +31,33 @@ You can enable the plugin in VS Code by:
   height="637"
 />
 
-Now, when editing files, the custom plugin will be enabled. When running `next build`, the custom type checker will be used.
+Bây giờ, khi chỉnh sửa tệp, plugin tùy chỉnh sẽ được bật. Khi chạy `next build`, trình kiểm tra kiểu tùy chỉnh sẽ được sử dụng.
 
-The TypeScript plugin can help with:
+Plugin TypeScript có thể giúp:
 
-- Warning if the invalid values for [segment config options](/docs/app/api-reference/file-conventions/route-segment-config) are passed.
-- Showing available options and in-context documentation.
-- Ensuring the `'use client'` directive is used correctly.
-- Ensuring client hooks (like `useState`) are only used in Client Components.
+- Cảnh báo nếu các giá trị không hợp lệ cho [tùy chọn cấu hình phân đoạn](/docs/app/api-reference/file-conventions/route-segment-config) được truyền vào.
+- Hiển thị các tùy chọn có sẵn và tài liệu trong ngữ cảnh.
+- Đảm bảo chỉ thị `'use client'` được sử dụng chính xác.
+- Đảm bảo các hooks client (như `useState`) chỉ được sử dụng trong Client Components.
 
-> **🎥 Watch:** Learn about the built-in TypeScript plugin → [YouTube (3 minutes)](https://www.youtube.com/watch?v=pqMqn9fKEf8)
+> **🎥 Xem:** Tìm hiểu về plugin TypeScript tích hợp sẵn → [YouTube (3 phút)](https://www.youtube.com/watch?v=pqMqn9fKEf8)
 
-## End-to-End Type Safety
+## An toàn kiểu End-to-End
 
-The Next.js App Router has **enhanced type safety**. This includes:
+Next.js App Router có **tính an toàn kiểu nâng cao**. Điều này bao gồm:
 
-1. **No serialization of data between fetching function and page**: You can `fetch` directly in components, layouts, and pages on the server. This data _does not_ need to be serialized (converted to a string) to be passed to the client side for consumption in React. Instead, since `app` uses Server Components by default, we can use values like `Date`, `Map`, `Set`, and more without any extra steps. Previously, you needed to manually type the boundary between server and client with Next.js-specific types.
-2. **Streamlined data flow between components**: With the removal of `_app` in favor of root layouts, it is now easier to visualize the data flow between components and pages. Previously, data flowing between individual `pages` and `_app` were difficult to type and could introduce confusing bugs. With [colocated data fetching](/docs/app/getting-started/fetching-data) in the App Router, this is no longer an issue.
+1. **Không tuần tự hóa dữ liệu giữa hàm fetching và page**: Bạn có thể `fetch` trực tiếp trong các components, layouts, và pages trên server. Dữ liệu này _không_ cần phải được tuần tự hóa (chuyển đổi thành chuỗi) để được chuyển sang phía client để sử dụng trong React. Thay vào đó, vì `app` sử dụng Server Components theo mặc định, chúng ta có thể sử dụng các giá trị như `Date`, `Map`, `Set`, và nhiều hơn nữa mà không cần bất kỳ bước bổ sung nào. Trước đây, bạn cần phải nhập thủ công ranh giới giữa server và client với các kiểu dành riêng cho Next.js.
+2. **Luồng dữ liệu hợp lý giữa các components**: Với việc loại bỏ `_app` để ủng hộ root layouts, giờ đây việc hình dung luồng dữ liệu giữa các components và pages trở nên dễ dàng hơn. Trước đây, dữ liệu chảy giữa các `pages` riêng lẻ và `_app` rất khó để định kiểu và có thể gây ra các lỗi khó hiểu. Với [colocated data fetching](/docs/app/getting-started/fetching-data) trong App Router, đây không còn là vấn đề nữa.
 
-[Data Fetching in Next.js](/docs/app/getting-started/fetching-data) now provides as close to end-to-end type safety as possible without being prescriptive about your database or content provider selection.
+[Data Fetching trong Next.js](/docs/app/getting-started/fetching-data) hiện cung cấp tính an toàn kiểu end-to-end gần nhất có thể mà không quy định về lựa chọn cơ sở dữ liệu hoặc nhà cung cấp nội dung của bạn.
 
-We're able to type the response data as you would expect with normal TypeScript. For example:
+Chúng tôi có thể định kiểu dữ liệu phản hồi như bạn mong đợi với TypeScript thông thường. Ví dụ:
 
 ```tsx filename="app/page.tsx" switcher
 async function getData() {
   const res = await fetch('https://api.example.com/...')
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
+  // Giá trị trả về *không* được tuần tự hóa
+  // Bạn có thể trả về Date, Map, Set, v.v.
   return res.json()
 }
 
@@ -68,11 +68,11 @@ export default async function Page() {
 }
 ```
 
-For _complete_ end-to-end type safety, this also requires your database or content provider to support TypeScript. This could be through using an [ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) or type-safe query builder.
+Để có tính an toàn kiểu end-to-end _hoàn chỉnh_, điều này cũng yêu cầu cơ sở dữ liệu hoặc nhà cung cấp nội dung của bạn hỗ trợ TypeScript. Điều này có thể thông qua việc sử dụng [ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) hoặc trình tạo truy vấn an toàn kiểu (type-safe query builder).
 
-## Route-Aware Type Helpers
+## Trình trợ giúp kiểu nhận biết Route (Route-Aware Type Helpers)
 
-Next.js generates global helpers for App Router route types. These are available without imports and are generated during `next dev`, `next build`, or via [`next typegen`](/docs/app/api-reference/cli/next#next-typegen-options):
+Next.js tạo các trình trợ giúp toàn cục cho các kiểu route của App Router. Chúng có sẵn mà không cần imports và được tạo trong quá trình `next dev`, `next build`, hoặc qua [`next typegen`](/docs/app/api-reference/cli/next#next-typegen-options):
 
 - [`PageProps`](/docs/app/api-reference/file-conventions/page#page-props-helper)
 - [`LayoutProps`](/docs/app/api-reference/file-conventions/layout#layout-props-helper)
@@ -80,82 +80,82 @@ Next.js generates global helpers for App Router route types. These are available
 
 </AppOnly>
 
-## Examples
+## Ví dụ
 
-### Type Checking Next.js Configuration Files
+### Kiểm tra kiểu Tệp cấu hình Next.js
 
-You can use TypeScript and import types in your Next.js configuration by using `next.config.ts`.
+Bạn có thể sử dụng TypeScript và import các kiểu trong cấu hình Next.js của mình bằng cách sử dụng `next.config.ts`.
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* tùy chọn cấu hình ở đây */
 }
 
 export default nextConfig
 ```
 
-Module resolution in `next.config.ts` is currently limited to CommonJS. However, ECMAScript Modules (ESM) syntax is available when [using Node.js native TypeScript resolver](#using-nodejs-native-typescript-resolver-for-nextconfigts) for Node.js v22.10.0 and higher.
+Phân giải mô-đun trong `next.config.ts` hiện bị giới hạn ở CommonJS. Tuy nhiên, cú pháp ECMAScript Modules (ESM) có sẵn khi [sử dụng trình phân giải TypeScript gốc của Node.js](#using-nodejs-native-typescript-resolver-for-nextconfigts) cho Node.js v22.10.0 trở lên.
 
-When using the `next.config.js` file, you can add some type checking in your IDE using JSDoc as below:
+Khi sử dụng tệp `next.config.js`, bạn có thể thêm một số kiểm tra kiểu trong IDE của mình bằng cách sử dụng JSDoc như bên dưới:
 
 ```js filename="next.config.js"
 // @ts-check
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  /* tùy chọn cấu hình ở đây */
 }
 
 module.exports = nextConfig
 ```
 
-### Using Node.js Native TypeScript Resolver for `next.config.ts`
+### Sử dụng Trình phân giải TypeScript gốc của Node.js cho `next.config.ts`
 
-> **Note**: Available on Node.js v22.10.0+ and only when the feature is enabled. Next.js does not enable it.
+> **Lưu ý**: Có sẵn trên Node.js v22.10.0+ và chỉ khi tính năng được bật. Next.js không bật nó.
 
-Next.js detects the [Node.js native TypeScript resolver](https://nodejs.org/api/typescript.html) via [`process.features.typescript`](https://nodejs.org/api/process.html#processfeaturestypescript), added in **v22.10.0**. When present, `next.config.ts` can use native ESM, including top‑level `await` and dynamic `import()`. This mechanism inherits the capabilities and limitations of Node's resolver.
+Next.js phát hiện [trình phân giải TypeScript gốc của Node.js](https://nodejs.org/api/typescript.html) qua [`process.features.typescript`](https://nodejs.org/api/process.html#processfeaturestypescript), được thêm vào trong **v22.10.0**. Khi hiện diện, `next.config.ts` có thể sử dụng ESM gốc, bao gồm `await` cấp cao nhất và `import()` động. Cơ chế này kế thừa các khả năng và hạn chế của trình phân giải của Node.
 
-In Node.js versions **v22.18.0+**, `process.features.typescript` is enabled by default. For versions between **v22.10.0** and **22.17.x**, opt in with `NODE_OPTIONS=--experimental-transform-types`:
+Trong các phiên bản Node.js **v22.18.0+**, `process.features.typescript` được bật theo mặc định. Đối với các phiên bản giữa **v22.10.0** và **22.17.x**, hãy chọn tham gia với `NODE_OPTIONS=--experimental-transform-types`:
 
 ```bash filename="Terminal"
 NODE_OPTIONS=--experimental-transform-types next <command>
 ```
 
-#### For CommonJS Projects (Default)
+#### Đối với các dự án CommonJS (Mặc định)
 
-Although `next.config.ts` supports native ESM syntax on CommonJS projects, Node.js will still assume `next.config.ts` is a CommonJS file by default, resulting in Node.js reparsing the file as ESM when module syntax is detected. Therefore, we recommend using the `next.config.mts` file for CommonJS projects to explicitly indicate it's an ESM module:
+Mặc dù `next.config.ts` hỗ trợ cú pháp ESM gốc trên các dự án CommonJS, Node.js vẫn sẽ giả định `next.config.ts` là tệp CommonJS theo mặc định, dẫn đến việc Node.js phân tích lại tệp dưới dạng ESM khi phát hiện cú pháp mô-đun. Do đó, chúng tôi khuyên bạn nên sử dụng tệp `next.config.mts` cho các dự án CommonJS để chỉ rõ ràng đó là một mô-đun ESM:
 
 ```ts filename="next.config.mts"
 import type { NextConfig } from 'next'
 
-// Top-level await and dynamic import are supported
+// Top-level await và dynamic import được hỗ trợ
 const flags = await import('./flags.js').then((m) => m.default ?? m)
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* tùy chọn cấu hình ở đây */
   typedRoutes: Boolean(flags?.typedRoutes),
 }
 
 export default nextConfig
 ```
 
-#### For ESM Projects
+#### Đối với các dự án ESM
 
-When `"type"` is set to `"module"` in `package.json`, your project uses ESM. Learn more about this setting [in the Node.js docs](https://nodejs.org/api/packages.html#type). In this case, you can write `next.config.ts` directly with ESM syntax.
+Khi `"type"` được đặt thành `"module"` trong `package.json`, dự án của bạn sử dụng ESM. Tìm hiểu thêm về cài đặt này [trong tài liệu Node.js](https://nodejs.org/api/packages.html#type). Trong trường hợp này, bạn có thể viết `next.config.ts` trực tiếp với cú pháp ESM.
 
-> **Good to know**: When using `"type": "module"` in your `package.json`, all `.js` and `.ts` files in your project are treated as ESM modules by default. You may need to rename files with CommonJS syntax to `.cjs` or `.cts` extensions if needed.
+> **Cần biết**: Khi sử dụng `"type": "module"` trong `package.json` của bạn, tất cả các tệp `.js` và `.ts` trong dự án của bạn được coi là các mô-đun ESM theo mặc định. Bạn có thể cần đổi tên các tệp có cú pháp CommonJS thành phần mở rộng `.cjs` hoặc `.cts` nếu cần.
 
-### Statically Typed Links
+### Liên kết được định kiểu tĩnh (Statically Typed Links)
 
-Next.js can statically type links to prevent typos and other errors when using `next/link`, improving type safety when navigating between pages.
+Next.js có thể định kiểu tĩnh các liên kết để ngăn chặn lỗi chính tả và các lỗi khác khi sử dụng `next/link`, cải thiện tính an toàn kiểu khi điều hướng giữa các trang.
 
-Works in both the Pages and App Router for the `href` prop in `next/link`. In the App Router, it also types `next/navigation` methods like `push`, `replace`, and `prefetch`. It does not type `next/router` methods in Pages Router.
+Hoạt động trong cả Pages và App Router cho prop `href` trong `next/link`. Trong App Router, nó cũng định kiểu các phương thức `next/navigation` như `push`, `replace`, và `prefetch`. Nó không định kiểu các phương thức `next/router` trong Pages Router.
 
-Literal `href` strings are validated, while non-literal `href`s may require a cast with `as Route`.
+Các chuỗi `href` literal được xác thực, trong khi các `href` không phải literal có thể yêu cầu ép kiểu với `as Route`.
 
-To opt-into this feature, `typedRoutes` need to be enabled and the project needs to be using TypeScript.
+Để chọn tham gia tính năng này, `typedRoutes` cần được bật và dự án cần sử dụng TypeScript.
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -167,9 +167,9 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-Next.js will generate a link definition in `.next/types` that contains information about all existing routes in your application, which TypeScript can then use to provide feedback in your editor about invalid links.
+Next.js sẽ tạo một định nghĩa liên kết trong `.next/types` chứa thông tin về tất cả các routes hiện có trong ứng dụng của bạn, mà TypeScript sau đó có thể sử dụng để cung cấp phản hồi trong trình chỉnh sửa của bạn về các liên kết không hợp lệ.
 
-> **Good to know**: If you set up your project without `create-next-app`, ensure the generated Next.js types are included by adding `.next/types/**/*.ts` to the `include` array in your `tsconfig.json`:
+> **Cần biết**: Nếu bạn thiết lập dự án của mình mà không có `create-next-app`, hãy đảm bảo các kiểu Next.js đã tạo được bao gồm bằng cách thêm `.next/types/**/*.ts` vào mảng `include` trong `tsconfig.json` của bạn:
 
 {/* prettier-ignore-start */}
 
@@ -186,7 +186,7 @@ Next.js will generate a link definition in `.next/types` that contains informati
 ```
 {/* prettier-ignore-end */}
 
-Currently, support includes any string literal, including dynamic segments. For non-literal strings, you need to manually cast with `as Route`. The example below shows both `next/link` and `next/navigation` usage:
+Hiện tại, hỗ trợ bao gồm bất kỳ chuỗi literal nào, bao gồm cả các phân đoạn động. Đối với các chuỗi không phải literal, bạn cần ép kiểu thủ công với `as Route`. Ví dụ dưới đây cho thấy cả cách sử dụng `next/link` và `next/navigation`:
 
 ```tsx filename="app/example-client.tsx"
 'use client'
@@ -201,14 +201,14 @@ export default function Example() {
 
   return (
     <>
-      {/* Link: literal and dynamic */}
+      {/* Link: literal và dynamic */}
       <Link href="/about" />
       <Link href={`/blog/${slug}`} />
       <Link href={('/blog/' + slug) as Route} />
-      {/* TypeScript error if href is not a valid route */}
+      {/* Lỗi TypeScript nếu href không phải là một route hợp lệ */}
       <Link href="/aboot" />
 
-      {/* Router: literal and dynamic strings are validated */}
+      {/* Router: chuỗi literal và dynamic được xác thực */}
       <button onClick={() => router.push('/about')}>Push About</button>
       <button onClick={() => router.replace(`/blog/${slug}`)}>
         Replace Blog
@@ -217,7 +217,7 @@ export default function Example() {
         Prefetch Contact
       </button>
 
-      {/* For non-literal strings, cast to Route */}
+      {/* Đối với chuỗi không phải literal, ép kiểu thành Route */}
       <button onClick={() => router.push(('/blog/' + slug) as Route)}>
         Push Non-literal Blog
       </button>
@@ -226,7 +226,7 @@ export default function Example() {
 }
 ```
 
-The same applies for redirecting routes defined by proxy:
+Điều tương tự cũng áp dụng cho việc chuyển hướng các routes được xác định bởi proxy:
 
 ```ts filename="proxy.ts"
 import { NextRequest, NextResponse } from 'next/server'
@@ -248,7 +248,7 @@ export default function Page() {
 }
 ```
 
-To accept `href` in a custom component wrapping `next/link`, use a generic:
+Để chấp nhận `href` trong một thành phần tùy chỉnh bao bọc `next/link`, hãy sử dụng generic:
 
 ```tsx
 import type { Route } from 'next'
@@ -263,7 +263,7 @@ function Card<T extends string>({ href }: { href: Route<T> | URL }) {
 }
 ```
 
-You can also type a simple data structure and iterate to render links:
+Bạn cũng có thể định kiểu một cấu trúc dữ liệu đơn giản và lặp lại để render các liên kết:
 
 ```ts filename="components/nav-items.ts"
 import type { Route } from 'next'
@@ -280,7 +280,7 @@ export const navItems: NavItem<Route>[] = [
 ]
 ```
 
-Then, map over the items to render `Link`s:
+Sau đó, map qua các items để render `Link`s:
 
 ```tsx filename="components/nav.tsx"
 import Link from 'next/link'
@@ -299,15 +299,15 @@ export function Nav() {
 }
 ```
 
-> **How does it work?**
+> **Nó hoạt động như thế nào?**
 >
-> When running `next dev` or `next build`, Next.js generates a hidden `.d.ts` file inside `.next` that contains information about all existing routes in your application (all valid routes as the `href` type of `Link`). This `.d.ts` file is included in `tsconfig.json` and the TypeScript compiler will check that `.d.ts` and provide feedback in your editor about invalid links.
+> Khi chạy `next dev` hoặc `next build`, Next.js tạo một tệp `.d.ts` ẩn bên trong `.next` chứa thông tin về tất cả các routes hiện có trong ứng dụng của bạn (tất cả các routes hợp lệ như kiểu `href` của `Link`). Tệp `.d.ts` này được bao gồm trong `tsconfig.json` và trình biên dịch TypeScript sẽ kiểm tra `.d.ts` đó và cung cấp phản hồi trong trình chỉnh sửa của bạn về các liên kết không hợp lệ.
 
-### Type IntelliSense for Environment Variables
+### Type IntelliSense cho Biến môi trường
 
-During development, Next.js generates a `.d.ts` file in `.next/types` that contains information about the loaded environment variables for your editor's IntelliSense. If the same environment variable key is defined in multiple files, it is deduplicated according to the [Environment Variable Load Order](/docs/app/guides/environment-variables#environment-variable-load-order).
+Trong quá trình phát triển, Next.js tạo một tệp `.d.ts` trong `.next/types` chứa thông tin về các biến môi trường đã tải cho IntelliSense của trình chỉnh sửa của bạn. Nếu cùng một khóa biến môi trường được xác định trong nhiều tệp, nó sẽ được loại bỏ trùng lặp theo [Thứ tự tải Biến môi trường](/docs/app/guides/environment-variables#environment-variable-load-order).
 
-To opt-into this feature, `experimental.typedEnv` needs to be enabled and the project needs to be using TypeScript.
+Để chọn tham gia tính năng này, `experimental.typedEnv` cần được bật và dự án cần sử dụng TypeScript.
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -321,23 +321,23 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-> **Good to know**: Types are generated based on the environment variables loaded at development runtime, which excludes variables from `.env.production*` files by default. To include production-specific variables, run `next dev` with `NODE_ENV=production`.
+> **Cần biết**: Các kiểu được tạo dựa trên các biến môi trường được tải tại thời điểm chạy phát triển, điều này loại trừ các biến từ các tệp `.env.production*` theo mặc định. Để bao gồm các biến dành riêng cho production, hãy chạy `next dev` với `NODE_ENV=production`.
 
 <AppOnly>
 
-### With Async Server Components
+### Với Async Server Components
 
-To use an `async` Server Component with TypeScript, ensure you are using TypeScript `5.1.3` or higher and `@types/react` `18.2.8` or higher.
+Để sử dụng `async` Server Component với TypeScript, hãy đảm bảo bạn đang sử dụng TypeScript `5.1.3` trở lên và `@types/react` `18.2.8` trở lên.
 
-If you are using an older version of TypeScript, you may see a `'Promise<Element>' is not a valid JSX element` type error. Updating to the latest version of TypeScript and `@types/react` should resolve this issue.
+Nếu bạn đang sử dụng phiên bản TypeScript cũ hơn, bạn có thể thấy lỗi kiểu `'Promise<Element>' is not a valid JSX element`. Cập nhật lên phiên bản mới nhất của TypeScript và `@types/react` sẽ giải quyết vấn đề này.
 
 </AppOnly>
 
 <PagesOnly>
 
-### Static Generation and Server-side Rendering
+### Static Generation và Server-side Rendering
 
-For [`getStaticProps`](/docs/pages/api-reference/functions/get-static-props), [`getStaticPaths`](/docs/pages/api-reference/functions/get-static-paths), and [`getServerSideProps`](/docs/pages/api-reference/functions/get-server-side-props), you can use the `GetStaticProps`, `GetStaticPaths`, and `GetServerSideProps` types respectively:
+Đối với [`getStaticProps`](/docs/pages/api-reference/functions/get-static-props), [`getStaticPaths`](/docs/pages/api-reference/functions/get-static-paths), và [`getServerSideProps`](/docs/pages/api-reference/functions/get-server-side-props), bạn có thể sử dụng các kiểu `GetStaticProps`, `GetStaticPaths`, và `GetServerSideProps` tương ứng:
 
 ```tsx filename="pages/blog/[slug].tsx"
 import type { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
@@ -355,11 +355,11 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps
 ```
 
-> **Good to know:** `satisfies` was added to TypeScript in [4.9](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html). We recommend upgrading to the latest version of TypeScript.
+> **Cần biết:** `satisfies` đã được thêm vào TypeScript trong [4.9](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html). Chúng tôi khuyên bạn nên nâng cấp lên phiên bản mới nhất của TypeScript.
 
-### With API Routes
+### Với API Routes
 
-The following is an example of how to use the built-in types for API routes:
+Sau đây là một ví dụ về cách sử dụng các kiểu tích hợp sẵn cho API routes:
 
 ```ts filename="pages/api/hello.ts"
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -369,7 +369,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 ```
 
-You can also type the response data:
+Bạn cũng có thể định kiểu dữ liệu phản hồi:
 
 ```ts filename="pages/api/hello.ts"
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -386,9 +386,9 @@ export default function handler(
 }
 ```
 
-### With custom `App`
+### Với `App` tùy chỉnh
 
-If you have a [custom `App`](/docs/pages/building-your-application/routing/custom-app), you can use the built-in type `AppProps` and change file name to `./pages/_app.tsx` like so:
+Nếu bạn có một [`App` tùy chỉnh](/docs/pages/building-your-application/routing/custom-app), bạn có thể sử dụng kiểu tích hợp sẵn `AppProps` và thay đổi tên tệp thành `./pages/_app.tsx` như sau:
 
 ```ts
 import type { AppProps } from 'next/app'
@@ -400,13 +400,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
 </PagesOnly>
 
-### Incremental type checking
+### Kiểm tra kiểu tăng dần (Incremental type checking)
 
-Since `v10.2.1` Next.js supports [incremental type checking](https://www.typescriptlang.org/tsconfig#incremental) when enabled in your `tsconfig.json`, this can help speed up type checking in larger applications.
+Kể từ `v10.2.1` Next.js hỗ trợ [kiểm tra kiểu tăng dần](https://www.typescriptlang.org/tsconfig#incremental) khi được bật trong `tsconfig.json` của bạn, điều này có thể giúp tăng tốc độ kiểm tra kiểu trong các ứng dụng lớn hơn.
 
-### Custom `tsconfig` path
+### Đường dẫn `tsconfig` tùy chỉnh
 
-In some cases, you might want to use a different TypeScript configuration for builds or tooling. To do that, set `typescript.tsconfigPath` in `next.config.ts` to point Next.js to another `tsconfig` file.
+Trong một số trường hợp, bạn có thể muốn sử dụng cấu hình TypeScript khác cho các bản build hoặc công cụ. Để làm điều đó, hãy đặt `typescript.tsconfigPath` trong `next.config.ts` để trỏ Next.js đến một tệp `tsconfig` khác.
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -420,7 +420,7 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-For example, switch to a different config for production builds:
+Ví dụ, chuyển sang cấu hình khác cho các bản build production:
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -437,11 +437,11 @@ export default nextConfig
 ```
 
 <details>
-<summary>Why you might use a separate `tsconfig` for builds</summary>
+<summary>Tại sao bạn có thể sử dụng `tsconfig` riêng cho các bản build</summary>
 
-You might need to relax checks in scenarios like monorepos, where the build also validates shared dependencies that don't match your project's standards, or when loosening checks in CI to continue delivering while migrating locally to stricter TypeScript settings (and still wanting your IDE to highlight misuse).
+Bạn có thể cần nới lỏng các kiểm tra trong các tình huống như monorepos, nơi bản build cũng xác thực các phụ thuộc được chia sẻ không khớp với tiêu chuẩn dự án của bạn, hoặc khi nới lỏng các kiểm tra trong CI để tiếp tục phân phối trong khi di chuyển cục bộ sang các cài đặt TypeScript nghiêm ngặt hơn (và vẫn muốn IDE của bạn làm nổi bật việc sử dụng sai).
 
-For example, if your project uses `useUnknownInCatchVariables` but some monorepo dependencies still assume `any`:
+Ví dụ, nếu dự án của bạn sử dụng `useUnknownInCatchVariables` nhưng một số phụ thuộc monorepo vẫn giả định `any`:
 
 ```json filename="tsconfig.build.json"
 {
@@ -452,35 +452,35 @@ For example, if your project uses `useUnknownInCatchVariables` but some monorepo
 }
 ```
 
-This keeps your editor strict via `tsconfig.json` while allowing the production build to use relaxed settings.
+Điều này giữ cho trình chỉnh sửa của bạn nghiêm ngặt thông qua `tsconfig.json` trong khi cho phép bản build production sử dụng các cài đặt nới lỏng.
 
 </details>
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - IDEs typically read `tsconfig.json` for diagnostics and IntelliSense, so you can still see IDE warnings while production builds use the alternate config. Mirror critical options if you want parity in the editor.
-> - In development, only `tsconfig.json` is watched for changes. If you edit a different file name via `typescript.tsconfigPath`, restart the dev server to apply changes.
-> - The configured file is used in `next dev`, `next build`, and `next typegen`.
+> - Các IDE thường đọc `tsconfig.json` để chẩn đoán và IntelliSense, vì vậy bạn vẫn có thể thấy cảnh báo IDE trong khi các bản build production sử dụng cấu hình thay thế. Phản chiếu các tùy chọn quan trọng nếu bạn muốn sự tương đương trong trình chỉnh sửa.
+> - Trong quá trình phát triển, chỉ `tsconfig.json` được theo dõi các thay đổi. Nếu bạn chỉnh sửa tên tệp khác thông qua `typescript.tsconfigPath`, hãy khởi động lại máy chủ dev để áp dụng các thay đổi.
+> - Tệp được định cấu hình được sử dụng trong `next dev`, `next build`, và `next typegen`.
 
-### Disabling TypeScript errors in production
+### Vô hiệu hóa lỗi TypeScript trong production
 
-Next.js fails your **production build** (`next build`) when TypeScript errors are present in your project.
+Next.js làm hỏng **bản build production** (`next build`) của bạn khi có lỗi TypeScript trong dự án của bạn.
 
-If you'd like Next.js to dangerously produce production code even when your application has errors, you can disable the built-in type checking step.
+Nếu bạn muốn Next.js tạo mã production một cách nguy hiểm ngay cả khi ứng dụng của bạn có lỗi, bạn có thể vô hiệu hóa bước kiểm tra kiểu tích hợp sẵn.
 
-If disabled, be sure you are running type checks as part of your build or deploy process, otherwise this can be very dangerous.
+Nếu bị vô hiệu hóa, hãy chắc chắn rằng bạn đang chạy kiểm tra kiểu như một phần của quy trình build hoặc deploy của mình, nếu không điều này có thể rất nguy hiểm.
 
-Open `next.config.ts` and enable the `ignoreBuildErrors` option in the `typescript` config:
+Mở `next.config.ts` và bật tùy chọn `ignoreBuildErrors` trong cấu hình `typescript`:
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
+    // !! CẢNH BÁO !!
+    // Nguy hiểm cho phép các bản build production hoàn thành thành công ngay cả khi
+    // dự án của bạn có lỗi kiểu.
+    // !! CẢNH BÁO !!
     ignoreBuildErrors: true,
   },
 }
@@ -488,17 +488,17 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-> **Good to know**: You can run `tsc --noEmit` to check for TypeScript errors yourself before building. This is useful for CI/CD pipelines where you'd like to check for TypeScript errors before deploying.
+> **Cần biết**: Bạn có thể chạy `tsc --noEmit` để tự kiểm tra lỗi TypeScript trước khi build. Điều này hữu ích cho các đường ống CI/CD nơi bạn muốn kiểm tra lỗi TypeScript trước khi triển khai.
 
-### Custom type declarations
+### Khai báo kiểu tùy chỉnh
 
-When you need to declare custom types, you might be tempted to modify `next-env.d.ts`. However, this file is automatically generated, so any changes you make will be overwritten. Instead, you should create a new file, let's call it `new-types.d.ts`, and reference it in your `tsconfig.json`:
+Khi bạn cần khai báo các kiểu tùy chỉnh, bạn có thể bị cám dỗ sửa đổi `next-env.d.ts`. Tuy nhiên, tệp này được tạo tự động, vì vậy mọi thay đổi bạn thực hiện sẽ bị ghi đè. Thay vào đó, bạn nên tạo một tệp mới, hãy gọi nó là `new-types.d.ts`, và tham chiếu nó trong `tsconfig.json` của bạn:
 
 ```json filename="tsconfig.json"
 {
   "compilerOptions": {
     "skipLibCheck": true
-    //...truncated...
+    //...bị cắt bớt...
   },
   "include": [
     "new-types.d.ts",
@@ -511,11 +511,11 @@ When you need to declare custom types, you might be tempted to modify `next-env.
 }
 ```
 
-## Version Changes
+## Thay đổi phiên bản
 
-| Version   | Changes                                                                                                                              |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `v15.0.0` | [`next.config.ts`](#type-checking-nextjs-configuration-files) support added for TypeScript projects.                                 |
-| `v13.2.0` | Statically typed links are available in beta.                                                                                        |
-| `v12.0.0` | [SWC](/docs/architecture/nextjs-compiler) is now used by default to compile TypeScript and TSX for faster builds.                    |
-| `v10.2.1` | [Incremental type checking](https://www.typescriptlang.org/tsconfig#incremental) support added when enabled in your `tsconfig.json`. |
+| Phiên bản | Thay đổi                                                                                                                                       |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v15.0.0` | Hỗ trợ [`next.config.ts`](#type-checking-nextjs-configuration-files) được thêm vào cho các dự án TypeScript.                                   |
+| `v13.2.0` | Liên kết được định kiểu tĩnh có sẵn trong bản beta.                                                                                            |
+| `v12.0.0` | [SWC](/docs/architecture/nextjs-compiler) hiện được sử dụng theo mặc định để biên dịch TypeScript và TSX cho các bản build nhanh hơn.          |
+| `v10.2.1` | Hỗ trợ [Kiểm tra kiểu tăng dần](https://www.typescriptlang.org/tsconfig#incremental) được thêm vào khi được bật trong `tsconfig.json` của bạn. |

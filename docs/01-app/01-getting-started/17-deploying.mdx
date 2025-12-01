@@ -1,20 +1,20 @@
 ---
 title: Deploying
-description: Learn how to deploy your Next.js application.
+description: Tìm hiểu cách triển khai ứng dụng Next.js của bạn.
 ---
 
-Next.js can be deployed as a Node.js server, Docker container, static export, or adapted to run on different platforms.
+Next.js có thể được triển khai dưới dạng Node.js server, Docker container, static export, hoặc được điều chỉnh để chạy trên các nền tảng khác nhau.
 
-| Deployment Option                | Feature Support   |
+| Tùy chọn triển khai              | Hỗ trợ tính năng  |
 | -------------------------------- | ----------------- |
-| [Node.js server](#nodejs-server) | All               |
-| [Docker container](#docker)      | All               |
-| [Static export](#static-export)  | Limited           |
-| [Adapters](#adapters)            | Platform-specific |
+| [Node.js server](#nodejs-server) | Tất cả            |
+| [Docker container](#docker)      | Tất cả            |
+| [Static export](#static-export)  | Hạn chế           |
+| [Adapters](#adapters)            | Tùy theo platform |
 
 ## Node.js server
 
-Next.js can be deployed to any provider that supports Node.js. Ensure your `package.json` has the `"build"` and `"start"` scripts:
+Next.js có thể được triển khai lên bất kỳ provider nào hỗ trợ Node.js. Đảm bảo `package.json` của bạn có các scripts `"build"` và `"start"`:
 
 ```json filename="package.json"
 {
@@ -26,9 +26,9 @@ Next.js can be deployed to any provider that supports Node.js. Ensure your `pack
 }
 ```
 
-Then, run `npm run build` to build your application and `npm run start` to start the Node.js server. This server supports all Next.js features. If needed, you can also eject to a [custom server](/docs/app/guides/custom-server).
+Sau đó, chạy `npm run build` để build ứng dụng của bạn và `npm run start` để khởi động Node.js server. Server này hỗ trợ tất cả các tính năng Next.js. Nếu cần, bạn cũng có thể eject sang một [custom server](/docs/app/guides/custom-server).
 
-Node.js deployments support all Next.js features. Learn how to [configure them](/docs/app/guides/self-hosting) for your infrastructure.
+Các triển khai Node.js hỗ trợ tất cả các tính năng Next.js. Tìm hiểu cách [cấu hình chúng](/docs/app/guides/self-hosting) cho infrastructure của bạn.
 
 ### Templates
 
@@ -38,11 +38,11 @@ Node.js deployments support all Next.js features. Learn how to [configure them](
 
 ## Docker
 
-Next.js can be deployed to any provider that supports [Docker](https://www.docker.com/) containers. This includes container orchestrators like Kubernetes or a cloud provider that runs Docker.
+Next.js có thể được triển khai lên bất kỳ provider nào hỗ trợ [Docker](https://www.docker.com/) containers. Điều này bao gồm các container orchestrators như Kubernetes hoặc một cloud provider chạy Docker.
 
-Docker deployments support all Next.js features. Learn how to [configure them](/docs/app/guides/self-hosting) for your infrastructure.
+Các triển khai Docker hỗ trợ tất cả các tính năng Next.js. Tìm hiểu cách [cấu hình chúng](/docs/app/guides/self-hosting) cho infrastructure của bạn.
 
-> **Note for development:** While Docker is excellent for production deployments, consider using local development (`npm run dev`) instead of Docker during development on Mac and Windows for better performance. [Learn more about optimizing local development](/docs/app/guides/local-development).
+> **Lưu ý cho development:** Trong khi Docker rất tốt cho các triển khai production, hãy xem xét sử dụng local development (`npm run dev`) thay vì Docker trong quá trình development trên Mac và Windows để có hiệu suất tốt hơn. [Tìm hiểu thêm về tối ưu hóa local development](/docs/app/guides/local-development).
 
 ### Templates
 
@@ -56,11 +56,11 @@ Docker deployments support all Next.js features. Learn how to [configure them](/
 
 ## Static export
 
-Next.js enables starting as a static site or [Single-Page Application (SPA)](/docs/app/guides/single-page-applications), then later optionally upgrading to use features that require a server.
+Next.js cho phép bắt đầu như một static site hoặc [Single-Page Application (SPA)](/docs/app/guides/single-page-applications), sau đó tùy chọn nâng cấp để sử dụng các tính năng yêu cầu server.
 
-Since Next.js supports [static exports](/docs/app/guides/static-exports), it can be deployed and hosted on any web server that can serve HTML/CSS/JS static assets. This includes tools like AWS S3, Nginx, or Apache.
+Vì Next.js hỗ trợ [static exports](/docs/app/guides/static-exports), nó có thể được triển khai và host trên bất kỳ web server nào có thể phục vụ các static assets HTML/CSS/JS. Điều này bao gồm các công cụ như AWS S3, Nginx, hoặc Apache.
 
-Running as a [static export](/docs/app/guides/static-exports) **does not** support Next.js features that require a server. [Learn more](/docs/app/guides/static-exports#unsupported-features).
+Chạy như một [static export](/docs/app/guides/static-exports) **không** hỗ trợ các tính năng Next.js yêu cầu server. [Tìm hiểu thêm](/docs/app/guides/static-exports#unsupported-features).
 
 ### Templates
 
@@ -68,9 +68,9 @@ Running as a [static export](/docs/app/guides/static-exports) **does not** suppo
 
 ## Adapters
 
-Next.js can be adapted to run on different platforms to support their infrastructure capabilities.
+Next.js có thể được điều chỉnh để chạy trên các nền tảng khác nhau để hỗ trợ khả năng infrastructure của chúng.
 
-Refer to each provider's documentation for information on supported Next.js features:
+Tham khảo tài liệu của từng provider để biết thông tin về các tính năng Next.js được hỗ trợ:
 
 - [AWS Amplify Hosting](https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components)
 - [Cloudflare](https://developers.cloudflare.com/workers/frameworks/framework-guides/nextjs)
@@ -78,4 +78,4 @@ Refer to each provider's documentation for information on supported Next.js feat
 - [Netlify](https://docs.netlify.com/frameworks/next-js/overview/#next-js-support-on-netlify)
 - [Vercel](https://vercel.com/docs/frameworks/nextjs)
 
-> **Note:** We are working on a [Deployment Adapters API](https://github.com/vercel/next.js/discussions/77740) for all platforms to adopt. After completion, we will add documentation on how to write your own adapters.
+> **Lưu ý:** Chúng tôi đang làm việc trên một [Deployment Adapters API](https://github.com/vercel/next.js/discussions/77740) cho tất cả các nền tảng để áp dụng. Sau khi hoàn thành, chúng tôi sẽ thêm tài liệu về cách viết adapters của riêng bạn.

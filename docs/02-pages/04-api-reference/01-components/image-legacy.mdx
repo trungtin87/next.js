@@ -1,105 +1,100 @@
 ---
 title: Image (Legacy)
-description: Backwards compatible Image Optimization with the Legacy Image component.
+description: Tối ưu hóa Image tương thích ngược với Legacy Image component.
 version: legacy
 ---
 
-Starting with Next.js 13, the `next/image` component was rewritten to improve both the performance and developer experience. In order to provide a backwards compatible upgrade solution, the old `next/image` was renamed to `next/legacy/image`.
+Bắt đầu từ Next.js 13, component `next/image` đã được viết lại để cải thiện cả hiệu suất và trải nghiệm nhà phát triển. Để cung cấp giải pháp nâng cấp tương thích ngược, `next/image` cũ đã được đổi tên thành `next/legacy/image`.
 
-> **Warning**: `next/legacy/image` is deprecated and will be removed in a future version of Next.js. Please use [`next/image`](/docs/app/api-reference/components/image) instead.
+> **Cảnh báo**: `next/legacy/image` đã không được dùng nữa và sẽ bị xóa trong phiên bản tương lai của Next.js. Vui lòng sử dụng [`next/image`](/docs/app/api-reference/components/image) thay thế.
 
-## Comparison
+## So sánh
 
-Compared to `next/legacy/image`, the new `next/image` component has the following changes:
+So với `next/legacy/image`, component `next/image` mới có những thay đổi sau:
 
-- Removes `<span>` wrapper around `<img>` in favor of [native computed aspect ratio](https://caniuse.com/mdn-html_elements_img_aspect_ratio_computed_from_attributes)
-- Adds support for canonical `style` prop
-  - Removes `layout` prop in favor of `style` or `className`
-  - Removes `objectFit` prop in favor of `style` or `className`
-  - Removes `objectPosition` prop in favor of `style` or `className`
-- Removes `IntersectionObserver` implementation in favor of [native lazy loading](https://caniuse.com/loading-lazy-attr)
-  - Removes `lazyBoundary` prop since there is no native equivalent
-  - Removes `lazyRoot` prop since there is no native equivalent
-- Removes `loader` config in favor of [`loader`](#loader) prop
-- Changed `alt` prop from optional to required
-- Changed `onLoadingComplete` callback to receive reference to `<img>` element
+- Loại bỏ wrapper `<span>` xung quanh `<img>` để ưu tiên [native computed aspect ratio](https://caniuse.com/mdn-html_elements_img_aspect_ratio_computed_from_attributes)
+- Thêm hỗ trợ cho prop `style` chuẩn
+  - Loại bỏ prop `layout` để ưu tiên `style` hoặc `className`
+  - Loại bỏ prop `objectFit` để ưu tiên `style` hoặc `className`
+  - Loại bỏ prop `objectPosition` để ưu tiên `style` hoặc `className`
+- Loại bỏ triển khai `IntersectionObserver` để ưu tiên [native lazy loading](https://caniuse.com/loading-lazy-attr)
+  - Loại bỏ prop `lazyBoundary` vì không có tương đương native
+  - Loại bỏ prop `lazyRoot` vì không có tương đương native
+- Loại bỏ cấu hình `loader` để ưu tiên prop [`loader`](#loader)
+- Thay đổi prop `alt` từ tùy chọn thành bắt buộc
+- Thay đổi callback `onLoadingComplete` để nhận tham chiếu đến phần tử `<img>`
 
-## Required Props
+## Props bắt buộc
 
-The `<Image />` component requires the following properties.
+Component `<Image />` yêu cầu các thuộc tính sau.
 
 ### src
 
-Must be one of the following:
+Phải là một trong những điều sau:
 
-- A [statically imported](/docs/pages/api-reference/components/image#src) image file
-- A path string. This can be either an absolute external URL, or an internal path depending on the [loader](#loader) prop or [loader configuration](#loader-configuration).
+- Một tệp image [được import tĩnh](/docs/pages/api-reference/components/image#src)
+- Một chuỗi đường dẫn. Đây có thể là một URL bên ngoài tuyệt đối, hoặc một đường dẫn nội bộ tùy thuộc vào prop [loader](#loader) hoặc [cấu hình loader](#loader-configuration).
 
-When using the default [loader](#loader), also consider the following for source images:
+Khi sử dụng [loader](#loader) mặc định, cũng xem xét những điều sau cho source images:
 
-- When src is an external URL, you must also configure [remotePatterns](#remote-patterns)
-- When src is [animated](#animated-images) or not a known format (JPEG, PNG, WebP, AVIF, GIF, TIFF) the image will be served as-is
-- When src is SVG format, it will be blocked unless `unoptimized` or `dangerouslyAllowSVG` is enabled
+- Khi src là một URL bên ngoài, bạn cũng phải cấu hình [remotePatterns](#remote-patterns)
+- Khi src là [animated](#animated-images) hoặc không phải định dạng đã biết (JPEG, PNG, WebP, AVIF, GIF, TIFF), image sẽ được phục vụ nguyên trạng
+- Khi src là định dạng SVG, nó sẽ bị chặn trừ khi `unoptimized` hoặc `dangerouslyAllowSVG` được kích hoạt
 
 ### width
 
-The `width` property can represent either the _rendered_ width or _original_ width in pixels, depending on the [`layout`](#layout) and [`sizes`](#sizes) properties.
+Thuộc tính `width` có thể đại diện cho _rendered_ width hoặc _original_ width tính bằng pixels, tùy thuộc vào thuộc tính [`layout`](#layout) và [`sizes`](#sizes).
 
-When using `layout="intrinsic"` or `layout="fixed"` the `width` property represents the _rendered_ width in pixels, so it will affect how large the image appears.
+Khi sử dụng `layout="intrinsic"` hoặc `layout="fixed"`, thuộc tính `width` đại diện cho _rendered_ width tính bằng pixels, vì vậy nó sẽ ảnh hưởng đến kích thước image xuất hiện.
 
-When using `layout="responsive"`, `layout="fill"`, the `width` property represents the _original_ width in pixels, so it will only affect the aspect ratio.
+Khi sử dụng `layout="responsive"`, `layout="fill"`, thuộc tính `width` đại diện cho _original_ width tính bằng pixels, vì vậy nó sẽ chỉ ảnh hưởng đến tỷ lệ khung hình.
 
-The `width` property is required, except for [statically imported images](/docs/pages/api-reference/components/image#src), or those with `layout="fill"`.
+Thuộc tính `width` là bắt buộc, ngoại trừ [các images được import tĩnh](/docs/pages/api-reference/components/image#src), hoặc những images có `layout="fill"`.
 
 ### height
 
-The `height` property can represent either the _rendered_ height or _original_ height in pixels, depending on the [`layout`](#layout) and [`sizes`](#sizes) properties.
+Thuộc tính `height` có thể đại diện cho _rendered_ height hoặc _original_ height tính bằng pixels, tùy thuộc vào thuộc tính [`layout`](#layout) và [`sizes`](#sizes).
 
-When using `layout="intrinsic"` or `layout="fixed"` the `height` property represents the _rendered_ height in pixels, so it will affect how large the image appears.
+Khi sử dụng `layout="intrinsic"` hoặc `layout="fixed"`, thuộc tính `height` đại diện cho _rendered_ height tính bằng pixels, vì vậy nó sẽ ảnh hưởng đến kích thước image xuất hiện.
 
-When using `layout="responsive"`, `layout="fill"`, the `height` property represents the _original_ height in pixels, so it will only affect the aspect ratio.
+Khi sử dụng `layout="responsive"`, `layout="fill"`, thuộc tính `height` đại diện cho _original_ height tính bằng pixels, vì vậy nó sẽ chỉ ảnh hưởng đến tỷ lệ khung hình.
 
-The `height` property is required, except for [statically imported images](/docs/pages/api-reference/components/image#src), or those with `layout="fill"`.
+Thuộc tính `height` là bắt buộc, ngoại trừ [các images được import tĩnh](/docs/pages/api-reference/components/image#src), hoặc những images có `layout="fill"`.
 
-## Optional Props
+## Props tùy chọn
 
-The `<Image />` component accepts a number of additional properties beyond those which are required. This section describes the most commonly-used properties of the Image component. Find details about more rarely-used properties in the [Advanced Props](#advanced-props) section.
+Component `<Image />` chấp nhận một số thuộc tính bổ sung ngoài những thuộc tính bắt buộc. Phần này mô tả các thuộc tính được sử dụng phổ biến nhất của Image component. Tìm chi tiết về các thuộc tính ít được sử dụng hơn trong phần [Advanced Props](#advanced-props).
 
 ### layout
 
-The layout behavior of the image as the viewport changes size.
+Hành vi layout của image khi kích thước viewport thay đổi.
 
-| `layout`              | Behavior                                                 | `srcSet`                                                                                                    | `sizes` | Has wrapper and sizer |
-| --------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------- | --------------------- |
-| `intrinsic` (default) | Scale _down_ to fit width of container, up to image size | `1x`, `2x` (based on [imageSizes](#image-sizes))                                                            | N/A     | yes                   |
-| `fixed`               | Sized to `width` and `height` exactly                    | `1x`, `2x` (based on [imageSizes](#image-sizes))                                                            | N/A     | yes                   |
-| `responsive`          | Scale to fit width of container                          | `640w`, `750w`, ... `2048w`, `3840w` (based on [imageSizes](#image-sizes) and [deviceSizes](#device-sizes)) | `100vw` | yes                   |
-| `fill`                | Grow in both X and Y axes to fill container              | `640w`, `750w`, ... `2048w`, `3840w` (based on [imageSizes](#image-sizes) and [deviceSizes](#device-sizes)) | `100vw` | yes                   |
+| `layout` | Hành vi | `srcSet` | `sizes` | Có wrapper và sizer |\n| --------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------- | --------------------- |\n| `intrinsic` (mặc định) | Scale _down_ để vừa width của container, lên đến kích thước image | `1x`, `2x` (dựa trên [imageSizes](#image-sizes)) | N/A | có |\n| `fixed` | Được định kích thước chính xác theo `width` và `height` | `1x`, `2x` (dựa trên [imageSizes](#image-sizes)) | N/A | có |\n| `responsive` | Scale để vừa width của container | `640w`, `750w`, ... `2048w`, `3840w` (dựa trên [imageSizes](#image-sizes) và [deviceSizes](#device-sizes)) | `100vw` | có |\n| `fill` | Phát triển theo cả trục X và Y để lấp đầy container | `640w`, `750w`, ... `2048w`, `3840w` (dựa trên [imageSizes](#image-sizes) và [deviceSizes](#device-sizes)) | `100vw` | có |
 
-- [Demo the `intrinsic` layout (default)](https://image-legacy-component.nextjs.gallery/layout-intrinsic)
-  - When `intrinsic`, the image will scale the dimensions down for smaller viewports, but maintain the original dimensions for larger viewports.
-- [Demo the `fixed` layout](https://image-legacy-component.nextjs.gallery/layout-fixed)
-  - When `fixed`, the image dimensions will not change as the viewport changes (no responsiveness) similar to the native `img` element.
-- [Demo the `responsive` layout](https://image-legacy-component.nextjs.gallery/layout-responsive)
-  - When `responsive`, the image will scale the dimensions down for smaller viewports and scale up for larger viewports.
-  - Ensure the parent element uses `display: block` in their stylesheet.
-- [Demo the `fill` layout](https://image-legacy-component.nextjs.gallery/layout-fill)
-  - When `fill`, the image will stretch both width and height to the dimensions of the parent element, provided the parent element is relative.
-  - This is usually paired with the [`objectFit`](#objectfit) property.
-  - Ensure the parent element has `position: relative` in their stylesheet.
+- [Demo layout `intrinsic` (mặc định)](https://image-legacy-component.nextjs.gallery/layout-intrinsic)
+  - Khi `intrinsic`, image sẽ scale các kích thước xuống cho các viewport nhỏ hơn, nhưng duy trì các kích thước gốc cho các viewport lớn hơn.
+- [Demo layout `fixed`](https://image-legacy-component.nextjs.gallery/layout-fixed)
+  - Khi `fixed`, các kích thước image sẽ không thay đổi khi viewport thay đổi (không có responsiveness) tương tự như phần tử `img` native.
+- [Demo layout `responsive`](https://image-legacy-component.nextjs.gallery/layout-responsive)
+  - Khi `responsive`, image sẽ scale các kích thước xuống cho các viewport nhỏ hơn và scale lên cho các viewport lớn hơn.
+  - Đảm bảo parent element sử dụng `display: block` trong stylesheet của họ.
+- [Demo layout `fill`](https://image-legacy-component.nextjs.gallery/layout-fill)
+  - Khi `fill`, image sẽ kéo dài cả width và height đến các kích thước của parent element, với điều kiện parent element là relative.
+  - Điều này thường được kết hợp với thuộc tính [`objectFit`](#objectfit).
+  - Đảm bảo parent element có `position: relative` trong stylesheet của họ.
 - [Demo background image](https://image-legacy-component.nextjs.gallery/background)
 
 ### loader
 
-A custom function used to resolve URLs. Setting the loader as a prop on the Image component overrides the default loader defined in the [`images` section of `next.config.js`](#loader-configuration).
+Một hàm tùy chỉnh được sử dụng để resolve URLs. Đặt loader như một prop trên Image component sẽ ghi đè loader mặc định được định nghĩa trong [phần `images` của `next.config.js`](#loader-configuration).
 
-A `loader` is a function returning a URL string for the image, given the following parameters:
+Một `loader` là một hàm trả về một chuỗi URL cho image, với các tham số sau:
 
 - [`src`](#src)
 - [`width`](#width)
 - [`quality`](#quality)
 
-Here is an example of using a custom loader:
+Đây là một ví dụ về việc sử dụng custom loader:
 
 ```js
 import Image from 'next/legacy/image'
@@ -123,15 +118,15 @@ const MyImage = (props) => {
 
 ### sizes
 
-A string that provides information about how wide the image will be at different breakpoints. The value of `sizes` will greatly affect performance for images using `layout="responsive"` or `layout="fill"`. It will be ignored for images using `layout="intrinsic"` or `layout="fixed"`.
+Một chuỗi cung cấp thông tin về độ rộng của image sẽ là bao nhiêu tại các breakpoints khác nhau. Giá trị của `sizes` sẽ ảnh hưởng lớn đến hiệu suất cho các images sử dụng `layout="responsive"` hoặc `layout="fill"`. Nó sẽ bị bỏ qua cho các images sử dụng `layout="intrinsic"` hoặc `layout="fixed"`.
 
-The `sizes` property serves two important purposes related to image performance:
+Thuộc tính `sizes` phục vụ hai mục đích quan trọng liên quan đến hiệu suất image:
 
-First, the value of `sizes` is used by the browser to determine which size of the image to download, from `next/legacy/image`'s automatically-generated source set. When the browser chooses, it does not yet know the size of the image on the page, so it selects an image that is the same size or larger than the viewport. The `sizes` property allows you to tell the browser that the image will actually be smaller than full screen. If you don't specify a `sizes` value, a default value of `100vw` (full screen width) is used.
+Đầu tiên, giá trị của `sizes` được trình duyệt sử dụng để xác định kích thước nào của image cần tải xuống, từ source set được tạo tự động của `next/legacy/image`. Khi trình duyệt chọn, nó chưa biết kích thước của image trên trang, vì vậy nó chọn một image có cùng kích thước hoặc lớn hơn viewport. Thuộc tính `sizes` cho phép bạn nói với trình duyệt rằng image thực sự sẽ nhỏ hơn toàn màn hình. Nếu bạn không chỉ định giá trị `sizes`, một giá trị mặc định là `100vw` (full screen width) được sử dụng.
 
-Second, the `sizes` value is parsed and used to trim the values in the automatically-created source set. If the `sizes` property includes sizes such as `50vw`, which represent a percentage of the viewport width, then the source set is trimmed to not include any values which are too small to ever be necessary.
+Thứ hai, giá trị `sizes` được phân tích cú pháp và sử dụng để cắt bớt các giá trị trong source set được tạo tự động. Nếu thuộc tính `sizes` bao gồm các kích thước như `50vw`, đại diện cho phần trăm của viewport width, thì source set được cắt bớt để không bao gồm bất kỳ giá trị nào quá nhỏ để cần thiết.
 
-For example, if you know your styling will cause an image to be full-width on mobile devices, in a 2-column layout on tablets, and a 3-column layout on desktop displays, you should include a sizes property such as the following:
+Ví dụ, nếu bạn biết styling của bạn sẽ khiến một image có full-width trên các thiết bị di động, trong layout 2 cột trên tablets, và layout 3 cột trên desktop displays, bạn nên bao gồm một thuộc tính sizes như sau:
 
 ```js
 import Image from 'next/legacy/image'
@@ -148,118 +143,118 @@ const Example = () => (
 )
 ```
 
-This example `sizes` could have a dramatic effect on performance metrics. Without the `33vw` sizes, the image selected from the server would be 3 times as wide as it needs to be. Because file size is proportional to the square of the width, without `sizes` the user would download an image that's 9 times larger than necessary.
+Ví dụ `sizes` này có thể có tác động đáng kể đến các chỉ số hiệu suất. Không có `33vw` sizes, image được chọn từ server sẽ rộng gấp 3 lần so với cần thiết. Vì kích thước tệp tỷ lệ thuận với bình phương của width, không có `sizes` người dùng sẽ tải xuống một image lớn hơn 9 lần so với cần thiết.
 
-Learn more about `srcset` and `sizes`:
+Tìm hiểu thêm về `srcset` và `sizes`:
 
 - [web.dev](https://web.dev/learn/design/responsive-images/#sizes)
 - [mdn](https://developer.mozilla.org/docs/Web/HTML/Element/img#attr-sizes)
 
 ### quality
 
-The quality of the optimized image, an integer between `1` and `100` where `100` is the best quality. Defaults to `75`.
+Chất lượng của image được tối ưu hóa, một số nguyên từ `1` đến `100` trong đó `100` là chất lượng tốt nhất. Mặc định là `75`.
 
 ### priority
 
-When true, the image will be considered high priority and
-[preload](https://web.dev/preload-responsive-images/). Lazy loading is automatically disabled for images using `priority`.
+Khi true, image sẽ được coi là ưu tiên cao và
+[preload](https://web.dev/preload-responsive-images/). Lazy loading tự động bị vô hiệu hóa cho các images sử dụng `priority`.
 
-You should use the `priority` property on any image detected as the [Largest Contentful Paint (LCP)](https://nextjs.org/learn/seo/web-performance/lcp) element. It may be appropriate to have multiple priority images, as different images may be the LCP element for different viewport sizes.
+Bạn nên sử dụng thuộc tính `priority` trên bất kỳ image nào được phát hiện là phần tử [Largest Contentful Paint (LCP)](https://nextjs.org/learn/seo/web-performance/lcp). Có thể phù hợp để có nhiều priority images, vì các images khác nhau có thể là phần tử LCP cho các kích thước viewport khác nhau.
 
-Should only be used when the image is visible above the fold. Defaults to `false`.
+Chỉ nên được sử dụng khi image hiển thị above the fold. Mặc định là `false`.
 
 ### placeholder
 
-A placeholder to use while the image is loading. Possible values are `blur` or `empty`. Defaults to `empty`.
+Một placeholder để sử dụng trong khi image đang tải. Các giá trị có thể là `blur` hoặc `empty`. Mặc định là `empty`.
 
-When `blur`, the [`blurDataURL`](#blurdataurl) property will be used as the placeholder. If `src` is an object from a [static import](/docs/pages/api-reference/components/image#src) and the imported image is `.jpg`, `.png`, `.webp`, or `.avif`, then `blurDataURL` will be automatically populated.
+Khi `blur`, thuộc tính [`blurDataURL`](#blurdataurl) sẽ được sử dụng làm placeholder. Nếu `src` là một object từ [static import](/docs/pages/api-reference/components/image#src) và image được import là `.jpg`, `.png`, `.webp`, hoặc `.avif`, thì `blurDataURL` sẽ được tự động điền.
 
-For dynamic images, you must provide the [`blurDataURL`](#blurdataurl) property. Solutions such as [Plaiceholder](https://github.com/joe-bell/plaiceholder) can help with `base64` generation.
+Đối với dynamic images, bạn phải cung cấp thuộc tính [`blurDataURL`](#blurdataurl). Các giải pháp như [Plaiceholder](https://github.com/joe-bell/plaiceholder) có thể giúp tạo `base64`.
 
-When `empty`, there will be no placeholder while the image is loading, only empty space.
+Khi `empty`, sẽ không có placeholder trong khi image đang tải, chỉ có khoảng trống rỗng.
 
-Try it out:
+Thử nó:
 
-- [Demo the `blur` placeholder](https://image-legacy-component.nextjs.gallery/placeholder)
-- [Demo the shimmer effect with `blurDataURL` prop](https://image-legacy-component.nextjs.gallery/shimmer)
-- [Demo the color effect with `blurDataURL` prop](https://image-legacy-component.nextjs.gallery/color)
+- [Demo placeholder `blur`](https://image-legacy-component.nextjs.gallery/placeholder)
+- [Demo hiệu ứng shimmer với prop `blurDataURL`](https://image-legacy-component.nextjs.gallery/shimmer)
+- [Demo hiệu ứng màu với prop `blurDataURL`](https://image-legacy-component.nextjs.gallery/color)
 
 ## Advanced Props
 
-In some cases, you may need more advanced usage. The `<Image />` component optionally accepts the following advanced properties.
+Trong một số trường hợp, bạn có thể cần sử dụng nâng cao hơn. Component `<Image />` tùy chọn chấp nhận các thuộc tính nâng cao sau.
 
 ### style
 
-Allows [passing CSS styles](https://developer.mozilla.org/docs/Web/HTML/Element/style) to the underlying image element.
+Cho phép [truyền CSS styles](https://developer.mozilla.org/docs/Web/HTML/Element/style) cho phần tử image cơ bản.
 
-Note that all `layout` modes apply their own styles to the image element, and these automatic styles take precedence over the `style` prop.
+Lưu ý rằng tất cả các chế độ `layout` áp dụng styles riêng của chúng cho phần tử image, và các styles tự động này có ưu tiên hơn prop `style`.
 
-Also keep in mind that the required `width` and `height` props can interact with your styling. If you use styling to modify an image's `width`, you must set the `height="auto"` style as well, or your image will be distorted.
+Cũng lưu ý rằng các props `width` và `height` bắt buộc có thể tương tác với styling của bạn. Nếu bạn sử dụng styling để sửa đổi `width` của image, bạn cũng phải đặt style `height="auto"`, nếu không image của bạn sẽ bị biến dạng.
 
 ### objectFit
 
-Defines how the image will fit into its parent container when using `layout="fill"`.
+Định nghĩa cách image sẽ vừa với parent container của nó khi sử dụng `layout="fill"`.
 
-This value is passed to the [object-fit CSS property](https://developer.mozilla.org/docs/Web/CSS/object-fit) for the `src` image.
+Giá trị này được truyền cho [thuộc tính CSS object-fit](https://developer.mozilla.org/docs/Web/CSS/object-fit) cho image `src`.
 
 ### objectPosition
 
-Defines how the image is positioned within its parent element when using `layout="fill"`.
+Định nghĩa cách image được định vị trong parent element của nó khi sử dụng `layout="fill"`.
 
-This value is passed to the [object-position CSS property](https://developer.mozilla.org/docs/Web/CSS/object-position) applied to the image.
+Giá trị này được truyền cho [thuộc tính CSS object-position](https://developer.mozilla.org/docs/Web/CSS/object-position) được áp dụng cho image.
 
 ### onLoadingComplete
 
-A callback function that is invoked once the image is completely loaded and the [placeholder](#placeholder) has been removed.
+Một hàm callback được gọi khi image được tải hoàn toàn và [placeholder](#placeholder) đã được xóa.
 
-The `onLoadingComplete` function accepts one parameter, an object with the following properties:
+Hàm `onLoadingComplete` chấp nhận một tham số, một object với các thuộc tính sau:
 
 - [`naturalWidth`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/naturalWidth)
 - [`naturalHeight`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/naturalHeight)
 
 ### loading
 
-The loading behavior of the image. Defaults to `lazy`.
+Hành vi loading của image. Mặc định là `lazy`.
 
-When `lazy`, defer loading the image until it reaches a calculated distance from
-the viewport.
+Khi `lazy`, trì hoãn việc tải image cho đến khi nó đạt đến khoảng cách được tính toán từ
+viewport.
 
-When `eager`, load the image immediately.
+Khi `eager`, tải image ngay lập tức.
 
-[Learn more](https://developer.mozilla.org/docs/Web/HTML/Element/img#attr-loading)
+[Tìm hiểu thêm](https://developer.mozilla.org/docs/Web/HTML/Element/img#attr-loading)
 
 ### blurDataURL
 
-A [Data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) to
-be used as a placeholder image before the `src` image successfully loads. Only takes effect when combined
-with [`placeholder="blur"`](#placeholder).
+Một [Data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) để
+được sử dụng làm placeholder image trước khi image `src` tải thành công. Chỉ có hiệu lực khi kết hợp
+với [`placeholder="blur"`](#placeholder).
 
-Must be a base64-encoded image. It will be enlarged and blurred, so a very small image (10px or
-less) is recommended. Including larger images as placeholders may harm your application performance.
+Phải là một image được mã hóa base64. Nó sẽ được phóng to và làm mờ, vì vậy một image rất nhỏ (10px hoặc
+ít hơn) được khuyến nghị. Bao gồm các images lớn hơn làm placeholders có thể gây hại cho hiệu suất ứng dụng của bạn.
 
-Try it out:
+Thử nó:
 
-- [Demo the default `blurDataURL` prop](https://image-legacy-component.nextjs.gallery/placeholder)
-- [Demo the shimmer effect with `blurDataURL` prop](https://image-legacy-component.nextjs.gallery/shimmer)
-- [Demo the color effect with `blurDataURL` prop](https://image-legacy-component.nextjs.gallery/color)
+- [Demo prop `blurDataURL` mặc định](https://image-legacy-component.nextjs.gallery/placeholder)
+- [Demo hiệu ứng shimmer với prop `blurDataURL`](https://image-legacy-component.nextjs.gallery/shimmer)
+- [Demo hiệu ứng màu với prop `blurDataURL`](https://image-legacy-component.nextjs.gallery/color)
 
-You can also [generate a solid color Data URL](https://png-pixel.com) to match the image.
+Bạn cũng có thể [tạo Data URL màu đồng nhất](https://png-pixel.com) để khớp với image.
 
 ### lazyBoundary
 
-A string (with similar syntax to the margin property) that acts as the bounding box used to detect the intersection of the viewport with the image and trigger lazy [loading](#loading). Defaults to `"200px"`.
+Một chuỗi (với cú pháp tương tự như thuộc tính margin) hoạt động như bounding box được sử dụng để phát hiện giao điểm của viewport với image và kích hoạt lazy [loading](#loading). Mặc định là `"200px"`.
 
-If the image is nested in a scrollable parent element other than the root document, you will also need to assign the [lazyRoot](#lazyroot) prop.
+Nếu image được lồng trong một parent element có thể cuộn khác với root document, bạn cũng sẽ cần gán prop [lazyRoot](#lazyroot).
 
-[Learn more](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/rootMargin)
+[Tìm hiểu thêm](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/rootMargin)
 
 ### lazyRoot
 
-A React [Ref](https://react.dev/learn/referencing-values-with-refs) pointing to the scrollable parent element. Defaults to `null` (the document viewport).
+Một React [Ref](https://react.dev/learn/referencing-values-with-refs) trỏ đến parent element có thể cuộn. Mặc định là `null` (document viewport).
 
-The Ref must point to a DOM element or a React component that [forwards the Ref](https://react.dev/reference/react/forwardRef) to the underlying DOM element.
+Ref phải trỏ đến một DOM element hoặc một React component [forwards the Ref](https://react.dev/reference/react/forwardRef) đến DOM element cơ bản.
 
-**Example pointing to a DOM element**
+**Ví dụ trỏ đến một DOM element**
 
 ```jsx
 import Image from 'next/legacy/image'
@@ -277,7 +272,7 @@ const Example = () => {
 }
 ```
 
-**Example pointing to a React component**
+**Ví dụ trỏ đến một React component**
 
 ```jsx
 import Image from 'next/legacy/image'
@@ -303,13 +298,13 @@ const Example = () => {
 }
 ```
 
-[Learn more](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/root)
+[Tìm hiểu thêm](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/root)
 
 ### unoptimized
 
-When true, the source image will be served as-is from the `src` instead of changing quality, size, or format. Defaults to `false`.
+Khi true, source image sẽ được phục vụ nguyên trạng từ `src` thay vì thay đổi chất lượng, kích thước, hoặc định dạng. Mặc định là `false`.
 
-This is useful for images that do not benefit from optimization such as small images (less than 1KB), vector images (SVG), or animated images (GIF).
+Điều này hữu ích cho các images không được hưởng lợi từ tối ưu hóa như các images nhỏ (dưới 1KB), vector images (SVG), hoặc animated images (GIF).
 
 ```js
 import Image from 'next/image'
@@ -319,7 +314,7 @@ const UnoptimizedImage = (props) => {
 }
 ```
 
-Since Next.js 12.3.0, this prop can be assigned to all images by updating `next.config.js` with the following configuration:
+Kể từ Next.js 12.3.0, prop này có thể được gán cho tất cả các images bằng cách cập nhật `next.config.js` với cấu hình sau:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -329,22 +324,22 @@ module.exports = {
 }
 ```
 
-## Other Props
+## Props khác
 
-Other properties on the `<Image />` component will be passed to the underlying
-`img` element with the exception of the following:
+Các thuộc tính khác trên component `<Image />` sẽ được truyền cho phần tử
+`img` cơ bản ngoại trừ những điều sau:
 
-- `srcSet`. Use
+- `srcSet`. Sử dụng
   [Device Sizes](#device-sizes)
-  instead.
-- `ref`. Use [`onLoadingComplete`](#onloadingcomplete) instead.
-- `decoding`. It is always `"async"`.
+  thay thế.
+- `ref`. Sử dụng [`onLoadingComplete`](#onloadingcomplete) thay thế.
+- `decoding`. Nó luôn là `"async"`.
 
-## Configuration Options
+## Tùy chọn cấu hình
 
 ### Remote Patterns
 
-To protect your application from malicious users, configuration is required in order to use external images. This ensures that only external images from your account can be served from the Next.js Image Optimization API. These external images can be configured with the `remotePatterns` property in your `next.config.js` file, as shown below:
+Để bảo vệ ứng dụng của bạn khỏi người dùng độc hại, cấu hình là bắt buộc để sử dụng external images. Điều này đảm bảo rằng chỉ có external images từ tài khoản của bạn mới có thể được phục vụ từ Next.js Image Optimization API. Các external images này có thể được cấu hình với thuộc tính `remotePatterns` trong tệp `next.config.js` của bạn, như được hiển thị bên dưới:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -362,9 +357,9 @@ module.exports = {
 }
 ```
 
-> **Good to know**: The example above will ensure the `src` property of `next/legacy/image` must start with `https://example.com/account123/` and must not have a query string. Any other protocol, hostname, port, or unmatched path will respond with 400 Bad Request.
+> **Nên biết**: Ví dụ trên sẽ đảm bảo thuộc tính `src` của `next/legacy/image` phải bắt đầu với `https://example.com/account123/` và không được có query string. Bất kỳ protocol, hostname, port, hoặc unmatched path nào khác sẽ phản hồi với 400 Bad Request.
 
-Below is an example of the `remotePatterns` property in the `next.config.js` file using a wildcard pattern in the `hostname`:
+Dưới đây là một ví dụ về thuộc tính `remotePatterns` trong tệp `next.config.js` sử dụng wildcard pattern trong `hostname`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -381,18 +376,18 @@ module.exports = {
 }
 ```
 
-> **Good to know**: The example above will ensure the `src` property of `next/legacy/image` must start with `https://img1.example.com` or `https://me.avatar.example.com` or any number of subdomains. It cannot have a port or query string. Any other protocol or unmatched hostname will respond with 400 Bad Request.
+> **Nên biết**: Ví dụ trên sẽ đảm bảo thuộc tính `src` của `next/legacy/image` phải bắt đầu với `https://img1.example.com` hoặc `https://me.avatar.example.com` hoặc bất kỳ số lượng subdomains nào. Nó không thể có port hoặc query string. Bất kỳ protocol hoặc unmatched hostname nào khác sẽ phản hồi với 400 Bad Request.
 
-Wildcard patterns can be used for both `pathname` and `hostname` and have the following syntax:
+Wildcard patterns có thể được sử dụng cho cả `pathname` và `hostname` và có cú pháp sau:
 
-- `*` match a single path segment or subdomain
-- `**` match any number of path segments at the end or subdomains at the beginning
+- `*` khớp một path segment hoặc subdomain duy nhất
+- `**` khớp bất kỳ số lượng path segments nào ở cuối hoặc subdomains ở đầu
 
-The `**` syntax does not work in the middle of the pattern.
+Cú pháp `**` không hoạt động ở giữa pattern.
 
-> **Good to know**: When omitting `protocol`, `port`, `pathname`, or `search` then the wildcard `**` is implied. This is not recommended because it may allow malicious actors to optimize urls you did not intend.
+> **Nên biết**: Khi bỏ qua `protocol`, `port`, `pathname`, hoặc `search` thì wildcard `**` được ngầm định. Điều này không được khuyến nghị vì nó có thể cho phép các tác nhân độc hại tối ưu hóa các urls mà bạn không có ý định.
 
-Below is an example of the `remotePatterns` property in the `next.config.js` file using `search`:
+Dưới đây là một ví dụ về thuộc tính `remotePatterns` trong tệp `next.config.js` sử dụng `search`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -408,17 +403,17 @@ module.exports = {
 }
 ```
 
-> **Good to know**: The example above will ensure the `src` property of `next/legacy/image` must start with `https://assets.example.com` and must have the exact query string `?v=1727111025337`. Any other protocol or query string will respond with 400 Bad Request.
+> **Nên biết**: Ví dụ trên sẽ đảm bảo thuộc tính `src` của `next/legacy/image` phải bắt đầu với `https://assets.example.com` và phải có query string chính xác `?v=1727111025337`. Bất kỳ protocol hoặc query string nào khác sẽ phản hồi với 400 Bad Request.
 
 ### Domains
 
-> **Warning**: Deprecated since Next.js 14 in favor of strict [`remotePatterns`](#remote-patterns) in order to protect your application from malicious users. Only use `domains` if you own all the content served from the domain.
+> **Cảnh báo**: Không được dùng nữa kể từ Next.js 14 để ưu tiên [`remotePatterns`](#remote-patterns) nghiêm ngặt nhằm bảo vệ ứng dụng của bạn khỏi người dùng độc hại. Chỉ sử dụng `domains` nếu bạn sở hữu tất cả nội dung được phục vụ từ domain.
 
-Similar to [`remotePatterns`](#remote-patterns), the `domains` configuration can be used to provide a list of allowed hostnames for external images.
+Tương tự như [`remotePatterns`](#remote-patterns), cấu hình `domains` có thể được sử dụng để cung cấp danh sách các hostnames được phép cho external images.
 
-However, the `domains` configuration does not support wildcard pattern matching and it cannot restrict protocol, port, or pathname.
+Tuy nhiên, cấu hình `domains` không hỗ trợ wildcard pattern matching và nó không thể hạn chế protocol, port, hoặc pathname.
 
-Below is an example of the `domains` property in the `next.config.js` file:
+Dưới đây là một ví dụ về thuộc tính `domains` trong tệp `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -428,9 +423,9 @@ module.exports = {
 }
 ```
 
-### Loader Configuration
+### Cấu hình Loader
 
-If you want to use a cloud provider to optimize images instead of using the Next.js built-in Image Optimization API, you can configure the `loader` and `path` prefix in your `next.config.js` file. This allows you to use relative URLs for the Image [`src`](#src) and automatically generate the correct absolute URL for your provider.
+Nếu bạn muốn sử dụng cloud provider để tối ưu hóa images thay vì sử dụng Next.js built-in Image Optimization API, bạn có thể cấu hình `loader` và `path` prefix trong tệp `next.config.js` của bạn. Điều này cho phép bạn sử dụng relative URLs cho Image [`src`](#src) và tự động tạo absolute URL chính xác cho provider của bạn.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -441,9 +436,9 @@ module.exports = {
 }
 ```
 
-#### Customizing the Built-in Image Path
+#### Tùy chỉnh Built-in Image Path
 
-If you want to change or prefix the default path for the built-in Next.js image optimization, you can do so with the `path` property. The default value for `path` is `/_next/image`.
+Nếu bạn muốn thay đổi hoặc thêm tiền tố cho đường dẫn mặc định cho Next.js image optimization được tích hợp sẵn, bạn có thể làm như vậy với thuộc tính `path`. Giá trị mặc định cho `path` là `/_next/image`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -455,28 +450,28 @@ module.exports = {
 
 ### Built-in Loaders
 
-The following Image Optimization cloud providers are included:
+Các cloud providers Image Optimization sau được bao gồm:
 
-- Default: Works automatically with `next dev`, `next start`, or a custom server
-- [Vercel](https://vercel.com): Works automatically when you deploy on Vercel, no configuration necessary. [Learn more](https://vercel.com/docs/concepts/image-optimization?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)
+- Default: Hoạt động tự động với `next dev`, `next start`, hoặc custom server
+- [Vercel](https://vercel.com): Hoạt động tự động khi bạn triển khai trên Vercel, không cần cấu hình. [Tìm hiểu thêm](https://vercel.com/docs/concepts/image-optimization?utm_source=next-site&utm_medium=docs&utm_campaign=next-website)
 - [Imgix](https://www.imgix.com): `loader: 'imgix'`
 - [Cloudinary](https://cloudinary.com): `loader: 'cloudinary'`
 - [Akamai](https://www.akamai.com): `loader: 'akamai'`
-- Custom: `loader: 'custom'` use a custom cloud provider by implementing the [`loader`](#loader) prop on the `next/legacy/image` component
+- Custom: `loader: 'custom'` sử dụng custom cloud provider bằng cách triển khai prop [`loader`](#loader) trên component `next/legacy/image`
 
-If you need a different provider, you can use the [`loader`](#loader) prop with `next/legacy/image`.
+Nếu bạn cần một provider khác, bạn có thể sử dụng prop [`loader`](#loader) với `next/legacy/image`.
 
-> Images can not be optimized at build time using [`output: 'export'`](/docs/pages/guides/static-exports), only on-demand. To use `next/legacy/image` with `output: 'export'`, you will need to use a different loader than the default. [Read more in the discussion.](https://github.com/vercel/next.js/discussions/19065)
+> Images không thể được tối ưu hóa tại thời điểm build bằng cách sử dụng [`output: 'export'`](/docs/pages/guides/static-exports), chỉ on-demand. Để sử dụng `next/legacy/image` với `output: 'export'`, bạn sẽ cần sử dụng một loader khác với mặc định. [Đọc thêm trong discussion.](https://github.com/vercel/next.js/discussions/19065)
 
-## Advanced
+## Nâng cao
 
-The following configuration is for advanced use cases and is usually not necessary. If you choose to configure the properties below, you will override any changes to the Next.js defaults in future updates.
+Cấu hình sau dành cho các trường hợp sử dụng nâng cao và thường không cần thiết. Nếu bạn chọn cấu hình các thuộc tính bên dưới, bạn sẽ ghi đè bất kỳ thay đổi nào đối với các giá trị mặc định của Next.js trong các bản cập nhật tương lai.
 
 ### Device Sizes
 
-If you know the expected device widths of your users, you can specify a list of device width breakpoints using the `deviceSizes` property in `next.config.js`. These widths are used when the `next/legacy/image` component uses `layout="responsive"` or `layout="fill"` to ensure the correct image is served for user's device.
+Nếu bạn biết expected device widths của người dùng của bạn, bạn có thể chỉ định danh sách các device width breakpoints bằng thuộc tính `deviceSizes` trong `next.config.js`. Các widths này được sử dụng khi component `next/legacy/image` sử dụng `layout="responsive"` hoặc `layout="fill"` để đảm bảo image chính xác được phục vụ cho thiết bị của người dùng.
 
-If no configuration is provided, the default below is used.
+Nếu không có cấu hình nào được cung cấp, giá trị mặc định bên dưới được sử dụng.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -488,11 +483,11 @@ module.exports = {
 
 ### Image Sizes
 
-You can specify a list of image widths using the `images.imageSizes` property in your `next.config.js` file. These widths are concatenated with the array of [device sizes](#device-sizes) to form the full array of sizes used to generate image [srcset](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/srcset)s.
+Bạn có thể chỉ định danh sách các image widths bằng thuộc tính `images.imageSizes` trong tệp `next.config.js` của bạn. Các widths này được nối với mảng [device sizes](#device-sizes) để tạo thành mảng đầy đủ các kích thước được sử dụng để tạo image [srcset](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/srcset)s.
 
-The reason there are two separate lists is that imageSizes is only used for images which provide a [`sizes`](#sizes) prop, which indicates that the image is less than the full width of the screen. **Therefore, the sizes in imageSizes should all be smaller than the smallest size in deviceSizes.**
+Lý do có hai danh sách riêng biệt là imageSizes chỉ được sử dụng cho các images cung cấp prop [`sizes`](#sizes), cho biết rằng image nhỏ hơn full width của màn hình. **Do đó, các sizes trong imageSizes phải nhỏ hơn smallest size trong deviceSizes.**
 
-If no configuration is provided, the default below is used.
+Nếu không có cấu hình nào được cung cấp, giá trị mặc định bên dưới được sử dụng.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -504,11 +499,11 @@ module.exports = {
 
 ### Acceptable Formats
 
-The default [Image Optimization API](#loader-configuration) will automatically detect the browser's supported image formats via the request's `Accept` header in order to determine the best output format.
+[Image Optimization API](#loader-configuration) mặc định sẽ tự động phát hiện các định dạng image được hỗ trợ của trình duyệt thông qua header `Accept` của request để xác định định dạng output tốt nhất.
 
-If the `Accept` header matches more than one of the configured formats, the first match in the array is used. Therefore, the array order matters. If there is no match (or the source image is [animated](#animated-images)), the Image Optimization API will fallback to the original image's format.
+Nếu header `Accept` khớp với nhiều hơn một trong các định dạng được cấu hình, kết quả khớp đầu tiên trong mảng được sử dụng. Do đó, thứ tự mảng quan trọng. Nếu không có kết quả khớp (hoặc source image là [animated](#animated-images)), Image Optimization API sẽ fallback về định dạng gốc của image.
 
-If no configuration is provided, the default below is used.
+Nếu không có cấu hình nào được cung cấp, giá trị mặc định bên dưới được sử dụng.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -518,7 +513,7 @@ module.exports = {
 }
 ```
 
-You can enable AVIF support, which will fallback to the original format of the src image if the browser [does not support AVIF](https://caniuse.com/avif):
+Bạn có thể kích hoạt hỗ trợ AVIF, sẽ fallback về định dạng gốc của src image nếu trình duyệt [không hỗ trợ AVIF](https://caniuse.com/avif):
 
 ```js filename="next.config.js"
 module.exports = {
@@ -528,67 +523,67 @@ module.exports = {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - We still recommend using WebP for most use cases.
-> - AVIF generally takes 50% longer to encode but it compresses 20% smaller compared to WebP. This means that the first time an image is requested, it will typically be slower and then subsequent requests that are cached will be faster.
-> - If you self-host with a Proxy/CDN in front of Next.js, you must configure the Proxy to forward the `Accept` header.
+> - Chúng tôi vẫn khuyến nghị sử dụng WebP cho hầu hết các trường hợp sử dụng.
+> - AVIF thường mất 50% thời gian dài hơn để mã hóa nhưng nó nén nhỏ hơn 20% so với WebP. Điều này có nghĩa là lần đầu tiên một image được yêu cầu, nó thường sẽ chậm hơn và sau đó các yêu cầu tiếp theo được cache sẽ nhanh hơn.
+> - Nếu bạn tự host với Proxy/CDN trước Next.js, bạn phải cấu hình Proxy để forward header `Accept`.
 
-## Caching Behavior
+## Hành vi Caching
 
-The following describes the caching algorithm for the default [loader](#loader). For all other loaders, please refer to your cloud provider's documentation.
+Phần sau mô tả thuật toán caching cho [loader](#loader) mặc định. Đối với tất cả các loaders khác, vui lòng tham khảo tài liệu của cloud provider của bạn.
 
-Images are optimized dynamically upon request and stored in the `<distDir>/cache/images` directory. The optimized image file will be served for subsequent requests until the expiration is reached. When a request is made that matches a cached but expired file, the expired image is served stale immediately. Then the image is optimized again in the background (also called revalidation) and saved to the cache with the new expiration date.
+Images được tối ưu hóa động khi có yêu cầu và được lưu trữ trong thư mục `<distDir>/cache/images`. Tệp image được tối ưu hóa sẽ được phục vụ cho các yêu cầu tiếp theo cho đến khi hết hạn. Khi một yêu cầu được thực hiện khớp với tệp được cache nhưng đã hết hạn, image đã hết hạn được phục vụ stale ngay lập tức. Sau đó image được tối ưu hóa lại trong background (cũng được gọi là revalidation) và được lưu vào cache với ngày hết hạn mới.
 
-The cache status of an image can be determined by reading the value of the `x-nextjs-cache` (`x-vercel-cache` when deployed on Vercel) response header. The possible values are the following:
+Trạng thái cache của một image có thể được xác định bằng cách đọc giá trị của response header `x-nextjs-cache` (`x-vercel-cache` khi triển khai trên Vercel). Các giá trị có thể là:
 
-- `MISS` - the path is not in the cache (occurs at most once, on the first visit)
-- `STALE` - the path is in the cache but exceeded the revalidate time so it will be updated in the background
-- `HIT` - the path is in the cache and has not exceeded the revalidate time
+- `MISS` - đường dẫn không có trong cache (xảy ra nhiều nhất một lần, trong lần truy cập đầu tiên)
+- `STALE` - đường dẫn có trong cache nhưng vượt quá thời gian revalidate nên nó sẽ được cập nhật trong background
+- `HIT` - đường dẫn có trong cache và chưa vượt quá thời gian revalidate
 
-The expiration (or rather Max Age) is defined by either the [`minimumCacheTTL`](#minimum-cache-ttl) configuration or the upstream image `Cache-Control` header, whichever is larger. Specifically, the `max-age` value of the `Cache-Control` header is used. If both `s-maxage` and `max-age` are found, then `s-maxage` is preferred. The `max-age` is also passed-through to any downstream clients including CDNs and browsers.
+Thời gian hết hạn (hoặc Max Age) được định nghĩa bởi cấu hình [`minimumCacheTTL`](#minimum-cache-ttl) hoặc upstream image `Cache-Control` header, tùy theo cái nào lớn hơn. Cụ thể, giá trị `max-age` của header `Cache-Control` được sử dụng. Nếu cả `s-maxage` và `max-age` đều được tìm thấy, thì `s-maxage` được ưu tiên. `max-age` cũng được truyền qua cho bất kỳ downstream clients nào bao gồm CDNs và browsers.
 
-- You can configure [`minimumCacheTTL`](#minimum-cache-ttl) to increase the cache duration when the upstream image does not include `Cache-Control` header or the value is very low.
-- You can configure [`deviceSizes`](#device-sizes) and [`imageSizes`](#image-sizes) to reduce the total number of possible generated images.
-- You can configure [formats](#acceptable-formats) to disable multiple formats in favor of a single image format.
+- Bạn có thể cấu hình [`minimumCacheTTL`](#minimum-cache-ttl) để tăng thời lượng cache khi upstream image không bao gồm header `Cache-Control` hoặc giá trị rất thấp.
+- Bạn có thể cấu hình [`deviceSizes`](#device-sizes) và [`imageSizes`](#image-sizes) để giảm tổng số lượng images được tạo có thể.
+- Bạn có thể cấu hình [formats](#acceptable-formats) để vô hiệu hóa nhiều định dạng để ưu tiên một định dạng image duy nhất.
 
 ### Minimum Cache TTL
 
-You can configure the Time to Live (TTL) in seconds for cached optimized images. In many cases, it's better to use a [Static Image Import](/docs/pages/api-reference/components/image#src) which will automatically hash the file contents and cache the image forever with a `Cache-Control` header of `immutable`.
+Bạn có thể cấu hình Time to Live (TTL) tính bằng giây cho các images được tối ưu hóa được cache. Trong nhiều trường hợp, tốt hơn là sử dụng [Static Image Import](/docs/pages/api-reference/components/image#src) sẽ tự động hash nội dung tệp và cache image mãi mãi với header `Cache-Control` là `immutable`.
 
-If no configuration is provided, the default below is used.
-
-```js filename="next.config.js"
-module.exports = {
-  images: {
-    minimumCacheTTL: 14400, // 4 hours
-  },
-}
-```
-
-You can increase the TTL to reduce the number of revalidations and potentially lower cost:
+Nếu không có cấu hình nào được cung cấp, giá trị mặc định bên dưới được sử dụng.
 
 ```js filename="next.config.js"
 module.exports = {
   images: {
-    minimumCacheTTL: 2678400, // 31 days
+    minimumCacheTTL: 14400, // 4 giờ
   },
 }
 ```
 
-The expiration (or rather Max Age) of the optimized image is defined by either the `minimumCacheTTL` or the upstream image `Cache-Control` header, whichever is larger.
+Bạn có thể tăng TTL để giảm số lượng revalidations và có thể giảm chi phí:
 
-If you need to change the caching behavior per image, you can configure [`headers`](/docs/pages/api-reference/config/next-config-js/headers) to set the `Cache-Control` header on the upstream image (e.g. `/some-asset.jpg`, not `/_next/image` itself).
+```js filename="next.config.js"
+module.exports = {
+  images: {
+    minimumCacheTTL: 2678400, // 31 ngày
+  },
+}
+```
 
-There is no mechanism to invalidate the cache at this time, so its best to keep `minimumCacheTTL` low. Otherwise you may need to manually change the [`src`](#src) prop or delete `<distDir>/cache/images`.
+Thời gian hết hạn (hoặc Max Age) của image được tối ưu hóa được định nghĩa bởi `minimumCacheTTL` hoặc upstream image `Cache-Control` header, tùy theo cái nào lớn hơn.
 
-### Disable Static Imports
+Nếu bạn cần thay đổi hành vi caching cho mỗi image, bạn có thể cấu hình [`headers`](/docs/pages/api-reference/config/next-config-js/headers) để đặt header `Cache-Control` trên upstream image (ví dụ: `/some-asset.jpg`, không phải `/_next/image` chính nó).
 
-The default behavior allows you to import static files such as `import icon from './icon.png'` and then pass that to the `src` property.
+Không có cơ chế để vô hiệu hóa cache tại thời điểm này, vì vậy tốt nhất là giữ `minimumCacheTTL` thấp. Nếu không, bạn có thể cần thay đổi thủ công prop [`src`](#src) hoặc xóa `<distDir>/cache/images`.
 
-In some cases, you may wish to disable this feature if it conflicts with other plugins that expect the import to behave differently.
+### Vô hiệu hóa Static Imports
 
-You can disable static image imports inside your `next.config.js`:
+Hành vi mặc định cho phép bạn import các tệp tĩnh như `import icon from './icon.png'` và sau đó truyền nó cho thuộc tính `src`.
+
+Trong một số trường hợp, bạn có thể muốn vô hiệu hóa tính năng này nếu nó xung đột với các plugins khác mong đợi import hoạt động khác.
+
+Bạn có thể vô hiệu hóa static image imports bên trong `next.config.js` của bạn:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -600,11 +595,11 @@ module.exports = {
 
 ### Dangerously Allow SVG
 
-The default [loader](#loader) does not optimize SVG images for a few reasons. First, SVG is a vector format meaning it can be resized losslessly. Second, SVG has many of the same features as HTML/CSS, which can lead to vulnerabilities without proper [Content Security Policy (CSP) headers](/docs/app/api-reference/config/next-config-js/headers#content-security-policy).
+[Loader](#loader) mặc định không tối ưu hóa SVG images vì một số lý do. Đầu tiên, SVG là một định dạng vector có nghĩa là nó có thể được thay đổi kích thước mà không mất chất lượng. Thứ hai, SVG có nhiều tính năng giống như HTML/CSS, có thể dẫn đến các lỗ hổng bảo mật mà không có [Content Security Policy (CSP) headers](/docs/app/api-reference/config/next-config-js/headers#content-security-policy) phù hợp.
 
-Therefore, we recommended using the [`unoptimized`](#unoptimized) prop when the [`src`](#src) prop is known to be SVG. This happens automatically when `src` ends with `".svg"`.
+Do đó, chúng tôi khuyến nghị sử dụng prop [`unoptimized`](#unoptimized) khi prop [`src`](#src) được biết là SVG. Điều này xảy ra tự động khi `src` kết thúc bằng `".svg"`.
 
-However, if you need to serve SVG images with the default Image Optimization API, you can set `dangerouslyAllowSVG` inside your `next.config.js`:
+Tuy nhiên, nếu bạn cần phục vụ SVG images với Image Optimization API mặc định, bạn có thể đặt `dangerouslyAllowSVG` bên trong `next.config.js` của bạn:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -616,15 +611,15 @@ module.exports = {
 }
 ```
 
-In addition, it is strongly recommended to also set `contentDispositionType` to force the browser to download the image, as well as `contentSecurityPolicy` to prevent scripts embedded in the image from executing.
+Ngoài ra, rất khuyến nghị cũng đặt `contentDispositionType` để buộc trình duyệt tải xuống image, cũng như `contentSecurityPolicy` để ngăn các scripts được nhúng trong image thực thi.
 
 ### `contentDispositionType`
 
-The default [loader](#loader) sets the [`Content-Disposition`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#as_a_response_header_for_the_main_body) header to `attachment` for added protection since the API can serve arbitrary remote images.
+[Loader](#loader) mặc định đặt header [`Content-Disposition`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#as_a_response_header_for_the_main_body) thành `attachment` để bảo vệ thêm vì API có thể phục vụ các remote images tùy ý.
 
-The default value is `attachment` which forces the browser to download the image when visiting directly. This is particularly important when [`dangerouslyAllowSVG`](#dangerously-allow-svg) is true.
+Giá trị mặc định là `attachment` buộc trình duyệt tải xuống image khi truy cập trực tiếp. Điều này đặc biệt quan trọng khi [`dangerouslyAllowSVG`](#dangerously-allow-svg) là true.
 
-You can optionally configure `inline` to allow the browser to render the image when visiting directly, without downloading it.
+Bạn có thể tùy chọn cấu hình `inline` để cho phép trình duyệt render image khi truy cập trực tiếp, mà không cần tải xuống nó.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -636,13 +631,13 @@ module.exports = {
 
 ### Animated Images
 
-The default [loader](#loader) will automatically bypass Image Optimization for animated images and serve the image as-is.
+[Loader](#loader) mặc định sẽ tự động bỏ qua Image Optimization cho animated images và phục vụ image nguyên trạng.
 
-Auto-detection for animated files is best-effort and supports GIF, APNG, and WebP. If you want to explicitly bypass Image Optimization for a given animated image, use the [unoptimized](#unoptimized) prop.
+Auto-detection cho animated files là best-effort và hỗ trợ GIF, APNG, và WebP. Nếu bạn muốn rõ ràng bỏ qua Image Optimization cho một animated image nhất định, hãy sử dụng prop [unoptimized](#unoptimized).
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                             |
-| --------- | ------------------------------------------------------------------------------------------------------------------- |
-| `v16.0.0` | `next/legacy/image` deprecated and will be removed in a future version of Next.js. Please use `next/image` instead. |
-| `v13.0.0` | `next/image` renamed to `next/legacy/image`                                                                         |
+| Phiên bản | Thay đổi                                                                                                                            |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `v16.0.0` | `next/legacy/image` không được dùng nữa và sẽ bị xóa trong phiên bản tương lai của Next.js. Vui lòng sử dụng `next/image` thay thế. |
+| `v13.0.0` | `next/image` được đổi tên thành `next/legacy/image`                                                                                 |

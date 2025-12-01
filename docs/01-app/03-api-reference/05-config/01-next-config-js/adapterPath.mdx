@@ -1,13 +1,13 @@
 ---
 title: experimental.adapterPath
-description: Configure a custom adapter for Next.js to hook into the build process with modifyConfig and onBuildComplete callbacks.
+description: Cấu hình adapter tùy chỉnh cho Next.js để hook vào quá trình build với các callback modifyConfig và onBuildComplete.
 ---
 
-Next.js provides an experimental API that allows you to create custom adapters to hook into the build process. This is useful for deployment platforms or custom build integrations that need to modify the Next.js configuration or process the build output.
+Next.js cung cấp một API thử nghiệm cho phép bạn tạo các adapter tùy chỉnh để hook vào quá trình build. Điều này hữu ích cho các nền tảng triển khai hoặc tích hợp build tùy chỉnh cần sửa đổi cấu hình Next.js hoặc xử lý output của build.
 
-## Configuration
+## Cấu hình
 
-To use an adapter, specify the path to your adapter module in `experimental.adapterPath`:
+Để sử dụng một adapter, hãy chỉ định đường dẫn đến module adapter của bạn trong `experimental.adapterPath`:
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -20,9 +20,9 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-## Creating an Adapter
+## Tạo một Adapter
 
-An adapter is a module that exports an object implementing the `NextAdapter` interface:
+Một adapter là một module export một object triển khai interface `NextAdapter`:
 
 ```typescript
 export interface NextAdapter {
@@ -54,9 +54,9 @@ export interface NextAdapter {
 }
 ```
 
-### Basic Adapter Structure
+### Cấu trúc Adapter cơ bản
 
-Here's a minimal adapter example:
+Dưới đây là một ví dụ adapter tối thiểu:
 
 ```js filename="my-adapter.js"
 /** @type {import('next').NextAdapter} */
@@ -64,11 +64,11 @@ const adapter = {
   name: 'my-custom-adapter',
 
   async modifyConfig(config, { phase }) {
-    // Modify the Next.js config based on the build phase
+    // Sửa đổi cấu hình Next.js dựa trên giai đoạn build
     if (phase === 'phase-production-build') {
       return {
         ...config,
-        // Add your modifications
+        // Thêm các sửa đổi của bạn
       }
     }
     return config
@@ -83,10 +83,10 @@ const adapter = {
     config,
     nextVersion,
   }) {
-    // Process the build output
+    // Xử lý output của build
     console.log('Build completed with', outputs.pages.length, 'pages')
 
-    // Access different output types
+    // Truy cập các loại output khác nhau
     for (const page of outputs.pages) {
       console.log('Page:', page.pathname, 'at', page.filePath)
     }
@@ -108,45 +108,45 @@ const adapter = {
 module.exports = adapter
 ```
 
-## API Reference
+## Tài liệu tham khảo API
 
 ### `modifyConfig(config, context)`
 
-Called for any CLI command that loads the next.config to allow modification of the configuration.
+Được gọi cho bất kỳ lệnh CLI nào tải next.config để cho phép sửa đổi cấu hình.
 
-**Parameters:**
+**Tham số:**
 
-- `config`: The complete Next.js configuration object
-- `context.phase`: The current build phase (see [phases](/docs/app/api-reference/config/next-config-js#phase))
+- `config`: Object cấu hình Next.js hoàn chỉnh
+- `context.phase`: Giai đoạn build hiện tại (xem [phases](/docs/app/api-reference/config/next-config-js#phase))
 
-**Returns:** The modified configuration object (can be async)
+**Trả về:** Object cấu hình đã sửa đổi (có thể là async)
 
 ### `onBuildComplete(context)`
 
-Called after the build process completes with detailed information about routes and outputs.
+Được gọi sau khi quá trình build hoàn tất với thông tin chi tiết về routes và outputs.
 
-**Parameters:**
+**Tham số:**
 
-- `routes`: Object containing route manifests for headers, redirects, rewrites, and dynamic routes
-  - `routes.headers`: Array of header route objects with `source`, `sourceRegex`, `headers`, `has`, `missing`, and optional `priority` fields
-  - `routes.redirects`: Array of redirect route objects with `source`, `sourceRegex`, `destination`, `statusCode`, `has`, `missing`, and optional `priority` fields
-  - `routes.rewrites`: Object with `beforeFiles`, `afterFiles`, and `fallback` arrays, each containing rewrite route objects with `source`, `sourceRegex`, `destination`, `has`, and `missing` fields
-  - `routes.dynamicRoutes`: Array of dynamic route objects with `source`, `sourceRegex`, `destination`, `has`, and `missing` fields
-- `outputs`: Detailed information about all build outputs organized by type
-- `projectDir`: Absolute path to the Next.js project directory
-- `repoRoot`: Absolute path to the detected repository root
-- `distDir`: Absolute path to the build output directory
-- `config`: The final Next.js configuration (with `modifyConfig` applied)
-- `nextVersion`: Version of Next.js being used
-- `buildId`: Unique identifier for the current build
+- `routes`: Object chứa route manifests cho headers, redirects, rewrites, và dynamic routes
+  - `routes.headers`: Mảng các object header route với các trường `source`, `sourceRegex`, `headers`, `has`, `missing`, và tùy chọn `priority`
+  - `routes.redirects`: Mảng các object redirect route với các trường `source`, `sourceRegex`, `destination`, `statusCode`, `has`, `missing`, và tùy chọn `priority`
+  - `routes.rewrites`: Object với các mảng `beforeFiles`, `afterFiles`, và `fallback`, mỗi mảng chứa các object rewrite route với các trường `source`, `sourceRegex`, `destination`, `has`, và `missing`
+  - `routes.dynamicRoutes`: Mảng các object dynamic route với các trường `source`, `sourceRegex`, `destination`, `has`, và `missing`
+- `outputs`: Thông tin chi tiết về tất cả các build outputs được tổ chức theo loại
+- `projectDir`: Đường dẫn tuyệt đối đến thư mục dự án Next.js
+- `repoRoot`: Đường dẫn tuyệt đối đến thư mục gốc repository được phát hiện
+- `distDir`: Đường dẫn tuyệt đối đến thư mục build output
+- `config`: Cấu hình Next.js cuối cùng (đã áp dụng `modifyConfig`)
+- `nextVersion`: Phiên bản Next.js đang được sử dụng
+- `buildId`: Định danh duy nhất cho bản build hiện tại
 
-## Output Types
+## Các loại Output
 
-The `outputs` object contains arrays of different output types:
+Object `outputs` chứa các mảng của các loại output khác nhau:
 
 ### Pages (`outputs.pages`)
 
-React pages from the `pages/` directory:
+Các trang React từ thư mục `pages/`:
 
 ```typescript
 {
@@ -168,7 +168,7 @@ React pages from the `pages/` directory:
 
 ### API Routes (`outputs.pagesApi`)
 
-API routes from `pages/api/`:
+Các API routes từ `pages/api/`:
 
 ```typescript
 {
@@ -190,7 +190,7 @@ API routes from `pages/api/`:
 
 ### App Pages (`outputs.appPages`)
 
-React pages from the `app/` directory with `page.{js,ts,jsx,tsx}`:
+Các trang React từ thư mục `app/` với `page.{js,ts,jsx,tsx}`:
 
 ```typescript
 {
@@ -212,7 +212,7 @@ React pages from the `app/` directory with `page.{js,ts,jsx,tsx}`:
 
 ### App Routes (`outputs.appRoutes`)
 
-API and metadata routes from `app/` with `route.{js,ts,jsx,tsx}`:
+API và metadata routes từ `app/` với `route.{js,ts,jsx,tsx}`:
 
 ```typescript
 {
@@ -234,7 +234,7 @@ API and metadata routes from `app/` with `route.{js,ts,jsx,tsx}`:
 
 ### Prerenders (`outputs.prerenders`)
 
-ISR-enabled routes and static prerenders:
+Các routes kích hoạt ISR và static prerenders:
 
 ```typescript
 {
@@ -267,7 +267,7 @@ ISR-enabled routes and static prerenders:
 
 ### Static Files (`outputs.staticFiles`)
 
-Static assets and auto-statically optimized pages:
+Static assets và các trang được tối ưu hóa tĩnh tự động:
 
 ```typescript
 {
@@ -280,7 +280,7 @@ Static assets and auto-statically optimized pages:
 
 ### Middleware (`outputs.middleware`)
 
-Middleware function (if present):
+Hàm Middleware (nếu có):
 
 ```typescript
 {
@@ -306,60 +306,60 @@ Middleware function (if present):
 }
 ```
 
-## Routes Information
+## Thông tin Routes
 
-The `routes` object in `onBuildComplete` provides complete routing information with processed patterns ready for deployment:
+Object `routes` trong `onBuildComplete` cung cấp thông tin routing đầy đủ với các patterns đã xử lý sẵn sàng cho việc triển khai:
 
 ### Headers
 
-Each header route includes:
+Mỗi header route bao gồm:
 
-- `source`: Original route pattern (e.g., `/about`)
-- `sourceRegex`: Compiled regex for matching requests
-- `headers`: Key-value pairs of headers to apply
-- `has`: Optional conditions that must be met
-- `missing`: Optional conditions that must not be met
-- `priority`: Optional flag for internal routes
+- `source`: Route pattern gốc (ví dụ: `/about`)
+- `sourceRegex`: Regex đã biên dịch để khớp requests
+- `headers`: Các cặp key-value của headers để áp dụng
+- `has`: Các điều kiện tùy chọn phải được đáp ứng
+- `missing`: Các điều kiện tùy chọn phải không được đáp ứng
+- `priority`: Cờ tùy chọn cho các routes nội bộ
 
 ### Redirects
 
-Each redirect route includes:
+Mỗi redirect route bao gồm:
 
-- `source`: Original route pattern
-- `sourceRegex`: Compiled regex for matching
-- `destination`: Target URL (can include captured groups)
-- `statusCode`: HTTP status code (301, 302, 307, 308)
-- `has`: Optional positive conditions
-- `missing`: Optional negative conditions
-- `priority`: Optional flag for internal routes
+- `source`: Route pattern gốc
+- `sourceRegex`: Regex đã biên dịch để khớp
+- `destination`: URL đích (có thể bao gồm các nhóm đã bắt)
+- `statusCode`: Mã trạng thái HTTP (301, 302, 307, 308)
+- `has`: Các điều kiện dương tính tùy chọn
+- `missing`: Các điều kiện âm tính tùy chọn
+- `priority`: Cờ tùy chọn cho các routes nội bộ
 
 ### Rewrites
 
-Rewrites are categorized into three phases:
+Rewrites được phân loại thành ba giai đoạn:
 
-- `beforeFiles`: Checked before filesystem (including pages and public files)
-- `afterFiles`: Checked after pages/public files but before dynamic routes
-- `fallback`: Checked after all other routes
+- `beforeFiles`: Được kiểm tra trước hệ thống tệp (bao gồm pages và public files)
+- `afterFiles`: Được kiểm tra sau pages/public files nhưng trước dynamic routes
+- `fallback`: Được kiểm tra sau tất cả các routes khác
 
-Each rewrite includes `source`, `sourceRegex`, `destination`, `has`, and `missing`.
+Mỗi rewrite bao gồm `source`, `sourceRegex`, `destination`, `has`, và `missing`.
 
 ### Dynamic Routes
 
-Generated from dynamic route segments (e.g., `[slug]`, `[...path]`). Each includes:
+Được tạo từ các dynamic route segments (ví dụ: `[slug]`, `[...path]`). Mỗi cái bao gồm:
 
 - `source`: Route pattern
-- `sourceRegex`: Compiled regex with named capture groups
-- `destination`: Internal destination with parameter substitution
-- `has`: Optional positive conditions
-- `missing`: Optional negative conditions
+- `sourceRegex`: Regex đã biên dịch với các named capture groups
+- `destination`: Đích nội bộ với thay thế tham số
+- `has`: Các điều kiện dương tính tùy chọn
+- `missing`: Các điều kiện âm tính tùy chọn
 
-## Use Cases
+## Các trường hợp sử dụng
 
-Common use cases for adapters include:
+Các trường hợp sử dụng phổ biến cho adapters bao gồm:
 
-- **Deployment Platform Integration**: Automatically configure build outputs for specific hosting platforms
-- **Asset Processing**: Transform or optimize build outputs
-- **Monitoring Integration**: Collect build metrics and route information
-- **Custom Bundling**: Package outputs in platform-specific formats
-- **Build Validation**: Ensure outputs meet specific requirements
-- **Route Generation**: Use processed route information to generate platform-specific routing configs
+- **Tích hợp Nền tảng Triển khai**: Tự động cấu hình build outputs cho các nền tảng hosting cụ thể
+- **Xử lý Asset**: Chuyển đổi hoặc tối ưu hóa build outputs
+- **Tích hợp Giám sát**: Thu thập số liệu build và thông tin route
+- **Đóng gói Tùy chỉnh**: Đóng gói outputs theo các định dạng cụ thể của nền tảng
+- **Xác thực Build**: Đảm bảo outputs đáp ứng các yêu cầu cụ thể
+- **Tạo Route**: Sử dụng thông tin route đã xử lý để tạo configs routing cụ thể của nền tảng

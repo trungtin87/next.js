@@ -1,15 +1,15 @@
 ---
 title: ImageResponse
-description: API Reference for the ImageResponse constructor.
+description: Tài liệu tham khảo API cho ImageResponse constructor.
 ---
 
-The `ImageResponse` constructor allows you to generate dynamic images using JSX and CSS. This is useful for generating social media images such as Open Graph images, Twitter cards, and more.
+`ImageResponse` constructor cho phép bạn tạo dynamic images bằng JSX và CSS. Điều này hữu ích để tạo social media images như Open Graph images, Twitter cards, và nhiều hơn nữa.
 
-## Reference
+## Tham khảo
 
 ### Parameters
 
-The following parameters are available for `ImageResponse`:
+Các parameters sau đây có sẵn cho `ImageResponse`:
 
 ```jsx
 import { ImageResponse } from 'next/og'
@@ -36,26 +36,26 @@ new ImageResponse(
 )
 ```
 
-> Examples are available in the [Vercel OG Playground](https://og-playground.vercel.app/).
+> Các ví dụ có sẵn trong [Vercel OG Playground](https://og-playground.vercel.app/).
 
-### Supported HTML and CSS features
+### Các tính năng HTML và CSS được hỗ trợ
 
-`ImageResponse` supports common CSS properties including flexbox and absolute positioning, custom fonts, text wrapping, centering, and nested images.
+`ImageResponse` hỗ trợ các CSS properties phổ biến bao gồm flexbox và absolute positioning, custom fonts, text wrapping, centering, và nested images.
 
-Please refer to [Satori’s documentation](https://github.com/vercel/satori#css) for a list of supported HTML and CSS features.
+Vui lòng tham khảo [tài liệu của Satori](https://github.com/vercel/satori#css) để biết danh sách các tính năng HTML và CSS được hỗ trợ.
 
-## Behavior
+## Hành vi
 
-- `ImageResponse` uses [@vercel/og](https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation), [Satori](https://github.com/vercel/satori), and Resvg to convert HTML and CSS into PNG.
-- Only flexbox and a subset of CSS properties are supported. Advanced layouts (e.g. `display: grid`) will not work.
-- Maximum bundle size of `500KB`. The bundle size includes your JSX, CSS, fonts, images, and any other assets. If you exceed the limit, consider reducing the size of any assets or fetching at runtime.
-- Only `ttf`, `otf`, and `woff` font formats are supported. To maximize the font parsing speed, `ttf` or `otf` are preferred over `woff`.
+- `ImageResponse` sử dụng [@vercel/og](https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation), [Satori](https://github.com/vercel/satori), và Resvg để chuyển đổi HTML và CSS thành PNG.
+- Chỉ flexbox và một tập hợp con các CSS properties được hỗ trợ. Các layouts nâng cao (ví dụ: `display: grid`) sẽ không hoạt động.
+- Kích thước bundle tối đa là `500KB`. Kích thước bundle bao gồm JSX, CSS, fonts, images, và bất kỳ assets nào khác. Nếu bạn vượt quá giới hạn, hãy xem xét giảm kích thước của bất kỳ assets nào hoặc fetching tại runtime.
+- Chỉ các định dạng font `ttf`, `otf`, và `woff` được hỗ trợ. Để tối đa hóa tốc độ parsing font, `ttf` hoặc `otf` được ưu tiên hơn `woff`.
 
-## Examples
+## Ví dụ
 
 ### Route Handlers
 
-`ImageResponse` can be used in Route Handlers to generate images dynamically at request time.
+`ImageResponse` có thể được sử dụng trong Route Handlers để tạo images động tại request time.
 
 ```js filename="app/api/route.js"
 import { ImageResponse } from 'next/og'
@@ -113,7 +113,7 @@ export async function GET() {
 
 ### File-based Metadata
 
-You can use `ImageResponse` in a [`opengraph-image.tsx`](/docs/app/api-reference/file-conventions/metadata/opengraph-image) file to generate Open Graph images at build time or dynamically at request time.
+Bạn có thể sử dụng `ImageResponse` trong một tệp [`opengraph-image.tsx`](/docs/app/api-reference/file-conventions/metadata/opengraph-image) để tạo Open Graph images tại build time hoặc động tại request time.
 
 ```tsx filename="app/opengraph-image.tsx"
 import { ImageResponse } from 'next/og'
@@ -158,7 +158,7 @@ export default async function Image() {
 
 ### Custom fonts
 
-You can use custom fonts in your `ImageResponse` by providing a `fonts` array in the options.
+Bạn có thể sử dụng custom fonts trong `ImageResponse` của bạn bằng cách cung cấp một mảng `fonts` trong options.
 
 ```tsx filename="app/opengraph-image.tsx"
 import { ImageResponse } from 'next/og'
@@ -203,10 +203,10 @@ export default async function Image() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                               |
-| --------- | ----------------------------------------------------- |
-| `v14.0.0` | `ImageResponse` moved from `next/server` to `next/og` |
-| `v13.3.0` | `ImageResponse` can be imported from `next/server`.   |
-| `v13.0.0` | `ImageResponse` introduced via `@vercel/og` package.  |
+| Phiên bản | Thay đổi                                                  |
+| --------- | --------------------------------------------------------- |
+| `v14.0.0` | `ImageResponse` chuyển từ `next/server` sang `next/og`    |
+| `v13.3.0` | `ImageResponse` có thể được import từ `next/server`.      |
+| `v13.0.0` | `ImageResponse` được giới thiệu qua package `@vercel/og`. |

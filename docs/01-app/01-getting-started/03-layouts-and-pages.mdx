@@ -1,9 +1,9 @@
 ---
-title: Layouts and Pages
-description: Learn how to create your first pages and layouts, and link between them with the Link component.
+title: Layouts và Pages
+description: Tìm hiểu cách tạo pages và layouts đầu tiên của bạn, và liên kết giữa chúng với component Link.
 related:
-  title: API Reference
-  description: Learn more about the features mentioned in this page by reading the API Reference.
+  title: Tài liệu tham khảo API
+  description: Tìm hiểu thêm về các tính năng được đề cập trong trang này bằng cách đọc Tài liệu tham khảo API.
   links:
     - app/getting-started/linking-and-navigating
     - app/api-reference/file-conventions/layout
@@ -12,11 +12,11 @@ related:
     - app/api-reference/file-conventions/dynamic-routes
 ---
 
-Next.js uses **file-system based routing**, meaning you can use folders and files to define routes. This page will guide you through how to create layouts and pages, and link between them.
+Next.js sử dụng **định tuyến dựa trên hệ thống file (file-system based routing)**, có nghĩa là bạn có thể sử dụng các thư mục và files để định nghĩa routes. Trang này sẽ hướng dẫn bạn cách tạo layouts và pages, và liên kết giữa chúng.
 
-## Creating a page
+## Tạo một page
 
-A **page** is UI that is rendered on a specific route. To create a page, add a [`page` file](/docs/app/api-reference/file-conventions/page) inside the `app` directory and default export a React component. For example, to create an index page (`/`):
+Một **page** là UI được render trên một route cụ thể. Để tạo một page, thêm [`page` file](/docs/app/api-reference/file-conventions/page) vào bên trong thư mục `app` và default export một React component. Ví dụ, để tạo một index page (`/`):
 
 <Image
   alt="page.js special file"
@@ -38,13 +38,13 @@ export default function Page() {
 }
 ```
 
-## Creating a layout
+## Tạo một layout
 
-A layout is UI that is **shared** between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender.
+Layout là UI được **chia sẻ** giữa nhiều pages. Khi điều hướng (navigation), layouts bảo toàn state, vẫn tương tác được, và không rerender.
 
-You can define a layout by default exporting a React component from a [`layout` file](/docs/app/api-reference/file-conventions/layout). The component should accept a `children` prop which can be a page or another [layout](#nesting-layouts).
+Bạn có thể định nghĩa một layout bằng cách default export một React component từ [`layout` file](/docs/app/api-reference/file-conventions/layout). Component này nên chấp nhận một prop `children` có thể là một page hoặc một [layout](#nesting-layouts) khác.
 
-For example, to create a layout that accepts your index page as child, add a `layout` file inside the `app` directory:
+Ví dụ, để tạo một layout chấp nhận index page của bạn làm child, thêm `layout` file vào trong thư mục `app`:
 
 <Image
   alt="layout.js special file"
@@ -64,7 +64,7 @@ export default function DashboardLayout({
     <html lang="en">
       <body>
         {/* Layout UI */}
-        {/* Place children where you want to render a page or nested layout */}
+        {/* Đặt children ở nơi bạn muốn render một page hoặc nested layout */}
         <main>{children}</main>
       </body>
     </html>
@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }) {
     <html lang="en">
       <body>
         {/* Layout UI */}
-        {/* Place children where you want to render a page or nested layout */}
+        {/* Đặt children ở nơi bạn muốn render một page hoặc nested layout */}
         <main>{children}</main>
       </body>
     </html>
@@ -86,22 +86,22 @@ export default function DashboardLayout({ children }) {
 }
 ```
 
-The layout above is called a [root layout](/docs/app/api-reference/file-conventions/layout#root-layout) because it's defined at the root of the `app` directory. The root layout is **required** and must contain `html` and `body` tags.
+Layout ở trên được gọi là [root layout](/docs/app/api-reference/file-conventions/layout#root-layout) vì nó được định nghĩa ở root của thư mục `app`. Root layout là **bắt buộc** và phải chứa các thẻ `html` và `body`.
 
-## Creating a nested route
+## Tạo một nested route
 
-A nested route is a route composed of multiple URL segments. For example, the `/blog/[slug]` route is composed of three segments:
+Một nested route là một route được tạo thành từ nhiều URL segments. Ví dụ, route `/blog/[slug]` được tạo thành từ ba segments:
 
 - `/` (Root Segment)
 - `blog` (Segment)
 - `[slug]` (Leaf Segment)
 
-In Next.js:
+Trong Next.js:
 
-- **Folders** are used to define the route segments that map to URL segments.
-- **Files** (like `page` and `layout`) are used to create UI that is shown for a segment.
+- **Thư mục (Folders)** được sử dụng để định nghĩa các route segments ánh xạ tới URL segments.
+- **Files** (như `page` và `layout`) được sử dụng để tạo UI được hiển thị cho một segment.
 
-To create nested routes, you can nest folders inside each other. For example, to add a route for `/blog`, create a folder called `blog` in the `app` directory. Then, to make `/blog` publicly accessible, add a `page.tsx` file:
+Để tạo nested routes, bạn có thể lồng các thư mục vào nhau. Ví dụ, để thêm route cho `/blog`, tạo một thư mục tên `blog` trong thư mục `app`. Sau đó, để làm cho `/blog` có thể truy cập công khai, thêm file `page.tsx`:
 
 <Image
   alt="File hierarchy showing blog folder and a page.js file"
@@ -147,7 +147,7 @@ export default async function Page() {
 }
 ```
 
-You can continue nesting folders to create nested routes. For example, to create a route for a specific blog post, create a new `[slug]` folder inside `blog` and add a `page` file:
+Bạn có thể tiếp tục lồng các thư mục để tạo nested routes. Ví dụ, để tạo route cho một blog post cụ thể, tạo thư mục `[slug]` mới bên trong `blog` và thêm file `page`:
 
 <Image
   alt="File hierarchy showing blog folder with a nested slug folder and a page.js file"
@@ -173,13 +173,13 @@ export default function Page() {
 }
 ```
 
-Wrapping a folder name in square brackets (e.g. `[slug]`) creates a [dynamic route segment](/docs/app/api-reference/file-conventions/dynamic-routes) which is used to generate multiple pages from data. e.g. blog posts, product pages, etc.
+Bọc tên thư mục trong dấu ngoặc vuông (ví dụ: `[slug]`) tạo một [dynamic route segment](/docs/app/api-reference/file-conventions/dynamic-routes) được sử dụng để generate nhiều pages từ dữ liệu. ví dụ: blog posts, product pages, v.v.
 
-## Nesting layouts
+## Lồng layouts (Nesting layouts)
 
-By default, layouts in the folder hierarchy are also nested, which means they wrap child layouts via their `children` prop. You can nest layouts by adding `layout` inside specific route segments (folders).
+Theo mặc định, layouts trong folder hierarchy cũng được lồng nhau, có nghĩa là chúng bọc child layouts thông qua prop `children`. Bạn có thể lồng layouts bằng cách thêm `layout` vào bên trong các route segments (folders) cụ thể.
 
-For example, to create a layout for the `/blog` route, add a new `layout` file inside the `blog` folder.
+Ví dụ, để tạo một layout cho route `/blog`, thêm `layout` file mới vào bên trong thư mục `blog`.
 
 <Image
   alt="File hierarchy showing root layout wrapping the blog layout"
@@ -205,13 +205,13 @@ export default function BlogLayout({ children }) {
 }
 ```
 
-If you were to combine the two layouts above, the root layout (`app/layout.js`) would wrap the blog layout (`app/blog/layout.js`), which would wrap the blog (`app/blog/page.js`) and blog post page (`app/blog/[slug]/page.js`).
+Nếu bạn kết hợp hai layouts ở trên, root layout (`app/layout.js`) sẽ bọc blog layout (`app/blog/layout.js`), layout này sẽ bọc blog (`app/blog/page.js`) và blog post page (`app/blog/[slug]/page.js`).
 
-## Creating a dynamic segment
+## Tạo một dynamic segment
 
-[Dynamic segments](/docs/app/api-reference/file-conventions/dynamic-routes) allow you to create routes that are generated from data. For example, instead of manually creating a route for each individual blog post, you can create a dynamic segment to generate the routes based on blog post data.
+[Dynamic segments](/docs/app/api-reference/file-conventions/dynamic-routes) cho phép bạn tạo các routes được generate từ dữ liệu. Ví dụ, thay vì tạo thủ công một route cho mỗi blog post riêng lẻ, bạn có thể tạo một dynamic segment để generate các routes dựa trên dữ liệu blog post.
 
-To create a dynamic segment, wrap the segment (folder) name in square brackets: `[segmentName]`. For example, in the `app/blog/[slug]/page.tsx` route, the `[slug]` is the dynamic segment.
+Để tạo một dynamic segment, bọc tên segment (thư mục) trong dấu ngoặc vuông: `[segmentName]`. Ví dụ, trong route `app/blog/[slug]/page.tsx`, `[slug]` là dynamic segment.
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export default async function BlogPostPage({
@@ -245,13 +245,13 @@ export default async function BlogPostPage({ params }) {
 }
 ```
 
-Learn more about [Dynamic Segments](/docs/app/api-reference/file-conventions/dynamic-routes) and the [`params`](/docs/app/api-reference/file-conventions/page#params-optional) props.
+Tìm hiểu thêm về [Dynamic Segments](/docs/app/api-reference/file-conventions/dynamic-routes) và prop [`params`](/docs/app/api-reference/file-conventions/page#params-optional).
 
-Nested [layouts within Dynamic Segments](/docs/app/api-reference/file-conventions/layout#params-optional), can also access the `params` props.
+Các [layouts lồng nhau trong Dynamic Segments](/docs/app/api-reference/file-conventions/layout#params-optional), cũng có thể truy cập prop `params`.
 
-## Rendering with search params
+## Rendering với search params
 
-In a Server Component **page**, you can access search parameters using the [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) prop:
+Trong một Server Component **page**, bạn có thể truy cập search parameters bằng cách sử dụng prop [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional):
 
 ```tsx filename="app/page.tsx" switcher
 export default async function Page({
@@ -269,23 +269,23 @@ export default async function Page({ searchParams }) {
 }
 ```
 
-Using `searchParams` opts your page into [**dynamic rendering**](/docs/app/guides/caching#dynamic-rendering) because it requires a incoming request to read the search parameters from.
+Sử dụng `searchParams` chọn page của bạn vào [**dynamic rendering**](/docs/app/guides/caching#dynamic-rendering) vì nó yêu cầu incoming request để đọc search parameters.
 
-Client Components can read search params using the [`useSearchParams`](/docs/app/api-reference/functions/use-search-params) hook.
+Client Components có thể đọc search params bằng cách sử dụng hook [`useSearchParams`](/docs/app/api-reference/functions/use-search-params).
 
-Learn more about `useSearchParams` in [statically rendered](/docs/app/api-reference/functions/use-search-params#static-rendering) and [dynamically rendered](/docs/app/api-reference/functions/use-search-params#dynamic-rendering) routes.
+Tìm hiểu thêm về `useSearchParams` trong các routes [statically rendered](/docs/app/api-reference/functions/use-search-params#static-rendering) và [dynamically rendered](/docs/app/api-reference/functions/use-search-params#dynamic-rendering).
 
-### What to use and when
+### Khi nào sử dụng cái gì
 
-- Use the `searchParams` prop when you need search parameters to **load data for the page** (e.g. pagination, filtering from a database).
-- Use `useSearchParams` when search parameters are used **only on the client** (e.g. filtering a list already loaded via props).
-- As a small optimization, you can use `new URLSearchParams(window.location.search)` in **callbacks or event handlers** to read search params without triggering re-renders.
+- Sử dụng prop `searchParams` khi bạn cần search parameters để **load dữ liệu cho page** (ví dụ: pagination, filtering từ database).
+- Sử dụng `useSearchParams` khi search parameters chỉ được sử dụng **trên client** (ví dụ: filtering một list đã được load qua props).
+- Như một tối ưu nhỏ, bạn có thể sử dụng `new URLSearchParams(window.location.search)` trong **callbacks hoặc event handlers** để đọc search params mà không kích hoạt re-renders.
 
-## Linking between pages
+## Liên kết giữa các pages
 
-You can use the [`<Link>` component](/docs/app/api-reference/components/link) to navigate between routes. `<Link>` is a built-in Next.js component that extends the HTML `<a>` tag to provide [prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) and [client-side navigation](/docs/app/getting-started/linking-and-navigating#client-side-transitions).
+Bạn có thể sử dụng [`<Link>` component](/docs/app/api-reference/components/link) để điều hướng giữa các routes. `<Link>` là component Next.js tích hợp sẵn mở rộng thẻ HTML `<a>` để cung cấp [prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) và [client-side navigation](/docs/app/getting-started/linking-and-navigating#client-side-transitions).
 
-For example, to generate a list of blog posts, import `<Link>` from `next/link` and pass a `href` prop to the component:
+Ví dụ, để generate một danh sách blog posts, import `<Link>` từ `next/link` và truyền prop `href` cho component:
 
 ```tsx filename="app/ui/post.tsx" highlight={1,10} switcher
 import Link from 'next/link'
@@ -323,16 +323,16 @@ export default async function Post({ post }) {
 }
 ```
 
-> **Good to know**: `<Link>` is the primary way to navigate between routes in Next.js. You can also use the [`useRouter` hook](/docs/app/api-reference/functions/use-router) for more advanced navigation.
+> **Lưu ý**: `<Link>` là cách chính để điều hướng giữa các routes trong Next.js. Bạn cũng có thể sử dụng [`useRouter` hook](/docs/app/api-reference/functions/use-router) cho việc điều hướng nâng cao hơn.
 
 ## Route Props Helpers
 
-Next.js exposes utility types that infer `params` and named slots from your route structure:
+Next.js cung cấp các utility types suy luận `params` và named slots từ cấu trúc route của bạn:
 
-- [**PageProps**](/docs/app/api-reference/file-conventions/page#page-props-helper): Props for `page` components, including `params` and `searchParams`.
-- [**LayoutProps**](/docs/app/api-reference/file-conventions/layout#layout-props-helper): Props for `layout` components, including `children` and any named slots (e.g. folders like `@analytics`).
+- [**PageProps**](/docs/app/api-reference/file-conventions/page#page-props-helper): Props cho `page` components, bao gồm `params` và `searchParams`.
+- [**LayoutProps**](/docs/app/api-reference/file-conventions/layout#layout-props-helper): Props cho `layout` components, bao gồm `children` và bất kỳ named slots nào (ví dụ: thư mục như `@analytics`).
 
-These are globally available helpers, generated when running either `next dev`, `next build` or [`next typegen`](/docs/app/api-reference/cli/next#next-typegen-options).
+Đây là các helpers có sẵn toàn cục (globally available), được generate khi chạy `next dev`, `next build` hoặc [`next typegen`](/docs/app/api-reference/cli/next#next-typegen-options).
 
 ```tsx filename="app/blog/[slug]/page.tsx"
 export default async function Page(props: PageProps<'/blog/[slug]'>) {
@@ -346,15 +346,15 @@ export default function Layout(props: LayoutProps<'/dashboard'>) {
   return (
     <section>
       {props.children}
-      {/* If you have app/dashboard/@analytics, it appears as a typed slot: */}
+      {/* Nếu bạn có app/dashboard/@analytics, nó xuất hiện như một typed slot: */}
       {/* {props.analytics} */}
     </section>
   )
 }
 ```
 
-> **Good to know**
+> **Lưu ý**
 >
-> - Static routes resolve `params` to `{}`.
-> - `PageProps`, `LayoutProps` are global helpers — no imports required.
-> - Types are generated during `next dev`, `next build` or `next typegen`.
+> - Static routes resolve `params` thành `{}`.
+> - `PageProps`, `LayoutProps` là global helpers — không cần imports.
+> - Types được generate trong quá trình `next dev`, `next build` hoặc `next typegen`.

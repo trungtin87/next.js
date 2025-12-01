@@ -1,33 +1,33 @@
 ---
 title: proxy.js
-description: API reference for the proxy.js file.
+description: Tài liệu tham khảo API cho file proxy.js.
 related:
-  title: Learn more about Proxy
+  title: Tìm hiểu thêm về Proxy
   links:
     - app/api-reference/functions/next-request
     - app/api-reference/functions/next-response
 ---
 
-> **Note**: The `middleware` file convention is deprecated and has been renamed to `proxy`. See [Migration to Proxy](#migration-to-proxy) for more details.
+> **Lưu ý**: File convention `middleware` đã bị deprecated và được đổi tên thành `proxy`. Xem [Di chuyển sang Proxy](#migration-to-proxy) để biết thêm chi tiết.
 
-The `proxy.js|ts` file is used to write [Proxy](/docs/app/getting-started/proxy) and run code on the server before a request is completed. Then, based on the incoming request, you can modify the response by rewriting, redirecting, modifying the request or response headers, or responding directly.
+File `proxy.js|ts` được sử dụng để viết [Proxy](/docs/app/getting-started/proxy) và chạy mã trên server trước khi một yêu cầu được hoàn thành. Sau đó, dựa trên yêu cầu đến, bạn có thể sửa đổi phản hồi bằng cách viết lại (rewriting), chuyển hướng (redirecting), sửa đổi request hoặc response headers, hoặc phản hồi trực tiếp.
 
-Proxy executes before routes are rendered. It's particularly useful for implementing custom server-side logic like authentication, logging, or handling redirects.
+Proxy thực thi trước khi các routes được render. Nó đặc biệt hữu ích để triển khai logic server-side tùy chỉnh như xác thực, logging, hoặc xử lý chuyển hướng.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> Proxy is meant to be invoked separately of your render code and in optimized cases deployed to your CDN for fast redirect/rewrite handling, you should not attempt relying on shared modules or globals.
+> Proxy được thiết kế để được gọi riêng biệt với mã render của bạn và trong các trường hợp được tối ưu hóa được triển khai đến CDN của bạn để xử lý redirect/rewrite nhanh chóng, bạn không nên cố gắng dựa vào các modules hoặc globals được chia sẻ.
 >
-> To pass information from Proxy to your application, use [headers](#setting-headers), [cookies](#using-cookies), [rewrites](/docs/app/api-reference/functions/next-response#rewrite), [redirects](/docs/app/api-reference/functions/next-response#redirect), or the URL.
+> Để truyền thông tin từ Proxy đến ứng dụng của bạn, sử dụng [headers](#setting-headers), [cookies](#using-cookies), [rewrites](/docs/app/api-reference/functions/next-response#rewrite), [redirects](/docs/app/api-reference/functions/next-response#redirect), hoặc URL.
 
-Create a `proxy.ts` (or `.js`) file in the project root, or inside `src` if applicable, so that it is located at the same level as `pages` or `app`.
+Tạo một file `proxy.ts` (hoặc `.js`) trong project root, hoặc bên trong `src` nếu có, để nó nằm cùng cấp với `pages` hoặc `app`.
 
-If you’ve customized [`pageExtensions`](/docs/app/api-reference/config/next-config-js/pageExtensions), for example to `.page.ts` or `.page.js`, name your file `proxy.page.ts` or `proxy.page.js` accordingly.
+Nếu bạn đã tùy chỉnh [`pageExtensions`](/docs/app/api-reference/config/next-config-js/pageExtensions), ví dụ thành `.page.ts` hoặc `.page.js`, hãy đặt tên file của bạn là `proxy.page.ts` hoặc `proxy.page.js` tương ứng.
 
 ```tsx filename="proxy.ts" switcher
 import { NextResponse, NextRequest } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
+// Hàm này có thể được đánh dấu là `async` nếu sử dụng `await` bên trong
 export function proxy(request: NextRequest) {
   return NextResponse.redirect(new URL('/home', request.url))
 }
@@ -40,7 +40,7 @@ export const config = {
 ```js filename="proxy.js" switcher
 import { NextResponse } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
+// Hàm này có thể được đánh dấu là `async` nếu sử dụng `await` bên trong
 export function proxy(request) {
   return NextResponse.redirect(new URL('/home', request.url))
 }
@@ -54,25 +54,25 @@ export const config = {
 
 ### Proxy function
 
-The file must export a single function, either as a default export or named `proxy`. Note that multiple proxy from the same file are not supported.
+File phải export một hàm duy nhất, hoặc dưới dạng default export hoặc được đặt tên là `proxy`. Lưu ý rằng nhiều proxy từ cùng một file không được hỗ trợ.
 
 ```js filename="proxy.js"
-// Example of default export
+// Ví dụ về default export
 export default function proxy(request) {
-  // Proxy logic
+  // Logic Proxy
 }
 ```
 
-### Config object (optional)
+### Config object (tùy chọn)
 
-Optionally, a config object can be exported alongside the Proxy function. This object includes the [matcher](#matcher) to specify paths where the Proxy applies.
+Tùy chọn, một config object có thể được export cùng với hàm Proxy. Object này bao gồm [matcher](#matcher) để chỉ định các paths nơi Proxy áp dụng.
 
 ### Matcher
 
-The `matcher` option allows you to target specific paths for the Proxy to run on. You can specify these paths in several ways:
+Tùy chọn `matcher` cho phép bạn nhắm mục tiêu các paths cụ thể để Proxy chạy trên đó. Bạn có thể chỉ định các paths này theo nhiều cách:
 
-- For a single path: Directly use a string to define the path, like `'/about'`.
-- For multiple paths: Use an array to list multiple paths, such as `matcher: ['/about', '/contact']`, which applies the Proxy to both `/about` and `/contact`.
+- Đối với một path đơn lẻ: Sử dụng trực tiếp một chuỗi để định nghĩa path, như `'/about'`.
+- Đối với nhiều paths: Sử dụng một mảng để liệt kê nhiều paths, chẳng hạn như `matcher: ['/about', '/contact']`, áp dụng Proxy cho cả `/about` và `/contact`.
 
 ```js filename="proxy.js"
 export const config = {
@@ -80,15 +80,15 @@ export const config = {
 }
 ```
 
-Additionally, the `matcher` option supports complex path specifications through regular expressions, such as `matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)']`, enabling precise control over which paths to include or exclude.
+Ngoài ra, tùy chọn `matcher` hỗ trợ các đặc tả path phức tạp thông qua regular expressions, chẳng hạn như `matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)']`, cho phép kiểm soát chính xác các paths nào được bao gồm hoặc loại trừ.
 
-The `matcher` option accepts an array of objects with the following keys:
+Tùy chọn `matcher` chấp nhận một mảng các objects với các keys sau:
 
-- `source`: The path or pattern used to match the request paths. It can be a string for direct path matching or a pattern for more complex matching.
-- `regexp` (optional): A regular expression string that fine-tunes the matching based on the source. It provides additional control over which paths are included or excluded.
-- `locale` (optional): A boolean that, when set to `false`, ignores locale-based routing in path matching.
-- `has` (optional): Specifies conditions based on the presence of specific request elements such as headers, query parameters, or cookies.
-- `missing` (optional): Focuses on conditions where certain request elements are absent, like missing headers or cookies.
+- `source`: Path hoặc pattern được sử dụng để khớp với các request paths. Nó có thể là một chuỗi để khớp path trực tiếp hoặc một pattern để khớp phức tạp hơn.
+- `regexp` (tùy chọn): Một chuỗi regular expression tinh chỉnh việc khớp dựa trên source. Nó cung cấp thêm quyền kiểm soát đối với các paths nào được bao gồm hoặc loại trừ.
+- `locale` (tùy chọn): Một boolean, khi được đặt thành `false`, bỏ qua routing dựa trên locale trong việc khớp path.
+- `has` (tùy chọn): Chỉ định các điều kiện dựa trên sự hiện diện của các yếu tố request cụ thể như headers, query parameters, hoặc cookies.
+- `missing` (tùy chọn): Tập trung vào các điều kiện nơi các yếu tố request nhất định bị thiếu, như thiếu headers hoặc cookies.
 
 ```js filename="proxy.js"
 export const config = {
@@ -107,96 +107,96 @@ export const config = {
 }
 ```
 
-Configured matchers:
+Các matchers đã cấu hình:
 
-1. MUST start with `/`
-2. Can include named parameters: `/about/:path` matches `/about/a` and `/about/b` but not `/about/a/c`
-3. Can have modifiers on named parameters (starting with `:`): `/about/:path*` matches `/about/a/b/c` because `*` is _zero or more_. `?` is _zero or one_ and `+` _one or more_
-4. Can use regular expression enclosed in parenthesis: `/about/(.*)` is the same as `/about/:path*`
+1. PHẢI bắt đầu bằng `/`
+2. Có thể bao gồm các tham số được đặt tên: `/about/:path` khớp với `/about/a` và `/about/b` nhưng không khớp với `/about/a/c`
+3. Có thể có các modifiers trên các tham số được đặt tên (bắt đầu bằng `:`): `/about/:path*` khớp với `/about/a/b/c` vì `*` là _zero or more_. `?` là _zero or one_ và `+` là _one or more_
+4. Có thể sử dụng regular expression được bao quanh trong dấu ngoặc đơn: `/about/(.*)` giống như `/about/:path*`
 
-Read more details on [path-to-regexp](https://github.com/pillarjs/path-to-regexp#path-to-regexp-1) documentation.
+Đọc thêm chi tiết trên tài liệu [path-to-regexp](https://github.com/pillarjs/path-to-regexp#path-to-regexp-1).
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - The `matcher` values need to be constants so they can be statically analyzed at build-time. Dynamic values such as variables will be ignored.
-> - For backward compatibility, Next.js always considers `/public` as `/public/index`. Therefore, a matcher of `/public/:path` will match.
+> - Các giá trị `matcher` cần phải là hằng số để chúng có thể được phân tích tĩnh tại build-time. Các giá trị dynamic như biến sẽ bị bỏ qua.
+> - Để tương thích ngược, Next.js luôn coi `/public` là `/public/index`. Do đó, một matcher của `/public/:path` sẽ khớp.
 
 ## Params
 
 ### `request`
 
-When defining Proxy, the default export function accepts a single parameter, `request`. This parameter is an instance of `NextRequest`, which represents the incoming HTTP request.
+Khi định nghĩa Proxy, hàm export mặc định chấp nhận một tham số duy nhất, `request`. Tham số này là một instance của `NextRequest`, đại diện cho HTTP request đến.
 
 ```tsx filename="proxy.ts" switcher
 import type { NextRequest } from 'next/server'
 
 export function proxy(request: NextRequest) {
-  // Proxy logic goes here
+  // Logic Proxy ở đây
 }
 ```
 
 ```js filename="proxy.js" switcher
 export function proxy(request) {
-  // Proxy logic goes here
+  // Logic Proxy ở đây
 }
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - `NextRequest` is a type that represents incoming HTTP requests in Next.js Proxy, whereas [`NextResponse`](#nextresponse) is a class used to manipulate and send back HTTP responses.
+> - `NextRequest` là một type đại diện cho các HTTP requests đến trong Next.js Proxy, trong khi [`NextResponse`](#nextresponse) là một class được sử dụng để thao tác và gửi lại các HTTP responses.
 
 ## NextResponse
 
-The `NextResponse` API allows you to:
+API `NextResponse` cho phép bạn:
 
-- `redirect` the incoming request to a different URL
-- `rewrite` the response by displaying a given URL
-- Set request headers for API Routes, `getServerSideProps`, and `rewrite` destinations
-- Set response cookies
-- Set response headers
+- `redirect` request đến một URL khác
+- `rewrite` response bằng cách hiển thị một URL đã cho
+- Đặt request headers cho API Routes, `getServerSideProps`, và các đích đến `rewrite`
+- Đặt response cookies
+- Đặt response headers
 
 <AppOnly>
 
-To produce a response from Proxy, you can:
+Để tạo ra một phản hồi từ Proxy, bạn có thể:
 
-1. `rewrite` to a route ([Page](/docs/app/api-reference/file-conventions/page) or [Route Handler](/docs/app/api-reference/file-conventions/route)) that produces a response
-2. return a `NextResponse` directly. See [Producing a Response](#producing-a-response)
+1. `rewrite` đến một route ([Page](/docs/app/api-reference/file-conventions/page) hoặc [Route Handler](/docs/app/api-reference/file-conventions/route)) tạo ra một phản hồi
+2. trả về một `NextResponse` trực tiếp. Xem [Tạo ra một phản hồi](#producing-a-response)
 
-> **Good to know**: For redirects, you can also use `Response.redirect` instead of `NextResponse.redirect`.
+> **Lưu ý**: Đối với redirects, bạn cũng có thể sử dụng `Response.redirect` thay vì `NextResponse.redirect`.
 
 </AppOnly>
 
 <PagesOnly>
 
-To produce a response from Proxy, you can:
+Để tạo ra một phản hồi từ Proxy, bạn có thể:
 
-1. `rewrite` to a route ([Page](/docs/pages/building-your-application/routing/pages-and-layouts) or [Edge API Route](/docs/pages/building-your-application/routing/api-routes)) that produces a response
-2. return a `NextResponse` directly. See [Producing a Response](#producing-a-response)
+1. `rewrite` đến một route ([Page](/docs/pages/building-your-application/routing/pages-and-layouts) hoặc [Edge API Route](/docs/pages/building-your-application/routing/api-routes)) tạo ra một phản hồi
+2. trả về một `NextResponse` trực tiếp. Xem [Tạo ra một phản hồi](#producing-a-response)
 
 </PagesOnly>
 
-## Execution order
+## Thứ tự thực thi
 
-Proxy will be invoked for **every route in your project**. Given this, it's crucial to use [matchers](#matcher) to precisely target or exclude specific routes. The following is the execution order:
+Proxy sẽ được gọi cho **mọi route trong project của bạn**. Do đó, điều quan trọng là sử dụng [matchers](#matcher) để nhắm mục tiêu chính xác hoặc loại trừ các routes cụ thể. Sau đây là thứ tự thực thi:
 
-1. `headers` from `next.config.js`
-2. `redirects` from `next.config.js`
-3. Proxy (`rewrites`, `redirects`, etc.)
-4. `beforeFiles` (`rewrites`) from `next.config.js`
-5. Filesystem routes (`public/`, `_next/static/`, `pages/`, `app/`, etc.)
-6. `afterFiles` (`rewrites`) from `next.config.js`
+1. `headers` từ `next.config.js`
+2. `redirects` từ `next.config.js`
+3. Proxy (`rewrites`, `redirects`, v.v.)
+4. `beforeFiles` (`rewrites`) từ `next.config.js`
+5. Filesystem routes (`public/`, `_next/static/`, `pages/`, `app/`, v.v.)
+6. `afterFiles` (`rewrites`) từ `next.config.js`
 7. Dynamic Routes (`/blog/[slug]`)
-8. `fallback` (`rewrites`) from `next.config.js`
+8. `fallback` (`rewrites`) từ `next.config.js`
 
 ## Runtime
 
-Proxy defaults to using the Node.js runtime. The [`runtime`](/docs/app/api-reference/file-conventions/route-segment-config#runtime) config option is not available in Proxy files. Setting the `runtime` config option in Proxy will throw an error.
+Proxy mặc định sử dụng Node.js runtime. Tùy chọn cấu hình [`runtime`](/docs/app/api-reference/file-conventions/route-segment-config#runtime) không có sẵn trong các file Proxy. Đặt tùy chọn cấu hình `runtime` trong Proxy sẽ ném ra lỗi.
 
-## Advanced Proxy flags
+## Các cờ Proxy nâng cao
 
-In `v13.1` of Next.js two additional flags were introduced for proxy, `skipMiddlewareUrlNormalize` and `skipTrailingSlashRedirect` to handle advanced use cases.
+Trong `v13.1` của Next.js, hai cờ bổ sung đã được giới thiệu cho proxy, `skipMiddlewareUrlNormalize` và `skipTrailingSlashRedirect` để xử lý các trường hợp sử dụng nâng cao.
 
-`skipTrailingSlashRedirect` disables Next.js redirects for adding or removing trailing slashes. This allows custom handling inside proxy to maintain the trailing slash for some paths but not others, which can make incremental migrations easier.
+`skipTrailingSlashRedirect` vô hiệu hóa các chuyển hướng Next.js để thêm hoặc xóa dấu gạch chéo ở cuối. Điều này cho phép xử lý tùy chỉnh bên trong proxy để duy trì dấu gạch chéo ở cuối cho một số paths nhưng không cho những paths khác, điều này có thể làm cho việc di chuyển gia tăng dễ dàng hơn.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -214,7 +214,7 @@ export default async function proxy(req) {
     return NextResponse.next()
   }
 
-  // apply trailing slash handling
+  // áp dụng xử lý trailing slash
   if (
     !pathname.endsWith('/') &&
     !pathname.match(/((?!\.well-known(?:\/.*)?)(?:[^/]+\/)*[^/]+\.\w+)/)
@@ -226,7 +226,7 @@ export default async function proxy(req) {
 }
 ```
 
-`skipMiddlewareUrlNormalize` allows for disabling the URL normalization in Next.js to make handling direct visits and client-transitions the same. In some advanced cases, this option provides full control by using the original URL.
+`skipMiddlewareUrlNormalize` cho phép vô hiệu hóa việc chuẩn hóa URL trong Next.js để làm cho việc xử lý các lượt truy cập trực tiếp và client-transitions giống nhau. Trong một số trường hợp nâng cao, tùy chọn này cung cấp quyền kiểm soát hoàn toàn bằng cách sử dụng URL gốc.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -241,14 +241,14 @@ export default async function proxy(req) {
   // GET /_next/data/build-id/hello.json
 
   console.log(pathname)
-  // with the flag this now /_next/data/build-id/hello.json
-  // without the flag this would be normalized to /hello
+  // với cờ này bây giờ là /_next/data/build-id/hello.json
+  // không có cờ này sẽ được chuẩn hóa thành /hello
 }
 ```
 
-## Examples
+## Ví dụ
 
-### Conditional Statements
+### Các câu lệnh điều kiện
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse } from 'next/server'
@@ -279,20 +279,20 @@ export function proxy(request) {
 }
 ```
 
-### Using Cookies
+### Sử dụng Cookies
 
-Cookies are regular headers. On a `Request`, they are stored in the `Cookie` header. On a `Response` they are in the `Set-Cookie` header. Next.js provides a convenient way to access and manipulate these cookies through the `cookies` extension on `NextRequest` and `NextResponse`.
+Cookies là các headers thông thường. Trên một `Request`, chúng được lưu trữ trong header `Cookie`. Trên một `Response` chúng nằm trong header `Set-Cookie`. Next.js cung cấp một cách thuận tiện để truy cập và thao tác các cookies này thông qua extension `cookies` trên `NextRequest` và `NextResponse`.
 
-1. For incoming requests, `cookies` comes with the following methods: `get`, `getAll`, `set`, and `delete` cookies. You can check for the existence of a cookie with `has` or remove all cookies with `clear`.
-2. For outgoing responses, `cookies` have the following methods `get`, `getAll`, `set`, and `delete`.
+1. Đối với các requests đến, `cookies` đi kèm với các phương thức sau: `get`, `getAll`, `set`, và `delete` cookies. Bạn có thể kiểm tra sự tồn tại của một cookie với `has` hoặc xóa tất cả cookies với `clear`.
+2. Đối với các responses đi, `cookies` có các phương thức sau `get`, `getAll`, `set`, và `delete`.
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function proxy(request: NextRequest) {
-  // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
-  // Getting cookies from the request using the `RequestCookies` API
+  // Giả sử một header "Cookie:nextjs=fast" hiện diện trên request đến
+  // Lấy cookies từ request sử dụng API `RequestCookies`
   let cookie = request.cookies.get('nextjs')
   console.log(cookie) // => { name: 'nextjs', value: 'fast', Path: '/' }
   const allCookies = request.cookies.getAll()
@@ -302,7 +302,7 @@ export function proxy(request: NextRequest) {
   request.cookies.delete('nextjs')
   request.cookies.has('nextjs') // => false
 
-  // Setting cookies on the response using the `ResponseCookies` API
+  // Đặt cookies trên response sử dụng API `ResponseCookies`
   const response = NextResponse.next()
   response.cookies.set('vercel', 'fast')
   response.cookies.set({
@@ -312,7 +312,7 @@ export function proxy(request: NextRequest) {
   })
   cookie = response.cookies.get('vercel')
   console.log(cookie) // => { name: 'vercel', value: 'fast', Path: '/' }
-  // The outgoing response will have a `Set-Cookie:vercel=fast;path=/` header.
+  // Response đi sẽ có header `Set-Cookie:vercel=fast;path=/`.
 
   return response
 }
@@ -322,8 +322,8 @@ export function proxy(request: NextRequest) {
 import { NextResponse } from 'next/server'
 
 export function proxy(request) {
-  // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
-  // Getting cookies from the request using the `RequestCookies` API
+  // Giả sử một header "Cookie:nextjs=fast" hiện diện trên request đến
+  // Lấy cookies từ request sử dụng API `RequestCookies`
   let cookie = request.cookies.get('nextjs')
   console.log(cookie) // => { name: 'nextjs', value: 'fast', Path: '/' }
   const allCookies = request.cookies.getAll()
@@ -333,7 +333,7 @@ export function proxy(request) {
   request.cookies.delete('nextjs')
   request.cookies.has('nextjs') // => false
 
-  // Setting cookies on the response using the `ResponseCookies` API
+  // Đặt cookies trên response sử dụng API `ResponseCookies`
   const response = NextResponse.next()
   response.cookies.set('vercel', 'fast')
   response.cookies.set({
@@ -343,34 +343,34 @@ export function proxy(request) {
   })
   cookie = response.cookies.get('vercel')
   console.log(cookie) // => { name: 'vercel', value: 'fast', Path: '/' }
-  // The outgoing response will have a `Set-Cookie:vercel=fast;path=/` header.
+  // Response đi sẽ có header `Set-Cookie:vercel=fast;path=/`.
 
   return response
 }
 ```
 
-### Setting Headers
+### Đặt Headers
 
-You can set request and response headers using the `NextResponse` API (setting _request_ headers is available since Next.js v13.0.0).
+Bạn có thể đặt request và response headers sử dụng API `NextResponse` (đặt _request_ headers có sẵn kể từ Next.js v13.0.0).
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function proxy(request: NextRequest) {
-  // Clone the request headers and set a new header `x-hello-from-proxy1`
+  // Clone request headers và đặt một header mới `x-hello-from-proxy1`
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('x-hello-from-proxy1', 'hello')
 
-  // You can also set request headers in NextResponse.next
+  // Bạn cũng có thể đặt request headers trong NextResponse.next
   const response = NextResponse.next({
     request: {
-      // New request headers
+      // Request headers mới
       headers: requestHeaders,
     },
   })
 
-  // Set a new response header `x-hello-from-proxy2`
+  // Đặt một response header mới `x-hello-from-proxy2`
   response.headers.set('x-hello-from-proxy2', 'hello')
   return response
 }
@@ -380,36 +380,36 @@ export function proxy(request: NextRequest) {
 import { NextResponse } from 'next/server'
 
 export function proxy(request) {
-  // Clone the request headers and set a new header `x-hello-from-proxy1`
+  // Clone request headers và đặt một header mới `x-hello-from-proxy1`
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('x-hello-from-proxy1', 'hello')
 
-  // You can also set request headers in NextResponse.next
+  // Bạn cũng có thể đặt request headers trong NextResponse.next
   const response = NextResponse.next({
     request: {
-      // New request headers
+      // Request headers mới
       headers: requestHeaders,
     },
   })
 
-  // Set a new response header `x-hello-from-proxy2`
+  // Đặt một response header mới `x-hello-from-proxy2`
   response.headers.set('x-hello-from-proxy2', 'hello')
   return response
 }
 ```
 
-Note that the snippet uses:
+Lưu ý rằng đoạn mã sử dụng:
 
-- `NextResponse.next({ request: { headers: requestHeaders } })` to make `requestHeaders` available upstream
-- **NOT** `NextResponse.next({ headers: requestHeaders })` which makes `requestHeaders` available to clients
+- `NextResponse.next({ request: { headers: requestHeaders } })` để làm cho `requestHeaders` có sẵn ở thượng nguồn (upstream)
+- **KHÔNG** `NextResponse.next({ headers: requestHeaders })` cái mà làm cho `requestHeaders` có sẵn cho clients
 
-Learn more in [NextResponse headers in Proxy](/docs/app/api-reference/functions/next-response#next).
+Tìm hiểu thêm trong [NextResponse headers trong Proxy](/docs/app/api-reference/functions/next-response#next).
 
-> **Good to know**: Avoid setting large headers as it might cause [431 Request Header Fields Too Large](https://developer.mozilla.org/docs/Web/HTTP/Status/431) error depending on your backend web server configuration.
+> **Lưu ý**: Tránh đặt headers lớn vì nó có thể gây ra lỗi [431 Request Header Fields Too Large](https://developer.mozilla.org/docs/Web/HTTP/Status/431) tùy thuộc vào cấu hình backend web server của bạn.
 
 ### CORS
 
-You can set CORS headers in Proxy to allow cross-origin requests, including [simple](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#simple_requests) and [preflighted](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#preflighted_requests) requests.
+Bạn có thể đặt CORS headers trong Proxy để cho phép các yêu cầu cross-origin, bao gồm các yêu cầu [simple](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#simple_requests) và [preflighted](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#preflighted_requests).
 
 ```tsx filename="proxy.ts" switcher
 import { NextRequest, NextResponse } from 'next/server'
@@ -422,11 +422,11 @@ const corsOptions = {
 }
 
 export function proxy(request: NextRequest) {
-  // Check the origin from the request
+  // Kiểm tra origin từ request
   const origin = request.headers.get('origin') ?? ''
   const isAllowedOrigin = allowedOrigins.includes(origin)
 
-  // Handle preflighted requests
+  // Xử lý preflighted requests
   const isPreflight = request.method === 'OPTIONS'
 
   if (isPreflight) {
@@ -437,7 +437,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.json({}, { headers: preflightHeaders })
   }
 
-  // Handle simple requests
+  // Xử lý simple requests
   const response = NextResponse.next()
 
   if (isAllowedOrigin) {
@@ -467,11 +467,11 @@ const corsOptions = {
 }
 
 export function proxy(request) {
-  // Check the origin from the request
+  // Kiểm tra origin từ request
   const origin = request.headers.get('origin') ?? ''
   const isAllowedOrigin = allowedOrigins.includes(origin)
 
-  // Handle preflighted requests
+  // Xử lý preflighted requests
   const isPreflight = request.method === 'OPTIONS'
 
   if (isPreflight) {
@@ -482,7 +482,7 @@ export function proxy(request) {
     return NextResponse.json({}, { headers: preflightHeaders })
   }
 
-  // Handle simple requests
+  // Xử lý simple requests
   const response = NextResponse.next()
 
   if (isAllowedOrigin) {
@@ -503,27 +503,27 @@ export const config = {
 
 <AppOnly>
 
-> **Good to know:** You can configure CORS headers for individual routes in [Route Handlers](/docs/app/api-reference/file-conventions/route#cors).
+> **Lưu ý:** Bạn có thể cấu hình CORS headers cho các routes riêng lẻ trong [Route Handlers](/docs/app/api-reference/file-conventions/route#cors).
 
 </AppOnly>
 
-### Producing a response
+### Tạo ra một phản hồi
 
-You can respond from Proxy directly by returning a `Response` or `NextResponse` instance. (This is available since [Next.js v13.1.0](https://nextjs.org/blog/next-13-1#nextjs-advanced-proxy))
+Bạn có thể phản hồi từ Proxy trực tiếp bằng cách trả về một instance `Response` hoặc `NextResponse`. (Điều này có sẵn kể từ [Next.js v13.1.0](https://nextjs.org/blog/next-13-1#nextjs-advanced-proxy))
 
 ```ts filename="proxy.ts" switcher
 import type { NextRequest } from 'next/server'
 import { isAuthenticated } from '@lib/auth'
 
-// Limit the proxy to paths starting with `/api/`
+// Giới hạn proxy cho các paths bắt đầu bằng `/api/`
 export const config = {
   matcher: '/api/:function*',
 }
 
 export function proxy(request: NextRequest) {
-  // Call our authentication function to check the request
+  // Gọi hàm xác thực của chúng tôi để kiểm tra request
   if (!isAuthenticated(request)) {
-    // Respond with JSON indicating an error message
+    // Phản hồi với JSON chỉ ra một thông báo lỗi
     return Response.json(
       { success: false, message: 'authentication failed' },
       { status: 401 }
@@ -535,15 +535,15 @@ export function proxy(request: NextRequest) {
 ```js filename="proxy.js" switcher
 import { isAuthenticated } from '@lib/auth'
 
-// Limit the proxy to paths starting with `/api/`
+// Giới hạn proxy cho các paths bắt đầu bằng `/api/`
 export const config = {
   matcher: '/api/:function*',
 }
 
 export function proxy(request) {
-  // Call our authentication function to check the request
+  // Gọi hàm xác thực của chúng tôi để kiểm tra request
   if (!isAuthenticated(request)) {
-    // Respond with JSON indicating an error message
+    // Phản hồi với JSON chỉ ra một thông báo lỗi
     return Response.json(
       { success: false, message: 'authentication failed' },
       { status: 401 }
@@ -554,13 +554,13 @@ export function proxy(request) {
 
 ### Negative matching
 
-The `matcher` config allows full regex so matching like negative lookaheads or character matching is supported. An example of a negative lookahead to match all except specific paths can be seen here:
+Config `matcher` cho phép regex đầy đủ vì vậy việc khớp như negative lookaheads hoặc khớp ký tự được hỗ trợ. Một ví dụ về negative lookahead để khớp tất cả ngoại trừ các paths cụ thể có thể được nhìn thấy ở đây:
 
 ```js filename="proxy.js"
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Khớp tất cả các request paths ngoại trừ các paths bắt đầu bằng:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
@@ -571,13 +571,13 @@ export const config = {
 }
 ```
 
-You can also bypass Proxy for certain requests by using the `missing` or `has` arrays, or a combination of both:
+Bạn cũng có thể bỏ qua Proxy cho các requests nhất định bằng cách sử dụng các mảng `missing` hoặc `has`, hoặc kết hợp cả hai:
 
 ```js filename="proxy.js"
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Khớp tất cả các request paths ngoại trừ các paths bắt đầu bằng:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
@@ -611,11 +611,11 @@ export const config = {
 }
 ```
 
-### `waitUntil` and `NextFetchEvent`
+### `waitUntil` và `NextFetchEvent`
 
-The `NextFetchEvent` object extends the native [`FetchEvent`](https://developer.mozilla.org/docs/Web/API/FetchEvent) object, and includes the [`waitUntil()`](https://developer.mozilla.org/docs/Web/API/ExtendableEvent/waitUntil) method.
+Object `NextFetchEvent` mở rộng object [`FetchEvent`](https://developer.mozilla.org/docs/Web/API/FetchEvent) gốc, và bao gồm phương thức [`waitUntil()`](https://developer.mozilla.org/docs/Web/API/ExtendableEvent/waitUntil).
 
-The `waitUntil()` method takes a promise as an argument, and extends the lifetime of the Proxy until the promise settles. This is useful for performing work in the background.
+Phương thức `waitUntil()` nhận một promise làm đối số, và kéo dài thời gian tồn tại của Proxy cho đến khi promise giải quyết (settles). Điều này hữu ích để thực hiện công việc trong nền.
 
 ```ts filename="proxy.ts"
 import { NextResponse } from 'next/server'
@@ -635,9 +635,9 @@ export function proxy(req: NextRequest, event: NextFetchEvent) {
 
 ### Unit testing (experimental)
 
-Starting in Next.js 15.1, the `next/experimental/testing/server` package contains utilities to help unit test proxy files. Unit testing proxy can help ensure that it's only run on desired paths and that custom routing logic works as intended before code reaches production.
+Bắt đầu từ Next.js 15.1, package `next/experimental/testing/server` chứa các tiện ích để giúp unit test các file proxy. Unit testing proxy có thể giúp đảm bảo rằng nó chỉ chạy trên các paths mong muốn và logic routing tùy chỉnh hoạt động như dự định trước khi mã đến production.
 
-The `unstable_doesProxyMatch` function can be used to assert whether proxy will run for the provided URL, headers, and cookies.
+Hàm `unstable_doesProxyMatch` có thể được sử dụng để khẳng định liệu proxy có chạy cho URL, headers, và cookies được cung cấp hay không.
 
 ```js
 import { unstable_doesProxyMatch } from 'next/experimental/testing/server'
@@ -651,7 +651,7 @@ expect(
 ).toEqual(false)
 ```
 
-The entire proxy function can also be tested.
+Toàn bộ hàm proxy cũng có thể được test.
 
 ```js
 import { isRewrite, getRewrittenUrl } from 'next/experimental/testing/server'
@@ -660,45 +660,45 @@ const request = new NextRequest('https://nextjs.org/docs')
 const response = await proxy(request)
 expect(isRewrite(response)).toEqual(true)
 expect(getRewrittenUrl(response)).toEqual('https://other-domain.com/docs')
-// getRedirectUrl could also be used if the response were a redirect
+// getRedirectUrl cũng có thể được sử dụng nếu phản hồi là một chuyển hướng
 ```
 
-## Platform support
+## Hỗ trợ nền tảng
 
-| Deployment Option                                                   | Supported         |
-| ------------------------------------------------------------------- | ----------------- |
-| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Yes               |
-| [Docker container](/docs/app/getting-started/deploying#docker)      | Yes               |
-| [Static export](/docs/app/getting-started/deploying#static-export)  | No                |
-| [Adapters](/docs/app/getting-started/deploying#adapters)            | Platform-specific |
+| Tùy chọn triển khai                                                 | Được hỗ trợ  |
+| ------------------------------------------------------------------- | ------------ |
+| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Có           |
+| [Docker container](/docs/app/getting-started/deploying#docker)      | Có           |
+| [Static export](/docs/app/getting-started/deploying#static-export)  | Không        |
+| [Adapters](/docs/app/getting-started/deploying#adapters)            | Tùy nền tảng |
 
-Learn how to [configure Proxy](/docs/app/guides/self-hosting#proxy) when self-hosting Next.js.
+Tìm hiểu cách [cấu hình Proxy](/docs/app/guides/self-hosting#proxy) khi tự host Next.js.
 
-## Migration to Proxy
+## Di chuyển sang Proxy
 
-### Why the Change
+### Tại sao thay đổi
 
-The reason behind the renaming of `middleware` is that the term "middleware" can often be confused with Express.js middleware, leading to a misinterpretation of its purpose. Also, Middleware is highly capable, so it may encourage the usage; however, this feature is recommended to be used as a last resort.
+Lý do đằng sau việc đổi tên `middleware` là thuật ngữ "middleware" thường có thể bị nhầm lẫn với Express.js middleware, dẫn đến việc hiểu sai mục đích của nó. Ngoài ra, Middleware có khả năng cao, vì vậy nó có thể khuyến khích việc sử dụng; tuy nhiên, tính năng này được khuyến nghị sử dụng như một phương sách cuối cùng.
 
-Next.js is moving forward to provide better APIs with better ergonomics so that developers can achieve their goals without Middleware. This is the reason behind the renaming of `middleware`.
+Next.js đang tiến tới cung cấp các APIs tốt hơn với công thái học (ergonomics) tốt hơn để các nhà phát triển có thể đạt được mục tiêu của họ mà không cần Middleware. Đây là lý do đằng sau việc đổi tên `middleware`.
 
-### Why "Proxy"
+### Tại sao "Proxy"
 
-The name Proxy clarifies what Middleware is capable of. The term "proxy" implies that it has a network boundary in front of the app, which is the behavior of Middleware. Also, Middleware defaults to run at the [Edge Runtime](/docs/app/api-reference/edge), which can run closer to the client, separated from the app's region. These behaviors align better with the term "proxy" and provide a clearer purpose of the feature.
+Cái tên Proxy làm rõ những gì Middleware có khả năng làm. Thuật ngữ "proxy" ngụ ý rằng nó có một ranh giới mạng phía trước ứng dụng, đó là hành vi của Middleware. Ngoài ra, Middleware mặc định chạy tại [Edge Runtime](/docs/app/api-reference/edge), có thể chạy gần client hơn, tách biệt khỏi vùng của ứng dụng. Những hành vi này phù hợp hơn với thuật ngữ "proxy" và cung cấp mục đích rõ ràng hơn của tính năng.
 
-### How to Migrate
+### Cách di chuyển
 
-We recommend users avoid relying on Middleware unless no other options exist. Our goal is to give them APIs with better ergonomics so they can achieve their goals without Middleware.
+Chúng tôi khuyên người dùng tránh dựa vào Middleware trừ khi không còn lựa chọn nào khác. Mục tiêu của chúng tôi là cung cấp cho họ các APIs với công thái học tốt hơn để họ có thể đạt được mục tiêu của mình mà không cần Middleware.
 
-The term “middleware” often confuses users with Express.js middleware, which can encourage misuse. To clarify our direction, we are renaming the file convention to “proxy.” This highlights that we are moving away from Middleware, breaking down its overloaded features, and making the Proxy clear in its purpose.
+Thuật ngữ “middleware” thường gây nhầm lẫn cho người dùng với Express.js middleware, điều này có thể khuyến khích việc sử dụng sai. Để làm rõ hướng đi của chúng tôi, chúng tôi đang đổi tên file convention thành “proxy.” Điều này làm nổi bật rằng chúng tôi đang rời xa Middleware, chia nhỏ các tính năng quá tải của nó, và làm cho Proxy rõ ràng trong mục đích của nó.
 
-Next.js provides a codemod to migrate from `middleware.ts` to `proxy.ts`. You can run the following command to migrate:
+Next.js cung cấp một codemod để di chuyển từ `middleware.ts` sang `proxy.ts`. Bạn có thể chạy lệnh sau để di chuyển:
 
 ```bash
 npx @next/codemod@canary middleware-to-proxy .
 ```
 
-The codemod will rename the file and the function name from `middleware` to `proxy`.
+Codemod sẽ đổi tên file và tên hàm từ `middleware` thành `proxy`.
 
 ```diff
 // middleware.ts -> proxy.ts
@@ -707,15 +707,15 @@ The codemod will rename the file and the function name from `middleware` to `pro
 + export function proxy() {
 ```
 
-## Version history
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                       |
-| --------- | --------------------------------------------------------------------------------------------- |
-| `v16.0.0` | Middleware is deprecated and renamed to Proxy                                                 |
-| `v15.5.0` | Middleware can now use the Node.js runtime (stable)                                           |
-| `v15.2.0` | Middleware can now use the Node.js runtime (experimental)                                     |
-| `v13.1.0` | Advanced Middleware flags added                                                               |
-| `v13.0.0` | Middleware can modify request headers, response headers, and send responses                   |
-| `v12.2.0` | Middleware is stable, please see the [upgrade guide](/docs/messages/middleware-upgrade-guide) |
-| `v12.0.9` | Enforce absolute URLs in Edge Runtime ([PR](https://github.com/vercel/next.js/pull/33410))    |
-| `v12.0.0` | Middleware (Beta) added                                                                       |
+| Phiên bản | Thay đổi                                                                                          |
+| --------- | ------------------------------------------------------------------------------------------------- |
+| `v16.0.0` | Middleware bị deprecated và đổi tên thành Proxy                                                   |
+| `v15.5.0` | Middleware bây giờ có thể sử dụng Node.js runtime (stable)                                        |
+| `v15.2.0` | Middleware bây giờ có thể sử dụng Node.js runtime (experimental)                                  |
+| `v13.1.0` | Các cờ Middleware nâng cao được thêm vào                                                          |
+| `v13.0.0` | Middleware có thể sửa đổi request headers, response headers, và gửi responses                     |
+| `v12.2.0` | Middleware đã ổn định, vui lòng xem [hướng dẫn nâng cấp](/docs/messages/middleware-upgrade-guide) |
+| `v12.0.9` | Bắt buộc absolute URLs trong Edge Runtime ([PR](https://github.com/vercel/next.js/pull/33410))    |
+| `v12.0.0` | Middleware (Beta) được thêm vào                                                                   |

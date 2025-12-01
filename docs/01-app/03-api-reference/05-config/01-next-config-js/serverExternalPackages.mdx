@@ -1,11 +1,11 @@
 ---
 title: serverExternalPackages
-description: Opt-out specific dependencies from the Server Components bundling and use native Node.js `require`.
+description: Chọn không tham gia các dependencies cụ thể khỏi việc đóng gói Server Components và sử dụng `require` gốc của Node.js.
 ---
 
-Dependencies used inside [Server Components](/docs/app/getting-started/server-and-client-components) and [Route Handlers](/docs/app/api-reference/file-conventions/route) will automatically be bundled by Next.js.
+Các dependencies được sử dụng bên trong [Server Components](/docs/app/getting-started/server-and-client-components) và [Route Handlers](/docs/app/api-reference/file-conventions/route) sẽ tự động được đóng gói bởi Next.js.
 
-If a dependency is using Node.js specific features, you can choose to opt-out specific dependencies from the Server Components bundling and use native Node.js `require`.
+Nếu một dependency đang sử dụng các tính năng cụ thể của Node.js, bạn có thể chọn không tham gia các dependencies cụ thể khỏi việc đóng gói Server Components và sử dụng `require` gốc của Node.js.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -16,7 +16,7 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-Next.js includes a [short list of popular packages](https://github.com/vercel/next.js/blob/canary/packages/next/src/lib/server-external-packages.json) that currently are working on compatibility and automatically opt-ed out:
+Next.js bao gồm một [danh sách ngắn các gói phổ biến](https://github.com/vercel/next.js/blob/canary/packages/next/src/lib/server-external-packages.json) hiện đang làm việc về khả năng tương thích và tự động chọn không tham gia:
 
 - `@appsignal/nodejs`
 - `@aws-sdk/client-s3`
@@ -92,6 +92,6 @@ Next.js includes a [short list of popular packages](https://github.com/vercel/ne
 - `websocket`
 - `zeromq`
 
-| Version   | Changes                                                                                                        |
-| --------- | -------------------------------------------------------------------------------------------------------------- |
-| `v15.0.0` | Moved from experimental to stable. Renamed from `serverComponentsExternalPackages` to `serverExternalPackages` |
+| Phiên bản | Thay đổi                                                                                                         |
+| --------- | ---------------------------------------------------------------------------------------------------------------- |
+| `v15.0.0` | Chuyển từ experimental sang stable. Đổi tên từ `serverComponentsExternalPackages` thành `serverExternalPackages` |

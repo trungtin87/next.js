@@ -1,14 +1,14 @@
 ---
-title: How to create forms with API Routes
-nav_title: Forms
-description: Learn how to handle form submissions and data mutations with Next.js.
+title: Cách tạo biểu mẫu với các Tuyến API
+nav_title: Biểu mẫu
+description: Tìm hiểu cách xử lý việc gửi biểu mẫu và thay đổi dữ liệu với Next.js.
 ---
 
-Forms enable you to create and update data in web applications. Next.js provides a powerful way to handle data mutations using **API Routes**. This guide will walk you through how to handle form submission on the server.
+Biểu mẫu cho phép bạn tạo và cập nhật dữ liệu trong các ứng dụng web. Next.js cung cấp một cách mạnh mẽ để xử lý các thay đổi dữ liệu bằng cách sử dụng **Tuyến API**. Hướng dẫn này sẽ hướng dẫn bạn cách xử lý việc gửi biểu mẫu trên máy chủ.
 
-## Server Forms
+## Biểu mẫu máy chủ
 
-To handle form submissions on the server, create an API endpoint that securely mutates data.
+Để xử lý việc gửi biểu mẫu trên máy chủ, hãy tạo một điểm cuối API để thay đổi dữ liệu một cách an toàn.
 
 ```ts filename="pages/api/submit.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -26,14 +26,14 @@ export default async function handler(
 ```js filename="pages/api/submit.js" switcher
 export default function handler(req, res) {
   const data = req.body
-  // call your database, etc.
+  // gọi cơ sở dữ liệu của bạn, v.v.
   // const id = await createItem(data)
   // ...
   res.status(200).json({ data })
 }
 ```
 
-Then, call the API Route from the client with an event handler:
+Sau đó, gọi Tuyến API từ máy khách với một trình xử lý sự kiện:
 
 ```tsx filename="pages/index.tsx" switcher
 import { FormEvent } from 'react'
@@ -48,7 +48,7 @@ export default function Page() {
       body: formData,
     })
 
-    // Handle response if necessary
+    // Xử lý phản hồi nếu cần
     const data = await response.json()
     // ...
   }
@@ -56,7 +56,7 @@ export default function Page() {
   return (
     <form onSubmit={onSubmit}>
       <input type="text" name="name" />
-      <button type="submit">Submit</button>
+      <button type="submit">Gửi</button>
     </form>
   )
 }
@@ -73,7 +73,7 @@ export default function Page() {
       body: formData,
     })
 
-    // Handle response if necessary
+    // Xử lý phản hồi nếu cần
     const data = await response.json()
     // ...
   }
@@ -81,22 +81,22 @@ export default function Page() {
   return (
     <form onSubmit={onSubmit}>
       <input type="text" name="name" />
-      <button type="submit">Submit</button>
+      <button type="submit">Gửi</button>
     </form>
   )
 }
 ```
 
-> **Good to know:**
+> **Cần biết:**
 >
-> - API Routes [do not specify CORS headers](https://developer.mozilla.org/docs/Web/HTTP/CORS), meaning they are same-origin only by default.
-> - Since API Routes run on the server, we're able to use sensitive values (like API keys) through [Environment Variables](/docs/pages/guides/environment-variables) without exposing them to the client. This is critical for the security of your application.
+> - Các Tuyến API [không chỉ định tiêu đề CORS](https://developer.mozilla.org/docs/Web/HTTP/CORS), có nghĩa là chúng chỉ cùng một nguồn gốc theo mặc định.
+> - Vì các Tuyến API chạy trên máy chủ, chúng tôi có thể sử dụng các giá trị nhạy cảm (như khóa API) thông qua [Biến môi trường](/docs/pages/guides/environment-variables) mà không để lộ chúng cho máy khách. Điều này rất quan trọng đối với tính bảo mật của ứng dụng của bạn.
 
-## Form validation
+## Xác thực biểu mẫu
 
-We recommend using HTML validation like `required` and `type="email"` for basic client-side form validation.
+Chúng tôi khuyên bạn nên sử dụng xác thực HTML như `required` và `type="email"` để xác thực biểu mẫu phía máy khách cơ bản.
 
-For more advanced server-side validation, you can use a schema validation library like [zod](https://zod.dev/) to validate the form fields before mutating the data:
+Để xác thực phía máy chủ nâng cao hơn, bạn có thể sử dụng một thư viện xác thực lược đồ như [zod](https://zod.dev/) để xác thực các trường biểu mẫu trước khi thay đổi dữ liệu:
 
 ```ts filename="pages/api/submit.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -128,9 +128,9 @@ export default async function handler(req, res) {
 }
 ```
 
-### Error handling
+### Xử lý lỗi
 
-You can use React state to show an error message when a form submission fails:
+Bạn có thể sử dụng trạng thái React để hiển thị thông báo lỗi khi gửi biểu mẫu không thành công:
 
 ```tsx filename="pages/index.tsx" switcher
 import React, { useState, FormEvent } from 'react'
@@ -142,7 +142,7 @@ export default function Page() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
-    setError(null) // Clear previous errors when a new request starts
+    setError(null) // Xóa các lỗi trước đó khi một yêu cầu mới bắt đầu
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -152,14 +152,14 @@ export default function Page() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to submit the data. Please try again.')
+        throw new Error('Không thể gửi dữ liệu. Vui lòng thử lại.')
       }
 
-      // Handle response if necessary
+      // Xử lý phản hồi nếu cần
       const data = await response.json()
       // ...
     } catch (error) {
-      // Capture the error message to display to the user
+      // Ghi lại thông báo lỗi để hiển thị cho người dùng
       setError(error.message)
       console.error(error)
     } finally {
@@ -173,7 +173,7 @@ export default function Page() {
       <form onSubmit={onSubmit}>
         <input type="text" name="name" />
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Submit'}
+          {isLoading ? 'Đang tải...' : 'Gửi'}
         </button>
       </form>
     </div>
@@ -191,7 +191,7 @@ export default function Page() {
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
-    setError(null) // Clear previous errors when a new request starts
+    setError(null) // Xóa các lỗi trước đó khi một yêu cầu mới bắt đầu
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -201,14 +201,14 @@ export default function Page() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to submit the data. Please try again.')
+        throw new Error('Không thể gửi dữ liệu. Vui lòng thử lại.')
       }
 
-      // Handle response if necessary
+      // Xử lý phản hồi nếu cần
       const data = await response.json()
       // ...
     } catch (error) {
-      // Capture the error message to display to the user
+      // Ghi lại thông báo lỗi để hiển thị cho người dùng
       setError(error.message)
       console.error(error)
     } finally {
@@ -222,7 +222,7 @@ export default function Page() {
       <form onSubmit={onSubmit}>
         <input type="text" name="name" />
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Submit'}
+          {isLoading ? 'Đang tải...' : 'Gửi'}
         </button>
       </form>
     </div>
@@ -230,9 +230,9 @@ export default function Page() {
 }
 ```
 
-## Displaying loading state
+## Hiển thị trạng thái tải
 
-You can use React state to show a loading state when a form is submitting on the server:
+Bạn có thể sử dụng trạng thái React để hiển thị trạng thái tải khi biểu mẫu đang được gửi trên máy chủ:
 
 ```tsx filename="pages/index.tsx" switcher
 import React, { useState, FormEvent } from 'react'
@@ -242,7 +242,7 @@ export default function Page() {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsLoading(true) // Set loading to true when the request starts
+    setIsLoading(true) // Đặt trạng thái tải thành true khi yêu cầu bắt đầu
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -251,14 +251,14 @@ export default function Page() {
         body: formData,
       })
 
-      // Handle response if necessary
+      // Xử lý phản hồi nếu cần
       const data = await response.json()
       // ...
     } catch (error) {
-      // Handle error if necessary
+      // Xử lý lỗi nếu cần
       console.error(error)
     } finally {
-      setIsLoading(false) // Set loading to false when the request completes
+      setIsLoading(false) // Đặt trạng thái tải thành false khi yêu cầu hoàn tất
     }
   }
 
@@ -266,7 +266,7 @@ export default function Page() {
     <form onSubmit={onSubmit}>
       <input type="text" name="name" />
       <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Loading...' : 'Submit'}
+        {isLoading ? 'Đang tải...' : 'Gửi'}
       </button>
     </form>
   )
@@ -281,7 +281,7 @@ export default function Page() {
 
   async function onSubmit(event) {
     event.preventDefault()
-    setIsLoading(true) // Set loading to true when the request starts
+    setIsLoading(true) // Đặt trạng thái tải thành true khi yêu cầu bắt đầu
 
     try {
       const formData = new FormData(event.currentTarget)
@@ -290,14 +290,14 @@ export default function Page() {
         body: formData,
       })
 
-      // Handle response if necessary
+      // Xử lý phản hồi nếu cần
       const data = await response.json()
       // ...
     } catch (error) {
-      // Handle error if necessary
+      // Xử lý lỗi nếu cần
       console.error(error)
     } finally {
-      setIsLoading(false) // Set loading to false when the request completes
+      setIsLoading(false) // Đặt trạng thái tải thành false khi yêu cầu hoàn tất
     }
   }
 
@@ -305,16 +305,16 @@ export default function Page() {
     <form onSubmit={onSubmit}>
       <input type="text" name="name" />
       <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Loading...' : 'Submit'}
+        {isLoading ? 'Đang tải...' : 'Gửi'}
       </button>
     </form>
   )
 }
 ```
 
-### Redirecting
+### Chuyển hướng
 
-If you would like to redirect the user to a different route after a mutation, you can [`redirect`](/docs/pages/building-your-application/routing/api-routes#response-helpers) to any absolute or relative URL:
+Nếu bạn muốn chuyển hướng người dùng đến một tuyến đường khác sau khi thay đổi, bạn có thể [`chuyển hướng`](/docs/pages/building-your-application/routing/api-routes#response-helpers) đến bất kỳ URL tuyệt đối hoặc tương đối nào:
 
 ```ts filename="pages/api/submit.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'

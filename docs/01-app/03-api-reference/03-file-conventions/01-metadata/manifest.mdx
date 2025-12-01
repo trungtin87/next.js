@@ -1,11 +1,11 @@
 ---
 title: manifest.json
-description: API Reference for manifest.json file.
+description: Tài liệu tham khảo API cho tệp manifest.json.
 ---
 
-Add or generate a `manifest.(json|webmanifest)` file that matches the [Web Manifest Specification](https://developer.mozilla.org/docs/Web/Manifest) in the **root** of `app` directory to provide information about your web application for the browser.
+Thêm hoặc tạo tệp `manifest.(json|webmanifest)` khớp với [Web Manifest Specification](https://developer.mozilla.org/docs/Web/Manifest) trong **thư mục gốc** của thư mục `app` để cung cấp thông tin về ứng dụng web của bạn cho trình duyệt.
 
-## Static Manifest file
+## Tệp Manifest tĩnh
 
 ```json filename="app/manifest.json | app/manifest.webmanifest"
 {
@@ -17,11 +17,11 @@ Add or generate a `manifest.(json|webmanifest)` file that matches the [Web Manif
 }
 ```
 
-## Generate a Manifest file
+## Tạo tệp Manifest
 
-Add a `manifest.js` or `manifest.ts` file that returns a [`Manifest` object](#manifest-object).
+Thêm tệp `manifest.js` hoặc `manifest.ts` trả về một [`Manifest` object](#manifest-object).
 
-> Good to know: `manifest.js` is special Route Handlers that is cached by default unless it uses a [Dynamic API](/docs/app/guides/caching#dynamic-apis) or [dynamic config](/docs/app/guides/caching#segment-config-options) option.
+> Thông tin hữu ích: `manifest.js` là Route Handlers đặc biệt được cache theo mặc định trừ khi nó sử dụng [Dynamic API](/docs/app/guides/caching#dynamic-apis) hoặc tùy chọn [dynamic config](/docs/app/guides/caching#segment-config-options).
 
 ```ts filename="app/manifest.ts" switcher
 import type { MetadataRoute } from 'next'
@@ -69,4 +69,4 @@ export default function manifest() {
 
 ### Manifest Object
 
-The manifest object contains an extensive list of options that may be updated due to new web standards. For information on all the current options, refer to the `MetadataRoute.Manifest` type in your code editor if using [TypeScript](/docs/app/api-reference/config/typescript#ide-plugin) or see the [MDN](https://developer.mozilla.org/docs/Web/Manifest) docs.
+Đối tượng manifest chứa một danh sách rộng rãi các tùy chọn có thể được cập nhật do các tiêu chuẩn web mới. Để biết thông tin về tất cả các tùy chọn hiện tại, hãy tham khảo kiểu `MetadataRoute.Manifest` trong trình soạn thảo mã của bạn nếu sử dụng [TypeScript](/docs/app/api-reference/config/typescript#ide-plugin) hoặc xem tài liệu [MDN](https://developer.mozilla.org/docs/Web/Manifest).

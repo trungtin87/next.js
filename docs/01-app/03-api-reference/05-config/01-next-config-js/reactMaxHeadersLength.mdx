@@ -1,9 +1,9 @@
 ---
 title: reactMaxHeadersLength
-description: The maximum length of the headers that are emitted by React and added to the response.
+description: Độ dài tối đa của các header được phát ra bởi React và thêm vào phản hồi.
 ---
 
-During static rendering, React can emit headers that can be added to the response. These can be used to improve performance by allowing the browser to preload resources like fonts, scripts, and stylesheets. The default value is `6000`, but you can override this value by configuring the `reactMaxHeadersLength` option in `next.config.js`:
+Trong quá trình render tĩnh, React có thể phát ra các header có thể được thêm vào phản hồi. Những header này có thể được sử dụng để cải thiện hiệu suất bằng cách cho phép trình duyệt tải trước các tài nguyên như fonts, scripts, và stylesheets. Giá trị mặc định là `6000`, nhưng bạn có thể ghi đè giá trị này bằng cách cấu hình tùy chọn `reactMaxHeadersLength` trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -11,6 +11,6 @@ module.exports = {
 }
 ```
 
-> **Good to know**: This option is only available in App Router.
+> **Thông tin hữu ích**: Tùy chọn này chỉ có sẵn trong App Router.
 
-Depending on the type of proxy between the browser and the server, the headers can be truncated. For example, if you are using a reverse proxy that doesn't support long headers, you should set a lower value to ensure that the headers are not truncated.
+Tùy thuộc vào loại proxy giữa trình duyệt và server, các header có thể bị cắt bớt. Ví dụ, nếu bạn đang sử dụng reverse proxy không hỗ trợ header dài, bạn nên đặt giá trị thấp hơn để đảm bảo rằng các header không bị cắt bớt.

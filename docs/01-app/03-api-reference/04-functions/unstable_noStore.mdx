@@ -1,12 +1,12 @@
 ---
 title: unstable_noStore
-description: API Reference for the unstable_noStore function.
+description: Tài liệu tham khảo API cho hàm unstable_noStore.
 version: legacy
 ---
 
-**In version 15, we recommend using [`connection`](/docs/app/api-reference/functions/connection) instead of `unstable_noStore`.**
+**Trong phiên bản 15, chúng tôi khuyên bạn nên sử dụng [`connection`](/docs/app/api-reference/functions/connection) thay vì `unstable_noStore`.**
 
-`unstable_noStore` can be used to declaratively opt out of static rendering and indicate a particular component should not be cached.
+`unstable_noStore` có thể được sử dụng để chọn không tham gia (opt out) static rendering một cách khai báo và chỉ ra rằng một component cụ thể không nên được cache.
 
 ```jsx
 import { unstable_noStore as noStore } from 'next/cache';
@@ -18,16 +18,16 @@ export default async function ServerComponent() {
 }
 ```
 
-> **Good to know**:
+> **Thông tin hữu ích**:
 >
-> - `unstable_noStore` is equivalent to `cache: 'no-store'` on a `fetch`
-> - `unstable_noStore` is preferred over `export const dynamic = 'force-dynamic'` as it is more granular and can be used on a per-component basis
+> - `unstable_noStore` tương đương với `cache: 'no-store'` trên một `fetch`
+> - `unstable_noStore` được ưu tiên hơn `export const dynamic = 'force-dynamic'` vì nó chi tiết hơn và có thể được sử dụng trên cơ sở từng component
 
-- Using `unstable_noStore` inside [`unstable_cache`](/docs/app/api-reference/functions/unstable_cache) will not opt out of static generation. Instead, it will defer to the cache configuration to determine whether to cache the result or not.
+- Sử dụng `unstable_noStore` bên trong [`unstable_cache`](/docs/app/api-reference/functions/unstable_cache) sẽ không chọn không tham gia static generation. Thay vào đó, nó sẽ tuân theo cấu hình cache để xác định xem có cache kết quả hay không.
 
-## Usage
+## Cách sử dụng
 
-If you prefer not to pass additional options to `fetch`, like `cache: 'no-store'`, `next: { revalidate: 0 }` or in cases where `fetch` is not available, you can use `noStore()` as a replacement for all of these use cases.
+Nếu bạn không muốn truyền các tùy chọn bổ sung cho `fetch`, như `cache: 'no-store'`, `next: { revalidate: 0 }` hoặc trong trường hợp `fetch` không khả dụng, bạn có thể sử dụng `noStore()` như một sự thay thế cho tất cả các trường hợp sử dụng này.
 
 ```jsx
 import { unstable_noStore as noStore } from 'next/cache';
@@ -39,9 +39,9 @@ export default async function ServerComponent() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                         |
-| --------- | ----------------------------------------------- |
-| `v15.0.0` | `unstable_noStore` deprecated for `connection`. |
-| `v14.0.0` | `unstable_noStore` introduced.                  |
+| Phiên bản | Thay đổi                                                     |
+| --------- | ------------------------------------------------------------ |
+| `v15.0.0` | `unstable_noStore` không được khuyến khích cho `connection`. |
+| `v14.0.0` | `unstable_noStore` được giới thiệu.                          |

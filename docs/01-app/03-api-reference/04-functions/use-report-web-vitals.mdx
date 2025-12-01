@@ -1,13 +1,13 @@
 ---
 title: useReportWebVitals
-description: API Reference for the useReportWebVitals function.
+description: Tài liệu tham khảo API cho hàm useReportWebVitals.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-The `useReportWebVitals` hook allows you to report [Core Web Vitals](https://web.dev/vitals/), and can be used in combination with your analytics service.
+Hook `useReportWebVitals` cho phép bạn báo cáo [Core Web Vitals](https://web.dev/vitals/), và có thể được sử dụng kết hợp với dịch vụ phân tích của bạn.
 
-New functions passed to `useReportWebVitals` are called with the available metrics up to that point. To prevent reporting duplicated data, ensure that the callback function reference does not change (as shown in the code examples below).
+Các hàm mới được truyền cho `useReportWebVitals` được gọi với các số liệu có sẵn cho đến thời điểm đó. Để ngăn chặn việc báo cáo dữ liệu trùng lặp, hãy đảm bảo rằng tham chiếu hàm callback không thay đổi (như được hiển thị trong các ví dụ mã bên dưới).
 
 <PagesOnly>
 
@@ -60,26 +60,25 @@ export default function Layout({ children }) {
 }
 ```
 
-> Since the `useReportWebVitals` hook requires the `'use client'` directive, the most performant approach is to create a separate component that the root layout imports. This confines the client boundary exclusively to the `WebVitals` component.
+> Vì hook `useReportWebVitals` yêu cầu chỉ thị `'use client'`, cách tiếp cận hiệu quả nhất là tạo một thành phần riêng biệt mà root layout import. Điều này giới hạn ranh giới client chỉ dành riêng cho thành phần `WebVitals`.
 
 </AppOnly>
 
 ## useReportWebVitals
 
-The `metric` object passed as the hook's argument consists of a number of properties:
+Đối tượng `metric` được truyền làm đối số của hook bao gồm một số thuộc tính:
 
-- `id`: Unique identifier for the metric in the context of the current page load
-- `name`: The name of the performance metric. Possible values include names of [Web Vitals](#web-vitals) metrics (TTFB, FCP, LCP, FID, CLS) specific to a web application.
-- `delta`: The difference between the current value and the previous value of the metric. The value is typically in milliseconds and represents the change in the metric's value over time.
-- `entries`: An array of [Performance Entries](https://developer.mozilla.org/docs/Web/API/PerformanceEntry) associated with the metric. These entries provide detailed information about the performance events related to the metric.
-- `navigationType`: Indicates the [type of navigation](https://developer.mozilla.org/docs/Web/API/PerformanceNavigationTiming/type) that triggered the metric collection. Possible values include `"navigate"`, `"reload"`, `"back_forward"`, and `"prerender"`.
-- `rating`: A qualitative rating of the metric value, providing an assessment of the performance. Possible values are `"good"`, `"needs-improvement"`, and `"poor"`. The rating is typically determined by comparing the metric value against predefined thresholds that indicate acceptable or suboptimal performance.
-- `value`: The actual value or duration of the performance entry, typically in milliseconds. The value provides a quantitative measure of the performance aspect being tracked by the metric. The source of the value depends on the specific metric being measured and can come from various [Performance API](https://developer.mozilla.org/docs/Web/API/Performance_API)s.
+- `id`: Định danh duy nhất cho số liệu trong ngữ cảnh tải trang hiện tại
+- `name`: Tên của số liệu hiệu suất. Các giá trị có thể bao gồm tên của các số liệu [Web Vitals](#web-vitals) (TTFB, FCP, LCP, FID, CLS) cụ thể cho một ứng dụng web.
+- `delta`: Sự khác biệt giữa giá trị hiện tại và giá trị trước đó của số liệu. Giá trị thường tính bằng mili giây và đại diện cho sự thay đổi giá trị của số liệu theo thời gian.
+- `entries`: Một mảng các [Performance Entries](https://developer.mozilla.org/docs/Web/API/PerformanceEntry) liên quan đến số liệu. Những mục này cung cấp thông tin chi tiết về các sự kiện hiệu suất liên quan đến số liệu.
+- `navigationType`: Chỉ ra [loại điều hướng](https://developer.mozilla.org/docs/Web/API/PerformanceNavigationTiming/type) đã kích hoạt việc thu thập số liệu. Các giá trị có thể bao gồm `"navigate"`, `"reload"`, `"back_forward"`, và `"prerender"`.
+- `rating`: Đánh giá định tính về giá trị số liệu, cung cấp đánh giá về hiệu suất. Các giá trị có thể là `"good"`, `"needs-improvement"`, và `"poor"`. Xếp hạng thường được xác định bằng cách so sánh giá trị số liệu với các ngưỡng được xác định trước cho biết hiệu suất chấp nhận được hay dưới mức tối ưu.
+- `value`: Giá trị thực tế hoặc thời lượng của mục nhập hiệu suất, thường tính bằng mili giây. Giá trị cung cấp thước đo định lượng về khía cạnh hiệu suất đang được theo dõi bởi số liệu. Nguồn của giá trị phụ thuộc vào số liệu cụ thể đang được đo và có thể đến từ nhiều [Performance API](https://developer.mozilla.org/docs/Web/API/Performance_API) khác nhau.
 
 ## Web Vitals
 
-[Web Vitals](https://web.dev/vitals/) are a set of useful metrics that aim to capture the user
-experience of a web page. The following web vitals are all included:
+[Web Vitals](https://web.dev/vitals/) là một tập hợp các số liệu hữu ích nhằm mục đích nắm bắt trải nghiệm người dùng của một trang web. Các web vitals sau đây đều được bao gồm:
 
 - [Time to First Byte](https://developer.mozilla.org/docs/Glossary/Time_to_first_byte) (TTFB)
 - [First Contentful Paint](https://developer.mozilla.org/docs/Glossary/First_contentful_paint) (FCP)
@@ -88,7 +87,7 @@ experience of a web page. The following web vitals are all included:
 - [Cumulative Layout Shift](https://web.dev/cls/) (CLS)
 - [Interaction to Next Paint](https://web.dev/inp/) (INP)
 
-You can handle all the results of these metrics using the `name` property.
+Bạn có thể xử lý tất cả kết quả của các số liệu này bằng cách sử dụng thuộc tính `name`.
 
 <PagesOnly>
 
@@ -98,10 +97,10 @@ import { useReportWebVitals } from 'next/web-vitals'
 const handleWebVitals = (metric) => {
   switch (metric.name) {
     case 'FCP': {
-      // handle FCP results
+      // xử lý kết quả FCP
     }
     case 'LCP': {
-      // handle LCP results
+      // xử lý kết quả LCP
     }
     // ...
   }
@@ -128,10 +127,10 @@ type ReportWebVitalsCallback = Parameters<typeof useReportWebVitals>[0]
 const handleWebVitals: ReportWebVitalsCallback = (metric) => {
   switch (metric.name) {
     case 'FCP': {
-      // handle FCP results
+      // xử lý kết quả FCP
     }
     case 'LCP': {
-      // handle LCP results
+      // xử lý kết quả LCP
     }
     // ...
   }
@@ -150,10 +149,10 @@ import { useReportWebVitals } from 'next/web-vitals'
 const handleWebVitals = (metric) => {
   switch (metric.name) {
     case 'FCP': {
-      // handle FCP results
+      // xử lý kết quả FCP
     }
     case 'LCP': {
-      // handle LCP results
+      // xử lý kết quả LCP
     }
     // ...
   }
@@ -168,17 +167,15 @@ export function WebVitals() {
 
 <PagesOnly>
 
-## Custom Metrics
+## Số liệu tùy chỉnh (Custom Metrics)
 
-In addition to the core metrics listed above, there are some additional custom metrics that
-measure the time it takes for the page to hydrate and render:
+Ngoài các số liệu cốt lõi được liệt kê ở trên, còn có một số số liệu tùy chỉnh bổ sung đo lường thời gian cần thiết để trang hydrate và render:
 
-- `Next.js-hydration`: Length of time it takes for the page to start and finish hydrating (in ms)
-- `Next.js-route-change-to-render`: Length of time it takes for a page to start rendering after a
-  route change (in ms)
-- `Next.js-render`: Length of time it takes for a page to finish render after a route change (in ms)
+- `Next.js-hydration`: Thời gian cần thiết để trang bắt đầu và kết thúc quá trình hydrate (tính bằng ms)
+- `Next.js-route-change-to-render`: Thời gian cần thiết để trang bắt đầu render sau khi thay đổi route (tính bằng ms)
+- `Next.js-render`: Thời gian cần thiết để trang kết thúc render sau khi thay đổi route (tính bằng ms)
 
-You can handle all the results of these metrics separately:
+Bạn có thể xử lý tất cả kết quả của các số liệu này một cách riêng biệt:
 
 ```jsx filename="pages/_app.js"
 import { useReportWebVitals } from 'next/web-vitals'
@@ -186,13 +183,13 @@ import { useReportWebVitals } from 'next/web-vitals'
 function handleCustomMetrics(metrics) {
   switch (metric.name) {
     case 'Next.js-hydration':
-      // handle hydration results
+      // xử lý kết quả hydration
       break
     case 'Next.js-route-change-to-render':
-      // handle route-change to render results
+      // xử lý kết quả route-change to render
       break
     case 'Next.js-render':
-      // handle render results
+      // xử lý kết quả render
       break
     default:
       break
@@ -206,21 +203,20 @@ function MyApp({ Component, pageProps }) {
 }
 ```
 
-These metrics work in all browsers that support the [User Timing API](https://caniuse.com/#feat=user-timing).
+Các số liệu này hoạt động trong tất cả các trình duyệt hỗ trợ [User Timing API](https://caniuse.com/#feat=user-timing).
 
 </PagesOnly>
 
-## Sending results to external systems
+## Gửi kết quả đến hệ thống bên ngoài
 
-You can send results to any endpoint to measure and track
-real user performance on your site. For example:
+Bạn có thể gửi kết quả đến bất kỳ endpoint nào để đo lường và theo dõi hiệu suất người dùng thực trên trang web của mình. Ví dụ:
 
 ```js
 function postWebVitals(metrics) {
   const body = JSON.stringify(metric)
   const url = 'https://example.com/analytics'
 
-  // Use `navigator.sendBeacon()` if available, falling back to `fetch()`.
+  // Sử dụng `navigator.sendBeacon()` nếu có sẵn, quay lại `fetch()`.
   if (navigator.sendBeacon) {
     navigator.sendBeacon(url, body)
   } else {
@@ -231,20 +227,18 @@ function postWebVitals(metrics) {
 useReportWebVitals(postWebVitals)
 ```
 
-> **Good to know**: If you use [Google Analytics](https://analytics.google.com/analytics/web/), using the
-> `id` value can allow you to construct metric distributions manually (to calculate percentiles,
-> etc.)
+> **Cần biết**: Nếu bạn sử dụng [Google Analytics](https://analytics.google.com/analytics/web/), việc sử dụng giá trị `id` có thể cho phép bạn xây dựng phân phối số liệu thủ công (để tính toán phần trăm, v.v.)
 
 > ```js
 > useReportWebVitals(metric => {
->   // Use `window.gtag` if you initialized Google Analytics as this example:
+>   // Sử dụng `window.gtag` nếu bạn đã khởi tạo Google Analytics như ví dụ này:
 >   // https://github.com/vercel/next.js/blob/canary/examples/with-google-analytics
 >   window.gtag('event', metric.name, {
->     value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value), // values must be integers
->     event_label: metric.id, // id unique to current page load
->     non_interaction: true, // avoids affecting bounce rate.
+>     value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value), // giá trị phải là số nguyên
+>     event_label: metric.id, // id duy nhất cho lần tải trang hiện tại
+>     non_interaction: true, // tránh ảnh hưởng đến tỷ lệ thoát.
 >   });
 > }
 > ```
 >
-> Read more about [sending results to Google Analytics](https://github.com/GoogleChrome/web-vitals#send-the-results-to-google-analytics).
+> Đọc thêm về [gửi kết quả đến Google Analytics](https://github.com/GoogleChrome/web-vitals#send-the-results-to-google-analytics).

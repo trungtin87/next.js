@@ -1,24 +1,24 @@
 ---
 title: generateViewport
-description: API Reference for the generateViewport function.
+description: Tài liệu tham khảo API cho hàm generateViewport.
 related:
-  title: Next Steps
-  description: View all the Metadata API options.
+  title: Các bước tiếp theo
+  description: Xem tất cả các tùy chọn Metadata API.
   links:
     - app/api-reference/file-conventions/metadata
 ---
 
-You can customize the initial viewport of the page with the static `viewport` object or the dynamic `generateViewport` function.
+Bạn có thể tùy chỉnh viewport ban đầu của trang với object `viewport` tĩnh hoặc hàm `generateViewport` động.
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - The `viewport` object and `generateViewport` function exports are **only supported in Server Components**.
-> - You cannot export both the `viewport` object and `generateViewport` function from the same route segment.
-> - If you're coming from migrating `metadata` exports, you can use [metadata-to-viewport-export codemod](/docs/app/guides/upgrading/codemods#metadata-to-viewport-export) to update your changes.
+> - Object `viewport` và hàm `generateViewport` exports **chỉ được hỗ trợ trong Server Components**.
+> - Bạn không thể export cả object `viewport` và hàm `generateViewport` từ cùng một route segment.
+> - Nếu bạn đang chuyển từ `metadata` exports, bạn có thể sử dụng [metadata-to-viewport-export codemod](/docs/app/guides/upgrading/codemods#metadata-to-viewport-export) để cập nhật các thay đổi của mình.
 
-## The `viewport` object
+## Object `viewport`
 
-To define the viewport options, export a `viewport` object from a `layout.jsx` or `page.jsx` file.
+Để định nghĩa các tùy chọn viewport, hãy export một object `viewport` từ file `layout.jsx` hoặc `page.jsx`.
 
 ```tsx filename="layout.tsx | page.tsx" switcher
 import type { Viewport } from 'next'
@@ -38,9 +38,9 @@ export const viewport = {
 export default function Page() {}
 ```
 
-## `generateViewport` function
+## Hàm `generateViewport`
 
-`generateViewport` should return a [`Viewport` object](#viewport-fields) containing one or more viewport fields.
+`generateViewport` nên trả về một [`Viewport` object](#viewport-fields) chứa một hoặc nhiều viewport fields.
 
 ```tsx filename="layout.tsx | page.tsx" switcher
 export function generateViewport({ params }) {
@@ -50,7 +50,7 @@ export function generateViewport({ params }) {
 }
 ```
 
-In TypeScript, the `params` argument can be typed via [`PageProps<'/route'>`](/docs/app/api-reference/file-conventions/page#page-props-helper) or [`LayoutProps<'/route'>`](/docs/app/api-reference/file-conventions/layout#layout-props-helper) depending on where `generateViewport` is defined.
+Trong TypeScript, tham số `params` có thể được type thông qua [`PageProps<'/route'>`](/docs/app/api-reference/file-conventions/page#page-props-helper) hoặc [`LayoutProps<'/route'>`](/docs/app/api-reference/file-conventions/layout#layout-props-helper) tùy thuộc vào nơi `generateViewport` được định nghĩa.
 
 ```jsx filename="layout.js | page.js" switcher
 export function generateViewport({ params }) {
@@ -60,15 +60,15 @@ export function generateViewport({ params }) {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - If the viewport doesn't depend on runtime information, it should be defined using the static [`viewport` object](#the-viewport-object) rather than `generateViewport`.
+> - Nếu viewport không phụ thuộc vào thông tin runtime, nó nên được định nghĩa bằng cách sử dụng [`viewport` object](#the-viewport-object) tĩnh thay vì `generateViewport`.
 
 ## Viewport Fields
 
 ### `themeColor`
 
-Learn more about [`theme-color`](https://developer.mozilla.org/docs/Web/HTML/Element/meta/name/theme-color).
+Tìm hiểu thêm về [`theme-color`](https://developer.mozilla.org/docs/Web/HTML/Element/meta/name/theme-color).
 
 **Simple theme color**
 
@@ -90,7 +90,7 @@ export const viewport = {
 <meta name="theme-color" content="black" />
 ```
 
-**With media attribute**
+**Với thuộc tính media**
 
 ```tsx filename="layout.tsx | page.tsx" switcher
 import type { Viewport } from 'next'
@@ -117,9 +117,9 @@ export const viewport = {
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
 ```
 
-### `width`, `initialScale`, `maximumScale` and `userScalable`
+### `width`, `initialScale`, `maximumScale` và `userScalable`
 
-> **Good to know**: The `viewport` meta tag is automatically set, and manual configuration is usually unnecessary as the default is sufficient. However, the information is provided for completeness.
+> **Nên biết**: Thẻ meta `viewport` được thiết lập tự động, và cấu hình thủ công thường không cần thiết vì mặc định là đủ. Tuy nhiên, thông tin được cung cấp để đầy đủ.
 
 ```tsx filename="layout.tsx | page.tsx" switcher
 import type { Viewport } from 'next'
@@ -154,7 +154,7 @@ export const viewport = {
 
 ### `colorScheme`
 
-Learn more about [`color-scheme`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name#:~:text=color%2Dscheme%3A%20specifies,of%20the%20following%3A).
+Tìm hiểu thêm về [`color-scheme`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name#:~:text=color%2Dscheme%3A%20specifies,of%20the%20following%3A).
 
 ```tsx filename="layout.tsx | page.tsx" switcher
 import type { Viewport } from 'next'
@@ -176,7 +176,7 @@ export const viewport = {
 
 ## Types
 
-You can add type safety to your viewport object by using the `Viewport` type. If you are using the [built-in TypeScript plugin](/docs/app/api-reference/config/typescript) in your IDE, you do not need to manually add the type, but you can still explicitly add it if you want.
+Bạn có thể thêm type safety cho viewport object của bạn bằng cách sử dụng `Viewport` type. Nếu bạn đang sử dụng [built-in TypeScript plugin](/docs/app/api-reference/config/typescript) trong IDE của bạn, bạn không cần phải thêm type thủ công, nhưng bạn vẫn có thể thêm nó một cách rõ ràng nếu bạn muốn.
 
 ### `viewport` object
 
@@ -202,7 +202,7 @@ export function generateViewport(): Viewport {
 }
 ```
 
-#### With segment props
+#### Với segment props
 
 ```tsx
 import type { Viewport } from 'next'
@@ -223,7 +223,7 @@ export default function Page({ params, searchParams }: Props) {}
 
 #### JavaScript Projects
 
-For JavaScript projects, you can use JSDoc to add type safety.
+Đối với các dự án JavaScript, bạn có thể sử dụng JSDoc để thêm type safety.
 
 ```js
 /** @type {import("next").Viewport} */
@@ -232,8 +232,8 @@ export const viewport = {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                       |
-| --------- | --------------------------------------------- |
-| `v14.0.0` | `viewport` and `generateViewport` introduced. |
+| Phiên bản | Thay đổi                                          |
+| --------- | ------------------------------------------------- |
+| `v14.0.0` | `viewport` và `generateViewport` được giới thiệu. |

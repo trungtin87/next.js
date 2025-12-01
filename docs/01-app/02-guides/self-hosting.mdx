@@ -1,59 +1,59 @@
 ---
-title: How to self-host your Next.js application
-nav_title: Self-Hosting
-description: Learn how to self-host your Next.js application on a Node.js server, Docker image, or static HTML files (static exports).
+title: Cách tự lưu trữ ứng dụng Next.js của bạn
+nav_title: Tự lưu trữ
+description: Tìm hiểu cách tự lưu trữ ứng dụng Next.js của bạn trên máy chủ Node.js, hình ảnh Docker hoặc các tệp HTML tĩnh (xuất tĩnh).
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa bộ định tuyến ứng dụng và trang. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Bộ định tuyến trang. Bất kỳ nội dung được chia sẻ nào cũng không nên được bao bọc trong một thành phần. */}
 
-When [deploying](/docs/app/getting-started/deploying) your Next.js app, you may want to configure how different features are handled based on your infrastructure.
+Khi [triển khai](/docs/app/getting-started/deploying) ứng dụng Next.js của bạn, bạn có thể muốn định cấu hình cách xử lý các tính năng khác nhau dựa trên cơ sở hạ tầng của bạn.
 
-> **🎥 Watch:** Learn more about self-hosting Next.js → [YouTube (45 minutes)](https://www.youtube.com/watch?v=sIVL4JMqRfc).
+> **🎥 Xem:** Tìm hiểu thêm về cách tự lưu trữ Next.js → [YouTube (45 phút)](https://www.youtube.com/watch?v=sIVL4JMqRfc).
 
-## Image Optimization
+## Tối ưu hóa hình ảnh
 
-[Image Optimization](/docs/app/api-reference/components/image) through `next/image` works self-hosted with zero configuration when deploying using `next start`. If you would prefer to have a separate service to optimize images, you can [configure an image loader](/docs/app/api-reference/components/image#loader).
+[Tối ưu hóa hình ảnh](/docs/app/api-reference/components/image) thông qua `next/image` hoạt động tự lưu trữ với cấu hình bằng không khi triển khai bằng `next start`. Nếu bạn muốn có một dịch vụ riêng để tối ưu hóa hình ảnh, bạn có thể [định cấu hình trình tải hình ảnh](/docs/app/api-reference/components/image#loader).
 
-Image Optimization can be used with a [static export](/docs/app/guides/static-exports#image-optimization) by defining a custom image loader in `next.config.js`. Note that images are optimized at runtime, not during the build.
+Tối ưu hóa hình ảnh có thể được sử dụng với [xuất tĩnh](/docs/app/guides/static-exports#image-optimization) bằng cách xác định trình tải hình ảnh tùy chỉnh trong `next.config.js`. Lưu ý rằng hình ảnh được tối ưu hóa trong thời gian chạy, không phải trong quá trình xây dựng.
 
-> **Good to know:**
+> **Cần biết:**
 >
-> - On glibc-based Linux systems, Image Optimization may require [additional configuration](https://sharp.pixelplumbing.com/install#linux-memory-allocator) to prevent excessive memory usage.
-> - Learn more about the [caching behavior of optimized images](/docs/app/api-reference/components/image#minimumcachettl) and how to configure the TTL.
-> - You can also [disable Image Optimization](/docs/app/api-reference/components/image#unoptimized) and still retain other benefits of using `next/image` if you prefer. For example, if you are optimizing images yourself separately.
+> - Trên các hệ thống Linux dựa trên glibc, Tối ưu hóa hình ảnh có thể yêu cầu [cấu hình bổ sung](https://sharp.pixelplumbing.com/install#linux-memory-allocator) để ngăn chặn việc sử dụng bộ nhớ quá mức.
+> - Tìm hiểu thêm về [hành vi lưu vào bộ nhớ đệm của hình ảnh được tối ưu hóa](/docs/app/api-reference/components/image#minimumcachettl) và cách định cấu hình TTL.
+> - Bạn cũng có thể [tắt Tối ưu hóa hình ảnh](/docs/app/api-reference/components/image#unoptimized) và vẫn giữ lại các lợi ích khác của việc sử dụng `next/image` nếu bạn muốn. Ví dụ, nếu bạn đang tự tối ưu hóa hình ảnh một cách riêng biệt.
 
 ## Proxy
 
-[Proxy](/docs/app/api-reference/file-conventions/proxy) works self-hosted with zero configuration when deploying using `next start`. Since it requires access to the incoming request, it is not supported when using a [static export](/docs/app/guides/static-exports).
+[Proxy](/docs/app/api-reference/file-conventions/proxy) hoạt động tự lưu trữ với cấu hình bằng không khi triển khai bằng `next start`. Vì nó yêu cầu quyền truy cập vào yêu cầu đến, nó không được hỗ trợ khi sử dụng [xuất tĩnh](/docs/app/guides/static-exports).
 
-Proxy uses the [Edge runtime](/docs/app/api-reference/edge), a subset of all available Node.js APIs to help ensure low latency, since it may run in front of every route or asset in your application. If you do not want this, you can use the [full Node.js runtime](/blog/next-15-2#nodejs-middleware-experimental) to run Proxy.
+Proxy sử dụng [thời gian chạy Edge](/docs/app/api-reference/edge), một tập hợp con của tất cả các API Node.js có sẵn để giúp đảm bảo độ trễ thấp, vì nó có thể chạy trước mọi tuyến đường hoặc tài sản trong ứng dụng của bạn. Nếu bạn không muốn điều này, bạn có thể sử dụng [thời gian chạy Node.js đầy đủ](/blog/next-15-2#nodejs-middleware-experimental) để chạy Proxy.
 
-If you are looking to add logic (or use an external package) that requires all Node.js APIs, you might be able to move this logic to a [layout](/docs/app/api-reference/file-conventions/layout) as a [Server Component](/docs/app/getting-started/server-and-client-components). For example, checking [headers](/docs/app/api-reference/functions/headers) and [redirecting](/docs/app/api-reference/functions/redirect). You can also use headers, cookies, or query parameters to [redirect](/docs/app/api-reference/config/next-config-js/redirects#header-cookie-and-query-matching) or [rewrite](/docs/app/api-reference/config/next-config-js/rewrites#header-cookie-and-query-matching) through `next.config.js`. If that does not work, you can also use a [custom server](/docs/pages/guides/custom-server).
+Nếu bạn đang tìm cách thêm logic (hoặc sử dụng một gói bên ngoài) yêu cầu tất cả các API Node.js, bạn có thể chuyển logic này sang [bố cục](/docs/app/api-reference/file-conventions/layout) làm [Thành phần máy chủ](/docs/app/getting-started/server-and-client-components). Ví dụ, kiểm tra [tiêu đề](/docs/app/api-reference/functions/headers) và [chuyển hướng](/docs/app/api-reference/functions/redirect). Bạn cũng có thể sử dụng tiêu đề, cookie hoặc tham số truy vấn để [chuyển hướng](/docs/app/api-reference/config/next-config-js/redirects#header-cookie-and-query-matching) hoặc [ghi lại](/docs/app/api-reference/config/next-config-js/rewrites#header-cookie-and-query-matching) thông qua `next.config.js`. Nếu cách đó không hoạt động, bạn cũng có thể sử dụng [máy chủ tùy chỉnh](/docs/pages/guides/custom-server).
 
-## Environment Variables
+## Biến môi trường
 
-Next.js can support both build time and runtime environment variables.
+Next.js có thể hỗ trợ cả biến môi trường thời gian xây dựng và thời gian chạy.
 
-**By default, environment variables are only available on the server**. To expose an environment variable to the browser, it must be prefixed with `NEXT_PUBLIC_`. However, these public environment variables will be inlined into the JavaScript bundle during `next build`.
+**Theo mặc định, các biến môi trường chỉ có sẵn trên máy chủ**. Để hiển thị một biến môi trường cho trình duyệt, nó phải có tiền tố `NEXT_PUBLIC_`. Tuy nhiên, các biến môi trường công khai này sẽ được đưa vào gói JavaScript trong quá trình `next build`.
 
 <PagesOnly>
 
-To read runtime environment variables, we recommend using `getServerSideProps` or [incrementally adopting the App Router](/docs/app/guides/migrating/app-router-migration).
+Để đọc các biến môi trường thời gian chạy, chúng tôi khuyên bạn nên sử dụng `getServerSideProps` hoặc [áp dụng dần dần Bộ định tuyến ứng dụng](/docs/app/guides/migrating/app-router-migration).
 
 </PagesOnly>
 
 <AppOnly>
 
-You safely read environment variables on the server during dynamic rendering.
+Bạn có thể đọc các biến môi trường một cách an toàn trên máy chủ trong quá trình kết xuất động.
 
 ```tsx filename="app/page.ts" switcher
 import { connection } from 'next/server'
 
 export default async function Component() {
   await connection()
-  // cookies, headers, and other Dynamic APIs
-  // will also opt into dynamic rendering, meaning
-  // this env variable is evaluated at runtime
+  // cookies, headers, và các API động khác
+  // cũng sẽ chọn tham gia kết xuất động, có nghĩa là
+  // biến env này được đánh giá trong thời gian chạy
   const value = process.env.MY_VALUE
   // ...
 }
@@ -64,9 +64,9 @@ import { connection } from 'next/server'
 
 export default async function Component() {
   await connection()
-  // cookies, headers, and other Dynamic APIs
-  // will also opt into dynamic rendering, meaning
-  // this env variable is evaluated at runtime
+  // cookies, headers, và các API động khác
+  // cũng sẽ chọn tham gia kết xuất động, có nghĩa là
+  // biến env này được đánh giá trong thời gian chạy
   const value = process.env.MY_VALUE
   // ...
 }
@@ -74,46 +74,46 @@ export default async function Component() {
 
 </AppOnly>
 
-This allows you to use a singular Docker image that can be promoted through multiple environments with different values.
+Điều này cho phép bạn sử dụng một hình ảnh Docker duy nhất có thể được quảng bá qua nhiều môi trường với các giá trị khác nhau.
 
-> **Good to know:**
+> **Cần biết:**
 >
-> - You can run code on server startup using the [`register` function](/docs/app/guides/instrumentation).
+> - Bạn có thể chạy mã khi khởi động máy chủ bằng cách sử dụng hàm [`register`](/docs/app/guides/instrumentation).
 
-## Caching and ISR
+## Lưu vào bộ nhớ đệm và ISR
 
-Next.js can cache responses, generated static pages, build outputs, and other static assets like images, fonts, and scripts.
+Next.js có thể lưu vào bộ nhớ đệm các phản hồi, các trang tĩnh được tạo, kết quả xây dựng và các tài sản tĩnh khác như hình ảnh, phông chữ và tập lệnh.
 
-Caching and revalidating pages (with [Incremental Static Regeneration](/docs/app/guides/incremental-static-regeneration)) use the **same shared cache**. By default, this cache is stored to the filesystem (on disk) on your Next.js server. **This works automatically when self-hosting** using both the Pages and App Router.
+Việc lưu vào bộ nhớ đệm và xác thực lại các trang (với [Tái tạo tĩnh tăng dần](/docs/app/guides/incremental-static-regeneration)) sử dụng **cùng một bộ nhớ đệm được chia sẻ**. Theo mặc định, bộ nhớ đệm này được lưu trữ vào hệ thống tệp (trên đĩa) trên máy chủ Next.js của bạn. **Điều này hoạt động tự động khi tự lưu trữ** bằng cả Bộ định tuyến trang và ứng dụng.
 
-You can configure the Next.js cache location if you want to persist cached pages and data to durable storage, or share the cache across multiple containers or instances of your Next.js application.
+Bạn có thể định cấu hình vị trí bộ nhớ đệm Next.js nếu bạn muốn duy trì các trang và dữ liệu được lưu trong bộ nhớ đệm vào bộ nhớ bền vững hoặc chia sẻ bộ nhớ đệm trên nhiều vùng chứa hoặc phiên bản của ứng dụng Next.js của bạn.
 
-### Automatic Caching
+### Tự động lưu vào bộ nhớ đệm
 
-- Next.js sets the `Cache-Control` header of `public, max-age=31536000, immutable` to truly immutable assets. It cannot be overridden. These immutable files contain a SHA-hash in the file name, so they can be safely cached indefinitely. For example, [Static Image Imports](/docs/app/getting-started/images#local-images). You can [configure the TTL](/docs/app/api-reference/components/image#minimumcachettl) for images.
-- Incremental Static Regeneration (ISR) sets the `Cache-Control` header of `s-maxage: <revalidate in getStaticProps>, stale-while-revalidate`. This revalidation time is defined in your [`getStaticProps` function](/docs/pages/building-your-application/data-fetching/get-static-props) in seconds. If you set `revalidate: false`, it will default to a one-year cache duration.
-- Dynamically rendered pages set a `Cache-Control` header of `private, no-cache, no-store, max-age=0, must-revalidate` to prevent user-specific data from being cached. This applies to both the App Router and Pages Router. This also includes [Draft Mode](/docs/app/guides/draft-mode).
+- Next.js đặt tiêu đề `Cache-Control` là `public, max-age=31536000, immutable` cho các tài sản thực sự bất biến. Nó không thể bị ghi đè. Các tệp bất biến này chứa một hàm băm SHA trong tên tệp, vì vậy chúng có thể được lưu vào bộ nhớ đệm an toàn vô thời hạn. Ví dụ, [Nhập hình ảnh tĩnh](/docs/app/getting-started/images#local-images). Bạn có thể [định cấu hình TTL](/docs/app/api-reference/components/image#minimumcachettl) cho hình ảnh.
+- Tái tạo tĩnh tăng dần (ISR) đặt tiêu đề `Cache-Control` là `s-maxage: <revalidate in getStaticProps>, stale-while-revalidate`. Thời gian xác thực lại này được xác định trong hàm [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) của bạn tính bằng giây. Nếu bạn đặt `revalidate: false`, nó sẽ mặc định là thời gian lưu vào bộ nhớ đệm một năm.
+- Các trang được kết xuất động đặt tiêu đề `Cache-Control` là `private, no-cache, no-store, max-age=0, must-revalidate` để ngăn dữ liệu dành riêng cho người dùng được lưu vào bộ nhớ đệm. Điều này áp dụng cho cả Bộ định tuyến ứng dụng và Bộ định tuyến trang. Điều này cũng bao gồm [Chế độ nháp](/docs/app/guides/draft-mode).
 
-### Static Assets
+### Tài sản tĩnh
 
-If you want to host static assets on a different domain or CDN, you can use the `assetPrefix` [configuration](/docs/app/api-reference/config/next-config-js/assetPrefix) in `next.config.js`. Next.js will use this asset prefix when retrieving JavaScript or CSS files. Separating your assets to a different domain does come with the downside of extra time spent on DNS and TLS resolution.
+Nếu bạn muốn lưu trữ các tài sản tĩnh trên một miền hoặc CDN khác, bạn có thể sử dụng cấu hình `assetPrefix` [cấu hình](/docs/app/api-reference/config/next-config-js/assetPrefix) trong `next.config.js`. Next.js sẽ sử dụng tiền tố tài sản này khi truy xuất các tệp JavaScript hoặc CSS. Việc tách biệt các tài sản của bạn sang một miền khác có nhược điểm là mất thêm thời gian cho việc phân giải DNS và TLS.
 
-[Learn more about `assetPrefix`](/docs/app/api-reference/config/next-config-js/assetPrefix).
+[Tìm hiểu thêm về `assetPrefix`](/docs/app/api-reference/config/next-config-js/assetPrefix).
 
-### Configuring Caching
+### Định cấu hình bộ nhớ đệm
 
-By default, generated cache assets will be stored in memory (defaults to 50mb) and on disk. If you are hosting Next.js using a container orchestration platform like Kubernetes, each pod will have a copy of the cache. To prevent stale data from being shown since the cache is not shared between pods by default, you can configure the Next.js cache to provide a cache handler and disable in-memory caching.
+Theo mặc định, các tài sản bộ nhớ đệm được tạo sẽ được lưu trữ trong bộ nhớ (mặc định là 50mb) và trên đĩa. Nếu bạn đang lưu trữ Next.js bằng một nền tảng điều phối vùng chứa như Kubernetes, mỗi pod sẽ có một bản sao của bộ nhớ đệm. Để ngăn dữ liệu cũ được hiển thị vì bộ nhớ đệm không được chia sẻ giữa các pod theo mặc định, bạn có thể định cấu hình bộ nhớ đệm Next.js để cung cấp một trình xử lý bộ nhớ đệm và tắt bộ nhớ đệm trong bộ nhớ.
 
-To configure the ISR/Data Cache location when self-hosting, you can configure a custom handler in your `next.config.js` file:
+Để định cấu hình vị trí Bộ nhớ đệm ISR/Dữ liệu khi tự lưu trữ, bạn có thể định cấu hình một trình xử lý tùy chỉnh trong tệp `next.config.js` của mình:
 
 ```jsx filename="next.config.js"
 module.exports = {
   cacheHandler: require.resolve('./cache-handler.js'),
-  cacheMaxMemorySize: 0, // disable default in-memory caching
+  cacheMaxMemorySize: 0, // tắt bộ nhớ đệm trong bộ nhớ mặc định
 }
 ```
 
-Then, create `cache-handler.js` in the root of your project, for example:
+Sau đó, tạo `cache-handler.js` trong thư mục gốc của dự án của bạn, ví dụ:
 
 ```jsx filename="cache-handler.js"
 const cache = new Map()
@@ -124,12 +124,12 @@ module.exports = class CacheHandler {
   }
 
   async get(key) {
-    // This could be stored anywhere, like durable storage
+    // Điều này có thể được lưu trữ ở bất cứ đâu, như bộ nhớ bền vững
     return cache.get(key)
   }
 
   async set(key, data, ctx) {
-    // This could be stored anywhere, like durable storage
+    // Điều này có thể được lưu trữ ở bất cứ đâu, như bộ nhớ bền vững
     cache.set(key, {
       value: data,
       lastModified: Date.now(),
@@ -138,57 +138,57 @@ module.exports = class CacheHandler {
   }
 
   async revalidateTag(tags) {
-    // tags is either a string or an array of strings
+    // tags là một chuỗi hoặc một mảng các chuỗi
     tags = [tags].flat()
-    // Iterate over all entries in the cache
+    // Lặp qua tất cả các mục trong bộ nhớ đệm
     for (let [key, value] of cache) {
-      // If the value's tags include the specified tag, delete this entry
+      // Nếu các thẻ của giá trị bao gồm thẻ được chỉ định, hãy xóa mục này
       if (value.tags.some((tag) => tags.includes(tag))) {
         cache.delete(key)
       }
     }
   }
 
-  // If you want to have temporary in memory cache for a single request that is reset
-  // before the next request you can leverage this method
+  // Nếu bạn muốn có bộ nhớ đệm tạm thời trong bộ nhớ cho một yêu cầu duy nhất được đặt lại
+  // trước yêu cầu tiếp theo, bạn có thể tận dụng phương thức này
   resetRequestCache() {}
 }
 ```
 
-Using a custom cache handler will allow you to ensure consistency across all pods hosting your Next.js application. For instance, you can save the cached values anywhere, like [Redis](https://github.com/vercel/next.js/tree/canary/examples/cache-handler-redis) or AWS S3.
+Sử dụng một trình xử lý bộ nhớ đệm tùy chỉnh sẽ cho phép bạn đảm bảo tính nhất quán trên tất cả các pod lưu trữ ứng dụng Next.js của bạn. Ví dụ, bạn có thể lưu các giá trị được lưu trong bộ nhớ đệm ở bất cứ đâu, như [Redis](https://github.com/vercel/next.js/tree/canary/examples/cache-handler-redis) hoặc AWS S3.
 
-> **Good to know:**
+> **Cần biết:**
 >
-> - `revalidatePath` is a convenience layer on top of cache tags. Calling `revalidatePath` will call the `revalidateTag` function with a special default tag for the provided page.
+> - `revalidatePath` là một lớp tiện lợi trên đầu các thẻ bộ nhớ đệm. Việc gọi `revalidatePath` sẽ gọi hàm `revalidateTag` với một thẻ mặc định đặc biệt cho trang được cung cấp.
 
-## Build Cache
+## Bộ nhớ đệm xây dựng
 
-Next.js generates an ID during `next build` to identify which version of your application is being served. The same build should be used and boot up multiple containers.
+Next.js tạo một ID trong quá trình `next build` để xác định phiên bản nào của ứng dụng của bạn đang được phục vụ. Cùng một bản dựng nên được sử dụng và khởi động nhiều vùng chứa.
 
-If you are rebuilding for each stage of your environment, you will need to generate a consistent build ID to use between containers. Use the `generateBuildId` command in `next.config.js`:
+Nếu bạn đang xây dựng lại cho từng giai đoạn của môi trường của mình, bạn sẽ cần tạo một ID bản dựng nhất quán để sử dụng giữa các vùng chứa. Sử dụng lệnh `generateBuildId` trong `next.config.js`:
 
 ```jsx filename="next.config.js"
 module.exports = {
   generateBuildId: async () => {
-    // This could be anything, using the latest git hash
+    // Điều này có thể là bất cứ điều gì, sử dụng hàm băm git mới nhất
     return process.env.GIT_HASH
   },
 }
 ```
 
-## Version Skew
+## Lệch phiên bản
 
-Next.js will automatically mitigate most instances of [version skew](https://www.industrialempathy.com/posts/version-skew/) and automatically reload the application to retrieve new assets when detected. For example, if there is a mismatch in the `deploymentId`, transitions between pages will perform a hard navigation versus using a prefetched value.
+Next.js sẽ tự động giảm thiểu hầu hết các trường hợp [lệch phiên bản](https://www.industrialempathy.com/posts/version-skew/) và tự động tải lại ứng dụng để truy xuất các tài sản mới khi được phát hiện. Ví dụ, nếu có sự không khớp trong `deploymentId`, việc chuyển đổi giữa các trang sẽ thực hiện một điều hướng cứng thay vì sử dụng một giá trị được tìm nạp trước.
 
-When the application is reloaded, there may be a loss of application state if it's not designed to persist between page navigations. For example, using URL state or local storage would persist state after a page refresh. However, component state like `useState` would be lost in such navigations.
+Khi ứng dụng được tải lại, có thể có mất mát trạng thái ứng dụng nếu nó không được thiết kế để duy trì giữa các điều hướng trang. Ví dụ, sử dụng trạng thái URL hoặc bộ nhớ cục bộ sẽ duy trì trạng thái sau khi làm mới trang. Tuy nhiên, trạng thái thành phần như `useState` sẽ bị mất trong các điều hướng như vậy.
 
 <AppOnly>
 
-## Streaming and Suspense
+## Truyền phát và hồi hộp
 
-The Next.js App Router supports [streaming responses](/docs/app/api-reference/file-conventions/loading) when self-hosting. If you are using Nginx or a similar proxy, you will need to configure it to disable buffering to enable streaming.
+Bộ định tuyến ứng dụng Next.js hỗ trợ [phản hồi truyền phát](/docs/app/api-reference/file-conventions/loading) khi tự lưu trữ. Nếu bạn đang sử dụng Nginx hoặc một proxy tương tự, bạn sẽ cần định cấu hình nó để tắt bộ đệm để bật truyền phát.
 
-For example, you can disable buffering in Nginx by setting `X-Accel-Buffering` to `no`:
+Ví dụ, bạn có thể tắt bộ đệm trong Nginx bằng cách đặt `X-Accel-Buffering` thành `no`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -208,17 +208,17 @@ module.exports = {
 }
 ```
 
-## Cache Components
+## Thành phần bộ nhớ đệm
 
-[Cache Components](/docs/app/getting-started/cache-components) works by default with Next.js and is not a CDN-only feature. This includes deployment as a Node.js server (through `next start`) and when used with a Docker container.
+[Thành phần bộ nhớ đệm](/docs/app/getting-started/cache-components) hoạt động theo mặc định với Next.js và không phải là một tính năng chỉ dành cho CDN. Điều này bao gồm việc triển khai như một máy chủ Node.js (thông qua `next start`) và khi được sử dụng với một vùng chứa Docker.
 
-## Usage with CDNs
+## Sử dụng với CDN
 
-When using a CDN in front on your Next.js application, the page will include `Cache-Control: private` response header when dynamic APIs are accessed. This ensures that the resulting HTML page is marked as non-cacheable. If the page is fully prerendered to static, it will include `Cache-Control: public` to allow the page to be cached on the CDN.
+Khi sử dụng CDN trước ứng dụng Next.js của bạn, trang sẽ bao gồm tiêu đề phản hồi `Cache-Control: private` khi các API động được truy cập. Điều này đảm bảo rằng trang HTML kết quả được đánh dấu là không thể lưu vào bộ nhớ đệm. Nếu trang được kết xuất trước hoàn toàn thành tĩnh, nó sẽ bao gồm `Cache-Control: public` để cho phép trang được lưu vào bộ nhớ đệm trên CDN.
 
-If you don't need a mix of both static and dynamic components, you can make your entire route static and cache the output HTML on a CDN. This Automatic Static Optimization is the default behavior when running `next build` if dynamic APIs are not used.
+Nếu bạn không cần một sự kết hợp của cả hai thành phần tĩnh và động, bạn có thể làm cho toàn bộ tuyến đường của mình tĩnh và lưu vào bộ nhớ đệm HTML đầu ra trên một CDN. Tối ưu hóa tĩnh tự động này là hành vi mặc định khi chạy `next build` nếu các API động không được sử dụng.
 
-As Partial Prerendering moves to stable, we will provide support through the Deployment Adapters API.
+Khi Kết xuất một phần trước chuyển sang ổn định, chúng tôi sẽ cung cấp hỗ trợ thông qua API Bộ điều hợp triển khai.
 
 </AppOnly>
 
@@ -226,21 +226,21 @@ As Partial Prerendering moves to stable, we will provide support through the Dep
 
 ## `after`
 
-[`after`](/docs/app/api-reference/functions/after) is fully supported when self-hosting with `next start`.
+[`after`](/docs/app/api-reference/functions/after) được hỗ trợ đầy đủ khi tự lưu trữ với `next start`.
 
-When stopping the server, ensure a graceful shutdown by sending `SIGINT` or `SIGTERM` signals and waiting. This allows the Next.js server to wait until after pending callback functions or promises used inside `after` have finished.
+Khi dừng máy chủ, hãy đảm bảo tắt máy một cách duyên dáng bằng cách gửi các tín hiệu `SIGINT` hoặc `SIGTERM` và chờ đợi. Điều này cho phép máy chủ Next.js đợi cho đến khi các hàm gọi lại hoặc lời hứa đang chờ xử lý được sử dụng bên trong `after` kết thúc.
 
 </AppOnly>
 
 <PagesOnly>
 
-## Manual Graceful Shutdowns
+## Tắt máy thủ công một cách duyên dáng
 
-When self-hosting, you might want to run code when the server shuts down on `SIGTERM` or `SIGINT` signals.
+Khi tự lưu trữ, bạn có thể muốn chạy mã khi máy chủ tắt trên các tín hiệu `SIGTERM` hoặc `SIGINT`.
 
-You can set the env variable `NEXT_MANUAL_SIG_HANDLE` to `true` and then register a handler for that signal inside your `_document.js` file. You will need to register the environment variable directly in the `package.json` script, and not in the `.env` file.
+Bạn có thể đặt biến môi trường `NEXT_MANUAL_SIG_HANDLE` thành `true` và sau đó đăng ký một trình xử lý cho tín hiệu đó bên trong tệp `_document.js` của bạn. Bạn sẽ cần đăng ký biến môi trường trực tiếp trong tập lệnh `package.json`, chứ không phải trong tệp `.env`.
 
-> **Good to know**: Manual signal handling is not available in `next dev`.
+> **Cần biết**: Xử lý tín hiệu thủ công không có sẵn trong `next dev`.
 
 ```json filename="package.json"
 {
@@ -255,11 +255,11 @@ You can set the env variable `NEXT_MANUAL_SIG_HANDLE` to `true` and then registe
 ```js filename="pages/_document.js"
 if (process.env.NEXT_MANUAL_SIG_HANDLE) {
   process.on('SIGTERM', () => {
-    console.log('Received SIGTERM: cleaning up')
+    console.log('Đã nhận SIGTERM: đang dọn dẹp')
     process.exit(0)
   })
   process.on('SIGINT', () => {
-    console.log('Received SIGINT: cleaning up')
+    console.log('Đã nhận SIGINT: đang dọn dẹp')
     process.exit(0)
   })
 }

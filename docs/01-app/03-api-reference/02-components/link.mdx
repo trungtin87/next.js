@@ -1,13 +1,13 @@
 ---
 title: Link Component
-description: Enable fast client-side navigation with the built-in `next/link` component.
+description: Kích hoạt client-side navigation nhanh với built-in `next/link` component.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-`<Link>` is a React component that extends the HTML `<a>` element to provide [prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) and client-side navigation between routes. It is the primary way to navigate between routes in Next.js.
+`<Link>` là một React component mở rộng phần tử HTML `<a>` để cung cấp [prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) và client-side navigation giữa các routes. Đây là cách chính để điều hướng giữa các routes trong Next.js.
 
-Basic usage:
+Cách sử dụng cơ bản:
 
 <AppOnly>
 
@@ -49,49 +49,48 @@ export default function Home() {
 
 </PagesOnly>
 
-## Reference
+## Tham khảo
 
-The following props can be passed to the `<Link>` component:
+Các props sau có thể được truyền cho component `<Link>`:
 
 <PagesOnly>
 
-| Prop                        | Example                  | Type              | Required |
-| --------------------------- | ------------------------ | ----------------- | -------- |
-| [`href`](#href-required)    | `href="/dashboard"`      | String or Object  | Yes      |
-| [`as`](#as)                 | `as="/post/abc"`         | String or Object  | -        |
-| [`replace`](#replace)       | `replace={false}`        | Boolean           | -        |
-| [`scroll`](#scroll)         | `scroll={false}`         | Boolean           | -        |
-| [`prefetch`](#prefetch)     | `prefetch={false}`       | Boolean           | -        |
-| [`shallow`](#shallow)       | `shallow={false}`        | Boolean           | -        |
-| [`locale`](#locale)         | `locale="fr"`            | String or Boolean | -        |
-| [`onNavigate`](#onnavigate) | `onNavigate={(e) => {}}` | Function          | -        |
+| Prop | Ví dụ | Type | Bắt buộc |\n| --------------------------- | ------------------------ | ----------------- | -------- |
+| [`href`](#href-required) | `href="/dashboard"` | String hoặc Object | Có |
+| [`as`](#as) | `as="/post/abc"` | String hoặc Object | - |
+| [`replace`](#replace) | `replace={false}` | Boolean | - |
+| [`scroll`](#scroll) | `scroll={false}` | Boolean | - |
+| [`prefetch`](#prefetch) | `prefetch={false}` | Boolean | - |
+| [`shallow`](#shallow) | `shallow={false}` | Boolean | - |
+| [`locale`](#locale) | `locale="fr"` | String hoặc Boolean | - |
+| [`onNavigate`](#onnavigate) | `onNavigate={(e) => {}}` | Function | - |
 
 </PagesOnly>
 
 <AppOnly>
 
-| Prop                        | Example                  | Type             | Required |
-| --------------------------- | ------------------------ | ---------------- | -------- |
-| [`href`](#href-required)    | `href="/dashboard"`      | String or Object | Yes      |
-| [`replace`](#replace)       | `replace={false}`        | Boolean          | -        |
-| [`scroll`](#scroll)         | `scroll={false}`         | Boolean          | -        |
-| [`prefetch`](#prefetch)     | `prefetch={false}`       | Boolean or null  | -        |
-| [`onNavigate`](#onnavigate) | `onNavigate={(e) => {}}` | Function         | -        |
+| Prop                        | Ví dụ                    | Type               | Bắt buộc |
+| --------------------------- | ------------------------ | ------------------ | -------- |
+| [`href`](#href-required)    | `href="/dashboard"`      | String hoặc Object | Có       |
+| [`replace`](#replace)       | `replace={false}`        | Boolean            | -        |
+| [`scroll`](#scroll)         | `scroll={false}`         | Boolean            | -        |
+| [`prefetch`](#prefetch)     | `prefetch={false}`       | Boolean hoặc null  | -        |
+| [`onNavigate`](#onnavigate) | `onNavigate={(e) => {}}` | Function           | -        |
 
 </AppOnly>
 
-> **Good to know**: `<a>` tag attributes such as `className` or `target="_blank"` can be added to `<Link>` as props and will be passed to the underlying `<a>` element.
+> **Lưu ý:** Các thuộc tính của thẻ `<a>` như `className` hoặc `target="_blank"` có thể được thêm vào `<Link>` dưới dạng props và sẽ được truyền cho phần tử `<a>` bên dưới.
 
-### `href` (required)
+### `href` (bắt buộc)
 
-The path or URL to navigate to.
+Path hoặc URL để điều hướng đến.
 
 <AppOnly>
 
 ```tsx filename="app/page.tsx" switcher
 import Link from 'next/link'
 
-// Navigate to /about?name=test
+// Điều hướng đến /about?name=test
 export default function Page() {
   return (
     <Link
@@ -109,7 +108,7 @@ export default function Page() {
 ```jsx filename="app/page.js" switcher
 import Link from 'next/link'
 
-// Navigate to /about?name=test
+// Điều hướng đến /about?name=test
 export default function Page() {
   return (
     <Link
@@ -131,7 +130,7 @@ export default function Page() {
 ```tsx filename="pages/index.tsx" switcher
 import Link from 'next/link'
 
-// Navigate to /about?name=test
+// Điều hướng đến /about?name=test
 export default function Home() {
   return (
     <Link
@@ -149,7 +148,7 @@ export default function Home() {
 ```jsx filename="pages/index.js" switcher
 import Link from 'next/link'
 
-// Navigate to /about?name=test
+// Điều hướng đến /about?name=test
 export default function Home() {
   return (
     <Link
@@ -168,7 +167,7 @@ export default function Home() {
 
 ### `replace`
 
-**Defaults to `false`.** When `true`, `next/link` will replace the current history state instead of adding a new URL into the [browser's history](https://developer.mozilla.org/docs/Web/API/History_API) stack.
+**Mặc định là `false`.** Khi `true`, `next/link` sẽ thay thế current history state thay vì thêm URL mới vào [browser's history](https://developer.mozilla.org/docs/Web/API/History_API) stack.
 
 <AppOnly>
 
@@ -228,11 +227,11 @@ export default function Home() {
 
 ### `scroll`
 
-**Defaults to `true`.** The default scrolling behavior of `<Link>` in Next.js **is to maintain scroll position**, similar to how browsers handle back and forwards navigation. When you navigate to a new [Page](/docs/app/api-reference/file-conventions/page), scroll position will stay the same as long as the Page is visible in the viewport. However, if the Page is not visible in the viewport, Next.js will scroll to the top of the first Page element.
+**Mặc định là `true`.** Hành vi scroll mặc định của `<Link>` trong Next.js **là duy trì vị trí scroll**, tương tự như cách trình duyệt xử lý điều hướng back và forwards. Khi bạn điều hướng đến một [Page](/docs/app/api-reference/file-conventions/page) mới, vị trí scroll sẽ giữ nguyên miễn là Page hiển thị trong viewport. Tuy nhiên, nếu Page không hiển thị trong viewport, Next.js sẽ scroll đến đầu phần tử Page đầu tiên.
 
-When `scroll = {false}`, Next.js will not attempt to scroll to the first Page element.
+Khi `scroll = {false}`, Next.js sẽ không cố gắng scroll đến phần tử Page đầu tiên.
 
-> **Good to know**: Next.js checks if `scroll: false` before managing scroll behavior. If scrolling is enabled, it identifies the relevant DOM node for navigation and inspects each top-level element. All non-scrollable elements and those without rendered HTML are bypassed, this includes sticky or fixed positioned elements, and non-visible elements such as those calculated with `getBoundingClientRect`. Next.js then continues through siblings until it identifies a scrollable element that is visible in the viewport.
+> **Lưu ý:** Next.js kiểm tra `scroll: false` trước khi quản lý hành vi scroll. Nếu scrolling được kích hoạt, nó xác định DOM node liên quan cho điều hướng và kiểm tra mỗi phần tử cấp cao nhất. Tất cả các phần tử không thể scroll và những phần tử không có HTML được render sẽ bị bỏ qua, bao gồm các phần tử sticky hoặc fixed positioned, và các phần tử không hiển thị như những phần tử được tính toán với `getBoundingClientRect`. Next.js sau đó tiếp tục qua các siblings cho đến khi nó xác định một phần tử có thể scroll hiển thị trong viewport.
 
 <AppOnly>
 
@@ -294,13 +293,13 @@ export default function Home() {
 
 <AppOnly>
 
-Prefetching happens when a `<Link />` component enters the user's viewport (initially or through scroll). Next.js prefetches and loads the linked route (denoted by the `href`) and its data in the background to improve the performance of client-side navigations. If the prefetched data has expired by the time the user hovers over a `<Link />`, Next.js will attempt to prefetch it again. **Prefetching is only enabled in production**.
+Prefetching xảy ra khi một component `<Link />` vào viewport của người dùng (ban đầu hoặc thông qua scroll). Next.js prefetch và load route được liên kết (được biểu thị bởi `href`) và dữ liệu của nó ở background để cải thiện hiệu suất của client-side navigations. Nếu dữ liệu được prefetch đã hết hạn vào thời điểm người dùng di chuột qua `<Link />`, Next.js sẽ cố gắng prefetch lại. **Prefetching chỉ được kích hoạt trong production**.
 
-The following values can be passed to the `prefetch` prop:
+Các giá trị sau có thể được truyền cho prop `prefetch`:
 
-- **`"auto"` or `null` (default)**: Prefetch behavior depends on whether the route is static or dynamic. For static routes, the full route will be prefetched (including all its data). For dynamic routes, the partial route down to the nearest segment with a [`loading.js`](/docs/app/api-reference/file-conventions/loading#instant-loading-states) boundary will be prefetched.
-- `true`: The full route will be prefetched for both static and dynamic routes.
-- `false`: Prefetching will never happen both on entering the viewport and on hover.
+- **`"auto"` hoặc `null` (mặc định)**: Hành vi prefetch phụ thuộc vào route là static hay dynamic. Đối với static routes, toàn bộ route sẽ được prefetch (bao gồm tất cả dữ liệu của nó). Đối với dynamic routes, partial route xuống đến segment gần nhất có boundary [`loading.js`](/docs/app/api-reference/file-conventions/loading#instant-loading-states) sẽ được prefetch.
+- `true`: Toàn bộ route sẽ được prefetch cho cả static và dynamic routes.
+- `false`: Prefetching sẽ không bao giờ xảy ra cả khi vào viewport và khi hover.
 
 ```tsx filename="app/page.tsx" switcher
 import Link from 'next/link'
@@ -330,12 +329,12 @@ export default function Page() {
 
 <PagesOnly>
 
-Prefetching happens when a `<Link />` component enters the user's viewport (initially or through scroll). Next.js prefetches and loads the linked route (denoted by the `href`) and data in the background to improve the performance of client-side navigation's. **Prefetching is only enabled in production**.
+Prefetching xảy ra khi một component `<Link />` vào viewport của người dùng (ban đầu hoặc thông qua scroll). Next.js prefetch và load route được liên kết (được biểu thị bởi `href`) và dữ liệu ở background để cải thiện hiệu suất của client-side navigation. **Prefetching chỉ được kích hoạt trong production**.
 
-The following values can be passed to the `prefetch` prop:
+Các giá trị sau có thể được truyền cho prop `prefetch`:
 
-- **`true` (default)**: The full route and its data will be prefetched.
-- `false`: Prefetching will not happen when entering the viewport, but will happen on hover. If you want to completely remove fetching on hover as well, consider using an `<a>` tag or [incrementally adopting](/docs/app/guides/migrating/app-router-migration) the App Router, which enables disabling prefetching on hover too.
+- **`true` (mặc định)**: Toàn bộ route và dữ liệu của nó sẽ được prefetch.
+- `false`: Prefetching sẽ không xảy ra khi vào viewport, nhưng sẽ xảy ra khi hover. Nếu bạn muốn loại bỏ hoàn toàn fetching khi hover, hãy cân nhắc sử dụng thẻ `<a>` hoặc [incrementally adopting](/docs/app/guides/migrating/app-router-migration) App Router, cho phép vô hiệu hóa prefetching khi hover.
 
 ```tsx filename="pages/index.tsx" switcher
 import Link from 'next/link'
@@ -363,7 +362,7 @@ export default function Home() {
 
 ### `shallow`
 
-Update the path of the current page without rerunning [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props), [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props) or [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props). Defaults to `false`.
+Cập nhật path của trang hiện tại mà không chạy lại [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props), [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props) hoặc [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props). Mặc định là `false`.
 
 ```tsx filename="pages/index.tsx" switcher
 import Link from 'next/link'
@@ -391,7 +390,7 @@ export default function Home() {
 
 ### `locale`
 
-The active locale is automatically prepended. `locale` allows for providing a different locale. When `false` `href` has to include the locale as the default behavior is disabled.
+Locale đang hoạt động được tự động thêm vào trước. `locale` cho phép cung cấp một locale khác. Khi `false`, `href` phải bao gồm locale vì hành vi mặc định bị vô hiệu hóa.
 
 ```tsx filename="pages/index.tsx" switcher
 import Link from 'next/link'
@@ -399,15 +398,15 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <>
-      {/* Default behavior: locale is prepended */}
-      <Link href="/dashboard">Dashboard (with locale)</Link>
+      {/* Hành vi mặc định: locale được thêm vào trước */}
+      <Link href="/dashboard">Dashboard (với locale)</Link>
 
-      {/* Disable locale prepending */}
+      {/* Vô hiệu hóa việc thêm locale vào trước */}
       <Link href="/dashboard" locale={false}>
-        Dashboard (without locale)
+        Dashboard (không có locale)
       </Link>
 
-      {/* Specify a different locale */}
+      {/* Chỉ định một locale khác */}
       <Link href="/dashboard" locale="fr">
         Dashboard (French)
       </Link>
@@ -422,15 +421,15 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <>
-      {/* Default behavior: locale is prepended */}
-      <Link href="/dashboard">Dashboard (with locale)</Link>
+      {/* Hành vi mặc định: locale được thêm vào trước */}
+      <Link href="/dashboard">Dashboard (với locale)</Link>
 
-      {/* Disable locale prepending */}
+      {/* Vô hiệu hóa việc thêm locale vào trước */}
       <Link href="/dashboard" locale={false}>
-        Dashboard (without locale)
+        Dashboard (không có locale)
       </Link>
 
-      {/* Specify a different locale */}
+      {/* Chỉ định một locale khác */}
       <Link href="/dashboard" locale="fr">
         Dashboard (French)
       </Link>
@@ -441,15 +440,15 @@ export default function Home() {
 
 ### `as`
 
-Optional decorator for the path that will be shown in the browser URL bar. Before Next.js 9.5.3 this was used for dynamic routes, check our [previous docs](https://github.com/vercel/next.js/blob/v9.5.2/docs/api-reference/next/link.md#dynamic-routes) to see how it worked.
+Decorator tùy chọn cho path sẽ được hiển thị trong thanh URL của trình duyệt. Trước Next.js 9.5.3, điều này được sử dụng cho dynamic routes, kiểm tra [tài liệu trước đây](https://github.com/vercel/next.js/blob/v9.5.2/docs/api-reference/next/link.md#dynamic-routes) của chúng tôi để xem cách nó hoạt động.
 
-When this path differs from the one provided in `href` the previous `href`/`as` behavior is used as shown in the [previous docs](https://github.com/vercel/next.js/blob/v9.5.2/docs/api-reference/next/link.md#dynamic-routes).
+Khi path này khác với path được cung cấp trong `href`, hành vi `href`/`as` trước đây được sử dụng như được hiển thị trong [tài liệu trước đây](https://github.com/vercel/next.js/blob/v9.5.2/docs/api-reference/next/link.md#dynamic-routes).
 
 </PagesOnly>
 
 ### `onNavigate`
 
-An event handler called during client-side navigation. The handler receives an event object that includes a `preventDefault()` method, allowing you to cancel the navigation if needed.
+Một event handler được gọi trong quá trình client-side navigation. Handler nhận một event object bao gồm phương thức `preventDefault()`, cho phép bạn hủy điều hướng nếu cần.
 
 ```tsx filename="app/page.tsx" switcher
 import Link from 'next/link'
@@ -459,10 +458,10 @@ export default function Page() {
     <Link
       href="/dashboard"
       onNavigate={(e) => {
-        // Only executes during SPA navigation
-        console.log('Navigating...')
+        // Chỉ thực thi trong SPA navigation
+        console.log('Đang điều hướng...')
 
-        // Optionally prevent navigation
+        // Tùy chọn ngăn điều hướng
         // e.preventDefault()
       }}
     >
@@ -480,10 +479,10 @@ export default function Page() {
     <Link
       href="/dashboard"
       onNavigate={(e) => {
-        // Only executes during SPA navigation
-        console.log('Navigating...')
+        // Chỉ thực thi trong SPA navigation
+        console.log('Đang điều hướng...')
 
-        // Optionally prevent navigation
+        // Tùy chọn ngăn điều hướng
         // e.preventDefault()
       }}
     >
@@ -493,21 +492,21 @@ export default function Page() {
 }
 ```
 
-> **Good to know**: While `onClick` and `onNavigate` may seem similar, they serve different purposes. `onClick` executes for all click events, while `onNavigate` only runs during client-side navigation. Some key differences:
+> **Lưu ý:** Mặc dù `onClick` và `onNavigate` có vẻ tương tự, chúng phục vụ các mục đích khác nhau. `onClick` thực thi cho tất cả các click events, trong khi `onNavigate` chỉ chạy trong client-side navigation. Một số khác biệt chính:
 >
-> - When using modifier keys (`Ctrl`/`Cmd` + Click), `onClick` executes but `onNavigate` doesn't since Next.js prevents default navigation for new tabs.
-> - External URLs won't trigger `onNavigate` since it's only for client-side and same-origin navigations.
-> - Links with the `download` attribute will work with `onClick` but not `onNavigate` since the browser will treat the linked URL as a download.
+> - Khi sử dụng modifier keys (`Ctrl`/`Cmd` + Click), `onClick` thực thi nhưng `onNavigate` không vì Next.js ngăn điều hướng mặc định cho các tab mới.
+> - External URLs sẽ không trigger `onNavigate` vì nó chỉ dành cho client-side và same-origin navigations.
+> - Links với thuộc tính `download` sẽ hoạt động với `onClick` nhưng không với `onNavigate` vì trình duyệt sẽ coi URL được liên kết là một download.
 
-## Examples
+## Ví dụ
 
-The following examples demonstrate how to use the `<Link>` component in different scenarios.
+Các ví dụ sau đây minh họa cách sử dụng component `<Link>` trong các tình huống khác nhau.
 
 <AppOnly>
 
-### Linking to dynamic route segments
+### Liên kết đến dynamic route segments
 
-When linking to [dynamic segments](/docs/app/api-reference/file-conventions/dynamic-routes), you can use [template literals and interpolation](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals) to generate a list of links. For example, to generate a list of blog posts:
+Khi liên kết đến [dynamic segments](/docs/app/api-reference/file-conventions/dynamic-routes), bạn có thể sử dụng [template literals và interpolation](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals) để tạo danh sách các links. Ví dụ, để tạo danh sách các blog posts:
 
 ```tsx filename="app/blog/post-list.tsx" switcher
 import Link from 'next/link'
@@ -547,9 +546,9 @@ export default function PostList({ posts }) {
 }
 ```
 
-### Checking active links
+### Kiểm tra active links
 
-You can use [`usePathname()`](/docs/app/api-reference/functions/use-pathname) to determine if a link is active. For example, to add a class to the active link, you can check if the current `pathname` matches the `href` of the link:
+Bạn có thể sử dụng [`usePathname()`](/docs/app/api-reference/functions/use-pathname) để xác định xem một link có đang active hay không. Ví dụ, để thêm class vào active link, bạn có thể kiểm tra xem `pathname` hiện tại có khớp với `href` của link hay không:
 
 ```tsx filename="app/ui/nav-links.tsx" switcher
 'use client'
@@ -607,11 +606,11 @@ export function Links() {
 
 <PagesOnly>
 
-### Linking to dynamic route segments
+### Liên kết đến dynamic route segments
 
-For [dynamic route segments](/docs/pages/building-your-application/routing/dynamic-routes#convention), it can be handy to use template literals to create the link's path.
+Đối với [dynamic route segments](/docs/pages/building-your-application/routing/dynamic-routes#convention), có thể tiện lợi khi sử dụng template literals để tạo path của link.
 
-For example, you can generate a list of links to the dynamic route `pages/blog/[slug].js`
+Ví dụ, bạn có thể tạo danh sách các links đến dynamic route `pages/blog/[slug].js`
 
 ```tsx filename="pages/blog/index.tsx" switcher
 import Link from 'next/link'
@@ -649,9 +648,9 @@ export default Posts
 
 </PagesOnly>
 
-### Scrolling to an `id`
+### Scroll đến một `id`
 
-If you'd like to scroll to a specific `id` on navigation, you can append your URL with a `#` hash link or just pass a hash link to the `href` prop. This is possible since `<Link>` renders to an `<a>` element.
+Nếu bạn muốn scroll đến một `id` cụ thể khi điều hướng, bạn có thể thêm URL của mình với `#` hash link hoặc chỉ truyền hash link cho prop `href`. Điều này có thể thực hiện được vì `<Link>` render thành phần tử `<a>`.
 
 ```jsx
 <Link href="/dashboard#settings">Settings</Link>
@@ -662,17 +661,17 @@ If you'd like to scroll to a specific `id` on navigation, you can append your UR
 
 <AppOnly>
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - Next.js will scroll to the [Page](/docs/app/api-reference/file-conventions/page) if it is not visible in the viewport upon navigation.
+> - Next.js sẽ scroll đến [Page](/docs/app/api-reference/file-conventions/page) nếu nó không hiển thị trong viewport khi điều hướng.
 
 </AppOnly>
 
 <PagesOnly>
 
-### Passing a URL Object
+### Truyền URL Object
 
-`Link` can also receive a URL object and it will automatically format it to create the URL string:
+`Link` cũng có thể nhận một URL object và nó sẽ tự động format nó để tạo URL string:
 
 ```tsx filename="pages/index.ts" switcher
 import Link from 'next/link'
@@ -740,18 +739,18 @@ function Home() {
 export default Home
 ```
 
-The above example has a link to:
+Ví dụ trên có một link đến:
 
-- A predefined route: `/about?name=test`
-- A [dynamic route](/docs/pages/building-your-application/routing/dynamic-routes#convention): `/blog/my-post`
+- Một predefined route: `/about?name=test`
+- Một [dynamic route](/docs/pages/building-your-application/routing/dynamic-routes#convention): `/blog/my-post`
 
-You can use every property as defined in the [Node.js URL module documentation](https://nodejs.org/api/url.html#url_url_strings_and_url_objects).
+Bạn có thể sử dụng mọi property như được định nghĩa trong [tài liệu Node.js URL module](https://nodejs.org/api/url.html#url_url_strings_and_url_objects).
 
 </PagesOnly>
 
-### Replace the URL instead of push
+### Thay thế URL thay vì push
 
-The default behavior of the `Link` component is to `push` a new URL into the `history` stack. You can use the `replace` prop to prevent adding a new entry, as in the following example:
+Hành vi mặc định của component `Link` là `push` một URL mới vào `history` stack. Bạn có thể sử dụng prop `replace` để ngăn thêm entry mới, như trong ví dụ sau:
 
 <AppOnly>
 
@@ -809,13 +808,13 @@ export default function Home() {
 
 </PagesOnly>
 
-### Disable scrolling to the top of the page
+### Vô hiệu hóa scroll đến đầu trang
 
 <AppOnly>
 
-The default scrolling behavior of `<Link>` in Next.js **is to maintain scroll position**, similar to how browsers handle back and forwards navigation. When you navigate to a new [Page](/docs/app/api-reference/file-conventions/page), scroll position will stay the same as long as the Page is visible in the viewport.
+Hành vi scroll mặc định của `<Link>` trong Next.js **là duy trì vị trí scroll**, tương tự như cách trình duyệt xử lý điều hướng back và forwards. Khi bạn điều hướng đến một [Page](/docs/app/api-reference/file-conventions/page) mới, vị trí scroll sẽ giữ nguyên miễn là Page hiển thị trong viewport.
 
-However, if the Page is not visible in the viewport, Next.js will scroll to the top of the first Page element. If you'd like to disable this behavior, you can pass `scroll={false}` to the `<Link>` component, or `scroll: false` to `router.push()` or `router.replace()`.
+Tuy nhiên, nếu Page không hiển thị trong viewport, Next.js sẽ scroll đến đầu phần tử Page đầu tiên. Nếu bạn muốn vô hiệu hóa hành vi này, bạn có thể truyền `scroll={false}` cho component `<Link>`, hoặc `scroll: false` cho `router.push()` hoặc `router.replace()`.
 
 ```jsx filename="app/page.js" switcher
 import Link from 'next/link'
@@ -823,7 +822,7 @@ import Link from 'next/link'
 export default function Page() {
   return (
     <Link href="/#hashid" scroll={false}>
-      Disables scrolling to the top
+      Vô hiệu hóa scroll đến đầu
     </Link>
   )
 }
@@ -835,13 +834,13 @@ import Link from 'next/link'
 export default function Page() {
   return (
     <Link href="/#hashid" scroll={false}>
-      Disables scrolling to the top
+      Vô hiệu hóa scroll đến đầu
     </Link>
   )
 }
 ```
 
-Using `router.push()` or `router.replace()`:
+Sử dụng `router.push()` hoặc `router.replace()`:
 
 ```jsx
 // useRouter
@@ -856,7 +855,7 @@ router.push('/dashboard', { scroll: false })
 
 <PagesOnly>
 
-The default behavior of `Link` is to scroll to the top of the page. When there is a hash defined it will scroll to the specific id, like a normal `<a>` tag. To prevent scrolling to the top / hash `scroll={false}` can be added to `Link`:
+Hành vi mặc định của `Link` là scroll đến đầu trang. Khi có hash được định nghĩa, nó sẽ scroll đến id cụ thể, giống như thẻ `<a>` thông thường. Để ngăn scroll đến đầu / hash, `scroll={false}` có thể được thêm vào `Link`:
 
 ```jsx filename="pages/index.js" switcher
 import Link from 'next/link'
@@ -864,7 +863,7 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <Link href="/#hashid" scroll={false}>
-      Disables scrolling to the top
+      Vô hiệu hóa scroll đến đầu
     </Link>
   )
 }
@@ -876,7 +875,7 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <Link href="/#hashid" scroll={false}>
-      Disables scrolling to the top
+      Vô hiệu hóa scroll đến đầu
     </Link>
   )
 }
@@ -884,11 +883,11 @@ export default function Home() {
 
 </PagesOnly>
 
-### Prefetching links in Proxy
+### Prefetching links trong Proxy
 
-It's common to use [Proxy](/docs/app/api-reference/file-conventions/proxy) for authentication or other purposes that involve rewriting the user to a different page. In order for the `<Link />` component to properly prefetch links with rewrites via Proxy, you need to tell Next.js both the URL to display and the URL to prefetch. This is required to avoid un-necessary fetches to proxy to know the correct route to prefetch.
+Thông thường sử dụng [Proxy](/docs/app/api-reference/file-conventions/proxy) cho authentication hoặc các mục đích khác liên quan đến việc rewrite người dùng đến một trang khác. Để component `<Link />` prefetch links đúng cách với rewrites thông qua Proxy, bạn cần cho Next.js biết cả URL để hiển thị và URL để prefetch. Điều này là bắt buộc để tránh các fetches không cần thiết đến proxy để biết route chính xác để prefetch.
 
-For example, if you want to serve a `/dashboard` route that has authenticated and visitor views, you can add the following in your Proxy to redirect the user to the correct page:
+Ví dụ, nếu bạn muốn phục vụ một route `/dashboard` có authenticated và visitor views, bạn có thể thêm điều sau vào Proxy của mình để redirect người dùng đến trang chính xác:
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse } from 'next/server'
@@ -920,7 +919,7 @@ export function proxy(request) {
 }
 ```
 
-In this case, you would want to use the following code in your `<Link />` component:
+Trong trường hợp này, bạn sẽ muốn sử dụng code sau trong component `<Link />` của mình:
 
 <AppOnly>
 
@@ -928,7 +927,7 @@ In this case, you would want to use the following code in your `<Link />` compon
 'use client'
 
 import Link from 'next/link'
-import useIsAuthed from './hooks/useIsAuthed' // Your auth hook
+import useIsAuthed from './hooks/useIsAuthed' // Auth hook của bạn
 
 export default function Page() {
   const isAuthed = useIsAuthed()
@@ -945,7 +944,7 @@ export default function Page() {
 'use client'
 
 import Link from 'next/link'
-import useIsAuthed from './hooks/useIsAuthed' // Your auth hook
+import useIsAuthed from './hooks/useIsAuthed' // Auth hook của bạn
 
 export default function Page() {
   const isAuthed = useIsAuthed()
@@ -966,7 +965,7 @@ export default function Page() {
 'use client'
 
 import Link from 'next/link'
-import useIsAuthed from './hooks/useIsAuthed' // Your auth hook
+import useIsAuthed from './hooks/useIsAuthed' // Auth hook của bạn
 
 export default function Home() {
   const isAuthed = useIsAuthed()
@@ -983,7 +982,7 @@ export default function Home() {
 'use client'
 
 import Link from 'next/link'
-import useIsAuthed from './hooks/useIsAuthed' // Your auth hook
+import useIsAuthed from './hooks/useIsAuthed' // Auth hook của bạn
 
 export default function Home() {
   const isAuthed = useIsAuthed()
@@ -996,15 +995,15 @@ export default function Home() {
 }
 ```
 
-> **Good to know**: If you're using [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes#convention), you'll need to adapt your `as` and `href` props. For example, if you have a Dynamic Route like `/dashboard/authed/[user]` that you want to present differently via proxy, you would write: `<Link href={{ pathname: '/dashboard/authed/[user]', query: { user: username } }} as="/dashboard/[user]">Profile</Link>`.
+> **Lưu ý**: Nếu bạn đang sử dụng [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes#convention), bạn sẽ cần điều chỉnh props `as` và `href` của mình. Ví dụ, nếu bạn có Dynamic Route như `/dashboard/authed/[user]` mà bạn muốn hiển thị khác đi thông qua proxy, bạn sẽ viết: `<Link href={{ pathname: '/dashboard/authed/[user]', query: { user: username } }} as="/dashboard/[user]">Profile</Link>`.
 
 </PagesOnly>
 
 <AppOnly>
 
-### Blocking navigation
+### Chặn điều hướng
 
-You can use the `onNavigate` prop to block navigation when certain conditions are met, such as when a form has unsaved changes. When you need to block navigation across multiple components in your app (like preventing navigation from any link while a form is being edited), React Context provides a clean way to share this blocking state. First, create a context to track the navigation blocking state:
+Bạn có thể sử dụng prop `onNavigate` để chặn điều hướng khi đáp ứng các điều kiện nhất định, chẳng hạn như khi một form có các thay đổi chưa được lưu. Khi bạn cần chặn điều hướng qua nhiều components trong ứng dụng của mình (như ngăn điều hướng từ bất kỳ link nào trong khi form đang được chỉnh sửa), React Context cung cấp một cách sạch sẽ để chia sẻ blocking state này. Đầu tiên, tạo một context để theo dõi navigation blocking state:
 
 ```tsx filename="app/contexts/navigation-blocker.tsx" switcher
 'use client'
@@ -1066,7 +1065,7 @@ export function useNavigationBlocker() {
 }
 ```
 
-Create a form component that uses the context:
+Tạo một form component sử dụng context:
 
 ```tsx filename="app/components/form.tsx" switcher
 'use client'
@@ -1085,7 +1084,7 @@ export default function Form() {
       onChange={() => setIsBlocked(true)}
     >
       <input type="text" name="name" />
-      <button type="submit">Save</button>
+      <button type="submit">Lưu</button>
     </form>
   )
 }
@@ -1108,13 +1107,13 @@ export default function Form() {
       onChange={() => setIsBlocked(true)}
     >
       <input type="text" name="name" />
-      <button type="submit">Save</button>
+      <button type="submit">Lưu</button>
     </form>
   )
 }
 ```
 
-Create a custom Link component that blocks navigation:
+Tạo một custom Link component chặn điều hướng:
 
 ```tsx filename="app/components/custom-link.tsx" switcher
 'use client'
@@ -1134,7 +1133,7 @@ export function CustomLink({ children, ...props }: CustomLinkProps) {
       onNavigate={(e) => {
         if (
           isBlocked &&
-          !window.confirm('You have unsaved changes. Leave anyway?')
+          !window.confirm('Bạn có thay đổi chưa lưu. Vẫn rời đi?')
         ) {
           e.preventDefault()
         }
@@ -1161,7 +1160,7 @@ export function CustomLink({ children, ...props }) {
       onNavigate={(e) => {
         if (
           isBlocked &&
-          !window.confirm('You have unsaved changes. Leave anyway?')
+          !window.confirm('Bạn có thay đổi chưa lưu. Vẫn rời đi?')
         ) {
           e.preventDefault()
         }
@@ -1174,7 +1173,7 @@ export function CustomLink({ children, ...props }) {
 }
 ```
 
-Create a navigation component:
+Tạo một navigation component:
 
 ```tsx filename="app/components/nav.tsx" switcher
 'use client'
@@ -1206,7 +1205,7 @@ export default function Nav() {
 }
 ```
 
-Finally, wrap your app with the `NavigationBlockerProvider` in the root layout and use the components in your page:
+Cuối cùng, wrap ứng dụng của bạn với `NavigationBlockerProvider` trong root layout và sử dụng các components trong page của bạn:
 
 ```tsx filename="app/layout.tsx" switcher
 import { NavigationBlockerProvider } from './contexts/navigation-blocker'
@@ -1240,7 +1239,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Then, use the `Nav` and `Form` components in your page:
+Sau đó, sử dụng các components `Nav` và `Form` trong page của bạn:
 
 ```tsx filename="app/page.tsx" switcher
 import Nav from './components/nav'
@@ -1251,7 +1250,7 @@ export default function Page() {
     <div>
       <Nav />
       <main>
-        <h1>Welcome to the Dashboard</h1>
+        <h1>Chào mừng đến Dashboard</h1>
         <Form />
       </main>
     </div>
@@ -1268,7 +1267,7 @@ export default function Page() {
     <div>
       <Nav />
       <main>
-        <h1>Welcome to the Dashboard</h1>
+        <h1>Chào mừng đến Dashboard</h1>
         <Form />
       </main>
     </div>
@@ -1276,17 +1275,17 @@ export default function Page() {
 }
 ```
 
-When a user tries to navigate away using `CustomLink` while the form has unsaved changes, they'll be prompted to confirm before leaving.
+Khi người dùng cố gắng điều hướng đi bằng `CustomLink` trong khi form có các thay đổi chưa được lưu, họ sẽ được nhắc xác nhận trước khi rời đi.
 
 </AppOnly>
 
-## Version history
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                                                                                      |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v15.4.0` | Add `auto` as an alias to the default `prefetch` behavior.                                                                                                                   |
-| `v15.3.0` | Add `onNavigate` API                                                                                                                                                         |
-| `v13.0.0` | No longer requires a child `<a>` tag. A [codemod](/docs/app/guides/upgrading/codemods#remove-a-tags-from-link-components) is provided to automatically update your codebase. |
-| `v10.0.0` | `href` props pointing to a dynamic route are automatically resolved and no longer require an `as` prop.                                                                      |
-| `v8.0.0`  | Improved prefetching performance.                                                                                                                                            |
-| `v1.0.0`  | `next/link` introduced.                                                                                                                                                      |
+| Phiên bản | Thay đổi                                                                                                                                                                   |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v15.4.0` | Thêm `auto` làm alias cho hành vi `prefetch` mặc định.                                                                                                                     |
+| `v15.3.0` | Thêm API `onNavigate`                                                                                                                                                      |
+| `v13.0.0` | Không còn yêu cầu thẻ `<a>` con. Một [codemod](/docs/app/guides/upgrading/codemods#remove-a-tags-from-link-components) được cung cấp để tự động cập nhật codebase của bạn. |
+| `v10.0.0` | Props `href` trỏ đến dynamic route được tự động resolve và không còn yêu cầu prop `as`.                                                                                    |
+| `v8.0.0`  | Cải thiện hiệu suất prefetching.                                                                                                                                           |
+| `v1.0.0`  | `next/link` được giới thiệu.                                                                                                                                               |

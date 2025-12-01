@@ -1,9 +1,9 @@
 ---
 title: page.js
-description: API reference for the page.js file.
+description: Tài liệu tham khảo API cho file page.js.
 ---
 
-The `page` file allows you to define UI that is **unique** to a route. You can create a page by default exporting a component from the file:
+File `page` cho phép bạn định nghĩa UI là **duy nhất** cho một route. Bạn có thể tạo một page bằng cách export mặc định một component từ file:
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export default function Page({
@@ -23,20 +23,20 @@ export default function Page({ params, searchParams }) {
 }
 ```
 
-## Good to know
+## Lưu ý
 
-- The `.js`, `.jsx`, or `.tsx` file extensions can be used for `page`.
-- A `page` is always the **leaf** of the route subtree.
-- A `page` file is required to make a route segment **publicly accessible**.
-- Pages are [Server Components](https://react.dev/reference/rsc/server-components) by default, but can be set to a [Client Component](https://react.dev/reference/rsc/use-client).
+- Các phần mở rộng file `.js`, `.jsx`, hoặc `.tsx` có thể được sử dụng cho `page`.
+- Một `page` luôn là **leaf** (lá) của route subtree.
+- Một file `page` là bắt buộc để làm cho một route segment **có thể truy cập công khai**.
+- Pages là [Server Components](https://react.dev/reference/rsc/server-components) mặc định, nhưng có thể được đặt thành một [Client Component](https://react.dev/reference/rsc/use-client).
 
-## Reference
+## Tham khảo
 
 ### Props
 
-#### `params` (optional)
+#### `params` (tùy chọn)
 
-A promise that resolves to an object containing the [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) from the root segment down to that page.
+Một promise resolve thành một object chứa [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) từ root segment xuống đến page đó.
 
 ```tsx filename="app/shop/[slug]/page.tsx" switcher
 export default async function Page({
@@ -60,12 +60,12 @@ export default async function Page({ params }) {
 | `app/shop/[category]/[item]/page.js` | `/shop/1/2` | `Promise<{ category: '1', item: '2' }>` |
 | `app/shop/[...slug]/page.js`         | `/shop/1/2` | `Promise<{ slug: ['1', '2'] }>`         |
 
-- Since the `params` prop is a promise, you must use `async/await` or React's [`use`](https://react.dev/reference/react/use) function to access the values.
-  - In version 14 and earlier, `params` was a synchronous prop. To help with backwards compatibility, you can still access it synchronously in Next.js 15, but this behavior will be deprecated in the future.
+- Vì prop `params` là một promise, bạn phải sử dụng `async/await` hoặc hàm [`use`](https://react.dev/reference/react/use) của React để truy cập các giá trị.
+  - Trong phiên bản 14 và cũ hơn, `params` là một synchronous prop. Để giúp tương thích ngược, bạn vẫn có thể truy cập nó một cách đồng bộ trong Next.js 15, nhưng hành vi này sẽ bị deprecated trong tương lai.
 
-#### `searchParams` (optional)
+#### `searchParams` (tùy chọn)
 
-A promise that resolves to an object containing the [search parameters](https://developer.mozilla.org/docs/Learn/Common_questions/What_is_a_URL#parameters) of the current URL. For example:
+Một promise resolve thành một object chứa [search parameters](https://developer.mozilla.org/docs/Learn/Common_questions/What_is_a_URL#parameters) của URL hiện tại. Ví dụ:
 
 ```tsx filename="app/shop/page.tsx" switcher
 export default async function Page({
@@ -83,7 +83,7 @@ export default async function Page({ searchParams }) {
 }
 ```
 
-Client Component **pages** can also access `searchParams` using React’s [`use`](https://react.dev/reference/react/use) hook:
+Client Component **pages** cũng có thể truy cập `searchParams` sử dụng hook [`use`](https://react.dev/reference/react/use) của React:
 
 ```tsx filename="app/shop/page.tsx" switcher
 'use client'
@@ -113,14 +113,14 @@ export default function Page({ searchParams }) {
 | `/shop?a=1&b=2` | `Promise<{ a: '1', b: '2' }>` |
 | `/shop?a=1&a=2` | `Promise<{ a: ['1', '2'] }>`  |
 
-- Since the `searchParams` prop is a promise. You must use `async/await` or React's [`use`](https://react.dev/reference/react/use) function to access the values.
-  - In version 14 and earlier, `searchParams` was a synchronous prop. To help with backwards compatibility, you can still access it synchronously in Next.js 15, but this behavior will be deprecated in the future.
-- `searchParams` is a **[Dynamic API](/docs/app/guides/caching#dynamic-rendering)** whose values cannot be known ahead of time. Using it will opt the page into **[dynamic rendering](/docs/app/guides/caching#dynamic-rendering)** at request time.
-- `searchParams` is a plain JavaScript object, not a `URLSearchParams` instance.
+- Vì prop `searchParams` là một promise. Bạn phải sử dụng `async/await` hoặc hàm [`use`](https://react.dev/reference/react/use) của React để truy cập các giá trị.
+  - Trong phiên bản 14 và cũ hơn, `searchParams` là một synchronous prop. Để giúp tương thích ngược, bạn vẫn có thể truy cập nó một cách đồng bộ trong Next.js 15, nhưng hành vi này sẽ bị deprecated trong tương lai.
+- `searchParams` là một **[Dynamic API](/docs/app/guides/caching#dynamic-rendering)** mà các giá trị của nó không thể biết trước. Sử dụng nó sẽ opt page vào **[dynamic rendering](/docs/app/guides/caching#dynamic-rendering)** tại request time.
+- `searchParams` là một plain JavaScript object, không phải là một instance `URLSearchParams`.
 
 ### Page Props Helper
 
-You can type pages with `PageProps` to get strongly typed `params` and `searchParams` from the route literal. `PageProps` is a globally available helper.
+Bạn có thể type pages với `PageProps` để nhận được `params` và `searchParams` được typed mạnh từ route literal. `PageProps` là một helper có sẵn toàn cục.
 
 ```tsx filename="app/blog/[slug]/page.tsx"
 export default async function Page(props: PageProps<'/blog/[slug]'>) {
@@ -130,18 +130,18 @@ export default async function Page(props: PageProps<'/blog/[slug]'>) {
 }
 ```
 
-> **Good to know**
+> **Lưu ý**
 >
-> - Using a literal route (e.g. `'/blog/[slug]'`) enables autocomplete and strict keys for `params`.
-> - Static routes resolve `params` to `{}`.
-> - Types are generated during `next dev`, `next build`, or with `next typegen`.
-> - After type generation, the `PageProps` helper is globally available. It doesn't need to be imported.
+> - Sử dụng một literal route (ví dụ `'/blog/[slug]'`) cho phép autocomplete và strict keys cho `params`.
+> - Static routes resolve `params` thành `{}`.
+> - Types được tạo trong quá trình `next dev`, `next build`, hoặc với `next typegen`.
+> - Sau khi tạo type, helper `PageProps` có sẵn toàn cục. Nó không cần phải được import.
 
-## Examples
+## Ví dụ
 
-### Displaying content based on `params`
+### Hiển thị nội dung dựa trên `params`
 
-Using [dynamic route segments](/docs/app/api-reference/file-conventions/dynamic-routes), you can display or fetch specific content for the page based on the `params` prop.
+Sử dụng [dynamic route segments](/docs/app/api-reference/file-conventions/dynamic-routes), bạn có thể hiển thị hoặc fetch nội dung cụ thể cho page dựa trên prop `params`.
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export default async function Page({
@@ -161,9 +161,9 @@ export default async function Page({ params }) {
 }
 ```
 
-### Handling filtering with `searchParams`
+### Xử lý filtering với `searchParams`
 
-You can use the `searchParams` prop to handle filtering, pagination, or sorting based on the query string of the URL.
+Bạn có thể sử dụng prop `searchParams` để xử lý filtering, pagination, hoặc sorting dựa trên query string của URL.
 
 ```tsx filename="app/shop/page.tsx" switcher
 export default async function Page({
@@ -199,9 +199,9 @@ export default async function Page({ searchParams }) {
 }
 ```
 
-### Reading `searchParams` and `params` in Client Components
+### Đọc `searchParams` và `params` trong Client Components
 
-To use `searchParams` and `params` in a Client Component (which cannot be `async`), you can use React's [`use`](https://react.dev/reference/react/use) function to read the promise:
+Để sử dụng `searchParams` và `params` trong một Client Component (không thể là `async`), bạn có thể sử dụng hàm [`use`](https://react.dev/reference/react/use) của React để đọc promise:
 
 ```tsx filename="app/page.tsx" switcher
 'use client'
@@ -231,9 +231,9 @@ export default function Page({ params, searchParams }) {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version      | Changes                                                                                                          |
-| ------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `v15.0.0-RC` | `params` and `searchParams` are now promises. A [codemod](/docs/app/guides/upgrading/codemods#150) is available. |
-| `v13.0.0`    | `page` introduced.                                                                                               |
+| Phiên bản    | Thay đổi                                                                                                       |
+| ------------ | -------------------------------------------------------------------------------------------------------------- |
+| `v15.0.0-RC` | `params` và `searchParams` bây giờ là promises. Một [codemod](/docs/app/guides/upgrading/codemods#150) có sẵn. |
+| `v13.0.0`    | `page` được giới thiệu.                                                                                        |

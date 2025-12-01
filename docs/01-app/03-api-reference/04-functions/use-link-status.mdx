@@ -1,20 +1,20 @@
 ---
 title: useLinkStatus
-description: API Reference for the useLinkStatus hook.
+description: Tài liệu tham khảo API cho hook useLinkStatus.
 related:
-  title: Next Steps
-  description: Learn more about the features mentioned in this page by reading the API Reference.
+  title: Các bước tiếp theo
+  description: Tìm hiểu thêm về các tính năng được đề cập trong trang này bằng cách đọc Tài liệu tham khảo API.
   links:
     - app/api-reference/components/link
     - app/api-reference/file-conventions/loading
 ---
 
-The `useLinkStatus` hook lets you track the **pending** state of a `<Link>`. Use it for subtle, inline feedback, for example a shimmer effect over the clicked link, while navigation completes. Prefer route-level fallbacks with `loading.js`, and prefetching for instant transitions.
+Hook `useLinkStatus` cho phép bạn theo dõi trạng thái **pending** của một `<Link>`. Sử dụng nó cho phản hồi nội tuyến (inline), tinh tế, ví dụ như hiệu ứng shimmer trên link được click, trong khi điều hướng hoàn tất. Ưu tiên route-level fallbacks với `loading.js`, và prefetching cho các chuyển đổi tức thì.
 
-`useLinkStatus` is useful when:
+`useLinkStatus` hữu ích khi:
 
-- [Prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) is disabled or in progress meaning navigation is blocked.
-- The destination route is dynamic **and** doesn't include a [`loading.js`](/docs/app/api-reference/file-conventions/loading) file that would allow an instant navigation.
+- [Prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) bị vô hiệu hóa hoặc đang diễn ra có nghĩa là điều hướng bị chặn.
+- Route đích là dynamic **và** không bao gồm file [`loading.js`](/docs/app/api-reference/file-conventions/loading) cho phép điều hướng tức thì.
 
 ```tsx filename="app/hint.tsx" switcher
 'use client'
@@ -64,45 +64,45 @@ export default function Header() {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - `useLinkStatus` must be used within a descendant component of a `Link` component
-> - The hook is most useful when `prefetch={false}` is set on the `Link` component
-> - If the linked route has been prefetched, the pending state will be skipped
-> - When clicking multiple links in quick succession, only the last link's pending state is shown
-> - This hook is not supported in the Pages Router and always returns `{ pending: false }`
-> - Inline indicators can easily introduce layout shifts. Prefer a fixed-size, always-rendered hint element and toggle its opacity, or use an animation.
+> - `useLinkStatus` phải được sử dụng bên trong một component con cháu của component `Link`.
+> - Hook này hữu ích nhất khi `prefetch={false}` được đặt trên component `Link`.
+> - Nếu route được liên kết đã được prefetch, trạng thái pending sẽ bị bỏ qua.
+> - Khi click nhiều links liên tiếp nhanh chóng, chỉ trạng thái pending của link cuối cùng được hiển thị.
+> - Hook này không được hỗ trợ trong Pages Router và luôn trả về `{ pending: false }`.
+> - Các chỉ báo nội tuyến có thể dễ dàng gây ra layout shifts. Ưu tiên một phần tử hint có kích thước cố định, luôn được render và chuyển đổi độ mờ (opacity) của nó, hoặc sử dụng animation.
 
-## You might not need `useLinkStatus`
+## Bạn có thể không cần `useLinkStatus`
 
-Before adding inline feedback, consider if:
+Trước khi thêm phản hồi nội tuyến, hãy xem xét nếu:
 
-- The destination is static and prefetched in production, so the pending phase may be skipped.
-- The route has a `loading.js` file, enabling instant transitions with a route-level fallback.
+- Đích đến là static và được prefetch trong production, vì vậy giai đoạn pending có thể bị bỏ qua.
+- Route có file `loading.js`, cho phép chuyển đổi tức thì với route-level fallback.
 
-Navigation is typically fast. Use `useLinkStatus` as a quick patch when you identify a slow transition, then iterate to fix the root cause with prefetching or a `loading.js` fallback.
+Điều hướng thường nhanh. Sử dụng `useLinkStatus` như một bản vá nhanh khi bạn xác định một chuyển đổi chậm, sau đó lặp lại để sửa nguyên nhân gốc rễ với prefetching hoặc một `loading.js` fallback.
 
-## Parameters
+## Tham số
 
 ```tsx
 const { pending } = useLinkStatus()
 ```
 
-`useLinkStatus` does not take any parameters.
+`useLinkStatus` không nhận bất kỳ tham số nào.
 
-## Returns
+## Giá trị trả về
 
-`useLinkStatus` returns an object with a single property:
+`useLinkStatus` trả về một object với một thuộc tính duy nhất:
 
-| Property | Type    | Description                                  |
-| -------- | ------- | -------------------------------------------- |
-| pending  | boolean | `true` before history updates, `false` after |
+| Thuộc tính | Kiểu    | Mô tả                                            |
+| ---------- | ------- | ------------------------------------------------ |
+| pending    | boolean | `true` trước khi history updates, `false` sau đó |
 
-## Example
+## Ví dụ
 
 ### Inline link hint
 
-Add a subtle, fixed-size hint that doesn’t affect layout to confirm a click when prefetching hasn’t completed.
+Thêm một hint tinh tế, kích thước cố định không ảnh hưởng đến layout để xác nhận một cú click khi prefetching chưa hoàn tất.
 
 ```tsx filename="app/components/loading-indicator.tsx" switcher
 'use client'
@@ -194,9 +194,9 @@ export default function Layout({ children }) {
 }
 ```
 
-## Gracefully handling fast navigation
+## Xử lý điều hướng nhanh một cách duyên dáng
 
-If the navigation to a new route is fast, users may see an unnecessary flash of the hint. One way to improve the user experience and only show the hint when the navigation takes time to complete is to add an initial animation delay (e.g. 100ms) and start the animation as invisible (e.g. `opacity: 0`).
+Nếu điều hướng đến một route mới nhanh, người dùng có thể thấy một tia sáng không cần thiết của hint. Một cách để cải thiện trải nghiệm người dùng và chỉ hiển thị hint khi điều hướng mất thời gian để hoàn tất là thêm một độ trễ animation ban đầu (ví dụ: 100ms) và bắt đầu animation như vô hình (ví dụ: `opacity: 0`).
 
 ```css filename="app/styles/global.css"
 .link-hint {
@@ -235,8 +235,8 @@ If the navigation to a new route is fast, users may see an unnecessary flash of 
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                     |
-| --------- | --------------------------- |
-| `v15.3.0` | `useLinkStatus` introduced. |
+| Phiên bản | Thay đổi                         |
+| --------- | -------------------------------- |
+| `v15.3.0` | `useLinkStatus` được giới thiệu. |

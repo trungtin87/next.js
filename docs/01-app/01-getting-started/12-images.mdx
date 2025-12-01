@@ -1,21 +1,21 @@
 ---
-title: Image Optimization
-description: Learn how to optimize images in Next.js
+title: Tối ưu hóa hình ảnh
+description: Tìm hiểu cách tối ưu hóa hình ảnh trong Next.js
 related:
-  title: API Reference
-  description: See the API Reference for the full feature set of Next.js Image.
+  title: Tài liệu tham khảo API
+  description: Xem Tài liệu tham khảo API để biết toàn bộ tính năng của Next.js Image.
   links:
     - app/api-reference/components/image
 ---
 
-The Next.js [`<Image>`](/docs/app/api-reference/components/image) component extends the HTML `<img>` element to provide:
+Component [`<Image>`](/docs/app/api-reference/components/image) của Next.js mở rộng phần tử HTML `<img>` để cung cấp:
 
-- **Size optimization:** Automatically serving correctly sized images for each device, using modern image formats like WebP.
-- **Visual stability:** Preventing [layout shift](https://web.dev/articles/cls) automatically when images are loading.
-- **Faster page loads:** Only loading images when they enter the viewport using native browser lazy loading, with optional blur-up placeholders.
-- **Asset flexibility:** Resizing images on-demand, even images stored on remote servers.
+- **Tối ưu hóa kích thước:** Tự động phục vụ hình ảnh có kích thước chính xác cho mỗi thiết bị, sử dụng các định dạng hình ảnh hiện đại như WebP.
+- **Ổn định trực quan:** Tự động ngăn [layout shift](https://web.dev/articles/cls) khi hình ảnh đang tải.
+- **Tải trang nhanh hơn:** Chỉ tải hình ảnh khi chúng xuất hiện trong viewport bằng cách sử dụng lazy loading gốc của trình duyệt, với các placeholder blur-up tùy chọn.
+- **Linh hoạt tài sản:** Thay đổi kích thước hình ảnh theo yêu cầu, ngay cả hình ảnh được lưu trữ trên các server từ xa.
 
-To start using `<Image>`, import it from `next/image` and render it within your component.
+Để bắt đầu sử dụng `<Image>`, import nó từ `next/image` và render trong component của bạn.
 
 ```tsx filename="app/page.tsx" switcher
 import Image from 'next/image'
@@ -33,13 +33,13 @@ export default function Page() {
 }
 ```
 
-The `src` property can be a [local](#local-images) or [remote](#remote-images) image.
+Thuộc tính `src` có thể là hình ảnh [local](#local-images) hoặc [remote](#remote-images).
 
-> **🎥 Watch:** Learn more about how to use `next/image` → [YouTube (9 minutes)](https://youtu.be/IU_qq_c_lKA).
+> **🎥 Xem:** Tìm hiểu thêm về cách sử dụng `next/image` → [YouTube (9 phút)](https://youtu.be/IU_qq_c_lKA).
 
-## Local images
+## Hình ảnh local
 
-You can store static files, like images and fonts, under a folder called [`public`](/docs/app/api-reference/file-conventions/public-folder) in the root directory. Files inside `public` can then be referenced by your code starting from the base URL (`/`).
+Bạn có thể lưu trữ các file tĩnh, như hình ảnh và fonts, trong thư mục [`public`](/docs/app/api-reference/file-conventions/public-folder) ở thư mục gốc. Các file bên trong `public` sau đó có thể được tham chiếu bởi code của bạn bắt đầu từ base URL (`/`).
 
 <Image
   alt="Folder structure showing app and public folders"
@@ -79,7 +79,7 @@ export default function Page() {
 }
 ```
 
-If the image is statically imported, Next.js will automatically determine the intrinsic [`width`](/docs/app/api-reference/components/image#width-and-height) and [`height`](/docs/app/api-reference/components/image#width-and-height). These values are used to determine the image ratio and prevent [Cumulative Layout Shift](https://web.dev/articles/cls) while your image is loading.
+Nếu hình ảnh được import tĩnh, Next.js sẽ tự động xác định [`width`](/docs/app/api-reference/components/image#width-and-height) và [`height`](/docs/app/api-reference/components/image#width-and-height) bên trong. Các giá trị này được sử dụng để xác định tỷ lệ hình ảnh và ngăn [Cumulative Layout Shift](https://web.dev/articles/cls) trong khi hình ảnh của bạn đang tải.
 
 ```tsx filename="app/page.tsx" switcher
 import Image from 'next/image'
@@ -117,9 +117,9 @@ export default function Page() {
 }
 ```
 
-## Remote images
+## Hình ảnh remote
 
-To use a remote image, you can provide a URL string for the `src` property.
+Để sử dụng hình ảnh remote, bạn có thể cung cấp một URL string cho thuộc tính `src`.
 
 ```tsx filename="app/page.tsx" switcher
 import Image from 'next/image'
@@ -151,9 +151,9 @@ export default function Page() {
 }
 ```
 
-Since Next.js does not have access to remote files during the build process, you'll need to provide the [`width`](/docs/app/api-reference/components/image#width-and-height), [`height`](/docs/app/api-reference/components/image#width-and-height) and optional [`blurDataURL`](/docs/app/api-reference/components/image#blurdataurl) props manually. The `width` and `height` are used to infer the correct aspect ratio of image and avoid layout shift from the image loading in. Alternatively, you can use the [`fill` property](/docs/app/api-reference/components/image#fill) to make the image fill the size of the parent element.
+Vì Next.js không có quyền truy cập vào các file remote trong quá trình build, bạn sẽ cần cung cấp các props [`width`](/docs/app/api-reference/components/image#width-and-height), [`height`](/docs/app/api-reference/components/image#width-and-height) và tùy chọn [`blurDataURL`](/docs/app/api-reference/components/image#blurdataurl) theo cách thủ công. `width` và `height` được sử dụng để suy ra tỷ lệ chính xác của hình ảnh và tránh layout shift khi hình ảnh đang tải. Ngoài ra, bạn có thể sử dụng [`fill` property](/docs/app/api-reference/components/image#fill) để làm cho hình ảnh lấp đầy kích thước của phần tử cha.
 
-To safely allow images from remote servers, you need to define a list of supported URL patterns in [`next.config.js`](/docs/app/api-reference/config/next-config-js). Be as specific as possible to prevent malicious usage. For example, the following configuration will only allow images from a specific AWS S3 bucket:
+Để cho phép an toàn hình ảnh từ các server từ xa, bạn cần định nghĩa danh sách các URL patterns được hỗ trợ trong [`next.config.js`](/docs/app/api-reference/config/next-config-js). Hãy cụ thể nhất có thể để ngăn chặn việc sử dụng độc hại. Ví dụ, cấu hình sau chỉ cho phép hình ảnh từ một AWS S3 bucket cụ thể:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'

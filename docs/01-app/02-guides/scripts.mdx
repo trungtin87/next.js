@@ -1,10 +1,10 @@
 ---
-title: How to load and optimize scripts
+title: Cách tải và tối ưu hóa scripts
 nav_title: Scripts
-description: Optimize 3rd party scripts with the built-in Script component.
+description: Tối ưu hóa các scripts của bên thứ ba với component Script tích hợp sẵn.
 related:
-  title: API Reference
-  description: Learn more about the next/script API.
+  title: Tham khảo API
+  description: Tìm hiểu thêm về API next/script.
   links:
     - app/api-reference/components/script
 ---
@@ -15,7 +15,7 @@ related:
 
 ### Layout Scripts
 
-To load a third-party script for multiple routes, import `next/script` and include the script directly in your layout component:
+Để tải một script của bên thứ ba cho nhiều routes, import `next/script` và bao gồm script trực tiếp trong layout component của bạn:
 
 ```tsx filename="app/dashboard/layout.tsx" switcher
 import Script from 'next/script'
@@ -47,7 +47,7 @@ export default function DashboardLayout({ children }) {
 }
 ```
 
-The third-party script is fetched when the folder route (e.g. `dashboard/page.js`) or any nested route (e.g. `dashboard/settings/page.js`) is accessed by the user. Next.js will ensure the script will **only load once**, even if a user navigates between multiple routes in the same layout.
+Script của bên thứ ba được fetch khi folder route (v.d. `dashboard/page.js`) hoặc bất kỳ nested route nào (v.d. `dashboard/settings/page.js`) được người dùng truy cập. Next.js sẽ đảm bảo script sẽ **chỉ tải một lần**, ngay cả khi người dùng điều hướng giữa nhiều routes trong cùng một layout.
 
 </AppOnly>
 
@@ -55,7 +55,7 @@ The third-party script is fetched when the folder route (e.g. `dashboard/page.js
 
 <AppOnly>
 
-To load a third-party script for all routes, import `next/script` and include the script directly in your root layout:
+Để tải một script của bên thứ ba cho tất cả các routes, import `next/script` và bao gồm script trực tiếp trong root layout của bạn:
 
 ```tsx filename="app/layout.tsx" switcher
 import Script from 'next/script'
@@ -91,7 +91,7 @@ export default function RootLayout({ children }) {
 
 <PagesOnly>
 
-To load a third-party script for all routes, import `next/script` and include the script directly in your custom `_app`:
+Để tải một script của bên thứ ba cho tất cả các routes, import `next/script` và bao gồm script trực tiếp trong `_app` tùy chỉnh của bạn:
 
 ```jsx filename="pages/_app.js"
 import Script from 'next/script'
@@ -108,28 +108,28 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-This script will load and execute when _any_ route in your application is accessed. Next.js will ensure the script will **only load once**, even if a user navigates between multiple pages.
+Script này sẽ tải và thực thi khi _bất kỳ_ route nào trong ứng dụng của bạn được truy cập. Next.js sẽ đảm bảo script sẽ **chỉ tải một lần**, ngay cả khi người dùng điều hướng giữa nhiều trang.
 
-> **Recommendation**: We recommend only including third-party scripts in specific pages or layouts in order to minimize any unnecessary impact to performance.
+> **Khuyến nghị**: Chúng tôi khuyến nghị chỉ bao gồm các scripts của bên thứ ba trong các trang hoặc layouts cụ thể để giảm thiểu bất kỳ tác động không cần thiết nào đến hiệu suất.
 
 ### Strategy
 
-Although the default behavior of `next/script` allows you to load third-party scripts in any page or layout, you can fine-tune its loading behavior by using the `strategy` property:
+Mặc dù hành vi mặc định của `next/script` cho phép bạn tải các scripts của bên thứ ba trong bất kỳ trang hoặc layout nào, bạn có thể tinh chỉnh hành vi tải của nó bằng cách sử dụng thuộc tính `strategy`:
 
-- `beforeInteractive`: Load the script before any Next.js code and before any page hydration occurs.
-- `afterInteractive`: (**default**) Load the script early but after some hydration on the page occurs.
-- `lazyOnload`: Load the script later during browser idle time.
-- `worker`: (experimental) Load the script in a web worker.
+- `beforeInteractive`: Tải script trước bất kỳ mã Next.js nào và trước khi bất kỳ page hydration nào xảy ra.
+- `afterInteractive`: (**mặc định**) Tải script sớm nhưng sau khi một số hydration trên trang xảy ra.
+- `lazyOnload`: Tải script sau trong thời gian rảnh của trình duyệt.
+- `worker`: (thử nghiệm) Tải script trong một web worker.
 
-Refer to the [`next/script`](/docs/app/api-reference/components/script#strategy) API reference documentation to learn more about each strategy and their use cases.
+Tham khảo tài liệu API reference [`next/script`](/docs/app/api-reference/components/script#strategy) để tìm hiểu thêm về từng strategy và các trường hợp sử dụng của chúng.
 
-### Offloading Scripts To A Web Worker (experimental)
+### Offloading Scripts To A Web Worker (thử nghiệm)
 
-> **Warning:** The `worker` strategy is not yet stable and does not yet work with the App Router. Use with caution.
+> **Cảnh báo:** Strategy `worker` chưa ổn định và chưa hoạt động với App Router. Sử dụng thận trọng.
 
-Scripts that use the `worker` strategy are offloaded and executed in a web worker with [Partytown](https://partytown.builder.io/). This can improve the performance of your site by dedicating the main thread to the rest of your application code.
+Các scripts sử dụng strategy `worker` được offload và thực thi trong một web worker với [Partytown](https://partytown.builder.io/). Điều này có thể cải thiện hiệu suất của trang web của bạn bằng cách dành luồng chính cho phần còn lại của mã ứng dụng của bạn.
 
-This strategy is still experimental and can only be used if the `nextScriptWorkers` flag is enabled in `next.config.js`:
+Strategy này vẫn đang thử nghiệm và chỉ có thể được sử dụng nếu cờ `nextScriptWorkers` được bật trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -139,15 +139,15 @@ module.exports = {
 }
 ```
 
-Then, run `next` (normally `npm run dev` or `yarn dev`) and Next.js will guide you through the installation of the required packages to finish the setup:
+Sau đó, chạy `next` (thường là `npm run dev` hoặc `yarn dev`) và Next.js sẽ hướng dẫn bạn qua việc cài đặt các packages cần thiết để hoàn tất thiết lập:
 
 ```bash filename="Terminal"
 npm run dev
 ```
 
-You'll see instructions like these: Please install Partytown by running `npm install @builder.io/partytown`
+Bạn sẽ thấy các hướng dẫn như thế này: Vui lòng cài đặt Partytown bằng cách chạy `npm install @builder.io/partytown`
 
-Once setup is complete, defining `strategy="worker"` will automatically instantiate Partytown in your application and offload the script to a web worker.
+Khi thiết lập hoàn tất, định nghĩa `strategy="worker"` sẽ tự động khởi tạo Partytown trong ứng dụng của bạn và offload script vào một web worker.
 
 ```tsx filename="pages/home.tsx" switcher
 import Script from 'next/script'
@@ -173,15 +173,15 @@ export default function Home() {
 }
 ```
 
-There are a number of trade-offs that need to be considered when loading a third-party script in a web worker. Please see Partytown's [tradeoffs](https://partytown.builder.io/trade-offs) documentation for more information.
+Có một số đánh đổi cần được xem xét khi tải một script của bên thứ ba trong một web worker. Vui lòng xem tài liệu [tradeoffs](https://partytown.builder.io/trade-offs) của Partytown để biết thêm thông tin.
 
 <PagesOnly>
 
-#### Using custom Partytown configuration
+#### Sử dụng cấu hình Partytown tùy chỉnh
 
-Although the `worker` strategy does not require any additional configuration to work, Partytown supports the use of a config object to modify some of its settings, including enabling `debug` mode and forwarding events and triggers.
+Mặc dù strategy `worker` không yêu cầu bất kỳ cấu hình bổ sung nào để hoạt động, Partytown hỗ trợ việc sử dụng một đối tượng config để sửa đổi một số cài đặt của nó, bao gồm bật chế độ `debug` và chuyển tiếp các sự kiện và triggers.
 
-If you would like to add additional configuration options, you can include it within the `<Head />` component used in a [custom `_document.js`](/docs/pages/building-your-application/routing/custom-document):
+Nếu bạn muốn thêm các tùy chọn cấu hình bổ sung, bạn có thể bao gồm nó trong component `<Head />` được sử dụng trong [custom `_document.js`](/docs/pages/building-your-application/routing/custom-document):
 
 ```jsx filename="_pages/document.jsx"
 import { Html, Head, Main, NextScript } from 'next/document'
@@ -211,20 +211,20 @@ export default function Document() {
 }
 ```
 
-In order to modify Partytown's configuration, the following conditions must be met:
+Để sửa đổi cấu hình của Partytown, các điều kiện sau phải được đáp ứng:
 
-1. The `data-partytown-config` attribute must be used in order to overwrite the default configuration used by Next.js
-2. Unless you decide to save Partytown's library files in a separate directory, the `lib: "/_next/static/~partytown/"` property and value must be included in the configuration object in order to let Partytown know where Next.js stores the necessary static files.
+1. Thuộc tính `data-partytown-config` phải được sử dụng để ghi đè cấu hình mặc định được sử dụng bởi Next.js
+2. Trừ khi bạn quyết định lưu các tệp thư viện của Partytown trong một thư mục riêng biệt, thuộc tính và giá trị `lib: "/_next/static/~partytown/"` phải được bao gồm trong đối tượng cấu hình để cho Partytown biết Next.js lưu trữ các tệp tĩnh cần thiết ở đâu.
 
-> **Note**: If you are using an [asset prefix](/docs/pages/api-reference/config/next-config-js/assetPrefix) and would like to modify Partytown's default configuration, you must include it as part of the `lib` path.
+> **Lưu ý**: Nếu bạn đang sử dụng [asset prefix](/docs/pages/api-reference/config/next-config-js/assetPrefix) và muốn sửa đổi cấu hình mặc định của Partytown, bạn phải bao gồm nó như một phần của đường dẫn `lib`.
 
-Take a look at Partytown's [configuration options](https://partytown.builder.io/configuration) to see the full list of other properties that can be added.
+Hãy xem [các tùy chọn cấu hình](https://partytown.builder.io/configuration) của Partytown để xem danh sách đầy đủ các thuộc tính khác có thể được thêm vào.
 
 </PagesOnly>
 
 ### Inline Scripts
 
-Inline scripts, or scripts not loaded from an external file, are also supported by the Script component. They can be written by placing the JavaScript within curly braces:
+Inline scripts, hoặc các scripts không được tải từ một tệp bên ngoài, cũng được hỗ trợ bởi component Script. Chúng có thể được viết bằng cách đặt JavaScript trong dấu ngoặc nhọn:
 
 ```jsx
 <Script id="show-banner">
@@ -232,7 +232,7 @@ Inline scripts, or scripts not loaded from an external file, are also supported 
 </Script>
 ```
 
-Or by using the `dangerouslySetInnerHTML` property:
+Hoặc bằng cách sử dụng thuộc tính `dangerouslySetInnerHTML`:
 
 ```jsx
 <Script
@@ -243,19 +243,19 @@ Or by using the `dangerouslySetInnerHTML` property:
 />
 ```
 
-> **Warning**: An `id` property must be assigned for inline scripts in order for Next.js to track and optimize the script.
+> **Cảnh báo**: Một thuộc tính `id` phải được gán cho các inline scripts để Next.js theo dõi và tối ưu hóa script.
 
-### Executing Additional Code
+### Thực thi Mã bổ sung
 
-Event handlers can be used with the Script component to execute additional code after a certain event occurs:
+Các event handlers có thể được sử dụng với component Script để thực thi mã bổ sung sau khi một sự kiện nhất định xảy ra:
 
-- `onLoad`: Execute code after the script has finished loading.
-- `onReady`: Execute code after the script has finished loading and every time the component is mounted.
-- `onError`: Execute code if the script fails to load.
+- `onLoad`: Thực thi mã sau khi script đã tải xong.
+- `onReady`: Thực thi mã sau khi script đã tải xong và mỗi khi component được mount.
+- `onError`: Thực thi mã nếu script không tải được.
 
 <AppOnly>
 
-These handlers will only work when `next/script` is imported and used inside of a [Client Component](/docs/app/getting-started/server-and-client-components) where `"use client"` is defined as the first line of code:
+Các handlers này sẽ chỉ hoạt động khi `next/script` được import và sử dụng bên trong một [Client Component](/docs/app/getting-started/server-and-client-components) nơi `"use client"` được định nghĩa là dòng mã đầu tiên:
 
 ```tsx filename="app/page.tsx" switcher
 'use client'
@@ -295,13 +295,13 @@ export default function Page() {
 }
 ```
 
-Refer to the [`next/script`](/docs/app/api-reference/components/script#onload) API reference to learn more about each event handler and view examples.
+Tham khảo API reference [`next/script`](/docs/app/api-reference/components/script#onload) để tìm hiểu thêm về từng event handler và xem các ví dụ.
 
 </AppOnly>
 
 <PagesOnly>
 
-These handlers will only work when `next/script` is imported and used inside of a [Client Component](/docs/app/getting-started/server-and-client-components) where `"use client"` is defined as the first line of code:
+Các handlers này sẽ chỉ hoạt động khi `next/script` được import và sử dụng bên trong một [Client Component](/docs/app/getting-started/server-and-client-components) nơi `"use client"` được định nghĩa là dòng mã đầu tiên:
 
 ```tsx filename="pages/index.tsx" switcher
 import Script from 'next/script'
@@ -337,13 +337,13 @@ export default function Page() {
 }
 ```
 
-Refer to the [`next/script`](/docs/pages/api-reference/components/script#onload) API reference to learn more about each event handler and view examples.
+Tham khảo API reference [`next/script`](/docs/pages/api-reference/components/script#onload) để tìm hiểu thêm về từng event handler và xem các ví dụ.
 
 </PagesOnly>
 
-### Additional Attributes
+### Các Thuộc tính Bổ sung
 
-There are many DOM attributes that can be assigned to a `<script>` element that are not used by the Script component, like [`nonce`](https://developer.mozilla.org/docs/Web/HTML/Global_attributes/nonce) or [custom data attributes](https://developer.mozilla.org/docs/Web/HTML/Global_attributes/data-*). Including any additional attributes will automatically forward it to the final, optimized `<script>` element that is included in the HTML.
+Có nhiều thuộc tính DOM có thể được gán cho một phần tử `<script>` mà không được sử dụng bởi component Script, như [`nonce`](https://developer.mozilla.org/docs/Web/HTML/Global_attributes/nonce) hoặc [custom data attributes](https://developer.mozilla.org/docs/Web/HTML/Global_attributes/data-*). Bao gồm bất kỳ thuộc tính bổ sung nào sẽ tự động chuyển tiếp nó đến phần tử `<script>` cuối cùng, được tối ưu hóa được bao gồm trong HTML.
 
 <AppOnly>
 

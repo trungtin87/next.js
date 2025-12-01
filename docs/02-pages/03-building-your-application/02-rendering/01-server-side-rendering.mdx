@@ -1,32 +1,32 @@
 ---
 title: Server-side Rendering (SSR)
-description: Use Server-side Rendering to render pages on each request.
+description: Sử dụng Server-side Rendering để render các trang trên mỗi yêu cầu.
 ---
 
-> Also referred to as "SSR" or "Dynamic Rendering".
+> Còn được gọi là "SSR" hoặc "Dynamic Rendering".
 
-If a page uses **Server-side Rendering**, the page HTML is generated on **each request**.
+Nếu một trang sử dụng **Server-side Rendering**, HTML của trang được tạo trên **mỗi yêu cầu**.
 
-To use Server-side Rendering for a page, you need to `export` an `async` function called `getServerSideProps`. This function will be called by the server on every request.
+Để sử dụng Server-side Rendering cho một trang, bạn cần `export` một hàm `async` có tên `getServerSideProps`. Hàm này sẽ được gọi bởi server trên mỗi yêu cầu.
 
-For example, suppose that your page needs to pre-render frequently updated data (fetched from an external API). You can write `getServerSideProps` which fetches this data and passes it to `Page` like below:
+Ví dụ, giả sử trang của bạn cần pre-render dữ liệu được cập nhật thường xuyên (được lấy từ API bên ngoài). Bạn có thể viết `getServerSideProps` để lấy dữ liệu này và truyền nó đến `Page` như bên dưới:
 
 ```jsx
 export default function Page({ data }) {
   // Render data...
 }
 
-// This gets called on every request
+// Điều này được gọi trên mỗi yêu cầu
 export async function getServerSideProps() {
-  // Fetch data from external API
+  // Lấy dữ liệu từ API bên ngoài
   const res = await fetch(`https://.../data`)
   const data = await res.json()
 
-  // Pass data to the page via props
+  // Truyền dữ liệu đến trang thông qua props
   return { props: { data } }
 }
 ```
 
-As you can see, `getServerSideProps` is similar to `getStaticProps`, but the difference is that `getServerSideProps` is run on every request instead of on build time.
+Như bạn có thể thấy, `getServerSideProps` tương tự như `getStaticProps`, nhưng sự khác biệt là `getServerSideProps` được chạy trên mỗi yêu cầu thay vì tại thời điểm build.
 
-To learn more about how `getServerSideProps` works, check out our [Data Fetching documentation](/docs/pages/building-your-application/data-fetching/get-server-side-props).
+Để tìm hiểu thêm về cách `getServerSideProps` hoạt động, hãy xem [tài liệu Data Fetching](/docs/pages/building-your-application/data-fetching/get-server-side-props) của chúng tôi.

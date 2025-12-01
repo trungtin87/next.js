@@ -1,9 +1,9 @@
 ---
 title: devIndicators
-description: Configuration options for the on-screen indicator that gives context about the current route you're viewing during development.
+description: Các tùy chọn cấu hình cho chỉ báo trên màn hình cung cấp ngữ cảnh về route hiện tại bạn đang xem trong quá trình phát triển.
 ---
 
-`devIndicators` allows you to configure the on-screen indicator that gives context about the current route you're viewing during development.
+`devIndicators` cho phép bạn cấu hình chỉ báo trên màn hình cung cấp ngữ cảnh về route hiện tại bạn đang xem trong quá trình phát triển.
 
 ```ts filename="Types"
   devIndicators: false | {
@@ -14,15 +14,15 @@ description: Configuration options for the on-screen indicator that gives contex
   },
 ```
 
-Setting `devIndicators` to `false` will hide the indicator, however Next.js will continue to surface any build or runtime errors that were encountered.
+Đặt `devIndicators` thành `false` sẽ ẩn chỉ báo, tuy nhiên Next.js sẽ tiếp tục hiển thị bất kỳ lỗi build hoặc runtime nào được gặp phải.
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Indicator not marking a route as static
+### Chỉ báo không đánh dấu một route là static
 
-If you expect a route to be static and the indicator has marked it as dynamic, it's likely the route has opted out of static rendering.
+Nếu bạn mong đợi một route là static và chỉ báo đã đánh dấu nó là dynamic, có khả năng route đã chọn không tham gia static rendering.
 
-You can confirm if a route is [static](/docs/app/guides/caching#static-rendering) or [dynamic](/docs/app/guides/caching#dynamic-rendering) by building your application using `next build --debug`, and checking the output in your terminal. Static (or prerendered) routes will display a `○` symbol, whereas dynamic routes will display a `ƒ` symbol. For example:
+Bạn có thể xác nhận nếu một route là [static](/docs/app/guides/caching#static-rendering) hoặc [dynamic](/docs/app/guides/caching#dynamic-rendering) bằng cách build ứng dụng của bạn bằng `next build --debug`, và kiểm tra đầu ra trong terminal của bạn. Các route Static (hoặc prerendered) sẽ hiển thị ký hiệu `○`, trong khi các route dynamic sẽ hiển thị ký hiệu `ƒ`. Ví dụ:
 
 ```bash filename="Build Output"
 Route (app)
@@ -35,25 +35,25 @@ Route (app)
 
 <AppOnly>
 
-There are two reasons a route might opt out of static rendering:
+Có hai lý do một route có thể chọn không tham gia static rendering:
 
-- The presence of [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) which rely on runtime information.
-- An [uncached data request](/docs/app/getting-started/fetching-data), like a call to an ORM or database driver.
+- Sự hiện diện của [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) dựa vào thông tin runtime.
+- Một [uncached data request](/docs/app/getting-started/fetching-data), như một lời gọi đến một ORM hoặc database driver.
 
-Check your route for any of these conditions, and if you are not able to statically render the route, then consider using [`loading.js`](/docs/app/api-reference/file-conventions/loading) or [`<Suspense />`](https://react.dev/reference/react/Suspense) to leverage [streaming](/docs/app/getting-started/linking-and-navigating#streaming).
+Kiểm tra route của bạn cho bất kỳ điều kiện nào trong số này, và nếu bạn không thể render route một cách tĩnh, thì hãy xem xét sử dụng [`loading.js`](/docs/app/api-reference/file-conventions/loading) hoặc [`<Suspense />`](https://react.dev/reference/react/Suspense) để tận dụng [streaming](/docs/app/getting-started/linking-and-navigating#streaming).
 
 </AppOnly>
 
 <PagesOnly>
 
-When exporting [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props) or [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props) from a page, it will be marked as dynamic.
+Khi export [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props) hoặc [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props) từ một trang, nó sẽ được đánh dấu là dynamic.
 
 </PagesOnly>
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                                                             |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v16.0.0` | `appIsrStatus`, `buildActivity`, and `buildActivityPosition` options have been removed.                                                             |
-| `v15.2.0` | Improved on-screen indicator with new `position` option. `appIsrStatus`, `buildActivity`, and `buildActivityPosition` options have been deprecated. |
-| `v15.0.0` | Static on-screen indicator added with `appIsrStatus` option.                                                                                        |
+| Phiên bản | Thay đổi                                                                                                                                                     |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `v16.0.0` | Các tùy chọn `appIsrStatus`, `buildActivity`, và `buildActivityPosition` đã bị xóa.                                                                          |
+| `v15.2.0` | Chỉ báo trên màn hình được cải thiện với tùy chọn `position` mới. Các tùy chọn `appIsrStatus`, `buildActivity`, và `buildActivityPosition` đã bị deprecated. |
+| `v15.0.0` | Chỉ báo trên màn hình tĩnh được thêm với tùy chọn `appIsrStatus`.                                                                                            |

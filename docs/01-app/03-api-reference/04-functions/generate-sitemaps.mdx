@@ -1,27 +1,27 @@
 ---
 title: generateSitemaps
 nav_title: generateSitemaps
-description: Learn how to use the generateSiteMaps function to create multiple sitemaps for your application.
+description: Tìm hiểu cách sử dụng hàm generateSiteMaps để tạo nhiều sitemap cho ứng dụng của bạn.
 related:
   title: Next Steps
-  description: Learn how to create sitemaps for your Next.js application.
+  description: Tìm hiểu cách tạo sitemap cho ứng dụng Next.js của bạn.
   links:
     - app/api-reference/file-conventions/metadata/sitemap
 ---
 
-You can use the `generateSitemaps` function to generate multiple sitemaps for your application.
+Bạn có thể sử dụng hàm `generateSitemaps` để tạo nhiều sitemap cho ứng dụng của bạn.
 
 ## Returns
 
-The `generateSitemaps` returns an array of objects with an `id` property.
+`generateSitemaps` trả về một mảng các đối tượng với thuộc tính `id`.
 
 ## URLs
 
-Your generated sitemaps will be available at `/.../sitemap/[id].xml`. For example, `/product/sitemap/1.xml`.
+Các sitemap được tạo của bạn sẽ có sẵn tại `/.../sitemap/[id].xml`. Ví dụ, `/product/sitemap/1.xml`.
 
 ## Example
 
-For example, to split a sitemap using `generateSitemaps`, return an array of objects with the sitemap `id`. Then, use the `id` to generate the unique sitemaps.
+Ví dụ, để chia một sitemap bằng cách sử dụng `generateSitemaps`, hãy trả về một mảng các đối tượng với sitemap `id`. Sau đó, sử dụng `id` để tạo các sitemap duy nhất.
 
 ```ts filename="app/product/sitemap.ts" switcher
 import { BASE_URL } from '@/app/lib/constants'
@@ -71,9 +71,9 @@ export default async function sitemap({ id }) {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                                                              |
+| Phiên bản | Thay đổi                                                                                                                                             |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v15.0.0` | `generateSitemaps` now generates consistent URLs between development and production                                                                  |
-| `v13.3.2` | `generateSitemaps` introduced. In development, you can view the generated sitemap on `/.../sitemap.xml/[id]`. For example, `/product/sitemap.xml/1`. |
+| `v15.0.0` | `generateSitemaps` giờ đây tạo các URL nhất quán giữa development và production                                                                      |
+| `v13.3.2` | `generateSitemaps` được giới thiệu. Trong development, bạn có thể xem sitemap được tạo tại `/.../sitemap.xml/[id]`. Ví dụ, `/product/sitemap.xml/1`. |

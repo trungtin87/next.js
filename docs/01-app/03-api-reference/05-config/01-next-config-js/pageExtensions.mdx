@@ -1,13 +1,13 @@
 ---
 title: pageExtensions
-description: Extend the default page extensions used by Next.js when resolving pages in the Pages Router.
+description: Mở rộng các phần mở rộng trang mặc định được sử dụng bởi Next.js khi giải quyết các trang trong Pages Router.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
 <AppOnly>
 
-By default, Next.js accepts files with the following extensions: `.tsx`, `.ts`, `.jsx`, `.js`. This can be modified to allow other extensions like markdown (`.md`, `.mdx`).
+Theo mặc định, Next.js chấp nhận các tệp với các phần mở rộng sau: `.tsx`, `.ts`, `.jsx`, `.js`. Điều này có thể được sửa đổi để cho phép các phần mở rộng khác như markdown (`.md`, `.mdx`).
 
 ```js filename="next.config.js"
 const withMDX = require('@next/mdx')()
@@ -24,7 +24,7 @@ module.exports = withMDX(nextConfig)
 
 <PagesOnly>
 
-You can extend the default Page extensions (`.tsx`, `.ts`, `.jsx`, `.js`) used by Next.js. Inside `next.config.js`, add the `pageExtensions` config:
+Bạn có thể mở rộng các phần mở rộng Page mặc định (`.tsx`, `.ts`, `.jsx`, `.js`) được sử dụng bởi Next.js. Bên trong `next.config.js`, thêm cấu hình `pageExtensions`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
 }
 ```
 
-Changing these values affects _all_ Next.js pages, including the following:
+Thay đổi các giá trị này ảnh hưởng đến _tất cả_ các trang Next.js, bao gồm:
 
 - [`proxy.js`](/docs/pages/api-reference/file-conventions/proxy)
 - [`instrumentation.js`](/docs/pages/guides/instrumentation)
@@ -40,11 +40,11 @@ Changing these values affects _all_ Next.js pages, including the following:
 - `pages/_app.js`
 - `pages/api/`
 
-For example, if you reconfigure `.ts` page extensions to `.page.ts`, you would need to rename pages like `proxy.page.ts`, `instrumentation.page.ts`, `_app.page.ts`.
+Ví dụ, nếu bạn cấu hình lại các phần mở rộng trang `.ts` thành `.page.ts`, bạn sẽ cần đổi tên các trang như `proxy.page.ts`, `instrumentation.page.ts`, `_app.page.ts`.
 
-## Including non-page files in the `pages` directory
+## Bao gồm các tệp không phải trang trong thư mục `pages`
 
-You can colocate test files or other files used by components in the `pages` directory. Inside `next.config.js`, add the `pageExtensions` config:
+Bạn có thể đặt cùng vị trí các tệp test hoặc các tệp khác được sử dụng bởi các component trong thư mục `pages`. Bên trong `next.config.js`, thêm cấu hình `pageExtensions`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -52,6 +52,6 @@ module.exports = {
 }
 ```
 
-Then, rename your pages to have a file extension that includes `.page` (e.g. rename `MyPage.tsx` to `MyPage.page.tsx`). Ensure you rename _all_ Next.js pages, including the files mentioned above.
+Sau đó, đổi tên các trang của bạn để có phần mở rộng tệp bao gồm `.page` (ví dụ: đổi tên `MyPage.tsx` thành `MyPage.page.tsx`). Đảm bảo bạn đổi tên _tất cả_ các trang Next.js, bao gồm các tệp được đề cập ở trên.
 
 </PagesOnly>

@@ -1,46 +1,46 @@
 ---
-title: Enabling Next.js MCP Server for Coding Agents
+title: Bật Next.js MCP Server cho Coding Agents
 nav_title: Next.js MCP Server
-description: Learn how to enable the experimental Next.js MCP server to allow agents access to your application state
+description: Tìm hiểu cách bật experimental Next.js MCP server để cho phép agents truy cập vào trạng thái ứng dụng của bạn
 ---
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io) is an open standard that allows AI agents and coding assistants to interact with your applications through a standardized interface.
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) là một tiêu chuẩn mở cho phép các AI agents và coding assistants tương tác với các ứng dụng của bạn thông qua một giao diện được tiêu chuẩn hóa.
 
-Next.js provides two MCP servers, we recommend using both together for the best agent experience:
+Next.js cung cấp hai MCP servers, chúng tôi khuyên bạn nên sử dụng cả hai cùng nhau để có trải nghiệm agent tốt nhất:
 
-### 1. Next.js MCP Server (Built-in)
+### 1. Next.js MCP Server (Tích hợp sẵn)
 
-**Available in Next.js 16 and above**
+**Có sẵn trong Next.js 16 trở lên**
 
-The Next.js MCP server exposes your application's internals, allowing agents to:
+Next.js MCP server để lộ các thành phần bên trong ứng dụng của bạn, cho phép agents:
 
-- Access real-time application state and runtime information
-- Query page metadata, routes, and rendering details
-- Retrieve build errors, runtime errors, and development logs
-- Inspect Server Actions and component hierarchies
+- Truy cập trạng thái ứng dụng thời gian thực và thông tin runtime
+- Truy vấn metadata của trang, routes, và chi tiết rendering
+- Lấy lỗi build, lỗi runtime, và logs phát triển
+- Kiểm tra Server Actions và phân cấp component
 
-This server runs within your Next.js dev server and provides direct access to your application's internal state.
+Server này chạy bên trong Next.js dev server của bạn và cung cấp quyền truy cập trực tiếp vào trạng thái nội bộ của ứng dụng.
 
-### 2. Next DevTools MCP (External Package)
+### 2. Next DevTools MCP (Gói bên ngoài)
 
-[`next-devtools-mcp`](https://www.npmjs.com/package/next-devtools-mcp) is a separate package that provides high-level development tools and guidance:
+[`next-devtools-mcp`](https://www.npmjs.com/package/next-devtools-mcp) là một gói riêng biệt cung cấp các công cụ phát triển cấp cao và hướng dẫn:
 
-- **Next.js Knowledge Base**: Query comprehensive Next.js documentation and best practices
-- **Migration and Upgrade Tools**: Automated helpers for upgrading to Next.js 16 with codemods
-- **Cache Components Guide**: Setup and configuration assistance for Cache Components
-- **Browser Testing**: [Playwright MCP](https://github.com/microsoft/playwright-mcp) integration for verifying pages in the browser
+- **Next.js Knowledge Base**: Truy vấn tài liệu Next.js toàn diện và các thực hành tốt nhất
+- **Công cụ Di chuyển và Nâng cấp**: Các trình trợ giúp tự động để nâng cấp lên Next.js 16 với codemods
+- **Hướng dẫn Cache Components**: Hỗ trợ thiết lập và cấu hình cho Cache Components
+- **Kiểm thử Trình duyệt**: Tích hợp [Playwright MCP](https://github.com/microsoft/playwright-mcp) để xác minh các trang trong trình duyệt
 
-Additionally, `next-devtools-mcp` can automatically discover and communicate directly with running Next.js dev servers to access their MCP tools (`get_errors`, `get_logs`, `get_page_metadata`, etc.).
+Ngoài ra, `next-devtools-mcp` có thể tự động khám phá và giao tiếp trực tiếp với các Next.js dev servers đang chạy để truy cập các công cụ MCP của chúng (`get_errors`, `get_logs`, `get_page_metadata`, v.v.).
 
-Together, these two MCP servers give agents both low-level application internals and high-level development guidance.
+Cùng nhau, hai MCP servers này cung cấp cho agents cả các thành phần bên trong ứng dụng cấp thấp và hướng dẫn phát triển cấp cao.
 
-## Getting started
+## Bắt đầu
 
-The built-in Next.js MCP server is enabled by default in development in Next.js 16 or above.
+Next.js MCP server tích hợp sẵn được bật theo mặc định trong quá trình phát triển trong Next.js 16 hoặc cao hơn.
 
-### Configuring Next DevTools MCP
+### Cấu hình Next DevTools MCP
 
-To use the Next DevTools MCP, add [`next-devtools-mcp`](https://www.npmjs.com/package/next-devtools-mcp) to the `.mcp.json` file at the root of your project
+Để sử dụng Next DevTools MCP, thêm [`next-devtools-mcp`](https://www.npmjs.com/package/next-devtools-mcp) vào tệp `.mcp.json` tại thư mục gốc của dự án của bạn
 
 ```json filename=".mcp.json"
 {
@@ -53,63 +53,63 @@ To use the Next DevTools MCP, add [`next-devtools-mcp`](https://www.npmjs.com/pa
 }
 ```
 
-For more devtools functionalities and configuration options, check out the [next-devtools-mcp repository](https://github.com/vercel/next-devtools-mcp).
+Để biết thêm các chức năng devtools và tùy chọn cấu hình, hãy xem [kho lưu trữ next-devtools-mcp](https://github.com/vercel/next-devtools-mcp).
 
-## Using with agents
+## Sử dụng với agents
 
-MCP-compatible Coding Agents can automatically discover and connect to your Next.js development server. This provides agents with rich context about your project.
+Các Coding Agents tương thích với MCP có thể tự động khám phá và kết nối với Next.js development server của bạn. Điều này cung cấp cho agents ngữ cảnh phong phú về dự án của bạn.
 
-### Benefits for agent-assisted development
+### Lợi ích cho phát triển được hỗ trợ bởi agent
 
-Agents can:
+Agents có thể:
 
-- **Make context-aware suggestions**: Recommend the right place to add new features based on your existing structure
-- **Query live application state**: Check current configuration, routes, and middleware during development
-- **Understand your app router pages layout**: Know exactly which page and layout are rendered in the page
-- **Provide accurate implementations**: Generate code that follows your project's patterns and conventions
+- **Đưa ra các đề xuất nhận biết ngữ cảnh**: Đề xuất đúng nơi để thêm các tính năng mới dựa trên cấu trúc hiện có của bạn
+- **Truy vấn trạng thái ứng dụng trực tiếp**: Kiểm tra cấu hình hiện tại, routes, và middleware trong quá trình phát triển
+- **Hiểu bố cục trang app router của bạn**: Biết chính xác trang và layout nào được render trong trang
+- **Cung cấp các triển khai chính xác**: Tạo mã tuân theo các mẫu và quy ước của dự án của bạn
 
-## Development workflow
+## Quy trình làm việc phát triển
 
-1. Start your Next.js development server:
+1. Khởi động Next.js development server của bạn:
 
 ```bash filename="Terminal"
 npm run dev
 ```
 
-2. Connect your Coding Agent to the running Next.js instance
+2. Kết nối Coding Agent của bạn với Next.js instance đang chạy
 
-3. Open your application in the browser to view the page.
+3. Mở ứng dụng của bạn trong trình duyệt để xem trang.
 
-4. Query your agent for insights and diagnostics (see examples below)
+4. Truy vấn agent của bạn để biết thông tin chi tiết và chẩn đoán (xem các ví dụ bên dưới)
 
-### Available Next.js MCP Tools
+### Các công cụ Next.js MCP có sẵn
 
-The experimental Next.js MCP server provides the following tools:
+Experimental Next.js MCP server cung cấp các công cụ sau:
 
-- **`get_errors`**: Retrieve current build errors, runtime errors, and type errors from your dev server
-- **`get_logs`**: Access development server logs and console output
-- **`get_page_metadata`**: Get metadata about specific pages including routes, components, and rendering information
-- **`get_project_metadata`**: Retrieve project structure, configuration, and overall metadata
-- **`get_server_action_by_id`**: Look up Server Actions by their ID for debugging and inspection
+- **`get_errors`**: Lấy lỗi build hiện tại, lỗi runtime, và lỗi type từ dev server của bạn
+- **`get_logs`**: Truy cập logs của development server và console output
+- **`get_page_metadata`**: Lấy metadata về các trang cụ thể bao gồm routes, components, và thông tin rendering
+- **`get_project_metadata`**: Lấy cấu trúc dự án, cấu hình, và metadata tổng thể
+- **`get_server_action_by_id`**: Tra cứu Server Actions theo ID của chúng để gỡ lỗi và kiểm tra
 
-## Examples
+## Ví dụ
 
-### Error detection and diagnosis
+### Phát hiện và chẩn đoán lỗi
 
-The agent can query your running Next.js application for real-time error information:
+Agent có thể truy vấn ứng dụng Next.js đang chạy của bạn để biết thông tin lỗi thời gian thực:
 
 ```bash
 User: "What errors are currently in my application?"
 ```
 
-Agent action:
+Hành động của Agent:
 
-- Calls the `get_errors` tool provided by the Next.js MCP server
-- Retrieves current build errors, runtime errors, and type errors from the dev server
-- Analyzes the errors and provides actionable fixes
+- Gọi công cụ `get_errors` được cung cấp bởi Next.js MCP server
+- Lấy lỗi build hiện tại, lỗi runtime, và lỗi type từ dev server
+- Phân tích các lỗi và cung cấp các bản sửa lỗi có thể thực hiện
 
 <details>
-<summary>Agent response (click to expand)</summary>
+<summary>Phản hồi của Agent (nhấn để mở rộng)</summary>
 
 ```bash
 > fix errors on the page
@@ -141,32 +141,32 @@ Agent action:
 
 </details>
 
-This demonstrates the power of having both MCP servers enabled: the Next.js MCP server provides real-time diagnostics directly from your application, while next-devtools-mcp can provide guidance on best practices and migration paths.
+Điều này chứng minh sức mạnh của việc bật cả hai MCP servers: Next.js MCP server cung cấp chẩn đoán thời gian thực trực tiếp từ ứng dụng của bạn, trong khi next-devtools-mcp có thể cung cấp hướng dẫn về các thực hành tốt nhất và lộ trình di chuyển.
 
-### Upgrading and best practices
+### Nâng cấp và các thực hành tốt nhất
 
-You can also ask for help with Next.js concepts and migrations:
+Bạn cũng có thể yêu cầu trợ giúp với các khái niệm Next.js và di chuyển:
 
 ```bash
 User: "Help me upgrade my Next.js app to version 16"
 ```
 
-The agent will use next-devtools-mcp to analyze your current version, guide you through automated migrations with codemods, and provide step-by-step instructions for handling breaking changes like async Request APIs, dynamic route segments, and route handler return types.
+Agent sẽ sử dụng next-devtools-mcp để phân tích phiên bản hiện tại của bạn, hướng dẫn bạn qua các di chuyển tự động với codemods, và cung cấp hướng dẫn từng bước để xử lý các thay đổi đột phá như async Request APIs, dynamic route segments, và route handler return types.
 
-You can also ask conceptual questions:
+Bạn cũng có thể hỏi các câu hỏi khái niệm:
 
 ```bash
 User: "When should I use 'use client' in App Router?"
 ```
 
-The agent will query the Next.js knowledge base via next-devtools-mcp and provide documentation-backed explanations with examples from your codebase.
+Agent sẽ truy vấn Next.js knowledge base thông qua next-devtools-mcp và cung cấp các giải thích được hỗ trợ bởi tài liệu với các ví dụ từ codebase của bạn.
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### MCP server not connecting
+### MCP server không kết nối
 
-- Ensure you're using Next.js v16 or above
-- Start your development server: `npm run dev`
-- Restart your development server
-- Check that your MCP client is configured with the correct path
-- Add MCP server to your agent's settings
+- Đảm bảo bạn đang sử dụng Next.js v16 hoặc cao hơn
+- Khởi động development server của bạn: `npm run dev`
+- Khởi động lại development server của bạn
+- Kiểm tra xem MCP client của bạn có được cấu hình với đường dẫn chính xác không
+- Thêm MCP server vào cài đặt của agent của bạn

@@ -1,16 +1,16 @@
 ---
 title: not-found.js
-description: API reference for the not-found.js file.
+description: Tài liệu tham khảo API cho file not-found.js.
 ---
 
-Next.js provides two conventions to handle not found cases:
+Next.js cung cấp hai quy ước để xử lý các trường hợp không tìm thấy (not found):
 
-- **`not-found.js`**: Used when you call the [`notFound`](/docs/app/api-reference/functions/not-found) function in a route segment.
-- **`global-not-found.js`**: Used to define a global 404 page for unmatched routes across your entire app. This is handled at the routing level and doesn't depend on rendering a layout or page.
+- **`not-found.js`**: Được sử dụng khi bạn gọi hàm [`notFound`](/docs/app/api-reference/functions/not-found) trong một route segment.
+- **`global-not-found.js`**: Được sử dụng để định nghĩa một trang 404 toàn cục cho các routes không khớp trên toàn bộ ứng dụng của bạn. Điều này được xử lý ở cấp độ routing và không phụ thuộc vào việc render một layout hoặc page.
 
 ## `not-found.js`
 
-The **not-found** file is used to render UI when the [`notFound`](/docs/app/api-reference/functions/not-found) function is thrown within a route segment. Along with serving a custom UI, Next.js will return a `200` HTTP status code for streamed responses, and `404` for non-streamed responses.
+File **not-found** được sử dụng để render UI khi hàm [`notFound`](/docs/app/api-reference/functions/not-found) được ném ra bên trong một route segment. Cùng với việc phục vụ một custom UI, Next.js sẽ trả về một mã trạng thái HTTP `200` cho các phản hồi được stream, và `404` cho các phản hồi không được stream.
 
 ```tsx filename="app/not-found.tsx" switcher
 import Link from 'next/link'
@@ -42,18 +42,18 @@ export default function NotFound() {
 
 ## `global-not-found.js` (experimental)
 
-The `global-not-found.js` file lets you define a 404 page for your entire application. Unlike `not-found.js`, which works at the route level, this is used when a requested URL doesn't match any route at all. Next.js **skips rendering** and directly returns this global page.
+File `global-not-found.js` cho phép bạn định nghĩa một trang 404 cho toàn bộ ứng dụng của bạn. Không giống như `not-found.js`, hoạt động ở cấp độ route, file này được sử dụng khi một URL được yêu cầu không khớp với bất kỳ route nào cả. Next.js **bỏ qua rendering** và trả về trực tiếp trang toàn cục này.
 
-The `global-not-found.js` file bypasses your app's normal rendering, which means you'll need to import any global styles, fonts, or other dependencies that your 404 page requires.
+File `global-not-found.js` bỏ qua rendering bình thường của ứng dụng của bạn, điều này có nghĩa là bạn sẽ cần import bất kỳ global styles, fonts, hoặc các dependencies khác mà trang 404 của bạn yêu cầu.
 
-> **Good to know**: A smaller version of your global styles, and a simpler font family could improve performance of this page.
+> **Lưu ý**: Một phiên bản nhỏ hơn của global styles của bạn, và một font family đơn giản hơn có thể cải thiện hiệu suất của trang này.
 
-`global-not-found.js` is useful when you can't build a 404 page using a combination of `layout.js` and `not-found.js`. This can happen in two cases:
+`global-not-found.js` hữu ích khi bạn không thể xây dựng một trang 404 bằng cách sử dụng sự kết hợp của `layout.js` và `not-found.js`. Điều này có thể xảy ra trong hai trường hợp:
 
-- Your app has multiple root layouts (e.g. `app/(admin)/layout.tsx` and `app/(shop)/layout.tsx`), so there's no single layout to compose a global 404 from.
-- Your root layout is defined using top-level dynamic segments (e.g. `app/[country]/layout.tsx`), which makes composing a consistent 404 page harder.
+- Ứng dụng của bạn có nhiều root layouts (ví dụ `app/(admin)/layout.tsx` và `app/(shop)/layout.tsx`), vì vậy không có layout đơn lẻ nào để tạo thành một global 404 từ đó.
+- Root layout của bạn được định nghĩa sử dụng top-level dynamic segments (ví dụ `app/[country]/layout.tsx`), điều này làm cho việc tạo một trang 404 nhất quán trở nên khó khăn hơn.
 
-To enable it, add the `globalNotFound` flag in `next.config.ts`:
+Để kích hoạt nó, thêm cờ `globalNotFound` trong `next.config.ts`:
 
 ```tsx filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -67,10 +67,10 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-Then, create a file in the root of the `app` directory: `app/global-not-found.js`:
+Sau đó, tạo một file ở root của thư mục `app`: `app/global-not-found.js`:
 
 ```tsx filename="app/global-not-found.tsx" switcher
-// Import global styles and fonts
+// Import global styles và fonts
 import './globals.css'
 import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
@@ -95,7 +95,7 @@ export default function GlobalNotFound() {
 ```
 
 ```jsx filename="app/global-not-found.js" switcher
-// Import global styles and fonts
+// Import global styles và fonts
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -118,21 +118,21 @@ export default function GlobalNotFound() {
 }
 ```
 
-Unlike `not-found.js`, this file must return a full HTML document, including `<html>` and `<body>` tags.
+Không giống như `not-found.js`, file này phải trả về một tài liệu HTML đầy đủ, bao gồm các thẻ `<html>` và `<body>`.
 
-## Reference
+## Tham khảo
 
 ### Props
 
-`not-found.js` or `global-not-found.js` components do not accept any props.
+Các components `not-found.js` hoặc `global-not-found.js` không chấp nhận bất kỳ props nào.
 
-> **Good to know**: In addition to catching expected `notFound()` errors, the root `app/not-found.js` and `app/global-not-found.js` files handle any unmatched URLs for your whole application. This means users that visit a URL that is not handled by your app will be shown the exported UI.
+> **Lưu ý**: Ngoài việc bắt các lỗi `notFound()` dự kiến, các file root `app/not-found.js` và `app/global-not-found.js` xử lý bất kỳ URLs không khớp nào cho toàn bộ ứng dụng của bạn. Điều này có nghĩa là người dùng truy cập một URL không được xử lý bởi ứng dụng của bạn sẽ được hiển thị UI đã export.
 
-## Examples
+## Ví dụ
 
 ### Data Fetching
 
-By default, `not-found` is a Server Component. You can mark it as `async` to fetch and display data:
+Mặc định, `not-found` là một Server Component. Bạn có thể đánh dấu nó là `async` để fetch và hiển thị dữ liệu:
 
 ```tsx filename="app/not-found.tsx" switcher
 import Link from 'next/link'
@@ -174,13 +174,13 @@ export default async function NotFound() {
 }
 ```
 
-If you need to use Client Component hooks like `usePathname` to display content based on the path, you must fetch data on the client-side instead.
+Nếu bạn cần sử dụng Client Component hooks như `usePathname` để hiển thị nội dung dựa trên path, bạn phải fetch dữ liệu ở phía client thay thế.
 
 ### Metadata
 
-For `global-not-found.js`, you can export a `metadata` object or a [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata) function to customize the `<title>`, `<meta>`, and other head tags for your 404 page:
+Đối với `global-not-found.js`, bạn có thể export một object `metadata` hoặc một hàm [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata) để tùy chỉnh `<title>`, `<meta>`, và các thẻ head khác cho trang 404 của bạn:
 
-> **Good to know**: Next.js automatically injects `<meta name="robots" content="noindex" />` for pages that return a 404 status code, including `global-not-found.js` pages.
+> **Lưu ý**: Next.js tự động inject `<meta name="robots" content="noindex" />` cho các trang trả về mã trạng thái 404, bao gồm các trang `global-not-found.js`.
 
 ```tsx filename="app/global-not-found.tsx" switcher
 import type { Metadata } from 'next'
@@ -224,10 +224,10 @@ export default function GlobalNotFound() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                             |
-| --------- | --------------------------------------------------- |
-| `v15.4.0` | `global-not-found.js` introduced (experimental).    |
-| `v13.3.0` | Root `app/not-found` handles global unmatched URLs. |
-| `v13.0.0` | `not-found` introduced.                             |
+| Phiên bản | Thay đổi                                                 |
+| --------- | -------------------------------------------------------- |
+| `v15.4.0` | `global-not-found.js` được giới thiệu (experimental).    |
+| `v13.3.0` | Root `app/not-found` xử lý các URLs không khớp toàn cục. |
+| `v13.0.0` | `not-found` được giới thiệu.                             |

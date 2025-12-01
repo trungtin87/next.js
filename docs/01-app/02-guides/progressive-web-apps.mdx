@@ -1,27 +1,27 @@
 ---
-title: How to build a Progressive Web Application (PWA) with Next.js
+title: Cách xây dựng Progressive Web Application (PWA) với Next.js
 nav_title: PWAs
-description: Learn how to build a Progressive Web Application (PWA) with Next.js.
+description: Tìm hiểu cách xây dựng Progressive Web Application (PWA) với Next.js.
 related:
   links:
     - app/api-reference/file-conventions/metadata/manifest
 ---
 
-Progressive Web Applications (PWAs) offer the reach and accessibility of web applications combined with the features and user experience of native mobile apps. With Next.js, you can create PWAs that provide a seamless, app-like experience across all platforms without the need for multiple codebases or app store approvals.
+Progressive Web Applications (PWAs) cung cấp khả năng tiếp cận và truy cập của các ứng dụng web kết hợp với các tính năng và trải nghiệm người dùng của các ứng dụng di động native. Với Next.js, bạn có thể tạo các PWA cung cấp trải nghiệm liền mạch, giống ứng dụng trên tất cả các nền tảng mà không cần nhiều codebase hoặc phê duyệt app store.
 
-PWAs allow you to:
+PWAs cho phép bạn:
 
-- Deploy updates instantly without waiting for app store approval
-- Create cross-platform applications with a single codebase
-- Provide native-like features such as home screen installation and push notifications
+- Deploy các bản cập nhật ngay lập tức mà không cần chờ phê duyệt app store
+- Tạo các ứng dụng đa nền tảng với một codebase duy nhất
+- Cung cấp các tính năng giống native như cài đặt màn hình chính và push notifications
 
-## Creating a PWA with Next.js
+## Tạo PWA với Next.js
 
-### 1. Creating the Web App Manifest
+### 1. Tạo Web App Manifest
 
-Next.js provides built-in support for creating a [web app manifest](/docs/app/api-reference/file-conventions/metadata/manifest) using the App Router. You can create either a static or dynamic manifest file:
+Next.js cung cấp hỗ trợ tích hợp sẵn để tạo [web app manifest](/docs/app/api-reference/file-conventions/metadata/manifest) bằng cách sử dụng App Router. Bạn có thể tạo tệp manifest tĩnh hoặc động:
 
-For example, create a `app/manifest.ts` or `app/manifest.json` file:
+Ví dụ, tạo một tệp `app/manifest.ts` hoặc `app/manifest.json`:
 
 ```tsx filename="app/manifest.ts" switcher
 import type { MetadataRoute } from 'next'
@@ -77,24 +77,24 @@ export default function manifest() {
 }
 ```
 
-This file should contain information about the name, icons, and how it should be displayed as an icon on the user's device. This will allow users to install your PWA on their home screen, providing a native app-like experience.
+Tệp này nên chứa thông tin về tên, biểu tượng, và cách nó sẽ được hiển thị dưới dạng biểu tượng trên thiết bị của người dùng. Điều này sẽ cho phép người dùng cài đặt PWA của bạn trên màn hình chính của họ, cung cấp trải nghiệm giống ứng dụng native.
 
-You can use tools like [favicon generators](https://realfavicongenerator.net/) to create the different icon sets and place the generated files in your `public/` folder.
+Bạn có thể sử dụng các công cụ như [favicon generators](https://realfavicongenerator.net/) để tạo các bộ biểu tượng khác nhau và đặt các tệp được tạo vào thư mục `public/` của bạn.
 
-### 2. Implementing Web Push Notifications
+### 2. Triển khai Web Push Notifications
 
-Web Push Notifications are supported with all modern browsers, including:
+Web Push Notifications được hỗ trợ trên tất cả các trình duyệt hiện đại, bao gồm:
 
-- iOS 16.4+ for applications installed to the home screen
-- Safari 16 for macOS 13 or later
-- Chromium based browsers
+- iOS 16.4+ cho các ứng dụng được cài đặt vào màn hình chính
+- Safari 16 cho macOS 13 trở lên
+- Các trình duyệt dựa trên Chromium
 - Firefox
 
-This makes PWAs a viable alternative to native apps. Notably, you can trigger install prompts without needing offline support.
+Điều này làm cho PWAs trở thành một giải pháp thay thế khả thi cho các ứng dụng native. Đáng chú ý, bạn có thể kích hoạt lời nhắc cài đặt mà không cần hỗ trợ offline.
 
-Web Push Notifications allow you to re-engage users even when they're not actively using your app. Here's how to implement them in a Next.js application:
+Web Push Notifications cho phép bạn tái tương tác với người dùng ngay cả khi họ không đang sử dụng ứng dụng của bạn. Đây là cách triển khai chúng trong ứng dụng Next.js:
 
-First, let's create the main page component in `app/page.tsx`. We'll break it down into smaller parts for better understanding. First, we’ll add some of the imports and utilities we’ll need. It’s okay that the referenced Server Actions do not yet exist:
+Đầu tiên, hãy tạo component trang chính trong `app/page.tsx`. Chúng ta sẽ chia nó thành các phần nhỏ hơn để dễ hiểu hơn. Trước tiên, chúng ta sẽ thêm một số imports và utilities mà chúng ta sẽ cần. Không sao nếu các Server Actions được tham chiếu chưa tồn tại:
 
 ```tsx switcher
 'use client'
@@ -138,7 +138,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 ```
 
-Let’s now add a component to manage subscribing, unsubscribing, and sending push notifications.
+Bây giờ hãy thêm một component để quản lý việc đăng ký, hủy đăng ký và gửi push notifications.
 
 ```tsx switcher
 function PushNotificationManager() {
@@ -297,7 +297,7 @@ function PushNotificationManager() {
 }
 ```
 
-Finally, let’s create a component to show a message for iOS devices to instruct them to install to their home screen, and only show this if the app is not already installed.
+Cuối cùng, hãy tạo một component để hiển thị thông báo cho các thiết bị iOS hướng dẫn họ cài đặt vào màn hình chính, và chỉ hiển thị nếu ứng dụng chưa được cài đặt.
 
 ```tsx switcher
 function InstallPrompt() {
@@ -399,11 +399,11 @@ export default function Page() {
 }
 ```
 
-Now, let’s create the Server Actions which this file calls.
+Bây giờ, hãy tạo các Server Actions mà tệp này gọi.
 
-### 3. Implementing Server Actions
+### 3. Triển khai Server Actions
 
-Create a new file to contain your actions at `app/actions.ts`. This file will handle creating subscriptions, deleting subscriptions, and sending notifications.
+Tạo một tệp mới để chứa các actions của bạn tại `app/actions.ts`. Tệp này sẽ xử lý việc tạo subscriptions, xóa subscriptions và gửi notifications.
 
 ```tsx filename="app/actions.ts" switcher
 'use server'
@@ -503,36 +503,36 @@ export async function sendNotification(message) {
 }
 ```
 
-Sending a notification will be handled by our service worker, created in step 5.
+Việc gửi notification sẽ được xử lý bởi service worker của chúng ta, được tạo ở bước 5.
 
-In a production environment, you would want to store the subscription in a database for persistence across server restarts and to manage multiple users' subscriptions.
+Trong môi trường production, bạn sẽ muốn lưu trữ subscription trong cơ sở dữ liệu để duy trì qua các lần khởi động lại server và quản lý subscriptions của nhiều người dùng.
 
-### 4. Generating VAPID Keys
+### 4. Tạo VAPID Keys
 
-To use the Web Push API, you need to generate [VAPID](https://vapidkeys.com/) keys. The simplest way is to use the web-push CLI directly:
+Để sử dụng Web Push API, bạn cần tạo các khóa [VAPID](https://vapidkeys.com/). Cách đơn giản nhất là sử dụng trực tiếp web-push CLI:
 
-First, install web-push globally:
+Đầu tiên, cài đặt web-push globally:
 
 ```bash filename="Terminal"
 npm install -g web-push
 ```
 
-Generate the VAPID keys by running:
+Tạo các khóa VAPID bằng cách chạy:
 
 ```bash filename="Terminal"
 web-push generate-vapid-keys
 ```
 
-Copy the output and paste the keys into your `.env` file:
+Sao chép đầu ra và dán các khóa vào tệp `.env` của bạn:
 
 ```
 NEXT_PUBLIC_VAPID_PUBLIC_KEY=your_public_key_here
 VAPID_PRIVATE_KEY=your_private_key_here
 ```
 
-### 5. Creating a Service Worker
+### 5. Tạo Service Worker
 
-Create a `public/sw.js` file for your service worker:
+Tạo một tệp `public/sw.js` cho service worker của bạn:
 
 ```js filename="public/sw.js"
 self.addEventListener('push', function (event) {
@@ -559,39 +559,39 @@ self.addEventListener('notificationclick', function (event) {
 })
 ```
 
-This service worker supports custom images and notifications. It handles incoming push events and notification clicks.
+Service worker này hỗ trợ hình ảnh và notifications tùy chỉnh. Nó xử lý các sự kiện push đến và các lần nhấp vào notification.
 
-- You can set custom icons for notifications using the `icon` and `badge` properties.
-- The `vibrate` pattern can be adjusted to create custom vibration alerts on supported devices.
-- Additional data can be attached to the notification using the `data` property.
+- Bạn có thể đặt các biểu tượng tùy chỉnh cho notifications bằng cách sử dụng các thuộc tính `icon` và `badge`.
+- Mẫu `vibrate` có thể được điều chỉnh để tạo cảnh báo rung tùy chỉnh trên các thiết bị được hỗ trợ.
+- Dữ liệu bổ sung có thể được đính kèm vào notification bằng cách sử dụng thuộc tính `data`.
 
-Remember to test your service worker thoroughly to ensure it behaves as expected across different devices and browsers. Also, make sure to update the `'https://your-website.com'` link in the `notificationclick` event listener to the appropriate URL for your application.
+Hãy nhớ kiểm tra kỹ lưỡng service worker của bạn để đảm bảo nó hoạt động như mong đợi trên các thiết bị và trình duyệt khác nhau. Ngoài ra, hãy đảm bảo cập nhật liên kết `'https://your-website.com'` trong event listener `notificationclick` thành URL phù hợp cho ứng dụng của bạn.
 
-### 6. Adding to Home Screen
+### 6. Thêm vào Màn hình Chính
 
-The `InstallPrompt` component defined in step 2 shows a message for iOS devices to instruct them to install to their home screen.
+Component `InstallPrompt` được định nghĩa ở bước 2 hiển thị thông báo cho các thiết bị iOS hướng dẫn họ cài đặt vào màn hình chính.
 
-To ensure your application can be installed to a mobile home screen, you must have:
+Để đảm bảo ứng dụng của bạn có thể được cài đặt vào màn hình chính di động, bạn phải có:
 
-1. A valid web app manifest (created in step 1)
-2. The website served over HTTPS
+1. Một web app manifest hợp lệ (được tạo ở bước 1)
+2. Website được phục vụ qua HTTPS
 
-Modern browsers will automatically show an installation prompt to users when these criteria are met. You can provide a custom installation button with [`beforeinstallprompt`](https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeinstallprompt_event), however, we do not recommend this as it is not cross browser and platform (does not work on Safari iOS).
+Các trình duyệt hiện đại sẽ tự động hiển thị lời nhắc cài đặt cho người dùng khi các tiêu chí này được đáp ứng. Bạn có thể cung cấp nút cài đặt tùy chỉnh với [`beforeinstallprompt`](https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeinstallprompt_event), tuy nhiên, chúng tôi không khuyến nghị điều này vì nó không hoạt động trên nhiều trình duyệt và nền tảng (không hoạt động trên Safari iOS).
 
-### 7. Testing Locally
+### 7. Kiểm tra Cục bộ
 
-To ensure you can view notifications locally, ensure that:
+Để đảm bảo bạn có thể xem notifications cục bộ, hãy đảm bảo rằng:
 
-- You are [running locally with HTTPS](/docs/app/api-reference/cli/next#using-https-during-development)
-  - Use `next dev --experimental-https` for testing
-- Your browser (Chrome, Safari, Firefox) has notifications enabled
-  - When prompted locally, accept permissions to use notifications
-  - Ensure notifications are not disabled globally for the entire browser
-  - If you are still not seeing notifications, try using another browser to debug
+- Bạn đang [chạy cục bộ với HTTPS](/docs/app/api-reference/cli/next#using-https-during-development)
+  - Sử dụng `next dev --experimental-https` để kiểm tra
+- Trình duyệt của bạn (Chrome, Safari, Firefox) đã bật notifications
+  - Khi được nhắc cục bộ, chấp nhận quyền sử dụng notifications
+  - Đảm bảo notifications không bị tắt toàn cục cho toàn bộ trình duyệt
+  - Nếu bạn vẫn không thấy notifications, hãy thử sử dụng trình duyệt khác để debug
 
-### 8. Securing your application
+### 8. Bảo mật ứng dụng của bạn
 
-Security is a crucial aspect of any web application, especially for PWAs. Next.js allows you to configure security headers using the `next.config.js` file. For example:
+Bảo mật là một khía cạnh quan trọng của bất kỳ ứng dụng web nào, đặc biệt là đối với PWAs. Next.js cho phép bạn cấu hình các security headers bằng cách sử dụng tệp `next.config.js`. Ví dụ:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -636,23 +636,23 @@ module.exports = {
 }
 ```
 
-Let’s go over each of these options:
+Hãy xem qua từng tùy chọn này:
 
-1. Global Headers (applied to all routes):
-   1. `X-Content-Type-Options: nosniff`: Prevents MIME type sniffing, reducing the risk of malicious file uploads.
-   2. `X-Frame-Options: DENY`: Protects against clickjacking attacks by preventing your site from being embedded in iframes.
-   3. `Referrer-Policy: strict-origin-when-cross-origin`: Controls how much referrer information is included with requests, balancing security and functionality.
+1. Global Headers (áp dụng cho tất cả các routes):
+   1. `X-Content-Type-Options: nosniff`: Ngăn chặn MIME type sniffing, giảm nguy cơ tải lên tệp độc hại.
+   2. `X-Frame-Options: DENY`: Bảo vệ chống lại các cuộc tấn công clickjacking bằng cách ngăn trang web của bạn bị nhúng trong iframes.
+   3. `Referrer-Policy: strict-origin-when-cross-origin`: Kiểm soát lượng thông tin referrer được bao gồm trong các yêu cầu, cân bằng giữa bảo mật và chức năng.
 2. Service Worker Specific Headers:
-   1. `Content-Type: application/javascript; charset=utf-8`: Ensures the service worker is interpreted correctly as JavaScript.
-   2. `Cache-Control: no-cache, no-store, must-revalidate`: Prevents caching of the service worker, ensuring users always get the latest version.
-   3. `Content-Security-Policy: default-src 'self'; script-src 'self'`: Implements a strict Content Security Policy for the service worker, only allowing scripts from the same origin.
+   1. `Content-Type: application/javascript; charset=utf-8`: Đảm bảo service worker được hiểu đúng là JavaScript.
+   2. `Cache-Control: no-cache, no-store, must-revalidate`: Ngăn caching của service worker, đảm bảo người dùng luôn nhận được phiên bản mới nhất.
+   3. `Content-Security-Policy: default-src 'self'; script-src 'self'`: Triển khai Content Security Policy nghiêm ngặt cho service worker, chỉ cho phép các scripts từ cùng origin.
 
-Learn more about defining [Content Security Policies](/docs/app/guides/content-security-policy) with Next.js.
+Tìm hiểu thêm về việc định nghĩa [Content Security Policies](/docs/app/guides/content-security-policy) với Next.js.
 
-## Extending your PWA
+## Mở rộng PWA của bạn
 
-1. **Exploring PWA Capabilities**: PWAs can leverage various web APIs to provide advanced functionality. Consider exploring features like background sync, periodic background sync, or the File System Access API to enhance your application. For inspiration and up-to-date information on PWA capabilities, you can refer to resources like [What PWA Can Do Today](https://whatpwacando.today/).
-2. **Static Exports:** If your application requires not running a server, and instead using a static export of files, you can update the Next.js configuration to enable this change. Learn more in the [Next.js Static Export documentation](/docs/app/guides/static-exports). However, you will need to move from Server Actions to calling an external API, as well as moving your defined headers to your proxy.
-3. **Offline Support**: To provide offline functionality, one option is [Serwist](https://github.com/serwist/serwist) with Next.js. You can find an example of how to integrate Serwist with Next.js in their [documentation](https://github.com/serwist/serwist/tree/main/examples/next-basic). **Note:** this plugin currently requires webpack configuration.
-4. **Security Considerations**: Ensure that your service worker is properly secured. This includes using HTTPS, validating the source of push messages, and implementing proper error handling.
-5. **User Experience**: Consider implementing progressive enhancement techniques to ensure your app works well even when certain PWA features are not supported by the user's browser.
+1. **Khám phá Khả năng PWA**: PWAs có thể tận dụng các web APIs khác nhau để cung cấp chức năng nâng cao. Hãy xem xét khám phá các tính năng như background sync, periodic background sync, hoặc File System Access API để nâng cao ứng dụng của bạn. Để lấy cảm hứng và thông tin cập nhật về khả năng PWA, bạn có thể tham khảo các tài nguyên như [What PWA Can Do Today](https://whatpwacando.today/).
+2. **Static Exports:** Nếu ứng dụng của bạn yêu cầu không chạy server, và thay vào đó sử dụng static export của các tệp, bạn có thể cập nhật cấu hình Next.js để bật thay đổi này. Tìm hiểu thêm trong [tài liệu Next.js Static Export](/docs/app/guides/static-exports). Tuy nhiên, bạn sẽ cần chuyển từ Server Actions sang gọi một API bên ngoài, cũng như di chuyển các headers đã định nghĩa của bạn sang proxy của bạn.
+3. **Hỗ trợ Offline**: Để cung cấp chức năng offline, một tùy chọn là [Serwist](https://github.com/serwist/serwist) với Next.js. Bạn có thể tìm thấy ví dụ về cách tích hợp Serwist với Next.js trong [tài liệu](https://github.com/serwist/serwist/tree/main/examples/next-basic) của họ. **Lưu ý:** plugin này hiện yêu cầu cấu hình webpack.
+4. **Cân nhắc Bảo mật**: Đảm bảo rằng service worker của bạn được bảo mật đúng cách. Điều này bao gồm sử dụng HTTPS, xác thực nguồn của push messages, và triển khai xử lý lỗi phù hợp.
+5. **Trải nghiệm Người dùng**: Hãy xem xét triển khai các kỹ thuật progressive enhancement để đảm bảo ứng dụng của bạn hoạt động tốt ngay cả khi một số tính năng PWA không được hỗ trợ bởi trình duyệt của người dùng.

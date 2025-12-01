@@ -1,18 +1,18 @@
 ---
-title: How to use and optimize videos
+title: Cách sử dụng và tối ưu hóa videos
 nav_title: Videos
-description: Recommendations and best practices for optimizing videos in your Next.js application.
+description: Các khuyến nghị và phương pháp hay nhất để tối ưu hóa videos trong ứng dụng Next.js của bạn.
 ---
 
-This page outlines how to use videos with Next.js applications, showing how to store and display video files without affecting performance.
+Trang này trình bày cách sử dụng videos với các ứng dụng Next.js, cho thấy cách lưu trữ và hiển thị các tệp video mà không ảnh hưởng đến hiệu suất.
 
-## Using `<video>` and `<iframe>`
+## Sử dụng `<video>` và `<iframe>`
 
-Videos can be embedded on the page using the HTML **`<video>`** tag for direct video files and **`<iframe>`** for external platform-hosted videos.
+Videos có thể được nhúng trên trang bằng cách sử dụng thẻ HTML **`<video>`** cho các tệp video trực tiếp và **`<iframe>`** cho các videos được lưu trữ trên nền tảng bên ngoài.
 
 ### `<video>`
 
-The HTML [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) tag can embed self-hosted or directly served video content, allowing full control over the playback and appearance.
+Thẻ HTML [`<video>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) có thể nhúng nội dung video tự lưu trữ hoặc được phục vụ trực tiếp, cho phép kiểm soát hoàn toàn việc phát lại và giao diện.
 
 ```jsx filename="app/ui/video.jsx"
 export function Video() {
@@ -25,39 +25,39 @@ export function Video() {
         srcLang="en"
         label="English"
       />
-      Your browser does not support the video tag.
+      Trình duyệt của bạn không hỗ trợ thẻ video.
     </video>
   )
 }
 ```
 
-### Common `<video>` tag attributes
+### Các thuộc tính thẻ `<video>` phổ biến
 
-| Attribute     | Description                                                                                               | Example Value                        |
-| ------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| `src`         | Specifies the source of the video file.                                                                   | `<video src="/path/to/video.mp4" />` |
-| `width`       | Sets the width of the video player.                                                                       | `<video width="320" />`              |
-| `height`      | Sets the height of the video player.                                                                      | `<video height="240" />`             |
-| `controls`    | If present, it displays the default set of playback controls.                                             | `<video controls />`                 |
-| `autoPlay`    | Automatically starts playing the video when the page loads. Note: Autoplay policies vary across browsers. | `<video autoPlay />`                 |
-| `loop`        | Loops the video playback.                                                                                 | `<video loop />`                     |
-| `muted`       | Mutes the audio by default. Often used with `autoPlay`.                                                   | `<video muted />`                    |
-| `preload`     | Specifies how the video is preloaded. Values: `none`, `metadata`, `auto`.                                 | `<video preload="none" />`           |
-| `playsInline` | Enables inline playback on iOS devices, often necessary for autoplay to work on iOS Safari.               | `<video playsInline />`              |
+| Thuộc tính    | Mô tả                                                                                                      | Giá trị ví dụ                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `src`         | Chỉ định nguồn của tệp video.                                                                              | `<video src="/path/to/video.mp4" />` |
+| `width`       | Đặt chiều rộng của trình phát video.                                                                       | `<video width="320" />`              |
+| `height`      | Đặt chiều cao của trình phát video.                                                                        | `<video height="240" />`             |
+| `controls`    | Nếu có, nó hiển thị các điều khiển phát lại mặc định.                                                      | `<video controls />`                 |
+| `autoPlay`    | Tự động bắt đầu phát video khi trang tải. Lưu ý: Chính sách tự động phát khác nhau giữa các trình duyệt.   | `<video autoPlay />`                 |
+| `loop`        | Lặp lại quá trình phát video.                                                                              | `<video loop />`                     |
+| `muted`       | Tắt tiếng âm thanh theo mặc định. Thường được sử dụng với `autoPlay`.                                      | `<video muted />`                    |
+| `preload`     | Chỉ định cách tải trước video. Giá trị: `none`, `metadata`, `auto`.                                        | `<video preload="none" />`           |
+| `playsInline` | Cho phép phát nội tuyến trên các thiết bị iOS, thường cần thiết để tự động phát hoạt động trên iOS Safari. | `<video playsInline />`              |
 
-> **Good to know**: When using the `autoPlay` attribute, it is important to also include the `muted` attribute to ensure the video plays automatically in most browsers and the `playsInline` attribute for compatibility with iOS devices.
+> **Cần biết**: Khi sử dụng thuộc tính `autoPlay`, điều quan trọng là phải bao gồm cả thuộc tính `muted` để đảm bảo video tự động phát trong hầu hết các trình duyệt và thuộc tính `playsInline` để tương thích với các thiết bị iOS.
 
-For a comprehensive list of video attributes, refer to the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video#attributes).
+Để xem danh sách đầy đủ các thuộc tính video, hãy tham khảo [tài liệu MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video#attributes).
 
-### Video best practices
+### Phương pháp hay nhất cho Video
 
-- **Fallback Content:** When using the `<video>` tag, include fallback content inside the tag for browsers that do not support video playback.
-- **Subtitles or Captions:** Include subtitles or captions for users who are deaf or hard of hearing. Utilize the [`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) tag with your `<video>` elements to specify caption file sources.
-- **Accessible Controls:** Standard HTML5 video controls are recommended for keyboard navigation and screen reader compatibility. For advanced needs, consider third-party players like [react-player](https://github.com/cookpete/react-player) or [video.js](https://videojs.com/), which offer accessible controls and consistent browser experience.
+- **Nội dung dự phòng:** Khi sử dụng thẻ `<video>`, hãy bao gồm nội dung dự phòng bên trong thẻ cho các trình duyệt không hỗ trợ phát video.
+- **Phụ đề hoặc Chú thích:** Bao gồm phụ đề hoặc chú thích cho người dùng khiếm thính hoặc khó nghe. Sử dụng thẻ [`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) với các phần tử `<video>` của bạn để chỉ định các nguồn tệp chú thích.
+- **Các Điều khiển dễ tiếp cận:** Các điều khiển video HTML5 tiêu chuẩn được khuyến nghị để điều hướng bằng bàn phím và khả năng tương thích với trình đọc màn hình. Đối với các nhu cầu nâng cao, hãy xem xét các trình phát của bên thứ ba như [react-player](https://github.com/cookpete/react-player) hoặc [video.js](https://videojs.com/), cung cấp các điều khiển dễ tiếp cận và trải nghiệm trình duyệt nhất quán.
 
 ### `<iframe>`
 
-The HTML `<iframe>` tag allows you to embed videos from external platforms like YouTube or Vimeo.
+Thẻ HTML `<iframe>` cho phép bạn nhúng các video từ các nền tảng bên ngoài như YouTube hoặc Vimeo.
 
 ```jsx filename="app/page.jsx"
 export default function Page() {
@@ -67,36 +67,36 @@ export default function Page() {
 }
 ```
 
-### Common `<iframe>` tag attributes
+### Các thuộc tính thẻ `<iframe>` phổ biến
 
-| Attribute         | Description                                                            | Example Value                          |
-| ----------------- | ---------------------------------------------------------------------- | -------------------------------------- |
-| `src`             | The URL of the page to embed.                                          | `<iframe src="https://example.com" />` |
-| `width`           | Sets the width of the iframe.                                          | `<iframe width="500" />`               |
-| `height`          | Sets the height of the iframe.                                         | `<iframe height="300" />`              |
-| `allowFullScreen` | Allows the iframe content to be displayed in full-screen mode.         | `<iframe allowFullScreen />`           |
-| `sandbox`         | Enables an extra set of restrictions on the content within the iframe. | `<iframe sandbox />`                   |
-| `loading`         | Optimize loading behavior (e.g., lazy loading).                        | `<iframe loading="lazy" />`            |
-| `title`           | Provides a title for the iframe to support accessibility.              | `<iframe title="Description" />`       |
+| Thuộc tính        | Mô tả                                                              | Giá trị ví dụ                          |
+| ----------------- | ------------------------------------------------------------------ | -------------------------------------- |
+| `src`             | URL của trang để nhúng.                                            | `<iframe src="https://example.com" />` |
+| `width`           | Đặt chiều rộng của iframe.                                         | `<iframe width="500" />`               |
+| `height`          | Đặt chiều cao của iframe.                                          | `<iframe height="300" />`              |
+| `allowFullScreen` | Cho phép nội dung iframe được hiển thị ở chế độ toàn màn hình.     | `<iframe allowFullScreen />`           |
+| `sandbox`         | Cho phép một bộ hạn chế bổ sung đối với nội dung bên trong iframe. | `<iframe sandbox />`                   |
+| `loading`         | Tối ưu hóa hành vi tải (ví dụ: tải lười).                          | `<iframe loading="lazy" />`            |
+| `title`           | Cung cấp tiêu đề cho iframe để hỗ trợ khả năng truy cập.           | `<iframe title="Description" />`       |
 
-For a comprehensive list of iframe attributes, refer to the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attributes).
+Để có danh sách đầy đủ các thuộc tính iframe, hãy tham khảo [tài liệu MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attributes).
 
-### Choosing a video embedding method
+### Chọn phương pháp nhúng video
 
-There are two ways you can embed videos in your Next.js application:
+Có hai cách bạn có thể nhúng video trong ứng dụng Next.js của mình:
 
-- **Self-hosted or direct video files:** Embed self-hosted videos using the `<video>` tag for scenarios requiring detailed control over the player's functionality and appearance. This integration method within Next.js allows for customization and control of your video content.
-- **Using video hosting services (YouTube, Vimeo, etc.):** For video hosting services like YouTube or Vimeo, you'll embed their iframe-based players using the `<iframe>` tag. While this method limits some control over the player, it offers ease of use and features provided by these platforms.
+- **Các tệp video tự lưu trữ hoặc trực tiếp:** Nhúng các video tự lưu trữ bằng thẻ `<video>` cho các trường hợp yêu cầu kiểm soát chi tiết đối với chức năng và giao diện của trình phát. Phương pháp tích hợp này trong Next.js cho phép tùy chỉnh và kiểm soát nội dung video của bạn.
+- **Sử dụng dịch vụ lưu trữ video (YouTube, Vimeo, v.v.):** Đối với các dịch vụ lưu trữ video như YouTube hoặc Vimeo, bạn sẽ nhúng các trình phát dựa trên iframe của họ bằng thẻ `<iframe>`. Mặc dù phương pháp này giới hạn một số quyền kiểm soát đối với trình phát, nhưng nó mang lại sự dễ sử dụng và các tính năng do các nền tảng này cung cấp.
 
-Choose the embedding method that aligns with your application's requirements and the user experience you aim to deliver.
+Chọn phương pháp nhúng phù hợp với yêu cầu của ứng dụng và trải nghiệm người dùng mà bạn muốn cung cấp.
 
-### Embedding externally hosted videos
+### Nhúng video được lưu trữ bên ngoài
 
-To embed videos from external platforms, you can use Next.js to fetch the video information and React Suspense to handle the fallback state while loading.
+Để nhúng video từ các nền tảng bên ngoài, bạn có thể sử dụng Next.js để tìm nạp thông tin video và React Suspense để xử lý trạng thái dự phòng trong khi tải.
 
-**1. Create a Server Component for video embedding**
+**1. Tạo một Thành phần máy chủ để nhúng video**
 
-The first step is to create a [Server Component](/docs/app/getting-started/server-and-client-components) that generates the appropriate iframe for embedding the video. This component will fetch the source URL for the video and render the iframe.
+Bước đầu tiên là tạo một [Thành phần máy chủ](/docs/app/getting-started/server-and-client-components) tạo ra iframe thích hợp để nhúng video. Thành phần này sẽ tìm nạp URL nguồn cho video và hiển thị iframe.
 
 ```jsx filename="app/ui/video-component.jsx"
 export default async function VideoComponent() {
@@ -106,9 +106,9 @@ export default async function VideoComponent() {
 }
 ```
 
-**2. Stream the video component using React Suspense**
+**2. Truyền phát thành phần video bằng React Suspense**
 
-After creating the Server Component to embed the video, the next step is to [stream](/docs/app/api-reference/file-conventions/loading) the component using [React Suspense](https://react.dev/reference/react/Suspense).
+Sau khi tạo Thành phần máy chủ để nhúng video, bước tiếp theo là [truyền phát](/docs/app/api-reference/file-conventions/loading) thành phần bằng [React Suspense](https://react.dev/reference/react/Suspense).
 
 ```jsx filename="app/page.jsx"
 import { Suspense } from 'react'
@@ -117,23 +117,23 @@ import VideoComponent from '../ui/VideoComponent.jsx'
 export default function Page() {
   return (
     <section>
-      <Suspense fallback={<p>Loading video...</p>}>
+      <Suspense fallback={<p>Đang tải video...</p>}>
         <VideoComponent />
       </Suspense>
-      {/* Other content of the page */}
+      {/* Nội dung khác của trang */}
     </section>
   )
 }
 ```
 
-> **Good to know**: When embedding videos from external platforms, consider the following best practices:
+> **Cần biết**: Khi nhúng video từ các nền tảng bên ngoài, hãy xem xét các phương pháp hay nhất sau:
 >
-> - Ensure the video embeds are responsive. Use CSS to make the iframe or video player adapt to different screen sizes.
-> - Implement [strategies for loading videos](https://yoast.com/site-speed-tips-for-faster-video/) based on network conditions, especially for users with limited data plans.
+> - Đảm bảo các video nhúng có khả năng đáp ứng. Sử dụng CSS để làm cho iframe hoặc trình phát video thích ứng với các kích thước màn hình khác nhau.
+> - Triển khai [các chiến lược tải video](https://yoast.com/site-speed-tips-for-faster-video/) dựa trên điều kiện mạng, đặc biệt đối với người dùng có gói dữ liệu hạn chế.
 
-This approach results in a better user experience as it prevents the page from blocking, meaning the user can interact with the page while the video component streams in.
+Cách tiếp cận này mang lại trải nghiệm người dùng tốt hơn vì nó ngăn trang bị chặn, nghĩa là người dùng có thể tương tác với trang trong khi thành phần video đang được truyền phát.
 
-For a more engaging and informative loading experience, consider using a loading skeleton as the fallback UI. So instead of showing a simple loading message, you can show a skeleton that resembles the video player like this:
+Để có trải nghiệm tải hấp dẫn và nhiều thông tin hơn, hãy cân nhắc sử dụng khung tải làm giao diện người dùng dự phòng. Vì vậy, thay vì hiển thị một thông báo tải đơn giản, bạn có thể hiển thị một khung xương giống như trình phát video như sau:
 
 ```jsx filename="app/page.jsx"
 import { Suspense } from 'react'
@@ -146,34 +146,34 @@ export default function Page() {
       <Suspense fallback={<VideoSkeleton />}>
         <VideoComponent />
       </Suspense>
-      {/* Other content of the page */}
+      {/* Nội dung khác của trang */}
     </section>
   )
 }
 ```
 
-## Self-hosted videos
+## Video tự lưu trữ
 
-Self-hosting videos may be preferable for several reasons:
+Việc tự lưu trữ video có thể được ưu tiên vì một số lý do:
 
-- **Complete control and independence**: Self-hosting gives you direct management over your video content, from playback to appearance, ensuring full ownership and control, free from external platform constraints.
-- **Customization for specific needs**: Ideal for unique requirements, like dynamic background videos, it allows for tailored customization to align with design and functional needs.
-- **Performance and scalability considerations**: Choose storage solutions that are both high-performing and scalable, to support increasing traffic and content size effectively.
-- **Cost and integration**: Balance the costs of storage and bandwidth with the need for easy integration into your Next.js framework and broader tech ecosystem.
+- **Kiểm soát và độc lập hoàn toàn**: Tự lưu trữ cho phép bạn quản lý trực tiếp nội dung video của mình, từ phát lại đến giao diện, đảm bảo quyền sở hữu và kiểm soát hoàn toàn, không bị ràng buộc bởi các nền tảng bên ngoài.
+- **Tùy chỉnh cho các nhu cầu cụ thể**: Lý tưởng cho các yêu cầu độc đáo, như video nền động, nó cho phép tùy chỉnh phù hợp để phù hợp với nhu cầu thiết kế và chức năng.
+- **Cân nhắc về hiệu suất và khả năng mở rộng**: Chọn các giải pháp lưu trữ vừa có hiệu suất cao vừa có khả năng mở rộng, để hỗ trợ lưu lượng truy cập và kích thước nội dung ngày càng tăng một cách hiệu quả.
+- **Chi phí và tích hợp**: Cân bằng chi phí lưu trữ và băng thông với nhu cầu tích hợp dễ dàng vào khuôn khổ Next.js và hệ sinh thái công nghệ rộng hơn của bạn.
 
-### Using Vercel Blob for video hosting
+### Sử dụng Vercel Blob để lưu trữ video
 
-[Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) offers an efficient way to host videos, providing a scalable cloud storage solution that works well with Next.js. Here's how you can host a video using Vercel Blob:
+[Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) cung cấp một cách hiệu quả để lưu trữ video, cung cấp một giải pháp lưu trữ đám mây có thể mở rộng hoạt động tốt với Next.js. Đây là cách bạn có thể lưu trữ video bằng Vercel Blob:
 
-**1. Uploading a video to Vercel Blob**
+**1. Tải video lên Vercel Blob**
 
-In your Vercel dashboard, navigate to the "Storage" tab and select your [Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) store. In the Blob table's upper-right corner, find and click the "Upload" button. Then, choose the video file you wish to upload. After the upload completes, the video file will appear in the Blob table.
+Trong bảng điều khiển Vercel của bạn, hãy điều hướng đến tab "Lưu trữ" và chọn kho [Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) của bạn. Ở góc trên bên phải của bảng Blob, hãy tìm và nhấp vào nút "Tải lên". Sau đó, chọn tệp video bạn muốn tải lên. Sau khi quá trình tải lên hoàn tất, tệp video sẽ xuất hiện trong bảng Blob.
 
-Alternatively, you can upload your video using a server action. For detailed instructions, refer to the Vercel documentation on [server-side uploads](https://vercel.com/docs/storage/vercel-blob/server-upload). Vercel also supports [client-side uploads](https://vercel.com/docs/storage/vercel-blob/client-upload). This method may be preferable for certain use cases.
+Ngoài ra, bạn có thể tải video của mình lên bằng hành động của máy chủ. Để được hướng dẫn chi tiết, hãy tham khảo tài liệu của Vercel về [tải lên phía máy chủ](https://vercel.com/docs/storage/vercel-blob/server-upload). Vercel cũng hỗ trợ [tải lên phía máy khách](https://vercel.com/docs/storage/vercel-blob/client-upload). Phương pháp này có thể được ưu tiên cho một số trường hợp sử dụng nhất định.
 
-**2. Displaying the video in Next.js**
+**2. Hiển thị video trong Next.js**
 
-Once the video is uploaded and stored, you can display it in your Next.js application. Here's an example of how to do this using the `<video>` tag and React Suspense:
+Sau khi video được tải lên và lưu trữ, bạn có thể hiển thị nó trong ứng dụng Next.js của mình. Đây là một ví dụ về cách thực hiện việc này bằng thẻ `<video>` và React Suspense:
 
 ```jsx filename="app/page.jsx"
 import { Suspense } from 'react'
@@ -181,7 +181,7 @@ import { list } from '@vercel/blob'
 
 export default function Page() {
   return (
-    <Suspense fallback={<p>Loading video...</p>}>
+    <Suspense fallback={<p>Đang tải video...</p>}>
       <VideoComponent fileName="my-video.mp4" />
     </Suspense>
   )
@@ -197,17 +197,17 @@ async function VideoComponent({ fileName }) {
   return (
     <video controls preload="none" aria-label="Video player">
       <source src={url} type="video/mp4" />
-      Your browser does not support the video tag.
+      Trình duyệt của bạn không hỗ trợ thẻ video.
     </video>
   )
 }
 ```
 
-In this approach, the page uses the video's `@vercel/blob` URL to display the video using the `VideoComponent`. React Suspense is used to show a fallback until the video URL is fetched and the video is ready to be displayed.
+Trong cách tiếp cận này, trang sử dụng URL `@vercel/blob` của video để hiển thị video bằng `VideoComponent`. React Suspense được sử dụng để hiển thị một phương án dự phòng cho đến khi URL video được tìm nạp và video sẵn sàng để hiển thị.
 
-### Adding subtitles to your video
+### Thêm phụ đề vào video của bạn
 
-If you have subtitles for your video, you can easily add them using the `<track>` element inside your `<video>` tag. You can fetch the subtitle file from [Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) in a similar way as the video file. Here's how you can update the `<VideoComponent>` to include subtitles.
+Nếu bạn có phụ đề cho video của mình, bạn có thể dễ dàng thêm chúng bằng cách sử dụng phần tử `<track>` bên trong thẻ `<video>` của mình. Bạn có thể tìm nạp tệp phụ đề từ [Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) theo cách tương tự như tệp video. Đây là cách bạn có thể cập nhật `<VideoComponent>` để bao gồm phụ đề.
 
 ```jsx filename="app/page.jsx"
 async function VideoComponent({ fileName }) {
@@ -222,49 +222,49 @@ async function VideoComponent({ fileName }) {
     <video controls preload="none" aria-label="Video player">
       <source src={url} type="video/mp4" />
       <track src={captionsUrl} kind="subtitles" srcLang="en" label="English" />
-      Your browser does not support the video tag.
+      Trình duyệt của bạn không hỗ trợ thẻ video.
     </video>
   )
 }
 ```
 
-By following this approach, you can effectively self-host and integrate videos into your Next.js applications.
+Bằng cách làm theo cách tiếp cận này, bạn có thể tự lưu trữ và tích hợp video vào các ứng dụng Next.js của mình một cách hiệu quả.
 
-## Resources
+## Tài nguyên
 
-To continue learning more about video optimization and best practices, please refer to the following resources:
+Để tiếp tục tìm hiểu thêm về tối ưu hóa video và các phương pháp hay nhất, vui lòng tham khảo các tài nguyên sau:
 
-- **Understanding video formats and codecs**: Choose the right format and codec, like MP4 for compatibility or WebM for web optimization, for your video needs. For more details, see [Mozilla's guide on video codecs](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs).
-- **Video compression**: Use tools like FFmpeg to effectively compress videos, balancing quality with file size. Learn about compression techniques at [FFmpeg's official website](https://www.ffmpeg.org/).
-- **Resolution and bitrate adjustment**: Adjust [resolution and bitrate](https://www.dacast.com/blog/bitrate-vs-resolution/#:~:text=The%20two%20measure%20different%20aspects,yield%20different%20qualities%20of%20video) based on the viewing platform, with lower settings for mobile devices.
-- **Content Delivery Networks (CDNs)**: Utilize a CDN to enhance video delivery speed and manage high traffic. When using some storage solutions, such as Vercel Blob, CDN functionality is automatically handled for you. [Learn more](https://vercel.com/docs/edge-network/overview?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) about CDNs and their benefits.
+- **Hiểu các định dạng và codec video**: Chọn đúng định dạng và codec, như MP4 để tương thích hoặc WebM để tối ưu hóa web, cho nhu cầu video của bạn. Để biết thêm chi tiết, hãy xem [hướng dẫn của Mozilla về codec video](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs).
+- **Nén video**: Sử dụng các công cụ như FFmpeg để nén video hiệu quả, cân bằng chất lượng với kích thước tệp. Tìm hiểu về các kỹ thuật nén tại [trang web chính thức của FFmpeg](https://www.ffmpeg.org/).
+- **Điều chỉnh độ phân giải và tốc độ bit**: Điều chỉnh [độ phân giải và tốc độ bit](https://www.dacast.com/blog/bitrate-vs-resolution/#:~:text=The%20two%20measure%20different%20aspects,yield%20different%20qualities%20of%20video) dựa trên nền tảng xem, với cài đặt thấp hơn cho thiết bị di động.
+- **Mạng phân phối nội dung (CDN)**: Sử dụng CDN để tăng tốc độ phân phối video và quản lý lưu lượng truy cập cao. Khi sử dụng một số giải pháp lưu trữ, chẳng hạn như Vercel Blob, chức năng CDN sẽ tự động được xử lý cho bạn. [Tìm hiểu thêm](https://vercel.com/docs/edge-network/overview?utm_source=next-site&utm_medium=docs&utm_campaign=next-website) về CDN và lợi ích của chúng.
 
-Explore these video streaming platforms for integrating video into your Next.js projects:
+Khám phá các nền tảng phát trực tuyến video này để tích hợp video vào các dự án Next.js của bạn:
 
-### Open source `next-video` component
+### Thành phần `next-video` nguồn mở
 
-- Provides a `<Video>` component for Next.js, compatible with various hosting services including [Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website), S3, Backblaze, and Mux.
-- [Detailed documentation](https://next-video.dev/docs) for using `next-video.dev` with different hosting services.
+- Cung cấp một thành phần `<Video>` cho Next.js, tương thích với các dịch vụ lưu trữ khác nhau bao gồm [Vercel Blob](https://vercel.com/docs/storage/vercel-blob?utm_source=next-site&utm_medium=docs&utm_campaign=next-website), S3, Backblaze và Mux.
+- [Tài liệu chi tiết](https://next-video.dev/docs) để sử dụng `next-video.dev` với các dịch vụ lưu trữ khác nhau.
 
-### Cloudinary Integration
+### Tích hợp Cloudinary
 
-- Official [documentation and integration guide](https://next.cloudinary.dev/) for using Cloudinary with Next.js.
-- Includes a `<CldVideoPlayer>` component for [drop-in video support](https://next.cloudinary.dev/cldvideoplayer/basic-usage).
-- Find [examples](https://github.com/cloudinary-community/cloudinary-examples/?tab=readme-ov-file#nextjs) of integrating Cloudinary with Next.js including [Adaptive Bitrate Streaming](https://github.com/cloudinary-community/cloudinary-examples/tree/main/examples/nextjs-cldvideoplayer-abr).
-- Other [Cloudinary libraries](https://cloudinary.com/documentation) including a Node.js SDK are also available.
+- [Tài liệu và hướng dẫn tích hợp](https://next.cloudinary.dev/) chính thức để sử dụng Cloudinary với Next.js.
+- Bao gồm một thành phần `<CldVideoPlayer>` để [hỗ trợ video thả vào](https://next.cloudinary.dev/cldvideoplayer/basic-usage).
+- Tìm [ví dụ](https://github.com/cloudinary-community/cloudinary-examples/?tab=readme-ov-file#nextjs) về việc tích hợp Cloudinary với Next.js bao gồm [Truyền phát tốc độ bit thích ứng](https://github.com/cloudinary-community/cloudinary-examples/tree/main/examples/nextjs-cldvideoplayer-abr).
+- Các [thư viện Cloudinary](https://cloudinary.com/documentation) khác bao gồm SDK Node.js cũng có sẵn.
 
-### Mux Video API
+### API video Mux
 
-- Mux provides a [starter template](https://github.com/muxinc/video-course-starter-kit) for creating a video course with Mux and Next.js.
-- Learn about Mux's recommendations for embedding [high-performance video for your Next.js application](https://www.mux.com/for/nextjs).
-- Explore an [example project](https://with-mux-video.vercel.app/) demonstrating Mux with Next.js.
+- Mux cung cấp một [mẫu khởi đầu](https://github.com/muxinc/video-course-starter-kit) để tạo một khóa học video với Mux và Next.js.
+- Tìm hiểu về các khuyến nghị của Mux để nhúng [video hiệu suất cao cho ứng dụng Next.js của bạn](https://www.mux.com/for/nextjs).
+- Khám phá một [dự án ví dụ](https://with-mux-video.vercel.app/) minh họa Mux với Next.js.
 
 ### Fastly
 
-- Learn more about integrating Fastly's solutions for [video on demand](https://www.fastly.com/products/streaming-media/video-on-demand) and streaming media into Next.js.
+- Tìm hiểu thêm về việc tích hợp các giải pháp của Fastly cho [video theo yêu cầu](https://www.fastly.com/products/streaming-media/video-on-demand) và phương tiện truyền thông trực tuyến vào Next.js.
 
-### ImageKit.io Integration
+### Tích hợp ImageKit.io
 
-- Check out the [official quick start guide](https://imagekit.io/docs/integration/nextjs) for integrating ImageKit with Next.js.
-- The integration provides an `<IKVideo>` component, offering [seamless video support](https://imagekit.io/docs/integration/nextjs#rendering-videos).
-- You can also explore other [ImageKit libraries](https://imagekit.io/docs), such as the Node.js SDK, which is also available.
+- Xem [hướng dẫn bắt đầu nhanh chính thức](https://imagekit.io/docs/integration/nextjs) để tích hợp ImageKit với Next.js.
+- Việc tích hợp cung cấp một thành phần `<IKVideo>`, cung cấp [hỗ trợ video liền mạch](https://imagekit.io/docs/integration/nextjs#rendering-videos).
+- Bạn cũng có thể khám phá các [thư viện ImageKit](https://imagekit.io/docs) khác, chẳng hạn như SDK Node.js, cũng có sẵn.

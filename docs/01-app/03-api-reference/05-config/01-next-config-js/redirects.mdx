@@ -1,13 +1,13 @@
 ---
 title: redirects
-description: Add redirects to your Next.js app.
+description: Thêm redirects vào ứng dụng Next.js của bạn.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Redirects allow you to redirect an incoming request path to a different destination path.
+Redirects cho phép bạn chuyển hướng một đường dẫn request đến một đường dẫn đích khác.
 
-To use redirects you can use the `redirects` key in `next.config.js`:
+Để sử dụng redirects bạn có thể sử dụng khóa `redirects` trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -23,24 +23,24 @@ module.exports = {
 }
 ```
 
-`redirects` is an async function that expects an array to be returned holding objects with `source`, `destination`, and `permanent` properties:
+`redirects` là một hàm async mong đợi trả về một mảng chứa các objects với các thuộc tính `source`, `destination`, và `permanent`:
 
-- `source` is the incoming request path pattern.
-- `destination` is the path you want to route to.
-- `permanent` `true` or `false` - if `true` will use the 308 status code which instructs clients/search engines to cache the redirect forever, if `false` will use the 307 status code which is temporary and is not cached.
+- `source` là mẫu đường dẫn request đến.
+- `destination` là đường dẫn bạn muốn định tuyến đến.
+- `permanent` `true` hoặc `false` - nếu `true` sẽ sử dụng mã trạng thái 308 hướng dẫn clients/search engines cache redirect mãi mãi, nếu `false` sẽ sử dụng mã trạng thái 307 là tạm thời và không được cache.
 
-> **Why does Next.js use 307 and 308?** Traditionally a 302 was used for a temporary redirect, and a 301 for a permanent redirect, but many browsers changed the request method of the redirect to `GET`, regardless of the original method. For example, if the browser made a request to `POST /v1/users` which returned status code `302` with location `/v2/users`, the subsequent request might be `GET /v2/users` instead of the expected `POST /v2/users`. Next.js uses the 307 temporary redirect, and 308 permanent redirect status codes to explicitly preserve the request method used.
+> **Tại sao Next.js sử dụng 307 và 308?** Theo truyền thống, 302 được sử dụng cho chuyển hướng tạm thời, và 301 cho chuyển hướng vĩnh viễn, nhưng nhiều trình duyệt đã thay đổi phương thức request của chuyển hướng thành `GET`, bất kể phương thức ban đầu. Ví dụ, nếu trình duyệt thực hiện request `POST /v1/users` trả về mã trạng thái `302` với location `/v2/users`, request tiếp theo có thể là `GET /v2/users` thay vì `POST /v2/users` như mong đợi. Next.js sử dụng mã trạng thái chuyển hướng tạm thời 307, và chuyển hướng vĩnh viễn 308 để bảo toàn rõ ràng phương thức request được sử dụng.
 
-- `basePath`: `false` or `undefined` - if false the `basePath` won't be included when matching, can be used for external redirects only.
-- `locale`: `false` or `undefined` - whether the locale should not be included when matching.
-- `has` is an array of [has objects](#header-cookie-and-query-matching) with the `type`, `key` and `value` properties.
-- `missing` is an array of [missing objects](#header-cookie-and-query-matching) with the `type`, `key` and `value` properties.
+- `basePath`: `false` hoặc `undefined` - nếu false `basePath` sẽ không được bao gồm khi khớp, chỉ có thể được sử dụng cho external redirects.
+- `locale`: `false` hoặc `undefined` - liệu locale có nên không được bao gồm khi khớp hay không.
+- `has` là một mảng của [has objects](#header-cookie-and-query-matching) với các thuộc tính `type`, `key` và `value`.
+- `missing` là một mảng của [missing objects](#header-cookie-and-query-matching) với các thuộc tính `type`, `key` và `value`.
 
-Redirects are checked before the filesystem which includes pages and `/public` files.
+Redirects được kiểm tra trước hệ thống tệp bao gồm pages và các tệp `/public`.
 
-When using the Pages Router, redirects are not applied to client-side routing (`Link`, `router.push`) unless [Proxy](/docs/app/api-reference/file-conventions/proxy) is present and matches the path.
+Khi sử dụng Pages Router, redirects không được áp dụng cho client-side routing (`Link`, `router.push`) trừ khi [Proxy](/docs/app/api-reference/file-conventions/proxy) hiện diện và khớp với đường dẫn.
 
-When a redirect is applied, any query values provided in the request will be passed through to the redirect destination. For example, see the following redirect configuration:
+Khi một redirect được áp dụng, bất kỳ giá trị query nào được cung cấp trong request sẽ được chuyển qua redirect destination. Ví dụ, xem cấu hình redirect sau:
 
 ```js
 {
@@ -50,13 +50,13 @@ When a redirect is applied, any query values provided in the request will be pas
 }
 ```
 
-> **Good to know**: Remember to include the forward slash `/` before the colon `:` in path parameters of the `source` and `destination` paths, otherwise the path will be treated as a literal string and you run the risk of causing infinite redirects.
+> **Nên biết**: Hãy nhớ bao gồm dấu gạch chéo `/` trước dấu hai chấm `:` trong các tham số đường dẫn của `source` và `destination`, nếu không đường dẫn sẽ được coi là một chuỗi ký tự và bạn có nguy cơ gây ra vòng lặp chuyển hướng vô hạn.
 
-When `/old-blog/post-1?hello=world` is requested, the client will be redirected to `/blog/post-1?hello=world`.
+Khi `/old-blog/post-1?hello=world` được yêu cầu, client sẽ được chuyển hướng đến `/blog/post-1?hello=world`.
 
 ## Path Matching
 
-Path matches are allowed, for example `/old-blog/:slug` will match `/old-blog/hello-world` (no nested paths):
+Khớp đường dẫn được cho phép, ví dụ `/old-blog/:slug` sẽ khớp `/old-blog/hello-world` (không có nested paths):
 
 ```js filename="next.config.js"
 module.exports = {
@@ -74,7 +74,7 @@ module.exports = {
 
 ### Wildcard Path Matching
 
-To match a wildcard path you can use `*` after a parameter, for example `/blog/:slug*` will match `/blog/a/b/c/d/hello-world`:
+Để khớp một wildcard path bạn có thể sử dụng `*` sau một tham số, ví dụ `/blog/:slug*` sẽ khớp `/blog/a/b/c/d/hello-world`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -92,7 +92,7 @@ module.exports = {
 
 ### Regex Path Matching
 
-To match a regex path you can wrap the regex in parentheses after a parameter, for example `/post/:slug(\\d{1,})` will match `/post/123` but not `/post/abc`:
+Để khớp một regex path bạn có thể bọc regex trong dấu ngoặc đơn sau một tham số, ví dụ `/post/:slug(\\d{1,})` sẽ khớp `/post/123` nhưng không khớp `/post/abc`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -108,7 +108,7 @@ module.exports = {
 }
 ```
 
-The following characters `(`, `)`, `{`, `}`, `:`, `*`, `+`, `?` are used for regex path matching, so when used in the `source` as non-special values they must be escaped by adding `\\` before them:
+Các ký tự sau `(`, `)`, `{`, `}`, `:`, `*`, `+`, `?` được sử dụng cho regex path matching, vì vậy khi được sử dụng trong `source` như các giá trị không đặc biệt, chúng phải được escape bằng cách thêm `\\` trước chúng:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -125,15 +125,15 @@ module.exports = {
 }
 ```
 
-## Header, Cookie, and Query Matching
+## Header, Cookie, và Query Matching
 
-To only match a redirect when header, cookie, or query values also match the `has` field or don't match the `missing` field can be used. Both the `source` and all `has` items must match and all `missing` items must not match for the redirect to be applied.
+Để chỉ khớp một redirect khi các giá trị header, cookie, hoặc query cũng khớp với trường `has` hoặc không khớp với trường `missing`. Cả `source` và tất cả các mục `has` phải khớp và tất cả các mục `missing` phải không khớp để redirect được áp dụng.
 
-`has` and `missing` items can have the following fields:
+Các mục `has` và `missing` có thể có các trường sau:
 
-- `type`: `String` - must be either `header`, `cookie`, `host`, or `query`.
-- `key`: `String` - the key from the selected type to match against.
-- `value`: `String` or `undefined` - the value to check for, if undefined any value will match. A regex like string can be used to capture a specific part of the value, e.g. if the value `first-(?<paramName>.*)` is used for `first-second` then `second` will be usable in the destination with `:paramName`.
+- `type`: `String` - phải là `header`, `cookie`, `host`, hoặc `query`.
+- `key`: `String` - key từ loại đã chọn để khớp.
+- `value`: `String` hoặc `undefined` - giá trị để kiểm tra, nếu undefined bất kỳ giá trị nào cũng sẽ khớp. Một chuỗi giống regex có thể được sử dụng để bắt một phần cụ thể của giá trị, ví dụ nếu giá trị `first-(?<paramName>.*)` được sử dụng cho `first-second` thì `second` sẽ có thể sử dụng được trong destination với `:paramName`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -219,9 +219,9 @@ module.exports = {
 }
 ```
 
-### Redirects with basePath support
+### Redirects với hỗ trợ basePath
 
-When leveraging [`basePath` support](/docs/app/api-reference/config/next-config-js/basePath) with redirects each `source` and `destination` is automatically prefixed with the `basePath` unless you add `basePath: false` to the redirect:
+Khi tận dụng [hỗ trợ `basePath`](/docs/app/api-reference/config/next-config-js/basePath) với redirects mỗi `source` và `destination` được tự động thêm tiền tố với `basePath` trừ khi bạn thêm `basePath: false` vào redirect:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -246,13 +246,13 @@ module.exports = {
 }
 ```
 
-### Redirects with i18n support
+### Redirects với hỗ trợ i18n
 
 <AppOnly>
 
-When implementing redirects with internationalization in the App Router, you can include locales in `next.config.js` redirects, but only as hardcoded paths.
+Khi triển khai redirects với quốc tế hóa (internationalization) trong App Router, bạn có thể bao gồm locales trong redirects của `next.config.js`, nhưng chỉ dưới dạng các đường dẫn được mã hóa cứng (hardcoded).
 
-For dynamic or per-request locale handling, use [dynamic route segments and proxy](/docs/app/guides/internationalization), which can redirect based on the user's preferred language.
+Để xử lý locale động hoặc theo yêu cầu, hãy sử dụng [dynamic route segments và proxy](/docs/app/guides/internationalization), có thể chuyển hướng dựa trên ngôn ngữ ưa thích của người dùng.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -291,7 +291,7 @@ module.exports = {
 
 <PagesOnly>
 
-When leveraging [`i18n` support](/docs/pages/guides/internationalization) with redirects each `source` and `destination` is automatically prefixed to handle the configured `locales` unless you add `locale: false` to the redirect. If `locale: false` is used you must prefix the `source` and `destination` with a locale for it to be matched correctly.
+Khi tận dụng [hỗ trợ `i18n`](/docs/pages/guides/internationalization) với redirects mỗi `source` và `destination` được tự động thêm tiền tố để xử lý các `locales` đã cấu hình trừ khi bạn thêm `locale: false` vào redirect. Nếu `locale: false` được sử dụng bạn phải thêm tiền tố `source` và `destination` với một locale để nó được khớp chính xác.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -342,17 +342,17 @@ module.exports = {
 
 </PagesOnly>
 
-In some rare cases, you might need to assign a custom status code for older HTTP Clients to properly redirect. In these cases, you can use the `statusCode` property instead of the `permanent` property, but not both. To ensure IE11 compatibility, a `Refresh` header is automatically added for the 308 status code.
+Trong một số trường hợp hiếm hoi, bạn có thể cần gán một mã trạng thái tùy chỉnh cho các HTTP Clients cũ hơn để chuyển hướng đúng cách. Trong những trường hợp này, bạn có thể sử dụng thuộc tính `statusCode` thay vì thuộc tính `permanent`, nhưng không phải cả hai. Để đảm bảo khả năng tương thích với IE11, header `Refresh` được tự động thêm cho mã trạng thái 308.
 
-## Other Redirects
+## Các Redirects khác
 
-- Inside [API Routes](/docs/pages/building-your-application/routing/api-routes) and [Route Handlers](/docs/app/api-reference/file-conventions/route), you can redirect based on the incoming request.
-- Inside [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) and [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props), you can redirect specific pages at request-time.
+- Bên trong [API Routes](/docs/pages/building-your-application/routing/api-routes) và [Route Handlers](/docs/app/api-reference/file-conventions/route), bạn có thể chuyển hướng dựa trên request đến.
+- Bên trong [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) và [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props), bạn có thể chuyển hướng các trang cụ thể tại thời điểm request.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes            |
-| --------- | ------------------ |
-| `v13.3.0` | `missing` added.   |
-| `v10.2.0` | `has` added.       |
-| `v9.5.0`  | `redirects` added. |
+| Phiên bản | Thay đổi                   |
+| --------- | -------------------------- |
+| `v13.3.0` | `missing` được thêm vào.   |
+| `v10.2.0` | `has` được thêm vào.       |
+| `v9.5.0`  | `redirects` được thêm vào. |

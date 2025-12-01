@@ -1,13 +1,13 @@
 ---
 title: Form Component
-description: Learn how to use the `<Form>` component to handle form submissions and search params updates with client-side navigation.
+description: Tìm hiểu cách sử dụng component `<Form>` để xử lý form submissions và cập nhật search params với client-side navigation.
 ---
 
-The `<Form>` component extends the HTML `<form>` element to provide <AppOnly>[**prefetching**](/docs/app/getting-started/linking-and-navigating#prefetching) of [loading UI](/docs/app/api-reference/file-conventions/loading),</AppOnly> **client-side navigation** on submission, and **progressive enhancement**.
+Component `<Form>` mở rộng phần tử HTML `<form>` để cung cấp <AppOnly>[**prefetching**](/docs/app/getting-started/linking-and-navigating#prefetching) của [loading UI](/docs/app/api-reference/file-conventions/loading),</AppOnly> **client-side navigation** khi submit, và **progressive enhancement**.
 
-It's useful for forms that update URL search params as it reduces the boilerplate code needed to achieve the above.
+Nó hữu ích cho các form cập nhật URL search params vì nó giảm thiểu code boilerplate cần thiết để đạt được những điều trên.
 
-Basic usage:
+Cách sử dụng cơ bản:
 
 <AppOnly>
 
@@ -17,8 +17,8 @@ import Form from 'next/form'
 export default function Page() {
   return (
     <Form action="/search">
-      {/* On submission, the input value will be appended to
-          the URL, e.g. /search?query=abc */}
+      {/* Khi submit, giá trị input sẽ được thêm vào
+          URL, ví dụ: /search?query=abc */}
       <input name="query" />
       <button type="submit">Submit</button>
     </Form>
@@ -32,8 +32,8 @@ import Form from 'next/form'
 export default function Search() {
   return (
     <Form action="/search">
-      {/* On submission, the input value will be appended to
-          the URL, e.g. /search?query=abc */}
+      {/* Khi submit, giá trị input sẽ được thêm vào
+          URL, ví dụ: /search?query=abc */}
       <input name="query" />
       <button type="submit">Submit</button>
     </Form>
@@ -51,8 +51,8 @@ import Form from 'next/form'
 export default function Page() {
   return (
     <Form action="/search">
-      {/* On submission, the input value will be appended to
-          the URL, e.g. /search?query=abc */}
+      {/* Khi submit, giá trị input sẽ được thêm vào
+          URL, ví dụ: /search?query=abc */}
       <input name="query" />
       <button type="submit">Submit</button>
     </Form>
@@ -66,8 +66,8 @@ import Form from 'next/form'
 export default function Search() {
   return (
     <Form action="/search">
-      {/* On submission, the input value will be appended to
-          the URL, e.g. /search?query=abc */}
+      {/* Khi submit, giá trị input sẽ được thêm vào
+          URL, ví dụ: /search?query=abc */}
       <input name="query" />
       <button type="submit">Submit</button>
     </Form>
@@ -77,99 +77,98 @@ export default function Search() {
 
 </PagesOnly>
 
-## Reference
+## Tham khảo
 
-The behavior of the `<Form>` component depends on whether the `action` prop is passed a `string` or `function`.
+Hành vi của component `<Form>` phụ thuộc vào việc prop `action` được truyền một `string` hay `function`.
 
 <AppOnly>
 
-- When `action` is a **string**, the `<Form>` behaves like a native HTML form that uses a **`GET`** method. The form data is encoded into the URL as search params, and when the form is submitted, it navigates to the specified URL. In addition, Next.js:
-  - [Prefetches](/docs/app/getting-started/linking-and-navigating#prefetching) the path when the form becomes visible, this preloads shared UI (e.g. `layout.js` and `loading.js`), resulting in faster navigation.
-  - Performs a [client-side navigation](/docs/app/getting-started/linking-and-navigating#client-side-transitions) instead of a full page reload when the form is submitted. This retains shared UI and client-side state.
-- When `action` is a **function** (Server Action), `<Form>` behaves like a [React form](https://react.dev/reference/react-dom/components/form), executing the action when the form is submitted.
+- Khi `action` là một **string**, `<Form>` hoạt động như một native HTML form sử dụng phương thức **`GET`**. Dữ liệu form được encode vào URL dưới dạng search params, và khi form được submit, nó điều hướng đến URL được chỉ định. Ngoài ra, Next.js:
+  - [Prefetches](/docs/app/getting-started/linking-and-navigating#prefetching) đường dẫn khi form hiển thị, điều này preload shared UI (ví dụ: `layout.js` và `loading.js`), dẫn đến điều hướng nhanh hơn.
+  - Thực hiện [client-side navigation](/docs/app/getting-started/linking-and-navigating#client-side-transitions) thay vì full page reload khi form được submit. Điều này giữ lại shared UI và client-side state.
+- Khi `action` là một **function** (Server Action), `<Form>` hoạt động như một [React form](https://react.dev/reference/react-dom/components/form), thực thi action khi form được submit.
 
 </AppOnly>
 
 <PagesOnly>
 
-- When `action` is a **string**, the `<Form>` behaves like a native HTML form that uses a **`GET`** method. The form data is encoded into the URL as search params, and when the form is submitted, it navigates to the specified URL. In addition, Next.js:
-  - Performs a [client-side navigation](/docs/app/getting-started/linking-and-navigating#client-side-transitions) instead of a full page reload when the form is submitted. This retains shared UI and client-side state.
+- Khi `action` là một **string**, `<Form>` hoạt động như một native HTML form sử dụng phương thức **`GET`**. Dữ liệu form được encode vào URL dưới dạng search params, và khi form được submit, nó điều hướng đến URL được chỉ định. Ngoài ra, Next.js:
+  - Thực hiện [client-side navigation](/docs/app/getting-started/linking-and-navigating#client-side-transitions) thay vì full page reload khi form được submit. Điều này giữ lại shared UI và client-side state.
 
 </PagesOnly>
 
-### `action` (string) Props
+### Props của `action` (string)
 
 <PagesOnly>
 
-When `action` is a string, the `<Form>` component supports the following props:
+Khi `action` là một string, component `<Form>` hỗ trợ các props sau:
 
-| Prop      | Example            | Type                            | Required |
-| --------- | ------------------ | ------------------------------- | -------- |
-| `action`  | `action="/search"` | `string` (URL or relative path) | Yes      |
-| `replace` | `replace={false}`  | `boolean`                       | -        |
-| `scroll`  | `scroll={true}`    | `boolean`                       | -        |
+| Prop | Ví dụ | Type | Bắt buộc |\n| --------- | ------------------ | ------------------------------- | -------- |
+| `action` | `action="/search"` | `string` (URL hoặc relative path) | Có |
+| `replace` | `replace={false}` | `boolean` | - |
+| `scroll` | `scroll={true}` | `boolean` | - |
 
-- **`action`**: The URL or path to navigate to when the form is submitted.
-  - An empty string `""` will navigate to the same route with updated search params.
-- **`replace`**: Replaces the current history state instead of pushing a new one to the [browser's history](https://developer.mozilla.org/en-US/docs/Web/API/History_API) stack. Default is `false`.
-- **`scroll`**: Controls the scroll behavior during navigation. Defaults to `true`, this means it will scroll to the top of the new route, and maintain the scroll position for backwards and forwards navigation.
+- **`action`**: URL hoặc path để điều hướng đến khi form được submit.
+  - Một empty string `""` sẽ điều hướng đến cùng route với search params được cập nhật.
+- **`replace`**: Thay thế current history state thay vì thêm một state mới vào [browser's history](https://developer.mozilla.org/en-US/docs/Web/API/History_API) stack. Mặc định là `false`.
+- **`scroll`**: Kiểm soát hành vi scroll trong quá trình điều hướng. Mặc định là `true`, có nghĩa là nó sẽ scroll đến đầu route mới, và duy trì vị trí scroll cho điều hướng backwards và forwards.
 
 </PagesOnly>
 
 <AppOnly>
 
-When `action` is a string, the `<Form>` component supports the following props:
+Khi `action` là một string, component `<Form>` hỗ trợ các props sau:
 
-| Prop       | Example            | Type                            | Required |
-| ---------- | ------------------ | ------------------------------- | -------- |
-| `action`   | `action="/search"` | `string` (URL or relative path) | Yes      |
-| `replace`  | `replace={false}`  | `boolean`                       | -        |
-| `scroll`   | `scroll={true}`    | `boolean`                       | -        |
-| `prefetch` | `prefetch={true}`  | `boolean`                       | -        |
+| Prop       | Ví dụ              | Type                              | Bắt buộc |
+| ---------- | ------------------ | --------------------------------- | -------- |
+| `action`   | `action="/search"` | `string` (URL hoặc relative path) | Có       |
+| `replace`  | `replace={false}`  | `boolean`                         | -        |
+| `scroll`   | `scroll={true}`    | `boolean`                         | -        |
+| `prefetch` | `prefetch={true}`  | `boolean`                         | -        |
 
-- **`action`**: The URL or path to navigate to when the form is submitted.
-  - An empty string `""` will navigate to the same route with updated search params.
-- **`replace`**: Replaces the current history state instead of pushing a new one to the [browser's history](https://developer.mozilla.org/en-US/docs/Web/API/History_API) stack. Default is `false`.
-- **`scroll`**: Controls the scroll behavior during navigation. Defaults to `true`, this means it will scroll to the top of the new route, and maintain the scroll position for backwards and forwards navigation.
-- **`prefetch`**: Controls whether the path should be prefetched when the form becomes visible in the user's viewport. Defaults to `true`.
+- **`action`**: URL hoặc path để điều hướng đến khi form được submit.
+  - Một empty string `""` sẽ điều hướng đến cùng route với search params được cập nhật.
+- **`replace`**: Thay thế current history state thay vì thêm một state mới vào [browser's history](https://developer.mozilla.org/en-US/docs/Web/API/History_API) stack. Mặc định là `false`.
+- **`scroll`**: Kiểm soát hành vi scroll trong quá trình điều hướng. Mặc định là `true`, có nghĩa là nó sẽ scroll đến đầu route mới, và duy trì vị trí scroll cho điều hướng backwards và forwards.
+- **`prefetch`**: Kiểm soát xem path có nên được prefetch khi form hiển thị trong viewport của người dùng hay không. Mặc định là `true`.
 
-### `action` (function) Props
+### Props của `action` (function)
 
-When `action` is a function, the `<Form>` component supports the following prop:
+Khi `action` là một function, component `<Form>` hỗ trợ prop sau:
 
-| Prop     | Example             | Type                       | Required |
+| Prop     | Ví dụ               | Type                       | Bắt buộc |
 | -------- | ------------------- | -------------------------- | -------- |
-| `action` | `action={myAction}` | `function` (Server Action) | Yes      |
+| `action` | `action={myAction}` | `function` (Server Action) | Có       |
 
-- **`action`**: The Server Action to be called when the form is submitted. See the [React docs](https://react.dev/reference/react-dom/components/form#props) for more.
+- **`action`**: Server Action sẽ được gọi khi form được submit. Xem [tài liệu React](https://react.dev/reference/react-dom/components/form#props) để biết thêm.
 
-> **Good to know**: When `action` is a function, the `replace` and `scroll` props are ignored.
-
-</AppOnly>
-
-### Caveats
-
-<AppOnly>
-
-- **`formAction`**: Can be used in a `<button>` or `<input type="submit">` fields to override the `action` prop. Next.js will perform a client-side navigation, however, this approach doesn't support prefetching.
-  - When using [`basePath`](/docs/app/api-reference/config/next-config-js/basePath), you must also include it in the `formAction` path. e.g. `formAction="/base-path/search"`.
-- **`key`**: Passing a `key` prop to a string `action` is not supported. If you'd like to trigger a re-render or perform a mutation, consider using a function `action` instead.
+> **Lưu ý:** Khi `action` là một function, các props `replace` và `scroll` bị bỏ qua.
 
 </AppOnly>
 
-- **`onSubmit`**: Can be used to handle form submission logic. However, calling `event.preventDefault()` will override `<Form>` behavior such as navigating to the specified URL.
-- **[`method`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#method), [`encType`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#enctype), [`target`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#target)**: Are not supported as they override `<Form>` behavior.
-  - Similarly, `formMethod`, `formEncType`, and `formTarget` can be used to override the `method`, `encType`, and `target` props respectively, and using them will fallback to native browser behavior.
-  - If you need to use these props, use the HTML `<form>` element instead.
-- **`<input type="file">`**: Using this input type when the `action` is a string will match browser behavior by submitting the filename instead of the file object.
+### Lưu ý
 
 <AppOnly>
 
-## Examples
+- **`formAction`**: Có thể được sử dụng trong `<button>` hoặc `<input type="submit">` fields để override prop `action`. Next.js sẽ thực hiện client-side navigation, tuy nhiên, cách tiếp cận này không hỗ trợ prefetching.
+  - Khi sử dụng [`basePath`](/docs/app/api-reference/config/next-config-js/basePath), bạn cũng phải bao gồm nó trong `formAction` path. ví dụ: `formAction="/base-path/search"`.
+- **`key`**: Truyền prop `key` cho string `action` không được hỗ trợ. Nếu bạn muốn trigger re-render hoặc thực hiện mutation, hãy cân nhắc sử dụng function `action` thay thế.
 
-### Search form that leads to a search result page
+</AppOnly>
 
-You can create a search form that navigates to a search results page by passing the path as an `action`:
+- **`onSubmit`**: Có thể được sử dụng để xử lý logic submit form. Tuy nhiên, gọi `event.preventDefault()` sẽ override hành vi của `<Form>` như điều hướng đến URL được chỉ định.
+- **[`method`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#method), [`encType`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#enctype), [`target`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#target)**: Không được hỗ trợ vì chúng override hành vi của `<Form>`.
+  - Tương tự, `formMethod`, `formEncType`, và `formTarget` có thể được sử dụng để override các props `method`, `encType`, và `target` tương ứng, và sử dụng chúng sẽ fallback về hành vi native của trình duyệt.
+  - Nếu bạn cần sử dụng các props này, hãy sử dụng phần tử HTML `<form>` thay thế.
+- **`<input type="file">`**: Sử dụng input type này khi `action` là một string sẽ khớp với hành vi trình duyệt bằng cách submit filename thay vì file object.
+
+<AppOnly>
+
+## Ví dụ
+
+### Form tìm kiếm dẫn đến trang kết quả tìm kiếm
+
+Bạn có thể tạo một form tìm kiếm điều hướng đến trang kết quả tìm kiếm bằng cách truyền path làm `action`:
 
 ```tsx filename="/app/page.tsx" switcher
 import Form from 'next/form'
@@ -197,11 +196,11 @@ export default function Page() {
 }
 ```
 
-When the user updates the query input field and submits the form, the form data will be encoded into the URL as search params, e.g. `/search?query=abc`.
+Khi người dùng cập nhật query input field và submit form, dữ liệu form sẽ được encode vào URL dưới dạng search params, ví dụ: `/search?query=abc`.
 
-> **Good to know**: If you pass an empty string `""` to `action`, the form will navigate to the same route with updated search params.
+> **Lưu ý:** Nếu bạn truyền empty string `""` cho `action`, form sẽ điều hướng đến cùng route với search params được cập nhật.
 
-On the results page, you can access the query using the [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) `page.js` prop and use it to fetch data from an external source.
+Trên trang kết quả, bạn có thể truy cập query bằng cách sử dụng prop [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) của `page.js` và sử dụng nó để fetch dữ liệu từ nguồn bên ngoài.
 
 ```tsx filename="/app/search/page.tsx" switcher
 import { getSearchResults } from '@/lib/search'
@@ -227,7 +226,7 @@ export default async function SearchPage({ searchParams }) {
 }
 ```
 
-When the `<Form>` becomes visible in the user's viewport, shared UI (such as `layout.js` and `loading.js`) on the `/search` page will be prefetched. On submission, the form will immediately navigate to the new route and show loading UI while the results are being fetched. You can design the fallback UI using [`loading.js`](/docs/app/api-reference/file-conventions/loading):
+Khi `<Form>` hiển thị trong viewport của người dùng, shared UI (như `layout.js` và `loading.js`) trên trang `/search` sẽ được prefetch. Khi submit, form sẽ ngay lập tức điều hướng đến route mới và hiển thị loading UI trong khi kết quả đang được fetch. Bạn có thể thiết kế fallback UI bằng cách sử dụng [`loading.js`](/docs/app/api-reference/file-conventions/loading):
 
 ```tsx filename="/app/search/loading.tsx" switcher
 export default function Loading() {
@@ -241,9 +240,9 @@ export default function Loading() {
 }
 ```
 
-To cover cases when shared UI hasn't yet loaded, you can show instant feedback to the user using [`useFormStatus`](https://react.dev/reference/react-dom/hooks/useFormStatus).
+Để cover các trường hợp khi shared UI chưa được load, bạn có thể hiển thị phản hồi tức thì cho người dùng bằng cách sử dụng [`useFormStatus`](https://react.dev/reference/react-dom/hooks/useFormStatus).
 
-First, create a component that displays a loading state when the form is pending:
+Đầu tiên, tạo một component hiển thị loading state khi form đang pending:
 
 ```tsx filename="/app/ui/search-button.tsx" switcher
 'use client'
@@ -252,7 +251,7 @@ import { useFormStatus } from 'react-dom'
 export default function SearchButton() {
   const status = useFormStatus()
   return (
-    <button type="submit">{status.pending ? 'Searching...' : 'Search'}</button>
+    <button type="submit">{status.pending ? 'Đang tìm...' : 'Tìm kiếm'}</button>
   )
 }
 ```
@@ -264,12 +263,12 @@ import { useFormStatus } from 'react-dom'
 export default function SearchButton() {
   const status = useFormStatus()
   return (
-    <button type="submit">{status.pending ? 'Searching...' : 'Search'}</button>
+    <button type="submit">{status.pending ? 'Đang tìm...' : 'Tìm kiếm'}</button>
   )
 }
 ```
 
-Then, update the search form page to use the `SearchButton` component:
+Sau đó, cập nhật trang search form để sử dụng component `SearchButton`:
 
 ```tsx filename="/app/page.tsx" switcher
 import Form from 'next/form'
@@ -299,9 +298,9 @@ export default function Page() {
 }
 ```
 
-### Mutations with Server Actions
+### Mutations với Server Actions
 
-You can perform mutations by passing a function to the `action` prop.
+Bạn có thể thực hiện mutations bằng cách truyền một function cho prop `action`.
 
 ```tsx filename="/app/posts/create/page.tsx" switcher
 import Form from 'next/form'
@@ -312,7 +311,7 @@ export default function Page() {
     <Form action={createPost}>
       <input name="title" />
       {/* ... */}
-      <button type="submit">Create Post</button>
+      <button type="submit">Tạo Post</button>
     </Form>
   )
 }
@@ -327,25 +326,25 @@ export default function Page() {
     <Form action={createPost}>
       <input name="title" />
       {/* ... */}
-      <button type="submit">Create Post</button>
+      <button type="submit">Tạo Post</button>
     </Form>
   )
 }
 ```
 
-After a mutation, it's common to redirect to the new resource. You can use the [`redirect`](/docs/app/guides/redirecting) function from `next/navigation` to navigate to the new post page.
+Sau một mutation, thông thường là redirect đến resource mới. Bạn có thể sử dụng function [`redirect`](/docs/app/guides/redirecting) từ `next/navigation` để điều hướng đến trang post mới.
 
-> **Good to know**: Since the "destination" of the form submission is not known until the action is executed, `<Form>` cannot automatically prefetch shared UI.
+> **Lưu ý:** Vì "destination" của form submission không được biết cho đến khi action được thực thi, `<Form>` không thể tự động prefetch shared UI.
 
 ```tsx filename="/app/posts/actions.ts" switcher
 'use server'
 import { redirect } from 'next/navigation'
 
 export async function createPost(formData: FormData) {
-  // Create a new post
+  // Tạo một post mới
   // ...
 
-  // Redirect to the new post
+  // Redirect đến post mới
   redirect(`/posts/${data.id}`)
 }
 ```
@@ -355,15 +354,15 @@ export async function createPost(formData: FormData) {
 import { redirect } from 'next/navigation'
 
 export async function createPost(formData) {
-  // Create a new post
+  // Tạo một post mới
   // ...
 
-  // Redirect to the new post
+  // Redirect đến post mới
   redirect(`/posts/${data.id}`)
 }
 ```
 
-Then, in the new page, you can fetch data using the `params` prop:
+Sau đó, trong trang mới, bạn có thể fetch dữ liệu bằng cách sử dụng prop `params`:
 
 ```tsx filename="/app/posts/[id]/page.tsx" switcher
 import { getPost } from '@/posts/data'
@@ -401,6 +400,6 @@ export default async function PostPage({ params }) {
 }
 ```
 
-See the [Server Actions](/docs/app/getting-started/updating-data) docs for more examples.
+Xem tài liệu [Server Actions](/docs/app/getting-started/updating-data) để biết thêm ví dụ.
 
 </AppOnly>

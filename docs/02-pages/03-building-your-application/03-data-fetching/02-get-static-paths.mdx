@@ -1,11 +1,11 @@
 ---
 title: getStaticPaths
-description: Fetch data and generate static pages with `getStaticPaths`. Learn more about this API for data fetching in Next.js.
+description: Fetch dữ liệu và tạo các trang tĩnh với `getStaticPaths`. Tìm hiểu thêm về API này để fetch dữ liệu trong Next.js.
 ---
 
-If a page has [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes) and uses `getStaticProps`, it needs to define a list of paths to be statically generated.
+Nếu một trang có [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes) và sử dụng `getStaticProps`, nó cần xác định danh sách các paths sẽ được tạo tĩnh.
 
-When you export a function called `getStaticPaths` (Static Site Generation) from a page that uses dynamic routes, Next.js will statically pre-render all the paths specified by `getStaticPaths`.
+Khi bạn export một hàm gọi là `getStaticPaths` (Static Site Generation) từ một trang sử dụng dynamic routes, Next.js sẽ pre-render tĩnh tất cả các paths được chỉ định bởi `getStaticPaths`.
 
 ```tsx filename="pages/repo/[name].tsx" switcher
 import type {
@@ -72,45 +72,45 @@ export default function Page({ repo }) {
 }
 ```
 
-The [`getStaticPaths` API reference](/docs/pages/api-reference/functions/get-static-paths) covers all parameters and props that can be used with `getStaticPaths`.
+[Tài liệu tham khảo API `getStaticPaths`](/docs/pages/api-reference/functions/get-static-paths) bao gồm tất cả các tham số và props có thể được sử dụng với `getStaticPaths`.
 
-## When should I use getStaticPaths?
+## Khi nào tôi nên sử dụng getStaticPaths?
 
-You should use `getStaticPaths` if you’re statically pre-rendering pages that use dynamic routes and:
+Bạn nên sử dụng `getStaticPaths` nếu bạn đang pre-rendering tĩnh các trang sử dụng dynamic routes và:
 
-- The data comes from a headless CMS
-- The data comes from a database
-- The data comes from the filesystem
-- The data can be publicly cached (not user-specific)
-- The page must be pre-rendered (for SEO) and be very fast — `getStaticProps` generates `HTML` and `JSON` files, both of which can be cached by a CDN for performance
+- Dữ liệu đến từ một headless CMS
+- Dữ liệu đến từ một cơ sở dữ liệu
+- Dữ liệu đến từ hệ thống tệp (filesystem)
+- Dữ liệu có thể được cache công khai (không dành riêng cho người dùng)
+- Trang phải được pre-rendered (cho SEO) và phải rất nhanh — `getStaticProps` tạo các tệp `HTML` và `JSON`, cả hai đều có thể được cache bởi CDN để có hiệu suất cao
 
-## When does getStaticPaths run
+## Khi nào getStaticPaths chạy
 
-`getStaticPaths` will only run during build in production, it will not be called during runtime. You can validate code written inside `getStaticPaths` is removed from the client-side bundle [with this tool](https://next-code-elimination.vercel.app/).
+`getStaticPaths` sẽ chỉ chạy trong quá trình build trong production, nó sẽ không được gọi trong thời gian chạy (runtime). Bạn có thể xác thực mã được viết bên trong `getStaticPaths` được loại bỏ khỏi client-side bundle [với công cụ này](https://next-code-elimination.vercel.app/).
 
-### How does getStaticProps run with regards to getStaticPaths
+### getStaticProps chạy như thế nào liên quan đến getStaticPaths
 
-- `getStaticProps` runs during `next build` for any `paths` returned during build
-- `getStaticProps` runs in the background when using `fallback: true`
-- `getStaticProps` is called before initial render when using `fallback: blocking`
+- `getStaticProps` chạy trong quá trình `next build` cho bất kỳ `paths` nào được trả về trong quá trình build
+- `getStaticProps` chạy trong nền khi sử dụng `fallback: true`
+- `getStaticProps` được gọi trước khi render ban đầu khi sử dụng `fallback: blocking`
 
-## Where can I use getStaticPaths
+## Tôi có thể sử dụng getStaticPaths ở đâu
 
-- `getStaticPaths` **must** be used with `getStaticProps`
-- You **cannot** use `getStaticPaths` with [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props)
-- You can export `getStaticPaths` from a [Dynamic Route](/docs/pages/building-your-application/routing/dynamic-routes) that also uses `getStaticProps`
-- You **cannot** export `getStaticPaths` from non-page file (e.g. your `components` folder)
-- You must export `getStaticPaths` as a standalone function, and not a property of the page component
+- `getStaticPaths` **phải** được sử dụng với `getStaticProps`
+- Bạn **không thể** sử dụng `getStaticPaths` với [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props)
+- Bạn có thể export `getStaticPaths` từ một [Dynamic Route](/docs/pages/building-your-application/routing/dynamic-routes) cũng sử dụng `getStaticProps`
+- Bạn **không thể** export `getStaticPaths` từ tệp không phải trang (ví dụ: thư mục `components` của bạn)
+- Bạn phải export `getStaticPaths` như một hàm độc lập, và không phải là một thuộc tính của page component
 
-## Runs on every request in development
+## Chạy trên mỗi request trong development
 
-In development (`next dev`), `getStaticPaths` will be called on every request.
+Trong development (`next dev`), `getStaticPaths` sẽ được gọi trên mỗi request.
 
-## Generating paths on-demand
+## Tạo paths theo yêu cầu
 
-`getStaticPaths` allows you to control which pages are generated during the build instead of on-demand with [`fallback`](/docs/pages/api-reference/functions/get-static-paths#fallback-blocking). Generating more pages during a build will cause slower builds.
+`getStaticPaths` cho phép bạn kiểm soát những trang nào được tạo trong quá trình build thay vì theo yêu cầu với [`fallback`](/docs/pages/api-reference/functions/get-static-paths#fallback-blocking). Tạo nhiều trang hơn trong quá trình build sẽ gây ra build chậm hơn.
 
-You can defer generating all pages on-demand by returning an empty array for `paths`. This can be especially helpful when deploying your Next.js application to multiple environments. For example, you can have faster builds by generating all pages on-demand for previews (but not production builds). This is helpful for sites with hundreds/thousands of static pages.
+Bạn có thể hoãn việc tạo tất cả các trang theo yêu cầu bằng cách trả về một mảng rỗng cho `paths`. Điều này có thể đặc biệt hữu ích khi triển khai ứng dụng Next.js của bạn đến nhiều môi trường. Ví dụ, bạn có thể có các bản build nhanh hơn bằng cách tạo tất cả các trang theo yêu cầu cho previews (nhưng không phải production builds). Điều này hữu ích cho các trang web có hàng trăm/ngàn trang tĩnh.
 
 ```jsx filename="pages/posts/[id].js"
 export async function getStaticPaths() {

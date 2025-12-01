@@ -1,19 +1,19 @@
 ---
 title: template.js
-description: API Reference for the template.js file.
+description: Tài liệu tham khảo API cho file template.js.
 ---
 
-A **template** file is similar to a [layout](/docs/app/getting-started/layouts-and-pages#creating-a-layout) in that it wraps a layout or page. Unlike layouts that persist across routes and maintain state, templates are given a unique key, meaning children Client Components reset their state on navigation.
+Một file **template** tương tự như một [layout](/docs/app/getting-started/layouts-and-pages#creating-a-layout) ở chỗ nó bao bọc một layout hoặc page. Không giống như layouts tồn tại qua các routes và duy trì state, templates được cung cấp một key duy nhất, nghĩa là các children Client Components sẽ reset state của chúng khi điều hướng.
 
-They are useful when you need to:
+Chúng hữu ích khi bạn cần:
 
-- Resynchronize `useEffect` on navigation.
-- Reset the state of a child Client Components on navigation. For example, an input field.
-- To change default framework behavior. For example, Suspense boundaries inside layouts only show a fallback on first load, while templates show it on every navigation.
+- Đồng bộ lại (Resynchronize) `useEffect` khi điều hướng.
+- Reset state của một child Client Components khi điều hướng. Ví dụ, một trường input.
+- Để thay đổi hành vi mặc định của framework. Ví dụ, Suspense boundaries bên trong layouts chỉ hiển thị fallback trong lần tải đầu tiên, trong khi templates hiển thị nó trên mỗi lần điều hướng.
 
-## Convention
+## Quy ước
 
-A template can be defined by exporting a default React component from a `template.js` file. The component should accept a `children` prop.
+Một template có thể được định nghĩa bằng cách export một default React component từ một file `template.js`. Component nên chấp nhận một prop `children`.
 
 <Image
   alt="template.js special file"
@@ -35,41 +35,41 @@ export default function Template({ children }) {
 }
 ```
 
-In terms of nesting, `template.js` is rendered between a layout and its children. Here's a simplified output:
+Về mặt lồng nhau (nesting), `template.js` được render giữa một layout và children của nó. Dưới đây là một output đơn giản hóa:
 
 ```jsx filename="Output"
 <Layout>
-  {/* Note that the template is given a unique key. */}
+  {/* Lưu ý rằng template được cung cấp một key duy nhất. */}
   <Template key={routeParam}>{children}</Template>
 </Layout>
 ```
 
 ## Props
 
-### `children` (required)
+### `children` (bắt buộc)
 
-Template accepts a `children` prop.
+Template chấp nhận một prop `children`.
 
 ```jsx filename="Output"
 <Layout>
-  {/* Note that the template is automatically given a unique key. */}
+  {/* Lưu ý rằng template tự động được cung cấp một key duy nhất. */}
   <Template key={routeParam}>{children}</Template>
 </Layout>
 ```
 
-## Behavior
+## Hành vi
 
-- **Server Components**: By default, templates are Server Components.
-- **With navigation**: Templates receive a unique key for their own segment level. They remount when that segment (including its dynamic params) changes. Navigations within deeper segments do not remount higher-level templates. Search params do not trigger remounts.
-- **State reset**: Any Client Component inside the template will reset its state on navigation.
-- **Effect re-run**: Effects like `useEffect` will re-synchronize as the component remounts.
-- **DOM reset**: DOM elements inside the template are fully recreated.
+- **Server Components**: Mặc định, templates là Server Components.
+- **Với điều hướng**: Templates nhận một key duy nhất cho cấp độ segment của riêng chúng. Chúng remount khi segment đó (bao gồm các dynamic params của nó) thay đổi. Điều hướng bên trong các segments sâu hơn không làm remount các templates cấp cao hơn. Search params không kích hoạt remounts.
+- **State reset**: Bất kỳ Client Component nào bên trong template sẽ reset state của nó khi điều hướng.
+- **Effect re-run**: Các effects như `useEffect` sẽ đồng bộ lại (re-synchronize) khi component remounts.
+- **DOM reset**: Các phần tử DOM bên trong template được tạo lại hoàn toàn.
 
-### Templates during navigation and remounting
+### Templates trong quá trình điều hướng và remounting
 
-This section illustrates how templates behave during navigation. It shows, step by step, which templates remount on each route change and why.
+Phần này minh họa cách templates hoạt động trong quá trình điều hướng. Nó chỉ ra, từng bước, templates nào remount trên mỗi thay đổi route và tại sao.
 
-Using this project tree:
+Sử dụng cây dự án này:
 
 ```
 app
@@ -85,9 +85,9 @@ app
 └── template.tsx
 ```
 
-Starting at `/`, the React tree looks roughly like this.
+Bắt đầu tại `/`, cây React trông đại khái như thế này.
 
-> Note: The `key` values shown in the examples are illustrative, the values in your application may differ.
+> Lưu ý: Các giá trị `key` hiển thị trong các ví dụ là minh họa, các giá trị trong ứng dụng của bạn có thể khác.
 
 ```jsx filename="Output"
 <RootLayout>
@@ -98,7 +98,7 @@ Starting at `/`, the React tree looks roughly like this.
 </RootLayout>
 ```
 
-Navigating to `/about` (first segment changes), the root template key changes, it remounts:
+Điều hướng đến `/about` (segment đầu tiên thay đổi), root template key thay đổi, nó remounts:
 
 ```jsx filename="Output"
 <RootLayout>
@@ -109,7 +109,7 @@ Navigating to `/about` (first segment changes), the root template key changes, i
 </RootLayout>
 ```
 
-Navigating to `/blog` (first segment changes), the root template key changes, it remounts and the blog-level template mounts:
+Điều hướng đến `/blog` (segment đầu tiên thay đổi), root template key thay đổi, nó remounts và blog-level template mounts:
 
 ```jsx filename="Output"
 <RootLayout>
@@ -123,14 +123,14 @@ Navigating to `/blog` (first segment changes), the root template key changes, it
 </RootLayout>
 ```
 
-Navigating within the same first segment to `/blog/first-post` (child segment changes), the root template key doesn't change, but the blog-level template key changes, it remounts:
+Điều hướng trong cùng một segment đầu tiên đến `/blog/first-post` (child segment thay đổi), root template key không thay đổi, nhưng blog-level template key thay đổi, nó remounts:
 
 ```jsx filename="Output"
 <RootLayout>
   {/* app/template.tsx (root) */}
   <Template key="/blog">
     {/* app/blog/template.tsx */}
-    {/* remounts because the child segment at this level changed */}
+    {/* remounts bởi vì child segment ở cấp độ này đã thay đổi */}
     <Template key="/blog/first-post">
       <BlogPostPage slug="first-post" />
     </Template>
@@ -138,14 +138,14 @@ Navigating within the same first segment to `/blog/first-post` (child segment ch
 </RootLayout>
 ```
 
-Navigating to `/blog/second-post` (same first segment, different child segment), the root template key doesn't change, but the blog-level template key changes, it remounts again:
+Điều hướng đến `/blog/second-post` (cùng segment đầu tiên, child segment khác), root template key không thay đổi, nhưng blog-level template key thay đổi, nó remounts lần nữa:
 
 ```jsx filename="Output"
 <RootLayout>
   {/* app/template.tsx (root) */}
   <Template key="/blog">
     {/* app/blog/template.tsx */}
-    {/* remounts again due to changed child segment */}
+    {/* remounts lần nữa do child segment thay đổi */}
     <Template key="/blog/second-post">
       <BlogPostPage slug="second-post" />
     </Template>
@@ -153,8 +153,8 @@ Navigating to `/blog/second-post` (same first segment, different child segment),
 </RootLayout>
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                |
-| --------- | ---------------------- |
-| `v13.0.0` | `template` introduced. |
+| Phiên bản | Thay đổi                    |
+| --------- | --------------------------- |
+| `v13.0.0` | `template` được giới thiệu. |

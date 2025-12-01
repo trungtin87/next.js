@@ -1,16 +1,16 @@
 ---
-title: How to use CSS-in-JS libraries
+title: Cách sử dụng thư viện CSS-in-JS
 nav_title: CSS-in-JS
-description: Use CSS-in-JS libraries with Next.js
+description: Sử dụng thư viện CSS-in-JS với Next.js
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
 <AppOnly>
 
-> **Warning:** Using CSS-in-JS with newer React features like Server Components and Streaming requires library authors to support the latest version of React, including [concurrent rendering](https://react.dev/blog/2022/03/29/react-v18#what-is-concurrent-react).
+> **Cảnh báo:** Sử dụng CSS-in-JS với các tính năng React mới hơn như Server Components và Streaming yêu cầu tác giả thư viện hỗ trợ phiên bản mới nhất của React, bao gồm [concurrent rendering](https://react.dev/blog/2022/03/29/react-v18#what-is-concurrent-react).
 
-The following libraries are supported in Client Components in the `app` directory (alphabetical):
+Các thư viện sau được hỗ trợ trong Client Components trong thư mục `app` (theo thứ tự bảng chữ cái):
 
 - [`ant-design`](https://ant.design/docs/react/use-with-next#using-app-router)
 - [`chakra-ui`](https://chakra-ui.com/getting-started/nextjs-app-guide)
@@ -26,23 +26,23 @@ The following libraries are supported in Client Components in the `app` director
 - [`tss-react`](https://tss-react.dev/)
 - [`vanilla-extract`](https://vanilla-extract.style)
 
-The following are currently working on support:
+Các thư viện sau hiện đang làm việc để hỗ trợ:
 
 - [`emotion`](https://github.com/emotion-js/emotion/issues/2928)
 
-> **Good to know**: We're testing out different CSS-in-JS libraries and we'll be adding more examples for libraries that support React 18 features and/or the `app` directory.
+> **Cần biết**: Chúng tôi đang thử nghiệm các thư viện CSS-in-JS khác nhau và chúng tôi sẽ thêm nhiều ví dụ hơn cho các thư viện hỗ trợ các tính năng React 18 và/hoặc thư mục `app`.
 
-## Configuring CSS-in-JS in `app`
+## Cấu hình CSS-in-JS trong `app`
 
-Configuring CSS-in-JS is a three-step opt-in process that involves:
+Cấu hình CSS-in-JS là một quy trình chọn tham gia gồm ba bước bao gồm:
 
-1. A **style registry** to collect all CSS rules in a render.
-2. The new `useServerInsertedHTML` hook to inject rules before any content that might use them.
-3. A Client Component that wraps your app with the style registry during initial server-side rendering.
+1. Một **style registry** để thu thập tất cả các quy tắc CSS trong một lần render.
+2. Hook `useServerInsertedHTML` mới để chèn các quy tắc trước bất kỳ nội dung nào có thể sử dụng chúng.
+3. Một Client Component bao bọc ứng dụng của bạn với style registry trong quá trình render phía máy chủ ban đầu.
 
 ### `styled-jsx`
 
-Using `styled-jsx` in Client Components requires using `v5.1.0`. First, create a new registry:
+Sử dụng `styled-jsx` trong Client Components yêu cầu sử dụng `v5.1.0`. Đầu tiên, tạo một registry mới:
 
 ```tsx filename="app/registry.tsx" switcher
 'use client'
@@ -56,7 +56,7 @@ export default function StyledJsxRegistry({
 }: {
   children: React.ReactNode
 }) {
-  // Only create stylesheet once with lazy initial state
+  // Chỉ tạo stylesheet một lần với lazy initial state
   // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
   const [jsxStyleRegistry] = useState(() => createStyleRegistry())
 
@@ -78,7 +78,7 @@ import { useServerInsertedHTML } from 'next/navigation'
 import { StyleRegistry, createStyleRegistry } from 'styled-jsx'
 
 export default function StyledJsxRegistry({ children }) {
-  // Only create stylesheet once with lazy initial state
+  // Chỉ tạo stylesheet một lần với lazy initial state
   // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
   const [jsxStyleRegistry] = useState(() => createStyleRegistry())
 
@@ -92,7 +92,7 @@ export default function StyledJsxRegistry({ children }) {
 }
 ```
 
-Then, wrap your [root layout](/docs/app/api-reference/file-conventions/layout#root-layout) with the registry:
+Sau đó, bao bọc [root layout](/docs/app/api-reference/file-conventions/layout#root-layout) của bạn với registry:
 
 ```tsx filename="app/layout.tsx" switcher
 import StyledJsxRegistry from './registry'
@@ -126,13 +126,13 @@ export default function RootLayout({ children }) {
 }
 ```
 
-[View an example here](https://github.com/vercel/next.js/tree/canary/examples/with-styled-jsx).
+[Xem ví dụ tại đây](https://github.com/vercel/next.js/tree/canary/examples/with-styled-jsx).
 
 ### Styled Components
 
-Below is an example of how to configure `styled-components@6` or newer:
+Dưới đây là ví dụ về cách cấu hình `styled-components@6` hoặc mới hơn:
 
-First, enable styled-components in `next.config.js`.
+Đầu tiên, bật styled-components trong `next.config.js`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -142,7 +142,7 @@ module.exports = {
 }
 ```
 
-Then, use the `styled-components` API to create a global registry component to collect all CSS style rules generated during a render, and a function to return those rules. Then use the `useServerInsertedHTML` hook to inject the styles collected in the registry into the `<head>` HTML tag in the root layout.
+Sau đó, sử dụng API `styled-components` để tạo một component registry toàn cục để thu thập tất cả các quy tắc kiểu CSS được tạo trong quá trình render, và một hàm để trả về các quy tắc đó. Sau đó sử dụng hook `useServerInsertedHTML` để chèn các kiểu đã thu thập trong registry vào thẻ HTML `<head>` trong root layout.
 
 ```tsx filename="lib/registry.tsx" switcher
 'use client'
@@ -156,7 +156,7 @@ export default function StyledComponentsRegistry({
 }: {
   children: React.ReactNode
 }) {
-  // Only create stylesheet once with lazy initial state
+  // Chỉ tạo stylesheet một lần với lazy initial state
   // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet())
 
@@ -184,7 +184,7 @@ import { useServerInsertedHTML } from 'next/navigation'
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
 
 export default function StyledComponentsRegistry({ children }) {
-  // Only create stylesheet once with lazy initial state
+  // Chỉ tạo stylesheet một lần với lazy initial state
   // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet())
 
@@ -204,7 +204,7 @@ export default function StyledComponentsRegistry({ children }) {
 }
 ```
 
-Wrap the `children` of the root layout with the style registry component:
+Bao bọc `children` của root layout với component style registry:
 
 ```tsx filename="app/layout.tsx" switcher
 import StyledComponentsRegistry from './lib/registry'
@@ -238,21 +238,21 @@ export default function RootLayout({ children }) {
 }
 ```
 
-[View an example here](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components).
+[Xem ví dụ tại đây](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components).
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - During server rendering, styles will be extracted to a global registry and flushed to the `<head>` of your HTML. This ensures the style rules are placed before any content that might use them. In the future, we may use an upcoming React feature to determine where to inject the styles.
-> - During streaming, styles from each chunk will be collected and appended to existing styles. After client-side hydration is complete, `styled-components` will take over as usual and inject any further dynamic styles.
-> - We specifically use a Client Component at the top level of the tree for the style registry because it's more efficient to extract CSS rules this way. It avoids re-generating styles on subsequent server renders, and prevents them from being sent in the Server Component payload.
-> - For advanced use cases where you need to configure individual properties of styled-components compilation, you can read our [Next.js styled-components API reference](/docs/architecture/nextjs-compiler#styled-components) to learn more.
+> - Trong quá trình render phía máy chủ, các kiểu sẽ được trích xuất vào một registry toàn cục và được đẩy vào `<head>` của HTML của bạn. Điều này đảm bảo các quy tắc kiểu được đặt trước bất kỳ nội dung nào có thể sử dụng chúng. Trong tương lai, chúng tôi có thể sử dụng một tính năng React sắp tới để xác định nơi chèn các kiểu.
+> - Trong quá trình streaming, các kiểu từ mỗi chunk sẽ được thu thập và thêm vào các kiểu hiện có. Sau khi quá trình hydration phía máy khách hoàn tất, `styled-components` sẽ tiếp quản như bình thường và chèn thêm bất kỳ kiểu động nào khác.
+> - Chúng tôi đặc biệt sử dụng một Client Component ở cấp cao nhất của cây cho style registry vì cách này hiệu quả hơn để trích xuất các quy tắc CSS. Nó tránh việc tạo lại các kiểu trong các lần render phía máy chủ tiếp theo và ngăn chúng được gửi trong payload của Server Component.
+> - Đối với các trường hợp sử dụng nâng cao, nơi bạn cần định cấu hình các thuộc tính riêng lẻ của quá trình biên dịch styled-components, bạn có thể đọc [tài liệu tham khảo API styled-components của Next.js](/docs/architecture/nextjs-compiler#styled-components) để tìm hiểu thêm.
 
 </AppOnly>
 
 <PagesOnly>
 
 <details>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
 - [Styled JSX](https://github.com/vercel/next.js/tree/canary/examples/with-styled-jsx)
 - [Styled Components](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components)
@@ -265,7 +265,7 @@ export default function RootLayout({ children }) {
 
 </details>
 
-It's possible to use any existing CSS-in-JS solution. The simplest one is inline styles:
+Có thể sử dụng bất kỳ giải pháp CSS-in-JS hiện có nào. Giải pháp đơn giản nhất là inline styles:
 
 ```jsx
 function HiThere() {
@@ -275,12 +275,12 @@ function HiThere() {
 export default HiThere
 ```
 
-We bundle [styled-jsx](https://github.com/vercel/styled-jsx) to provide support for isolated scoped CSS.
-The aim is to support "shadow CSS" similar to Web Components, which unfortunately [do not support server-rendering and are JS-only](https://github.com/w3c/webcomponents/issues/71).
+Chúng tôi đóng gói [styled-jsx](https://github.com/vercel/styled-jsx) để cung cấp hỗ trợ cho CSS phạm vi cô lập (isolated scoped CSS).
+Mục đích là hỗ trợ "shadow CSS" tương tự như Web Components, nhưng đáng tiếc là [không hỗ trợ render phía máy chủ và chỉ có JS](https://github.com/w3c/webcomponents/issues/71).
 
-See the above examples for other popular CSS-in-JS solutions (like Styled Components).
+Xem các ví dụ trên cho các giải pháp CSS-in-JS phổ biến khác (như Styled Components).
 
-A component using `styled-jsx` looks like this:
+Một component sử dụng `styled-jsx` trông như thế này:
 
 ```jsx
 function HelloWorld() {
@@ -313,10 +313,10 @@ function HelloWorld() {
 export default HelloWorld
 ```
 
-Please see the [styled-jsx documentation](https://github.com/vercel/styled-jsx) for more examples.
+Vui lòng xem [tài liệu styled-jsx](https://github.com/vercel/styled-jsx) để biết thêm ví dụ.
 
-### Disabling JavaScript
+### Vô hiệu hóa JavaScript
 
-Yes, if you disable JavaScript the CSS will still be loaded in the production build (`next start`). During development, we require JavaScript to be enabled to provide the best developer experience with [Fast Refresh](https://nextjs.org/blog/next-9-4#fast-refresh).
+Có, nếu bạn vô hiệu hóa JavaScript, CSS vẫn sẽ được tải trong bản build production (`next start`). Trong quá trình phát triển, chúng tôi yêu cầu bật JavaScript để cung cấp trải nghiệm nhà phát triển tốt nhất với [Fast Refresh](https://nextjs.org/blog/next-9-4#fast-refresh).
 
 </PagesOnly>

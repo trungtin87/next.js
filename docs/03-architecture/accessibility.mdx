@@ -1,21 +1,21 @@
 ---
-title: Accessibility
-description: The built-in accessibility features of Next.js.
+title: Khả năng tiếp cận (Accessibility)
+description: Các tính năng khả năng tiếp cận tích hợp sẵn của Next.js.
 ---
 
-The Next.js team is committed to making Next.js accessible to all developers (and their end-users). By adding accessibility features to Next.js by default, we aim to make the Web more inclusive for everyone.
+Nhóm Next.js cam kết làm cho Next.js có thể tiếp cận được với tất cả các nhà phát triển (và người dùng cuối của họ). Bằng cách thêm các tính năng khả năng tiếp cận vào Next.js theo mặc định, chúng tôi hướng đến việc làm cho Web trở nên hòa nhập hơn cho mọi người.
 
-## Route Announcements
+## Thông báo Route
 
-When transitioning between pages rendered on the server (e.g. using the `<a href>` tag) screen readers and other assistive technology announce the page title when the page loads so that users understand that the page has changed.
+Khi chuyển đổi giữa các trang được render trên server (ví dụ: sử dụng thẻ `<a href>`), trình đọc màn hình và các công nghệ hỗ trợ khác thông báo tiêu đề trang khi trang tải để người dùng hiểu rằng trang đã thay đổi.
 
-In addition to traditional page navigations, Next.js also supports client-side transitions for improved performance (using `next/link`). To ensure that client-side transitions are also announced to assistive technology, Next.js includes a route announcer by default.
+Ngoài các điều hướng trang truyền thống, Next.js cũng hỗ trợ các chuyển đổi phía client để cải thiện hiệu suất (sử dụng `next/link`). Để đảm bảo rằng các chuyển đổi phía client cũng được thông báo cho công nghệ hỗ trợ, Next.js bao gồm một route announcer theo mặc định.
 
-The Next.js route announcer looks for the page name to announce by first inspecting `document.title`, then the `<h1>` element, and finally the URL pathname. For the most accessible user experience, ensure that each page in your application has a unique and descriptive title.
+Route announcer của Next.js tìm kiếm tên trang để thông báo bằng cách kiểm tra `document.title` trước, sau đó là phần tử `<h1>`, và cuối cùng là pathname URL. Để có trải nghiệm người dùng dễ tiếp cận nhất, hãy đảm bảo rằng mỗi trang trong ứng dụng của bạn có một tiêu đề duy nhất và mô tả.
 
 ## Linting
 
-Next.js provides an [integrated ESLint experience](/docs/pages/api-reference/config/eslint) out of the box, including custom rules for Next.js. By default, Next.js includes `eslint-plugin-jsx-a11y` to help catch accessibility issues early, including warning on:
+Next.js cung cấp [trải nghiệm ESLint tích hợp](/docs/pages/api-reference/config/eslint) ngay từ đầu, bao gồm các quy tắc tùy chỉnh cho Next.js. Theo mặc định, Next.js bao gồm `eslint-plugin-jsx-a11y` để giúp phát hiện các vấn đề về khả năng tiếp cận sớm, bao gồm cảnh báo về:
 
 - [aria-props](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/aria-props.md?rgh-link-date=2021-06-04T02%3A10%3A36Z)
 - [aria-proptypes](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/aria-proptypes.md?rgh-link-date=2021-06-04T02%3A10%3A36Z)
@@ -23,12 +23,12 @@ Next.js provides an [integrated ESLint experience](/docs/pages/api-reference/con
 - [role-has-required-aria-props](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/role-has-required-aria-props.md?rgh-link-date=2021-06-04T02%3A10%3A36Z)
 - [role-supports-aria-props](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/role-supports-aria-props.md?rgh-link-date=2021-06-04T02%3A10%3A36Z)
 
-For example, this plugin helps ensure you add alt text to `img` tags, use correct `aria-*` attributes, use correct `role` attributes, and more.
+Ví dụ, plugin này giúp đảm bảo bạn thêm alt text vào thẻ `img`, sử dụng các thuộc tính `aria-*` chính xác, sử dụng các thuộc tính `role` chính xác, và nhiều hơn nữa.
 
-## Accessibility Resources
+## Tài nguyên về Khả năng tiếp cận
 
 - [WebAIM WCAG checklist](https://webaim.org/standards/wcag/checklist)
 - [WCAG 2.2 Guidelines](https://www.w3.org/TR/WCAG22/)
 - [The A11y Project](https://www.a11yproject.com/)
-- Check [color contrast ratios](https://developer.mozilla.org/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast) between foreground and background elements
-- Use [`prefers-reduced-motion`](https://web.dev/prefers-reduced-motion/) when working with animations
+- Kiểm tra [tỷ lệ tương phản màu sắc](https://developer.mozilla.org/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast) giữa các phần tử foreground và background
+- Sử dụng [`prefers-reduced-motion`](https://web.dev/prefers-reduced-motion/) khi làm việc với animations

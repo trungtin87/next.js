@@ -1,43 +1,43 @@
 ---
 title: permanentRedirect
-description: API Reference for the permanentRedirect function.
+description: Tài liệu tham khảo API cho hàm permanentRedirect.
 related:
   links:
     - app/api-reference/functions/redirect
 ---
 
-The `permanentRedirect` function allows you to redirect the user to another URL. `permanentRedirect` can be used in Server Components, Client Components, [Route Handlers](/docs/app/api-reference/file-conventions/route), and [Server Actions](/docs/app/getting-started/updating-data).
+Hàm `permanentRedirect` cho phép bạn chuyển hướng người dùng đến một URL khác. `permanentRedirect` có thể được sử dụng trong Server Components, Client Components, [Route Handlers](/docs/app/api-reference/file-conventions/route), và [Server Actions](/docs/app/getting-started/updating-data).
 
-When used in a streaming context, this will insert a meta tag to emit the redirect on the client side. When used in a server action, it will serve a 303 HTTP redirect response to the caller. Otherwise, it will serve a 308 (Permanent) HTTP redirect response to the caller.
+Khi được sử dụng trong ngữ cảnh streaming, điều này sẽ chèn một meta tag để phát ra redirect ở phía client. Khi được sử dụng trong một server action, nó sẽ phục vụ một phản hồi HTTP redirect 303 cho người gọi. Nếu không, nó sẽ phục vụ một phản hồi HTTP redirect 308 (Permanent) cho người gọi.
 
-If a resource doesn't exist, you can use the [`notFound` function](/docs/app/api-reference/functions/not-found) instead.
+Nếu một tài nguyên không tồn tại, bạn có thể sử dụng [hàm `notFound`](/docs/app/api-reference/functions/not-found) thay thế.
 
-> **Good to know**: If you prefer to return a 307 (Temporary) HTTP redirect instead of 308 (Permanent), you can use the [`redirect` function](/docs/app/api-reference/functions/redirect) instead.
+> **Nên biết**: Nếu bạn muốn trả về một HTTP redirect 307 (Temporary) thay vì 308 (Permanent), bạn có thể sử dụng [hàm `redirect`](/docs/app/api-reference/functions/redirect) thay thế.
 
 ## Parameters
 
-The `permanentRedirect` function accepts two arguments:
+Hàm `permanentRedirect` chấp nhận hai tham số:
 
 ```js
 permanentRedirect(path, type)
 ```
 
-| Parameter | Type                                                          | Description                                                 |
-| --------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
-| `path`    | `string`                                                      | The URL to redirect to. Can be a relative or absolute path. |
-| `type`    | `'replace'` (default) or `'push'` (default in Server Actions) | The type of redirect to perform.                            |
+| Tham số | Kiểu                                                               | Mô tả                                                                  |
+| ------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `path`  | `string`                                                           | URL để chuyển hướng đến. Có thể là đường dẫn tương đối hoặc tuyệt đối. |
+| `type`  | `'replace'` (default) hoặc `'push'` (default trong Server Actions) | Loại redirect để thực hiện.                                            |
 
-By default, `permanentRedirect` will use `push` (adding a new entry to the browser history stack) in [Server Actions](/docs/app/getting-started/updating-data) and `replace` (replacing the current URL in the browser history stack) everywhere else. You can override this behavior by specifying the `type` parameter.
+Theo mặc định, `permanentRedirect` sẽ sử dụng `push` (thêm một entry mới vào browser history stack) trong [Server Actions](/docs/app/getting-started/updating-data) và `replace` (thay thế URL hiện tại trong browser history stack) ở mọi nơi khác. Bạn có thể ghi đè hành vi này bằng cách chỉ định tham số `type`.
 
-The `type` parameter has no effect when used in Server Components.
+Tham số `type` không có hiệu lực khi được sử dụng trong Server Components.
 
 ## Returns
 
-`permanentRedirect` does not return a value.
+`permanentRedirect` không trả về giá trị.
 
 ## Example
 
-Invoking the `permanentRedirect()` function throws a `NEXT_REDIRECT` error and terminates rendering of the route segment in which it was thrown.
+Gọi hàm `permanentRedirect()` sẽ ném một lỗi `NEXT_REDIRECT` và chấm dứt việc render của route segment mà nó được ném.
 
 ```jsx filename="app/team/[id]/page.js"
 import { permanentRedirect } from 'next/navigation'
@@ -59,4 +59,4 @@ export default async function Profile({ params }) {
 }
 ```
 
-> **Good to know**: `permanentRedirect` does not require you to use `return permanentRedirect()` as it uses the TypeScript [`never`](https://www.typescriptlang.org/docs/handbook/2/functions.html#never) type.
+> **Nên biết**: `permanentRedirect` không yêu cầu bạn sử dụng `return permanentRedirect()` vì nó sử dụng kiểu TypeScript [`never`](https://www.typescriptlang.org/docs/handbook/2/functions.html#never).

@@ -1,7 +1,7 @@
 ---
-title: How to handle redirects in Next.js
+title: Cách xử lý redirects trong Next.js
 nav_title: Redirecting
-description: Learn the different ways to handle redirects in Next.js.
+description: Tìm hiểu các cách khác nhau để xử lý redirects trong Next.js.
 related:
   links:
     - app/api-reference/functions/redirect
@@ -10,37 +10,37 @@ related:
     - app/api-reference/config/next-config-js/redirects
 ---
 
-There are a few ways you can handle redirects in Next.js. This page will go through each available option, use cases, and how to manage large numbers of redirects.
+Có một vài cách bạn có thể xử lý redirects trong Next.js. Trang này sẽ đi qua từng tùy chọn có sẵn, các trường hợp sử dụng, và cách quản lý số lượng lớn redirects.
 
 <AppOnly>
 
-| API                                                           | Purpose                                           | Where                                             | Status Code                            |
-| ------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- | -------------------------------------- |
-| [`redirect`](#redirect-function)                              | Redirect user after a mutation or event           | Server Components, Server Actions, Route Handlers | 307 (Temporary) or 303 (Server Action) |
-| [`permanentRedirect`](#permanentredirect-function)            | Redirect user after a mutation or event           | Server Components, Server Actions, Route Handlers | 308 (Permanent)                        |
-| [`useRouter`](#userouter-hook)                                | Perform a client-side navigation                  | Event Handlers in Client Components               | N/A                                    |
-| [`redirects` in `next.config.js`](#redirects-in-nextconfigjs) | Redirect an incoming request based on a path      | `next.config.js` file                             | 307 (Temporary) or 308 (Permanent)     |
-| [`NextResponse.redirect`](#nextresponseredirect-in-proxy)     | Redirect an incoming request based on a condition | Proxy                                             | Any                                    |
+| API                                                              | Mục đích                                        | Nơi sử dụng                                       | Mã trạng thái                           |
+| ---------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------- | --------------------------------------- |
+| [`redirect`](#redirect-function)                                 | Redirect người dùng sau một mutation hoặc event | Server Components, Server Actions, Route Handlers | 307 (Tạm thời) hoặc 303 (Server Action) |
+| [`permanentRedirect`](#permanentredirect-function)               | Redirect người dùng sau một mutation hoặc event | Server Components, Server Actions, Route Handlers | 308 (Vĩnh viễn)                         |
+| [`useRouter`](#userouter-hook)                                   | Thực hiện điều hướng phía client                | Event Handlers trong Client Components            | N/A                                     |
+| [`redirects` trong `next.config.js`](#redirects-in-nextconfigjs) | Redirect một request đến dựa trên path          | Tệp `next.config.js`                              | 307 (Tạm thời) hoặc 308 (Vĩnh viễn)     |
+| [`NextResponse.redirect`](#nextresponseredirect-in-proxy)        | Redirect một request đến dựa trên điều kiện     | Proxy                                             | Bất kỳ                                  |
 
 </AppOnly>
 
 <PagesOnly>
 
-| API                                                           | Purpose                                           | Where                 | Status Code                        |
-| ------------------------------------------------------------- | ------------------------------------------------- | --------------------- | ---------------------------------- |
-| [`useRouter`](#userouter-hook)                                | Perform a client-side navigation                  | Components            | N/A                                |
-| [`redirects` in `next.config.js`](#redirects-in-nextconfigjs) | Redirect an incoming request based on a path      | `next.config.js` file | 307 (Temporary) or 308 (Permanent) |
-| [`NextResponse.redirect`](#nextresponseredirect-in-proxy)     | Redirect an incoming request based on a condition | Proxy                 | Any                                |
+| API                                                              | Mục đích                                    | Nơi sử dụng          | Mã trạng thái                       |
+| ---------------------------------------------------------------- | ------------------------------------------- | -------------------- | ----------------------------------- |
+| [`useRouter`](#userouter-hook)                                   | Thực hiện điều hướng phía client            | Components           | N/A                                 |
+| [`redirects` trong `next.config.js`](#redirects-in-nextconfigjs) | Redirect một request đến dựa trên path      | Tệp `next.config.js` | 307 (Tạm thời) hoặc 308 (Vĩnh viễn) |
+| [`NextResponse.redirect`](#nextresponseredirect-in-proxy)        | Redirect một request đến dựa trên điều kiện | Proxy                | Bất kỳ                              |
 
 </PagesOnly>
 
 <AppOnly>
 
-## `redirect` function
+## Hàm `redirect`
 
-The `redirect` function allows you to redirect the user to another URL. You can call `redirect` in [Server Components](/docs/app/getting-started/server-and-client-components), [Route Handlers](/docs/app/api-reference/file-conventions/route), and [Server Actions](/docs/app/getting-started/updating-data).
+Hàm `redirect` cho phép bạn redirect người dùng đến một URL khác. Bạn có thể gọi `redirect` trong [Server Components](/docs/app/getting-started/server-and-client-components), [Route Handlers](/docs/app/api-reference/file-conventions/route), và [Server Actions](/docs/app/getting-started/updating-data).
 
-`redirect` is often used after a mutation or event. For example, creating a post:
+`redirect` thường được sử dụng sau một mutation hoặc event. Ví dụ, tạo một bài post:
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -78,21 +78,21 @@ export async function createPost(id) {
 }
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - `redirect` returns a 307 (Temporary Redirect) status code by default. When used in a Server Action, it returns a 303 (See Other), which is commonly used for redirecting to a success page as a result of a POST request.
-> - `redirect` throws an error so it should be called **outside** the `try` block when using `try/catch` statements.
-> - `redirect` can be called in Client Components during the rendering process but not in event handlers. You can use the [`useRouter` hook](#userouter-hook) instead.
-> - `redirect` also accepts absolute URLs and can be used to redirect to external links.
-> - If you'd like to redirect before the render process, use [`next.config.js`](#redirects-in-nextconfigjs) or [Proxy](#nextresponseredirect-in-proxy).
+> - `redirect` trả về mã trạng thái 307 (Temporary Redirect) theo mặc định. Khi được sử dụng trong Server Action, nó trả về 303 (See Other), thường được sử dụng để redirect đến trang thành công như kết quả của một POST request.
+> - `redirect` throws một error nên nó nên được gọi **bên ngoài** khối `try` khi sử dụng các câu lệnh `try/catch`.
+> - `redirect` có thể được gọi trong Client Components trong quá trình rendering nhưng không phải trong event handlers. Bạn có thể sử dụng [`useRouter` hook](#userouter-hook) thay thế.
+> - `redirect` cũng chấp nhận các URL tuyệt đối và có thể được sử dụng để redirect đến các liên kết bên ngoài.
+> - Nếu bạn muốn redirect trước quá trình render, hãy sử dụng [`next.config.js`](#redirects-in-nextconfigjs) hoặc [Proxy](#nextresponseredirect-in-proxy).
 
-See the [`redirect` API reference](/docs/app/api-reference/functions/redirect) for more information.
+Xem [API reference `redirect`](/docs/app/api-reference/functions/redirect) để biết thêm thông tin.
 
-## `permanentRedirect` function
+## Hàm `permanentRedirect`
 
-The `permanentRedirect` function allows you to **permanently** redirect the user to another URL. You can call `permanentRedirect` in [Server Components](/docs/app/getting-started/server-and-client-components), [Route Handlers](/docs/app/api-reference/file-conventions/route), and [Server Actions](/docs/app/getting-started/updating-data).
+Hàm `permanentRedirect` cho phép bạn redirect **vĩnh viễn** người dùng đến một URL khác. Bạn có thể gọi `permanentRedirect` trong [Server Components](/docs/app/getting-started/server-and-client-components), [Route Handlers](/docs/app/api-reference/file-conventions/route), và [Server Actions](/docs/app/getting-started/updating-data).
 
-`permanentRedirect` is often used after a mutation or event that changes an entity's canonical URL, such as updating a user's profile URL after they change their username:
+`permanentRedirect` thường được sử dụng sau một mutation hoặc event thay đổi URL canonical của một entity, chẳng hạn như cập nhật URL profile của người dùng sau khi họ thay đổi username:
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -130,21 +130,21 @@ export async function updateUsername(username, formData) {
 }
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - `permanentRedirect` returns a 308 (permanent redirect) status code by default.
-> - `permanentRedirect` also accepts absolute URLs and can be used to redirect to external links.
-> - If you'd like to redirect before the render process, use [`next.config.js`](#redirects-in-nextconfigjs) or [Proxy](#nextresponseredirect-in-proxy).
+> - `permanentRedirect` trả về mã trạng thái 308 (permanent redirect) theo mặc định.
+> - `permanentRedirect` cũng chấp nhận các URL tuyệt đối và có thể được sử dụng để redirect đến các liên kết bên ngoài.
+> - Nếu bạn muốn redirect trước quá trình render, hãy sử dụng [`next.config.js`](#redirects-in-nextconfigjs) hoặc [Proxy](#nextresponseredirect-in-proxy).
 
-See the [`permanentRedirect` API reference](/docs/app/api-reference/functions/permanentRedirect) for more information.
+Xem [API reference `permanentRedirect`](/docs/app/api-reference/functions/permanentRedirect) để biết thêm thông tin.
 
 </AppOnly>
 
-## `useRouter()` hook
+## Hook `useRouter()`
 
 <AppOnly>
 
-If you need to redirect inside an event handler in a Client Component, you can use the `push` method from the `useRouter` hook. For example:
+Nếu bạn cần redirect bên trong một event handler trong Client Component, bạn có thể sử dụng phương thức `push` từ hook `useRouter`. Ví dụ:
 
 ```tsx filename="app/page.tsx" switcher
 'use client'
@@ -182,7 +182,7 @@ export default function Page() {
 
 <PagesOnly>
 
-If you need to redirect inside a component, you can use the `push` method from the `useRouter` hook. For example:
+Nếu bạn cần redirect bên trong một component, bạn có thể sử dụng phương thức `push` từ hook `useRouter`. Ví dụ:
 
 ```tsx filename="app/page.tsx" switcher
 import { useRouter } from 'next/router'
@@ -214,29 +214,29 @@ export default function Page() {
 
 </PagesOnly>
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - If you don't need to programmatically navigate a user, you should use a [`<Link>`](/docs/app/api-reference/components/link) component.
+> - Nếu bạn không cần điều hướng người dùng theo chương trình, bạn nên sử dụng component [`<Link>`](/docs/app/api-reference/components/link).
 
 <AppOnly>
 
-See the [`useRouter` API reference](/docs/app/api-reference/functions/use-router) for more information.
+Xem [API reference `useRouter`](/docs/app/api-reference/functions/use-router) để biết thêm thông tin.
 
 </AppOnly>
 
 <PagesOnly>
 
-See the [`useRouter` API reference](/docs/pages/api-reference/functions/use-router) for more information.
+Xem [API reference `useRouter`](/docs/pages/api-reference/functions/use-router) để biết thêm thông tin.
 
 </PagesOnly>
 
-## `redirects` in `next.config.js`
+## `redirects` trong `next.config.js`
 
-The `redirects` option in the `next.config.js` file allows you to redirect an incoming request path to a different destination path. This is useful when you change the URL structure of pages or have a list of redirects that are known ahead of time.
+Tùy chọn `redirects` trong tệp `next.config.js` cho phép bạn redirect một đường dẫn request đến sang một đường dẫn đích khác. Điều này hữu ích khi bạn thay đổi cấu trúc URL của các trang hoặc có một danh sách các redirects được biết trước.
 
-`redirects` supports [path](/docs/app/api-reference/config/next-config-js/redirects#path-matching), [header, cookie, and query matching](/docs/app/api-reference/config/next-config-js/redirects#header-cookie-and-query-matching), giving you the flexibility to redirect users based on an incoming request.
+`redirects` hỗ trợ [path matching](/docs/app/api-reference/config/next-config-js/redirects#path-matching), [header, cookie, và query matching](/docs/app/api-reference/config/next-config-js/redirects#header-cookie-and-query-matching), mang lại cho bạn sự linh hoạt để redirect người dùng dựa trên một request đến.
 
-To use `redirects`, add the option to your `next.config.js` file:
+Để sử dụng `redirects`, thêm tùy chọn vào tệp `next.config.js` của bạn:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -284,19 +284,19 @@ module.exports = {
 }
 ```
 
-See the [`redirects` API reference](/docs/app/api-reference/config/next-config-js/redirects) for more information.
+Xem [API reference `redirects`](/docs/app/api-reference/config/next-config-js/redirects) để biết thêm thông tin.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - `redirects` can return a 307 (Temporary Redirect) or 308 (Permanent Redirect) status code with the `permanent` option.
-> - `redirects` may have a limit on platforms. For example, on Vercel, there's a limit of 1,024 redirects. To manage a large number of redirects (1000+), consider creating a custom solution using [Proxy](/docs/app/api-reference/file-conventions/proxy). See [managing redirects at scale](#managing-redirects-at-scale-advanced) for more.
-> - `redirects` runs **before** Proxy.
+> - `redirects` có thể trả về mã trạng thái 307 (Temporary Redirect) hoặc 308 (Permanent Redirect) với tùy chọn `permanent`.
+> - `redirects` có thể có giới hạn trên các nền tảng. Ví dụ, trên Vercel, có giới hạn 1,024 redirects. Để quản lý số lượng lớn redirects (1000+), hãy xem xét tạo một giải pháp tùy chỉnh sử dụng [Proxy](/docs/app/api-reference/file-conventions/proxy). Xem [quản lý redirects quy mô lớn](#managing-redirects-at-scale-advanced) để biết thêm.
+> - `redirects` chạy **trước** Proxy.
 
-## `NextResponse.redirect` in Proxy
+## `NextResponse.redirect` trong Proxy
 
-Proxy allows you to run code before a request is completed. Then, based on the incoming request, redirect to a different URL using `NextResponse.redirect`. This is useful if you want to redirect users based on a condition (e.g. authentication, session management, etc) or have [a large number of redirects](#managing-redirects-at-scale-advanced).
+Proxy cho phép bạn chạy mã trước khi một request được hoàn tất. Sau đó, dựa trên request đến, redirect đến một URL khác bằng cách sử dụng `NextResponse.redirect`. Điều này hữu ích nếu bạn muốn redirect người dùng dựa trên một điều kiện (v.d. xác thực, quản lý session, v.v.) hoặc có [số lượng lớn redirects](#managing-redirects-at-scale-advanced).
 
-For example, to redirect the user to a `/login` page if they are not authenticated:
+Ví dụ, để redirect người dùng đến trang `/login` nếu họ chưa được xác thực:
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse, NextRequest } from 'next/server'
@@ -340,28 +340,28 @@ export const config = {
 }
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - Proxy runs **after** `redirects` in `next.config.js` and **before** rendering.
+> - Proxy chạy **sau** `redirects` trong `next.config.js` và **trước** rendering.
 
-See the [Proxy](/docs/app/api-reference/file-conventions/proxy) documentation for more information.
+Xem tài liệu [Proxy](/docs/app/api-reference/file-conventions/proxy) để biết thêm thông tin.
 
-## Managing redirects at scale (advanced)
+## Quản lý redirects quy mô lớn (nâng cao)
 
-To manage a large number of redirects (1000+), you may consider creating a custom solution using Proxy. This allows you to handle redirects programmatically without having to redeploy your application.
+Để quản lý số lượng lớn redirects (1000+), bạn có thể xem xét tạo một giải pháp tùy chỉnh sử dụng Proxy. Điều này cho phép bạn xử lý redirects theo chương trình mà không cần phải redeploy ứng dụng của bạn.
 
-To do this, you'll need to consider:
+Để thực hiện điều này, bạn sẽ cần xem xét:
 
-1. Creating and storing a redirect map.
-2. Optimizing data lookup performance.
+1. Tạo và lưu trữ một redirect map.
+2. Tối ưu hóa hiệu suất tìm kiếm dữ liệu.
 
-> **Next.js Example**: See our [Proxy with Bloom filter](https://redirects-bloom-filter.vercel.app/) example for an implementation of the recommendations below.
+> **Ví dụ Next.js**: Xem ví dụ [Proxy với Bloom filter](https://redirects-bloom-filter.vercel.app/) của chúng tôi để xem triển khai các khuyến nghị dưới đây.
 
-### 1. Creating and storing a redirect map
+### 1. Tạo và lưu trữ một redirect map
 
-A redirect map is a list of redirects that you can store in a database (usually a key-value store) or JSON file.
+Một redirect map là một danh sách các redirects mà bạn có thể lưu trữ trong một cơ sở dữ liệu (thường là một key-value store) hoặc tệp JSON.
 
-Consider the following data structure:
+Xem xét cấu trúc dữ liệu sau:
 
 ```json
 {
@@ -376,7 +376,7 @@ Consider the following data structure:
 }
 ```
 
-In [Proxy](/docs/app/api-reference/file-conventions/proxy), you can read from a database such as Vercel's [Edge Config](https://vercel.com/docs/edge-config/get-started) or [Redis](https://vercel.com/docs/redis), and redirect the user based on the incoming request:
+Trong [Proxy](/docs/app/api-reference/file-conventions/proxy), bạn có thể đọc từ một cơ sở dữ liệu như [Edge Config](https://vercel.com/docs/edge-config/get-started) của Vercel hoặc [Redis](https://vercel.com/docs/redis), và redirect người dùng dựa trên request đến:
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse, NextRequest } from 'next/server'
@@ -421,16 +421,16 @@ export async function proxy(request) {
 }
 ```
 
-### 2. Optimizing data lookup performance
+### 2. Tối ưu hóa hiệu suất tìm kiếm dữ liệu
 
-Reading a large dataset for every incoming request can be slow and expensive. There are two ways you can optimize data lookup performance:
+Việc đọc một tập dữ liệu lớn cho mỗi request đến có thể chậm và đắt. Có hai cách bạn có thể tối ưu hóa hiệu suất tìm kiếm dữ liệu:
 
-- Use a database that is optimized for fast reads
-- Use a data lookup strategy such as a [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter) to efficiently check if a redirect exists **before** reading the larger redirects file or database.
+- Sử dụng một cơ sở dữ liệu được tối ưu hóa cho việc đọc nhanh
+- Sử dụng một chiến lược tìm kiếm dữ liệu như [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter) để kiểm tra hiệu quả xem một redirect có tồn tại hay không **trước khi** đọc tệp redirects lớn hươn hoặc cơ sở dữ liệu.
 
-Considering the previous example, you can import a generated bloom filter file into Proxy, then, check if the incoming request pathname exists in the bloom filter.
+Xem xét ví dụ trước đó, bạn có thể import một tệp bloom filter được tạo vào Proxy, sau đó, kiểm tra xem pathname của request đến có tồn tại trong bloom filter hay không.
 
-If it does, forward the request to a <AppOnly>[Route Handler](/docs/app/api-reference/file-conventions/route)</AppOnly> <PagesOnly>[API Routes](/docs/pages/building-your-application/routing/api-routes)</PagesOnly> which will check the actual file and redirect the user to the appropriate URL. This avoids importing a large redirects file into Proxy, which can slow down every incoming request.
+Nếu có, chuyển tiếp request đến một <AppOnly>[Route Handler](/docs/app/api-reference/file-conventions/route)</AppOnly> <PagesOnly>[API Routes](/docs/pages/building-your-application/routing/api-routes)</PagesOnly> sẽ kiểm tra tệp thực tế và redirect người dùng đến URL phù hợp. Điều này tránh việc import một tệp redirects lớn vào Proxy, có thể làm chậm mọi request đến.
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse, NextRequest } from 'next/server'
@@ -530,7 +530,7 @@ export async function proxy(request) {
 
 <AppOnly>
 
-Then, in the Route Handler:
+Sau đó, trong Route Handler:
 
 ```ts filename="app/api/redirects/route.ts" switcher
 import { NextRequest, NextResponse } from 'next/server'
@@ -587,7 +587,7 @@ export function GET(request) {
 
 <PagesOnly>
 
-Then, in the API Route:
+Sau đó, trong API Route:
 
 ```ts filename="pages/api/redirects.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -641,7 +641,11 @@ export default function handler(req, res) {
 
 </PagesOnly>
 
-> **Good to know:**
+> **Cần biết**:
 >
-> - To generate a bloom filter, you can use a library like [`bloom-filters`](https://www.npmjs.com/package/bloom-filters).
-> - You should validate requests made to your Route Handler to prevent malicious requests.
+> - Để tạo một bloom filter, bạn có thể sử dụng một thư viện như [`bloom-filters`](https://www.npmjs.com/package/bloom-filters).
+> - Bạn nên xác thực các requests được thực hiện đến Route Handler của bạn để ngăn chặn các requests độc hại.
+
+```
+
+```

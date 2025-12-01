@@ -1,22 +1,22 @@
 ---
-title: Forms and Mutations
-nav_title: Forms and Mutations
-description: Learn how to handle form submissions and data mutations with Next.js.
+title: Forms và Mutations
+nav_title: Forms và Mutations
+description: Tìm hiểu cách xử lý form submissions và data mutations với Next.js.
 ---
 
-Forms enable you to create and update data in web applications. Next.js provides a powerful way to handle form submissions and data mutations using **API Routes**.
+Forms cho phép bạn tạo và cập nhật dữ liệu trong các ứng dụng web. Next.js cung cấp một cách mạnh mẽ để xử lý form submissions và data mutations bằng cách sử dụng **API Routes**.
 
-> **Good to know:**
+> **Nên biết:**
 >
-> - We will soon recommend [incrementally adopting](/docs/app/guides/migrating/app-router-migration) the App Router and using [Server Actions](/docs/app/getting-started/updating-data) for handling form submissions and data mutations. Server Actions allow you to define asynchronous server functions that can be called directly from your components, without needing to manually create an API Route.
-> - API Routes [do not specify CORS headers](https://developer.mozilla.org/docs/Web/HTTP/CORS), meaning they are same-origin only by default.
-> - Since API Routes run on the server, we're able to use sensitive values (like API keys) through [Environment Variables](/docs/pages/guides/environment-variables) without exposing them to the client. This is critical for the security of your application.
+> - Chúng tôi sẽ sớm khuyến nghị [incrementally adopting](/docs/app/guides/migrating/app-router-migration) App Router và sử dụng [Server Actions](/docs/app/getting-started/updating-data) để xử lý form submissions và data mutations. Server Actions cho phép bạn định nghĩa các hàm server bất đồng bộ có thể được gọi trực tiếp từ các component của bạn, mà không cần tạo API Route thủ công.
+> - API Routes [không chỉ định CORS headers](https://developer.mozilla.org/docs/Web/HTTP/CORS), nghĩa là chúng chỉ là same-origin theo mặc định.
+> - Vì API Routes chạy trên server, chúng ta có thể sử dụng các giá trị nhạy cảm (như API keys) thông qua [Environment Variables](/docs/pages/guides/environment-variables) mà không expose chúng cho client. Điều này rất quan trọng cho bảo mật của ứng dụng của bạn.
 
-## Examples
+## Ví dụ
 
 ### Redirecting
 
-If you would like to redirect the user to a different route after a mutation, you can [`redirect`](/docs/pages/building-your-application/routing/api-routes#response-helpers) to any absolute or relative URL:
+Nếu bạn muốn redirect người dùng đến một route khác sau một mutation, bạn có thể [`redirect`](/docs/pages/building-your-application/routing/api-routes#response-helpers) đến bất kỳ URL tuyệt đối hoặc tương đối nào:
 
 ```ts filename="pages/api/submit.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
 ### Setting cookies
 
-You can set cookies inside an API Route using the `setHeader` method on the response:
+Bạn có thể set cookies bên trong một API Route bằng cách sử dụng phương thức `setHeader` trên response:
 
 ```ts filename="pages/api/cookie.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
 ### Reading cookies
 
-You can read cookies inside an API Route using the [`cookies`](/docs/pages/building-your-application/routing/api-routes#request-helpers) request helper:
+Bạn có thể đọc cookies bên trong một API Route bằng cách sử dụng request helper [`cookies`](/docs/pages/building-your-application/routing/api-routes#request-helpers):
 
 ```ts filename="pages/api/cookie.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
 
 ### Deleting cookies
 
-You can delete cookies inside an API Route using the `setHeader` method on the response:
+Bạn có thể xóa cookies bên trong một API Route bằng cách sử dụng phương thức `setHeader` trên response:
 
 ```ts filename="pages/api/cookie.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'

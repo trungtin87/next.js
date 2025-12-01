@@ -1,16 +1,16 @@
 ---
 title: browserDebugInfoInTerminal
-description: Forward browser console logs and errors to your terminal during development.
+description: Chuyển tiếp các log console và lỗi của trình duyệt đến terminal của bạn trong quá trình phát triển.
 version: experimental
 ---
 
-The `experimental.browserDebugInfoInTerminal` option forwards console output and runtime errors originating in the browser to the dev server terminal.
+Tùy chọn `experimental.browserDebugInfoInTerminal` chuyển tiếp đầu ra console và lỗi runtime có nguồn gốc từ trình duyệt đến terminal của dev server.
 
-This option is disabled by default. When enabled it only works in development mode.
+Tùy chọn này bị vô hiệu hóa theo mặc định. Khi được kích hoạt, nó chỉ hoạt động trong chế độ development.
 
-## Usage
+## Cách sử dụng
 
-Enable forwarding:
+Kích hoạt chuyển tiếp:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -35,12 +35,12 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-### Serialization limits
+### Giới hạn Serialization
 
-Deeply nested objects/arrays are truncated using **sensible defaults**. You can tweak these limits:
+Các đối tượng/mảng lồng nhau sâu được cắt ngắn bằng cách sử dụng **các giá trị mặc định hợp lý**. Bạn có thể điều chỉnh các giới hạn này:
 
-- **depthLimit**: (optional) Limit stringification depth for nested objects/arrays. Default: 5
-- **edgeLimit**: (optional) Max number of properties or elements to include per object or array. Default: 100
+- **depthLimit**: (tùy chọn) Giới hạn độ sâu stringification cho các đối tượng/mảng lồng nhau. Mặc định: 5
+- **edgeLimit**: (tùy chọn) Số lượng thuộc tính hoặc phần tử tối đa để bao gồm cho mỗi đối tượng hoặc mảng. Mặc định: 100
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -71,9 +71,9 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-### Source location
+### Vị trí Source
 
-Source locations are included by default when this feature is enabled.
+Các vị trí source được bao gồm theo mặc định khi tính năng này được kích hoạt.
 
 ```tsx filename="app/page.tsx" highlight={8}
 'use client'
@@ -92,15 +92,15 @@ export default function Home() {
 }
 ```
 
-Clicking the button prints this message to the terminal.
+Nhấp vào nút sẽ in thông báo này vào terminal.
 
 ```bash filename="Terminal"
 [browser] Hello World (app/page.tsx:8:17)
 ```
 
-To suppress them, set `showSourceLocation: false`.
+Để ẩn chúng, hãy đặt `showSourceLocation: false`.
 
-- **showSourceLocation**: Include source location info when available.
+- **showSourceLocation**: Bao gồm thông tin vị trí source khi có sẵn.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -129,6 +129,6 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-| Version   | Changes                                              |
-| --------- | ---------------------------------------------------- |
-| `v15.4.0` | experimental `browserDebugInfoInTerminal` introduced |
+| Phiên bản | Thay đổi                                                  |
+| --------- | --------------------------------------------------------- |
+| `v15.4.0` | experimental `browserDebugInfoInTerminal` được giới thiệu |

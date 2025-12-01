@@ -1,9 +1,9 @@
 ---
 title: useParams
-description: API Reference for the useParams hook.
+description: Tài liệu tham khảo API cho hook useParams.
 ---
 
-`useParams` is a **Client Component** hook that lets you read a route's [dynamic params](/docs/app/api-reference/file-conventions/dynamic-routes) filled in by the current URL.
+`useParams` là một hook **Client Component** cho phép bạn đọc [dynamic params](/docs/app/api-reference/file-conventions/dynamic-routes) của route được điền bởi URL hiện tại.
 
 ```tsx filename="app/example-client-component.tsx" switcher
 'use client'
@@ -39,25 +39,25 @@ export default function ExampleClientComponent() {
 }
 ```
 
-## Parameters
+## Tham số
 
 ```tsx
 const params = useParams()
 ```
 
-`useParams` does not take any parameters.
+`useParams` không nhận bất kỳ tham số nào.
 
-## Returns
+## Giá trị trả về
 
-`useParams` returns an object containing the current route's filled in [dynamic parameters](/docs/app/api-reference/file-conventions/dynamic-routes).
+`useParams` trả về một đối tượng chứa các [dynamic parameters](/docs/app/api-reference/file-conventions/dynamic-routes) được điền của route hiện tại.
 
-- Each property in the object is an active dynamic segment.
-- The properties name is the segment's name, and the properties value is what the segment is filled in with.
-- The properties value will either be a `string` or array of `string`'s depending on the [type of dynamic segment](/docs/app/api-reference/file-conventions/dynamic-routes).
-- If the route contains no dynamic parameters, `useParams` returns an empty object.
-- If used in Pages Router, `useParams` will return `null` on the initial render and updates with properties following the rules above once the router is ready.
+- Mỗi thuộc tính trong đối tượng là một đoạn động đang hoạt động.
+- Tên thuộc tính là tên của đoạn, và giá trị thuộc tính là những gì đoạn được điền vào.
+- Giá trị thuộc tính sẽ là `string` hoặc mảng `string` tùy thuộc vào [loại đoạn động](/docs/app/api-reference/file-conventions/dynamic-routes).
+- Nếu route không chứa dynamic parameters, `useParams` trả về một đối tượng rỗng.
+- Nếu được sử dụng trong Pages Router, `useParams` sẽ trả về `null` trên lần render đầu tiên và cập nhật với các thuộc tính theo các quy tắc trên sau khi router sẵn sàng.
 
-For example:
+Ví dụ:
 
 | Route                           | URL         | `useParams()`             |
 | ------------------------------- | ----------- | ------------------------- |
@@ -66,8 +66,8 @@ For example:
 | `app/shop/[tag]/[item]/page.js` | `/shop/1/2` | `{ tag: '1', item: '2' }` |
 | `app/shop/[...slug]/page.js`    | `/shop/1/2` | `{ slug: ['1', '2'] }`    |
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                 |
-| --------- | ----------------------- |
-| `v13.3.0` | `useParams` introduced. |
+| Phiên bản | Thay đổi                     |
+| --------- | ---------------------------- |
+| `v13.3.0` | `useParams` được giới thiệu. |

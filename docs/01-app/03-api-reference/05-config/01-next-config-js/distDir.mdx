@@ -1,13 +1,13 @@
 ---
 title: distDir
-description: Set a custom build directory to use instead of the default .next directory.
+description: Đặt thư mục build tùy chỉnh để sử dụng thay vì thư mục mặc định .next.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-You can specify a name to use for a custom build directory to use instead of `.next`.
+Bạn có thể chỉ định tên để sử dụng cho thư mục build tùy chỉnh thay vì `.next`.
 
-Open `next.config.js` and add the `distDir` config:
+Mở `next.config.js` và thêm cấu hình `distDir`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -15,6 +15,6 @@ module.exports = {
 }
 ```
 
-Now if you run `next build` Next.js will use `build` instead of the default `.next` folder.
+Bây giờ nếu bạn chạy `next build` Next.js sẽ sử dụng `build` thay vì thư mục mặc định `.next`.
 
-> `distDir` **should not** leave your project directory. For example, `../build` is an **invalid** directory.
+> `distDir` **không nên** rời khỏi thư mục dự án của bạn. Ví dụ, `../build` là một thư mục **không hợp lệ**.

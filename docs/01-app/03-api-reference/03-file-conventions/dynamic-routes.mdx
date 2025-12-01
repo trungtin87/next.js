@@ -1,19 +1,19 @@
 ---
 title: Dynamic Route Segments
 nav_title: Dynamic Segments
-description: Dynamic Route Segments can be used to programmatically generate route segments from dynamic data.
+description: Dynamic Route Segments có thể được sử dụng để tạo route segments bằng lập trình từ dynamic data.
 related:
-  title: Next Steps
-  description: For more information on what to do next, we recommend the following sections
+  title: Các bước tiếp theo
+  description: Để biết thêm thông tin về những việc cần làm tiếp theo, chúng tôi khuyên bạn nên xem các phần sau
   links:
     - app/api-reference/functions/generate-static-params
 ---
 
-When you don't know the exact route segment names ahead of time and want to create routes from dynamic data, you can use Dynamic Segments that are filled in at request time or prerendered at build time.
+Khi bạn không biết trước tên route segment chính xác và muốn tạo routes từ dynamic data, bạn có thể sử dụng Dynamic Segments được điền vào tại request time hoặc prerendered tại build time.
 
-## Convention
+## Quy ước
 
-A Dynamic Segment can be created by wrapping a folder's name in square brackets: `[folderName]`. For example, a blog could include the following route `app/blog/[slug]/page.js` where `[slug]` is the Dynamic Segment for blog posts.
+Một Dynamic Segment có thể được tạo bằng cách bao quanh tên folder trong dấu ngoặc vuông: `[folderName]`. Ví dụ, một blog có thể bao gồm route `app/blog/[slug]/page.js` nơi `[slug]` là Dynamic Segment cho các bài đăng blog.
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export default async function Page({
@@ -33,7 +33,7 @@ export default async function Page({ params }) {
 }
 ```
 
-Dynamic Segments are passed as the `params` prop to [`layout`](/docs/app/api-reference/file-conventions/layout), [`page`](/docs/app/api-reference/file-conventions/page), [`route`](/docs/app/api-reference/file-conventions/route), and [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata#generatemetadata-function) functions.
+Dynamic Segments được truyền dưới dạng prop `params` cho các hàm [`layout`](/docs/app/api-reference/file-conventions/layout), [`page`](/docs/app/api-reference/file-conventions/page), [`route`](/docs/app/api-reference/file-conventions/route), và [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata#generatemetadata-function).
 
 | Route                     | Example URL | `params`        |
 | ------------------------- | ----------- | --------------- |
@@ -41,9 +41,9 @@ Dynamic Segments are passed as the `params` prop to [`layout`](/docs/app/api-ref
 | `app/blog/[slug]/page.js` | `/blog/b`   | `{ slug: 'b' }` |
 | `app/blog/[slug]/page.js` | `/blog/c`   | `{ slug: 'c' }` |
 
-### In Client Components
+### Trong Client Components
 
-In a Client Component **page**, dynamic segments from props can be accessed using the [`use`](https://react.dev/reference/react/use) hook.
+Trong một Client Component **page**, dynamic segments từ props có thể được truy cập bằng cách sử dụng hook [`use`](https://react.dev/reference/react/use).
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 'use client'
@@ -80,13 +80,13 @@ export default function BlogPostPage({ params }) {
 }
 ```
 
-Alternatively Client Components can use the [`useParams`](/docs/app/api-reference/functions/use-params) hook to access the `params` anywhere in the Client Component tree.
+Ngoài ra, Client Components có thể sử dụng hook [`useParams`](/docs/app/api-reference/functions/use-params) để truy cập `params` ở bất kỳ đâu trong Client Component tree.
 
 ### Catch-all Segments
 
-Dynamic Segments can be extended to **catch-all** subsequent segments by adding an ellipsis inside the brackets `[...folderName]`.
+Dynamic Segments có thể được mở rộng để **catch-all** (bắt tất cả) các segments tiếp theo bằng cách thêm dấu ba chấm bên trong dấu ngoặc vuông `[...folderName]`.
 
-For example, `app/shop/[...slug]/page.js` will match `/shop/clothes`, but also `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`, and so on.
+Ví dụ, `app/shop/[...slug]/page.js` sẽ khớp với `/shop/clothes`, nhưng cũng khớp với `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`, và vân vân.
 
 | Route                        | Example URL   | `params`                    |
 | ---------------------------- | ------------- | --------------------------- |
@@ -96,11 +96,11 @@ For example, `app/shop/[...slug]/page.js` will match `/shop/clothes`, but also `
 
 ### Optional Catch-all Segments
 
-Catch-all Segments can be made **optional** by including the parameter in double square brackets: `[[...folderName]]`.
+Catch-all Segments có thể được làm thành **optional** (tùy chọn) bằng cách bao gồm tham số trong dấu ngoặc vuông kép: `[[...folderName]]`.
 
-For example, `app/shop/[[...slug]]/page.js` will **also** match `/shop`, in addition to `/shop/clothes`, `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`.
+Ví dụ, `app/shop/[[...slug]]/page.js` sẽ **cũng** khớp với `/shop`, ngoài `/shop/clothes`, `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`.
 
-The difference between **catch-all** and **optional catch-all** segments is that with optional, the route without the parameter is also matched (`/shop` in the example above).
+Sự khác biệt giữa **catch-all** và **optional catch-all** segments là với optional, route không có tham số cũng được khớp (`/shop` trong ví dụ trên).
 
 | Route                          | Example URL   | `params`                    |
 | ------------------------------ | ------------- | --------------------------- |
@@ -111,9 +111,9 @@ The difference between **catch-all** and **optional catch-all** segments is that
 
 ### TypeScript
 
-When using TypeScript, you can add types for `params` depending on your configured route segment — use [`PageProps<'/route'>`](/docs/app/api-reference/file-conventions/page#page-props-helper), [`LayoutProps<'/route'>`](/docs/app/api-reference/file-conventions/layout#layout-props-helper), or [`RouteContext<'/route'>`](/docs/app/api-reference/file-conventions/route#route-context-helper) to type `params` in `page`, `layout`, and `route` respectively.
+Khi sử dụng TypeScript, bạn có thể thêm types cho `params` tùy thuộc vào route segment đã cấu hình của bạn — sử dụng [`PageProps<'/route'>`](/docs/app/api-reference/file-conventions/page#page-props-helper), [`LayoutProps<'/route'>`](/docs/app/api-reference/file-conventions/layout#layout-props-helper), hoặc [`RouteContext<'/route'>`](/docs/app/api-reference/file-conventions/route#route-context-helper) để type `params` trong `page`, `layout`, và `route` tương ứng.
 
-Route `params` values are typed as `string`, `string[]`, or `undefined` (for optional catch-all segments), because their values aren't known until runtime. Users can enter any URL into the address bar, and these broad types help ensure that your application code handles all these possible cases.
+Route `params` values được typed là `string`, `string[]`, hoặc `undefined` (cho optional catch-all segments), bởi vì giá trị của chúng không được biết cho đến runtime. Người dùng có thể nhập bất kỳ URL nào vào thanh địa chỉ, và các broad types này giúp đảm bảo rằng mã ứng dụng của bạn xử lý tất cả các trường hợp có thể xảy ra này.
 
 | Route                               | `params` Type Definition                 |
 | ----------------------------------- | ---------------------------------------- |
@@ -122,7 +122,7 @@ Route `params` values are typed as `string`, `string[]`, or `undefined` (for opt
 | `app/shop/[[...slug]]/page.js`      | `{ slug?: string[] }`                    |
 | `app/[categoryId]/[itemId]/page.js` | `{ categoryId: string, itemId: string }` |
 
-If you're working on a route where `params` can only have a fixed number of valid values, such as a `[locale]` param with a known set of language codes, you can use runtime validation to handle any invalid params a user may enter, and let the rest of your application work with the narrower type from your known set.
+Nếu bạn đang làm việc trên một route nơi `params` chỉ có thể có một số lượng giá trị hợp lệ cố định, chẳng hạn như một `[locale]` param với một tập hợp mã ngôn ngữ đã biết, bạn có thể sử dụng runtime validation để xử lý bất kỳ params không hợp lệ nào mà người dùng có thể nhập, và để phần còn lại của ứng dụng của bạn làm việc với type hẹp hơn từ tập hợp đã biết của bạn.
 
 ```tsx filename="/app/[locale]/page.tsx"
 import { notFound } from 'next/navigation'
@@ -140,16 +140,16 @@ export default async function Page(props: PageProps<'/[locale]'>) {
 }
 ```
 
-## Behavior
+## Hành vi
 
-- Since the `params` prop is a promise. You must use `async`/`await` or React's use function to access the values.
-  - In version 14 and earlier, `params` was a synchronous prop. To help with backwards compatibility, you can still access it synchronously in Next.js 15, but this behavior will be deprecated in the future.
+- Vì prop `params` là một promise. Bạn phải sử dụng `async`/`await` hoặc hàm use của React để truy cập các giá trị.
+  - Trong phiên bản 14 và cũ hơn, `params` là một synchronous prop. Để giúp tương thích ngược, bạn vẫn có thể truy cập nó một cách đồng bộ trong Next.js 15, nhưng hành vi này sẽ bị deprecated trong tương lai.
 
-## Examples
+## Ví dụ
 
-### With `generateStaticParams`
+### Với `generateStaticParams`
 
-The [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) function can be used to [statically generate](/docs/app/guides/caching#static-rendering) routes at build time instead of on-demand at request time.
+Hàm [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) có thể được sử dụng để [tạo tĩnh](/docs/app/guides/caching#static-rendering) các routes tại build time thay vì theo yêu cầu tại request time.
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export async function generateStaticParams() {
@@ -171,4 +171,4 @@ export async function generateStaticParams() {
 }
 ```
 
-When using `fetch` inside the `generateStaticParams` function, the requests are [automatically deduplicated](/docs/app/guides/caching#request-memoization). This avoids multiple network calls for the same data Layouts, Pages, and other `generateStaticParams` functions, speeding up build time.
+Khi sử dụng `fetch` bên trong hàm `generateStaticParams`, các requests được [tự động deduplicated](/docs/app/guides/caching#request-memoization). Điều này tránh nhiều cuộc gọi mạng cho cùng một dữ liệu Layouts, Pages, và các hàm `generateStaticParams` khác, tăng tốc độ build time.

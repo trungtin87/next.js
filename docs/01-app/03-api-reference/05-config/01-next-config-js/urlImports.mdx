@@ -1,16 +1,16 @@
 ---
 title: urlImports
-description: Configure Next.js to allow importing modules from external URLs.
+description: Cấu hình Next.js để cho phép import các module từ các URL bên ngoài.
 version: experimental
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-URL imports are an experimental feature that allows you to import modules directly from external servers (instead of from the local disk).
+URL imports là một tính năng thử nghiệm cho phép bạn import các module trực tiếp từ các server bên ngoài (thay vì từ ổ đĩa cục bộ).
 
-> **Warning**: Only use domains that you trust to download and execute on your machine. Please exercise discretion, and caution until the feature is flagged as stable.
+> **Cảnh báo**: Chỉ sử dụng các domain mà bạn tin tưởng để tải xuống và thực thi trên máy của bạn. Vui lòng thận trọng và cẩn thận cho đến khi tính năng này được đánh dấu là ổn định.
 
-To opt-in, add the allowed URL prefixes inside `next.config.js`:
+Để tham gia, hãy thêm các tiền tố URL được phép vào trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -20,29 +20,29 @@ module.exports = {
 }
 ```
 
-Then, you can import modules directly from URLs:
+Sau đó, bạn có thể import các module trực tiếp từ các URL:
 
 ```js
 import { a, b, c } from 'https://example.com/assets/some/module.js'
 ```
 
-URL Imports can be used everywhere normal package imports can be used.
+URL Imports có thể được sử dụng ở mọi nơi mà các package imports thông thường có thể được sử dụng.
 
 ## Security Model
 
-This feature is being designed with **security as the top priority**. To start, we added an experimental flag forcing you to explicitly allow the domains you accept URL imports from. We're working to take this further by limiting URL imports to execute in the browser sandbox using the [Edge Runtime](/docs/app/api-reference/edge).
+Tính năng này được thiết kế với **bảo mật là ưu tiên hàng đầu**. Để bắt đầu, chúng tôi đã thêm một cờ thử nghiệm buộc bạn phải cho phép rõ ràng các domain mà bạn chấp nhận URL imports từ đó. Chúng tôi đang làm việc để đưa điều này đi xa hơn bằng cách giới hạn URL imports chỉ thực thi trong browser sandbox bằng cách sử dụng [Edge Runtime](/docs/app/api-reference/edge).
 
 ## Lockfile
 
-When using URL imports, Next.js will create a `next.lock` directory containing a lockfile and fetched assets.
-This directory **must be committed to Git**, not ignored by `.gitignore`.
+Khi sử dụng URL imports, Next.js sẽ tạo một thư mục `next.lock` chứa một lockfile và các assets đã được lấy.
+Thư mục này **phải được commit vào Git**, không được bỏ qua bởi `.gitignore`.
 
-- When running `next dev`, Next.js will download and add all newly discovered URL Imports to your lockfile.
-- When running `next build`, Next.js will use only the lockfile to build the application for production.
+- Khi chạy `next dev`, Next.js sẽ tải xuống và thêm tất cả các URL Imports mới được phát hiện vào lockfile của bạn.
+- Khi chạy `next build`, Next.js sẽ chỉ sử dụng lockfile để build ứng dụng cho production.
 
-Typically, no network requests are needed and any outdated lockfile will cause the build to fail.
-One exception is resources that respond with `Cache-Control: no-cache`.
-These resources will have a `no-cache` entry in the lockfile and will always be fetched from the network on each build.
+Thông thường, không cần các network requests và bất kỳ lockfile lỗi thời nào sẽ khiến build thất bại.
+Một ngoại lệ là các tài nguyên phản hồi với `Cache-Control: no-cache`.
+Các tài nguyên này sẽ có một entry `no-cache` trong lockfile và sẽ luôn được lấy từ network trên mỗi build.
 
 ## Examples
 

@@ -1,13 +1,13 @@
 ---
 title: error.js
-description: API reference for the error.js special file.
+description: Tài liệu tham khảo API cho file đặc biệt error.js.
 related:
-  title: Learn more about error handling
+  title: Tìm hiểu thêm về xử lý lỗi
   links:
     - app/getting-started/error-handling
 ---
 
-An **error** file allows you to handle unexpected runtime errors and display fallback UI.
+Một file **error** cho phép bạn xử lý các lỗi runtime không mong muốn và hiển thị fallback UI.
 
 <Image
   alt="error.js special file"
@@ -18,7 +18,7 @@ An **error** file allows you to handle unexpected runtime errors and display fal
 />
 
 ```tsx filename="app/dashboard/error.tsx" switcher
-'use client' // Error boundaries must be Client Components
+'use client' // Error boundaries phải là Client Components
 
 import { useEffect } from 'react'
 
@@ -30,7 +30,7 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
+    // Log lỗi vào một error reporting service
     console.error(error)
   }, [error])
 
@@ -39,7 +39,7 @@ export default function Error({
       <h2>Something went wrong!</h2>
       <button
         onClick={
-          // Attempt to recover by trying to re-render the segment
+          // Cố gắng khôi phục bằng cách thử re-render segment
           () => reset()
         }
       >
@@ -51,13 +51,13 @@ export default function Error({
 ```
 
 ```jsx filename="app/dashboard/error.js" switcher
-'use client' // Error boundaries must be Client Components
+'use client' // Error boundaries phải là Client Components
 
 import { useEffect } from 'react'
 
 export default function Error({ error, reset }) {
   useEffect(() => {
-    // Log the error to an error reporting service
+    // Log lỗi vào một error reporting service
     console.error(error)
   }, [error])
 
@@ -66,7 +66,7 @@ export default function Error({ error, reset }) {
       <h2>Something went wrong!</h2>
       <button
         onClick={
-          // Attempt to recover by trying to re-render the segment
+          // Cố gắng khôi phục bằng cách thử re-render segment
           () => reset()
         }
       >
@@ -77,48 +77,48 @@ export default function Error({ error, reset }) {
 }
 ```
 
-`error.js` wraps a route segment and its nested children in a [React Error Boundary](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary). When an error throws within the boundary, the `error` component shows as the fallback UI.
+`error.js` bao bọc một route segment và các nested children của nó trong một [React Error Boundary](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary). Khi một lỗi được ném ra bên trong boundary, component `error` sẽ hiển thị dưới dạng fallback UI.
 
 <Image
-  alt="How error.js works"
+  alt="Cách error.js hoạt động"
   srcLight="/docs/light/error-overview.png"
   srcDark="/docs/dark/error-overview.png"
   width="1600"
   height="903"
 />
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - The [React DevTools](https://react.dev/learn/react-developer-tools) allow you to toggle error boundaries to test error states.
-> - If you want errors to bubble up to the parent error boundary, you can `throw` when rendering the `error` component.
+> - [React DevTools](https://react.dev/learn/react-developer-tools) cho phép bạn bật/tắt error boundaries để kiểm tra các trạng thái lỗi.
+> - Nếu bạn muốn lỗi bubble up đến parent error boundary, bạn có thể `throw` khi rendering component `error`.
 
-## Reference
+## Tham khảo
 
 ### Props
 
 #### `error`
 
-An instance of an [`Error`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error) object forwarded to the `error.js` Client Component.
+Một instance của object [`Error`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error) được chuyển tiếp đến `error.js` Client Component.
 
-> **Good to know:** During development, the `Error` object forwarded to the client will be serialized and include the `message` of the original error for easier debugging. However, **this behavior is different in production** to avoid leaking potentially sensitive details included in the error to the client.
+> **Lưu ý:** Trong quá trình development, object `Error` được chuyển tiếp đến client sẽ được serialize và bao gồm `message` của lỗi gốc để gỡ lỗi dễ dàng hơn. Tuy nhiên, **hành vi này khác trong production** để tránh rò rỉ các chi tiết có khả năng nhạy cảm có trong lỗi cho client.
 
 #### `error.message`
 
-- Errors forwarded from Client Components show the original `Error` message.
-- Errors forwarded from Server Components show a generic message with an identifier. This is to prevent leaking sensitive details. You can use the identifier, under `errors.digest`, to match the corresponding server-side logs.
+- Các lỗi được chuyển tiếp từ Client Components hiển thị `Error` message gốc.
+- Các lỗi được chuyển tiếp từ Server Components hiển thị một thông báo chung với một identifier. Điều này là để ngăn rò rỉ các chi tiết nhạy cảm. Bạn có thể sử dụng identifier, dưới `errors.digest`, để khớp với các server-side logs tương ứng.
 
 #### `error.digest`
 
-An automatically generated hash of the error thrown. It can be used to match the corresponding error in server-side logs.
+Một hash được tạo tự động của lỗi được ném ra. Nó có thể được sử dụng để khớp với lỗi tương ứng trong server-side logs.
 
 #### `reset`
 
-The cause of an error can sometimes be temporary. In these cases, trying again might resolve the issue.
+Nguyên nhân của một lỗi đôi khi có thể là tạm thời. Trong những trường hợp này, thử lại có thể giải quyết vấn đề.
 
-An error component can use the `reset()` function to prompt the user to attempt to recover from the error. When executed, the function will try to re-render the error boundary's contents. If successful, the fallback error component is replaced with the result of the re-render.
+Một error component có thể sử dụng hàm `reset()` để nhắc người dùng cố gắng khôi phục từ lỗi. Khi được thực thi, hàm sẽ cố gắng re-render nội dung của error boundary. Nếu thành công, fallback error component sẽ được thay thế bằng kết quả của việc re-render.
 
 ```tsx filename="app/dashboard/error.tsx" switcher
-'use client' // Error boundaries must be Client Components
+'use client' // Error boundaries phải là Client Components
 
 export default function Error({
   error,
@@ -137,7 +137,7 @@ export default function Error({
 ```
 
 ```jsx filename="app/dashboard/error.js" switcher
-'use client' // Error boundaries must be Client Components
+'use client' // Error boundaries phải là Client Components
 
 export default function Error({ error, reset }) {
   return (
@@ -149,16 +149,16 @@ export default function Error({ error, reset }) {
 }
 ```
 
-## Examples
+## Ví dụ
 
 ### Global Error
 
-While less common, you can handle errors in the root layout or template using `global-error.jsx`, located in the root app directory, even when leveraging [internationalization](/docs/app/guides/internationalization). Global error UI must define its own `<html>` and `<body>` tags, global styles, fonts, or other dependencies that your error page requires. This file replaces the root layout or template when active.
+Mặc dù ít phổ biến hơn, bạn có thể xử lý lỗi trong root layout hoặc template sử dụng `global-error.jsx`, nằm trong thư mục root app, ngay cả khi tận dụng [internationalization](/docs/app/guides/internationalization). Global error UI phải định nghĩa các thẻ `<html>` và `<body>` của riêng nó, global styles, fonts, hoặc các dependencies khác mà trang lỗi của bạn yêu cầu. File này thay thế root layout hoặc template khi hoạt động.
 
-> **Good to know**: Error boundaries must be [Client Components](/docs/app/getting-started/server-and-client-components#using-client-components), which means that [`metadata` and `generateMetadata`](/docs/app/getting-started/metadata-and-og-images) exports are not supported in `global-error.jsx`. As an alternative, you can use the React [`<title>`](https://react.dev/reference/react-dom/components/title) component.
+> **Lưu ý**: Error boundaries phải là [Client Components](/docs/app/getting-started/server-and-client-components#using-client-components), điều này có nghĩa là các exports [`metadata` và `generateMetadata`](/docs/app/getting-started/metadata-and-og-images) không được hỗ trợ trong `global-error.jsx`. Như một giải pháp thay thế, bạn có thể sử dụng React component [`<title>`](https://react.dev/reference/react-dom/components/title).
 
 ```tsx filename="app/global-error.tsx" switcher
-'use client' // Error boundaries must be Client Components
+'use client' // Error boundaries phải là Client Components
 
 export default function GlobalError({
   error,
@@ -168,7 +168,7 @@ export default function GlobalError({
   reset: () => void
 }) {
   return (
-    // global-error must include html and body tags
+    // global-error phải bao gồm các thẻ html và body
     <html>
       <body>
         <h2>Something went wrong!</h2>
@@ -180,11 +180,11 @@ export default function GlobalError({
 ```
 
 ```jsx filename="app/global-error.js" switcher
-'use client' // Error boundaries must be Client Components
+'use client' // Error boundaries phải là Client Components
 
 export default function GlobalError({ error, reset }) {
   return (
-    // global-error must include html and body tags
+    // global-error phải bao gồm các thẻ html và body
     <html>
       <body>
         <h2>Something went wrong!</h2>
@@ -195,11 +195,11 @@ export default function GlobalError({ error, reset }) {
 }
 ```
 
-### Graceful error recovery with a custom error boundary
+### Khôi phục lỗi nhẹ nhàng với custom error boundary
 
-When rendering fails on the client, it can be useful to show the last known server rendered UI for a better user experience.
+Khi rendering thất bại trên client, có thể hữu ích khi hiển thị UI được server render đã biết cuối cùng để có trải nghiệm người dùng tốt hơn.
 
-The `GracefullyDegradingErrorBoundary` is an example of a custom error boundary that captures and preserves the current HTML before an error occurs. If a rendering error happens, it re-renders the captured HTML and displays a persistent notification bar to inform the user.
+`GracefullyDegradingErrorBoundary` là một ví dụ về custom error boundary chụp và bảo tồn HTML hiện tại trước khi lỗi xảy ra. Nếu lỗi rendering xảy ra, nó re-render HTML đã chụp và hiển thị một thanh thông báo liên tục để thông báo cho người dùng.
 
 ```tsx filename="app/dashboard/error.tsx" switcher
 'use client'
@@ -239,7 +239,7 @@ export class GracefullyDegradingErrorBoundary extends Component<
 
   render() {
     if (this.state.hasError) {
-      // Render the current HTML content without hydration
+      // Render nội dung HTML hiện tại mà không cần hydration
       return (
         <>
           <div
@@ -289,7 +289,7 @@ class GracefullyDegradingErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      // Render the current HTML content without hydration
+      // Render nội dung HTML hiện tại mà không cần hydration
       return (
         <>
           <div
@@ -315,10 +315,10 @@ class GracefullyDegradingErrorBoundary extends Component {
 export default GracefullyDegradingErrorBoundary
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                     |
-| --------- | ------------------------------------------- |
-| `v15.2.0` | Also display `global-error` in development. |
-| `v13.1.0` | `global-error` introduced.                  |
-| `v13.0.0` | `error` introduced.                         |
+| Phiên bản | Thay đổi                                        |
+| --------- | ----------------------------------------------- |
+| `v15.2.0` | Cũng hiển thị `global-error` trong development. |
+| `v13.1.0` | `global-error` được giới thiệu.                 |
+| `v13.0.0` | `error` được giới thiệu.                        |

@@ -1,13 +1,13 @@
 ---
 title: optimizePackageImports
-description: API Reference for optimizePackageImports Next.js Config Option
+description: Tài liệu tham khảo API cho tùy chọn cấu hình optimizePackageImports của Next.js
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Some packages can export hundreds or thousands of modules, which can cause performance issues in development and production.
+Một số gói có thể export hàng trăm hoặc hàng nghìn module, điều này có thể gây ra vấn đề về hiệu suất trong quá trình phát triển và production.
 
-Adding a package to `experimental.optimizePackageImports` will only load the modules you are actually using, while still giving you the convenience of writing import statements with many named exports.
+Thêm một gói vào `experimental.optimizePackageImports` sẽ chỉ tải các module mà bạn thực sự sử dụng, trong khi vẫn cho bạn sự tiện lợi của việc viết các câu lệnh import với nhiều named exports.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
 }
 ```
 
-The following libraries are optimized by default:
+Các thư viện sau được tối ưu hóa theo mặc định:
 
 - `lucide-react`
 - `date-fns`

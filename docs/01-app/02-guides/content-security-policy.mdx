@@ -1,21 +1,21 @@
 ---
-title: How to set a Content Security Policy (CSP) for your Next.js application
+title: Cách thiết lập Content Security Policy (CSP) cho ứng dụng Next.js của bạn
 nav_title: Content Security Policy
-description: Learn how to set a Content Security Policy (CSP) for your Next.js application.
+description: Tìm hiểu cách thiết lập Content Security Policy (CSP) cho ứng dụng Next.js của bạn.
 related:
   links:
     - app/api-reference/file-conventions/proxy
     - app/api-reference/functions/headers
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-[Content Security Policy (CSP)](https://developer.mozilla.org/docs/Web/HTTP/CSP) is important to guard your Next.js application against various security threats such as cross-site scripting (XSS), clickjacking, and other code injection attacks.
+[Content Security Policy (CSP)](https://developer.mozilla.org/docs/Web/HTTP/CSP) rất quan trọng để bảo vệ ứng dụng Next.js của bạn chống lại các mối đe dọa bảo mật khác nhau như cross-site scripting (XSS), clickjacking, và các cuộc tấn công tiêm mã khác.
 
-By using CSP, developers can specify which origins are permissible for content sources, scripts, stylesheets, images, fonts, objects, media (audio, video), iframes, and more.
+Bằng cách sử dụng CSP, các nhà phát triển có thể chỉ định nguồn gốc nào được phép cho các nguồn nội dung, scripts, stylesheets, hình ảnh, phông chữ, đối tượng, phương tiện (âm thanh, video), iframes, và nhiều hơn nữa.
 
 <details>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
 - [Strict CSP](https://github.com/vercel/next.js/tree/canary/examples/with-strict-csp)
 
@@ -23,21 +23,21 @@ By using CSP, developers can specify which origins are permissible for content s
 
 ## Nonces
 
-A [nonce](https://developer.mozilla.org/docs/Web/HTML/Global_attributes/nonce) is a unique, random string of characters created for a one-time use. It is used in conjunction with CSP to selectively allow certain inline scripts or styles to execute, bypassing strict CSP directives.
+Một [nonce](https://developer.mozilla.org/docs/Web/HTML/Global_attributes/nonce) là một chuỗi ký tự ngẫu nhiên, duy nhất được tạo ra để sử dụng một lần. Nó được sử dụng kết hợp với CSP để cho phép chọn lọc các scripts hoặc styles nội tuyến nhất định thực thi, bỏ qua các chỉ thị CSP nghiêm ngặt.
 
-### Why use a nonce?
+### Tại sao sử dụng nonce?
 
-CSP can block both inline and external scripts to prevent attacks. A nonce lets you safely allow specific scripts to run—only if they include the matching nonce value.
+CSP có thể chặn cả scripts nội tuyến và bên ngoài để ngăn chặn các cuộc tấn công. Một nonce cho phép bạn chạy các scripts cụ thể một cách an toàn—chỉ khi chúng bao gồm giá trị nonce khớp.
 
-If an attacker wanted to load a script into your page, they'd need to guess the nonce value. That's why the nonce must be unpredictable and unique for every request.
+Nếu một kẻ tấn công muốn tải một script vào trang của bạn, họ sẽ cần đoán giá trị nonce. Đó là lý do tại sao nonce phải không thể đoán trước và duy nhất cho mỗi yêu cầu.
 
-### Adding a nonce with Proxy
+### Thêm nonce với Proxy
 
-[Proxy](/docs/app/api-reference/file-conventions/proxy) enables you to add headers and generate nonces before the page renders.
+[Proxy](/docs/app/api-reference/file-conventions/proxy) cho phép bạn thêm headers và tạo nonces trước khi trang render.
 
-Every time a page is viewed, a fresh nonce should be generated. This means that you **must use [dynamic rendering](/docs/app/guides/caching#dynamic-rendering) to add nonces**.
+Mỗi khi một trang được xem, một nonce mới nên được tạo ra. Điều này có nghĩa là bạn **phải sử dụng [dynamic rendering](/docs/app/guides/caching#dynamic-rendering) để thêm nonces**.
 
-For example:
+Ví dụ:
 
 ```ts filename="proxy.ts" switcher
 import { NextRequest, NextResponse } from 'next/server'
@@ -56,7 +56,7 @@ export function proxy(request: NextRequest) {
     frame-ancestors 'none';
     upgrade-insecure-requests;
 `
-  // Replace newline characters and spaces
+  // Thay thế các ký tự xuống dòng và khoảng trắng
   const contentSecurityPolicyHeaderValue = cspHeader
     .replace(/\s{2,}/g, ' ')
     .trim()
@@ -100,7 +100,7 @@ export function proxy(request) {
     frame-ancestors 'none';
     upgrade-insecure-requests;
 `
-  // Replace newline characters and spaces
+  // Thay thế các ký tự xuống dòng và khoảng trắng
   const contentSecurityPolicyHeaderValue = cspHeader
     .replace(/\s{2,}/g, ' ')
     .trim()
@@ -126,15 +126,15 @@ export function proxy(request) {
 }
 ```
 
-By default, Proxy runs on all requests. You can filter Proxy to run on specific paths using a [`matcher`](/docs/app/api-reference/file-conventions/proxy#matcher).
+Theo mặc định, Proxy chạy trên tất cả các yêu cầu. Bạn có thể lọc Proxy để chạy trên các đường dẫn cụ thể bằng cách sử dụng [`matcher`](/docs/app/api-reference/file-conventions/proxy#matcher).
 
-We recommend ignoring matching prefetches (from `next/link`) and static assets that don't need the CSP header.
+Chúng tôi khuyên bạn nên bỏ qua việc khớp các prefetches (từ `next/link`) và các tài sản tĩnh không cần header CSP.
 
 ```ts filename="proxy.ts" switcher
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Khớp tất cả các đường dẫn yêu cầu ngoại trừ các đường dẫn bắt đầu bằng:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
@@ -155,7 +155,7 @@ export const config = {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Khớp tất cả các đường dẫn yêu cầu ngoại trừ các đường dẫn bắt đầu bằng:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
@@ -172,33 +172,33 @@ export const config = {
 }
 ```
 
-### How nonces work in Next.js
+### Cách nonces hoạt động trong Next.js
 
-To use a nonce, your page must be **dynamically rendered**. This is because Next.js applies nonces during **server-side rendering**, based on the CSP header present in the request. Static pages are generated at build time, when no request or response headers exist—so no nonce can be injected.
+Để sử dụng nonce, trang của bạn phải được **render động (dynamically rendered)**. Điều này là do Next.js áp dụng nonces trong quá trình **render phía máy chủ**, dựa trên header CSP có trong yêu cầu. Các trang tĩnh được tạo tại thời điểm build, khi không có header yêu cầu hoặc phản hồi nào tồn tại—vì vậy không thể chèn nonce.
 
-Here’s how nonce support works in a dynamically rendered page:
+Dưới đây là cách hỗ trợ nonce hoạt động trong một trang được render động:
 
-1. **Proxy generates a nonce**: Your proxy creates a unique nonce for the request, adds it to your `Content-Security-Policy` header, and also sets it in a custom `x-nonce` header.
-2. **Next.js extracts the nonce**: During rendering, Next.js parses the `Content-Security-Policy` header and extracts the nonce using the `'nonce-{value}'` pattern.
-3. **Nonce is applied automatically**: Next.js attaches the nonce to:
-   - Framework scripts (React, Next.js runtime)
-   - Page-specific JavaScript bundles
-   - Inline styles and scripts generated by Next.js
-   - Any `<Script>` components using the `nonce` prop
+1. **Proxy tạo ra một nonce**: Proxy của bạn tạo ra một nonce duy nhất cho yêu cầu, thêm nó vào header `Content-Security-Policy` của bạn, và cũng đặt nó trong một header tùy chỉnh `x-nonce`.
+2. **Next.js trích xuất nonce**: Trong quá trình render, Next.js phân tích header `Content-Security-Policy` và trích xuất nonce bằng cách sử dụng mẫu `'nonce-{value}'`.
+3. **Nonce được áp dụng tự động**: Next.js đính kèm nonce vào:
+   - Các scripts framework (React, Next.js runtime)
+   - Các gói JavaScript dành riêng cho trang
+   - Các styles và scripts nội tuyến được tạo bởi Next.js
+   - Bất kỳ thành phần `<Script>` nào sử dụng prop `nonce`
 
-Because of this automatic behavior, you don’t need to manually add a nonce to each tag.
+Do hành vi tự động này, bạn không cần phải thêm thủ công một nonce vào mỗi thẻ.
 
-### Forcing dynamic rendering
+### Bắt buộc render động
 
-If you're using nonces, you may need to explicitly opt pages into dynamic rendering:
+Nếu bạn đang sử dụng nonces, bạn có thể cần phải chọn tham gia render động cho các trang một cách rõ ràng:
 
 ```tsx filename="app/page.tsx" switcher
 import { connection } from 'next/server'
 
 export default async function Page() {
-  // wait for an incoming request to render this page
+  // đợi một yêu cầu đến để render trang này
   await connection()
-  // Your page content
+  // Nội dung trang của bạn
 }
 ```
 
@@ -206,16 +206,16 @@ export default async function Page() {
 import { connection } from 'next/server'
 
 export default async function Page() {
-  // wait for an incoming request to render this page
+  // đợi một yêu cầu đến để render trang này
   await connection()
-  // Your page content
+  // Nội dung trang của bạn
 }
 ```
 
-### Reading the nonce
+### Đọc nonce
 
 <PagesOnly>
-  You can provide the nonce to your page using
+  Bạn có thể cung cấp nonce cho trang của mình bằng cách sử dụng
   [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props):
 
 ```tsx filename="pages/index.tsx" switcher
@@ -257,7 +257,7 @@ export async function getServerSideProps({ req }) {
 }
 ```
 
-You can also access the nonce in `_document.tsx` for Pages Router applications:
+Bạn cũng có thể truy cập nonce trong `_document.tsx` cho các ứng dụng Pages Router:
 
 ```tsx filename="pages/_document.tsx" switcher
 import Document, {
@@ -340,7 +340,7 @@ export default MyDocument
 
 <AppOnly>
 
-You can read the nonce from a [Server Component](/docs/app/getting-started/server-and-client-components) using [`headers`](/docs/app/api-reference/functions/headers):
+Bạn có thể đọc nonce từ một [Server Component](/docs/app/getting-started/server-and-client-components) bằng cách sử dụng [`headers`](/docs/app/api-reference/functions/headers):
 
 ```tsx filename="app/page.tsx" switcher
 import { headers } from 'next/headers'
@@ -378,41 +378,41 @@ export default async function Page() {
 
 </AppOnly>
 
-## Static vs Dynamic Rendering with CSP
+## Render Tĩnh vs Động với CSP
 
-Using nonces has important implications for how your Next.js application renders:
+Sử dụng nonces có ý nghĩa quan trọng đối với cách ứng dụng Next.js của bạn render:
 
-### Dynamic Rendering Requirement
+### Yêu cầu Render Động
 
-When you use nonces in your CSP, **all pages must be dynamically rendered**. This means:
+Khi bạn sử dụng nonces trong CSP của mình, **tất cả các trang phải được render động**. Điều này có nghĩa là:
 
-- Pages will build successfully but may encounter runtime errors if not properly configured for dynamic rendering
-- Each request generates a fresh page with a new nonce
-- Static optimization and Incremental Static Regeneration (ISR) are disabled
-- Pages cannot be cached by CDNs without additional configuration
-- **Partial Prerendering (PPR) is incompatible** with nonce-based CSP since static shell scripts won't have access to the nonce
+- Các trang sẽ build thành công nhưng có thể gặp lỗi runtime nếu không được cấu hình đúng cho render động
+- Mỗi yêu cầu tạo ra một trang mới với một nonce mới
+- Tối ưu hóa tĩnh và Incremental Static Regeneration (ISR) bị vô hiệu hóa
+- Các trang không thể được cache bởi CDN nếu không có cấu hình bổ sung
+- **Partial Prerendering (PPR) không tương thích** với CSP dựa trên nonce vì các shell scripts tĩnh sẽ không có quyền truy cập vào nonce
 
-### Performance Implications
+### Ý nghĩa về Hiệu suất
 
-The shift from static to dynamic rendering affects performance:
+Sự chuyển đổi từ render tĩnh sang động ảnh hưởng đến hiệu suất:
 
-- **Slower initial page loads**: Pages must be generated on each request
-- **Increased server load**: Every request requires server-side rendering
-- **No CDN caching**: Dynamic pages cannot be cached at the edge by default
-- **Higher hosting costs**: More server resources needed for dynamic rendering
+- **Tải trang ban đầu chậm hơn**: Các trang phải được tạo trên mỗi yêu cầu
+- **Tải máy chủ tăng**: Mỗi yêu cầu yêu cầu render phía máy chủ
+- **Không có bộ nhớ đệm CDN**: Các trang động không thể được cache tại biên theo mặc định
+- **Chi phí lưu trữ cao hơn**: Cần nhiều tài nguyên máy chủ hơn cho render động
 
-### When to use nonces
+### Khi nào nên sử dụng nonces
 
-Consider nonces when:
+Cân nhắc nonces khi:
 
-- You have strict security requirements that prohibit `'unsafe-inline'`
-- Your application handles sensitive data
-- You need to allow specific inline scripts while blocking others
-- Compliance requirements mandate strict CSP
+- Bạn có các yêu cầu bảo mật nghiêm ngặt cấm `'unsafe-inline'`
+- Ứng dụng của bạn xử lý dữ liệu nhạy cảm
+- Bạn cần cho phép các scripts nội tuyến cụ thể trong khi chặn các scripts khác
+- Yêu cầu tuân thủ bắt buộc CSP nghiêm ngặt
 
-## Without Nonces
+## Không có Nonces
 
-For applications that do not require nonces, you can set the CSP header directly in your [`next.config.js`](/docs/app/api-reference/config/next-config-js) file:
+Đối với các ứng dụng không yêu cầu nonces, bạn có thể đặt header CSP trực tiếp trong tệp [`next.config.js`](/docs/app/api-reference/config/next-config-js) của mình:
 
 ```js filename="next.config.js"
 const cspHeader = `
@@ -447,26 +447,26 @@ module.exports = {
 
 <AppOnly>
 
-## Subresource Integrity (Experimental)
+## Subresource Integrity (Thử nghiệm)
 
-As an alternative to nonces, Next.js offers experimental support for hash-based CSP using Subresource Integrity (SRI). This approach allows you to maintain static generation while still having a strict CSP.
+Như một giải pháp thay thế cho nonces, Next.js cung cấp hỗ trợ thử nghiệm cho CSP dựa trên hash bằng cách sử dụng Subresource Integrity (SRI). Cách tiếp cận này cho phép bạn duy trì việc tạo tĩnh trong khi vẫn có CSP nghiêm ngặt.
 
-> **Good to know**: This feature is experimental and only available with webpack bundler in App Router applications.
+> **Cần biết**: Tính năng này đang thử nghiệm và chỉ có sẵn với webpack bundler trong các ứng dụng App Router.
 
-### How SRI works
+### Cách SRI hoạt động
 
-Instead of using nonces, SRI generates cryptographic hashes of your JavaScript files at build time. These hashes are added as `integrity` attributes to script tags, allowing browsers to verify that files haven't been modified during transit.
+Thay vì sử dụng nonces, SRI tạo ra các hash mật mã của các tệp JavaScript của bạn tại thời điểm build. Các hash này được thêm vào dưới dạng thuộc tính `integrity` cho các thẻ script, cho phép trình duyệt xác minh rằng các tệp chưa bị sửa đổi trong quá trình truyền tải.
 
-### Enabling SRI
+### Bật SRI
 
-Add the experimental SRI configuration to your `next.config.js`:
+Thêm cấu hình SRI thử nghiệm vào `next.config.js` của bạn:
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
     sri: {
-      algorithm: 'sha256', // or 'sha384' or 'sha512'
+      algorithm: 'sha256', // hoặc 'sha384' hoặc 'sha512'
     },
   },
 }
@@ -474,11 +474,11 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-### CSP configuration with SRI
+### Cấu hình CSP với SRI
 
-When SRI is enabled, you can continue using your existing CSP policies. SRI works independently by adding `integrity` attributes to your assets:
+Khi SRI được bật, bạn có thể tiếp tục sử dụng các chính sách CSP hiện có của mình. SRI hoạt động độc lập bằng cách thêm các thuộc tính `integrity` vào các tài sản của bạn:
 
-> **Good to know**: For dynamic rendering scenarios, you can still generate nonces with proxy if needed, combining both SRI integrity attributes and nonce-based CSP approaches.
+> **Cần biết**: Đối với các tình huống render động, bạn vẫn có thể tạo nonces với proxy nếu cần, kết hợp cả thuộc tính toàn vẹn SRI và các phương pháp tiếp cận CSP dựa trên nonce.
 
 ```js filename="next.config.js"
 const cspHeader = `
@@ -516,29 +516,29 @@ module.exports = {
 }
 ```
 
-### Benefits of SRI over nonces
+### Lợi ích của SRI so với nonces
 
-- **Static generation**: Pages can be statically generated and cached
-- **CDN compatibility**: Static pages work with CDN caching
-- **Better performance**: No server-side rendering required for each request
-- **Build-time security**: Hashes are generated at build time, ensuring integrity
+- **Tạo tĩnh**: Các trang có thể được tạo tĩnh và lưu trong bộ nhớ cache
+- **Tương thích CDN**: Các trang tĩnh hoạt động với bộ nhớ cache CDN
+- **Hiệu suất tốt hơn**: Không yêu cầu render phía máy chủ cho mỗi yêu cầu
+- **Bảo mật thời gian build**: Các hash được tạo tại thời điểm build, đảm bảo tính toàn vẹn
 
-### Limitations of SRI
+### Hạn chế của SRI
 
-- **Experimental**: Feature may change or be removed
-- **Webpack only**: Not available with Turbopack
-- **App Router only**: Not supported in Pages Router
-- **Build-time only**: Cannot handle dynamically generated scripts
+- **Thử nghiệm**: Tính năng có thể thay đổi hoặc bị xóa
+- **Chỉ Webpack**: Không có sẵn với Turbopack
+- **Chỉ App Router**: Không được hỗ trợ trong Pages Router
+- **Chỉ thời gian build**: Không thể xử lý các scripts được tạo động
 
 </AppOnly>
 
-## Development vs Production Considerations
+## Cân nhắc Phát triển vs Production
 
-CSP implementation differs between development and production environments:
+Việc triển khai CSP khác nhau giữa môi trường phát triển và production:
 
-### Development Environment
+### Môi trường Phát triển
 
-In development, you will need to enable `'unsafe-eval'` to support APIs that provide additional debugging information:
+Trong quá trình phát triển, bạn sẽ cần bật `'unsafe-eval'` để hỗ trợ các API cung cấp thông tin gỡ lỗi bổ sung:
 
 ```ts filename="proxy.ts" switcher
 export function proxy(request: NextRequest) {
@@ -558,7 +558,7 @@ export function proxy(request: NextRequest) {
     upgrade-insecure-requests;
 `
 
-  // Rest of proxy implementation
+  // Phần còn lại của triển khai proxy
 }
 ```
 
@@ -580,25 +580,25 @@ export function proxy(request) {
     upgrade-insecure-requests;
 `
 
-  // Rest of proxy implementation
+  // Phần còn lại của triển khai proxy
 }
 ```
 
-### Production Deployment
+### Triển khai Production
 
-Common issues in production:
+Các vấn đề phổ biến trong production:
 
-- **Nonce not applied**: Ensure your proxy runs on all necessary routes
-- **Static assets blocked**: Verify your CSP allows Next.js static assets
-- **Third-party scripts**: Add necessary domains to your CSP policy
+- **Nonce không được áp dụng**: Đảm bảo proxy của bạn chạy trên tất cả các routes cần thiết
+- **Tài sản tĩnh bị chặn**: Xác minh CSP của bạn cho phép các tài sản tĩnh của Next.js
+- **Scripts của bên thứ ba**: Thêm các miền cần thiết vào chính sách CSP của bạn
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Third-party Scripts
+### Scripts của bên thứ ba
 
 <AppOnly>
 
-When using third-party scripts with CSP:
+Khi sử dụng scripts của bên thứ ba với CSP:
 
 ```tsx filename="app/layout.tsx" switcher
 import { GoogleTagManager } from '@next/third-parties/google'
@@ -644,7 +644,7 @@ export default async function RootLayout({ children }) {
 
 <PagesOnly>
 
-When using third-party scripts with CSP, ensure you add the necessary domains and pass the nonce:
+Khi sử dụng scripts của bên thứ ba với CSP, hãy đảm bảo bạn thêm các miền cần thiết và truyền nonce:
 
 ```tsx filename="pages/_app.tsx" switcher
 import type { AppProps } from 'next/app'
@@ -687,7 +687,7 @@ export default function App({ Component, pageProps }) {
 
 </PagesOnly>
 
-Update your CSP to allow third-party domains:
+Cập nhật CSP của bạn để cho phép các miền của bên thứ ba:
 
 ```ts filename="proxy.ts" switcher
 const cspHeader = `
@@ -707,16 +707,16 @@ const cspHeader = `
 `
 ```
 
-### Common CSP Violations
+### Các vi phạm CSP phổ biến
 
-1. **Inline styles**: Use CSS-in-JS libraries that support nonces or move styles to external files
-2. **Dynamic imports**: Ensure dynamic imports are allowed in your script-src policy
-3. **WebAssembly**: Add `'wasm-unsafe-eval'` if using WebAssembly
-4. **Service workers**: Add appropriate policies for service worker scripts
+1. **Inline styles**: Sử dụng các thư viện CSS-in-JS hỗ trợ nonces hoặc di chuyển styles sang các tệp bên ngoài
+2. **Dynamic imports**: Đảm bảo dynamic imports được phép trong chính sách script-src của bạn
+3. **WebAssembly**: Thêm `'wasm-unsafe-eval'` nếu sử dụng WebAssembly
+4. **Service workers**: Thêm các chính sách phù hợp cho các scripts service worker
 
-## Version History
+## Lịch sử phiên bản
 
-| Version    | Changes                                                       |
-| ---------- | ------------------------------------------------------------- |
-| `v14.0.0`  | Experimental SRI support added for hash-based CSP             |
-| `v13.4.20` | Recommended for proper nonce handling and CSP header parsing. |
+| Phiên bản  | Thay đổi                                                       |
+| ---------- | -------------------------------------------------------------- |
+| `v14.0.0`  | Đã thêm hỗ trợ SRI thử nghiệm cho CSP dựa trên hash            |
+| `v13.4.20` | Được đề xuất để xử lý nonce và phân tích header CSP đúng cách. |

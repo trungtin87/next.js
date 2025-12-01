@@ -1,16 +1,16 @@
 ---
-title: How to create forms with Server Actions
-nav_title: Forms
-description: Learn how to create forms in Next.js with React Server Actions.
+title: Cách tạo biểu mẫu với Server Actions
+nav_title: Forms (Biểu mẫu)
+description: Tìm hiểu cách tạo biểu mẫu trong Next.js với React Server Actions.
 ---
 
-React Server Actions are [Server Functions](https://react.dev/reference/rsc/server-functions) that execute on the server. They can be called in Server and Client Components to handle form submissions. This guide will walk you through how to create forms in Next.js with Server Actions.
+React Server Actions là [Server Functions](https://react.dev/reference/rsc/server-functions) thực thi trên máy chủ. Chúng có thể được gọi trong Server và Client Components để xử lý việc gửi biểu mẫu. Hướng dẫn này sẽ chỉ cho bạn cách tạo biểu mẫu trong Next.js với Server Actions.
 
-## How it works
+## Cách nó hoạt động
 
-React extends the HTML [`<form>`](https://developer.mozilla.org/docs/Web/HTML/Element/form) element to allow Server Actions to be invoked with the [`action`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form#action) attribute.
+React mở rộng phần tử HTML [`<form>`](https://developer.mozilla.org/docs/Web/HTML/Element/form) để cho phép Server Actions được gọi với thuộc tính [`action`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form#action).
 
-When used in a form, the function automatically receives the [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData/FormData) object. You can then extract the data using the native [`FormData` methods](https://developer.mozilla.org/en-US/docs/Web/API/FormData#instance_methods):
+Khi được sử dụng trong một biểu mẫu, hàm tự động nhận đối tượng [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData/FormData). Sau đó, bạn có thể trích xuất dữ liệu bằng cách sử dụng các phương thức [`FormData` gốc](https://developer.mozilla.org/en-US/docs/Web/API/FormData#instance_methods):
 
 ```tsx filename="app/invoices/page.tsx" switcher
 export default function Page() {
@@ -23,8 +23,8 @@ export default function Page() {
       status: formData.get('status'),
     }
 
-    // mutate data
-    // revalidate the cache
+    // thay đổi dữ liệu
+    // xác thực lại bộ nhớ cache
   }
 
   return <form action={createInvoice}>...</form>
@@ -42,19 +42,19 @@ export default function Page() {
       status: formData.get('status'),
     }
 
-    // mutate data
-    // revalidate the cache
+    // thay đổi dữ liệu
+    // xác thực lại bộ nhớ cache
   }
 
   return <form action={createInvoice}>...</form>
 }
 ```
 
-> **Good to know:** When working with forms that have multiple fields, use JavaScript's [`Object.fromEntries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries). For example: `const rawFormData = Object.fromEntries(formData)`. Note that this object will contain extra properties prefixed with `$ACTION_`.
+> **Cần biết:** Khi làm việc với các biểu mẫu có nhiều trường, hãy sử dụng [`Object.fromEntries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries) của JavaScript. Ví dụ: `const rawFormData = Object.fromEntries(formData)`. Lưu ý rằng đối tượng này sẽ chứa các thuộc tính bổ sung có tiền tố `$ACTION_`.
 
-## Passing additional arguments
+## Truyền thêm đối số
 
-Outside of form fields, you can pass additional arguments to a Server Function using the JavaScript [`bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) method. For example, to pass the `userId` argument to the `updateUser` Server Function:
+Ngoài các trường biểu mẫu, bạn có thể truyền thêm các đối số cho Server Function bằng phương thức [`bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) của JavaScript. Ví dụ, để truyền đối số `userId` cho Server Function `updateUser`:
 
 ```tsx filename="app/client-component.tsx" highlight={6} switcher
 'use client'
@@ -90,7 +90,7 @@ export function UserProfile({ userId }) {
 }
 ```
 
-The Server Function will receive the `userId` as an additional argument:
+Server Function sẽ nhận `userId` như một đối số bổ sung:
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -104,17 +104,17 @@ export async function updateUser(userId: string, formData: FormData) {}
 export async function updateUser(userId, formData) {}
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - An alternative is to pass arguments as hidden input fields in the form (e.g. `<input type="hidden" name="userId" value={userId} />`). However, the value will be part of the rendered HTML and will not be encoded.
-> - `bind` works in both Server and Client Components and supports progressive enhancement.
+> - Một giải pháp thay thế là truyền các đối số dưới dạng các trường input ẩn trong biểu mẫu (ví dụ: `<input type="hidden" name="userId" value={userId} />`). Tuy nhiên, giá trị sẽ là một phần của HTML được render và sẽ không được mã hóa.
+> - `bind` hoạt động trong cả Server và Client Components và hỗ trợ cải tiến lũy tiến (progressive enhancement).
 
-## Form validation
+## Xác thực biểu mẫu
 
-Forms can be validated on the client or server.
+Biểu mẫu có thể được xác thực trên máy khách hoặc máy chủ.
 
-- For **client-side validation**, you can use the HTML attributes like `required` and `type="email"` for basic validation.
-- For **server-side validation**, you can use a library like [zod](https://zod.dev/) to validate the form fields. For example:
+- Đối với **xác thực phía máy khách**, bạn có thể sử dụng các thuộc tính HTML như `required` và `type="email"` để xác thực cơ bản.
+- Đối với **xác thực phía máy chủ**, bạn có thể sử dụng một thư viện như [zod](https://zod.dev/) để xác thực các trường biểu mẫu. Ví dụ:
 
 ```tsx filename="app/actions.ts" switcher
 'use server'
@@ -132,14 +132,14 @@ export default async function createUser(formData: FormData) {
     email: formData.get('email'),
   })
 
-  // Return early if the form data is invalid
+  // Trả về sớm nếu dữ liệu biểu mẫu không hợp lệ
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
 
-  // Mutate data
+  // Thay đổi dữ liệu
 }
 ```
 
@@ -159,22 +159,22 @@ export default async function createsUser(formData) {
     email: formData.get('email'),
   })
 
-  // Return early if the form data is invalid
+  // Trả về sớm nếu dữ liệu biểu mẫu không hợp lệ
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     }
   }
 
-  // Mutate data
+  // Thay đổi dữ liệu
 }
 ```
 
-## Validation errors
+## Lỗi xác thực
 
-To display validation errors or messages, turn the component that defines the `<form>` into a Client Component and use React [`useActionState`](https://react.dev/reference/react/useActionState).
+Để hiển thị lỗi xác thực hoặc thông báo, hãy biến component định nghĩa `<form>` thành Client Component và sử dụng React [`useActionState`](https://react.dev/reference/react/useActionState).
 
-When using `useActionState`, the Server function signature will change to receive a new `prevState` or `initialState` parameter as its first argument.
+Khi sử dụng `useActionState`, chữ ký Server function sẽ thay đổi để nhận tham số `prevState` hoặc `initialState` mới làm đối số đầu tiên của nó.
 
 ```tsx filename="app/actions.ts" highlight={4} switcher
 'use server'
@@ -204,7 +204,7 @@ export async function createUser(initialState, formData) {
 }
 ```
 
-You can then conditionally render the error message based on the `state` object.
+Sau đó, bạn có thể render thông báo lỗi có điều kiện dựa trên đối tượng `state`.
 
 ```tsx filename="app/ui/signup.tsx" highlight={11,18-20} switcher
 'use client'
@@ -256,9 +256,9 @@ export function Signup() {
 }
 ```
 
-## Pending states
+## Trạng thái chờ (Pending states)
 
-The [`useActionState`](https://react.dev/reference/react/useActionState) hook exposes a `pending` boolean that can be used to show a loading indicator or disable the submit button while the action is being executed.
+Hook [`useActionState`](https://react.dev/reference/react/useActionState) hiển thị một boolean `pending` có thể được sử dụng để hiển thị chỉ báo đang tải hoặc vô hiệu hóa nút gửi trong khi hành động đang được thực thi.
 
 ```tsx filename="app/ui/signup.tsx" highlight={7,12} switcher
 'use client'
@@ -271,7 +271,7 @@ export function Signup() {
 
   return (
     <form action={formAction}>
-      {/* Other form elements */}
+      {/* Các phần tử biểu mẫu khác */}
       <button disabled={pending}>Sign up</button>
     </form>
   )
@@ -289,14 +289,14 @@ export function Signup() {
 
   return (
     <form action={formAction}>
-      {/* Other form elements */}
+      {/* Các phần tử biểu mẫu khác */}
       <button disabled={pending}>Sign up</button>
     </form>
   )
 }
 ```
 
-Alternatively, you can use the [`useFormStatus`](https://react.dev/reference/react-dom/hooks/useFormStatus) hook to show a loading indicator while the action is being executed. When using this hook, you'll need to create a separate component to render the loading indicator. For example, to disable the button when the action is pending:
+Ngoài ra, bạn có thể sử dụng hook [`useFormStatus`](https://react.dev/reference/react-dom/hooks/useFormStatus) để hiển thị chỉ báo đang tải trong khi hành động đang được thực thi. Khi sử dụng hook này, bạn sẽ cần tạo một component riêng biệt để render chỉ báo đang tải. Ví dụ, để vô hiệu hóa nút khi hành động đang chờ xử lý:
 
 ```tsx filename="app/ui/button.tsx" highlight={6} switcher
 'use client'
@@ -330,7 +330,7 @@ export function SubmitButton() {
 }
 ```
 
-You can then nest the `SubmitButton` component inside the form:
+Sau đó, bạn có thể lồng component `SubmitButton` bên trong biểu mẫu:
 
 ```tsx filename="app/ui/signup.tsx" switcher
 import { SubmitButton } from './button'
@@ -339,7 +339,7 @@ import { createUser } from '@/app/actions'
 export function Signup() {
   return (
     <form action={createUser}>
-      {/* Other form elements */}
+      {/* Các phần tử biểu mẫu khác */}
       <SubmitButton />
     </form>
   )
@@ -353,18 +353,18 @@ import { createUser } from '@/app/actions'
 export function Signup() {
   return (
     <form action={createUser}>
-      {/* Other form elements */}
+      {/* Các phần tử biểu mẫu khác */}
       <SubmitButton />
     </form>
   )
 }
 ```
 
-> **Good to know:** In React 19, `useFormStatus` includes additional keys on the returned object, like data, method, and action. If you are not using React 19, only the `pending` key is available.
+> **Cần biết:** Trong React 19, `useFormStatus` bao gồm các khóa bổ sung trên đối tượng trả về, như data, method, và action. Nếu bạn không sử dụng React 19, chỉ có khóa `pending` là có sẵn.
 
-## Optimistic updates
+## Cập nhật lạc quan (Optimistic updates)
 
-You can use the React [`useOptimistic`](https://react.dev/reference/react/useOptimistic) hook to optimistically update the UI before the Server Function finishes executing, rather than waiting for the response:
+Bạn có thể sử dụng hook React [`useOptimistic`](https://react.dev/reference/react/useOptimistic) để cập nhật giao diện người dùng một cách lạc quan trước khi Server Function kết thúc thực thi, thay vì chờ phản hồi:
 
 ```tsx filename="app/page.tsx" switcher
 'use client'
@@ -434,15 +434,15 @@ export function Thread({ messages }) {
 }
 ```
 
-## Nested form elements
+## Các phần tử biểu mẫu lồng nhau
 
-You can call Server Actions in elements nested inside `<form>` such as `<button>`, `<input type="submit">`, and `<input type="image">`. These elements accept the `formAction` prop or event handlers.
+Bạn có thể gọi Server Actions trong các phần tử lồng bên trong `<form>` như `<button>`, `<input type="submit">`, và `<input type="image">`. Các phần tử này chấp nhận prop `formAction` hoặc trình xử lý sự kiện.
 
-This is useful in cases where you want to call multiple Server Actions within a form. For example, you can create a specific `<button>` element for saving a post draft in addition to publishing it. See the [React `<form>` docs](https://react.dev/reference/react-dom/components/form#handling-multiple-submission-types) for more information.
+Điều này hữu ích trong các trường hợp bạn muốn gọi nhiều Server Actions trong một biểu mẫu. Ví dụ, bạn có thể tạo một phần tử `<button>` cụ thể để lưu bản nháp bài đăng ngoài việc xuất bản nó. Xem [tài liệu React `<form>`](https://react.dev/reference/react-dom/components/form#handling-multiple-submission-types) để biết thêm thông tin.
 
-## Programmatic form submission
+## Gửi biểu mẫu theo chương trình
 
-You can trigger a form submission programmatically using the [`requestSubmit()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/requestSubmit) method. For example, when the user submits a form using the `⌘` + `Enter` keyboard shortcut, you can listen for the `onKeyDown` event:
+Bạn có thể kích hoạt gửi biểu mẫu theo chương trình bằng phương thức [`requestSubmit()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/requestSubmit). Ví dụ, khi người dùng gửi biểu mẫu bằng phím tắt `⌘` + `Enter`, bạn có thể lắng nghe sự kiện `onKeyDown`:
 
 ```tsx filename="app/entry.tsx" switcher
 'use client'
@@ -488,4 +488,4 @@ export function Entry() {
 }
 ```
 
-This will trigger the submission of the nearest `<form>` ancestor, which will invoke the Server Function.
+Điều này sẽ kích hoạt việc gửi của tổ tiên `<form>` gần nhất, sẽ gọi Server Function.

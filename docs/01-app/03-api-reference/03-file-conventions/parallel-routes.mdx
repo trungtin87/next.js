@@ -1,38 +1,38 @@
 ---
 title: Parallel Routes
-description: Simultaneously render one or more pages in the same view that can be navigated independently. A pattern for highly dynamic applications.
+description: Đồng thời render một hoặc nhiều pages trong cùng một view có thể được điều hướng độc lập. Một pattern cho các ứng dụng có tính dynamic cao.
 related:
   links:
     - app/api-reference/file-conventions/default
 ---
 
-Parallel Routes allows you to simultaneously or conditionally render one or more pages within the same layout. They are useful for highly dynamic sections of an app, such as dashboards and feeds on social sites.
+Parallel Routes (Các tuyến song song) cho phép bạn render đồng thời hoặc có điều kiện một hoặc nhiều pages trong cùng một layout. Chúng hữu ích cho các phần có tính dynamic cao của một ứng dụng, chẳng hạn như dashboards và feeds trên các trang xã hội.
 
-For example, considering a dashboard, you can use parallel routes to simultaneously render the `team` and `analytics` pages:
+Ví dụ, xem xét một dashboard, bạn có thể sử dụng parallel routes để render đồng thời các trang `team` và `analytics`:
 
 <Image
-  alt="Parallel Routes Diagram"
+  alt="Sơ đồ Parallel Routes"
   srcLight="/docs/light/parallel-routes.png"
   srcDark="/docs/dark/parallel-routes.png"
   width="1600"
   height="942"
 />
 
-## Convention
+## Quy ước
 
 ### Slots
 
-Parallel routes are created using named **slots**. Slots are defined with the `@folder` convention. For example, the following file structure defines two slots: `@analytics` and `@team`:
+Parallel routes được tạo bằng cách sử dụng các **slots** được đặt tên. Slots được định nghĩa với quy ước `@folder`. Ví dụ, cấu trúc file sau định nghĩa hai slots: `@analytics` và `@team`:
 
 <Image
-  alt="Parallel Routes File-system Structure"
+  alt="Cấu trúc File-system Parallel Routes"
   srcLight="/docs/light/parallel-routes-file-system.png"
   srcDark="/docs/dark/parallel-routes-file-system.png"
   width="1600"
   height="687"
 />
 
-Slots are passed as props to the shared parent layout. For the example above, the component in `app/layout.js` now accepts the `@analytics` and `@team` slots props, and can render them in parallel alongside the `children` prop:
+Slots được truyền dưới dạng props cho parent layout được chia sẻ. Đối với ví dụ trên, component trong `app/layout.js` bây giờ chấp nhận các props slots `@analytics` và `@team`, và có thể render chúng song song cùng với prop `children`:
 
 ```tsx filename="app/layout.tsx" switcher
 export default function Layout({
@@ -66,17 +66,17 @@ export default function Layout({ children, team, analytics }) {
 }
 ```
 
-However, slots are **not** route segments and do not affect the URL structure. For example, for `/@analytics/views`, the URL will be `/views` since `@analytics` is a slot. Slots are combined with the regular [Page](/docs/app/api-reference/file-conventions/page) component to form the final page associated with the route segment. Because of this, you cannot have separate [static](/docs/app/guides/caching#static-rendering) and [dynamic](/docs/app/guides/caching#dynamic-rendering) slots at the same route segment level. If one slot is dynamic, all slots at that level must be dynamic.
+Tuy nhiên, slots **không phải** là route segments và không ảnh hưởng đến cấu trúc URL. Ví dụ, đối với `/@analytics/views`, URL sẽ là `/views` vì `@analytics` là một slot. Slots được kết hợp với component [Page](/docs/app/api-reference/file-conventions/page) thông thường để tạo thành trang cuối cùng được liên kết với route segment. Vì lý do này, bạn không thể có các slots [static](/docs/app/guides/caching#static-rendering) và [dynamic](/docs/app/guides/caching#dynamic-rendering) riêng biệt ở cùng một cấp độ route segment. Nếu một slot là dynamic, tất cả các slots ở cấp độ đó phải là dynamic.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - The `children` prop is an implicit slot that does not need to be mapped to a folder. This means `app/page.js` is equivalent to `app/@children/page.js`.
+> - Prop `children` là một slot ngầm định không cần phải map với một folder. Điều này có nghĩa là `app/page.js` tương đương với `app/@children/page.js`.
 
 ### `default.js`
 
-You can define a `default.js` file to render as a fallback for unmatched slots during the initial load or full-page reload.
+Bạn có thể định nghĩa một file `default.js` để render như một fallback cho các slots không khớp trong quá trình tải ban đầu hoặc tải lại toàn trang.
 
-Consider the following folder structure. The `@team` slot has a `/settings` page, but `@analytics` does not.
+Xem xét cấu trúc thư mục sau. Slot `@team` có một trang `/settings`, nhưng `@analytics` thì không.
 
 <Image
   alt="Parallel Routes unmatched routes"
@@ -86,28 +86,28 @@ Consider the following folder structure. The `@team` slot has a `/settings` page
   height="930"
 />
 
-When navigating to `/settings`, the `@team` slot will render the `/settings` page while maintaining the currently active page for the `@analytics` slot.
+Khi điều hướng đến `/settings`, slot `@team` sẽ render trang `/settings` trong khi duy trì trang đang hoạt động hiện tại cho slot `@analytics`.
 
-On refresh, Next.js will render a `default.js` for `@analytics`. If `default.js` doesn't exist, a `404` is rendered instead.
+Khi refresh, Next.js sẽ render một `default.js` cho `@analytics`. Nếu `default.js` không tồn tại, một `404` được render thay thế.
 
-Additionally, since `children` is an implicit slot, you also need to create a `default.js` file to render a fallback for `children` when Next.js cannot recover the active state of the parent page.
+Ngoài ra, vì `children` là một slot ngầm định, bạn cũng cần tạo một file `default.js` để render một fallback cho `children` khi Next.js không thể khôi phục trạng thái hoạt động của parent page.
 
-## Behavior
+## Hành vi
 
-By default, Next.js keeps track of the active _state_ (or subpage) for each slot. However, the content rendered within a slot will depend on the type of navigation:
+Mặc định, Next.js theo dõi _trạng thái_ (hoặc subpage) đang hoạt động cho mỗi slot. Tuy nhiên, nội dung được render trong một slot sẽ phụ thuộc vào loại điều hướng:
 
-- [**Soft Navigation**](/docs/app/getting-started/linking-and-navigating#client-side-transitions): During client-side navigation, Next.js will perform a [partial render](/docs/app/getting-started/linking-and-navigating#client-side-transitions), changing the subpage within the slot, while maintaining the other slot's active subpages, even if they don't match the current URL.
-- **Hard Navigation**: After a full-page load (browser refresh), Next.js cannot determine the active state for the slots that don't match the current URL. Instead, it will render a [`default.js`](#defaultjs) file for the unmatched slots, or `404` if `default.js` doesn't exist.
+- [**Soft Navigation**](/docs/app/getting-started/linking-and-navigating#client-side-transitions): Trong quá trình client-side navigation, Next.js sẽ thực hiện một [partial render](/docs/app/getting-started/linking-and-navigating#client-side-transitions), thay đổi subpage trong slot, trong khi duy trì các subpages đang hoạt động của slot khác, ngay cả khi chúng không khớp với URL hiện tại.
+- **Hard Navigation**: Sau khi tải toàn trang (browser refresh), Next.js không thể xác định trạng thái hoạt động cho các slots không khớp với URL hiện tại. Thay vào đó, nó sẽ render một file [`default.js`](#defaultjs) cho các slots không khớp, hoặc `404` nếu `default.js` không tồn tại.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - The `404` for unmatched routes helps ensure that you don't accidentally render a parallel route on a page that it was not intended for.
+> - `404` cho các routes không khớp giúp đảm bảo rằng bạn không vô tình render một parallel route trên một trang mà nó không được dự định.
 
-## Examples
+## Ví dụ
 
-### With `useSelectedLayoutSegment(s)`
+### Với `useSelectedLayoutSegment(s)`
 
-Both [`useSelectedLayoutSegment`](/docs/app/api-reference/functions/use-selected-layout-segment) and [`useSelectedLayoutSegments`](/docs/app/api-reference/functions/use-selected-layout-segments) accept a `parallelRoutesKey` parameter, which allows you to read the active route segment within a slot.
+Cả [`useSelectedLayoutSegment`](/docs/app/api-reference/functions/use-selected-layout-segment) và [`useSelectedLayoutSegments`](/docs/app/api-reference/functions/use-selected-layout-segments) đều chấp nhận một tham số `parallelRoutesKey`, cho phép bạn đọc route segment đang hoạt động trong một slot.
 
 ```tsx filename="app/layout.tsx" switcher
 'use client'
@@ -131,14 +131,14 @@ export default function Layout({ auth }) {
 }
 ```
 
-When a user navigates to `app/@auth/login` (or `/login` in the URL bar), `loginSegment` will be equal to the string `"login"`.
+Khi một người dùng điều hướng đến `app/@auth/login` (hoặc `/login` trong thanh URL), `loginSegment` sẽ bằng chuỗi `"login"`.
 
 ### Conditional Routes
 
-You can use Parallel Routes to conditionally render routes based on certain conditions, such as user role. For example, to render a different dashboard page for the `/admin` or `/user` roles:
+Bạn có thể sử dụng Parallel Routes để render routes có điều kiện dựa trên các điều kiện nhất định, chẳng hạn như vai trò người dùng. Ví dụ, để render một trang dashboard khác nhau cho các vai trò `/admin` hoặc `/user`:
 
 <Image
-  alt="Conditional routes diagram"
+  alt="Sơ đồ Conditional routes"
   srcLight="/docs/light/conditional-routes-ui.png"
   srcDark="/docs/dark/conditional-routes-ui.png"
   width="1600"
@@ -171,19 +171,19 @@ export default function Layout({ user, admin }) {
 
 ### Tab Groups
 
-You can add a `layout` inside a slot to allow users to navigate the slot independently. This is useful for creating tabs.
+Bạn có thể thêm một `layout` bên trong một slot để cho phép người dùng điều hướng slot một cách độc lập. Điều này hữu ích để tạo các tabs.
 
-For example, the `@analytics` slot has two subpages: `/page-views` and `/visitors`.
+Ví dụ, slot `@analytics` có hai subpages: `/page-views` và `/visitors`.
 
 <Image
-  alt="Analytics slot with two subpages and a layout"
+  alt="Analytics slot với hai subpages và một layout"
   srcLight="/docs/light/parallel-routes-tab-groups.png"
   srcDark="/docs/dark/parallel-routes-tab-groups.png"
   width="1600"
   height="768"
 />
 
-Within `@analytics`, create a [`layout`](/docs/app/api-reference/file-conventions/layout) file to share the tabs between the two pages:
+Bên trong `@analytics`, tạo một file [`layout`](/docs/app/api-reference/file-conventions/layout) để chia sẻ các tabs giữa hai trang:
 
 ```tsx filename="app/@analytics/layout.tsx" switcher
 import Link from 'next/link'
@@ -219,27 +219,27 @@ export default function Layout({ children }) {
 
 ### Modals
 
-Parallel Routes can be used together with [Intercepting Routes](/docs/app/api-reference/file-conventions/intercepting-routes) to create modals that support deep linking. This allows you to solve common challenges when building modals, such as:
+Parallel Routes có thể được sử dụng cùng với [Intercepting Routes](/docs/app/api-reference/file-conventions/intercepting-routes) để tạo các modals hỗ trợ deep linking. Điều này cho phép bạn giải quyết các thách thức phổ biến khi xây dựng modals, chẳng hạn như:
 
-- Making the modal content **shareable through a URL**.
-- **Preserving context** when the page is refreshed, instead of closing the modal.
-- **Closing the modal on backwards navigation** rather than going to the previous route.
-- **Reopening the modal on forwards navigation**.
+- Làm cho nội dung modal **có thể chia sẻ qua URL**.
+- **Bảo tồn ngữ cảnh** khi trang được refresh, thay vì đóng modal.
+- **Đóng modal khi điều hướng quay lại (backwards navigation)** thay vì đi đến route trước đó.
+- **Mở lại modal khi điều hướng chuyển tiếp (forwards navigation)**.
 
-Consider the following UI pattern, where a user can open a login modal from a layout using client-side navigation, or access a separate `/login` page:
+Xem xét UI pattern sau, nơi một người dùng có thể mở một login modal từ một layout sử dụng client-side navigation, hoặc truy cập một trang `/login` riêng biệt:
 
 <Image
-  alt="Parallel Routes Diagram"
+  alt="Sơ đồ Parallel Routes"
   srcLight="/docs/light/parallel-routes-auth-modal.png"
   srcDark="/docs/dark/parallel-routes-auth-modal.png"
   width="1600"
   height="687"
 />
 
-To implement this pattern, start by creating a `/login` route that renders your **main** login page.
+Để triển khai pattern này, bắt đầu bằng cách tạo một route `/login` render trang login **chính** của bạn.
 
 <Image
-  alt="Parallel Routes Diagram"
+  alt="Sơ đồ Parallel Routes"
   srcLight="/docs/light/parallel-routes-modal-login-page.png"
   srcDark="/docs/dark/parallel-routes-modal-login-page.png"
   width="1600"
@@ -262,7 +262,7 @@ export default function Page() {
 }
 ```
 
-Then, inside the `@auth` slot, add [`default.js`](/docs/app/api-reference/file-conventions/default) file that returns `null`. This ensures that the modal is not rendered when it's not active.
+Sau đó, bên trong slot `@auth`, thêm file [`default.js`](/docs/app/api-reference/file-conventions/default) trả về `null`. Điều này đảm bảo rằng modal không được render khi nó không hoạt động.
 
 ```tsx filename="app/@auth/default.tsx" switcher
 export default function Default() {
@@ -276,7 +276,7 @@ export default function Default() {
 }
 ```
 
-Inside your `@auth` slot, intercept the `/login` route by importing the `<Modal>` component and its children into the `@auth/(.)login/page.tsx` file, and updating the folder name to `/@auth/(.)login/page.tsx`.
+Bên trong slot `@auth` của bạn, chặn route `/login` bằng cách import component `<Modal>` và children của nó vào file `@auth/(.)login/page.tsx`, và cập nhật tên thư mục thành `/@auth/(.)login/page.tsx`.
 
 ```tsx filename="app/@auth/(.)login/page.tsx" switcher
 import { Modal } from '@/app/ui/modal'
@@ -304,16 +304,16 @@ export default function Page() {
 }
 ```
 
-> **Good to know:**
+> **Lưu ý:**
 >
-> - The convention `(.)` is used for intercepting routes. See [Intercepting Routes](/docs/app/api-reference/file-conventions/intercepting-routes#convention) docs for more information.
-> - By separating the `<Modal>` functionality from the modal content (`<Login>`), you can ensure any content inside the modal, e.g. [forms](/docs/app/guides/forms), are Server Components. See [Interleaving Client and Server Components](/docs/app/getting-started/server-and-client-components#examples#supported-pattern-passing-server-components-to-client-components-as-props) for more information.
+> - Quy ước `(.)` được sử dụng cho intercepting routes. Xem tài liệu [Intercepting Routes](/docs/app/api-reference/file-conventions/intercepting-routes#convention) để biết thêm thông tin.
+> - Bằng cách tách chức năng `<Modal>` khỏi nội dung modal (`<Login>`), bạn có thể đảm bảo bất kỳ nội dung nào bên trong modal, ví dụ [forms](/docs/app/guides/forms), là Server Components. Xem [Interleaving Client and Server Components](/docs/app/getting-started/server-and-client-components#examples#supported-pattern-passing-server-components-to-client-components-as-props) để biết thêm thông tin.
 
-#### Opening the modal
+#### Mở modal
 
-Now, you can leverage the Next.js router to open and close the modal. This ensures the URL is correctly updated when the modal is open, and when navigating backwards and forwards.
+Bây giờ, bạn có thể tận dụng Next.js router để mở và đóng modal. Điều này đảm bảo URL được cập nhật chính xác khi modal mở, và khi điều hướng lùi và tiến.
 
-To open the modal, pass the `@auth` slot as a prop to the parent layout and render it alongside the `children` prop.
+Để mở modal, truyền slot `@auth` dưới dạng prop cho parent layout và render nó cùng với prop `children`.
 
 ```tsx filename="app/layout.tsx" switcher
 import Link from 'next/link'
@@ -353,11 +353,11 @@ export default function Layout({ auth, children }) {
 }
 ```
 
-When the user clicks the `<Link>`, the modal will open instead of navigating to the `/login` page. However, on refresh or initial load, navigating to `/login` will take the user to the main login page.
+Khi người dùng nhấp vào `<Link>`, modal sẽ mở thay vì điều hướng đến trang `/login`. Tuy nhiên, khi refresh hoặc tải ban đầu, điều hướng đến `/login` sẽ đưa người dùng đến trang login chính.
 
-#### Closing the modal
+#### Đóng modal
 
-You can close the modal by calling `router.back()` or by using the `Link` component.
+Bạn có thể đóng modal bằng cách gọi `router.back()` hoặc bằng cách sử dụng component `Link`.
 
 ```tsx filename="app/ui/modal.tsx" switcher
 'use client'
@@ -405,7 +405,7 @@ export function Modal({ children }) {
 }
 ```
 
-When using the `Link` component to navigate away from a page that shouldn't render the `@auth` slot anymore, we need to make sure the parallel route matches to a component that returns `null`. For example, when navigating back to the root page, we create a `@auth/page.tsx` component:
+Khi sử dụng component `Link` để điều hướng khỏi một trang không nên render slot `@auth` nữa, chúng ta cần đảm bảo parallel route khớp với một component trả về `null`. Ví dụ, khi điều hướng quay lại trang root, chúng ta tạo một component `@auth/page.tsx`:
 
 ```tsx filename="app/ui/modal.tsx" switcher
 import Link from 'next/link'
@@ -445,7 +445,7 @@ export default function Page() {
 }
 ```
 
-Or if navigating to any other page (such as `/foo`, `/foo/bar`, etc), you can use a catch-all slot:
+Hoặc nếu điều hướng đến bất kỳ trang nào khác (chẳng hạn như `/foo`, `/foo/bar`, v.v.), bạn có thể sử dụng một catch-all slot:
 
 ```tsx filename="app/@auth/[...catchAll]/page.tsx" switcher
 export default function CatchAll() {
@@ -459,22 +459,22 @@ export default function CatchAll() {
 }
 ```
 
-> **Good to know:**
+> **Lưu ý:**
 >
-> - We use a catch-all route in our `@auth` slot to close the modal because of how parallel routes behave. Since client-side navigations to a route that no longer match the slot will remain visible, we need to match the slot to a route that returns `null` to close the modal.
-> - Other examples could include opening a photo modal in a gallery while also having a dedicated `/photo/[id]` page, or opening a shopping cart in a side modal.
-> - [View an example](https://github.com/vercel-labs/nextgram) of modals with Intercepted and Parallel Routes.
+> - Chúng ta sử dụng một catch-all route trong slot `@auth` của mình để đóng modal vì cách parallel routes hoạt động. Vì client-side navigations đến một route không còn khớp với slot sẽ vẫn hiển thị, chúng ta cần khớp slot với một route trả về `null` để đóng modal.
+> - Các ví dụ khác có thể bao gồm mở một photo modal trong một gallery trong khi cũng có một trang `/photo/[id]` chuyên dụng, hoặc mở một giỏ hàng trong một side modal.
+> - [Xem một ví dụ](https://github.com/vercel-labs/nextgram) về modals với Intercepted và Parallel Routes.
 
-### Loading and Error UI
+### Loading và Error UI
 
-Parallel Routes can be streamed independently, allowing you to define independent error and loading states for each route:
+Parallel Routes có thể được stream độc lập, cho phép bạn định nghĩa các trạng thái lỗi và loading độc lập cho mỗi route:
 
 <Image
-  alt="Parallel routes enable custom error and loading states"
+  alt="Parallel routes cho phép custom error và loading states"
   srcLight="/docs/light/parallel-routes-cinematic-universe.png"
   srcDark="/docs/dark/parallel-routes-cinematic-universe.png"
   width="1600"
   height="1218"
 />
 
-See the [Loading UI](/docs/app/api-reference/file-conventions/loading) and [Error Handling](/docs/app/getting-started/error-handling) documentation for more information.
+Xem tài liệu [Loading UI](/docs/app/api-reference/file-conventions/loading) và [Xử lý lỗi](/docs/app/getting-started/error-handling) để biết thêm thông tin.

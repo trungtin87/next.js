@@ -1,11 +1,11 @@
 ---
 title: images
-description: Custom configuration for the next/image loader
+description: Cấu hình tùy chỉnh cho next/image loader
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-If you want to use a cloud provider to optimize images instead of using the Next.js built-in Image Optimization API, you can configure `next.config.js` with the following:
+Nếu bạn muốn sử dụng một nhà cung cấp đám mây để tối ưu hóa hình ảnh thay vì sử dụng Image Optimization API tích hợp sẵn của Next.js, bạn có thể cấu hình `next.config.js` với những điều sau:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 }
 ```
 
-This `loaderFile` must point to a file relative to the root of your Next.js application. The file must export a default function that returns a string, for example:
+`loaderFile` này phải trỏ đến một tệp tương đối với thư mục gốc của ứng dụng Next.js của bạn. Tệp phải export một hàm mặc định trả về một chuỗi, ví dụ:
 
 <AppOnly>
 
@@ -28,11 +28,11 @@ export default function myImageLoader({ src, width, quality }) {
 }
 ```
 
-Alternatively, you can use the [`loader` prop](/docs/app/api-reference/components/image#loader) to pass the function to each instance of `next/image`.
+Ngoài ra, bạn có thể sử dụng [`loader` prop](/docs/app/api-reference/components/image#loader) để truyền hàm cho mỗi instance của `next/image`.
 
-> **Good to know**: Customizing the image loader file, which accepts a function, requires using [Client Components](/docs/app/getting-started/server-and-client-components) to serialize the provided function.
+> **Nên biết**: Tùy chỉnh tệp image loader, chấp nhận một hàm, yêu cầu sử dụng [Client Components](/docs/app/getting-started/server-and-client-components) để serialize hàm được cung cấp.
 
-To learn more about configuring the behavior of the built-in [Image Optimization API](/docs/app/api-reference/components/image) and the [Image Component](/docs/app/api-reference/components/image), see [Image Configuration Options](/docs/app/api-reference/components/image#configuration-options) for available options.
+Để tìm hiểu thêm về cấu hình hành vi của [Image Optimization API](/docs/app/api-reference/components/image) tích hợp sẵn và [Image Component](/docs/app/api-reference/components/image), xem [Tùy chọn cấu hình hình ảnh](/docs/app/api-reference/components/image#configuration-options) cho các tùy chọn có sẵn.
 
 </AppOnly>
 
@@ -44,13 +44,13 @@ export default function myImageLoader({ src, width, quality }) {
 }
 ```
 
-Alternatively, you can use the [`loader` prop](/docs/pages/api-reference/components/image#loader) to pass the function to each instance of `next/image`.
+Ngoài ra, bạn có thể sử dụng [`loader` prop](/docs/pages/api-reference/components/image#loader) để truyền hàm cho mỗi instance của `next/image`.
 
-To learn more about configuring the behavior of the built-in [Image Optimization API](/docs/pages/api-reference/components/image) and the [Image Component](/docs/pages/api-reference/components/image), see [Image Configuration Options](/docs/pages/api-reference/components/image#configuration-options) for available options.
+Để tìm hiểu thêm về cấu hình hành vi của [Image Optimization API](/docs/pages/api-reference/components/image) tích hợp sẵn và [Image Component](/docs/pages/api-reference/components/image), xem [Tùy chọn cấu hình hình ảnh](/docs/pages/api-reference/components/image#configuration-options) cho các tùy chọn có sẵn.
 
 </PagesOnly>
 
-## Example Loader Configuration
+## Ví dụ cấu hình Loader
 
 - [Akamai](#akamai)
 - [AWS CloudFront](#aws-cloudfront)

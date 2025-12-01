@@ -1,13 +1,13 @@
 ---
 title: basePath
-description: Use `basePath` to deploy a Next.js application under a sub-path of a domain.
+description: Sử dụng `basePath` để triển khai ứng dụng Next.js dưới một sub-path của một miền.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-To deploy a Next.js application under a sub-path of a domain you can use the `basePath` config option.
+Để triển khai ứng dụng Next.js dưới một sub-path của một miền, bạn có thể sử dụng tùy chọn cấu hình `basePath`.
 
-`basePath` allows you to set a path prefix for the application. For example, to use `/docs` instead of `''` (an empty string, the default), open `next.config.js` and add the `basePath` config:
+`basePath` cho phép bạn đặt tiền tố đường dẫn cho ứng dụng. Ví dụ, để sử dụng `/docs` thay vì `''` (một chuỗi rỗng, mặc định), hãy mở `next.config.js` và thêm cấu hình `basePath`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -15,13 +15,13 @@ module.exports = {
 }
 ```
 
-> **Good to know**: This value must be set at build time and cannot be changed without re-building as the value is inlined in the client-side bundles.
+> **Thông tin hữu ích**: Giá trị này phải được đặt tại thời điểm build và không thể thay đổi mà không build lại vì giá trị được nhúng vào các bundle phía client.
 
 ### Links
 
-When linking to other pages using `next/link` and `next/router` the `basePath` will be automatically applied.
+Khi liên kết đến các trang khác bằng `next/link` và `next/router`, `basePath` sẽ được tự động áp dụng.
 
-For example, using `/about` will automatically become `/docs/about` when `basePath` is set to `/docs`.
+Ví dụ, sử dụng `/about` sẽ tự động trở thành `/docs/about` khi `basePath` được đặt thành `/docs`.
 
 ```js
 export default function HomePage() {
@@ -39,23 +39,23 @@ Output html:
 <a href="/docs/about">About Page</a>
 ```
 
-This makes sure that you don't have to change all links in your application when changing the `basePath` value.
+Điều này đảm bảo rằng bạn không phải thay đổi tất cả các link trong ứng dụng của mình khi thay đổi giá trị `basePath`.
 
 ### Images
 
 <AppOnly>
 
-When using the [`next/image`](/docs/app/api-reference/components/image) component, you will need to add the `basePath` in front of `src`.
+Khi sử dụng component [`next/image`](/docs/app/api-reference/components/image), bạn sẽ cần thêm `basePath` vào trước `src`.
 
 </AppOnly>
 
 <PagesOnly>
 
-When using the [`next/image`](/docs/pages/api-reference/components/image) component, you will need to add the `basePath` in front of `src`.
+Khi sử dụng component [`next/image`](/docs/pages/api-reference/components/image), bạn sẽ cần thêm `basePath` vào trước `src`.
 
 </PagesOnly>
 
-For example, using `/docs/me.png` will properly serve your image when `basePath` is set to `/docs`.
+Ví dụ, sử dụng `/docs/me.png` sẽ phục vụ hình ảnh của bạn đúng cách khi `basePath` được đặt thành `/docs`.
 
 ```jsx
 import Image from 'next/image'

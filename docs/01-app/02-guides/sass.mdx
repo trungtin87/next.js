@@ -1,31 +1,31 @@
 ---
-title: How to use Sass
+title: Cách sử dụng Sass
 nav_title: Sass
-description: Style your Next.js application using Sass.
+description: Style ứng dụng Next.js của bạn bằng Sass.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Next.js has built-in support for integrating with Sass after the package is installed using both the `.scss` and `.sass` extensions. You can use component-level Sass via CSS Modules and the `.module.scss`or `.module.sass` extension.
+Next.js có hỗ trợ tích hợp sẵn để tích hợp với Sass sau khi package được cài đặt bằng cả hai extension `.scss` và `.sass`. Bạn có thể sử dụng Sass cấp component thông qua CSS Modules và extension `.module.scss` hoặc `.module.sass`.
 
-First, install [`sass`](https://github.com/sass/sass):
+Đầu tiên, cài đặt [`sass`](https://github.com/sass/sass):
 
 ```bash filename="Terminal"
 npm install --save-dev sass
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> Sass supports [two different syntaxes](https://sass-lang.com/documentation/syntax), each with their own extension.
-> The `.scss` extension requires you use the [SCSS syntax](https://sass-lang.com/documentation/syntax#scss),
-> while the `.sass` extension requires you use the [Indented Syntax ("Sass")](https://sass-lang.com/documentation/syntax#the-indented-syntax).
+> Sass hỗ trợ [hai cú pháp khác nhau](https://sass-lang.com/documentation/syntax), mỗi cú pháp có extension riêng của nó.
+> Extension `.scss` yêu cầu bạn sử dụng [SCSS syntax](https://sass-lang.com/documentation/syntax#scss),
+> trong khi extension `.sass` yêu cầu bạn sử dụng [Indented Syntax ("Sass")](https://sass-lang.com/documentation/syntax#the-indented-syntax).
 >
-> If you're not sure which to choose, start with the `.scss` extension which is a superset of CSS, and doesn't require you learn the
+> Nếu bạn không chắc chắn nên chọn cái nào, hãy bắt đầu với extension `.scss` là một superset của CSS, và không yêu cầu bạn học
 > Indented Syntax ("Sass").
 
-### Customizing Sass Options
+### Tùy chỉnh Sass Options
 
-If you want to configure your Sass options, use `sassOptions` in `next.config`.
+Nếu bạn muốn cấu hình các tùy chọn Sass của mình, hãy sử dụng `sassOptions` trong `next.config`.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -53,7 +53,7 @@ module.exports = nextConfig
 
 #### Implementation
 
-You can use the `implementation` property to specify the Sass implementation to use. By default, Next.js uses the [`sass`](https://www.npmjs.com/package/sass) package.
+Bạn có thể sử dụng thuộc tính `implementation` để chỉ định triển khai Sass để sử dụng. Theo mặc định, Next.js sử dụng package [`sass`](https://www.npmjs.com/package/sass).
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -81,9 +81,9 @@ module.exports = nextConfig
 
 ### Sass Variables
 
-Next.js supports Sass variables exported from CSS Module files.
+Next.js hỗ trợ các biến Sass được export từ các tệp CSS Module.
 
-For example, using the exported `primaryColor` Sass variable:
+Ví dụ, sử dụng biến Sass `primaryColor` được export:
 
 ```scss filename="app/variables.module.scss"
 $primary-color: #64ff00;

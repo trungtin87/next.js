@@ -1,9 +1,9 @@
 ---
 title: use cache
-description: Learn how to use the use cache directive to cache data in your Next.js application.
+description: Tìm hiểu cách sử dụng chỉ thị use cache để cache dữ liệu trong ứng dụng Next.js của bạn.
 related:
-  title: Related
-  description: View related API references.
+  title: Liên quan
+  description: Xem các tài liệu API liên quan.
   links:
     - app/api-reference/directives/use-cache-private
     - app/api-reference/config/next-config-js/cacheComponents
@@ -13,13 +13,13 @@ related:
     - app/api-reference/functions/revalidateTag
 ---
 
-The `use cache` directive allows you to mark a route, React component, or a function as cacheable. It can be used at the top of a file to indicate that all exports in the file should be cached, or inline at the top of function or component to cache the return value.
+Chỉ thị `use cache` cho phép bạn đánh dấu một route, React component, hoặc một hàm là có thể cache được. Nó có thể được sử dụng ở đầu file để chỉ ra rằng tất cả exports trong file nên được cache, hoặc inline ở đầu hàm hoặc component để cache giá trị trả về.
 
-> **Good to know:** For caching user-specific content that requires access to cookies or headers, see [`'use cache: private'`](/docs/app/api-reference/directives/use-cache-private).
+> **Lưu ý:** Để cache nội dung dành riêng cho người dùng cần truy cập cookies hoặc headers, xem [`'use cache: private'`](/docs/app/api-reference/directives/use-cache-private).
 
-## Usage
+## Cách sử dụng
 
-`use cache` is a Cache Components feature. To enable it, add the [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) option to your `next.config.ts` file:
+`use cache` là một tính năng của Cache Components. Để kích hoạt nó, thêm tùy chọn [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) vào file `next.config.ts` của bạn:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -40,23 +40,23 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-Then, add `use cache` at the file, component, or function level:
+Sau đó, thêm `use cache` ở cấp file, component, hoặc function:
 
 ```tsx
-// File level
+// Cấp file
 'use cache'
 
 export default async function Page() {
   // ...
 }
 
-// Component level
+// Cấp component
 export async function MyComponent() {
   'use cache'
   return <></>
 }
 
-// Function level
+// Cấp function
 export async function getData() {
   'use cache'
   const data = await fetch('/api/data')
@@ -64,23 +64,23 @@ export async function getData() {
 }
 ```
 
-## How `use cache` works
+## Cách `use cache` hoạt động
 
 ### Cache keys
 
-A cache entry's key is generated using a serialized version of its inputs, which includes:
+Khóa của một cache entry được tạo bằng cách sử dụng phiên bản serialized của các đầu vào, bao gồm:
 
-- Build ID (generated for each build)
-- Function ID (a secure identifier unique to the function)
-- The [serializable](https://react.dev/reference/rsc/use-server#serializable-parameters-and-return-values) function arguments (or props).
+- Build ID (được tạo cho mỗi lần build)
+- Function ID (một định danh bảo mật duy nhất cho hàm)
+- Các đối số hàm [serializable](https://react.dev/reference/rsc/use-server#serializable-parameters-and-return-values) (hoặc props).
 
-The arguments passed to the cached function, as well as any values it reads from the parent scope automatically become a part of the key. This means, the same cache entry will be reused as long as its inputs are the same.
+Các đối số được truyền vào hàm được cache, cũng như bất kỳ giá trị nào nó đọc từ phạm vi cha tự động trở thành một phần của khóa. Điều này có nghĩa là, cùng một cache entry sẽ được sử dụng lại miễn là các đầu vào của nó giống nhau.
 
-## Non-serializable arguments
+## Đối số không thể serialize
 
-Any non-serializable arguments, props, or closed-over values will turn into references inside the cached function, and can be only passed through and not inspected nor modified. These non-serializable values will be filled in at the request time and won't become a part of the cache key.
+Bất kỳ đối số, props, hoặc giá trị đóng không thể serialize nào sẽ biến thành tham chiếu bên trong hàm được cache, và chỉ có thể được truyền qua mà không thể kiểm tra hoặc sửa đổi. Các giá trị không thể serialize này sẽ được điền vào tại thời điểm request và sẽ không trở thành một phần của cache key.
 
-For example, a cached function can take in JSX as a `children` prop and return `<div>{children}</div>`, but it won't be able to introspect the actual `children` object. This allows you to nest uncached content inside a cached component.
+Ví dụ, một hàm được cache có thể nhận JSX làm prop `children` và trả về `<div>{children}</div>`, nhưng nó sẽ không thể kiểm tra đối tượng `children` thực tế. Điều này cho phép bạn lồng nội dung không được cache bên trong một component được cache.
 
 ```tsx filename="app/ui/cached-component.tsx" switcher
 function CachedComponent({ children }: { children: ReactNode }) {
@@ -96,40 +96,40 @@ function CachedComponent({ children }) {
 }
 ```
 
-## Return values
+## Giá trị trả về
 
-The return value of the cacheable function must be serializable. This ensures that the cached data can be stored and retrieved correctly.
+Giá trị trả về của hàm có thể cache phải là serializable. Điều này đảm bảo rằng dữ liệu được cache có thể được lưu trữ và truy xuất một cách chính xác.
 
-## `use cache` at build time
+## `use cache` tại thời điểm build
 
-When used at the top of a [layout](/docs/app/api-reference/file-conventions/layout) or [page](/docs/app/api-reference/file-conventions/page), the route segment will be prerendered, allowing it to later be [revalidated](#during-revalidation).
+Khi được sử dụng ở đầu một [layout](/docs/app/api-reference/file-conventions/layout) hoặc [page](/docs/app/api-reference/file-conventions/page), route segment sẽ được prerender, cho phép nó sau này được [revalidate](#during-revalidation).
 
-This means `use cache` cannot be used with [runtime data](/docs/app/getting-started/cache-components#1-suspense-for-runtime-data) like `cookies` or `headers`.
+Điều này có nghĩa là `use cache` không thể được sử dụng với [runtime data](/docs/app/getting-started/cache-components#1-suspense-for-runtime-data) như `cookies` hoặc `headers`.
 
-> **Note:** If you need to cache content that depends on cookies, headers, or search params, use [`'use cache: private'`](/docs/app/api-reference/directives/use-cache-private) instead.
+> **Lưu ý:** Nếu bạn cần cache nội dung phụ thuộc vào cookies, headers, hoặc search params, hãy sử dụng [`'use cache: private'`](/docs/app/api-reference/directives/use-cache-private) thay thế.
 
-## `use cache` at runtime
+## `use cache` tại runtime
 
-On the **server**, the cache entries of individual components or functions will be cached in-memory.
+Trên **server**, các cache entries của từng component hoặc hàm sẽ được cache trong bộ nhớ.
 
-Then, on the **client**, any content returned from the server cache will be stored in the browser's memory for the duration of the session or until [revalidated](#during-revalidation).
+Sau đó, trên **client**, bất kỳ nội dung nào được trả về từ server cache sẽ được lưu trữ trong bộ nhớ của trình duyệt trong suốt phiên làm việc hoặc cho đến khi được [revalidate](#during-revalidation).
 
-## During revalidation
+## Trong quá trình revalidation
 
-By default, `use cache` has server-side revalidation period of **15 minutes**. While this period may be useful for content that doesn't require frequent updates, you can use the `cacheLife` and `cacheTag` APIs to configure when the individual cache entries should be revalidated.
+Mặc định, `use cache` có chu kỳ revalidation phía server là **15 phút**. Mặc dù chu kỳ này có thể hữu ích cho nội dung không yêu cầu cập nhật thường xuyên, bạn có thể sử dụng các API `cacheLife` và `cacheTag` để cấu hình khi nào các cache entries riêng lẻ nên được revalidate.
 
-- [`cacheLife`](/docs/app/api-reference/functions/cacheLife): Configure the cache entry lifetime.
-- [`cacheTag`](/docs/app/api-reference/functions/cacheTag): Create tags for on-demand revalidation.
+- [`cacheLife`](/docs/app/api-reference/functions/cacheLife): Cấu hình thời gian tồn tại của cache entry.
+- [`cacheTag`](/docs/app/api-reference/functions/cacheTag): Tạo tags để revalidate theo yêu cầu.
 
-Both of these APIs integrate across the client and server caching layers, meaning you can configure your caching semantics in one place and have them apply everywhere.
+Cả hai API này đều tích hợp qua các lớp caching client và server, có nghĩa là bạn có thể cấu hình ngữ nghĩa caching của mình ở một nơi và áp dụng chúng ở mọi nơi.
 
-See the [`cacheLife`](/docs/app/api-reference/functions/cacheLife) and [`cacheTag`](/docs/app/api-reference/functions/cacheTag) API docs for more information.
+Xem tài liệu API [`cacheLife`](/docs/app/api-reference/functions/cacheLife) và [`cacheTag`](/docs/app/api-reference/functions/cacheTag) để biết thêm thông tin.
 
-## Examples
+## Ví dụ
 
-### Caching an entire route with `use cache`
+### Cache toàn bộ route với `use cache`
 
-To prerender an entire route, add `use cache` to the top of **both** the `layout` and `page` files. Each of these segments are treated as separate entry points in your application, and will be cached independently.
+Để prerender toàn bộ route, thêm `use cache` vào đầu **cả hai** file `layout` và `page`. Mỗi segment này được coi là các entry point riêng biệt trong ứng dụng của bạn, và sẽ được cache độc lập.
 
 ```tsx filename="app/layout.tsx" switcher
 'use cache'
@@ -147,14 +147,14 @@ export default function Layout({ children }) {
 }
 ```
 
-Any components imported and nested in `page` file are part of the cache output associated with the `page`.
+Bất kỳ component nào được import và lồng trong file `page` đều là một phần của cache output liên kết với `page`.
 
 ```tsx filename="app/page.tsx" switcher
 'use cache'
 
 async function Users() {
   const users = await fetch('/api/users')
-  // loop through users
+  // lặp qua users
 }
 
 export default function Page() {
@@ -171,7 +171,7 @@ export default function Page() {
 
 async function Users() {
   const users = await fetch('/api/users')
-  // loop through users
+  // lặp qua users
 }
 
 export default function Page() {
@@ -183,14 +183,14 @@ export default function Page() {
 }
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - If `use cache` is added only to the `layout` or the `page`, only that route segment and any components imported into it will be cached.
-> - If any of the nested children in the route use [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering), then the route will opt out of pre-rendering.
+> - Nếu `use cache` chỉ được thêm vào `layout` hoặc `page`, chỉ route segment đó và bất kỳ component nào được import vào nó sẽ được cache.
+> - Nếu bất kỳ children lồng nhau nào trong route sử dụng [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering), thì route sẽ opt out khỏi pre-rendering.
 
-### Caching a component's output with `use cache`
+### Cache output của component với `use cache`
 
-You can use `use cache` at the component level to cache any fetches or computations performed within that component. The cache entry will be reused as long as the serialized props produce the same value in each instance.
+Bạn có thể sử dụng `use cache` ở cấp component để cache bất kỳ fetches hoặc tính toán nào được thực hiện trong component đó. Cache entry sẽ được sử dụng lại miễn là các props được serialize tạo ra cùng một giá trị trong mỗi instance.
 
 ```tsx filename="app/components/bookings.tsx" highlight={2} switcher
 export async function Bookings({ type = 'haircut' }: BookingsProps) {
@@ -218,9 +218,9 @@ export async function Bookings({ type = 'haircut' }) {
 }
 ```
 
-### Caching function output with `use cache`
+### Cache output của hàm với `use cache`
 
-Since you can add `use cache` to any asynchronous function, you aren't limited to caching components or routes only. You might want to cache a network request, a database query, or a slow computation.
+Vì bạn có thể thêm `use cache` vào bất kỳ hàm bất đồng bộ nào, bạn không bị giới hạn chỉ cache components hoặc routes. Bạn có thể muốn cache một network request, một database query, hoặc một tính toán chậm.
 
 ```tsx filename="app/actions.ts" highlight={2} switcher
 export async function getData() {
@@ -242,25 +242,25 @@ export async function getData() {
 
 ### Interleaving
 
-In React, composition with `children` or slots is a well-known pattern for building flexible components. When using `use cache`, you can continue to compose your UI in this way. Anything included as `children`, or other compositional slots, in the returned JSX will be passed through the cached component without affecting its cache entry.
+Trong React, composition với `children` hoặc slots là một pattern nổi tiếng để xây dựng các component linh hoạt. Khi sử dụng `use cache`, bạn có thể tiếp tục compose UI của mình theo cách này. Bất cứ thứ gì được bao gồm như `children`, hoặc các compositional slots khác, trong JSX được trả về sẽ được truyền qua component được cache mà không ảnh hưởng đến cache entry của nó.
 
-As long as you don't directly reference any of the JSX slots inside the body of the cacheable function itself, their presence in the returned output won't affect the cache entry.
+Miễn là bạn không tham chiếu trực tiếp bất kỳ JSX slots nào bên trong thân của hàm có thể cache, sự hiện diện của chúng trong output được trả về sẽ không ảnh hưởng đến cache entry.
 
 ```tsx filename="app/page.tsx" switcher
 export default async function Page() {
   const uncachedData = await getData()
   return (
-    // Pass compositional slots as props, e.g. header and children
+    // Truyền compositional slots làm props, ví dụ: header và children
     <CacheComponent header={<h1>Home</h1>}>
-      {/* DynamicComponent is provided as the children slot */}
+      {/* DynamicComponent được cung cấp như children slot */}
       <DynamicComponent data={uncachedData} />
     </CacheComponent>
   )
 }
 
 async function CacheComponent({
-  header, // header: a compositional slot, injected as a prop
-  children, // children: another slot for nested composition
+  header, // header: một compositional slot, được inject như một prop
+  children, // children: một slot khác cho nested composition
 }: {
   header: ReactNode
   children: ReactNode
@@ -281,17 +281,17 @@ async function CacheComponent({
 export default async function Page() {
   const uncachedData = await getData()
   return (
-    // Pass compositional slots as props, e.g. header and children
+    // Truyền compositional slots làm props, ví dụ: header và children
     <CacheComponent header={<h1>Home</h1>}>
-      {/* DynamicComponent is provided as the children slot */}
+      {/* DynamicComponent được cung cấp như children slot */}
       <DynamicComponent data={uncachedData} />
     </CacheComponent>
   )
 }
 
 async function CacheComponent({
-  header, // header: a compositional slot, injected as a prop
-  children, // children: another slot for nested composition
+  header, // header: một compositional slot, được inject như một prop
+  children, // children: một slot khác cho nested composition
 }) {
   'use cache'
   const cachedData = await fetch('/api/cached-data')
@@ -305,7 +305,7 @@ async function CacheComponent({
 }
 ```
 
-You can also pass Server Actions through cached components to Client Components without invoking them inside the cacheable function.
+Bạn cũng có thể truyền Server Actions qua các cached components đến Client Components mà không gọi chúng bên trong hàm có thể cache.
 
 ```tsx filename="app/page.tsx" switcher
 import ClientComponent from './ClientComponent'
@@ -313,7 +313,7 @@ import ClientComponent from './ClientComponent'
 export default async function Page() {
   const performUpdate = async () => {
     'use server'
-    // Perform some server-side update
+    // Thực hiện một số cập nhật phía server
     await db.update(...)
   }
 
@@ -326,7 +326,7 @@ async function CachedComponent({
   performUpdate: () => Promise<void>
 }) {
   'use cache'
-  // Do not call performUpdate here
+  // Không gọi performUpdate ở đây
   return <ClientComponent action={performUpdate} />
 }
 ```
@@ -337,7 +337,7 @@ import ClientComponent from './ClientComponent'
 export default async function Page() {
   const performUpdate = async () => {
     'use server'
-    // Perform some server-side update
+    // Thực hiện một số cập nhật phía server
     await db.update(...)
   }
 
@@ -346,7 +346,7 @@ export default async function Page() {
 
 async function CachedComponent({ performUpdate }) {
   'use cache'
-  // Do not call performUpdate here
+  // Không gọi performUpdate ở đây
   return <ClientComponent action={performUpdate} />
 }
 ```
@@ -371,20 +371,20 @@ export default function ClientComponent({ action }) {
 }
 ```
 
-## Platform Support
+## Hỗ trợ nền tảng
 
-| Deployment Option                                                   | Supported         |
+| Tùy chọn triển khai                                                 | Được hỗ trợ       |
 | ------------------------------------------------------------------- | ----------------- |
-| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Yes               |
-| [Docker container](/docs/app/getting-started/deploying#docker)      | Yes               |
-| [Static export](/docs/app/getting-started/deploying#static-export)  | No                |
-| [Adapters](/docs/app/getting-started/deploying#adapters)            | Platform-specific |
+| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Có                |
+| [Docker container](/docs/app/getting-started/deploying#docker)      | Có                |
+| [Static export](/docs/app/getting-started/deploying#static-export)  | Không             |
+| [Adapters](/docs/app/getting-started/deploying#adapters)            | Tùy theo nền tảng |
 
-Learn how to [configure caching](/docs/app/guides/self-hosting#caching-and-isr) when self-hosting Next.js.
+Tìm hiểu cách [cấu hình caching](/docs/app/guides/self-hosting#caching-and-isr) khi tự host Next.js.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                     |
-| --------- | ----------------------------------------------------------- |
-| `v16.0.0` | `"use cache"` is enabled with the Cache Components feature. |
-| `v15.0.0` | `"use cache"` is introduced as an experimental feature.     |
+| Phiên bản | Thay đổi                                                     |
+| --------- | ------------------------------------------------------------ |
+| `v16.0.0` | `"use cache"` được kích hoạt với tính năng Cache Components. |
+| `v15.0.0` | `"use cache"` được giới thiệu như một tính năng thử nghiệm.  |

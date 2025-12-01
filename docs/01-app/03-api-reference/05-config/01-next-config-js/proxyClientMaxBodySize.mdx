@@ -1,18 +1,18 @@
 ---
 title: proxyClientMaxBodySize
-description: Configure the maximum request body size when using proxy.
+description: Cấu hình kích thước request body tối đa khi sử dụng proxy.
 version: experimental
 ---
 
-When proxy is used, Next.js automatically clones the request body and buffers it in memory to enable multiple reads - both in proxy and the underlying route handler. To prevent excessive memory usage, this configuration option sets a size limit on the buffered body.
+Khi proxy được sử dụng, Next.js sẽ tự động clone request body và buffer nó trong bộ nhớ để cho phép đọc nhiều lần - cả trong proxy và route handler cơ bản. Để ngăn chặn việc sử dụng bộ nhớ quá mức, tùy chọn cấu hình này đặt giới hạn kích thước cho buffered body.
 
-By default, the maximum body size is **10MB**. If a request body exceeds this limit, the body will only be buffered up to the limit, and a warning will be logged indicating which route exceeded the limit.
+Theo mặc định, kích thước body tối đa là **10MB**. Nếu một request body vượt quá giới hạn này, body sẽ chỉ được buffer cho đến giới hạn đó, và một cảnh báo sẽ được ghi lại (log) cho biết route nào đã vượt quá giới hạn.
 
-## Options
+## Tùy chọn
 
-### String format (recommended)
+### Định dạng String (khuyên dùng)
 
-Specify the size using a human-readable string format:
+Chỉ định kích thước bằng định dạng chuỗi dễ đọc:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -37,18 +37,18 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-Supported units: `b`, `kb`, `mb`, `gb`
+Các đơn vị được hỗ trợ: `b`, `kb`, `mb`, `gb`
 
-### Number format
+### Định dạng Number
 
-Alternatively, specify the size in bytes as a number:
+Ngoài ra, chỉ định kích thước bằng bytes dưới dạng số:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   experimental: {
-    proxyClientMaxBodySize: 1048576, // 1MB in bytes
+    proxyClientMaxBodySize: 1048576, // 1MB tính bằng bytes
   },
 }
 
@@ -59,38 +59,38 @@ export default nextConfig
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    proxyClientMaxBodySize: 1048576, // 1MB in bytes
+    proxyClientMaxBodySize: 1048576, // 1MB tính bằng bytes
   },
 }
 
 module.exports = nextConfig
 ```
 
-## Behavior
+## Hành vi
 
-When a request body exceeds the configured limit:
+Khi một request body vượt quá giới hạn đã cấu hình:
 
-1. Next.js will buffer only the first N bytes (up to the limit)
-2. A warning will be logged to the console indicating the route that exceeded the limit
-3. The request will continue processing normally, but only the partial body will be available
-4. The request will **not** fail or return an error to the client
+1. Next.js sẽ chỉ buffer N bytes đầu tiên (lên đến giới hạn)
+2. Một cảnh báo sẽ được ghi vào console cho biết route đã vượt quá giới hạn
+3. Request sẽ tiếp tục xử lý bình thường, nhưng chỉ một phần body sẽ có sẵn
+4. Request sẽ **không** thất bại hoặc trả về lỗi cho client
 
-If your application needs to process the full request body, you should either:
+Nếu ứng dụng của bạn cần xử lý toàn bộ request body, bạn nên:
 
-- Increase the `proxyClientMaxBodySize` limit
-- Handle the partial body gracefully in your application logic
+- Tăng giới hạn `proxyClientMaxBodySize`
+- Xử lý phần body bị thiếu một cách khéo léo trong logic ứng dụng của bạn
 
-## Example
+## Ví dụ
 
 ```ts filename="proxy.ts"
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function proxy(request: NextRequest) {
-  // Next.js automatically buffers the body with the configured size limit
-  // You can read the body in proxy...
+  // Next.js tự động buffer body với giới hạn kích thước đã cấu hình
+  // Bạn có thể đọc body trong proxy...
   const body = await request.text()
 
-  // If the body exceeded the limit, only partial data will be available
+  // Nếu body vượt quá giới hạn, chỉ dữ liệu một phần sẽ có sẵn
   console.log('Body size:', body.length)
 
   return NextResponse.next()
@@ -101,7 +101,7 @@ export async function proxy(request: NextRequest) {
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  // ...and the body is still available in your route handler
+  // ...và body vẫn có sẵn trong route handler của bạn
   const body = await request.text()
 
   console.log('Body in route handler:', body.length)
@@ -110,9 +110,9 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-## Good to know
+## Cần biết
 
-- This setting only applies when proxy is used in your application
-- The default limit of 10MB is designed to balance memory usage and typical use cases
-- The limit applies per-request, not globally across all concurrent requests
-- For applications handling large file uploads, consider increasing the limit accordingly
+- Cài đặt này chỉ áp dụng khi proxy được sử dụng trong ứng dụng của bạn
+- Giới hạn mặc định 10MB được thiết kế để cân bằng việc sử dụng bộ nhớ và các trường hợp sử dụng điển hình
+- Giới hạn áp dụng cho mỗi request, không phải toàn cầu trên tất cả các request đồng thời
+- Đối với các ứng dụng xử lý upload file lớn, hãy xem xét tăng giới hạn cho phù hợp

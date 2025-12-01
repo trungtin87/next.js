@@ -1,47 +1,47 @@
 ---
-title: How to implement internationalization in Next.js
-nav_title: Internationalization
-description: Next.js has built-in support for internationalized routing and language detection. Learn more here.
+title: Cách triển khai quốc tế hóa trong Next.js
+nav_title: Quốc tế hóa
+description: Next.js có hỗ trợ tích hợp cho định tuyến quốc tế hóa và phát hiện ngôn ngữ. Tìm hiểu thêm ở đây.
 ---
 
 <details>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
-- [i18n routing](https://github.com/vercel/next.js/tree/canary/examples/i18n-routing-pages)
+- [Định tuyến i18n](https://github.com/vercel/next.js/tree/canary/examples/i18n-routing-pages)
 
 </details>
 
-Next.js has built-in support for internationalized ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization#Naming)) routing since `v10.0.0`. You can provide a list of locales, the default locale, and domain-specific locales and Next.js will automatically handle the routing.
+Next.js có hỗ trợ tích hợp cho định tuyến quốc tế hóa ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization#Naming)) kể từ `v10.0.0`. Bạn có thể cung cấp danh sách các miền địa phương, miền địa phương mặc định và các miền địa phương dành riêng cho miền và Next.js sẽ tự động xử lý định tuyến.
 
-The i18n routing support is currently meant to complement existing i18n library solutions like [`react-intl`](https://formatjs.io/docs/getting-started/installation), [`react-i18next`](https://react.i18next.com/), [`lingui`](https://lingui.dev/), [`rosetta`](https://github.com/lukeed/rosetta), [`next-intl`](https://github.com/amannn/next-intl), [`next-translate`](https://github.com/aralroca/next-translate), [`next-multilingual`](https://github.com/Avansai/next-multilingual), [`tolgee`](https://tolgee.io/integrations/next), [`paraglide-next`](https://inlang.com/m/osslbuzt/paraglide-next-i18n), [`next-intlayer`](https://intlayer.org/doc/environment/nextjs/next-with-page-router), [`gt-react`](https://generaltranslation.com/en/docs/react) and others by streamlining the routes and locale parsing.
+Hỗ trợ định tuyến i18n hiện tại nhằm bổ sung cho các giải pháp thư viện i18n hiện có như [`react-intl`](https://formatjs.io/docs/getting-started/installation), [`react-i18next`](https://react.i18next.com/), [`lingui`](https://lingui.dev/), [`rosetta`](https://github.com/lukeed/rosetta), [`next-intl`](https://github.com/amannn/next-intl), [`next-translate`](https://github.com/aralroca/next-translate), [`next-multilingual`](https://github.com/Avansai/next-multilingual), [`tolgee`](https://tolgee.io/integrations/next), [`paraglide-next`](https://inlang.com/m/osslbuzt/paraglide-next-i18n), [`next-intlayer`](https://intlayer.org/doc/environment/nextjs/next-with-page-router), [`gt-react`](https://generaltranslation.com/en/docs/react) và các giải pháp khác bằng cách hợp lý hóa các tuyến đường và phân tích cú pháp miền địa phương.
 
-## Getting started
+## Bắt đầu
 
-To get started, add the `i18n` config to your `next.config.js` file.
+Để bắt đầu, hãy thêm cấu hình `i18n` vào tệp `next.config.js` của bạn.
 
-Locales are [UTS Locale Identifiers](https://www.unicode.org/reports/tr35/tr35-59/tr35.html#Identifiers), a standardized format for defining locales.
+Miền địa phương là [Mã định danh miền địa phương UTS](https://www.unicode.org/reports/tr35/tr35-59/tr35.html#Identifiers), một định dạng được tiêu chuẩn hóa để xác định các miền địa phương.
 
-Generally a Locale Identifier is made up of a language, region, and script separated by a dash: `language-region-script`. The region and script are optional. An example:
+Nói chung, một Mã định danh miền địa phương được tạo thành từ một ngôn ngữ, khu vực và tập lệnh được phân tách bằng dấu gạch ngang: `ngôn ngữ-khu vực-tập lệnh`. Khu vực và tập lệnh là tùy chọn. Một ví dụ:
 
-- `en-US` - English as spoken in the United States
-- `nl-NL` - Dutch as spoken in the Netherlands
-- `nl` - Dutch, no specific region
+- `en-US` - Tiếng Anh được nói ở Hoa Kỳ
+- `nl-NL` - Tiếng Hà Lan được nói ở Hà Lan
+- `nl` - Tiếng Hà Lan, không có khu vực cụ thể
 
-If user locale is `nl-BE` and it is not listed in your configuration, they will be redirected to `nl` if available, or to the default locale otherwise.
-If you don't plan to support all regions of a country, it is therefore a good practice to include country locales that will act as fallbacks.
+Nếu miền địa phương của người dùng là `nl-BE` và nó không được liệt kê trong cấu hình của bạn, họ sẽ được chuyển hướng đến `nl` nếu có, hoặc đến miền địa phương mặc định nếu không.
+Nếu bạn không có kế hoạch hỗ trợ tất cả các khu vực của một quốc gia, do đó, một thực hành tốt là bao gồm các miền địa phương quốc gia sẽ hoạt động như các phương án dự phòng.
 
 ```js filename="next.config.js"
 module.exports = {
   i18n: {
-    // These are all the locales you want to support in
-    // your application
+    // Đây là tất cả các miền địa phương bạn muốn hỗ trợ trong
+    // ứng dụng của bạn
     locales: ['en-US', 'fr', 'nl-NL'],
-    // This is the default locale you want to be used when visiting
-    // a non-locale prefixed path e.g. `/hello`
+    // Đây là miền địa phương mặc định bạn muốn được sử dụng khi truy cập
+    // một đường dẫn không có tiền tố miền địa phương, ví dụ: `/hello`
     defaultLocale: 'en-US',
-    // This is a list of locale domains and the default locale they
-    // should handle (these are only required when setting up domain routing)
-    // Note: subdomains must be included in the domain value to be matched e.g. "fr.example.com".
+    // Đây là danh sách các miền địa phương và miền địa phương mặc định mà chúng
+    // nên xử lý (chúng chỉ bắt buộc khi thiết lập định tuyến miền)
+    // Lưu ý: các miền phụ phải được bao gồm trong giá trị miền để được khớp, ví dụ: "fr.example.com".
     domains: [
       {
         domain: 'example.com',
@@ -54,8 +54,8 @@ module.exports = {
       {
         domain: 'example.fr',
         defaultLocale: 'fr',
-        // an optional http field can also be used to test
-        // locale domains locally with http instead of https
+        // một trường http tùy chọn cũng có thể được sử dụng để kiểm tra
+        // các miền địa phương cục bộ bằng http thay vì https
         http: true,
       },
     ],
@@ -63,13 +63,13 @@ module.exports = {
 }
 ```
 
-## Locale Strategies
+## Chiến lược miền địa phương
 
-There are two locale handling strategies: Sub-path Routing and Domain Routing.
+Có hai chiến lược xử lý miền địa phương: Định tuyến đường dẫn phụ và Định tuyến miền.
 
-### Sub-path Routing
+### Định tuyến đường dẫn phụ
 
-Sub-path Routing puts the locale in the url path.
+Định tuyến đường dẫn phụ đặt miền địa phương vào đường dẫn url.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -80,17 +80,17 @@ module.exports = {
 }
 ```
 
-With the above configuration `en-US`, `fr`, and `nl-NL` will be available to be routed to, and `en-US` is the default locale. If you have a `pages/blog.js` the following urls would be available:
+Với cấu hình trên, `en-US`, `fr` và `nl-NL` sẽ có sẵn để được định tuyến đến và `en-US` là miền địa phương mặc định. Nếu bạn có một `pages/blog.js`, các url sau sẽ có sẵn:
 
 - `/blog`
 - `/fr/blog`
 - `/nl-nl/blog`
 
-The default locale does not have a prefix.
+Miền địa phương mặc định không có tiền tố.
 
-### Domain Routing
+### Định tuyến miền
 
-By using domain routing you can configure locales to be served from different domains:
+Bằng cách sử dụng định tuyến miền, bạn có thể định cấu hình các miền địa phương để được phục vụ từ các miền khác nhau:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -100,8 +100,8 @@ module.exports = {
 
     domains: [
       {
-        // Note: subdomains must be included in the domain value to be matched
-        // e.g. www.example.com should be used if that is the expected hostname
+        // Lưu ý: các miền phụ phải được bao gồm trong giá trị miền để được khớp
+        // ví dụ: www.example.com nên được sử dụng nếu đó là tên máy chủ dự kiến
         domain: 'example.com',
         defaultLocale: 'en-US',
       },
@@ -112,8 +112,8 @@ module.exports = {
       {
         domain: 'example.nl',
         defaultLocale: 'nl-NL',
-        // specify other locales that should be redirected
-        // to this domain
+        // chỉ định các miền địa phương khác sẽ được chuyển hướng
+        // đến miền này
         locales: ['nl-BE'],
       },
     ],
@@ -121,7 +121,7 @@ module.exports = {
 }
 ```
 
-For example if you have `pages/blog.js` the following urls will be available:
+Ví dụ, nếu bạn có `pages/blog.js`, các url sau sẽ có sẵn:
 
 - `example.com/blog`
 - `www.example.com/blog`
@@ -129,24 +129,24 @@ For example if you have `pages/blog.js` the following urls will be available:
 - `example.nl/blog`
 - `example.nl/nl-BE/blog`
 
-## Automatic Locale Detection
+## Tự động phát hiện miền địa phương
 
-When a user visits the application root (generally `/`), Next.js will try to automatically detect which locale the user prefers based on the [`Accept-Language`](https://developer.mozilla.org/docs/Web/HTTP/Headers/Accept-Language) header and the current domain.
+Khi người dùng truy cập vào thư mục gốc của ứng dụng (thường là `/`), Next.js sẽ cố gắng tự động phát hiện miền địa phương mà người dùng thích dựa trên tiêu đề [`Accept-Language`](https://developer.mozilla.org/docs/Web/HTTP/Headers/Accept-Language) và miền hiện tại.
 
-If a locale other than the default locale is detected, the user will be redirected to either:
+Nếu một miền địa phương khác với miền địa phương mặc định được phát hiện, người dùng sẽ được chuyển hướng đến:
 
-- **When using Sub-path Routing:** The locale prefixed path
-- **When using Domain Routing:** The domain with that locale specified as the default
+- **Khi sử dụng Định tuyến đường dẫn phụ:** Đường dẫn có tiền tố miền địa phương
+- **Khi sử dụng Định tuyến miền:** Miền có miền địa phương đó được chỉ định làm mặc định
 
-When using Domain Routing, if a user with the `Accept-Language` header `fr;q=0.9` visits `example.com`, they will be redirected to `example.fr` since that domain handles the `fr` locale by default.
+Khi sử dụng Định tuyến miền, nếu người dùng có tiêu đề `Accept-Language` là `fr;q=0.9` truy cập `example.com`, họ sẽ được chuyển hướng đến `example.fr` vì miền đó xử lý miền địa phương `fr` theo mặc định.
 
-When using Sub-path Routing, the user would be redirected to `/fr`.
+Khi sử dụng Định tuyến đường dẫn phụ, người dùng sẽ được chuyển hướng đến `/fr`.
 
-### Prefixing the Default Locale
+### Thêm tiền tố cho miền địa phương mặc định
 
-With Next.js 12 and [Proxy](/docs/pages/api-reference/file-conventions/proxy), we can add a prefix to the default locale with a [workaround](https://github.com/vercel/next.js/discussions/18419).
+Với Next.js 12 và [Proxy](/docs/pages/api-reference/file-conventions/proxy), chúng ta có thể thêm tiền tố vào miền địa phương mặc định bằng một [giải pháp thay thế](https://github.com/vercel/next.js/discussions/18419).
 
-For example, here's a `next.config.js` file with support for a few languages. Note the `"default"` locale has been added intentionally.
+Ví dụ, đây là một tệp `next.config.js` có hỗ trợ một vài ngôn ngữ. Lưu ý rằng miền địa phương `"default"` đã được thêm vào một cách có chủ ý.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -159,7 +159,7 @@ module.exports = {
 }
 ```
 
-Next, we can use [Proxy](/docs/pages/api-reference/file-conventions/proxy) to add custom routing rules:
+Tiếp theo, chúng ta có thể sử dụng [Proxy](/docs/pages/api-reference/file-conventions/proxy) để thêm các quy tắc định tuyến tùy chỉnh:
 
 ```ts filename="proxy.ts"
 import { NextRequest, NextResponse } from 'next/server'
@@ -185,11 +185,11 @@ export async function proxy(req: NextRequest) {
 }
 ```
 
-This [Proxy](/docs/pages/api-reference/file-conventions/proxy) skips adding the default prefix to [API Routes](/docs/pages/building-your-application/routing/api-routes) and [public](/docs/pages/api-reference/file-conventions/public-folder) files like fonts or images. If a request is made to the default locale, we redirect to our prefix `/en`.
+[Proxy](/docs/pages/api-reference/file-conventions/proxy) này bỏ qua việc thêm tiền tố mặc định vào [Các tuyến API](/docs/pages/building-your-application/routing/api-routes) và các tệp [công khai](/docs/pages/api-reference/file-conventions/public-folder) như phông chữ hoặc hình ảnh. Nếu một yêu cầu được thực hiện đến miền địa phương mặc định, chúng ta sẽ chuyển hướng đến tiền tố `/en` của mình.
 
-### Disabling Automatic Locale Detection
+### Tắt tự động phát hiện miền địa phương
 
-The automatic locale detection can be disabled with:
+Việc tự động phát hiện miền địa phương có thể được tắt bằng:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -199,25 +199,25 @@ module.exports = {
 }
 ```
 
-When `localeDetection` is set to `false` Next.js will no longer automatically redirect based on the user's preferred locale and will only provide locale information detected from either the locale based domain or locale path as described above.
+Khi `localeDetection` được đặt thành `false`, Next.js sẽ không còn tự động chuyển hướng dựa trên miền địa phương ưa thích của người dùng và sẽ chỉ cung cấp thông tin miền địa phương được phát hiện từ miền dựa trên miền địa phương hoặc đường dẫn miền địa phương như được mô tả ở trên.
 
-## Accessing the locale information
+## Truy cập thông tin miền địa phương
 
-You can access the locale information via the Next.js router. For example, using the [`useRouter()`](/docs/pages/api-reference/functions/use-router) hook the following properties are available:
+Bạn có thể truy cập thông tin miền địa phương thông qua bộ định tuyến Next.js. Ví dụ, sử dụng hook [`useRouter()`](/docs/pages/api-reference/functions/use-router), các thuộc tính sau có sẵn:
 
-- `locale` contains the currently active locale.
-- `locales` contains all configured locales.
-- `defaultLocale` contains the configured default locale.
+- `locale` chứa miền địa phương hiện đang hoạt động.
+- `locales` chứa tất cả các miền địa phương đã được định cấu hình.
+- `defaultLocale` chứa miền địa phương mặc định đã được định cấu hình.
 
-When [pre-rendering](/docs/pages/building-your-application/rendering/static-site-generation) pages with `getStaticProps` or `getServerSideProps`, the locale information is provided in [the context](/docs/pages/building-your-application/data-fetching/get-static-props) provided to the function.
+Khi [kết xuất trước](/docs/pages/building-your-application/rendering/static-site-generation) các trang bằng `getStaticProps` hoặc `getServerSideProps`, thông tin miền địa phương được cung cấp trong [ngữ cảnh](/docs/pages/building-your-application/data-fetching/get-static-props) được cung cấp cho hàm.
 
-When leveraging `getStaticPaths`, the configured locales are provided in the context parameter of the function under `locales` and the configured defaultLocale under `defaultLocale`.
+Khi tận dụng `getStaticPaths`, các miền địa phương đã được định cấu hình được cung cấp trong tham số ngữ cảnh của hàm dưới `locales` và defaultLocale đã được định cấu hình dưới `defaultLocale`.
 
-## Transition between locales
+## Chuyển đổi giữa các miền địa phương
 
-You can use `next/link` or `next/router` to transition between locales.
+Bạn có thể sử dụng `next/link` hoặc `next/router` để chuyển đổi giữa các miền địa phương.
 
-For `next/link`, a `locale` prop can be provided to transition to a different locale from the currently active one. If no `locale` prop is provided, the currently active `locale` is used during client-transitions. For example:
+Đối với `next/link`, một `locale` prop có thể được cung cấp để chuyển đổi sang một miền địa phương khác với miền địa phương hiện đang hoạt động. Nếu không có `locale` prop nào được cung cấp, `locale` hiện đang hoạt động sẽ được sử dụng trong các quá trình chuyển đổi phía máy khách. Ví dụ:
 
 ```jsx
 import Link from 'next/link'
@@ -225,13 +225,13 @@ import Link from 'next/link'
 export default function IndexPage(props) {
   return (
     <Link href="/another" locale="fr">
-      To /fr/another
+      Đến /fr/another
     </Link>
   )
 }
 ```
 
-When using the `next/router` methods directly, you can specify the `locale` that should be used via the transition options. For example:
+Khi sử dụng trực tiếp các phương thức `next/router`, bạn có thể chỉ định `locale` sẽ được sử dụng thông qua các tùy chọn chuyển đổi. Ví dụ:
 
 ```jsx
 import { useRouter } from 'next/router'
@@ -245,25 +245,25 @@ export default function IndexPage(props) {
         router.push('/another', '/another', { locale: 'fr' })
       }}
     >
-      to /fr/another
+      đến /fr/another
     </div>
   )
 }
 ```
 
-Note that to handle switching only the `locale` while preserving all routing information such as [dynamic route](/docs/pages/building-your-application/routing/dynamic-routes) query values or hidden href query values, you can provide the `href` parameter as an object:
+Lưu ý rằng để xử lý việc chỉ chuyển đổi `locale` trong khi vẫn giữ lại tất cả thông tin định tuyến như các giá trị truy vấn [tuyến đường động](/docs/pages/building-your-application/routing/dynamic-routes) hoặc các giá trị truy vấn href ẩn, bạn có thể cung cấp tham số `href` dưới dạng một đối tượng:
 
 ```jsx
 import { useRouter } from 'next/router'
 const router = useRouter()
 const { pathname, asPath, query } = router
-// change just the locale and maintain all other route information including href's query
+// chỉ thay đổi miền địa phương và duy trì tất cả thông tin tuyến đường khác bao gồm truy vấn của href
 router.push({ pathname, query }, asPath, { locale: nextLocale })
 ```
 
-See [here](/docs/pages/api-reference/functions/use-router#with-url-object) for more information on the object structure for `router.push`.
+Xem [tại đây](/docs/pages/api-reference/functions/use-router#with-url-object) để biết thêm thông tin về cấu trúc đối tượng cho `router.push`.
 
-If you have a `href` that already includes the locale you can opt-out of automatically handling the locale prefixing:
+Nếu bạn có một `href` đã bao gồm miền địa phương, bạn có thể chọn không tự động xử lý tiền tố miền địa phương:
 
 ```jsx
 import Link from 'next/link'
@@ -271,37 +271,37 @@ import Link from 'next/link'
 export default function IndexPage(props) {
   return (
     <Link href="/fr/another" locale={false}>
-      To /fr/another
+      Đến /fr/another
     </Link>
   )
 }
 ```
 
-## Leveraging the `NEXT_LOCALE` cookie
+## Tận dụng cookie `NEXT_LOCALE`
 
-Next.js allows setting a `NEXT_LOCALE=the-locale` cookie, which takes priority over the accept-language header. This cookie can be set using a language switcher and then when a user comes back to the site it will leverage the locale specified in the cookie when redirecting from `/` to the correct locale location.
+Next.js cho phép đặt cookie `NEXT_LOCALE=the-locale`, có mức độ ưu tiên cao hơn tiêu đề accept-language. Cookie này có thể được đặt bằng cách sử dụng một công cụ chuyển đổi ngôn ngữ và sau đó khi người dùng quay lại trang web, nó sẽ tận dụng miền địa phương được chỉ định trong cookie khi chuyển hướng từ `/` đến vị trí miền địa phương chính xác.
 
-For example, if a user prefers the locale `fr` in their accept-language header but a `NEXT_LOCALE=en` cookie is set the `en` locale when visiting `/` the user will be redirected to the `en` locale location until the cookie is removed or expired.
+Ví dụ, nếu người dùng thích miền địa phương `fr` trong tiêu đề accept-language của họ nhưng một cookie `NEXT_LOCALE=en` được đặt là miền địa phương `en` khi truy cập `/`, người dùng sẽ được chuyển hướng đến vị trí miền địa phương `en` cho đến khi cookie bị xóa hoặc hết hạn.
 
-## Search Engine Optimization
+## Tối ưu hóa công cụ tìm kiếm
 
-Since Next.js knows what language the user is visiting it will automatically add the `lang` attribute to the `<html>` tag.
+Vì Next.js biết người dùng đang truy cập ngôn ngữ nào nên nó sẽ tự động thêm thuộc tính `lang` vào thẻ `<html>`.
 
-Next.js doesn't know about variants of a page so it's up to you to add the `hreflang` meta tags using [`next/head`](/docs/pages/api-reference/components/head). You can learn more about `hreflang` in the [Google Webmasters documentation](https://support.google.com/webmasters/answer/189077).
+Next.js không biết về các biến thể của một trang, vì vậy bạn phải tự thêm các thẻ meta `hreflang` bằng cách sử dụng [`next/head`](/docs/pages/api-reference/components/head). Bạn có thể tìm hiểu thêm về `hreflang` trong [tài liệu Google Webmasters](https://support.google.com/webmasters/answer/189077).
 
-## How does this work with Static Generation?
+## Điều này hoạt động như thế nào với Tạo tĩnh?
 
-> Note that Internationalized Routing does not integrate with [`output: 'export'`](/docs/pages/guides/static-exports) as it does not leverage the Next.js routing layer. Hybrid Next.js applications that do not use `output: 'export'` are fully supported.
+> Lưu ý rằng Định tuyến quốc tế hóa không tích hợp với [`output: 'export'`](/docs/pages/guides/static-exports) vì nó không tận dụng lớp định tuyến Next.js. Các ứng dụng Next.js kết hợp không sử dụng `output: 'export'` được hỗ trợ đầy đủ.
 
-### Dynamic Routes and `getStaticProps` Pages
+### Các tuyến đường động và các trang `getStaticProps`
 
-For pages using `getStaticProps` with [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes), all locale variants of the page desired to be prerendered need to be returned from [`getStaticPaths`](/docs/pages/building-your-application/data-fetching/get-static-paths). Along with the `params` object returned for `paths`, you can also return a `locale` field specifying which locale you want to render. For example:
+Đối với các trang sử dụng `getStaticProps` với [Các tuyến đường động](/docs/pages/building-your-application/routing/dynamic-routes), tất cả các biến thể miền địa phương của trang mong muốn được kết xuất trước cần được trả về từ [`getStaticPaths`](/docs/pages/building-your-application/data-fetching/get-static-paths). Cùng với đối tượng `params` được trả về cho `paths`, bạn cũng có thể trả về một trường `locale` chỉ định miền địa phương bạn muốn kết xuất. Ví dụ:
 
 ```jsx filename="pages/blog/[slug].js"
 export const getStaticPaths = ({ locales }) => {
   return {
     paths: [
-      // if no `locale` is provided only the defaultLocale will be generated
+      // nếu không có `locale` nào được cung cấp, chỉ defaultLocale sẽ được tạo
       { params: { slug: 'post-1' }, locale: 'en-US' },
       { params: { slug: 'post-1' }, locale: 'fr' },
     ],
@@ -310,24 +310,24 @@ export const getStaticPaths = ({ locales }) => {
 }
 ```
 
-For [Automatically Statically Optimized](/docs/pages/building-your-application/rendering/automatic-static-optimization) and non-dynamic `getStaticProps` pages, **a version of the page will be generated for each locale**. This is important to consider because it can increase build times depending on how many locales are configured inside `getStaticProps`.
+Đối với các trang [Tối ưu hóa tĩnh tự động](/docs/pages/building-your-application/rendering/automatic-static-optimization) và các trang `getStaticProps` không động, **một phiên bản của trang sẽ được tạo cho mỗi miền địa phương**. Điều này rất quan trọng cần xem xét vì nó có thể làm tăng thời gian xây dựng tùy thuộc vào số lượng miền địa phương được định cấu hình bên trong `getStaticProps`.
 
-For example, if you have 50 locales configured with 10 non-dynamic pages using `getStaticProps`, this means `getStaticProps` will be called 500 times. 50 versions of the 10 pages will be generated during each build.
+Ví dụ, nếu bạn có 50 miền địa phương được định cấu hình với 10 trang không động sử dụng `getStaticProps`, điều này có nghĩa là `getStaticProps` sẽ được gọi 500 lần. 50 phiên bản của 10 trang sẽ được tạo trong mỗi lần xây dựng.
 
-To decrease the build time of dynamic pages with `getStaticProps`, use a [`fallback` mode](/docs/pages/api-reference/functions/get-static-paths#fallback-true). This allows you to return only the most popular paths and locales from `getStaticPaths` for prerendering during the build. Then, Next.js will build the remaining pages at runtime as they are requested.
+Để giảm thời gian xây dựng của các trang động với `getStaticProps`, hãy sử dụng một [`chế độ dự phòng`](/docs/pages/api-reference/functions/get-static-paths#fallback-true). Điều này cho phép bạn chỉ trả về các đường dẫn và miền địa phương phổ biến nhất từ `getStaticPaths` để kết xuất trước trong quá trình xây dựng. Sau đó, Next.js sẽ xây dựng các trang còn lại trong thời gian chạy khi chúng được yêu cầu.
 
-### Automatically Statically Optimized Pages
+### Các trang được tối ưu hóa tĩnh tự động
 
-For pages that are [automatically statically optimized](/docs/pages/building-your-application/rendering/automatic-static-optimization), a version of the page will be generated for each locale.
+Đối với các trang được [tối ưu hóa tĩnh tự động](/docs/pages/building-your-application/rendering/automatic-static-optimization), một phiên bản của trang sẽ được tạo cho mỗi miền địa phương.
 
-### Non-dynamic getStaticProps Pages
+### Các trang getStaticProps không động
 
-For non-dynamic `getStaticProps` pages, a version is generated for each locale like above. `getStaticProps` is called with each `locale` that is being rendered. If you would like to opt-out of a certain locale from being pre-rendered, you can return `notFound: true` from `getStaticProps` and this variant of the page will not be generated.
+Đối với các trang `getStaticProps` không động, một phiên bản được tạo cho mỗi miền địa phương như trên. `getStaticProps` được gọi với mỗi `locale` đang được kết xuất. Nếu bạn muốn chọn không kết xuất trước một miền địa phương nhất định, bạn có thể trả về `notFound: true` từ `getStaticProps` và biến thể này của trang sẽ không được tạo.
 
 ```js
 export async function getStaticProps({ locale }) {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
+  // Gọi một điểm cuối API bên ngoài để lấy các bài đăng.
+  // Bạn có thể sử dụng bất kỳ thư viện tìm nạp dữ liệu nào
   const res = await fetch(`https://.../posts?locale=${locale}`)
   const posts = await res.json()
 
@@ -337,8 +337,8 @@ export async function getStaticProps({ locale }) {
     }
   }
 
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
+  // Bằng cách trả về { props: posts }, thành phần Blog
+  // sẽ nhận `posts` làm một prop tại thời điểm xây dựng
   return {
     props: {
       posts,
@@ -347,9 +347,9 @@ export async function getStaticProps({ locale }) {
 }
 ```
 
-## Limits for the i18n config
+## Giới hạn cho cấu hình i18n
 
-- `locales`: 100 total locales
-- `domains`: 100 total locale domain items
+- `locales`: tổng cộng 100 miền địa phương
+- `domains`: tổng cộng 100 mục miền địa phương
 
-> **Good to know**: These limits have been added initially to prevent potential [performance issues at build time](#dynamic-routes-and-getstaticprops-pages). You can workaround these limits with custom routing using [Proxy](/docs/pages/api-reference/file-conventions/proxy) in Next.js 12.
+> **Cần biết**: Các giới hạn này đã được thêm vào ban đầu để ngăn chặn các [vấn đề về hiệu suất tiềm ẩn tại thời điểm xây dựng](#dynamic-routes-and-getstaticprops-pages). Bạn có thể khắc phục các giới hạn này bằng định tuyến tùy chỉnh sử dụng [Proxy](/docs/pages/api-reference/file-conventions/proxy) trong Next.js 12.

@@ -1,25 +1,25 @@
 ---
 title: isolatedDevBuild
-description: Use isolated build outputs for development server to prevent conflicts with production builds.
+description: Sử dụng các đầu ra build riêng biệt cho development server để ngăn xung đột với các bản build production.
 version: experimental
 ---
 
-The experimental `isolatedDevBuild` option separates development and production build outputs into different directories. When enabled, the development server (`next dev`) writes its output to `.next/dev` instead of `.next`, preventing conflicts when running `next dev` and `next build` concurrently.
+Tùy chọn thử nghiệm `isolatedDevBuild` tách các đầu ra build development và production vào các thư mục khác nhau. Khi được kích hoạt, development server (`next dev`) ghi đầu ra của nó vào `.next/dev` thay vì `.next`, ngăn chặn xung đột khi chạy `next dev` và `next build` đồng thời.
 
-This is especially helpful when automated tools (for example, AI agents) run `next build` to validate changes while your development server is running, ensuring the dev server is not affected by changes made by the build process.
+Điều này đặc biệt hữu ích khi các công cụ tự động (ví dụ: AI agents) chạy `next build` để xác thực các thay đổi trong khi development server của bạn đang chạy, đảm bảo dev server không bị ảnh hưởng bởi các thay đổi được thực hiện bởi quá trình build.
 
-This feature is **enabled by default** to keep development and production outputs separate and prevent conflicts.
+Tính năng này được **kích hoạt theo mặc định** để giữ các đầu ra development và production riêng biệt và ngăn chặn xung đột.
 
-## Configuration
+## Cấu hình
 
-To opt out of this feature, set `isolatedDevBuild` to `false` in your configuration:
+Để chọn không tham gia tính năng này, hãy đặt `isolatedDevBuild` thành `false` trong cấu hình của bạn:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   experimental: {
-    isolatedDevBuild: false, // defaults to true
+    isolatedDevBuild: false, // mặc định là true
   },
 }
 
@@ -30,15 +30,15 @@ export default nextConfig
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    isolatedDevBuild: false, // defaults to true
+    isolatedDevBuild: false, // mặc định là true
   },
 }
 
 export default nextConfig
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                        |
-| --------- | ---------------------------------------------- |
-| `v16.0.0` | `experimental.isolatedDevBuild` is introduced. |
+| Phiên bản | Thay đổi                                         |
+| --------- | ------------------------------------------------ |
+| `v16.0.0` | `experimental.isolatedDevBuild` được giới thiệu. |

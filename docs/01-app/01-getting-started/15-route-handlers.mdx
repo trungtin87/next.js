@@ -1,10 +1,10 @@
 ---
 title: Route Handlers
 nav_title: Route Handlers
-description: Learn how to use Route Handlers
+description: Tìm hiểu cách sử dụng Route Handlers
 related:
-  title: API Reference
-  description: Learn more about Route Handlers
+  title: Tài liệu tham khảo API
+  description: Tìm hiểu thêm về Route Handlers
   links:
     - app/api-reference/file-conventions/route
     - app/guides/backend-for-frontend
@@ -12,7 +12,7 @@ related:
 
 ## Route Handlers
 
-Route Handlers allow you to create custom request handlers for a given route using the Web [Request](https://developer.mozilla.org/docs/Web/API/Request) and [Response](https://developer.mozilla.org/docs/Web/API/Response) APIs.
+Route Handlers cho phép bạn tạo custom request handlers cho một route cụ thể bằng cách sử dụng Web [Request](https://developer.mozilla.org/docs/Web/API/Request) và [Response](https://developer.mozilla.org/docs/Web/API/Response) APIs.
 
 <Image
   alt="Route.js Special File"
@@ -22,11 +22,11 @@ Route Handlers allow you to create custom request handlers for a given route usi
   height="444"
 />
 
-> **Good to know**: Route Handlers are only available inside the `app` directory. They are the equivalent of [API Routes](/docs/pages/building-your-application/routing/api-routes) inside the `pages` directory meaning you **do not** need to use API Routes and Route Handlers together.
+> **Lưu ý**: Route Handlers chỉ khả dụng bên trong thư mục `app`. Chúng tương đương với [API Routes](/docs/pages/building-your-application/routing/api-routes) bên trong thư mục `pages`, có nghĩa là bạn **không** cần sử dụng API Routes và Route Handlers cùng lúc.
 
-### Convention
+### Quy ước
 
-Route Handlers are defined in a [`route.js|ts` file](/docs/app/api-reference/file-conventions/route) inside the `app` directory:
+Route Handlers được định nghĩa trong file [`route.js|ts`](/docs/app/api-reference/file-conventions/route) bên trong thư mục `app`:
 
 ```ts filename="app/api/route.ts" switcher
 export async function GET(request: Request) {}
@@ -36,19 +36,19 @@ export async function GET(request: Request) {}
 export async function GET(request) {}
 ```
 
-Route Handlers can be nested anywhere inside the `app` directory, similar to `page.js` and `layout.js`. But there **cannot** be a `route.js` file at the same route segment level as `page.js`.
+Route Handlers có thể được lồng ở bất kỳ đâu bên trong thư mục `app`, tương tự như `page.js` và `layout.js`. Nhưng **không thể** có file `route.js` ở cùng mức route segment với `page.js`.
 
-### Supported HTTP Methods
+### Các phương thức HTTP được hỗ trợ
 
-The following [HTTP methods](https://developer.mozilla.org/docs/Web/HTTP/Methods) are supported: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, and `OPTIONS`. If an unsupported method is called, Next.js will return a `405 Method Not Allowed` response.
+Các [phương thức HTTP](https://developer.mozilla.org/docs/Web/HTTP/Methods) sau được hỗ trợ: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, và `OPTIONS`. Nếu một phương thức không được hỗ trợ được gọi, Next.js sẽ trả về response `405 Method Not Allowed`.
 
-### Extended `NextRequest` and `NextResponse` APIs
+### API `NextRequest` và `NextResponse` mở rộng
 
-In addition to supporting the native [Request](https://developer.mozilla.org/docs/Web/API/Request) and [Response](https://developer.mozilla.org/docs/Web/API/Response) APIs, Next.js extends them with [`NextRequest`](/docs/app/api-reference/functions/next-request) and [`NextResponse`](/docs/app/api-reference/functions/next-response) to provide convenient helpers for advanced use cases.
+Ngoài việc hỗ trợ [Request](https://developer.mozilla.org/docs/Web/API/Request) và [Response](https://developer.mozilla.org/docs/Web/API/Response) APIs gốc, Next.js mở rộng chúng với [`NextRequest`](/docs/app/api-reference/functions/next-request) và [`NextResponse`](/docs/app/api-reference/functions/next-response) để cung cấp các helpers tiện lợi cho các use cases nâng cao.
 
 ### Caching
 
-Route Handlers are not cached by default. You can, however, opt into caching for `GET` methods. Other supported HTTP methods are **not** cached. To cache a `GET` method, use a [route config option](/docs/app/api-reference/file-conventions/route-segment-config#dynamic) such as `export const dynamic = 'force-static'` in your Route Handler file.
+Route Handlers không được cached theo mặc định. Tuy nhiên, bạn có thể chọn caching cho các phương thức `GET`. Các phương thức HTTP được hỗ trợ khác **không** được cached. Để cache một phương thức `GET`, sử dụng [route config option](/docs/app/api-reference/file-conventions/route-segment-config#dynamic) như `export const dynamic = 'force-static'` trong file Route Handler của bạn.
 
 ```ts filename="app/items/route.ts" switcher
 export const dynamic = 'force-static'
@@ -82,26 +82,26 @@ export async function GET() {
 }
 ```
 
-> **Good to know**: Other supported HTTP methods are **not** cached, even if they are placed alongside a `GET` method that is cached, in the same file.
+> **Lưu ý**: Các phương thức HTTP được hỗ trợ khác **không** được cached, ngay cả khi chúng được đặt cùng với phương thức `GET` được cached trong cùng file.
 
-### Special Route Handlers
+### Route Handlers đặc biệt
 
-Special Route Handlers like [`sitemap.ts`](/docs/app/api-reference/file-conventions/metadata/sitemap), [`opengraph-image.tsx`](/docs/app/api-reference/file-conventions/metadata/opengraph-image), and [`icon.tsx`](/docs/app/api-reference/file-conventions/metadata/app-icons), and other [metadata files](/docs/app/api-reference/file-conventions/metadata) remain static by default unless they use Dynamic APIs or dynamic config options.
+Các Route Handlers đặc biệt như [`sitemap.ts`](/docs/app/api-reference/file-conventions/metadata/sitemap), [`opengraph-image.tsx`](/docs/app/api-reference/file-conventions/metadata/opengraph-image), và [`icon.tsx`](/docs/app/api-reference/file-conventions/metadata/app-icons), và các [metadata files](/docs/app/api-reference/file-conventions/metadata) khác vẫn static theo mặc định trừ khi chúng sử dụng Dynamic APIs hoặc dynamic config options.
 
 ### Route Resolution
 
-You can consider a `route` the lowest level routing primitive.
+Bạn có thể coi `route` là routing primitive ở mức thấp nhất.
 
-- They **do not** participate in layouts or client-side navigations like `page`.
-- There **cannot** be a `route.js` file at the same route as `page.js`.
+- Chúng **không** tham gia vào layouts hoặc client-side navigations như `page`.
+- **Không thể** có file `route.js` ở cùng route với `page.js`.
 
-| Page                 | Route              | Result                       |
+| Page                 | Route              | Kết quả                      |
 | -------------------- | ------------------ | ---------------------------- |
 | `app/page.js`        | `app/route.js`     | <Cross size={18} /> Conflict |
 | `app/page.js`        | `app/api/route.js` | <Check size={18} /> Valid    |
 | `app/[user]/page.js` | `app/api/route.js` | <Check size={18} /> Valid    |
 
-Each `route.js` or `page.js` file takes over all HTTP verbs for that route.
+Mỗi file `route.js` hoặc `page.js` sẽ xử lý tất cả các HTTP verbs cho route đó.
 
 ```ts filename="app/page.ts" switcher
 export default function Page() {
@@ -123,11 +123,11 @@ export default function Page() {
 export async function POST(request) {}
 ```
 
-Read more about how Route Handlers [complement your frontend application](/docs/app/guides/backend-for-frontend), or explore the Route Handlers [API Reference](/docs/app/api-reference/file-conventions/route).
+Đọc thêm về cách Route Handlers [bổ sung cho ứng dụng frontend của bạn](/docs/app/guides/backend-for-frontend), hoặc khám phá [Tài liệu tham khảo API](/docs/app/api-reference/file-conventions/route) của Route Handlers.
 
 ### Route Context Helper
 
-In TypeScript, you can type the `context` parameter for Route Handlers with the globally available [`RouteContext`](/docs/app/api-reference/file-conventions/route#route-context-helper) helper:
+Trong TypeScript, bạn có thể type tham số `context` cho Route Handlers với helper [`RouteContext`](/docs/app/api-reference/file-conventions/route#route-context-helper) có sẵn toàn cục:
 
 ```ts filename="app/users/[id]/route.ts" switcher
 import type { NextRequest } from 'next/server'
@@ -138,6 +138,6 @@ export async function GET(_req: NextRequest, ctx: RouteContext<'/users/[id]'>) {
 }
 ```
 
-> **Good to know**
+> **Lưu ý**
 >
-> - Types are generated during `next dev`, `next build` or `next typegen`.
+> - Types được generate trong quá trình `next dev`, `next build` hoặc `next typegen`.

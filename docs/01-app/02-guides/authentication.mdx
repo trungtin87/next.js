@@ -1,44 +1,44 @@
 ---
-title: How to implement authentication in Next.js
-nav_title: Authentication
-description: Learn how to implement authentication in your Next.js application.
+title: Cách triển khai xác thực trong Next.js
+nav_title: Xác thực
+description: Tìm hiểu cách triển khai xác thực trong ứng dụng Next.js của bạn.
 ---
 
-Understanding authentication is crucial for protecting your application's data. This page will guide you through what React and Next.js features to use to implement auth.
+Hiểu về xác thực là rất quan trọng để bảo vệ dữ liệu của ứng dụng của bạn. Trang này sẽ hướng dẫn bạn qua các tính năng React và Next.js để sử dụng nhằm triển khai xác thực.
 
-Before starting, it helps to break down the process into three concepts:
+Trước khi bắt đầu, sẽ hữu ích khi chia nhỏ quy trình thành ba khái niệm:
 
-1. **[Authentication](#authentication)**: Verifies if the user is who they say they are. It requires the user to prove their identity with something they have, such as a username and password.
-2. **[Session Management](#session-management)**: Tracks the user's auth state across requests.
-3. **[Authorization](#authorization)**: Decides what routes and data the user can access.
+1. **[Xác thực (Authentication)](#authentication)**: Xác minh xem người dùng có đúng là người họ tuyên bố hay không. Nó yêu cầu người dùng chứng minh danh tính của họ bằng thứ gì đó họ có, chẳng hạn như tên người dùng và mật khẩu.
+2. **[Quản lý phiên (Session Management)](#session-management)**: Theo dõi trạng thái xác thực của người dùng qua các yêu cầu.
+3. **[Ủy quyền (Authorization)](#authorization)**: Quyết định những routes và dữ liệu nào người dùng có thể truy cập.
 
-This diagram shows the authentication flow using React and Next.js features:
+Sơ đồ này hiển thị luồng xác thực sử dụng các tính năng của React và Next.js:
 
 <Image
-  alt="Diagram showing the authentication flow with React and Next.js features"
+  alt="Sơ đồ hiển thị luồng xác thực với các tính năng của React và Next.js"
   srcLight="/docs/light/authentication-overview.png"
   srcDark="/docs/dark/authentication-overview.png"
   width="1600"
   height="1383"
 />
 
-The examples on this page walk through basic username and password auth for educational purposes. While you can implement a custom auth solution, for increased security and simplicity, we recommend using an authentication library. These offer built-in solutions for authentication, session management, and authorization, as well as additional features such as social logins, multi-factor authentication, and role-based access control. You can find a list in the [Auth Libraries](#auth-libraries) section.
+Các ví dụ trên trang này hướng dẫn xác thực tên người dùng và mật khẩu cơ bản cho mục đích giáo dục. Mặc dù bạn có thể triển khai giải pháp xác thực tùy chỉnh, nhưng để tăng cường bảo mật và đơn giản, chúng tôi khuyên bạn nên sử dụng thư viện xác thực. Các thư viện này cung cấp các giải pháp tích hợp cho xác thực, quản lý phiên và ủy quyền, cũng như các tính năng bổ sung như đăng nhập xã hội, xác thực đa yếu tố và kiểm soát truy cập dựa trên vai trò. Bạn có thể tìm thấy danh sách trong phần [Thư viện xác thực](#auth-libraries).
 
-## Authentication
+## Xác thực
 
 <AppOnly>
 
-### Sign-up and login functionality
+### Chức năng đăng ký và đăng nhập
 
-You can use the [`<form>`](https://react.dev/reference/react-dom/components/form) element with React's [Server Actions](/docs/app/getting-started/updating-data) and `useActionState` to capture user credentials, validate form fields, and call your Authentication Provider's API or database.
+Bạn có thể sử dụng phần tử [`<form>`](https://react.dev/reference/react-dom/components/form) với [Server Actions](/docs/app/getting-started/updating-data) của React và `useActionState` để nắm bắt thông tin đăng nhập của người dùng, xác thực các trường biểu mẫu và gọi API hoặc cơ sở dữ liệu của Nhà cung cấp xác thực của bạn.
 
-Since Server Actions always execute on the server, they provide a secure environment for handling authentication logic.
+Vì Server Actions luôn thực thi trên server, chúng cung cấp một môi trường an toàn để xử lý logic xác thực.
 
-Here are the steps to implement signup/login functionality:
+Dưới đây là các bước để triển khai chức năng đăng ký/đăng nhập:
 
-#### 1. Capture user credentials
+#### 1. Nắm bắt thông tin đăng nhập của người dùng
 
-To capture user credentials, create a form that invokes a Server Action on submission. For example, a signup form that accepts the user's name, email, and password:
+Để nắm bắt thông tin đăng nhập của người dùng, hãy tạo một biểu mẫu gọi một Server Action khi gửi. Ví dụ: một biểu mẫu đăng ký chấp nhận tên, email và mật khẩu của người dùng:
 
 ```tsx filename="app/ui/signup-form.tsx" switcher
 import { signup } from '@/app/actions/auth'
@@ -96,11 +96,11 @@ export async function signup(formData: FormData) {}
 export async function signup(formData) {}
 ```
 
-#### 2. Validate form fields on the server
+#### 2. Xác thực các trường biểu mẫu trên server
 
-Use the Server Action to validate the form fields on the server. If your authentication provider doesn't provide form validation, you can use a schema validation library like [Zod](https://zod.dev/) or [Yup](https://github.com/jquense/yup).
+Sử dụng Server Action để xác thực các trường biểu mẫu trên server. Nếu nhà cung cấp xác thực của bạn không cung cấp xác thực biểu mẫu, bạn có thể sử dụng thư viện xác thực lược đồ như [Zod](https://zod.dev/) hoặc [Yup](https://github.com/jquense/yup).
 
-Using Zod as an example, you can define a form schema with appropriate error messages:
+Sử dụng Zod làm ví dụ, bạn có thể xác định lược đồ biểu mẫu với các thông báo lỗi thích hợp:
 
 ```ts filename="app/lib/definitions.ts" switcher
 import * as z from 'zod'
@@ -155,7 +155,7 @@ export const SignupFormSchema = z.object({
 })
 ```
 
-To prevent unnecessary calls to your authentication provider's API or database, you can `return` early in the Server Action if any form fields do not match the defined schema.
+Để ngăn chặn các cuộc gọi không cần thiết đến API hoặc cơ sở dữ liệu của nhà cung cấp xác thực, bạn có thể `return` sớm trong Server Action nếu bất kỳ trường biểu mẫu nào không khớp với lược đồ đã xác định.
 
 ```ts filename="app/actions/auth.ts" switcher
 import { SignupFormSchema, FormState } from '@/app/lib/definitions'
@@ -201,7 +201,7 @@ export async function signup(state, formData) {
 }
 ```
 
-Back in your `<SignupForm />`, you can use React's `useActionState` hook to display validation errors while the form is submitting:
+Quay lại `<SignupForm />` của bạn, bạn có thể sử dụng hook `useActionState` của React để hiển thị các lỗi xác thực trong khi biểu mẫu đang gửi:
 
 ```tsx filename="app/ui/signup-form.tsx" switcher highlight={7,15,21,27-36}
 'use client'
@@ -293,16 +293,16 @@ export default function SignupForm() {
 }
 ```
 
-> **Good to know:**
+> **Thông tin hữu ích:**
 >
-> - In React 19, `useFormStatus` includes additional keys on the returned object, like data, method, and action. If you are not using React 19, only the `pending` key is available.
-> - Before mutating data, you should always ensure a user is also authorized to perform the action. See [Authentication and Authorization](#authorization).
+> - Trong React 19, `useFormStatus` bao gồm các khóa bổ sung trên đối tượng trả về, như data, method, và action. Nếu bạn không sử dụng React 19, chỉ có khóa `pending` là khả dụng.
+> - Trước khi thay đổi dữ liệu, bạn phải luôn đảm bảo người dùng cũng được ủy quyền để thực hiện hành động. Xem [Xác thực và Ủy quyền](#authorization).
 
-#### 3. Create a user or check user credentials
+#### 3. Tạo người dùng hoặc kiểm tra thông tin đăng nhập của người dùng
 
-After validating form fields, you can create a new user account or check if the user exists by calling your authentication provider's API or database.
+Sau khi xác thực các trường biểu mẫu, bạn có thể tạo tài khoản người dùng mới hoặc kiểm tra xem người dùng có tồn tại hay không bằng cách gọi API hoặc cơ sở dữ liệu của nhà cung cấp xác thực.
 
-Continuing from the previous example:
+Tiếp tục từ ví dụ trước:
 
 ```tsx filename="app/actions/auth.tsx" switcher
 export async function signup(state: FormState, formData: FormData) {
@@ -372,25 +372,25 @@ export async function signup(state, formData) {
 }
 ```
 
-After successfully creating the user account or verifying the user credentials, you can create a session to manage the user's auth state. Depending on your session management strategy, the session can be stored in a cookie or database, or both. Continue to the [Session Management](#session-management) section to learn more.
+Sau khi tạo thành công tài khoản người dùng hoặc xác minh thông tin đăng nhập của người dùng, bạn có thể tạo một phiên để quản lý trạng thái xác thực của người dùng. Tùy thuộc vào chiến lược quản lý phiên của bạn, phiên có thể được lưu trữ trong cookie hoặc cơ sở dữ liệu, hoặc cả hai. Tiếp tục đến phần [Quản lý phiên](#session-management) để tìm hiểu thêm.
 
-> **Tips:**
+> **Mẹo:**
 >
-> - The example above is verbose since it breaks down the authentication steps for the purpose of education. This highlights that implementing your own secure solution can quickly become complex. Consider using an [Auth Library](#auth-libraries) to simplify the process.
-> - To improve the user experience, you may want to check for duplicate emails or usernames earlier in the registration flow. For example, as the user types in a username or the input field loses focus. This can help prevent unnecessary form submissions and provide immediate feedback to the user. You can debounce requests with libraries such as [use-debounce](https://www.npmjs.com/package/use-debounce) to manage the frequency of these checks.
+> - Ví dụ trên dài dòng vì nó chia nhỏ các bước xác thực cho mục đích giáo dục. Điều này làm nổi bật rằng việc triển khai giải pháp bảo mật của riêng bạn có thể nhanh chóng trở nên phức tạp. Hãy cân nhắc sử dụng [Thư viện xác thực](#auth-libraries) để đơn giản hóa quy trình.
+> - Để cải thiện trải nghiệm người dùng, bạn có thể muốn kiểm tra các email hoặc tên người dùng trùng lặp sớm hơn trong luồng đăng ký. Ví dụ, khi người dùng nhập tên người dùng hoặc trường nhập liệu mất tiêu điểm. Điều này có thể giúp ngăn chặn việc gửi biểu mẫu không cần thiết và cung cấp phản hồi ngay lập tức cho người dùng. Bạn có thể debounce các yêu cầu với các thư viện như [use-debounce](https://www.npmjs.com/package/use-debounce) để quản lý tần suất của các kiểm tra này.
 
 </AppOnly>
 
 <PagesOnly>
 
-Here are the steps to implement a sign-up and/or login form:
+Dưới đây là các bước để triển khai biểu mẫu đăng ký và/hoặc đăng nhập:
 
-1. The user submits their credentials through a form.
-2. The form sends a request that is handled by an API route.
-3. Upon successful verification, the process is completed, indicating the user's successful authentication.
-4. If verification is unsuccessful, an error message is shown.
+1. Người dùng gửi thông tin đăng nhập của họ thông qua một biểu mẫu.
+2. Biểu mẫu gửi một yêu cầu được xử lý bởi một API route.
+3. Sau khi xác minh thành công, quy trình hoàn tất, cho biết người dùng đã xác thực thành công.
+4. Nếu xác minh không thành công, một thông báo lỗi sẽ được hiển thị.
 
-Consider a login form where users can input their credentials:
+Hãy xem xét một biểu mẫu đăng nhập nơi người dùng có thể nhập thông tin đăng nhập của họ:
 
 ```tsx filename="pages/login.tsx" switcher
 import { FormEvent } from 'react'
@@ -466,9 +466,9 @@ export default function LoginPage() {
 }
 ```
 
-The form above has two input fields for capturing the user's email and password. On submission, it triggers a function that sends a POST request to an API route (`/api/auth/login`).
+Biểu mẫu trên có hai trường nhập liệu để nắm bắt email và mật khẩu của người dùng. Khi gửi, nó kích hoạt một hàm gửi yêu cầu POST đến một API route (`/api/auth/login`).
 
-You can then call your Authentication Provider's API in the API route to handle authentication:
+Sau đó, bạn có thể gọi API của Nhà cung cấp xác thực trong API route để xử lý xác thực:
 
 ```ts filename="pages/api/auth/login.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -514,54 +514,54 @@ export default async function handler(req, res) {
 
 </PagesOnly>
 
-## Session Management
+## Quản lý phiên
 
-Session management ensures that the user's authenticated state is preserved across requests. It involves creating, storing, refreshing, and deleting sessions or tokens.
+Quản lý phiên đảm bảo rằng trạng thái đã xác thực của người dùng được bảo tồn qua các yêu cầu. Nó liên quan đến việc tạo, lưu trữ, làm mới và xóa các phiên hoặc mã thông báo (tokens).
 
-There are two types of sessions:
+Có hai loại phiên:
 
-1. [**Stateless**](#stateless-sessions): Session data (or a token) is stored in the browser's cookies. The cookie is sent with each request, allowing the session to be verified on the server. This method is simpler, but can be less secure if not implemented correctly.
-2. [**Database**](#database-sessions): Session data is stored in a database, with the user's browser only receiving the encrypted session ID. This method is more secure, but can be complex and use more server resources.
+1. [**Không trạng thái (Stateless)**](#stateless-sessions): Dữ liệu phiên (hoặc mã thông báo) được lưu trữ trong cookie của trình duyệt. Cookie được gửi cùng với mỗi yêu cầu, cho phép phiên được xác minh trên server. Phương pháp này đơn giản hơn, nhưng có thể kém bảo mật hơn nếu không được triển khai chính xác.
+2. [**Cơ sở dữ liệu (Database)**](#database-sessions): Dữ liệu phiên được lưu trữ trong cơ sở dữ liệu, với trình duyệt của người dùng chỉ nhận được ID phiên đã mã hóa. Phương pháp này bảo mật hơn, nhưng có thể phức tạp và sử dụng nhiều tài nguyên server hơn.
 
-> **Good to know:** While you can use either method, or both, we recommend using a session management library such as [iron-session](https://github.com/vvo/iron-session) or [Jose](https://github.com/panva/jose).
+> **Thông tin hữu ích:** Mặc dù bạn có thể sử dụng một trong hai phương pháp, hoặc cả hai, chúng tôi khuyên bạn nên sử dụng thư viện quản lý phiên như [iron-session](https://github.com/vvo/iron-session) hoặc [Jose](https://github.com/panva/jose).
 
-### Stateless Sessions
+### Phiên không trạng thái (Stateless Sessions)
 
 <AppOnly>
 
-To create and manage stateless sessions, there are a few steps you need to follow:
+Để tạo và quản lý các phiên không trạng thái, có một vài bước bạn cần làm theo:
 
-1. Generate a secret key, which will be used to sign your session, and store it as an [environment variable](/docs/app/guides/environment-variables).
-2. Write logic to encrypt/decrypt session data using a session management library.
-3. Manage cookies using the Next.js [`cookies`](/docs/app/api-reference/functions/cookies) API.
+1. Tạo một khóa bí mật, sẽ được sử dụng để ký phiên của bạn, và lưu trữ nó như một [biến môi trường](/docs/app/guides/environment-variables).
+2. Viết logic để mã hóa/giải mã dữ liệu phiên bằng thư viện quản lý phiên.
+3. Quản lý cookie bằng API [`cookies`](/docs/app/api-reference/functions/cookies) của Next.js.
 
-In addition to the above, consider adding functionality to [update (or refresh)](#updating-or-refreshing-sessions) the session when the user returns to the application, and [delete](#deleting-the-session) the session when the user logs out.
+Ngoài những điều trên, hãy cân nhắc thêm chức năng để [cập nhật (hoặc làm mới)](#updating-or-refreshing-sessions) phiên khi người dùng quay lại ứng dụng, và [xóa](#deleting-the-session) phiên khi người dùng đăng xuất.
 
-> **Good to know:** Check if your [auth library](#auth-libraries) includes session management.
+> **Thông tin hữu ích:** Kiểm tra xem [thư viện xác thực](#auth-libraries) của bạn có bao gồm quản lý phiên hay không.
 
-#### 1. Generating a secret key
+#### 1. Tạo khóa bí mật
 
-There are a few ways you can generate secret key to sign your session. For example, you may choose to use the `openssl` command in your terminal:
+Có một vài cách bạn có thể tạo khóa bí mật để ký phiên của mình. Ví dụ, bạn có thể chọn sử dụng lệnh `openssl` trong terminal của mình:
 
 ```bash filename="terminal"
 openssl rand -base64 32
 ```
 
-This command generates a 32-character random string that you can use as your secret key and store in your [environment variables file](/docs/app/guides/environment-variables):
+Lệnh này tạo ra một chuỗi ngẫu nhiên 32 ký tự mà bạn có thể sử dụng làm khóa bí mật và lưu trữ trong [file biến môi trường](/docs/app/guides/environment-variables) của bạn:
 
 ```bash filename=".env"
 SESSION_SECRET=your_secret_key
 ```
 
-You can then reference this key in your session management logic:
+Sau đó, bạn có thể tham chiếu khóa này trong logic quản lý phiên của mình:
 
 ```js filename="app/lib/session.js"
 const secretKey = process.env.SESSION_SECRET
 ```
 
-#### 2. Encrypting and decrypting sessions
+#### 2. Mã hóa và giải mã phiên
 
-Next, you can use your preferred [session management library](#session-management-libraries) to encrypt and decrypt sessions. Continuing from the previous example, we'll use [Jose](https://www.npmjs.com/package/jose) (compatible with the [Edge Runtime](/docs/app/api-reference/edge)) and React's [`server-only`](https://www.npmjs.com/package/server-only) package to ensure that your session management logic is only executed on the server.
+Tiếp theo, bạn có thể sử dụng [thư viện quản lý phiên](#session-management-libraries) ưa thích của mình để mã hóa và giải mã các phiên. Tiếp tục từ ví dụ trước, chúng tôi sẽ sử dụng [Jose](https://www.npmjs.com/package/jose) (tương thích với [Edge Runtime](/docs/app/api-reference/edge)) và gói [`server-only`](https://www.npmjs.com/package/server-only) của React để đảm bảo rằng logic quản lý phiên của bạn chỉ được thực thi trên server.
 
 ```tsx filename="app/lib/session.ts" switcher
 import 'server-only'
@@ -618,21 +618,21 @@ export async function decrypt(session) {
 }
 ```
 
-> **Tips**:
+> **Mẹo**:
 >
-> - The payload should contain the **minimum**, unique user data that'll be used in subsequent requests, such as the user's ID, role, etc. It should not contain personally identifiable information like phone number, email address, credit card information, etc, or sensitive data like passwords.
+> - Payload nên chứa dữ liệu người dùng **tối thiểu**, duy nhất sẽ được sử dụng trong các yêu cầu tiếp theo, chẳng hạn như ID người dùng, vai trò, v.v. Nó không nên chứa thông tin nhận dạng cá nhân như số điện thoại, địa chỉ email, thông tin thẻ tín dụng, v.v., hoặc dữ liệu nhạy cảm như mật khẩu.
 
-#### 3. Setting cookies (recommended options)
+#### 3. Thiết lập cookie (tùy chọn được đề xuất)
 
-To store the session in a cookie, use the Next.js [`cookies`](/docs/app/api-reference/functions/cookies) API. The cookie should be set on the server, and include the recommended options:
+Để lưu trữ phiên trong cookie, hãy sử dụng API [`cookies`](/docs/app/api-reference/functions/cookies) của Next.js. Cookie nên được đặt trên server, và bao gồm các tùy chọn được đề xuất:
 
-- **HttpOnly**: Prevents client-side JavaScript from accessing the cookie.
-- **Secure**: Use https to send the cookie.
-- **SameSite**: Specify whether the cookie can be sent with cross-site requests.
-- **Max-Age or Expires**: Delete the cookie after a certain period.
-- **Path**: Define the URL path for the cookie.
+- **HttpOnly**: Ngăn JavaScript phía client truy cập cookie.
+- **Secure**: Sử dụng https để gửi cookie.
+- **SameSite**: Chỉ định xem cookie có thể được gửi với các yêu cầu chéo trang hay không.
+- **Max-Age hoặc Expires**: Xóa cookie sau một khoảng thời gian nhất định.
+- **Path**: Xác định đường dẫn URL cho cookie.
 
-Please refer to [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) for more information on each of these options.
+Vui lòng tham khảo [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) để biết thêm thông tin về từng tùy chọn này.
 
 ```ts filename="app/lib/session.ts" switcher
 import 'server-only'
@@ -672,7 +672,7 @@ export async function createSession(userId) {
 }
 ```
 
-Back in your Server Action, you can invoke the `createSession()` function, and use the [`redirect()`](/docs/app/guides/redirecting) API to redirect the user to the appropriate page:
+Quay lại Server Action của bạn, bạn có thể gọi hàm `createSession()`, và sử dụng API [`redirect()`](/docs/app/guides/redirecting) để chuyển hướng người dùng đến trang thích hợp:
 
 ```ts filename="app/actions/auth.ts" switcher
 import { createSession } from '@/app/lib/session'
@@ -708,14 +708,14 @@ export async function signup(state, formData) {
 }
 ```
 
-> **Tips**:
+> **Mẹo**:
 >
-> - **Cookies should be set on the server** to prevent client-side tampering.
-> - 🎥 Watch: Learn more about stateless sessions and authentication with Next.js → [YouTube (11 minutes)](https://www.youtube.com/watch?v=DJvM2lSPn6w).
+> - **Cookie nên được đặt trên server** để ngăn chặn giả mạo phía client.
+> - 🎥 Xem: Tìm hiểu thêm về phiên không trạng thái và xác thực với Next.js → [YouTube (11 phút)](https://www.youtube.com/watch?v=DJvM2lSPn6w).
 
-#### Updating (or refreshing) sessions
+#### Cập nhật (hoặc làm mới) phiên
 
-You can also extend the session's expiration time. This is useful for keeping the user logged in after they access the application again. For example:
+Bạn cũng có thể gia hạn thời gian hết hạn của phiên. Điều này hữu ích để giữ cho người dùng đăng nhập sau khi họ truy cập lại ứng dụng. Ví dụ:
 
 ```ts filename="app/lib/session.ts" switcher
 import 'server-only'
@@ -768,11 +768,11 @@ export async function updateSession() {
 }
 ```
 
-> **Tip:** Check if your auth library supports refresh tokens, which can be used to extend the user's session.
+> **Mẹo:** Kiểm tra xem thư viện xác thực của bạn có hỗ trợ refresh tokens hay không, có thể được sử dụng để gia hạn phiên của người dùng.
 
-#### Deleting the session
+#### Xóa phiên
 
-To delete the session, you can delete the cookie:
+Để xóa phiên, bạn có thể xóa cookie:
 
 ```ts filename="app/lib/session.ts" switcher
 import 'server-only'
@@ -794,7 +794,7 @@ export async function deleteSession() {
 }
 ```
 
-Then you can reuse the `deleteSession()` function in your application, for example, on logout:
+Sau đó, bạn có thể sử dụng lại hàm `deleteSession()` trong ứng dụng của mình, ví dụ, khi đăng xuất:
 
 ```ts filename="app/actions/auth.ts" switcher
 import { cookies } from 'next/headers'
@@ -820,9 +820,9 @@ export async function logout() {
 
 <PagesOnly>
 
-#### Setting and deleting cookies
+#### Thiết lập và xóa cookie
 
-You can use [API Routes](/docs/pages/building-your-application/routing/api-routes) to set the session as a cookie on the server:
+Bạn có thể sử dụng [API Routes](/docs/pages/building-your-application/routing/api-routes) để đặt phiên làm cookie trên server:
 
 ```ts filename="pages/api/login.ts" switcher
 import { serialize } from 'cookie'
@@ -865,17 +865,17 @@ export default function handler(req, res) {
 
 </PagesOnly>
 
-### Database Sessions
+### Phiên cơ sở dữ liệu (Database Sessions)
 
-To create and manage database sessions, you'll need to follow these steps:
+Để tạo và quản lý các phiên cơ sở dữ liệu, bạn cần làm theo các bước sau:
 
-1. Create a table in your database to store session and data (or check if your Auth Library handles this).
-2. Implement functionality to insert, update, and delete sessions
-3. Encrypt the session ID before storing it in the user's browser, and ensure the database and cookie stay in sync (this is optional, but recommended for optimistic auth checks in [Proxy](#optimistic-checks-with-proxy-optional)).
+1. Tạo một bảng trong cơ sở dữ liệu của bạn để lưu trữ phiên và dữ liệu (hoặc kiểm tra xem Thư viện xác thực của bạn có xử lý việc này không).
+2. Triển khai chức năng để chèn, cập nhật và xóa các phiên.
+3. Mã hóa ID phiên trước khi lưu trữ nó trong trình duyệt của người dùng, và đảm bảo cơ sở dữ liệu và cookie được đồng bộ hóa (điều này là tùy chọn, nhưng được khuyến nghị cho các kiểm tra xác thực lạc quan trong [Proxy](#optimistic-checks-with-proxy-optional)).
 
 <AppOnly>
 
-For example:
+Ví dụ:
 
 ```ts filename="app/lib/session.ts" switcher
 import cookies from 'next/headers'
@@ -947,18 +947,18 @@ export async function createSession(id) {
 }
 ```
 
-> **Tips**:
+> **Mẹo**:
 >
-> - For faster access, you may consider adding server caching for the lifetime of the session. You can also keep the session data in your primary database, and combine data requests to reduce the number of queries.
-> - You may opt to use database sessions for more advanced use cases, such as keeping track of the last time a user logged in, or number of active devices, or give users the ability to log out of all devices.
+> - Để truy cập nhanh hơn, bạn có thể cân nhắc thêm server caching cho thời gian tồn tại của phiên. Bạn cũng có thể giữ dữ liệu phiên trong cơ sở dữ liệu chính của mình, và kết hợp các yêu cầu dữ liệu để giảm số lượng truy vấn.
+> - Bạn có thể chọn sử dụng phiên cơ sở dữ liệu cho các trường hợp sử dụng nâng cao hơn, chẳng hạn như theo dõi lần cuối người dùng đăng nhập, hoặc số lượng thiết bị đang hoạt động, hoặc cung cấp cho người dùng khả năng đăng xuất khỏi tất cả các thiết bị.
 
-After implementing session management, you'll need to add authorization logic to control what users can access and do within your application. Continue to the [Authorization](#authorization) section to learn more.
+Sau khi triển khai quản lý phiên, bạn sẽ cần thêm logic ủy quyền để kiểm soát những gì người dùng có thể truy cập và thực hiện trong ứng dụng của bạn. Tiếp tục đến phần [Ủy quyền](#authorization) để tìm hiểu thêm.
 
 </AppOnly>
 
 <PagesOnly>
 
-**Creating a Session on the Server**:
+**Tạo một Phiên trên Server**:
 
 ```ts filename="pages/api/create-session.ts" switcher
 import db from '../../lib/db'
@@ -1006,31 +1006,31 @@ export default async function handler(req, res) {
 
 </PagesOnly>
 
-## Authorization
+## Ủy quyền (Authorization)
 
-Once a user is authenticated and a session is created, you can implement authorization to control what the user can access and do within your application.
+Khi người dùng đã được xác thực và một phiên được tạo, bạn có thể triển khai ủy quyền để kiểm soát những gì người dùng có thể truy cập và thực hiện trong ứng dụng của bạn.
 
-There are two main types of authorization checks:
+Có hai loại kiểm tra ủy quyền chính:
 
-1. **Optimistic**: Checks if the user is authorized to access a route or perform an action using the session data stored in the cookie. These checks are useful for quick operations, such as showing/hiding UI elements or redirecting users based on permissions or roles.
-2. **Secure**: Checks if the user is authorized to access a route or perform an action using the session data stored in the database. These checks are more secure and are used for operations that require access to sensitive data or actions.
+1. **Lạc quan (Optimistic)**: Kiểm tra xem người dùng có được ủy quyền truy cập một route hoặc thực hiện một hành động bằng cách sử dụng dữ liệu phiên được lưu trữ trong cookie hay không. Các kiểm tra này hữu ích cho các hoạt động nhanh chóng, chẳng hạn như hiển thị/ẩn các thành phần UI hoặc chuyển hướng người dùng dựa trên quyền hoặc vai trò.
+2. **Bảo mật (Secure)**: Kiểm tra xem người dùng có được ủy quyền truy cập một route hoặc thực hiện một hành động bằng cách sử dụng dữ liệu phiên được lưu trữ trong cơ sở dữ liệu hay không. Các kiểm tra này bảo mật hơn và được sử dụng cho các hoạt động yêu cầu quyền truy cập vào dữ liệu nhạy cảm hoặc các hành động.
 
-For both cases, we recommend:
+Đối với cả hai trường hợp, chúng tôi khuyên bạn nên:
 
-- Creating a [Data Access Layer](#creating-a-data-access-layer-dal) to centralize your authorization logic
-- Using [Data Transfer Objects (DTO)](#using-data-transfer-objects-dto) to only return the necessary data
-- Optionally use [Proxy](#optimistic-checks-with-proxy-optional) to perform optimistic checks.
+- Tạo một [Lớp truy cập dữ liệu (DAL)](#creating-a-data-access-layer-dal) để tập trung logic ủy quyền của bạn
+- Sử dụng [Đối tượng chuyển giao dữ liệu (DTO)](#using-data-transfer-objects-dto) để chỉ trả về dữ liệu cần thiết
+- Tùy chọn sử dụng [Proxy](#optimistic-checks-with-proxy-optional) để thực hiện các kiểm tra lạc quan.
 
-### Optimistic checks with Proxy (Optional)
+### Kiểm tra lạc quan với Proxy (Tùy chọn)
 
-There are some cases where you may want to use [Proxy](/docs/app/api-reference/file-conventions/proxy) and redirect users based on permissions:
+Có một số trường hợp bạn có thể muốn sử dụng [Proxy](/docs/app/api-reference/file-conventions/proxy) và chuyển hướng người dùng dựa trên quyền:
 
-- To perform optimistic checks. Since Proxy runs on every route, it's a good way to centralize redirect logic and pre-filter unauthorized users.
-- To protect static routes that share data between users (e.g. content behind a paywall).
+- Để thực hiện các kiểm tra lạc quan. Vì Proxy chạy trên mọi route, đó là một cách tốt để tập trung logic chuyển hướng và lọc trước những người dùng không được ủy quyền.
+- Để bảo vệ các static routes chia sẻ dữ liệu giữa các người dùng (ví dụ: nội dung đằng sau paywall).
 
-However, since Proxy runs on every route, including [prefetched](/docs/app/getting-started/linking-and-navigating#prefetching) routes, it's important to only read the session from the cookie (optimistic checks), and avoid database checks to prevent performance issues.
+Tuy nhiên, vì Proxy chạy trên mọi route, bao gồm các routes [được prefetch](/docs/app/getting-started/linking-and-navigating#prefetching), điều quan trọng là chỉ đọc phiên từ cookie (kiểm tra lạc quan), và tránh kiểm tra cơ sở dữ liệu để ngăn chặn các vấn đề hiệu suất.
 
-For example:
+Ví dụ:
 
 ```tsx filename="proxy.ts" switcher
 import { NextRequest, NextResponse } from 'next/server'
@@ -1116,23 +1116,23 @@ export const config = {
 }
 ```
 
-While Proxy can be useful for initial checks, it should not be your only line of defense in protecting your data. The majority of security checks should be performed as close as possible to your data source, see [Data Access Layer](#creating-a-data-access-layer-dal) for more information.
+Mặc dù Proxy có thể hữu ích cho các kiểm tra ban đầu, nó không nên là tuyến phòng thủ duy nhất của bạn trong việc bảo vệ dữ liệu của bạn. Phần lớn các kiểm tra bảo mật nên được thực hiện càng gần nguồn dữ liệu của bạn càng tốt, xem [Lớp truy cập dữ liệu](#creating-a-data-access-layer-dal) để biết thêm thông tin.
 
-> **Tips**:
+> **Mẹo**:
 >
-> - In Proxy, you can also read cookies using `req.cookies.get('session').value`.
-> - Proxy uses the [Edge Runtime](/docs/app/api-reference/edge), check if your Auth library and session management library are compatible.
-> - You can use the `matcher` property in the Proxy to specify which routes Proxy should run on. Although, for auth, it's recommended Proxy runs on all routes.
+> - Trong Proxy, bạn cũng có thể đọc cookie bằng cách sử dụng `req.cookies.get('session').value`.
+> - Proxy sử dụng [Edge Runtime](/docs/app/api-reference/edge), hãy kiểm tra xem thư viện xác thực và thư viện quản lý phiên của bạn có tương thích hay không.
+> - Bạn có thể sử dụng thuộc tính `matcher` trong Proxy để chỉ định những routes nào Proxy nên chạy. Mặc dù vậy, đối với xác thực, khuyến nghị Proxy chạy trên tất cả các routes.
 
 <AppOnly>
 
-### Creating a Data Access Layer (DAL)
+### Tạo một Lớp truy cập dữ liệu (DAL)
 
-We recommend creating a DAL to centralize your data requests and authorization logic.
+Chúng tôi khuyên bạn nên tạo một DAL để tập trung các yêu cầu dữ liệu và logic ủy quyền của bạn.
 
-The DAL should include a function that verifies the user's session as they interact with your application. At the very least, the function should check if the session is valid, then redirect or return the user information needed to make further requests.
+DAL nên bao gồm một hàm xác minh phiên của người dùng khi họ tương tác với ứng dụng của bạn. Ít nhất, hàm nên kiểm tra xem phiên có hợp lệ hay không, sau đó chuyển hướng hoặc trả về thông tin người dùng cần thiết để thực hiện các yêu cầu tiếp theo.
 
-For example, create a separate file for your DAL that includes a `verifySession()` function. Then use React's [cache](https://react.dev/reference/react/cache) API to memoize the return value of the function during a React render pass:
+Ví dụ, tạo một file riêng biệt cho DAL của bạn bao gồm một hàm `verifySession()`. Sau đó sử dụng API [cache](https://react.dev/reference/react/cache) của React để ghi nhớ giá trị trả về của hàm trong một lần render React:
 
 ```tsx filename="app/lib/dal.ts" switcher
 import 'server-only'
@@ -1170,7 +1170,7 @@ export const verifySession = cache(async () => {
 })
 ```
 
-You can then invoke the `verifySession()` function in your data requests, Server Actions, Route Handlers:
+Sau đó, bạn có thể gọi hàm `verifySession()` trong các yêu cầu dữ liệu, Server Actions, Route Handlers của bạn:
 
 ```tsx filename="app/lib/dal.ts" switcher
 export const getUser = cache(async () => {
@@ -1224,17 +1224,17 @@ export const getUser = cache(async () => {
 })
 ```
 
-> **Tip**:
+> **Mẹo**:
 >
-> - A DAL can be used to protect data fetched at request time. However, for static routes that share data between users, data will be fetched at build time and not at request time. Use [Proxy](#optimistic-checks-with-proxy-optional) to protect static routes.
-> - For secure checks, you can check if the session is valid by comparing the session ID with your database. Use React's [cache](https://react.dev/reference/react/cache) function to avoid unnecessary duplicate requests to the database during a render pass.
-> - You may wish to consolidate related data requests in a JavaScript class that runs `verifySession()` before any methods.
+> - Một DAL có thể được sử dụng để bảo vệ dữ liệu được fetch tại request time. Tuy nhiên, đối với các static routes chia sẻ dữ liệu giữa các người dùng, dữ liệu sẽ được fetch tại build time và không phải tại request time. Sử dụng [Proxy](#optimistic-checks-with-proxy-optional) để bảo vệ các static routes.
+> - Đối với các kiểm tra bảo mật, bạn có thể kiểm tra xem phiên có hợp lệ hay không bằng cách so sánh ID phiên với cơ sở dữ liệu của bạn. Sử dụng hàm [cache](https://react.dev/reference/react/cache) của React để tránh các yêu cầu trùng lặp không cần thiết đến cơ sở dữ liệu trong một lần render.
+> - Bạn có thể muốn hợp nhất các yêu cầu dữ liệu liên quan trong một lớp JavaScript chạy `verifySession()` trước bất kỳ phương thức nào.
 
-### Using Data Transfer Objects (DTO)
+### Sử dụng Đối tượng chuyển giao dữ liệu (DTO)
 
-When retrieving data, it's recommended you return only the necessary data that will be used in your application, and not entire objects. For example, if you're fetching user data, you might only return the user's ID and name, rather than the entire user object which could contain passwords, phone numbers, etc.
+Khi truy xuất dữ liệu, bạn nên chỉ trả về dữ liệu cần thiết sẽ được sử dụng trong ứng dụng của mình, và không phải toàn bộ đối tượng. Ví dụ, nếu bạn đang fetch dữ liệu người dùng, bạn có thể chỉ trả về ID và tên của người dùng, thay vì toàn bộ đối tượng người dùng có thể chứa mật khẩu, số điện thoại, v.v.
 
-However, if you have no control over the returned data structure, or are working in a team where you want to avoid whole objects being passed to the client, you can use strategies such as specifying what fields are safe to be exposed to the client.
+Tuy nhiên, nếu bạn không kiểm soát cấu trúc dữ liệu trả về, hoặc đang làm việc trong một nhóm nơi bạn muốn tránh chuyển toàn bộ đối tượng cho client, bạn có thể sử dụng các chiến lược như chỉ định những trường nào an toàn để hiển thị cho client.
 
 ```tsx filename="app/lib/dto.ts" switcher
 import 'server-only'
@@ -1298,16 +1298,16 @@ export async function getProfileDTO(slug) {
 }
 ```
 
-By centralizing your data requests and authorization logic in a DAL and using DTOs, you can ensure that all data requests are secure and consistent, making it easier to maintain, audit, and debug as your application scales.
+Bằng cách tập trung các yêu cầu dữ liệu và logic ủy quyền của bạn trong một DAL và sử dụng DTOs, bạn có thể đảm bảo rằng tất cả các yêu cầu dữ liệu đều an toàn và nhất quán, giúp dễ dàng bảo trì, kiểm tra và gỡ lỗi khi ứng dụng của bạn mở rộng.
 
-> **Good to know**:
+> **Thông tin hữu ích**:
 >
-> - There are a couple of different ways you can define a DTO, from using `toJSON()`, to individual functions like the example above, or JS classes. Since these are JavaScript patterns and not a React or Next.js feature, we recommend doing some research to find the best pattern for your application.
-> - Learn more about security best practices in our [Security in Next.js article](/blog/security-nextjs-server-components-actions).
+> - Có một vài cách khác nhau bạn có thể xác định một DTO, từ việc sử dụng `toJSON()`, đến các hàm riêng lẻ như ví dụ trên, hoặc các lớp JS. Vì đây là các mẫu JavaScript và không phải là một tính năng React hoặc Next.js, chúng tôi khuyên bạn nên thực hiện một số nghiên cứu để tìm ra mẫu tốt nhất cho ứng dụng của bạn.
+> - Tìm hiểu thêm về các phương pháp hay nhất về bảo mật trong [bài viết Bảo mật trong Next.js của chúng tôi](/blog/security-nextjs-server-components-actions).
 
 ### Server Components
 
-Auth check in [Server Components](/docs/app/getting-started/server-and-client-components) are useful for role-based access. For example, to conditionally render components based on the user's role:
+Kiểm tra xác thực trong [Server Components](/docs/app/getting-started/server-and-client-components) rất hữu ích cho quyền truy cập dựa trên vai trò. Ví dụ, để render có điều kiện các components dựa trên vai trò của người dùng:
 
 ```tsx filename="app/dashboard/page.tsx" switcher
 import { verifySession } from '@/app/lib/dal'
@@ -1343,17 +1343,17 @@ export default async function Dashboard() {
 }
 ```
 
-In the example, we use the `verifySession()` function from our DAL to check for 'admin', 'user', and unauthorized roles. This pattern ensures that each user interacts only with components appropriate to their role.
+Trong ví dụ này, chúng tôi sử dụng hàm `verifySession()` từ DAL của chúng tôi để kiểm tra các vai trò 'admin', 'user', và không được ủy quyền. Mẫu này đảm bảo rằng mỗi người dùng chỉ tương tác với các components phù hợp với vai trò của họ.
 
-### Layouts and auth checks
+### Layouts và kiểm tra xác thực
 
-Due to [Partial Rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions), be cautious when doing checks in [Layouts](/docs/app/api-reference/file-conventions/layout) as these don't re-render on navigation, meaning the user session won't be checked on every route change.
+Do [Partial Rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions), hãy thận trọng khi thực hiện các kiểm tra trong [Layouts](/docs/app/api-reference/file-conventions/layout) vì chúng không render lại khi điều hướng, có nghĩa là phiên người dùng sẽ không được kiểm tra trên mỗi thay đổi route.
 
-Instead, you should do the checks close to your data source or the component that'll be conditionally rendered.
+Thay vào đó, bạn nên thực hiện các kiểm tra gần nguồn dữ liệu của bạn hoặc component sẽ được render có điều kiện.
 
-For example, consider a shared layout that fetches the user data and displays the user image in a nav. Instead of doing the auth check in the layout, you should fetch the user data (`getUser()`) in the layout and do the auth check in your DAL.
+Ví dụ, hãy xem xét một layout được chia sẻ fetch dữ liệu người dùng và hiển thị hình ảnh người dùng trong một nav. Thay vì thực hiện kiểm tra xác thực trong layout, bạn nên fetch dữ liệu người dùng (`getUser()`) trong layout và thực hiện kiểm tra xác thực trong DAL của bạn.
 
-This guarantees that wherever `getUser()` is called within your application, the auth check is performed, and prevents developers forgetting to check the user is authorized to access the data.
+Điều này đảm bảo rằng bất cứ nơi nào `getUser()` được gọi trong ứng dụng của bạn, kiểm tra xác thực được thực hiện, và ngăn chặn các nhà phát triển quên kiểm tra người dùng được ủy quyền truy cập dữ liệu.
 
 ```tsx filename="app/layout.tsx" switcher
 export default async function Layout({
@@ -1397,15 +1397,15 @@ export const getUser = cache(async () => {
 })
 ```
 
-> **Good to know:**
+> **Thông tin hữu ích:**
 >
-> - A common pattern in SPAs is to `return null` in a layout or a top-level component if a user is not authorized. This pattern is **not recommended** since Next.js applications have multiple entry points, which will not prevent nested route segments and Server Actions from being accessed.
+> - Một mẫu phổ biến trong SPAs là `return null` trong một layout hoặc một component cấp cao nhất nếu một người dùng không được ủy quyền. Mẫu này **không được khuyến nghị** vì các ứng dụng Next.js có nhiều điểm vào, điều này sẽ không ngăn chặn các phân đoạn route lồng nhau và Server Actions bị truy cập.
 
 ### Server Actions
 
-Treat [Server Actions](/docs/app/getting-started/updating-data) with the same security considerations as public-facing API endpoints, and verify if the user is allowed to perform a mutation.
+Xử lý [Server Actions](/docs/app/getting-started/updating-data) với cùng các cân nhắc bảo mật như các API endpoints công khai, và xác minh xem người dùng có được phép thực hiện một thay đổi hay không.
 
-In the example below, we check the user's role before allowing the action to proceed:
+Trong ví dụ dưới đây, chúng tôi kiểm tra vai trò của người dùng trước khi cho phép hành động tiếp tục:
 
 ```ts filename="app/lib/actions.ts" switcher
 'use server'
@@ -1443,9 +1443,9 @@ export async function serverAction() {
 
 ### Route Handlers
 
-Treat [Route Handlers](/docs/app/api-reference/file-conventions/route) with the same security considerations as public-facing API endpoints, and verify if the user is allowed to access the Route Handler.
+Xử lý [Route Handlers](/docs/app/api-reference/file-conventions/route) với cùng các cân nhắc bảo mật như các API endpoints công khai, và xác minh xem người dùng có được phép truy cập Route Handler hay không.
 
-For example:
+Ví dụ:
 
 ```ts filename="app/api/route.ts" switcher
 import { verifySession } from '@/app/lib/dal'
@@ -1493,13 +1493,13 @@ export async function GET() {
 }
 ```
 
-The example above demonstrates a Route Handler with a two-tier security check. It first checks for an active session, and then verifies if the logged-in user is an 'admin'.
+Ví dụ trên minh họa một Route Handler với kiểm tra bảo mật hai cấp. Đầu tiên nó kiểm tra một phiên hoạt động, và sau đó xác minh xem người dùng đã đăng nhập có phải là một 'admin' hay không.
 
 ## Context Providers
 
-Using context providers for auth works due to [interleaving](/docs/app/getting-started/server-and-client-components#examples#interleaving-server-and-client-components). However, React `context` is not supported in Server Components, making them only applicable to Client Components.
+Sử dụng context providers cho xác thực hoạt động do [interleaving](/docs/app/getting-started/server-and-client-components#examples#interleaving-server-and-client-components). Tuy nhiên, React `context` không được hỗ trợ trong Server Components, làm cho chúng chỉ áp dụng cho Client Components.
 
-This works, but any child Server Components will be rendered on the server first, and will not have access to the context provider’s session data:
+Điều này hoạt động, nhưng bất kỳ Server Components con nào sẽ được render trên server trước, và sẽ không có quyền truy cập vào dữ liệu phiên của context provider:
 
 ```tsx filename="app/layout.ts" switcher
 import { ContextProvider } from 'auth-lib'
@@ -1545,19 +1545,19 @@ export default function Profile() {
 }
 ```
 
-If session data is needed in Client Components (e.g. for client-side data fetching), use React’s [`taintUniqueValue`](https://react.dev/reference/react/experimental_taintUniqueValue) API to prevent sensitive session data from being exposed to the client.
+Nếu dữ liệu phiên là cần thiết trong Client Components (ví dụ: để fetch dữ liệu phía client), hãy sử dụng API [`taintUniqueValue`](https://react.dev/reference/react/experimental_taintUniqueValue) của React để ngăn chặn dữ liệu phiên nhạy cảm bị lộ cho client.
 
 </AppOnly>
 
 <PagesOnly>
 
-### Creating a Data Access Layer (DAL)
+### Tạo một Lớp truy cập dữ liệu (DAL)
 
-#### Protecting API Routes
+#### Bảo vệ API Routes
 
-API Routes in Next.js are essential for handling server-side logic and data management. It's crucial to secure these routes to ensure that only authorized users can access specific functionalities. This typically involves verifying the user's authentication status and their role-based permissions.
+API Routes trong Next.js rất cần thiết để xử lý logic phía server và quản lý dữ liệu. Điều quan trọng là phải bảo mật các routes này để đảm bảo rằng chỉ những người dùng được ủy quyền mới có thể truy cập các chức năng cụ thể. Điều này thường liên quan đến việc xác minh trạng thái xác thực của người dùng và quyền dựa trên vai trò của họ.
 
-Here's an example of securing an API Route:
+Dưới đây là một ví dụ về bảo mật một API Route:
 
 ```ts filename="pages/api/route.ts" switcher
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -1614,15 +1614,15 @@ export default async function handler(req, res) {
 }
 ```
 
-This example demonstrates an API Route with a two-tier security check for authentication and authorization. It first checks for an active session, and then verifies if the logged-in user is an 'admin'. This approach ensures secure access, limited to authenticated and authorized users, maintaining robust security for request processing.
+Ví dụ này minh họa một API Route với kiểm tra bảo mật hai cấp cho xác thực và ủy quyền. Đầu tiên nó kiểm tra một phiên hoạt động, và sau đó xác minh xem người dùng đã đăng nhập có phải là một 'admin' hay không. Cách tiếp cận này đảm bảo quyền truy cập an toàn, giới hạn cho người dùng đã xác thực và được ủy quyền, duy trì bảo mật mạnh mẽ cho việc xử lý yêu cầu.
 
 </PagesOnly>
 
-## Resources
+## Tài nguyên
 
-Now that you've learned about authentication in Next.js, here are Next.js-compatible libraries and resources to help you implement secure authentication and session management:
+Bây giờ bạn đã tìm hiểu về xác thực trong Next.js, dưới đây là các thư viện và tài nguyên tương thích với Next.js để giúp bạn triển khai xác thực và quản lý phiên an toàn:
 
-### Auth Libraries
+### Thư viện xác thực
 
 - [Auth0](https://auth0.com/docs/quickstart/webapp/nextjs/01-login)
 - [Better Auth](https://www.better-auth.com/docs/integrations/next)
@@ -1637,16 +1637,16 @@ Now that you've learned about authentication in Next.js, here are Next.js-compat
 - [Stytch](https://stytch.com/docs/guides/quickstarts/nextjs)
 - [WorkOS](https://workos.com/docs/user-management/nextjs)
 
-### Session Management Libraries
+### Thư viện quản lý phiên
 
 - [Iron Session](https://github.com/vvo/iron-session)
 - [Jose](https://github.com/panva/jose)
 
-## Further Reading
+## Đọc thêm
 
-To continue learning about authentication and security, check out the following resources:
+Để tiếp tục tìm hiểu về xác thực và bảo mật, hãy xem các tài nguyên sau:
 
-- [How to think about security in Next.js](/blog/security-nextjs-server-components-actions)
-- [Understanding XSS Attacks](https://vercel.com/guides/understanding-xss-attacks)
-- [Understanding CSRF Attacks](https://vercel.com/guides/understanding-csrf-attacks)
+- [Cách suy nghĩ về bảo mật trong Next.js](/blog/security-nextjs-server-components-actions)
+- [Hiểu về các cuộc tấn công XSS](https://vercel.com/guides/understanding-xss-attacks)
+- [Hiểu về các cuộc tấn công CSRF](https://vercel.com/guides/understanding-csrf-attacks)
 - [The Copenhagen Book](https://thecopenhagenbook.com/)

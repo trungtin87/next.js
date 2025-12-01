@@ -1,14 +1,14 @@
 ---
-title: Custom Webpack Config
+title: Cấu hình Webpack tùy chỉnh
 nav_title: webpack
-description: Learn how to customize the webpack config used by Next.js
+description: Tìm hiểu cách tùy chỉnh cấu hình webpack được sử dụng bởi Next.js
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-> **Good to know**: changes to webpack config are not covered by semver so proceed at your own risk
+> **Nên biết**: các thay đổi đối với cấu hình webpack không được bao gồm bởi semver vì vậy hãy tự chịu rủi ro khi tiến hành
 
-Before continuing to add custom webpack configuration to your application make sure Next.js doesn't already support your use-case:
+Trước khi tiếp tục thêm cấu hình webpack tùy chỉnh vào ứng dụng của bạn, hãy đảm bảo Next.js chưa hỗ trợ trường hợp sử dụng của bạn:
 
 <AppOnly>
 
@@ -25,16 +25,16 @@ Before continuing to add custom webpack configuration to your application make s
 - [CSS modules](/docs/app/getting-started/css)
 - [Sass/SCSS imports](/docs/pages/guides/sass)
 - [Sass/SCSS modules](/docs/pages/guides/sass)
-- [Customizing babel configuration](/docs/pages/guides/babel)
+- [Tùy chỉnh cấu hình babel](/docs/pages/guides/babel)
 
 </PagesOnly>
 
-Some commonly asked for features are available as plugins:
+Một số tính năng thường được yêu cầu có sẵn dưới dạng plugins:
 
 - [@next/mdx](https://github.com/vercel/next.js/tree/canary/packages/next-mdx)
 - [@next/bundle-analyzer](https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer)
 
-In order to extend our usage of `webpack`, you can define a function that extends its config inside `next.config.js`, like so:
+Để mở rộng việc sử dụng `webpack` của chúng tôi, bạn có thể định nghĩa một hàm mở rộng cấu hình của nó bên trong `next.config.js`, như sau:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -42,24 +42,24 @@ module.exports = {
     config,
     { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
   ) => {
-    // Important: return the modified config
+    // Quan trọng: trả về config đã sửa đổi
     return config
   },
 }
 ```
 
-> The `webpack` function is executed three times, twice for the server (nodejs / edge runtime) and once for the client. This allows you to distinguish between client and server configuration using the `isServer` property.
+> Hàm `webpack` được thực thi ba lần, hai lần cho server (nodejs / edge runtime) và một lần cho client. Điều này cho phép bạn phân biệt giữa cấu hình client và server bằng cách sử dụng thuộc tính `isServer`.
 
-The second argument to the `webpack` function is an object with the following properties:
+Đối số thứ hai cho hàm `webpack` là một object với các thuộc tính sau:
 
-- `buildId`: `String` - The build id, used as a unique identifier between builds.
-- `dev`: `Boolean` - Indicates if the compilation will be done in development.
-- `isServer`: `Boolean` - It's `true` for server-side compilation, and `false` for client-side compilation.
-- `nextRuntime`: `String | undefined` - The target runtime for server-side compilation; either `"edge"` or `"nodejs"`, it's `undefined` for client-side compilation.
-- `defaultLoaders`: `Object` - Default loaders used internally by Next.js:
-  - `babel`: `Object` - Default `babel-loader` configuration.
+- `buildId`: `String` - Build id, được sử dụng làm định danh duy nhất giữa các bản build.
+- `dev`: `Boolean` - Chỉ ra liệu quá trình biên dịch có được thực hiện trong development hay không.
+- `isServer`: `Boolean` - Là `true` cho biên dịch phía server, và `false` cho biên dịch phía client.
+- `nextRuntime`: `String | undefined` - Runtime đích cho biên dịch phía server; hoặc `"edge"` hoặc `"nodejs"`, nó là `undefined` cho biên dịch phía client.
+- `defaultLoaders`: `Object` - Các loaders mặc định được sử dụng nội bộ bởi Next.js:
+  - `babel`: `Object` - Cấu hình `babel-loader` mặc định.
 
-Example usage of `defaultLoaders.babel`:
+Ví dụ sử dụng `defaultLoaders.babel`:
 
 ```js
 // Example config for adding a loader that depends on babel-loader
@@ -85,4 +85,4 @@ module.exports = {
 
 #### `nextRuntime`
 
-Notice that `isServer` is `true` when `nextRuntime` is `"edge"` or `"nodejs"`, `nextRuntime` `"edge"` is currently for proxy and Server Components in edge runtime only.
+Lưu ý rằng `isServer` là `true` khi `nextRuntime` là `"edge"` hoặc `"nodejs"`, `nextRuntime` `"edge"` hiện chỉ dành cho proxy và Server Components trong edge runtime.

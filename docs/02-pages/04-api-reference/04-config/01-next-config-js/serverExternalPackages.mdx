@@ -1,11 +1,11 @@
 ---
 title: serverExternalPackages
-description: Opt-out specific dependencies from the dependency bundling enabled by `bundlePagesRouterDependencies`.
+description: Chọn không tham gia các dependencies cụ thể khỏi việc đóng gói được kích hoạt bởi `bundlePagesRouterDependencies`.
 ---
 
-Opt-out specific dependencies from being included in the automatic bundling of the [`bundlePagesRouterDependencies`](/docs/pages/api-reference/config/next-config-js/bundlePagesRouterDependencies) option.
+Chọn không tham gia các dependencies cụ thể khỏi việc được bao gồm trong việc đóng gói tự động của tùy chọn [`bundlePagesRouterDependencies`](/docs/pages/api-reference/config/next-config-js/bundlePagesRouterDependencies).
 
-These pages will then use native Node.js `require` to resolve the dependency.
+Các trang này sau đó sẽ sử dụng `require` gốc của Node.js để giải quyết dependency.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -16,7 +16,7 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-Next.js includes a [short list of popular packages](https://github.com/vercel/next.js/blob/canary/packages/next/src/lib/server-external-packages.json) that currently are working on compatibility and automatically opt-ed out:
+Next.js bao gồm một [danh sách ngắn các gói phổ biến](https://github.com/vercel/next.js/blob/canary/packages/next/src/lib/server-external-packages.json) hiện đang làm việc về khả năng tương thích và tự động chọn không tham gia:
 
 - `@appsignal/nodejs`
 - `@aws-sdk/client-s3`

@@ -1,13 +1,13 @@
 ---
 title: notFound
-description: API Reference for the notFound function.
+description: Tài liệu tham khảo API cho hàm notFound.
 ---
 
-The `notFound` function allows you to render the [`not-found file`](/docs/app/api-reference/file-conventions/not-found) within a route segment as well as inject a `<meta name="robots" content="noindex" />` tag.
+Hàm `notFound` cho phép bạn render [`tệp not-found`](/docs/app/api-reference/file-conventions/not-found) trong một đoạn route cũng như chèn thẻ `<meta name="robots" content="noindex" />`.
 
 ## `notFound()`
 
-Invoking the `notFound()` function throws a `NEXT_HTTP_ERROR_FALLBACK;404` error and terminates rendering of the route segment in which it was thrown. Specifying a [**not-found** file](/docs/app/api-reference/file-conventions/not-found) allows you to gracefully handle such errors by rendering a Not Found UI within the segment.
+Gọi hàm `notFound()` sẽ ném một lỗi `NEXT_HTTP_ERROR_FALLBACK;404` và chấm dứt việc render đoạn route mà nó được ném. Chỉ định một [tệp **not-found**](/docs/app/api-reference/file-conventions/not-found) cho phép bạn xử lý các lỗi như vậy một cách duyên dáng bằng cách render UI Not Found trong đoạn đó.
 
 ```jsx filename="app/user/[id]/page.js"
 import { notFound } from 'next/navigation'
@@ -30,10 +30,10 @@ export default async function Profile({ params }) {
 }
 ```
 
-> **Good to know**: `notFound()` does not require you to use `return notFound()` due to using the TypeScript [`never`](https://www.typescriptlang.org/docs/handbook/2/functions.html#never) type.
+> **Thông tin hữu ích**: `notFound()` không yêu cầu bạn sử dụng `return notFound()` do sử dụng kiểu [`never`](https://www.typescriptlang.org/docs/handbook/2/functions.html#never) của TypeScript.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                |
-| --------- | ---------------------- |
-| `v13.0.0` | `notFound` introduced. |
+| Phiên bản | Thay đổi                    |
+| --------- | --------------------------- |
+| `v13.0.0` | `notFound` được giới thiệu. |

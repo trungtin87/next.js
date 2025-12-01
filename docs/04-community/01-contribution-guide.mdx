@@ -1,42 +1,42 @@
 ---
-title: Docs Contribution Guide
-nav_title: Contribution Guide
-description: Learn how to contribute to Next.js Documentation
+title: Hướng dẫn đóng góp tài liệu
+nav_title: Hướng dẫn đóng góp
+description: Tìm hiểu cách đóng góp cho Tài liệu Next.js
 ---
 
-Welcome to the Next.js Docs Contribution Guide! We're excited to have you here.
+Chào mừng bạn đến với Hướng dẫn đóng góp tài liệu Next.js! Chúng tôi rất vui khi có bạn ở đây.
 
-This page provides instructions on how to edit the Next.js documentation. Our goal is to ensure that everyone in the community feels empowered to contribute and improve our docs.
+Trang này cung cấp hướng dẫn về cách chỉnh sửa tài liệu Next.js. Mục tiêu của chúng tôi là đảm bảo rằng mọi người trong cộng đồng đều cảm thấy được trao quyền để đóng góp và cải thiện tài liệu của chúng tôi.
 
-## Why Contribute?
+## Tại sao nên đóng góp?
 
-Open-source work is never done, and neither is documentation. Contributing to docs is a good way for beginners to get involved in open-source and for experienced developers to clarify more complex topics while sharing their knowledge with the community.
+Công việc mã nguồn mở không bao giờ kết thúc, và tài liệu cũng vậy. Đóng góp vào tài liệu là một cách tốt để người mới bắt đầu tham gia vào mã nguồn mở và cho các nhà phát triển có kinh nghiệm làm rõ các chủ đề phức tạp hơn trong khi chia sẻ kiến thức của họ với cộng đồng.
 
-By contributing to the Next.js docs, you're helping us build a more robust learning resource for all developers. Whether you've found a typo, a confusing section, or you've realized that a particular topic is missing, your contributions are welcomed and appreciated.
+Bằng cách đóng góp vào tài liệu Next.js, bạn đang giúp chúng tôi xây dựng một nguồn tài nguyên học tập mạnh mẽ hơn cho tất cả các nhà phát triển. Cho dù bạn tìm thấy một lỗi đánh máy, một phần khó hiểu, hay bạn nhận ra rằng một chủ đề cụ thể bị thiếu, những đóng góp của bạn đều được hoan nghênh và đánh giá cao.
 
-## How to Contribute
+## Cách đóng góp
 
-The docs content can be found on the [Next.js repo](https://github.com/vercel/next.js/tree/canary/docs). To contribute, you can edit the files directly on GitHub or clone the repo and edit the files locally.
+Nội dung tài liệu có thể được tìm thấy trên [Next.js repo](https://github.com/vercel/next.js/tree/canary/docs). Để đóng góp, bạn có thể chỉnh sửa các tệp trực tiếp trên GitHub hoặc sao chép (clone) repo và chỉnh sửa các tệp cục bộ.
 
-### GitHub Workflow
+### Quy trình làm việc GitHub
 
-If you're new to GitHub, we recommend reading the [GitHub Open Source Guide](https://opensource.guide/how-to-contribute/#opening-a-pull-request) to learn how to fork a repository, create a branch, and submit a pull request.
+Nếu bạn mới làm quen với GitHub, chúng tôi khuyên bạn nên đọc [Hướng dẫn mã nguồn mở GitHub](https://opensource.guide/how-to-contribute/#opening-a-pull-request) để tìm hiểu cách fork một kho lưu trữ, tạo một nhánh và gửi một pull request.
 
-> **Good to know**: The underlying docs code lives in a private codebase that is synced to the Next.js public repo. This means that you can't preview the docs locally. However, you'll see your changes on [nextjs.org](https://nextjs.org/docs) after merging a pull request.
+> **Cần biết**: Mã tài liệu cơ bản nằm trong một codebase riêng tư được đồng bộ hóa với repo công khai của Next.js. Điều này có nghĩa là bạn không thể xem trước tài liệu cục bộ. Tuy nhiên, bạn sẽ thấy những thay đổi của mình trên [nextjs.org](https://nextjs.org/docs) sau khi hợp nhất một pull request.
 
-### Writing MDX
+### Viết MDX
 
-The docs are written in [MDX](https://mdxjs.com/), a markdown format that supports JSX syntax. This allows us to embed React components in the docs. See the [GitHub Markdown Guide](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) for a quick overview of markdown syntax.
+Tài liệu được viết bằng [MDX](https://mdxjs.com/), một định dạng markdown hỗ trợ cú pháp JSX. Điều này cho phép chúng tôi nhúng các thành phần React vào tài liệu. Xem [Hướng dẫn Markdown GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) để có cái nhìn tổng quan nhanh về cú pháp markdown.
 
 ### VSCode
 
-#### Previewing Changes Locally
+#### Xem trước thay đổi cục bộ
 
-VSCode has a built-in markdown previewer that you can use to see your edits locally. To enable the previewer for MDX files, you'll need to add a configuration option to your user settings.
+VSCode có một trình xem trước markdown tích hợp sẵn mà bạn có thể sử dụng để xem các chỉnh sửa của mình cục bộ. Để bật trình xem trước cho các tệp MDX, bạn sẽ cần thêm một tùy chọn cấu hình vào cài đặt người dùng của mình.
 
-Open the command palette (`⌘ + ⇧ + P` on Mac or `Ctrl + Shift + P` on Windows) and search from `Preferences: Open User Settings (JSON)`.
+Mở command palette (`⌘ + ⇧ + P` trên Mac hoặc `Ctrl + Shift + P` trên Windows) và tìm kiếm `Preferences: Open User Settings (JSON)`.
 
-Then, add the following line to your `settings.json` file:
+Sau đó, thêm dòng sau vào tệp `settings.json` của bạn:
 
 ```json filename="settings.json"
 {
@@ -46,30 +46,30 @@ Then, add the following line to your `settings.json` file:
 }
 ```
 
-Next, open the command palette again, and search for `Markdown: Preview File` or `Markdown: Open Preview to the Side`. This will open a preview window where you can see your formatted changes.
+Tiếp theo, mở lại command palette, và tìm kiếm `Markdown: Preview File` hoặc `Markdown: Open Preview to the Side`. Điều này sẽ mở một cửa sổ xem trước nơi bạn có thể thấy các thay đổi đã được định dạng của mình.
 
 #### Extensions
 
-We also recommend the following extensions for VSCode users:
+Chúng tôi cũng đề xuất các tiện ích mở rộng sau cho người dùng VSCode:
 
-- [MDX](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx): Intellisense and syntax highlighting for MDX.
-- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode): Format MDX files on save.
+- [MDX](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx): Intellisense và tô sáng cú pháp cho MDX.
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode): Định dạng các tệp MDX khi lưu.
 
-### Review Process
+### Quy trình đánh giá
 
-Once you've submitted your contribution, the Next.js or Developer Experience teams will review your changes, provide feedback, and merge the pull request when it's ready.
+Sau khi bạn đã gửi đóng góp của mình, các nhóm Next.js hoặc Developer Experience sẽ xem xét các thay đổi của bạn, cung cấp phản hồi và hợp nhất pull request khi nó sẵn sàng.
 
-Please let us know if you have any questions or need further assistance in your PR's comments. Thank you for contributing to the Next.js docs and being a part of our community!
+Vui lòng cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ thêm trong phần bình luận của PR. Cảm ơn bạn đã đóng góp cho tài liệu Next.js và là một phần của cộng đồng chúng tôi!
 
-> **Tip:** Run `pnpm prettier-fix` to run Prettier before submitting your PR.
+> **Mẹo:** Chạy `pnpm prettier-fix` để chạy Prettier trước khi gửi PR của bạn.
 
-## File Structure
+## Cấu trúc tệp
 
-The docs use **file-system routing**. Each folder and files inside [`/docs`](https://github.com/vercel/next.js/tree/canary/docs) represent a route segment. These segments are used to generate the URL paths, navigation, and breadcrumbs.
+Tài liệu sử dụng **file-system routing**. Mỗi thư mục và tệp bên trong [`/docs`](https://github.com/vercel/next.js/tree/canary/docs) đại diện cho một phân đoạn route. Các phân đoạn này được sử dụng để tạo đường dẫn URL, điều hướng và breadcrumbs.
 
-The file structure reflects the navigation that you see on the site, and by default, navigation items are sorted alphabetically. However, we can change the order of the items by prepending a two-digit number (`00-`) to the folder or file name.
+Cấu trúc tệp phản ánh điều hướng mà bạn thấy trên trang web, và theo mặc định, các mục điều hướng được sắp xếp theo thứ tự bảng chữ cái. Tuy nhiên, chúng ta có thể thay đổi thứ tự của các mục bằng cách thêm một số có hai chữ số (`00-`) vào trước tên thư mục hoặc tệp.
 
-For example, in the [functions API Reference](/docs/app/api-reference/functions), the pages are sorted alphabetically because it makes it easier for developers to find a specific function:
+Ví dụ, trong [functions API Reference](/docs/app/api-reference/functions), các trang được sắp xếp theo thứ tự bảng chữ cái vì nó giúp các nhà phát triển dễ dàng tìm thấy một hàm cụ thể hơn:
 
 ```txt
 04-functions
@@ -79,7 +79,7 @@ For example, in the [functions API Reference](/docs/app/api-reference/functions)
 └── ...
 ```
 
-But, in the [routing section](/docs/app), the files are prefixed with a two-digit number, sorted in the order developers should learn these concepts:
+Nhưng, trong [phần routing](/docs/app), các tệp được thêm tiền tố bằng một số có hai chữ số, được sắp xếp theo thứ tự các nhà phát triển nên tìm hiểu các khái niệm này:
 
 ```txt
 01-routing
@@ -89,113 +89,113 @@ But, in the [routing section](/docs/app), the files are prefixed with a two-digi
 └── ...
 ```
 
-To quickly find a page, you can use `⌘ + P` (Mac) or `Ctrl + P` (Windows) to open the search bar on VSCode. Then, type the slug of the page you're looking for. E.g. `defining-routes`
+Để nhanh chóng tìm thấy một trang, bạn có thể sử dụng `⌘ + P` (Mac) hoặc `Ctrl + P` (Windows) để mở thanh tìm kiếm trên VSCode. Sau đó, nhập slug của trang bạn đang tìm kiếm. Ví dụ: `defining-routes`
 
-> **Why not use a manifest?**
+> **Tại sao không sử dụng manifest?**
 >
-> We considered using a manifest file (another popular way to generate the docs navigation), but we found that a manifest would quickly get out of sync with the files. File-system routing forces us to think about the structure of the docs and feels more native to Next.js.
+> Chúng tôi đã cân nhắc sử dụng tệp manifest (một cách phổ biến khác để tạo điều hướng tài liệu), nhưng chúng tôi thấy rằng manifest sẽ nhanh chóng không đồng bộ với các tệp. File-system routing buộc chúng tôi phải suy nghĩ về cấu trúc của tài liệu và cảm thấy tự nhiên hơn với Next.js.
 
 ## Metadata
 
-Each page has a metadata block at the top of the file separated by three dashes.
+Mỗi trang có một khối metadata ở đầu tệp được phân tách bằng ba dấu gạch ngang.
 
-### Required Fields
+### Các trường bắt buộc
 
-The following fields are **required**:
+Các trường sau là **bắt buộc**:
 
-| Field         | Description                                                                  |
+| Trường        | Mô tả                                                                        |
 | ------------- | ---------------------------------------------------------------------------- |
-| `title`       | The page's `<h1>` title, used for SEO and OG Images.                         |
-| `description` | The page's description, used in the `<meta name="description">` tag for SEO. |
+| `title`       | Tiêu đề `<h1>` của trang, được sử dụng cho SEO và OG Images.                 |
+| `description` | Mô tả của trang, được sử dụng trong thẻ `<meta name="description">` cho SEO. |
 
 ```yaml filename="required-fields.mdx"
 ---
-title: Page Title
-description: Page Description
+title: Tiêu đề trang
+description: Mô tả trang
 ---
 ```
 
-It's good practice to limit the page title to 2-3 words (e.g. Optimizing Images) and the description to 1-2 sentences (e.g. Learn how to optimize images in Next.js).
+Thực hành tốt là giới hạn tiêu đề trang trong 2-3 từ (ví dụ: Tối ưu hóa hình ảnh) và mô tả trong 1-2 câu (ví dụ: Tìm hiểu cách tối ưu hóa hình ảnh trong Next.js).
 
-### Optional Fields
+### Các trường tùy chọn
 
-The following fields are **optional**:
+Các trường sau là **tùy chọn**:
 
-| Field       | Description                                                                                                                                        |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `nav_title` | Overrides the page's title in the navigation. This is useful when the page's title is too long to fit. If not provided, the `title` field is used. |
-| `source`    | Pulls content into a shared page. See [Shared Pages](#shared-pages).                                                                               |
-| `related`   | A list of related pages at the bottom of the document. These will automatically be turned into cards. See [Related Links](#related-links).         |
-| `version`   | A stage of development. e.g. `experimental`,`legacy`,`unstable`,`RC`                                                                               |
+| Trường      | Mô tả                                                                                                                                                           |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nav_title` | Ghi đè tiêu đề của trang trong điều hướng. Điều này hữu ích khi tiêu đề của trang quá dài để hiển thị. Nếu không được cung cấp, trường `title` sẽ được sử dụng. |
+| `source`    | Kéo nội dung vào một trang được chia sẻ. Xem [Trang được chia sẻ](#shared-pages).                                                                               |
+| `related`   | Danh sách các trang liên quan ở cuối tài liệu. Những trang này sẽ tự động được chuyển thành các thẻ. Xem [Liên kết liên quan](#related-links).                  |
+| `version`   | Một giai đoạn phát triển. ví dụ: `experimental`,`legacy`,`unstable`,`RC`                                                                                        |
 
 ```yaml filename="optional-fields.mdx"
 ---
-nav_title: Nav Item Title
+nav_title: Tiêu đề mục điều hướng
 source: app/building-your-application/optimizing/images
 related:
-  description: See the image component API reference.
+  description: Xem tham chiếu API thành phần hình ảnh.
   links:
     - app/api-reference/components/image
 version: experimental
 ---
 ```
 
-## `App` and `Pages` Docs
+## Tài liệu `App` và `Pages`
 
-Since most of the features in the **App Router** and **Pages Router** are completely different, their docs for each are kept in separate sections (`02-app` and `03-pages`). However, there are a few features that are shared between them.
+Vì hầu hết các tính năng trong **App Router** và **Pages Router** hoàn toàn khác nhau, tài liệu cho mỗi loại được giữ trong các phần riêng biệt (`02-app` và `03-pages`). Tuy nhiên, có một vài tính năng được chia sẻ giữa chúng.
 
-### Shared Pages
+### Trang được chia sẻ (Shared Pages)
 
-To avoid content duplication and risk the content becoming out of sync, we use the `source` field to pull content from one page into another. For example, the `<Link>` component behaves _mostly_ the same in **App** and **Pages**. Instead of duplicating the content, we can pull the content from `app/.../link.mdx` into `pages/.../link.mdx`:
+Để tránh trùng lặp nội dung và rủi ro nội dung trở nên không đồng bộ, chúng tôi sử dụng trường `source` để kéo nội dung từ trang này sang trang khác. Ví dụ, thành phần `<Link>` hoạt động _hầu hết_ giống nhau trong **App** và **Pages**. Thay vì sao chép nội dung, chúng ta có thể kéo nội dung từ `app/.../link.mdx` vào `pages/.../link.mdx`:
 
 ```mdx filename="app/.../link.mdx"
 ---
 title: <Link>
-description: API reference for the <Link> component.
+description: Tham chiếu API cho thành phần <Link>.
 ---
 
-This API reference will help you understand how to use the props
-and configuration options available for the Link Component.
+Tham chiếu API này sẽ giúp bạn hiểu cách sử dụng các props
+và các tùy chọn cấu hình có sẵn cho Thành phần Link.
 ```
 
 ```mdx filename="pages/.../link.mdx"
 ---
 title: <Link>
-description: API reference for the <Link> component.
+description: Tham chiếu API cho thành phần <Link>.
 source: app/api-reference/components/link
 ---
 
-{/* DO NOT EDIT THIS PAGE. */}
-{/* The content of this page is pulled from the source above. */}
+{/* KHÔNG CHỈNH SỬA TRANG NÀY. */}
+{/* Nội dung của trang này được kéo từ nguồn ở trên. */}
 ```
 
-We can therefore edit the content in one place and have it reflected in both sections.
+Do đó, chúng ta có thể chỉnh sửa nội dung ở một nơi và để nó được phản ánh trong cả hai phần.
 
-### Shared Content
+### Nội dung được chia sẻ (Shared Content)
 
-In shared pages, sometimes there might be content that is **App Router** or **Pages Router** specific. For example, the `<Link>` component has a `shallow` prop that is only available in **Pages** but not in **App**.
+Trong các trang được chia sẻ, đôi khi có thể có nội dung dành riêng cho **App Router** hoặc **Pages Router**. Ví dụ, thành phần `<Link>` có prop `shallow` chỉ khả dụng trong **Pages** nhưng không có trong **App**.
 
-To make sure the content only shows in the correct router, we can wrap content blocks in an `<AppOnly>` or `<PagesOnly>` components:
+Để đảm bảo nội dung chỉ hiển thị trong router chính xác, chúng ta có thể bọc các khối nội dung trong các thành phần `<AppOnly>` hoặc `<PagesOnly>`:
 
 ```mdx filename="app/.../link.mdx"
-This content is shared between App and Pages.
+Nội dung này được chia sẻ giữa App và Pages.
 
 <PagesOnly>
 
-This content will only be shown on the Pages docs.
+Nội dung này sẽ chỉ được hiển thị trên tài liệu Pages.
 
 </PagesOnly>
 
-This content is shared between App and Pages.
+Nội dung này được chia sẻ giữa App và Pages.
 ```
 
-You'll likely use these components for examples and code blocks.
+Bạn có thể sẽ sử dụng các thành phần này cho các ví dụ và khối mã.
 
-## Code Blocks
+## Khối mã (Code Blocks)
 
-Code blocks should contain a minimum working example that can be copied and pasted. This means that the code should be able to run without any additional configuration.
+Các khối mã nên chứa một ví dụ hoạt động tối thiểu có thể sao chép và dán. Điều này có nghĩa là mã sẽ có thể chạy mà không cần bất kỳ cấu hình bổ sung nào.
 
-For example, if you're showing how to use the `<Link>` component, you should include the `import` statement and the `<Link>` component itself.
+Ví dụ, nếu bạn đang hiển thị cách sử dụng thành phần `<Link>`, bạn nên bao gồm câu lệnh `import` và chính thành phần `<Link>`.
 
 ```tsx filename="app/page.tsx"
 import Link from 'next/link'
@@ -205,11 +205,11 @@ export default function Page() {
 }
 ```
 
-Always run examples locally before committing them. This will ensure that the code is up-to-date and working.
+Luôn chạy các ví dụ cục bộ trước khi commit chúng. Điều này sẽ đảm bảo rằng mã được cập nhật và hoạt động.
 
-### Language and Filename
+### Ngôn ngữ và Tên tệp
 
-Code blocks should have a header that includes the language and the `filename`. Add a `filename` prop to render a special Terminal icon that helps orientate users where to input the command. For example:
+Các khối mã nên có một tiêu đề bao gồm ngôn ngữ và `filename`. Thêm prop `filename` để hiển thị biểu tượng Terminal đặc biệt giúp định hướng người dùng nơi nhập lệnh. Ví dụ:
 
 ````mdx filename="code-example.mdx"
 ```bash filename="Terminal"
@@ -217,27 +217,27 @@ npx create-next-app
 ```
 ````
 
-Most examples in the docs are written in `tsx` and `jsx`, and a few in `bash`. However, you can use any supported language, here's the [full list](https://github.com/shikijs/shiki/blob/main/docs/languages.md#all-languages).
+Hầu hết các ví dụ trong tài liệu được viết bằng `tsx` và `jsx`, và một vài bằng `bash`. Tuy nhiên, bạn có thể sử dụng bất kỳ ngôn ngữ nào được hỗ trợ, đây là [danh sách đầy đủ](https://github.com/shikijs/shiki/blob/main/docs/languages.md#all-languages).
 
-When writing JavaScript code blocks, we use the following language and extension combinations.
+Khi viết các khối mã JavaScript, chúng tôi sử dụng các kết hợp ngôn ngữ và phần mở rộng sau.
 
-|                                | Language | Extension |
-| ------------------------------ | -------- | --------- |
-| JavaScript files with JSX code | ```jsx   | .js       |
-| JavaScript files without JSX   | ```js    | .js       |
-| TypeScript files with JSX      | ```tsx   | .tsx      |
-| TypeScript files without JSX   | ```ts    | .ts       |
+|                             | Ngôn ngữ | Phần mở rộng |
+| --------------------------- | -------- | ------------ |
+| Tệp JavaScript với mã JSX   | ```jsx   | .js          |
+| Tệp JavaScript không có JSX | ```js    | .js          |
+| Tệp TypeScript với JSX      | ```tsx   | .tsx         |
+| Tệp TypeScript không có JSX | ```ts    | .ts          |
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - Make sure to use **`.js`** extension for JavaScript files with **JSX** code.
-> - For example, ```jsx filename="app/layout.js"
+> - Đảm bảo sử dụng phần mở rộng **`.js`** cho các tệp JavaScript có mã **JSX**.
+> - Ví dụ, ```jsx filename="app/layout.js"
 
-### TS and JS Switcher
+### Trình chuyển đổi TS và JS
 
-Add a language switcher to toggle between TypeScript and JavaScript. Code blocks should be TypeScript first with a JavaScript version to accommodate users.
+Thêm trình chuyển đổi ngôn ngữ để chuyển đổi giữa TypeScript và JavaScript. Các khối mã nên ưu tiên TypeScript với phiên bản JavaScript để phù hợp với người dùng.
 
-Currently, we write TS and JS examples one after the other, and link them with `switcher` prop:
+Hiện tại, chúng tôi viết các ví dụ TS và JS nối tiếp nhau, và liên kết chúng bằng prop `switcher`:
 
 ````mdx filename="code-example.mdx"
 ```tsx filename="app/page.tsx" switcher
@@ -249,13 +249,13 @@ Currently, we write TS and JS examples one after the other, and link them with `
 ```
 ````
 
-> **Good to know**: We plan to automatically compile TypeScript snippets to JavaScript in the future. In the meantime, you can use [transform.tools](https://transform.tools/typescript-to-javascript).
+> **Cần biết**: Chúng tôi dự định tự động biên dịch các đoạn mã TypeScript sang JavaScript trong tương lai. Trong thời gian chờ đợi, bạn có thể sử dụng [transform.tools](https://transform.tools/typescript-to-javascript).
 
-### Line Highlighting
+### Tô sáng dòng (Line Highlighting)
 
-Code lines can be highlighted. This is useful when you want to draw attention to a specific part of the code. You can highlight lines by passing a number to the `highlight` prop.
+Các dòng mã có thể được tô sáng. Điều này hữu ích khi bạn muốn thu hút sự chú ý vào một phần cụ thể của mã. Bạn có thể tô sáng các dòng bằng cách chuyển một số vào prop `highlight`.
 
-**Single Line:** `highlight={1}`
+**Một dòng:** `highlight={1}`
 
 ```tsx filename="app/page.tsx" {1}
 import Link from 'next/link'
@@ -265,7 +265,7 @@ export default function Page() {
 }
 ```
 
-**Multiple Lines:** `highlight={1,3}`
+**Nhiều dòng:** `highlight={1,3}`
 
 ```tsx filename="app/page.tsx" highlight={1,3}
 import Link from 'next/link'
@@ -275,7 +275,7 @@ export default function Page() {
 }
 ```
 
-**Range of Lines:** `highlight={1-5}`
+**Phạm vi dòng:** `highlight={1-5}`
 
 ```tsx filename="app/page.tsx" highlight={1-5}
 import Link from 'next/link'
@@ -285,57 +285,57 @@ export default function Page() {
 }
 ```
 
-## Icons
+## Biểu tượng (Icons)
 
-The following icons are available for use in the docs:
+Các biểu tượng sau có sẵn để sử dụng trong tài liệu:
 
 ```mdx filename="mdx-icon.mdx"
 <Check size={18} />
 <Cross size={18} />
 ```
 
-**Output:**
+**Đầu ra:**
 
 <Check size={18} />
 <Cross size={18} />
 
-We do not use emojis in the docs.
+Chúng tôi không sử dụng biểu tượng cảm xúc (emojis) trong tài liệu.
 
-## Notes
+## Ghi chú (Notes)
 
-For information that is important but not critical, use notes. Notes are a good way to add information without distracting the user from the main content.
+Đối với thông tin quan trọng nhưng không quan trọng, hãy sử dụng ghi chú. Ghi chú là một cách tốt để thêm thông tin mà không làm người dùng phân tâm khỏi nội dung chính.
 
 ```mdx filename="notes.mdx"
-> **Good to know**: This is a single line note.
+> **Cần biết**: Đây là ghi chú một dòng.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - We also use this format for multi-line notes.
-> - There are sometimes multiple items worth knowing or keeping in mind.
+> - Chúng tôi cũng sử dụng định dạng này cho các ghi chú nhiều dòng.
+> - Đôi khi có nhiều mục đáng biết hoặc cần ghi nhớ.
 ```
 
-**Output:**
+**Đầu ra:**
 
-> **Good to know**: This is a single line note.
+> **Cần biết**: Đây là ghi chú một dòng.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - We also use this format for multi-line notes.
-> - There are sometimes multiple items worth knowing or keeping in mind.
+> - Chúng tôi cũng sử dụng định dạng này cho các ghi chú nhiều dòng.
+> - Đôi khi có nhiều mục đáng biết hoặc cần ghi nhớ.
 
-## Related Links
+## Liên kết liên quan (Related Links)
 
-Related Links guide the user's learning journey by adding links to logical next steps.
+Các liên kết liên quan hướng dẫn hành trình học tập của người dùng bằng cách thêm các liên kết đến các bước tiếp theo hợp lý.
 
-- Links will be displayed in cards under the main content of the page.
-- Links will be automatically generated for pages that have child pages.
+- Các liên kết sẽ được hiển thị trong các thẻ dưới nội dung chính của trang.
+- Các liên kết sẽ được tạo tự động cho các trang có trang con.
 
-Create related links using the `related` field in the page's metadata.
+Tạo các liên kết liên quan bằng cách sử dụng trường `related` trong metadata của trang.
 
 ```yaml filename="example.mdx"
 ---
 related:
-  description: Learn how to quickly get started with your first application.
+  description: Tìm hiểu cách bắt đầu nhanh chóng với ứng dụng đầu tiên của bạn.
   links:
     - app/building-your-application/routing/defining-routes
     - app/building-your-application/data-fetching
@@ -343,73 +343,73 @@ related:
 ---
 ```
 
-### Nested Fields
+### Các trường lồng nhau
 
-| Field         | Required? | Description                                                                                                                                               |
-| ------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title`       | Optional  | The title of the card list. Defaults to **Next Steps**.                                                                                                   |
-| `description` | Optional  | The description of the card list.                                                                                                                         |
-| `links`       | Required  | A list of links to other doc pages. Each list item should be a relative URL path (without a leading slash) e.g. `app/api-reference/file-conventions/page` |
+| Trường        | Bắt buộc? | Mô tả                                                                                                                                                                                   |
+| ------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`       | Tùy chọn  | Tiêu đề của danh sách thẻ. Mặc định là **Next Steps**.                                                                                                                                  |
+| `description` | Tùy chọn  | Mô tả của danh sách thẻ.                                                                                                                                                                |
+| `links`       | Bắt buộc  | Danh sách các liên kết đến các trang tài liệu khác. Mỗi mục danh sách phải là một đường dẫn URL tương đối (không có dấu gạch chéo đầu) ví dụ: `app/api-reference/file-conventions/page` |
 
-## Diagrams
+## Sơ đồ (Diagrams)
 
-Diagrams are a great way to explain complex concepts. We use [Figma](https://www.figma.com/) to create diagrams, following Vercel's design guide.
+Sơ đồ là một cách tuyệt vời để giải thích các khái niệm phức tạp. Chúng tôi sử dụng [Figma](https://www.figma.com/) để tạo sơ đồ, tuân theo hướng dẫn thiết kế của Vercel.
 
-The diagrams currently live in the `/public` folder in our private Next.js site. If you'd like to update or add a diagram, please open a [GitHub issue](https://github.com/vercel/next.js/issues/new?assignees=&labels=template%3A+documentation&projects=&template=4.docs_request.yml&title=Docs%3A+) with your ideas.
+Các sơ đồ hiện đang nằm trong thư mục `/public` trong trang Next.js riêng tư của chúng tôi. Nếu bạn muốn cập nhật hoặc thêm sơ đồ, vui lòng mở một [GitHub issue](https://github.com/vercel/next.js/issues/new?assignees=&labels=template%3A+documentation&projects=&template=4.docs_request.yml&title=Docs%3A+) với ý tưởng của bạn.
 
-## Custom Components and HTML
+## Các thành phần tùy chỉnh và HTML
 
-These are the React Components available for the docs: `<Image />` (next/image), `<PagesOnly />`, `<AppOnly />`, `<Cross />`, and `<Check />`. We do not allow raw HTML in the docs besides the `<details>` tag.
+Đây là các Thành phần React có sẵn cho tài liệu: `<Image />` (next/image), `<PagesOnly />`, `<AppOnly />`, `<Cross />`, và `<Check />`. Chúng tôi không cho phép HTML thô trong tài liệu ngoài thẻ `<details>`.
 
-If you have ideas for new components, please open a [GitHub issue](https://github.com/vercel/next.js/issues/new/choose).
+Nếu bạn có ý tưởng cho các thành phần mới, vui lòng mở một [GitHub issue](https://github.com/vercel/next.js/issues/new/choose).
 
-## Style Guide
+## Hướng dẫn phong cách (Style Guide)
 
-This section contains guidelines for writing docs for those who are new to technical writing.
+Phần này chứa các hướng dẫn viết tài liệu cho những người mới làm quen với viết kỹ thuật.
 
-### Page Templates
+### Mẫu trang (Page Templates)
 
-While we don't have a strict template for pages, there are page sections you'll see repeated across the docs:
+Mặc dù chúng tôi không có mẫu nghiêm ngặt cho các trang, nhưng có các phần trang bạn sẽ thấy lặp lại trong tài liệu:
 
-- **Overview:** The first paragraph of a page should tell the user what the feature is and what it's used for. Followed by a minimum working example or its API reference.
-- **Convention:** If the feature has a convention, it should be explained here.
-- **Examples**: Show how the feature can be used with different use cases.
-- **API Tables**: API Pages should have an overview table at the of the page with jump-to-section links (when possible).
-- **Next Steps (Related Links)**: Add links to related pages to guide the user's learning journey.
+- **Tổng quan:** Đoạn đầu tiên của một trang nên cho người dùng biết tính năng là gì và nó được sử dụng để làm gì. Tiếp theo là một ví dụ hoạt động tối thiểu hoặc tham chiếu API của nó.
+- **Quy ước:** Nếu tính năng có quy ước, nó nên được giải thích ở đây.
+- **Ví dụ**: Hiển thị cách tính năng có thể được sử dụng với các trường hợp sử dụng khác nhau.
+- **Bảng API**: Các trang API nên có bảng tổng quan ở đầu trang với các liên kết nhảy đến phần (khi có thể).
+- **Các bước tiếp theo (Liên kết liên quan)**: Thêm liên kết đến các trang liên quan để hướng dẫn hành trình học tập của người dùng.
 
-Feel free to add these sections as needed.
+Hãy thoải mái thêm các phần này khi cần thiết.
 
-### Page Types
+### Loại trang (Page Types)
 
-Docs pages are also split into two categories: Conceptual and Reference.
+Các trang tài liệu cũng được chia thành hai loại: Khái niệm (Conceptual) và Tham chiếu (Reference).
 
-- **Conceptual** pages are used to explain a concept or feature. They are usually longer and contain more information than reference pages. In the Next.js docs, conceptual pages are found in the **Building Your Application** section.
-- **Reference** pages are used to explain a specific API. They are usually shorter and more focused. In the Next.js docs, reference pages are found in the **API Reference** section.
+- **Trang khái niệm** được sử dụng để giải thích một khái niệm hoặc tính năng. Chúng thường dài hơn và chứa nhiều thông tin hơn các trang tham chiếu. Trong tài liệu Next.js, các trang khái niệm được tìm thấy trong phần **Xây dựng ứng dụng của bạn**.
+- **Trang tham chiếu** được sử dụng để giải thích một API cụ thể. Chúng thường ngắn hơn và tập trung hơn. Trong tài liệu Next.js, các trang tham chiếu được tìm thấy trong phần **Tham chiếu API**.
 
-> **Good to know**: Depending on the page you're contributing to, you may need to follow a different voice and style. For example, conceptual pages are more instructional and use the word _you_ to address the user. Reference pages are more technical, they use more imperative words like "create, update, accept" and tend to omit the word _you_.
+> **Cần biết**: Tùy thuộc vào trang bạn đang đóng góp, bạn có thể cần tuân theo giọng điệu và phong cách khác nhau. Ví dụ, các trang khái niệm mang tính hướng dẫn nhiều hơn và sử dụng từ _bạn_ để xưng hô với người dùng. Các trang tham chiếu mang tính kỹ thuật hơn, chúng sử dụng các từ mệnh lệnh hơn như "tạo, cập nhật, chấp nhận" và có xu hướng bỏ qua từ _bạn_.
 
-### Voice
+### Giọng điệu (Voice)
 
-Here are some guidelines to maintain a consistent style and voice across the docs:
+Dưới đây là một số hướng dẫn để duy trì phong cách và giọng điệu nhất quán trong tài liệu:
 
-- Write clear, concise sentences. Avoid tangents.
-  - If you find yourself using a lot of commas, consider breaking the sentence into multiple sentences or use a list.
-  - Swap out complex words for simpler ones. For example, _use_ instead of _utilize_.
-- Be mindful with the word _this_. It can be ambiguous and confusing, don't be afraid to repeat the subject of the sentence if unclear.
-  - For example, _Next.js uses React_ instead of _Next.js uses this_.
-- Use an active voice instead of passive. An active sentence is easier to read.
-  - For example, _Next.js uses React_ instead of _React is used by Next.js_. If you find yourself using words like _was_ and _by_ you may be using a passive voice.
-- Avoid using words like _easy_, _quick_, _simple_, _just_, etc. This is subjective and can be discouraging to users.
-- Avoid negative words like _don't_, _can't_, _won't_, etc. This can be discouraging to readers.
-  - For example, _"You can use the `Link` component to create links between pages"_ instead of _"Don't use the `<a>` tag to create links between pages"_.
-- Write in second person (you/your). This is more personal and engaging.
-- Use gender-neutral language. Use _developers_, _users_, or _readers_, when referring to the audience.
-- If adding code examples, ensure they are properly formatted and working.
+- Viết các câu rõ ràng, súc tích. Tránh lạc đề.
+  - Nếu bạn thấy mình sử dụng nhiều dấu phẩy, hãy cân nhắc chia câu thành nhiều câu hoặc sử dụng danh sách.
+  - Hoán đổi các từ phức tạp cho các từ đơn giản hơn. Ví dụ, _use_ thay vì _utilize_.
+- Hãy lưu ý với từ _this_. Nó có thể mơ hồ và gây nhầm lẫn, đừng ngại lặp lại chủ ngữ của câu nếu không rõ ràng.
+  - Ví dụ, _Next.js sử dụng React_ thay vì _Next.js sử dụng điều này_.
+- Sử dụng giọng chủ động thay vì bị động. Một câu chủ động dễ đọc hơn.
+  - Ví dụ, _Next.js sử dụng React_ thay vì _React được sử dụng bởi Next.js_. Nếu bạn thấy mình sử dụng các từ như _được_ và _bởi_ bạn có thể đang sử dụng giọng bị động.
+- Tránh sử dụng các từ như _dễ dàng_, _nhanh chóng_, _đơn giản_, _chỉ_, v.v. Điều này mang tính chủ quan và có thể gây nản lòng cho người dùng.
+- Tránh các từ tiêu cực như _đừng_, _không thể_, _sẽ không_, v.v. Điều này có thể gây nản lòng cho người đọc.
+  - Ví dụ, _"Bạn có thể sử dụng thành phần `Link` để tạo liên kết giữa các trang"_ thay vì _"Đừng sử dụng thẻ `<a>` để tạo liên kết giữa các trang"_.
+- Viết ở ngôi thứ hai (bạn/của bạn). Điều này cá nhân và hấp dẫn hơn.
+- Sử dụng ngôn ngữ trung lập về giới tính. Sử dụng _nhà phát triển_, _người dùng_, hoặc _người đọc_, khi đề cập đến khán giả.
+- Nếu thêm các ví dụ mã, hãy đảm bảo chúng được định dạng đúng và hoạt động.
 
-While these guidelines are not exhaustive, they should help you get started. If you'd like to dive deeper into technical writing, check out the [Google Technical Writing Course](https://developers.google.com/tech-writing/overview).
+Mặc dù các hướng dẫn này không đầy đủ, chúng sẽ giúp bạn bắt đầu. Nếu bạn muốn tìm hiểu sâu hơn về viết kỹ thuật, hãy xem [Khóa học viết kỹ thuật của Google](https://developers.google.com/tech-writing/overview).
 
 ---
 
-Thank you for contributing to the docs and being part of the Next.js community!
+Cảm ơn bạn đã đóng góp cho tài liệu và là một phần của cộng đồng Next.js!
 
 {/* To do: Latest Contributors Component */}

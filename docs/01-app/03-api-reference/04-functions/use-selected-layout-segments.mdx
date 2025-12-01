@@ -1,11 +1,11 @@
 ---
 title: useSelectedLayoutSegments
-description: API Reference for the useSelectedLayoutSegments hook.
+description: Tài liệu tham khảo API cho hook useSelectedLayoutSegments.
 ---
 
-`useSelectedLayoutSegments` is a **Client Component** hook that lets you read the active route segments **below** the Layout it is called from.
+`useSelectedLayoutSegments` là một **Client Component** hook cho phép bạn đọc các route segments đang hoạt động **bên dưới** Layout mà nó được gọi.
 
-It is useful for creating UI in parent Layouts that need knowledge of active child segments such as breadcrumbs.
+Nó hữu ích cho việc tạo UI trong parent Layouts cần biết về các child segments đang hoạt động như breadcrumbs.
 
 ```tsx filename="app/example-client-component.tsx" switcher
 'use client'
@@ -43,26 +43,26 @@ export default function ExampleClientComponent() {
 }
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - Since `useSelectedLayoutSegments` is a [Client Component](/docs/app/getting-started/server-and-client-components) hook, and Layouts are [Server Components](/docs/app/getting-started/server-and-client-components) by default, `useSelectedLayoutSegments` is usually called via a Client Component that is imported into a Layout.
-> - The returned segments include [Route Groups](/docs/app/api-reference/file-conventions/route-groups), which you might not want to be included in your UI. You can use the [`filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) array method to remove items that start with a bracket.
+> - Vì `useSelectedLayoutSegments` là một [Client Component](/docs/app/getting-started/server-and-client-components) hook, và Layouts là [Server Components](/docs/app/getting-started/server-and-client-components) theo mặc định, `useSelectedLayoutSegments` thường được gọi thông qua một Client Component được import vào một Layout.
+> - Các segments được trả về bao gồm [Route Groups](/docs/app/api-reference/file-conventions/route-groups), mà bạn có thể không muốn bao gồm trong UI của mình. Bạn có thể sử dụng phương thức mảng [`filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) để loại bỏ các mục bắt đầu bằng dấu ngoặc.
 
-## Parameters
+## Tham số
 
 ```tsx
 const segments = useSelectedLayoutSegments(parallelRoutesKey?: string)
 ```
 
-`useSelectedLayoutSegments` _optionally_ accepts a [`parallelRoutesKey`](/docs/app/api-reference/file-conventions/parallel-routes#with-useselectedlayoutsegments), which allows you to read the active route segment within that slot.
+`useSelectedLayoutSegments` _tùy chọn_ chấp nhận một [`parallelRoutesKey`](/docs/app/api-reference/file-conventions/parallel-routes#with-useselectedlayoutsegments), cho phép bạn đọc route segment đang hoạt động bên trong slot đó.
 
-## Returns
+## Giá trị trả về
 
-`useSelectedLayoutSegments` returns an array of strings containing the active segments one level down from the layout the hook was called from. Or an empty array if none exist.
+`useSelectedLayoutSegments` trả về một mảng các chuỗi chứa các segments đang hoạt động một cấp bên dưới layout mà hook được gọi. Hoặc một mảng rỗng nếu không có segment nào tồn tại.
 
-For example, given the Layouts and URLs below, the returned segments would be:
+Ví dụ, với các Layouts và URLs bên dưới, các segments được trả về sẽ là:
 
-| Layout                    | Visited URL           | Returned Segments           |
+| Layout                    | URL đã truy cập       | Segments được trả về        |
 | ------------------------- | --------------------- | --------------------------- |
 | `app/layout.js`           | `/`                   | `[]`                        |
 | `app/layout.js`           | `/dashboard`          | `['dashboard']`             |
@@ -70,8 +70,8 @@ For example, given the Layouts and URLs below, the returned segments would be:
 | `app/dashboard/layout.js` | `/dashboard`          | `[]`                        |
 | `app/dashboard/layout.js` | `/dashboard/settings` | `['settings']`              |
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                 |
-| --------- | --------------------------------------- |
-| `v13.0.0` | `useSelectedLayoutSegments` introduced. |
+| Phiên bản | Thay đổi                                     |
+| --------- | -------------------------------------------- |
+| `v13.0.0` | `useSelectedLayoutSegments` được giới thiệu. |

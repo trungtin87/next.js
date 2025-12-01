@@ -1,150 +1,150 @@
 ---
-title: How to optimize your Next.js application for production
+title: Cách tối ưu hóa ứng dụng Next.js của bạn cho production
 nav_title: Production
-description: Recommendations to ensure the best performance and user experience before taking your Next.js application to production.
+description: Các đề xuất để đảm bảo hiệu suất và trải nghiệm người dùng tốt nhất trước khi đưa ứng dụng Next.js của bạn vào production.
 ---
 
-Before taking your Next.js application to production, there are some optimizations and patterns you should consider implementing for the best user experience, performance, and security.
+Trước khi đưa ứng dụng Next.js của bạn vào production, có một số tối ưu hóa và mô hình bạn nên xem xét triển khai để có trải nghiệm người dùng, hiệu suất và bảo mật tốt nhất.
 
-This page provides best practices that you can use as a reference when [building your application](#during-development) and [before going to production](#before-going-to-production), as well as the [automatic Next.js optimizations](#automatic-optimizations) you should be aware of.
+Trang này cung cấp các phương pháp hay nhất mà bạn có thể sử dụng làm tài liệu tham khảo khi [xây dựng ứng dụng của mình](#during-development) và [trước khi đi vào production](#before-going-to-production), cũng như các [tối ưu hóa tự động của Next.js](#automatic-optimizations) mà bạn nên biết.
 
-## Automatic optimizations
+## Tối ưu hóa tự động
 
-These Next.js optimizations are enabled by default and require no configuration:
+Các tối ưu hóa Next.js này được bật theo mặc định và không yêu cầu cấu hình:
 
 <AppOnly>
 
-- **[Server Components](/docs/app/getting-started/server-and-client-components):** Next.js uses Server Components by default. Server Components run on the server, and don't require JavaScript to render on the client. As such, they have no impact on the size of your client-side JavaScript bundles. You can then use [Client Components](/docs/app/getting-started/server-and-client-components) as needed for interactivity.
-- **[Code-splitting](/docs/app/getting-started/linking-and-navigating#how-navigation-works):** Server Components enable automatic code-splitting by route segments. You may also consider [lazy loading](/docs/app/guides/lazy-loading) Client Components and third-party libraries, where appropriate.
-- **[Prefetching](/docs/app/getting-started/linking-and-navigating#prefetching):** When a link to a new route enters the user's viewport, Next.js prefetches the route in background. This makes navigation to new routes almost instant. You can opt out of prefetching, where appropriate.
-- **[Static Rendering](/docs/app/guides/caching#static-rendering):** Next.js statically renders Server and Client Components on the server at build time and caches the rendered result to improve your application's performance. You can opt into [Dynamic Rendering](/docs/app/guides/caching#dynamic-rendering) for specific routes, where appropriate. {/* TODO: Update when PPR is stable */}
-- **[Caching](/docs/app/guides/caching):** Next.js caches data requests, the rendered result of Server and Client Components, static assets, and more, to reduce the number of network requests to your server, database, and backend services. You may opt out of caching, where appropriate.
+- **[Server Components](/docs/app/getting-started/server-and-client-components):** Next.js sử dụng Server Components theo mặc định. Server Components chạy trên server, và không yêu cầu JavaScript để render trên client. Do đó, chúng không ảnh hưởng đến kích thước của các JavaScript bundles phía client. Bạn có thể sử dụng [Client Components](/docs/app/getting-started/server-and-client-components) khi cần thiết cho tính tương tác.
+- **[Code-splitting](/docs/app/getting-started/linking-and-navigating#how-navigation-works):** Server Components cho phép tự động code-splitting theo các phân đoạn route. Bạn cũng có thể xem xét [lazy loading](/docs/app/guides/lazy-loading) Client Components và các thư viện của bên thứ ba, nếu thích hợp.
+- **[Prefetching](/docs/app/getting-started/linking-and-navigating#prefetching):** Khi một liên kết đến một route mới đi vào viewport của người dùng, Next.js sẽ prefetch route đó trong nền. Điều này làm cho việc điều hướng đến các route mới gần như tức thì. Bạn có thể chọn không tham gia prefetching, nếu thích hợp.
+- **[Static Rendering](/docs/app/guides/caching#static-rendering):** Next.js render tĩnh Server và Client Components trên server tại thời điểm build và cache kết quả đã render để cải thiện hiệu suất ứng dụng của bạn. Bạn có thể chọn tham gia [Dynamic Rendering](/docs/app/guides/caching#dynamic-rendering) cho các route cụ thể, nếu thích hợp. {/* TODO: Update when PPR is stable */}
+- **[Caching](/docs/app/guides/caching):** Next.js cache các yêu cầu dữ liệu, kết quả đã render của Server và Client Components, tài sản tĩnh, và hơn thế nữa, để giảm số lượng yêu cầu mạng đến server, cơ sở dữ liệu và các dịch vụ backend của bạn. Bạn có thể chọn không tham gia caching, nếu thích hợp.
 
 </AppOnly>
 
 <PagesOnly>
 
-- **[Code-splitting](/docs/pages/building-your-application/routing/pages-and-layouts):** Next.js automatically code-splits your application code by pages. This means only the code needed for the current page is loaded on navigation. You may also consider [lazy loading](/docs/pages/guides/lazy-loading) third-party libraries, where appropriate.
-- **[Prefetching](/docs/pages/api-reference/components/link#prefetch):** When a link to a new route enters the user's viewport, Next.js prefetches the route in background. This makes navigation to new routes almost instant. You can opt out of prefetching, where appropriate.
-- **[Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization):** Next.js automatically determines that a page is static (can be pre-rendered) if it has no blocking data requirements. Optimized pages can be cached, and served to the end-user from multiple CDN locations. You may opt into [Server-side Rendering](/docs/pages/building-your-application/data-fetching/get-server-side-props), where appropriate.
+- **[Code-splitting](/docs/pages/building-your-application/routing/pages-and-layouts):** Next.js tự động code-splits mã ứng dụng của bạn theo các trang. Điều này có nghĩa là chỉ mã cần thiết cho trang hiện tại mới được tải khi điều hướng. Bạn cũng có thể xem xét [lazy loading](/docs/pages/guides/lazy-loading) các thư viện của bên thứ ba, nếu thích hợp.
+- **[Prefetching](/docs/pages/api-reference/components/link#prefetch):** Khi một liên kết đến một route mới đi vào viewport của người dùng, Next.js sẽ prefetch route đó trong nền. Điều này làm cho việc điều hướng đến các route mới gần như tức thì. Bạn có thể chọn không tham gia prefetching, nếu thích hợp.
+- **[Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization):** Next.js tự động xác định rằng một trang là tĩnh (có thể được pre-render) nếu nó không có yêu cầu dữ liệu chặn. Các trang được tối ưu hóa có thể được cache, và phục vụ cho người dùng cuối từ nhiều vị trí CDN. Bạn có thể chọn tham gia [Server-side Rendering](/docs/pages/building-your-application/data-fetching/get-server-side-props), nếu thích hợp.
 
 </PagesOnly>
 
-These defaults aim to improve your application's performance, and reduce the cost and amount of data transferred on each network request.
+Những mặc định này nhằm mục đích cải thiện hiệu suất ứng dụng của bạn, và giảm chi phí và lượng dữ liệu được chuyển trong mỗi yêu cầu mạng.
 
-## During development
+## Trong quá trình phát triển
 
-While building your application, we recommend using the following features to ensure the best performance and user experience:
+Trong khi xây dựng ứng dụng của bạn, chúng tôi khuyên bạn nên sử dụng các tính năng sau để đảm bảo hiệu suất và trải nghiệm người dùng tốt nhất:
 
-### Routing and rendering
+### Routing và rendering
 
 <AppOnly>
 
-- **[Layouts](/docs/app/api-reference/file-conventions/layout):** Use layouts to share UI across pages and enable [partial rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions) on navigation.
-- **[`<Link>` component](/docs/app/api-reference/components/link):** Use the `<Link>` component for [client-side navigation and prefetching](/docs/app/getting-started/linking-and-navigating#how-navigation-works).
-- **[Error Handling](/docs/app/getting-started/error-handling):** Gracefully handle [catch-all errors](/docs/app/getting-started/error-handling) and [404 errors](/docs/app/api-reference/file-conventions/not-found) in production by creating custom error pages.
-- **[Client and Server Components](/docs/app/getting-started/server-and-client-components#examples):** Follow the recommended composition patterns for Server and Client Components, and check the placement of your [`"use client"` boundaries](/docs/app/getting-started/server-and-client-components#examples#moving-client-components-down-the-tree) to avoid unnecessarily increasing your client-side JavaScript bundle.
-- **[Dynamic APIs](/docs/app/guides/caching#dynamic-rendering):** Be aware that Dynamic APIs like [`cookies`](/docs/app/api-reference/functions/cookies) and the [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) prop will opt the entire route into [Dynamic Rendering](/docs/app/guides/caching#dynamic-rendering) (or your whole application if used in the [Root Layout](/docs/app/api-reference/file-conventions/layout#root-layout)). Ensure Dynamic API usage is intentional and wrap them in `<Suspense>` boundaries where appropriate.
+- **[Layouts](/docs/app/api-reference/file-conventions/layout):** Sử dụng layouts để chia sẻ UI giữa các trang và cho phép [partial rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions) khi điều hướng.
+- **[`<Link>` component](/docs/app/api-reference/components/link):** Sử dụng component `<Link>` cho [điều hướng phía client và prefetching](/docs/app/getting-started/linking-and-navigating#how-navigation-works).
+- **[Xử lý lỗi](/docs/app/getting-started/error-handling):** Xử lý khéo léo [catch-all errors](/docs/app/getting-started/error-handling) và [lỗi 404](/docs/app/api-reference/file-conventions/not-found) trong production bằng cách tạo các trang lỗi tùy chỉnh.
+- **[Client và Server Components](/docs/app/getting-started/server-and-client-components#examples):** Tuân theo các mẫu composition được đề xuất cho Server và Client Components, và kiểm tra vị trí của các [`"use client"` boundaries](/docs/app/getting-started/server-and-client-components#examples#moving-client-components-down-the-tree) của bạn để tránh làm tăng JavaScript bundle phía client một cách không cần thiết.
+- **[Dynamic APIs](/docs/app/guides/caching#dynamic-rendering):** Hãy lưu ý rằng các Dynamic APIs như [`cookies`](/docs/app/api-reference/functions/cookies) và prop [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) sẽ chọn toàn bộ route vào [Dynamic Rendering](/docs/app/guides/caching#dynamic-rendering) (hoặc toàn bộ ứng dụng của bạn nếu được sử dụng trong [Root Layout](/docs/app/api-reference/file-conventions/layout#root-layout)). Đảm bảo việc sử dụng Dynamic API là có chủ ý và bọc chúng trong các ranh giới `<Suspense>` nếu thích hợp.
 
-> **Good to know**: [Partial Prerendering (experimental)](/blog/next-14#partial-prerendering-preview) will allow parts of a route to be dynamic without opting the whole route into dynamic rendering.
+> **Cần biết**: [Partial Prerendering (thử nghiệm)](/blog/next-14#partial-prerendering-preview) sẽ cho phép các phần của một route trở nên động mà không cần chọn toàn bộ route vào dynamic rendering.
 
 </AppOnly>
 
 <PagesOnly>
 
-- **[`<Link>` component](/docs/pages/building-your-application/routing/linking-and-navigating):** Use the `<Link>` component for client-side navigation and prefetching.
-- **[Custom Errors](/docs/pages/building-your-application/routing/custom-error):** Gracefully handle [500](/docs/pages/building-your-application/routing/custom-error#500-page) and [404 errors](/docs/pages/building-your-application/routing/custom-error#404-page)
+- **[`<Link>` component](/docs/pages/building-your-application/routing/linking-and-navigating):** Sử dụng component `<Link>` cho điều hướng phía client và prefetching.
+- **[Lỗi tùy chỉnh](/docs/pages/building-your-application/routing/custom-error):** Xử lý khéo léo [lỗi 500](/docs/pages/building-your-application/routing/custom-error#500-page) và [lỗi 404](/docs/pages/building-your-application/routing/custom-error#404-page)
 
 </PagesOnly>
 
-### Data fetching and caching
+### Fetch dữ liệu và caching
 
 <AppOnly>
 
-- **[Server Components](/docs/app/getting-started/fetching-data):** Leverage the benefits of fetching data on the server using Server Components.
-- **[Route Handlers](/docs/app/api-reference/file-conventions/route):** Use Route Handlers to access your backend resources from Client Components. But do not call Route Handlers from Server Components to avoid an additional server request.
-- **[Streaming](/docs/app/api-reference/file-conventions/loading):** Use Loading UI and React Suspense to progressively send UI from the server to the client, and prevent the whole route from blocking while data is being fetched.
-- **[Parallel Data Fetching](/docs/app/getting-started/fetching-data#parallel-data-fetching):** Reduce network waterfalls by fetching data in parallel, where appropriate. Also, consider [preloading data](/docs/app/getting-started/fetching-data#preloading-data) where appropriate.
-- **[Data Caching](/docs/app/guides/caching#data-cache):** Verify whether your data requests are being cached or not, and opt into caching, where appropriate. Ensure requests that don't use `fetch` are [cached](/docs/app/api-reference/functions/unstable_cache).
-- **[Static Images](/docs/app/api-reference/file-conventions/public-folder):** Use the `public` directory to automatically cache your application's static assets, e.g. images.
+- **[Server Components](/docs/app/getting-started/fetching-data):** Tận dụng lợi ích của việc fetch dữ liệu trên server bằng cách sử dụng Server Components.
+- **[Route Handlers](/docs/app/api-reference/file-conventions/route):** Sử dụng Route Handlers để truy cập các tài nguyên backend của bạn từ Client Components. Nhưng không gọi Route Handlers từ Server Components để tránh một yêu cầu server bổ sung.
+- **[Streaming](/docs/app/api-reference/file-conventions/loading):** Sử dụng Loading UI và React Suspense để gửi dần UI từ server đến client, và ngăn toàn bộ route bị chặn trong khi dữ liệu đang được fetch.
+- **[Parallel Data Fetching](/docs/app/getting-started/fetching-data#parallel-data-fetching):** Giảm network waterfalls bằng cách fetch dữ liệu song song, nếu thích hợp. Ngoài ra, hãy xem xét [preloading data](/docs/app/getting-started/fetching-data#preloading-data) nếu thích hợp.
+- **[Data Caching](/docs/app/guides/caching#data-cache):** Xác minh xem các yêu cầu dữ liệu của bạn có đang được cache hay không, và chọn tham gia caching, nếu thích hợp. Đảm bảo các yêu cầu không sử dụng `fetch` được [cache](/docs/app/api-reference/functions/unstable_cache).
+- **[Static Images](/docs/app/api-reference/file-conventions/public-folder):** Sử dụng thư mục `public` để tự động cache các tài sản tĩnh của ứng dụng, v.d. hình ảnh.
 
 </AppOnly>
 
 <PagesOnly>
 
-- **[API Routes](/docs/pages/building-your-application/routing/api-routes):** Use Route Handlers to access your backend resources, and prevent sensitive secrets from being exposed to the client.
-- **[Data Caching](/docs/pages/building-your-application/data-fetching/get-static-props):** Verify whether your data requests are being cached or not, and opt into caching, where appropriate. Ensure requests that don't use `getStaticProps` are cached where appropriate.
-- **[Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration):** Use Incremental Static Regeneration to update static pages after they've been built, without rebuilding your entire site.
-- **[Static Images](/docs/pages/api-reference/file-conventions/public-folder):** Use the `public` directory to automatically cache your application's static assets, e.g. images.
+- **[API Routes](/docs/pages/building-your-application/routing/api-routes):** Sử dụng Route Handlers để truy cập các tài nguyên backend của bạn, và ngăn các bí mật nhạy cảm bị lộ cho client.
+- **[Data Caching](/docs/pages/building-your-application/data-fetching/get-static-props):** Xác minh xem các yêu cầu dữ liệu của bạn có đang được cache hay không, và chọn tham gia caching, nếu thích hợp. Đảm bảo các yêu cầu không sử dụng `getStaticProps` được cache nếu thích hợp.
+- **[Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration):** Sử dụng Incremental Static Regeneration để cập nhật các trang tĩnh sau khi chúng đã được build, mà không cần build lại toàn bộ trang web của bạn.
+- **[Static Images](/docs/pages/api-reference/file-conventions/public-folder):** Sử dụng thư mục `public` để tự động cache các tài sản tĩnh của ứng dụng, v.d. hình ảnh.
 
 </PagesOnly>
 
-### UI and accessibility
+### UI và khả năng truy cập
 
 <AppOnly>
 
-- **[Forms and Validation](/docs/app/guides/forms):** Use Server Actions to handle form submissions, server-side validation, and handle errors.
-- **[Global Error UI](/docs/app/api-reference/file-conventions/error#global-error):** Add `app/global-error.tsx` to provide consistent, accessible fallback UI and recovery for uncaught errors across your app.
-- **[Global 404](/docs/app/api-reference/file-conventions/not-found#global-not-foundjs-experimental):** Add `app/global-not-found.tsx` to serve an accessible 404 for unmatched routes across your app.
+- **[Forms và Validation](/docs/app/guides/forms):** Sử dụng Server Actions để xử lý việc gửi form, xác thực phía server, và xử lý lỗi.
+- **[Global Error UI](/docs/app/api-reference/file-conventions/error#global-error):** Thêm `app/global-error.tsx` để cung cấp UI dự phòng nhất quán, dễ truy cập và phục hồi cho các lỗi không bắt được trên toàn bộ ứng dụng của bạn.
+- **[Global 404](/docs/app/api-reference/file-conventions/not-found#global-not-foundjs-experimental):** Thêm `app/global-not-found.tsx` để phục vụ trang 404 dễ truy cập cho các route không khớp trên toàn bộ ứng dụng của bạn.
 
 </AppOnly>
 
-- **[Font Module](/docs/app/api-reference/components/font):** Optimize fonts by using the Font Module, which automatically hosts your font files with other static assets, removes external network requests, and reduces [layout shift](https://web.dev/articles/cls).
-- **[`<Image>` Component](/docs/app/api-reference/components/image):** Optimize images by using the Image Component, which automatically optimizes images, prevents layout shift, and serves them in modern formats like WebP.
-- **[`<Script>` Component](/docs/app/guides/scripts):** Optimize third-party scripts by using the Script Component, which automatically defers scripts and prevents them from blocking the main thread.
-- **[ESLint](/docs/architecture/accessibility#linting):** Use the built-in `eslint-plugin-jsx-a11y` plugin to catch accessibility issues early.
+- **[Font Module](/docs/app/api-reference/components/font):** Tối ưu hóa phông chữ bằng cách sử dụng Font Module, tự động lưu trữ các tệp phông chữ của bạn với các tài sản tĩnh khác, loại bỏ các yêu cầu mạng bên ngoài, và giảm [layout shift](https://web.dev/articles/cls).
+- **[`<Image>` Component](/docs/app/api-reference/components/image):** Tối ưu hóa hình ảnh bằng cách sử dụng Image Component, tự động tối ưu hóa hình ảnh, ngăn layout shift, và phục vụ chúng ở các định dạng hiện đại như WebP.
+- **[`<Script>` Component](/docs/app/guides/scripts):** Tối ưu hóa các tập lệnh của bên thứ ba bằng cách sử dụng Script Component, tự động trì hoãn các tập lệnh và ngăn chúng chặn luồng chính.
+- **[ESLint](/docs/architecture/accessibility#linting):** Sử dụng plugin `eslint-plugin-jsx-a11y` tích hợp sẵn để phát hiện sớm các vấn đề về khả năng truy cập.
 
-### Security
+### Bảo mật
 
 <AppOnly>
 
-- **[Tainting](/docs/app/api-reference/config/next-config-js/taint):** Prevent sensitive data from being exposed to the client by tainting data objects and/or specific values.
-- **[Server Actions](/docs/app/getting-started/updating-data):** Ensure users are authorized to call Server Actions. Review the recommended [security practices](/blog/security-nextjs-server-components-actions).
+- **[Tainting](/docs/app/api-reference/config/next-config-js/taint):** Ngăn dữ liệu nhạy cảm bị lộ cho client bằng cách tainting các đối tượng dữ liệu và/hoặc các giá trị cụ thể.
+- **[Server Actions](/docs/app/getting-started/updating-data):** Đảm bảo người dùng được ủy quyền để gọi Server Actions. Xem lại các [thực hành bảo mật được đề xuất](/blog/security-nextjs-server-components-actions).
 
 </AppOnly>
 
-- **[Environment Variables](/docs/app/guides/environment-variables):** Ensure your `.env.*` files are added to `.gitignore` and only public variables are prefixed with `NEXT_PUBLIC_`.
-- **[Content Security Policy](/docs/app/guides/content-security-policy):** Consider adding a Content Security Policy to protect your application against various security threats such as cross-site scripting, clickjacking, and other code injection attacks.
+- **[Biến môi trường](/docs/app/guides/environment-variables):** Đảm bảo các tệp `.env.*` của bạn được thêm vào `.gitignore` và chỉ các biến công khai mới được thêm tiền tố `NEXT_PUBLIC_`.
+- **[Content Security Policy](/docs/app/guides/content-security-policy):** Cân nhắc thêm Content Security Policy để bảo vệ ứng dụng của bạn chống lại các mối đe dọa bảo mật khác nhau như cross-site scripting, clickjacking, và các cuộc tấn công tiêm mã khác.
 
-### Metadata and SEO
+### Metadata và SEO
 
 <AppOnly>
 
-- **[Metadata API](/docs/app/getting-started/metadata-and-og-images):** Use the Metadata API to improve your application's Search Engine Optimization (SEO) by adding page titles, descriptions, and more.
-- **[Open Graph (OG) images](/docs/app/api-reference/file-conventions/metadata/opengraph-image):** Create OG images to prepare your application for social sharing.
-- **[Sitemaps](/docs/app/api-reference/functions/generate-sitemaps) and [Robots](/docs/app/api-reference/file-conventions/metadata/robots):** Help Search Engines crawl and index your pages by generating sitemaps and robots files.
+- **[Metadata API](/docs/app/getting-started/metadata-and-og-images):** Sử dụng Metadata API để cải thiện Tối ưu hóa Công cụ Tìm kiếm (SEO) cho ứng dụng của bạn bằng cách thêm tiêu đề trang, mô tả, và hơn thế nữa.
+- **[Open Graph (OG) images](/docs/app/api-reference/file-conventions/metadata/opengraph-image):** Tạo hình ảnh OG để chuẩn bị ứng dụng của bạn cho việc chia sẻ trên mạng xã hội.
+- **[Sitemaps](/docs/app/api-reference/functions/generate-sitemaps) và [Robots](/docs/app/api-reference/file-conventions/metadata/robots):** Giúp các Công cụ Tìm kiếm thu thập dữ liệu và lập chỉ mục các trang của bạn bằng cách tạo sitemaps và tệp robots.
 
 </AppOnly>
 
 <PagesOnly>
 
-- **[`<Head>` Component](/docs/pages/api-reference/components/head):** Use the `next/head` component to add page titles, descriptions, and more.
+- **[`<Head>` Component](/docs/pages/api-reference/components/head):** Sử dụng component `next/head` để thêm tiêu đề trang, mô tả, và hơn thế nữa.
 
 </PagesOnly>
 
-### Type safety
+### An toàn kiểu (Type safety)
 
-- **TypeScript and [TS Plugin](/docs/app/api-reference/config/typescript):** Use TypeScript and the TypeScript plugin for better type-safety, and to help you catch errors early.
+- **TypeScript và [TS Plugin](/docs/app/api-reference/config/typescript):** Sử dụng TypeScript và plugin TypeScript để an toàn kiểu tốt hơn, và giúp bạn phát hiện lỗi sớm.
 
-## Before going to production
+## Trước khi đi vào production
 
-Before going to production, you can run `next build` to build your application locally and catch any build errors, then run `next start` to measure the performance of your application in a production-like environment.
+Trước khi đi vào production, bạn có thể chạy `next build` để build ứng dụng của mình cục bộ và phát hiện bất kỳ lỗi build nào, sau đó chạy `next start` để đo hiệu suất của ứng dụng trong môi trường giống như production.
 
 ### Core Web Vitals
 
-- **[Lighthouse](https://developers.google.com/web/tools/lighthouse):** Run lighthouse in incognito to gain a better understanding of how your users will experience your site, and to identify areas for improvement. This is a simulated test and should be paired with looking at field data (such as Core Web Vitals).
+- **[Lighthouse](https://developers.google.com/web/tools/lighthouse):** Chạy lighthouse ở chế độ ẩn danh để hiểu rõ hơn về cách người dùng của bạn sẽ trải nghiệm trang web của bạn, và để xác định các khu vực cần cải thiện. Đây là một thử nghiệm mô phỏng và nên được ghép nối với việc xem xét dữ liệu thực địa (chẳng hạn như Core Web Vitals).
 
 <AppOnly>
 
-- **[`useReportWebVitals` hook](/docs/app/api-reference/functions/use-report-web-vitals):** Use this hook to send [Core Web Vitals](https://web.dev/articles/vitals) data to analytics tools.
+- **[`useReportWebVitals` hook](/docs/app/api-reference/functions/use-report-web-vitals):** Sử dụng hook này để gửi dữ liệu [Core Web Vitals](https://web.dev/articles/vitals) đến các công cụ phân tích.
 
 </AppOnly>
 
-### Analyzing bundles
+### Phân tích bundles
 
-Use the [`@next/bundle-analyzer` plugin](/docs/app/guides/package-bundling#analyzing-javascript-bundles) to analyze the size of your JavaScript bundles and identify large modules and dependencies that might be impacting your application's performance.
+Sử dụng [`@next/bundle-analyzer` plugin](/docs/app/guides/package-bundling#analyzing-javascript-bundles) để phân tích kích thước của các JavaScript bundles của bạn và xác định các module và dependencies lớn có thể ảnh hưởng đến hiệu suất ứng dụng của bạn.
 
-Additionally, the following tools can help you understand the impact of adding new dependencies to your application:
+Ngoài ra, các công cụ sau có thể giúp bạn hiểu tác động của việc thêm các dependencies mới vào ứng dụng của bạn:
 
 - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost)
 - [Package Phobia](https://packagephobia.com/)

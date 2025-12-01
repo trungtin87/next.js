@@ -1,21 +1,21 @@
 ---
-title: How to use environment variables in Next.js
-nav_title: Environment Variables
-description: Learn to add and access environment variables in your Next.js application.
+title: Cách sử dụng biến môi trường trong Next.js
+nav_title: Biến môi trường
+description: Tìm hiểu cách thêm và truy cập các biến môi trường trong ứng dụng Next.js của bạn.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-Next.js comes with built-in support for environment variables, which allows you to do the following:
+Next.js đi kèm với hỗ trợ tích hợp sẵn cho các biến môi trường, cho phép bạn thực hiện những việc sau:
 
-- [Use `.env` to load environment variables](#loading-environment-variables)
-- [Bundle environment variables for the browser by prefixing with `NEXT_PUBLIC_`](#bundling-environment-variables-for-the-browser)
+- [Sử dụng `.env` để tải các biến môi trường](#loading-environment-variables)
+- [Đóng gói các biến môi trường cho trình duyệt bằng cách thêm tiền tố `NEXT_PUBLIC_`](#bundling-environment-variables-for-the-browser)
 
-> **Warning:** The default `create-next-app` template ensures all `.env` files are added to your `.gitignore`. You almost never want to commit these files to your repository.
+> **Cảnh báo:** Mẫu `create-next-app` mặc định đảm bảo tất cả các tệp `.env` được thêm vào `.gitignore` của bạn. Bạn hầu như không bao giờ muốn commit các tệp này vào kho lưu trữ của mình.
 
-## Loading Environment Variables
+## Tải Biến Môi trường
 
-Next.js has built-in support for loading environment variables from `.env*` files into `process.env`.
+Next.js có hỗ trợ tích hợp sẵn để tải các biến môi trường từ các tệp `.env*` vào `process.env`.
 
 ```txt filename=".env"
 DB_HOST=localhost
@@ -25,9 +25,9 @@ DB_PASS=mypassword
 
 <PagesOnly>
 
-This loads `process.env.DB_HOST`, `process.env.DB_USER`, and `process.env.DB_PASS` into the Node.js environment automatically allowing you to use them in [Next.js data fetching methods](/docs/pages/building-your-application/data-fetching) and [API routes](/docs/pages/building-your-application/routing/api-routes).
+Điều này tải `process.env.DB_HOST`, `process.env.DB_USER`, và `process.env.DB_PASS` vào môi trường Node.js tự động cho phép bạn sử dụng chúng trong [các phương thức lấy dữ liệu của Next.js](/docs/pages/building-your-application/data-fetching) và [API routes](/docs/pages/building-your-application/routing/api-routes).
 
-For example, using [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props):
+Ví dụ, sử dụng [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props):
 
 ```js filename="pages/index.js"
 export async function getStaticProps() {
@@ -44,26 +44,26 @@ export async function getStaticProps() {
 
 <AppOnly>
 
-> **Note**: Next.js also supports multiline variables inside of your `.env*` files:
+> **Lưu ý**: Next.js cũng hỗ trợ các biến nhiều dòng bên trong các tệp `.env*` của bạn:
 >
 > ```bash
 > # .env
 >
-> # you can write with line breaks
+> # bạn có thể viết với ngắt dòng
 > PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
 > ...
 > Kh9NV...
 > ...
 > -----END DSA PRIVATE KEY-----"
 >
-> # or with `\n` inside double quotes
+> # hoặc với `\n` bên trong dấu ngoặc kép
 > PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\nKh9NV...\n-----END DSA PRIVATE KEY-----\n"
 > ```
 
-> **Note**: If you are using a `/src` folder, please note that Next.js will load the .env files **only** from the parent folder and **not** from the `/src` folder.
-> This loads `process.env.DB_HOST`, `process.env.DB_USER`, and `process.env.DB_PASS` into the Node.js environment automatically allowing you to use them in [Route Handlers](/docs/app/api-reference/file-conventions/route).
+> **Lưu ý**: Nếu bạn đang sử dụng thư mục `/src`, xin lưu ý rằng Next.js sẽ tải các tệp .env **chỉ** từ thư mục cha và **không** từ thư mục `/src`.
+> Điều này tải `process.env.DB_HOST`, `process.env.DB_USER`, và `process.env.DB_PASS` vào môi trường Node.js tự động cho phép bạn sử dụng chúng trong [Route Handlers](/docs/app/api-reference/file-conventions/route).
 
-For example:
+Ví dụ:
 
 ```js filename="app/api/route.js"
 export async function GET() {
@@ -78,13 +78,13 @@ export async function GET() {
 
 </AppOnly>
 
-### Loading Environment Variables with `@next/env`
+### Tải Biến Môi trường với `@next/env`
 
-If you need to load environment variables outside of the Next.js runtime, such as in a root config file for an ORM or test runner, you can use the `@next/env` package.
+Nếu bạn cần tải các biến môi trường bên ngoài runtime của Next.js, chẳng hạn như trong tệp cấu hình gốc cho ORM hoặc trình chạy thử nghiệm, bạn có thể sử dụng gói `@next/env`.
 
-This package is used internally by Next.js to load environment variables from `.env*` files.
+Gói này được Next.js sử dụng nội bộ để tải các biến môi trường từ các tệp `.env*`.
 
-To use it, install the package and use the `loadEnvConfig` function to load the environment variables:
+Để sử dụng nó, hãy cài đặt gói và sử dụng hàm `loadEnvConfig` để tải các biến môi trường:
 
 ```bash
 npm install @next/env
@@ -104,7 +104,7 @@ const projectDir = process.cwd()
 loadEnvConfig(projectDir)
 ```
 
-Then, you can import the configuration where needed. For example:
+Sau đó, bạn có thể import cấu hình khi cần thiết. Ví dụ:
 
 ```tsx filename="orm.config.ts" switcher
 import './envConfig.ts'
@@ -126,38 +126,38 @@ export default defineConfig({
 })
 ```
 
-### Referencing Other Variables
+### Tham chiếu Biến Khác
 
-Next.js will automatically expand variables that use `$` to reference other variables e.g. `$VARIABLE` inside of your `.env*` files. This allows you to reference other secrets. For example:
+Next.js sẽ tự động mở rộng các biến sử dụng `$` để tham chiếu các biến khác, ví dụ: `$VARIABLE` bên trong các tệp `.env*` của bạn. Điều này cho phép bạn tham chiếu các bí mật khác. Ví dụ:
 
 ```txt filename=".env"
 TWITTER_USER=nextjs
 TWITTER_URL=https://x.com/$TWITTER_USER
 ```
 
-In the above example, `process.env.TWITTER_URL` would be set to `https://x.com/nextjs`.
+Trong ví dụ trên, `process.env.TWITTER_URL` sẽ được đặt thành `https://x.com/nextjs`.
 
-> **Good to know**: If you need to use variable with a `$` in the actual value, it needs to be escaped e.g. `\$`.
+> **Cần biết**: Nếu bạn cần sử dụng biến có `$` trong giá trị thực tế, nó cần được escape, ví dụ: `\$`.
 
-## Bundling Environment Variables for the Browser
+## Đóng gói Biến Môi trường cho Trình duyệt
 
-Non-`NEXT_PUBLIC_` environment variables are only available in the Node.js environment, meaning they aren't accessible to the browser (the client runs in a different _environment_).
+Các biến môi trường không có tiền tố `NEXT_PUBLIC_` chỉ có sẵn trong môi trường Node.js, nghĩa là chúng không thể truy cập được đối với trình duyệt (client chạy trong một _môi trường_ khác).
 
-In order to make the value of an environment variable accessible in the browser, Next.js can "inline" a value, at build time, into the js bundle that is delivered to the client, replacing all references to `process.env.[variable]` with a hard-coded value. To tell it to do this, you just have to prefix the variable with `NEXT_PUBLIC_`. For example:
+Để làm cho giá trị của một biến môi trường có thể truy cập được trong trình duyệt, Next.js có thể "inline" một giá trị, tại thời điểm build, vào gói js được gửi đến client, thay thế tất cả các tham chiếu đến `process.env.[variable]` bằng một giá trị được mã hóa cứng. Để bảo nó làm điều này, bạn chỉ cần thêm tiền tố `NEXT_PUBLIC_` vào biến. Ví dụ:
 
 ```txt filename="Terminal"
 NEXT_PUBLIC_ANALYTICS_ID=abcdefghijk
 ```
 
-This will tell Next.js to replace all references to `process.env.NEXT_PUBLIC_ANALYTICS_ID` in the Node.js environment with the value from the environment in which you run `next build`, allowing you to use it anywhere in your code. It will be inlined into any JavaScript sent to the browser.
+Điều này sẽ bảo Next.js thay thế tất cả các tham chiếu đến `process.env.NEXT_PUBLIC_ANALYTICS_ID` trong môi trường Node.js bằng giá trị từ môi trường mà bạn chạy `next build`, cho phép bạn sử dụng nó ở bất kỳ đâu trong mã của mình. Nó sẽ được inline vào bất kỳ JavaScript nào được gửi đến trình duyệt.
 
-> **Note**: After being built, your app will no longer respond to changes to these environment variables. For instance, if you use a Heroku pipeline to promote slugs built in one environment to another environment, or if you build and deploy a single Docker image to multiple environments, all `NEXT_PUBLIC_` variables will be frozen with the value evaluated at build time, so these values need to be set appropriately when the project is built. If you need access to runtime environment values, you'll have to setup your own API to provide them to the client (either on demand or during initialization).
+> **Lưu ý**: Sau khi được build, ứng dụng của bạn sẽ không còn phản hồi với các thay đổi đối với các biến môi trường này. Ví dụ, nếu bạn sử dụng quy trình Heroku để quảng bá các slugs được build trong một môi trường sang môi trường khác, hoặc nếu bạn build và triển khai một hình ảnh Docker duy nhất cho nhiều môi trường, tất cả các biến `NEXT_PUBLIC_` sẽ bị đóng băng với giá trị được đánh giá tại thời điểm build, vì vậy các giá trị này cần được đặt phù hợp khi dự án được build. Nếu bạn cần truy cập các giá trị môi trường runtime, bạn sẽ phải thiết lập API của riêng mình để cung cấp chúng cho client (theo yêu cầu hoặc trong quá trình khởi tạo).
 
 ```js filename="pages/index.js"
 import setupAnalyticsService from '../lib/my-analytics-service'
 
-// 'NEXT_PUBLIC_ANALYTICS_ID' can be used here as it's prefixed by 'NEXT_PUBLIC_'.
-// It will be transformed at build time to `setupAnalyticsService('abcdefghijk')`.
+// 'NEXT_PUBLIC_ANALYTICS_ID' có thể được sử dụng ở đây vì nó được thêm tiền tố 'NEXT_PUBLIC_'.
+// Nó sẽ được chuyển đổi tại thời điểm build thành `setupAnalyticsService('abcdefghijk')`.
 setupAnalyticsService(process.env.NEXT_PUBLIC_ANALYTICS_ID)
 
 function HomePage() {
@@ -167,42 +167,42 @@ function HomePage() {
 export default HomePage
 ```
 
-Note that dynamic lookups will _not_ be inlined, such as:
+Lưu ý rằng các tra cứu động sẽ _không_ được inline, chẳng hạn như:
 
 ```js
-// This will NOT be inlined, because it uses a variable
+// Điều này sẽ KHÔNG được inline, vì nó sử dụng một biến
 const varName = 'NEXT_PUBLIC_ANALYTICS_ID'
 setupAnalyticsService(process.env[varName])
 
-// This will NOT be inlined, because it uses a variable
+// Điều này sẽ KHÔNG được inline, vì nó sử dụng một biến
 const env = process.env
 setupAnalyticsService(env.NEXT_PUBLIC_ANALYTICS_ID)
 ```
 
-### Runtime Environment Variables
+### Biến Môi trường Runtime
 
-Next.js can support both build time and runtime environment variables.
+Next.js có thể hỗ trợ cả biến môi trường thời gian build và runtime.
 
-**By default, environment variables are only available on the server**. To expose an environment variable to the browser, it must be prefixed with `NEXT_PUBLIC_`. However, these public environment variables will be inlined into the JavaScript bundle during `next build`.
+**Theo mặc định, các biến môi trường chỉ có sẵn trên máy chủ**. Để hiển thị một biến môi trường cho trình duyệt, nó phải được thêm tiền tố `NEXT_PUBLIC_`. Tuy nhiên, các biến môi trường công khai này sẽ được inline vào gói JavaScript trong quá trình `next build`.
 
 <PagesOnly>
 
-To read runtime environment variables, we recommend using `getServerSideProps` or [incrementally adopting the App Router](/docs/app/guides/migrating/app-router-migration).
+Để đọc các biến môi trường runtime, chúng tôi khuyên bạn nên sử dụng `getServerSideProps` hoặc [áp dụng dần dần App Router](/docs/app/guides/migrating/app-router-migration).
 
 </PagesOnly>
 
 <AppOnly>
 
-You can safely read environment variables on the server during dynamic rendering:
+Bạn có thể đọc an toàn các biến môi trường trên máy chủ trong quá trình render động:
 
 ```tsx filename="app/page.ts" switcher
 import { connection } from 'next/server'
 
 export default async function Component() {
   await connection()
-  // cookies, headers, and other Dynamic APIs
-  // will also opt into dynamic rendering, meaning
-  // this env variable is evaluated at runtime
+  // cookies, headers, và các Dynamic APIs khác
+  // cũng sẽ chọn tham gia render động, có nghĩa là
+  // biến env này được đánh giá tại runtime
   const value = process.env.MY_VALUE
   // ...
 }
@@ -213,9 +213,9 @@ import { connection } from 'next/server'
 
 export default async function Component() {
   await connection()
-  // cookies, headers, and other Dynamic APIs
-  // will also opt into dynamic rendering, meaning
-  // this env variable is evaluated at runtime
+  // cookies, headers, và các Dynamic APIs khác
+  // cũng sẽ chọn tham gia render động, có nghĩa là
+  // biến env này được đánh giá tại runtime
   const value = process.env.MY_VALUE
   // ...
 }
@@ -223,26 +223,26 @@ export default async function Component() {
 
 </AppOnly>
 
-This allows you to use a singular Docker image that can be promoted through multiple environments with different values.
+Điều này cho phép bạn sử dụng một hình ảnh Docker duy nhất có thể được quảng bá qua nhiều môi trường với các giá trị khác nhau.
 
-**Good to know:**
+**Cần biết:**
 
-- You can run code on server startup using the [`register` function](/docs/app/guides/instrumentation).
+- Bạn có thể chạy mã khi khởi động máy chủ bằng cách sử dụng [`register` function](/docs/app/guides/instrumentation).
 
-## Test Environment Variables
+## Biến Môi trường Kiểm thử (Test Environment Variables)
 
-Apart from `development` and `production` environments, there is a 3rd option available: `test`. In the same way you can set defaults for development or production environments, you can do the same with a `.env.test` file for the `testing` environment (though this one is not as common as the previous two). Next.js will not load environment variables from `.env.development` or `.env.production` in the `testing` environment.
+Ngoài môi trường `development` và `production`, còn có một tùy chọn thứ 3: `test`. Tương tự như cách bạn có thể đặt mặc định cho môi trường phát triển hoặc sản xuất, bạn có thể làm tương tự với tệp `.env.test` cho môi trường `testing` (mặc dù tệp này không phổ biến như hai tệp trước). Next.js sẽ không tải các biến môi trường từ `.env.development` hoặc `.env.production` trong môi trường `testing`.
 
-This one is useful when running tests with tools like `jest` or `cypress` where you need to set specific environment vars only for testing purposes. Test default values will be loaded if `NODE_ENV` is set to `test`, though you usually don't need to do this manually as testing tools will address it for you.
+Tệp này hữu ích khi chạy các bài kiểm tra với các công cụ như `jest` hoặc `cypress` nơi bạn cần đặt các biến môi trường cụ thể chỉ cho mục đích kiểm thử. Các giá trị mặc định kiểm thử sẽ được tải nếu `NODE_ENV` được đặt thành `test`, mặc dù bạn thường không cần phải làm điều này thủ công vì các công cụ kiểm thử sẽ giải quyết nó cho bạn.
 
-There is a small difference between `test` environment, and both `development` and `production` that you need to bear in mind: `.env.local` won't be loaded, as you expect tests to produce the same results for everyone. This way every test execution will use the same env defaults across different executions by ignoring your `.env.local` (which is intended to override the default set).
+Có một sự khác biệt nhỏ giữa môi trường `test`, và cả `development` và `production` mà bạn cần ghi nhớ: `.env.local` sẽ không được tải, vì bạn mong đợi các bài kiểm tra tạo ra kết quả giống nhau cho mọi người. Bằng cách này, mọi lần thực thi kiểm thử sẽ sử dụng cùng một mặc định env qua các lần thực thi khác nhau bằng cách bỏ qua `.env.local` của bạn (vốn nhằm mục đích ghi đè tập hợp mặc định).
 
-> **Good to know**: similar to Default Environment Variables, `.env.test` file should be included in your repository, but `.env.test.local` shouldn't, as `.env*.local` are intended to be ignored through `.gitignore`.
+> **Cần biết**: tương tự như Biến Môi trường Mặc định, tệp `.env.test` nên được bao gồm trong kho lưu trữ của bạn, nhưng `.env.test.local` thì không, vì `.env*.local` nhằm mục đích bị bỏ qua thông qua `.gitignore`.
 
-While running unit tests you can make sure to load your environment variables the same way Next.js does by leveraging the `loadEnvConfig` function from the `@next/env` package.
+Trong khi chạy các bài kiểm tra đơn vị, bạn có thể đảm bảo tải các biến môi trường của mình giống như cách Next.js làm bằng cách tận dụng hàm `loadEnvConfig` từ gói `@next/env`.
 
 ```js
-// The below can be used in a Jest global setup file or similar for your testing set-up
+// Đoạn mã dưới đây có thể được sử dụng trong tệp thiết lập toàn cục Jest hoặc tương tự cho thiết lập kiểm thử của bạn
 import { loadEnvConfig } from '@next/env'
 
 export default async () => {
@@ -251,27 +251,27 @@ export default async () => {
 }
 ```
 
-## Environment Variable Load Order
+## Thứ tự Tải Biến Môi trường
 
-Environment variables are looked up in the following places, in order, stopping once the variable is found.
+Các biến môi trường được tìm kiếm ở những nơi sau, theo thứ tự, dừng lại khi tìm thấy biến.
 
 1. `process.env`
 1. `.env.$(NODE_ENV).local`
-1. `.env.local` (Not checked when `NODE_ENV` is `test`.)
+1. `.env.local` (Không được kiểm tra khi `NODE_ENV` là `test`.)
 1. `.env.$(NODE_ENV)`
 1. `.env`
 
-For example, if `NODE_ENV` is `development` and you define a variable in both `.env.development.local` and `.env`, the value in `.env.development.local` will be used.
+Ví dụ, nếu `NODE_ENV` là `development` và bạn xác định một biến trong cả `.env.development.local` và `.env`, giá trị trong `.env.development.local` sẽ được sử dụng.
 
-> **Good to know**: The allowed values for `NODE_ENV` are `production`, `development` and `test`.
+> **Cần biết**: Các giá trị được phép cho `NODE_ENV` là `production`, `development` và `test`.
 
-## Good to know
+## Cần biết
 
-- If you are using a [`/src` directory](/docs/app/api-reference/file-conventions/src-folder), `.env.*` files should remain in the root of your project.
-- If the environment variable `NODE_ENV` is unassigned, Next.js automatically assigns `development` when running the `next dev` command, or `production` for all other commands.
+- Nếu bạn đang sử dụng một [`/src` directory](/docs/app/api-reference/file-conventions/src-folder), các tệp `.env.*` nên nằm ở thư mục gốc của dự án của bạn.
+- Nếu biến môi trường `NODE_ENV` không được gán, Next.js tự động gán `development` khi chạy lệnh `next dev`, hoặc `production` cho tất cả các lệnh khác.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version  | Changes                                       |
-| -------- | --------------------------------------------- |
-| `v9.4.0` | Support `.env` and `NEXT_PUBLIC_` introduced. |
+| Phiên bản | Thay đổi                                         |
+| --------- | ------------------------------------------------ |
+| `v9.4.0`  | Hỗ trợ `.env` và `NEXT_PUBLIC_` được giới thiệu. |

@@ -1,19 +1,19 @@
 ---
-title: How to set up a custom server in Next.js
+title: Cách thiết lập custom server trong Next.js
 nav_title: Custom Server
-description: Start a Next.js app programmatically using a custom server.
+description: Khởi động ứng dụng Next.js theo chương trình bằng custom server.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Next.js includes its own server with `next start` by default. If you have an existing backend, you can still use it with Next.js (this is not a custom server). A custom Next.js server allows you to programmatically start a server for custom patterns. The majority of the time, you will not need this approach. However, it's available if you need to eject.
+Next.js bao gồm server riêng của nó với `next start` theo mặc định. Nếu bạn có một backend hiện có, bạn vẫn có thể sử dụng nó với Next.js (đây không phải là custom server). Một custom Next.js server cho phép bạn khởi động server theo chương trình cho các custom patterns. Phần lớn thời gian, bạn sẽ không cần cách tiếp cận này. Tuy nhiên, nó có sẵn nếu bạn cần eject.
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - Before deciding to use a custom server, keep in mind that it should only be used when the integrated router of Next.js can't meet your app requirements. A custom server will remove important performance optimizations, like **[Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization).**
-> - When using standalone output mode, it does not trace custom server files. This mode outputs a separate minimal `server.js` file, instead. These cannot be used together.
+> - Trước khi quyết định sử dụng custom server, hãy nhớ rằng nó chỉ nên được sử dụng khi integrated router của Next.js không thể đáp ứng yêu cầu app của bạn. Một custom server sẽ loại bỏ các tối ưu hóa hiệu suất quan trọng, như **[Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization).**
+> - Khi sử dụng standalone output mode, nó không trace custom server files. Mode này output một tệp `server.js` minimal riêng biệt thay thế. Chúng không thể được sử dụng cùng nhau.
 
-Take a look at the [following example](https://github.com/vercel/next.js/tree/canary/examples/custom-server) of a custom server:
+Hãy xem [ví dụ sau](https://github.com/vercel/next.js/tree/canary/examples/custom-server) của một custom server:
 
 ```ts filename="server.ts" switcher
 import { createServer } from 'http'
@@ -63,9 +63,9 @@ app.prepare().then(() => {
 })
 ```
 
-> `server.js` does not run through the Next.js Compiler or bundling process. Make sure the syntax and source code this file requires are compatible with the current Node.js version you are using. [View an example](https://github.com/vercel/next.js/tree/canary/examples/custom-server).
+> `server.js` không chạy qua Next.js Compiler hoặc bundling process. Đảm bảo syntax và source code mà tệp này yêu cầu tương thích với phiên bản Node.js hiện tại bạn đang sử dụng. [Xem ví dụ](https://github.com/vercel/next.js/tree/canary/examples/custom-server).
 
-To run the custom server, you'll need to update the `scripts` in `package.json` like so:
+Để chạy custom server, bạn sẽ cần cập nhật `scripts` trong `package.json` như sau:
 
 ```json filename="package.json"
 {
@@ -77,7 +77,7 @@ To run the custom server, you'll need to update the `scripts` in `package.json` 
 }
 ```
 
-Alternatively, you can set up `nodemon` ([example](https://github.com/vercel/next.js/tree/canary/examples/custom-server)). The custom server uses the following import to connect the server with the Next.js application:
+Ngoài ra, bạn có thể thiết lập `nodemon` ([ví dụ](https://github.com/vercel/next.js/tree/canary/examples/custom-server)). Custom server sử dụng import sau để kết nối server với ứng dụng Next.js:
 
 ```js
 import next from 'next'
@@ -85,29 +85,29 @@ import next from 'next'
 const app = next({})
 ```
 
-The above `next` import is a function that receives an object with the following options:
+Import `next` ở trên là một hàm nhận một object với các options sau:
 
-| Option       | Type               | Description                                                                         |
-| ------------ | ------------------ | ----------------------------------------------------------------------------------- |
-| `conf`       | `Object`           | The same object you would use in `next.config.js`. Defaults to `{}`                 |
-| `dev`        | `Boolean`          | (_Optional_) Whether or not to launch Next.js in dev mode. Defaults to `false`      |
-| `dir`        | `String`           | (_Optional_) Location of the Next.js project. Defaults to `'.'`                     |
-| `quiet`      | `Boolean`          | (_Optional_) Hide error messages containing server information. Defaults to `false` |
-| `hostname`   | `String`           | (_Optional_) The hostname the server is running behind                              |
-| `port`       | `Number`           | (_Optional_) The port the server is running behind                                  |
-| `httpServer` | `node:http#Server` | (_Optional_) The HTTP Server that Next.js is running behind                         |
-| `turbopack`  | `Boolean`          | (_Optional_) Enable Turbopack (enabled by default)                                  |
-| `webpack`    | `Boolean`          | (_Optional_) Enable webpack                                                         |
+| Option       | Type               | Mô tả                                                                           |
+| ------------ | ------------------ | ------------------------------------------------------------------------------- |
+| `conf`       | `Object`           | Object giống như bạn sẽ sử dụng trong `next.config.js`. Mặc định là `{}`        |
+| `dev`        | `Boolean`          | (_Tùy chọn_) Có khởi động Next.js trong dev mode hay không. Mặc định là `false` |
+| `dir`        | `String`           | (_Tùy chọn_) Vị trí của dự án Next.js. Mặc định là `'.'`                        |
+| `quiet`      | `Boolean`          | (_Tùy chọn_) Ẩn error messages chứa server information. Mặc định là `false`     |
+| `hostname`   | `String`           | (_Tùy chọn_) Hostname mà server đang chạy phía sau                              |
+| `port`       | `Number`           | (_Tùy chọn_) Port mà server đang chạy phía sau                                  |
+| `httpServer` | `node:http#Server` | (_Tùy chọn_) HTTP Server mà Next.js đang chạy phía sau                          |
+| `turbopack`  | `Boolean`          | (_Tùy chọn_) Enable Turbopack (enabled theo mặc định)                           |
+| `webpack`    | `Boolean`          | (_Tùy chọn_) Enable webpack                                                     |
 
-The returned `app` can then be used to let Next.js handle requests as required.
+`app` được trả về sau đó có thể được sử dụng để cho Next.js xử lý requests theo yêu cầu.
 
 <PagesOnly>
 
-## Disabling file-system routing
+## Disable file-system routing
 
-By default, `Next` will serve each file in the `pages` folder under a pathname matching the filename. If your project uses a custom server, this behavior may result in the same content being served from multiple paths, which can present problems with SEO and UX.
+Theo mặc định, `Next` sẽ phục vụ mỗi tệp trong thư mục `pages` dưới một pathname khớp với filename. Nếu dự án của bạn sử dụng custom server, hành vi này có thể dẫn đến cùng một nội dung được phục vụ từ nhiều paths, có thể gây ra vấn đề với SEO và UX.
 
-To disable this behavior and prevent routing based on files in `pages`, open `next.config.js` and disable the `useFileSystemPublicRoutes` config:
+Để disable hành vi này và ngăn routing dựa trên files trong `pages`, hãy mở `next.config.js` và disable cấu hình `useFileSystemPublicRoutes`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -115,8 +115,8 @@ module.exports = {
 }
 ```
 
-> Note that `useFileSystemPublicRoutes` disables filename routes from SSR; client-side routing may still access those paths. When using this option, you should guard against navigation to routes you do not want programmatically.
+> Lưu ý rằng `useFileSystemPublicRoutes` disable filename routes từ SSR; client-side routing vẫn có thể truy cập các paths đó. Khi sử dụng option này, bạn nên guard against navigation đến routes bạn không muốn theo chương trình.
 
-> You may also wish to configure the client-side router to disallow client-side redirects to filename routes; for that refer to [`router.beforePopState`](/docs/pages/api-reference/functions/use-router#routerbeforepopstate).
+> Bạn cũng có thể muốn cấu hình client-side router để disallow client-side redirects đến filename routes; để làm điều đó, hãy tham khảo [`router.beforePopState`](/docs/pages/api-reference/functions/use-router#routerbeforepopstate).
 
 </PagesOnly>

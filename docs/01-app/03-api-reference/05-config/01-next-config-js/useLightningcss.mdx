@@ -1,21 +1,21 @@
 ---
 title: useLightningcss
-description: Enable experimental support for Lightning CSS.
+description: Kích hoạt hỗ trợ thử nghiệm cho Lightning CSS.
 version: experimental
 ---
 
-Experimental support for using [Lightning CSS](https://lightningcss.dev) with webpack. Lightning CSS is a fast CSS transformer and minifier, written in Rust.
+Hỗ trợ thử nghiệm để sử dụng [Lightning CSS](https://lightningcss.dev) với webpack. Lightning CSS là một bộ chuyển đổi và minifier CSS nhanh, được viết bằng Rust.
 
-If this option is not set, Next.js on webpack uses [PostCSS](https://postcss.org/) with [`postcss-preset-env`](https://www.npmjs.com/package/postcss-preset-env) by default.
+Nếu tùy chọn này không được đặt, Next.js trên webpack sử dụng [PostCSS](https://postcss.org/) với [`postcss-preset-env`](https://www.npmjs.com/package/postcss-preset-env) theo mặc định.
 
-Turbopack uses Lightning CSS by default since Next 14.2. This configuration option has no effect on Turbopack. Turbopack always uses Lightning CSS.
+Turbopack sử dụng Lightning CSS theo mặc định kể từ Next 14.2. Tùy chọn cấu hình này không có hiệu lực trên Turbopack. Turbopack luôn sử dụng Lightning CSS.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   experimental: {
-    useLightningcss: false, // default, ignored on Turbopack
+    useLightningcss: false, // mặc định, bị bỏ qua trên Turbopack
   },
 }
 
@@ -26,16 +26,16 @@ export default nextConfig
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    useLightningcss: true, // disables PostCSS on webpack
+    useLightningcss: true, // vô hiệu hóa PostCSS trên webpack
   },
 }
 
 module.exports = nextConfig
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version  | Changes                                                                                                                                                                                      |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `15.1.0` | Support for `useSwcCss` was removed from Turbopack.                                                                                                                                          |
-| `14.2.0` | Turbopack's default CSS processor was changed from `@swc/css` to Lightning CSS. `useLightningcss` became ignored on Turbopack, and a legacy `experimental.turbo.useSwcCss` option was added. |
+| Phiên bản | Thay đổi                                                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `15.1.0`  | Hỗ trợ cho `useSwcCss` đã bị xóa khỏi Turbopack.                                                                                                                                                       |
+| `14.2.0`  | Bộ xử lý CSS mặc định của Turbopack đã được thay đổi từ `@swc/css` sang Lightning CSS. `useLightningcss` bị bỏ qua trên Turbopack, và tùy chọn legacy `experimental.turbo.useSwcCss` đã được thêm vào. |

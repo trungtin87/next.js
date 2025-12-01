@@ -1,11 +1,11 @@
 ---
 title: getInitialProps
-description: Fetch dynamic data on the server for your React component with getInitialProps.
+description: Fetch dữ liệu động trên server cho React component của bạn với getInitialProps.
 ---
 
-> **Good to know**: `getInitialProps` is a legacy API. We recommend using [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) or [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props) instead.
+> **Nên biết**: `getInitialProps` là một legacy API. Chúng tôi khuyến nghị sử dụng [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) hoặc [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props) thay thế.
 
-`getInitialProps` is an `async` function that can be added to the default exported React component for the page. It will run on both the server-side and again on the client-side during page transitions. The result of the function will be forwarded to the React component as `props`.
+`getInitialProps` là một hàm `async` có thể được thêm vào React component được export mặc định cho trang. Nó sẽ chạy trên cả server-side và lại trên client-side trong quá trình chuyển đổi trang. Kết quả của hàm sẽ được chuyển tiếp đến React component dưới dạng `props`.
 
 ```tsx filename="pages/index.tsx" switcher
 import { NextPageContext } from 'next'
@@ -33,26 +33,26 @@ export default function Page({ stars }) {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - Data returned from `getInitialProps` is serialized when server rendering. Ensure the returned object from `getInitialProps` is a plain `Object`, and not using `Date`, `Map` or `Set`.
-> - For the initial page load, `getInitialProps` will run on the server only. `getInitialProps` will then also run on the client when navigating to a different route with the [`next/link`](/docs/pages/api-reference/components/link) component or by using [`next/router`](/docs/pages/api-reference/functions/use-router).
-> - If `getInitialProps` is used in a custom `_app.js`, and the page being navigated to is using `getServerSideProps`, then `getInitialProps` will also run on the server.
+> - Dữ liệu được trả về từ `getInitialProps` được serialize khi server rendering. Đảm bảo đối tượng được trả về từ `getInitialProps` là một `Object` thuần túy, và không sử dụng `Date`, `Map` hoặc `Set`.
+> - Đối với lần tải trang ban đầu, `getInitialProps` sẽ chỉ chạy trên server. `getInitialProps` sau đó cũng sẽ chạy trên client khi điều hướng đến một route khác với component [`next/link`](/docs/pages/api-reference/components/link) hoặc bằng cách sử dụng [`next/router`](/docs/pages/api-reference/functions/use-router).
+> - Nếu `getInitialProps` được sử dụng trong một `_app.js` tùy chỉnh, và trang đang được điều hướng đến đang sử dụng `getServerSideProps`, thì `getInitialProps` cũng sẽ chạy trên server.
 
-## Context Object
+## Đối tượng Context
 
-`getInitialProps` receives a single argument called `context`, which is an object with the following properties:
+`getInitialProps` nhận một đối số duy nhất gọi là `context`, là một đối tượng với các thuộc tính sau:
 
-| Name       | Description                                                                                           |
-| ---------- | ----------------------------------------------------------------------------------------------------- |
-| `pathname` | Current route, the path of the page in `/pages`                                                       |
-| `query`    | Query string of the URL, parsed as an object                                                          |
-| `asPath`   | `String` of the actual path (including the query) shown in the browser                                |
-| `req`      | [HTTP request object](https://nodejs.org/api/http.html#http_class_http_incomingmessage) (server only) |
-| `res`      | [HTTP response object](https://nodejs.org/api/http.html#http_class_http_serverresponse) (server only) |
-| `err`      | Error object if any error is encountered during the rendering                                         |
+| Tên        | Mô tả                                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------------- |
+| `pathname` | Route hiện tại, path của trang trong `/pages`                                                        |
+| `query`    | Query string của URL, được parse thành một đối tượng                                                 |
+| `asPath`   | `String` của path thực tế (bao gồm query) được hiển thị trong trình duyệt                            |
+| `req`      | [HTTP request object](https://nodejs.org/api/http.html#http_class_http_incomingmessage) (chỉ server) |
+| `res`      | [HTTP response object](https://nodejs.org/api/http.html#http_class_http_serverresponse) (chỉ server) |
+| `err`      | Đối tượng lỗi nếu có bất kỳ lỗi nào được gặp phải trong quá trình rendering                          |
 
 ## Caveats
 
-- `getInitialProps` can only be used in `pages/` top level files, and not in nested components. To have nested data fetching at the component level, consider exploring the [App Router](/docs/app/getting-started/fetching-data).
-- Regardless of whether your route is static or dynamic, any data returned from `getInitialProps` as `props` will be able to be examined on the client-side in the initial HTML. This is to allow the page to be [hydrated](https://react.dev/reference/react-dom/hydrate) correctly. Make sure that you don't pass any sensitive information that shouldn't be available on the client in `props`.
+- `getInitialProps` chỉ có thể được sử dụng trong các tệp cấp cao nhất của `pages/`, và không phải trong các component lồng nhau. Để có data fetching lồng nhau ở cấp độ component, hãy xem xét khám phá [App Router](/docs/app/getting-started/fetching-data).
+- Bất kể route của bạn là static hay dynamic, bất kỳ dữ liệu nào được trả về từ `getInitialProps` dưới dạng `props` sẽ có thể được kiểm tra ở phía client trong HTML ban đầu. Điều này là để cho phép trang được [hydrated](https://react.dev/reference/react-dom/hydrate) một cách chính xác. Đảm bảo rằng bạn không truyền bất kỳ thông tin nhạy cảm nào không nên có sẵn trên client trong `props`.

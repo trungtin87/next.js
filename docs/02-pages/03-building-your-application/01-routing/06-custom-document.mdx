@@ -1,11 +1,11 @@
 ---
 title: Custom Document
-description: Extend the default document markup added by Next.js.
+description: Mở rộng default document markup được thêm bởi Next.js.
 ---
 
-A custom `Document` can update the `<html>` and `<body>` tags used to render a [Page](/docs/pages/building-your-application/routing/pages-and-layouts).
+Một `Document` tùy chỉnh có thể cập nhật các tags `<html>` và `<body>` được sử dụng để render một [Page](/docs/pages/building-your-application/routing/pages-and-layouts).
 
-To override the default `Document`, create the file `pages/_document` as shown below:
+Để override `Document` mặc định, hãy tạo tệp `pages/_document` như dưới đây:
 
 ```tsx filename="pages/_document.tsx" switcher
 import { Html, Head, Main, NextScript } from 'next/document'
@@ -39,22 +39,22 @@ export default function Document() {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - `_document` is only rendered on the server, so event handlers like `onClick` cannot be used in this file.
-> - `<Html>`, `<Head />`, `<Main />` and `<NextScript />` are required for the page to be properly rendered.
+> - `_document` chỉ được render trên server, vì vậy các event handlers như `onClick` không thể được sử dụng trong tệp này.
+> - `<Html>`, `<Head />`, `<Main />` và `<NextScript />` là bắt buộc để trang được render đúng cách.
 
 ## Caveats
 
-- The `<Head />` component used in `_document` is not the same as [`next/head`](/docs/pages/api-reference/components/head). The `<Head />` component used here should only be used for any `<head>` code that is common for all pages. For all other cases, such as `<title>` tags, we recommend using [`next/head`](/docs/pages/api-reference/components/head) in your pages or components.
-- React components outside of `<Main />` will not be initialized by the browser. Do _not_ add application logic here or custom CSS (like `styled-jsx`). If you need shared components in all your pages (like a menu or a toolbar), read [Layouts](/docs/pages/building-your-application/routing/pages-and-layouts#layout-pattern) instead.
-- `Document` currently does not support Next.js [Data Fetching methods](/docs/pages/building-your-application/data-fetching) like [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) or [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props).
+- Component `<Head />` được sử dụng trong `_document` không giống với [`next/head`](/docs/pages/api-reference/components/head). Component `<Head />` được sử dụng ở đây chỉ nên được sử dụng cho bất kỳ code `<head>` nào chung cho tất cả các trang. Đối với tất cả các trường hợp khác, chẳng hạn như tags `<title>`, chúng tôi khuyến nghị sử dụng [`next/head`](/docs/pages/api-reference/components/head) trong các trang hoặc components của bạn.
+- Các React components bên ngoài `<Main />` sẽ không được khởi tạo bởi trình duyệt. _Không_ thêm application logic ở đây hoặc custom CSS (như `styled-jsx`). Nếu bạn cần các shared components trong tất cả các trang của bạn (như một menu hoặc một toolbar), hãy đọc [Layouts](/docs/pages/building-your-application/routing/pages-and-layouts#layout-pattern) thay thế.
+- `Document` hiện tại không hỗ trợ các [Data Fetching methods](/docs/pages/building-your-application/data-fetching) của Next.js như [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) hoặc [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props).
 
-## Customizing `renderPage`
+## Tùy chỉnh `renderPage`
 
-Customizing `renderPage` is advanced and only needed for libraries like CSS-in-JS to support server-side rendering. This is not needed for built-in `styled-jsx` support.
+Tùy chỉnh `renderPage` là nâng cao và chỉ cần thiết cho các thư viện như CSS-in-JS để hỗ trợ server-side rendering. Điều này không cần thiết cho hỗ trợ `styled-jsx` tích hợp sẵn.
 
-**We do not recommend using this pattern.** Instead, consider [incrementally adopting](/docs/app/guides/migrating/app-router-migration) the App Router, which allows you to more easily fetch data for pages and layouts.
+**Chúng tôi không khuyến nghị sử dụng pattern này.** Thay vào đó, hãy xem xét [incrementally adopting](/docs/app/guides/migrating/app-router-migration) App Router, cho phép bạn fetch dữ liệu dễ dàng hơn cho các trang và layouts.
 
 ```tsx filename="pages/_document.tsx" switcher
 import Document, {
@@ -141,7 +141,7 @@ class MyDocument extends Document {
 export default MyDocument
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - `getInitialProps` in `_document` is not called during client-side transitions.
-> - The `ctx` object for `_document` is equivalent to the one received in [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props#context-object), with the addition of `renderPage`.
+> - `getInitialProps` trong `_document` không được gọi trong quá trình client-side transitions.
+> - Đối tượng `ctx` cho `_document` tương đương với đối tượng nhận được trong [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props#context-object), với việc bổ sung `renderPage`.

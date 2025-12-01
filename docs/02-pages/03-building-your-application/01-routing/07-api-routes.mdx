@@ -1,10 +1,10 @@
 ---
 title: API Routes
-description: Next.js supports API Routes, which allow you to build your API without leaving your Next.js app. Learn how it works here.
+description: Next.js hỗ trợ API Routes, cho phép bạn xây dựng API của mình mà không cần rời khỏi ứng dụng Next.js. Tìm hiểu cách nó hoạt động tại đây.
 ---
 
 <details>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
 - [API Routes Request Helpers](https://github.com/vercel/next.js/tree/canary/examples/api-routes-proxy)
 - [API Routes with GraphQL](https://github.com/vercel/next.js/tree/canary/examples/api-routes-graphql)
@@ -13,13 +13,13 @@ description: Next.js supports API Routes, which allow you to build your API with
 
 </details>
 
-> **Good to know**: If you are using the App Router, you can use [Server Components](/docs/app/getting-started/server-and-client-components) or [Route Handlers](/docs/app/api-reference/file-conventions/route) instead of API Routes.
+> **Nên biết**: Nếu bạn đang sử dụng App Router, bạn có thể sử dụng [Server Components](/docs/app/getting-started/server-and-client-components) hoặc [Route Handlers](/docs/app/api-reference/file-conventions/route) thay vì API Routes.
 
-API routes provide a solution to build a **public API** with Next.js.
+API routes cung cấp một giải pháp để xây dựng một **public API** với Next.js.
 
-Any file inside the folder `pages/api` is mapped to `/api/*` and will be treated as an API endpoint instead of a `page`. They are server-side only bundles and won't increase your client-side bundle size.
+Bất kỳ tệp nào bên trong thư mục `pages/api` được ánh xạ tới `/api/*` và sẽ được coi là một API endpoint thay vì một `page`. Chúng là server-side only bundles và sẽ không làm tăng kích thước client-side bundle của bạn.
 
-For example, the following API route returns a JSON response with a status code of `200`:
+Ví dụ, API route sau trả về một JSON response với status code là `200`:
 
 ```ts filename="pages/api/hello.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -42,14 +42,14 @@ export default function handler(req, res) {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - API Routes [do not specify CORS headers](https://developer.mozilla.org/docs/Web/HTTP/CORS), meaning they are **same-origin only** by default. You can customize such behavior by wrapping the request handler with the [CORS request helpers](https://github.com/vercel/next.js/tree/canary/examples/api-routes-cors).
+> - API Routes [không chỉ định CORS headers](https://developer.mozilla.org/docs/Web/HTTP/CORS), có nghĩa là chúng là **same-origin only** theo mặc định. Bạn có thể tùy chỉnh hành vi như vậy bằng cách bọc request handler với [CORS request helpers](https://github.com/vercel/next.js/tree/canary/examples/api-routes-cors).
 
-- API Routes can't be used with [static exports](/docs/pages/guides/static-exports). However, [Route Handlers](/docs/app/api-reference/file-conventions/route) in the App Router can.
-  > - API Routes will be affected by [`pageExtensions` configuration](/docs/pages/api-reference/config/next-config-js/pageExtensions) in `next.config.js`.
+- API Routes không thể được sử dụng với [static exports](/docs/pages/guides/static-exports). Tuy nhiên, [Route Handlers](/docs/app/api-reference/file-conventions/route) trong App Router có thể.
+  > - API Routes sẽ bị ảnh hưởng bởi cấu hình [`pageExtensions`](/docs/pages/api-reference/config/next-config-js/pageExtensions) trong `next.config.js`.
 
-## Parameters
+## Tham số
 
 ```tsx
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -57,12 +57,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 ```
 
-- `req`: An instance of [http.IncomingMessage](https://nodejs.org/api/http.html#class-httpincomingmessage)
-- `res`: An instance of [http.ServerResponse](https://nodejs.org/api/http.html#class-httpserverresponse)
+- `req`: Một instance của [http.IncomingMessage](https://nodejs.org/api/http.html#class-httpincomingmessage)
+- `res`: Một instance của [http.ServerResponse](https://nodejs.org/api/http.html#class-httpserverresponse)
 
-## HTTP Methods
+## Các phương thức HTTP
 
-To handle different HTTP methods in an API route, you can use `req.method` in your request handler, like so:
+Để xử lý các phương thức HTTP khác nhau trong một API route, bạn có thể sử dụng `req.method` trong request handler của mình, như sau:
 
 ```ts filename="pages/api/hello.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -88,15 +88,15 @@ export default function handler(req, res) {
 
 ## Request Helpers
 
-API Routes provide built-in request helpers which parse the incoming request (`req`):
+API Routes cung cấp các request helpers tích hợp sẵn để phân tích incoming request (`req`):
 
-- `req.cookies` - An object containing the cookies sent by the request. Defaults to `{}`
-- `req.query` - An object containing the [query string](https://en.wikipedia.org/wiki/Query_string). Defaults to `{}`
-- `req.body` - An object containing the body parsed by `content-type`, or `null` if no body was sent
+- `req.cookies` - Một object chứa các cookies được gửi bởi request. Mặc định là `{}`
+- `req.query` - Một object chứa [query string](https://en.wikipedia.org/wiki/Query_string). Mặc định là `{}`
+- `req.body` - Một object chứa body được phân tích bởi `content-type`, hoặc `null` nếu không có body nào được gửi
 
 ### Custom config
 
-Every API Route can export a `config` object to change the default configuration, which is the following:
+Mỗi API Route có thể export một object `config` để thay đổi cấu hình mặc định, như sau:
 
 ```js
 export const config = {
@@ -110,9 +110,9 @@ export const config = {
 }
 ```
 
-`bodyParser` is automatically enabled. If you want to consume the body as a `Stream` or with [`raw-body`](https://www.npmjs.com/package/raw-body), you can set this to `false`.
+`bodyParser` được bật tự động. Nếu bạn muốn tiêu thụ body như một `Stream` hoặc với [`raw-body`](https://www.npmjs.com/package/raw-body), bạn có thể đặt nó thành `false`.
 
-One use case for disabling the automatic `bodyParsing` is to allow you to verify the raw body of a **webhook** request, for example [from GitHub](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github).
+Một trường hợp sử dụng để vô hiệu hóa `bodyParsing` tự động là cho phép bạn xác minh raw body của một **webhook** request, ví dụ [từ GitHub](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github).
 
 ```js
 export const config = {
@@ -122,7 +122,7 @@ export const config = {
 }
 ```
 
-`bodyParser.sizeLimit` is the maximum size allowed for the parsed body, in any format supported by [bytes](https://github.com/visionmedia/bytes.js), like so:
+`bodyParser.sizeLimit` là kích thước tối đa cho phép cho parsed body, ở bất kỳ định dạng nào được hỗ trợ bởi [bytes](https://github.com/visionmedia/bytes.js), như sau:
 
 ```js
 export const config = {
@@ -134,7 +134,7 @@ export const config = {
 }
 ```
 
-`externalResolver` is an explicit flag that tells the server that this route is being handled by an external resolver like _express_ or _connect_. Enabling this option disables warnings for unresolved requests.
+`externalResolver` là một cờ rõ ràng cho server biết rằng route này đang được xử lý bởi một external resolver như _express_ hoặc _connect_. Bật tùy chọn này sẽ vô hiệu hóa cảnh báo cho các requests chưa được giải quyết.
 
 ```js
 export const config = {
@@ -144,9 +144,9 @@ export const config = {
 }
 ```
 
-`responseLimit` is automatically enabled, warning when an API Routes' response body is over 4MB.
+`responseLimit` được bật tự động, cảnh báo khi response body của API Routes vượt quá 4MB.
 
-If you are not using Next.js in a serverless environment, and understand the performance implications of not using a CDN or dedicated media host, you can set this limit to `false`.
+Nếu bạn không sử dụng Next.js trong môi trường serverless, và hiểu các tác động hiệu suất của việc không sử dụng CDN hoặc dedicated media host, bạn có thể đặt giới hạn này thành `false`.
 
 ```js
 export const config = {
@@ -156,8 +156,8 @@ export const config = {
 }
 ```
 
-`responseLimit` can also take the number of bytes or any string format supported by `bytes`, for example `1000`, `'500kb'` or `'3mb'`.
-This value will be the maximum response size before a warning is displayed. Default is 4MB. (see above)
+`responseLimit` cũng có thể nhận số byte hoặc bất kỳ định dạng chuỗi nào được hỗ trợ bởi `bytes`, ví dụ `1000`, `'500kb'` hoặc `'3mb'`.
+Giá trị này sẽ là kích thước response tối đa trước khi cảnh báo được hiển thị. Mặc định là 4MB. (xem ở trên)
 
 ```js
 export const config = {
@@ -169,21 +169,21 @@ export const config = {
 
 ## Response Helpers
 
-The [Server Response object](https://nodejs.org/api/http.html#http_class_http_serverresponse), (often abbreviated as `res`) includes a set of Express.js-like helper methods to improve the developer experience and increase the speed of creating new API endpoints.
+[Server Response object](https://nodejs.org/api/http.html#http_class_http_serverresponse), (thường được viết tắt là `res`) bao gồm một tập hợp các phương thức helper giống như Express.js để cải thiện trải nghiệm nhà phát triển và tăng tốc độ tạo các API endpoints mới.
 
-The included helpers are:
+Các helpers bao gồm:
 
-- `res.status(code)` - A function to set the status code. `code` must be a valid [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-- `res.json(body)` - Sends a JSON response. `body` must be a [serializable object](https://developer.mozilla.org/docs/Glossary/Serialization)
-- `res.send(body)` - Sends the HTTP response. `body` can be a `string`, an `object` or a `Buffer`
-- `res.redirect([status,] path)` - Redirects to a specified path or URL. `status` must be a valid [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes). If not specified, `status` defaults to "307" "Temporary redirect".
-- `res.revalidate(urlPath)` - [Revalidate a page on demand](/docs/pages/guides/incremental-static-regeneration#on-demand-revalidation-with-revalidatepath) using `getStaticProps`. `urlPath` must be a `string`.
+- `res.status(code)` - Một hàm để đặt status code. `code` phải là một [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) hợp lệ
+- `res.json(body)` - Gửi một JSON response. `body` phải là một [serializable object](https://developer.mozilla.org/docs/Glossary/Serialization)
+- `res.send(body)` - Gửi HTTP response. `body` có thể là một `string`, một `object` hoặc một `Buffer`
+- `res.redirect([status,] path)` - Chuyển hướng đến một path hoặc URL được chỉ định. `status` phải là một [HTTP status code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) hợp lệ. Nếu không được chỉ định, `status` mặc định là "307" "Temporary redirect".
+- `res.revalidate(urlPath)` - [Revalidate một trang theo yêu cầu](/docs/pages/guides/incremental-static-regeneration#on-demand-revalidation-with-revalidatepath) sử dụng `getStaticProps`. `urlPath` phải là một `string`.
 
-### Setting the status code of a response
+### Đặt status code của một response
 
-When sending a response back to the client, you can set the status code of the response.
+Khi gửi một response trở lại client, bạn có thể đặt status code của response.
 
-The following example sets the status code of the response to `200` (`OK`) and returns a `message` property with the value of `Hello from Next.js!` as a JSON response:
+Ví dụ sau đặt status code của response thành `200` (`OK`) và trả về một thuộc tính `message` với giá trị `Hello from Next.js!` dưới dạng JSON response:
 
 ```ts filename="pages/api/hello.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -206,12 +206,12 @@ export default function handler(req, res) {
 }
 ```
 
-### Sending a JSON response
+### Gửi một JSON response
 
-When sending a response back to the client you can send a JSON response, this must be a [serializable object](https://developer.mozilla.org/docs/Glossary/Serialization).
-In a real world application you might want to let the client know the status of the request depending on the result of the requested endpoint.
+Khi gửi một response trở lại client bạn có thể gửi một JSON response, đây phải là một [serializable object](https://developer.mozilla.org/docs/Glossary/Serialization).
+Trong một ứng dụng thực tế, bạn có thể muốn cho client biết trạng thái của request tùy thuộc vào kết quả của endpoint được yêu cầu.
 
-The following example sends a JSON response with the status code `200` (`OK`) and the result of the async operation. It's contained in a try catch block to handle any errors that may occur, with the appropriate status code and error message caught and sent back to the client:
+Ví dụ sau gửi một JSON response với status code `200` (`OK`) và kết quả của hoạt động không đồng bộ. Nó được chứa trong một khối try catch để xử lý bất kỳ lỗi nào có thể xảy ra, với status code và thông báo lỗi thích hợp được bắt và gửi lại cho client:
 
 ```ts filename="pages/api/hello.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -240,11 +240,11 @@ export default async function handler(req, res) {
 }
 ```
 
-### Sending a HTTP response
+### Gửi một HTTP response
 
-Sending an HTTP response works the same way as when sending a JSON response. The only difference is that the response body can be a `string`, an `object` or a `Buffer`.
+Gửi một HTTP response hoạt động giống như khi gửi một JSON response. Sự khác biệt duy nhất là response body có thể là một `string`, một `object` hoặc một `Buffer`.
 
-The following example sends a HTTP response with the status code `200` (`OK`) and the result of the async operation.
+Ví dụ sau gửi một HTTP response với status code `200` (`OK`) và kết quả của hoạt động không đồng bộ.
 
 ```ts filename="pages/api/hello.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -273,11 +273,11 @@ export default async function handler(req, res) {
 }
 ```
 
-### Redirects to a specified path or URL
+### Chuyển hướng đến một path hoặc URL được chỉ định
 
-Taking a form as an example, you may want to redirect your client to a specified path or URL once they have submitted the form.
+Lấy một form làm ví dụ, bạn có thể muốn chuyển hướng client của mình đến một path hoặc URL được chỉ định sau khi họ đã gửi form.
 
-The following example redirects the client to the `/` path if the form is successfully submitted:
+Ví dụ sau chuyển hướng client đến path `/` nếu form được gửi thành công:
 
 ```ts filename="pages/api/hello.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -310,9 +310,9 @@ export default async function handler(req, res) {
 }
 ```
 
-### Adding TypeScript types
+### Thêm TypeScript types
 
-You can make your API Routes more type-safe by importing the `NextApiRequest` and `NextApiResponse` types from `next`, in addition to those, you can also type your response data:
+Bạn có thể làm cho API Routes của mình an toàn về kiểu hơn bằng cách import các types `NextApiRequest` và `NextApiResponse` từ `next`, ngoài ra, bạn cũng có thể type response data của mình:
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -329,11 +329,11 @@ export default function handler(
 }
 ```
 
-> **Good to know**: The body of `NextApiRequest` is `any` because the client may include any payload. You should validate the type/shape of the body at runtime before using it.
+> **Nên biết**: Body của `NextApiRequest` là `any` vì client có thể bao gồm bất kỳ payload nào. Bạn nên validate type/shape của body tại runtime trước khi sử dụng nó.
 
 ## Dynamic API Routes
 
-API Routes support [dynamic routes](/docs/pages/building-your-application/routing/dynamic-routes), and follow the same file naming rules used for `pages/`.
+API Routes hỗ trợ [dynamic routes](/docs/pages/building-your-application/routing/dynamic-routes), và tuân theo các quy tắc đặt tên tệp giống như được sử dụng cho `pages/`.
 
 ```ts filename="pages/api/post/[pid].ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -351,29 +351,29 @@ export default function handler(req, res) {
 }
 ```
 
-Now, a request to `/api/post/abc` will respond with the text: `Post: abc`.
+Bây giờ, một request đến `/api/post/abc` sẽ phản hồi với văn bản: `Post: abc`.
 
 ### Catch all API routes
 
-API Routes can be extended to catch all paths by adding three dots (`...`) inside the brackets. For example:
+API Routes có thể được mở rộng để bắt tất cả các paths bằng cách thêm ba dấu chấm (`...`) bên trong dấu ngoặc. Ví dụ:
 
-- `pages/api/post/[...slug].js` matches `/api/post/a`, but also `/api/post/a/b`, `/api/post/a/b/c` and so on.
+- `pages/api/post/[...slug].js` khớp với `/api/post/a`, nhưng cũng khớp với `/api/post/a/b`, `/api/post/a/b/c` và v.v.
 
-> **Good to know**: You can use names other than `slug`, such as: `[...param]`
+> **Nên biết**: Bạn có thể sử dụng tên khác ngoài `slug`, chẳng hạn như: `[...param]`
 
-Matched parameters will be sent as a query parameter (`slug` in the example) to the page, and it will always be an array, so, the path `/api/post/a` will have the following `query` object:
+Các tham số phù hợp sẽ được gửi dưới dạng query parameter (`slug` trong ví dụ) đến trang, và nó sẽ luôn là một mảng, vì vậy, path `/api/post/a` sẽ có object `query` sau:
 
 ```json
 { "slug": ["a"] }
 ```
 
-And in the case of `/api/post/a/b`, and any other matching path, new parameters will be added to the array, like so:
+Và trong trường hợp của `/api/post/a/b`, và bất kỳ path phù hợp nào khác, các tham số mới sẽ được thêm vào mảng, như sau:
 
 ```json
 { "slug": ["a", "b"] }
 ```
 
-For example:
+Ví dụ:
 
 ```ts filename="pages/api/post/[...slug].ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -391,17 +391,17 @@ export default function handler(req, res) {
 }
 ```
 
-Now, a request to `/api/post/a/b/c` will respond with the text: `Post: a, b, c`.
+Bây giờ, một request đến `/api/post/a/b/c` sẽ phản hồi với văn bản: `Post: a, b, c`.
 
 ### Optional catch all API routes
 
-Catch all routes can be made optional by including the parameter in double brackets (`[[...slug]]`).
+Catch all routes có thể được làm tùy chọn bằng cách bao gồm tham số trong dấu ngoặc kép (`[[...slug]]`).
 
-For example, `pages/api/post/[[...slug]].js` will match `/api/post`, `/api/post/a`, `/api/post/a/b`, and so on.
+Ví dụ, `pages/api/post/[[...slug]].js` sẽ khớp với `/api/post`, `/api/post/a`, `/api/post/a/b`, và v.v.
 
-The main difference between catch all and optional catch all routes is that with optional, the route without the parameter is also matched (`/api/post` in the example above).
+Sự khác biệt chính giữa catch all và optional catch all routes là với optional, route không có tham số cũng được khớp (`/api/post` trong ví dụ trên).
 
-The `query` objects are as follows:
+Các objects `query` như sau:
 
 ```json
 { } // GET `/api/post` (empty object)
@@ -411,16 +411,16 @@ The `query` objects are as follows:
 
 ### Caveats
 
-- Predefined API routes take precedence over dynamic API routes, and dynamic API routes over catch all API routes. Take a look at the following examples:
-  - `pages/api/post/create.js` - Will match `/api/post/create`
-  - `pages/api/post/[pid].js` - Will match `/api/post/1`, `/api/post/abc`, etc. But not `/api/post/create`
-  - `pages/api/post/[...slug].js` - Will match `/api/post/1/2`, `/api/post/a/b/c`, etc. But not `/api/post/create`, `/api/post/abc`
+- Các API routes được định nghĩa trước được ưu tiên hơn các dynamic API routes, và dynamic API routes hơn catch all API routes. Hãy xem các ví dụ sau:
+  - `pages/api/post/create.js` - Sẽ khớp `/api/post/create`
+  - `pages/api/post/[pid].js` - Sẽ khớp `/api/post/1`, `/api/post/abc`, v.v. Nhưng không khớp `/api/post/create`
+  - `pages/api/post/[...slug].js` - Sẽ khớp `/api/post/1/2`, `/api/post/a/b/c`, v.v. Nhưng không khớp `/api/post/create`, `/api/post/abc`
 
 ## Streaming responses
 
-While the Pages Router does support streaming responses with API Routes, we recommend incrementally adopting the App Router and using [Route Handlers](/docs/app/api-reference/file-conventions/route) if you are on Next.js 14+.
+Mặc dù Pages Router hỗ trợ streaming responses với API Routes, chúng tôi khuyên bạn nên dần dần áp dụng App Router và sử dụng [Route Handlers](/docs/app/api-reference/file-conventions/route) nếu bạn đang ở Next.js 14+.
 
-Here's how you can stream a response from an API Route with `writeHead`:
+Đây là cách bạn có thể stream một response từ một API Route với `writeHead`:
 
 ```ts filename="pages/api/hello.ts" switcher
 import { NextApiRequest, NextApiResponse } from 'next'

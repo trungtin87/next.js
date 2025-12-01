@@ -1,21 +1,21 @@
 ---
 title: Rendering
-description: Learn the fundamentals of rendering in React and Next.js.
+description: Tìm hiểu các nguyên tắc cơ bản của rendering trong React và Next.js.
 ---
 
-By default, Next.js **pre-renders** every page. This means that Next.js generates HTML for each page in advance, instead of having it all done by client-side JavaScript. Pre-rendering can result in better performance and SEO.
+Theo mặc định, Next.js **pre-render** mọi trang. Điều này có nghĩa là Next.js tạo HTML cho mỗi trang trước, thay vì để tất cả được thực hiện bởi JavaScript phía client. Pre-rendering có thể mang lại hiệu suất và SEO tốt hơn.
 
-Each generated HTML is associated with minimal JavaScript code necessary for that page. When a page is loaded by the browser, its JavaScript code runs and makes the page fully interactive (this process is called [hydration](https://react.dev/reference/react-dom/client/hydrateRoot) in React).
+Mỗi HTML được tạo ra được liên kết với mã JavaScript tối thiểu cần thiết cho trang đó. Khi một trang được tải bởi trình duyệt, mã JavaScript của nó chạy và làm cho trang hoàn toàn tương tác (quá trình này được gọi là [hydration](https://react.dev/reference/react-dom/client/hydrateRoot) trong React).
 
 ### Pre-rendering
 
-Next.js has two forms of pre-rendering: **Static Generation** and **Server-side Rendering**. The difference is in **when** it generates the HTML for a page.
+Next.js có hai hình thức pre-rendering: **Static Generation** và **Server-side Rendering**. Sự khác biệt là ở **thời điểm** nó tạo HTML cho một trang.
 
-- Static Generation: The HTML is generated at **build time** and will be reused on each request.
-- Server-side Rendering: The HTML is generated on **each request**.
+- Static Generation: HTML được tạo tại **thời điểm build** và sẽ được sử dụng lại trên mỗi yêu cầu.
+- Server-side Rendering: HTML được tạo trên **mỗi yêu cầu**.
 
-Importantly, Next.js lets you choose which pre-rendering form you'd like to use for each page. You can create a "hybrid" Next.js app by using Static Generation for most pages and using Server-side Rendering for others.
+Quan trọng là, Next.js cho phép bạn chọn hình thức pre-rendering nào bạn muốn sử dụng cho mỗi trang. Bạn có thể tạo một ứng dụng Next.js "hybrid" bằng cách sử dụng Static Generation cho hầu hết các trang và sử dụng Server-side Rendering cho các trang khác.
 
-We recommend using Static Generation over Server-side Rendering for performance reasons. Statically generated pages can be cached by CDN with no extra configuration to boost performance. However, in some cases, Server-side Rendering might be the only option.
+Chúng tôi khuyên bạn nên sử dụng Static Generation thay vì Server-side Rendering vì lý do hiệu suất. Các trang được tạo tĩnh có thể được cache bởi CDN mà không cần cấu hình bổ sung để tăng hiệu suất. Tuy nhiên, trong một số trường hợp, Server-side Rendering có thể là lựa chọn duy nhất.
 
-You can also use client-side data fetching along with Static Generation or Server-side Rendering. That means some parts of a page can be rendered entirely by clientside JavaScript. To learn more, take a look at the [Data Fetching](/docs/pages/building-your-application/data-fetching/client-side) documentation.
+Bạn cũng có thể sử dụng data fetching phía client cùng với Static Generation hoặc Server-side Rendering. Điều đó có nghĩa là một số phần của trang có thể được render hoàn toàn bởi JavaScript phía client. Để tìm hiểu thêm, hãy xem tài liệu [Data Fetching](/docs/pages/building-your-application/data-fetching/client-side).

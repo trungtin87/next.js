@@ -1,177 +1,177 @@
 ---
 title: Edge Runtime
-description: API Reference for the Edge Runtime.
+description: Tài liệu tham khảo API cho Edge Runtime.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-Next.js has two server runtimes you can use in your application:
+Next.js có hai server runtimes mà bạn có thể sử dụng trong ứng dụng của mình:
 
-- The **Node.js Runtime** (default), which has access to all Node.js APIs and is used for rendering your application.
-- The **Edge Runtime** which contains a more limited [set of APIs](#reference), used in [Proxy](/docs/app/api-reference/file-conventions/proxy).
+- **Node.js Runtime** (mặc định), có quyền truy cập vào tất cả các API Node.js và được sử dụng để render ứng dụng của bạn.
+- **Edge Runtime** chứa một [tập hợp các API](#reference) hạn chế hơn, được sử dụng trong [Proxy](/docs/app/api-reference/file-conventions/proxy).
 
-## Caveats
+## Những lưu ý
 
-- The Edge Runtime does not support all Node.js APIs. Some packages may not work as expected.
-- The Edge Runtime does not support Incremental Static Regeneration (ISR).
-- Both runtimes can support [streaming](/docs/app/api-reference/file-conventions/loading) depending on your deployment adapter.
+- Edge Runtime không hỗ trợ tất cả các API Node.js. Một số gói có thể không hoạt động như mong đợi.
+- Edge Runtime không hỗ trợ Incremental Static Regeneration (ISR).
+- Cả hai runtimes đều có thể hỗ trợ [streaming](/docs/app/api-reference/file-conventions/loading) tùy thuộc vào bộ điều hợp triển khai (deployment adapter) của bạn.
 
-## Reference
+## Tham khảo
 
-The Edge Runtime supports the following APIs:
+Edge Runtime hỗ trợ các API sau:
 
 ### Network APIs
 
-| API                                                                             | Description                       |
-| ------------------------------------------------------------------------------- | --------------------------------- |
-| [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob)                       | Represents a blob                 |
-| [`fetch`](https://developer.mozilla.org/docs/Web/API/Fetch_API)                 | Fetches a resource                |
-| [`FetchEvent`](https://developer.mozilla.org/docs/Web/API/FetchEvent)           | Represents a fetch event          |
-| [`File`](https://developer.mozilla.org/docs/Web/API/File)                       | Represents a file                 |
-| [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData)               | Represents form data              |
-| [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers)                 | Represents HTTP headers           |
-| [`Request`](https://developer.mozilla.org/docs/Web/API/Request)                 | Represents an HTTP request        |
-| [`Response`](https://developer.mozilla.org/docs/Web/API/Response)               | Represents an HTTP response       |
-| [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams) | Represents URL search parameters  |
-| [`WebSocket`](https://developer.mozilla.org/docs/Web/API/WebSocket)             | Represents a websocket connection |
+| API                                                                             | Mô tả                                 |
+| ------------------------------------------------------------------------------- | ------------------------------------- |
+| [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob)                       | Đại diện cho một blob                 |
+| [`fetch`](https://developer.mozilla.org/docs/Web/API/Fetch_API)                 | Tìm nạp một tài nguyên                |
+| [`FetchEvent`](https://developer.mozilla.org/docs/Web/API/FetchEvent)           | Đại diện cho một sự kiện fetch        |
+| [`File`](https://developer.mozilla.org/docs/Web/API/File)                       | Đại diện cho một tệp                  |
+| [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData)               | Đại diện cho dữ liệu biểu mẫu         |
+| [`Headers`](https://developer.mozilla.org/docs/Web/API/Headers)                 | Đại diện cho các tiêu đề HTTP         |
+| [`Request`](https://developer.mozilla.org/docs/Web/API/Request)                 | Đại diện cho một yêu cầu HTTP         |
+| [`Response`](https://developer.mozilla.org/docs/Web/API/Response)               | Đại diện cho một phản hồi HTTP        |
+| [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams) | Đại diện cho các tham số tìm kiếm URL |
+| [`WebSocket`](https://developer.mozilla.org/docs/Web/API/WebSocket)             | Đại diện cho một kết nối websocket    |
 
 ### Encoding APIs
 
-| API                                                                                 | Description                        |
-| ----------------------------------------------------------------------------------- | ---------------------------------- |
-| [`atob`](https://developer.mozilla.org/en-US/docs/Web/API/atob)                     | Decodes a base-64 encoded string   |
-| [`btoa`](https://developer.mozilla.org/en-US/docs/Web/API/btoa)                     | Encodes a string in base-64        |
-| [`TextDecoder`](https://developer.mozilla.org/docs/Web/API/TextDecoder)             | Decodes a Uint8Array into a string |
-| [`TextDecoderStream`](https://developer.mozilla.org/docs/Web/API/TextDecoderStream) | Chainable decoder for streams      |
-| [`TextEncoder`](https://developer.mozilla.org/docs/Web/API/TextEncoder)             | Encodes a string into a Uint8Array |
-| [`TextEncoderStream`](https://developer.mozilla.org/docs/Web/API/TextEncoderStream) | Chainable encoder for streams      |
+| API                                                                                 | Mô tả                                     |
+| ----------------------------------------------------------------------------------- | ----------------------------------------- |
+| [`atob`](https://developer.mozilla.org/en-US/docs/Web/API/atob)                     | Giải mã một chuỗi được mã hóa base-64     |
+| [`btoa`](https://developer.mozilla.org/en-US/docs/Web/API/btoa)                     | Mã hóa một chuỗi thành base-64            |
+| [`TextDecoder`](https://developer.mozilla.org/docs/Web/API/TextDecoder)             | Giải mã một Uint8Array thành một chuỗi    |
+| [`TextDecoderStream`](https://developer.mozilla.org/docs/Web/API/TextDecoderStream) | Bộ giải mã có thể chuỗi hóa cho các luồng |
+| [`TextEncoder`](https://developer.mozilla.org/docs/Web/API/TextEncoder)             | Mã hóa một chuỗi thành một Uint8Array     |
+| [`TextEncoderStream`](https://developer.mozilla.org/docs/Web/API/TextEncoderStream) | Bộ mã hóa có thể chuỗi hóa cho các luồng  |
 
 ### Stream APIs
 
-| API                                                                                                     | Description                             |
-| ------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| [`ReadableStream`](https://developer.mozilla.org/docs/Web/API/ReadableStream)                           | Represents a readable stream            |
-| [`ReadableStreamBYOBReader`](https://developer.mozilla.org/docs/Web/API/ReadableStreamBYOBReader)       | Represents a reader of a ReadableStream |
-| [`ReadableStreamDefaultReader`](https://developer.mozilla.org/docs/Web/API/ReadableStreamDefaultReader) | Represents a reader of a ReadableStream |
-| [`TransformStream`](https://developer.mozilla.org/docs/Web/API/TransformStream)                         | Represents a transform stream           |
-| [`WritableStream`](https://developer.mozilla.org/docs/Web/API/WritableStream)                           | Represents a writable stream            |
-| [`WritableStreamDefaultWriter`](https://developer.mozilla.org/docs/Web/API/WritableStreamDefaultWriter) | Represents a writer of a WritableStream |
+| API                                                                                                     | Mô tả                                             |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| [`ReadableStream`](https://developer.mozilla.org/docs/Web/API/ReadableStream)                           | Đại diện cho một luồng có thể đọc                 |
+| [`ReadableStreamBYOBReader`](https://developer.mozilla.org/docs/Web/API/ReadableStreamBYOBReader)       | Đại diện cho một trình đọc của một ReadableStream |
+| [`ReadableStreamDefaultReader`](https://developer.mozilla.org/docs/Web/API/ReadableStreamDefaultReader) | Đại diện cho một trình đọc của một ReadableStream |
+| [`TransformStream`](https://developer.mozilla.org/docs/Web/API/TransformStream)                         | Đại diện cho một luồng chuyển đổi                 |
+| [`WritableStream`](https://developer.mozilla.org/docs/Web/API/WritableStream)                           | Đại diện cho một luồng có thể ghi                 |
+| [`WritableStreamDefaultWriter`](https://developer.mozilla.org/docs/Web/API/WritableStreamDefaultWriter) | Đại diện cho một trình ghi của một WritableStream |
 
 ### Crypto APIs
 
-| API                                                                       | Description                                                                                         |
-| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [`crypto`](https://developer.mozilla.org/docs/Web/API/Window/crypto)      | Provides access to the cryptographic functionality of the platform                                  |
-| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)       | Represents a cryptographic key                                                                      |
-| [`SubtleCrypto`](https://developer.mozilla.org/docs/Web/API/SubtleCrypto) | Provides access to common cryptographic primitives, like hashing, signing, encryption or decryption |
+| API                                                                       | Mô tả                                                                                        |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [`crypto`](https://developer.mozilla.org/docs/Web/API/Window/crypto)      | Cung cấp quyền truy cập vào chức năng mật mã của nền tảng                                    |
+| [`CryptoKey`](https://developer.mozilla.org/docs/Web/API/CryptoKey)       | Đại diện cho một khóa mật mã                                                                 |
+| [`SubtleCrypto`](https://developer.mozilla.org/docs/Web/API/SubtleCrypto) | Cung cấp quyền truy cập vào các nguyên ngữ mật mã phổ biến, như băm, ký, mã hóa hoặc giải mã |
 
 ### Web Standard APIs
 
-| API                                                                                                                   | Description                                                                                                                                                                                          |
-| --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`AbortController`](https://developer.mozilla.org/docs/Web/API/AbortController)                                       | Allows you to abort one or more DOM requests as and when desired                                                                                                                                     |
-| [`Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)                           | Represents an array of values                                                                                                                                                                        |
-| [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)               | Represents a generic, fixed-length raw binary data buffer                                                                                                                                            |
-| [`Atomics`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Atomics)                       | Provides atomic operations as static methods                                                                                                                                                         |
-| [`BigInt`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt)                         | Represents a whole number with arbitrary precision                                                                                                                                                   |
-| [`BigInt64Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt64Array)           | Represents a typed array of 64-bit signed integers                                                                                                                                                   |
-| [`BigUint64Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigUint64Array)         | Represents a typed array of 64-bit unsigned integers                                                                                                                                                 |
-| [`Boolean`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)                       | Represents a logical entity and can have two values: `true` and `false`                                                                                                                              |
-| [`clearInterval`](https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/clearInterval)                 | Cancels a timed, repeating action which was previously established by a call to `setInterval()`                                                                                                      |
-| [`clearTimeout`](https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout)                   | Cancels a timed, repeating action which was previously established by a call to `setTimeout()`                                                                                                       |
-| [`console`](https://developer.mozilla.org/docs/Web/API/Console)                                                       | Provides access to the browser's debugging console                                                                                                                                                   |
-| [`DataView`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/DataView)                     | Represents a generic view of an `ArrayBuffer`                                                                                                                                                        |
-| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)                             | Represents a single moment in time in a platform-independent format                                                                                                                                  |
-| [`decodeURI`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)                   | Decodes a Uniform Resource Identifier (URI) previously created by `encodeURI` or by a similar routine                                                                                                |
-| [`decodeURIComponent`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent) | Decodes a Uniform Resource Identifier (URI) component previously created by `encodeURIComponent` or by a similar routine                                                                             |
-| [`DOMException`](https://developer.mozilla.org/docs/Web/API/DOMException)                                             | Represents an error that occurs in the DOM                                                                                                                                                           |
-| [`encodeURI`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/encodeURI)                   | Encodes a Uniform Resource Identifier (URI) by replacing each instance of certain characters by one, two, three, or four escape sequences representing the UTF-8 encoding of the character           |
-| [`encodeURIComponent`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) | Encodes a Uniform Resource Identifier (URI) component by replacing each instance of certain characters by one, two, three, or four escape sequences representing the UTF-8 encoding of the character |
-| [`Error`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)                           | Represents an error when trying to execute a statement or accessing a property                                                                                                                       |
-| [`EvalError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/EvalError)                   | Represents an error that occurs regarding the global function `eval()`                                                                                                                               |
-| [`Float32Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)             | Represents a typed array of 32-bit floating point numbers                                                                                                                                            |
-| [`Float64Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Float64Array)             | Represents a typed array of 64-bit floating point numbers                                                                                                                                            |
-| [`Function`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function)                     | Represents a function                                                                                                                                                                                |
-| [`Infinity`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Infinity)                     | Represents the mathematical Infinity value                                                                                                                                                           |
-| [`Int8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Int8Array)                   | Represents a typed array of 8-bit signed integers                                                                                                                                                    |
-| [`Int16Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Int16Array)                 | Represents a typed array of 16-bit signed integers                                                                                                                                                   |
-| [`Int32Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Int32Array)                 | Represents a typed array of 32-bit signed integers                                                                                                                                                   |
-| [`Intl`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl)                             | Provides access to internationalization and localization functionality                                                                                                                               |
-| [`isFinite`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/isFinite)                     | Determines whether a value is a finite number                                                                                                                                                        |
-| [`isNaN`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/isNaN)                           | Determines whether a value is `NaN` or not                                                                                                                                                           |
-| [`JSON`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON)                             | Provides functionality to convert JavaScript values to and from the JSON format                                                                                                                      |
-| [`Map`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map)                               | Represents a collection of values, where each value may occur only once                                                                                                                              |
-| [`Math`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Math)                             | Provides access to mathematical functions and constants                                                                                                                                              |
-| [`Number`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)                         | Represents a numeric value                                                                                                                                                                           |
-| [`Object`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)                         | Represents the object that is the base of all JavaScript objects                                                                                                                                     |
-| [`parseFloat`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/parseFloat)                 | Parses a string argument and returns a floating point number                                                                                                                                         |
-| [`parseInt`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/parseInt)                     | Parses a string argument and returns an integer of the specified radix                                                                                                                               |
-| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)                       | Represents the eventual completion (or failure) of an asynchronous operation, and its resulting value                                                                                                |
-| [`Proxy`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Proxy)                           | Represents an object that is used to define custom behavior for fundamental operations (e.g. property lookup, assignment, enumeration, function invocation, etc)                                     |
-| [`queueMicrotask`](https://developer.mozilla.org/docs/Web/API/queueMicrotask)                                         | Queues a microtask to be executed                                                                                                                                                                    |
-| [`RangeError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RangeError)                 | Represents an error when a value is not in the set or range of allowed values                                                                                                                        |
-| [`ReferenceError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError)         | Represents an error when a non-existent variable is referenced                                                                                                                                       |
-| [`Reflect`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Reflect)                       | Provides methods for interceptable JavaScript operations                                                                                                                                             |
-| [`RegExp`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp)                         | Represents a regular expression, allowing you to match combinations of characters                                                                                                                    |
-| [`Set`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)                               | Represents a collection of values, where each value may occur only once                                                                                                                              |
-| [`setInterval`](https://developer.mozilla.org/docs/Web/API/setInterval)                                               | Repeatedly calls a function, with a fixed time delay between each call                                                                                                                               |
-| [`setTimeout`](https://developer.mozilla.org/docs/Web/API/setTimeout)                                                 | Calls a function or evaluates an expression after a specified number of milliseconds                                                                                                                 |
-| [`SharedArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)   | Represents a generic, fixed-length raw binary data buffer                                                                                                                                            |
-| [`String`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)                         | Represents a sequence of characters                                                                                                                                                                  |
-| [`structuredClone`](https://developer.mozilla.org/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)            | Creates a deep copy of a value                                                                                                                                                                       |
-| [`Symbol`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol)                         | Represents a unique and immutable data type that is used as the key of an object property                                                                                                            |
-| [`SyntaxError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError)               | Represents an error when trying to interpret syntactically invalid code                                                                                                                              |
-| [`TypeError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)                   | Represents an error when a value is not of the expected type                                                                                                                                         |
-| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)                 | Represents a typed array of 8-bit unsigned integers                                                                                                                                                  |
-| [`Uint8ClampedArray`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray)   | Represents a typed array of 8-bit unsigned integers clamped to 0-255                                                                                                                                 |
-| [`Uint32Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array)               | Represents a typed array of 32-bit unsigned integers                                                                                                                                                 |
-| [`URIError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/URIError)                     | Represents an error when a global URI handling function was used in a wrong way                                                                                                                      |
-| [`URL`](https://developer.mozilla.org/docs/Web/API/URL)                                                               | Represents an object providing static methods used for creating object URLs                                                                                                                          |
-| [`URLPattern`](https://developer.mozilla.org/docs/Web/API/URLPattern)                                                 | Represents a URL pattern                                                                                                                                                                             |
-| [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams)                                       | Represents a collection of key/value pairs                                                                                                                                                           |
-| [`WeakMap`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)                       | Represents a collection of key/value pairs in which the keys are weakly referenced                                                                                                                   |
-| [`WeakSet`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)                       | Represents a collection of objects in which each object may occur only once                                                                                                                          |
-| [`WebAssembly`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)               | Provides access to WebAssembly                                                                                                                                                                       |
+| API                                                                                                                   | Mô tả                                                                                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`AbortController`](https://developer.mozilla.org/docs/Web/API/AbortController)                                       | Cho phép bạn hủy bỏ một hoặc nhiều yêu cầu DOM khi muốn                                                                                                                                     |
+| [`Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)                           | Đại diện cho một mảng các giá trị                                                                                                                                                           |
+| [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)               | Đại diện cho một bộ đệm dữ liệu nhị phân thô có độ dài cố định, chung                                                                                                                       |
+| [`Atomics`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Atomics)                       | Cung cấp các hoạt động nguyên tử dưới dạng các phương thức tĩnh                                                                                                                             |
+| [`BigInt`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt)                         | Đại diện cho một số nguyên với độ chính xác tùy ý                                                                                                                                           |
+| [`BigInt64Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt64Array)           | Đại diện cho một mảng định kiểu của các số nguyên có dấu 64-bit                                                                                                                             |
+| [`BigUint64Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigUint64Array)         | Đại diện cho một mảng định kiểu của các số nguyên không dấu 64-bit                                                                                                                          |
+| [`Boolean`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)                       | Đại diện cho một thực thể logic và có thể có hai giá trị: `true` và `false`                                                                                                                 |
+| [`clearInterval`](https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/clearInterval)                 | Hủy bỏ một hành động lặp lại, được định thời gian đã được thiết lập trước đó bởi một cuộc gọi đến `setInterval()`                                                                           |
+| [`clearTimeout`](https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout)                   | Hủy bỏ một hành động lặp lại, được định thời gian đã được thiết lập trước đó bởi một cuộc gọi đến `setTimeout()`                                                                            |
+| [`console`](https://developer.mozilla.org/docs/Web/API/Console)                                                       | Cung cấp quyền truy cập vào bảng điều khiển gỡ lỗi của trình duyệt                                                                                                                          |
+| [`DataView`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/DataView)                     | Đại diện cho một chế độ xem chung của một `ArrayBuffer`                                                                                                                                     |
+| [`Date`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date)                             | Đại diện cho một thời điểm duy nhất theo định dạng độc lập với nền tảng                                                                                                                     |
+| [`decodeURI`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)                   | Giải mã một Uniform Resource Identifier (URI) đã được tạo trước đó bởi `encodeURI` hoặc bởi một quy trình tương tự                                                                          |
+| [`decodeURIComponent`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent) | Giải mã một thành phần Uniform Resource Identifier (URI) đã được tạo trước đó bởi `encodeURIComponent` hoặc bởi một quy trình tương tự                                                      |
+| [`DOMException`](https://developer.mozilla.org/docs/Web/API/DOMException)                                             | Đại diện cho một lỗi xảy ra trong DOM                                                                                                                                                       |
+| [`encodeURI`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/encodeURI)                   | Mã hóa một Uniform Resource Identifier (URI) bằng cách thay thế mỗi phiên bản của các ký tự nhất định bằng một, hai, ba hoặc bốn chuỗi thoát đại diện cho mã hóa UTF-8 của ký tự            |
+| [`encodeURIComponent`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) | Mã hóa một thành phần Uniform Resource Identifier (URI) bằng cách thay thế mỗi phiên bản của các ký tự nhất định bằng một, hai, ba hoặc bốn chuỗi thoát đại diện cho mã hóa UTF-8 của ký tự |
+| [`Error`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)                           | Đại diện cho một lỗi khi cố gắng thực thi một câu lệnh hoặc truy cập một thuộc tính                                                                                                         |
+| [`EvalError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/EvalError)                   | Đại diện cho một lỗi xảy ra liên quan đến hàm toàn cục `eval()`                                                                                                                             |
+| [`Float32Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Float32Array)             | Đại diện cho một mảng định kiểu của các số dấu phẩy động 32-bit                                                                                                                             |
+| [`Float64Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Float64Array)             | Đại diện cho một mảng định kiểu của các số dấu phẩy động 64-bit                                                                                                                             |
+| [`Function`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function)                     | Đại diện cho một hàm                                                                                                                                                                        |
+| [`Infinity`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Infinity)                     | Đại diện cho giá trị Vô cực toán học                                                                                                                                                        |
+| [`Int8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Int8Array)                   | Đại diện cho một mảng định kiểu của các số nguyên có dấu 8-bit                                                                                                                              |
+| [`Int16Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Int16Array)                 | Đại diện cho một mảng định kiểu của các số nguyên có dấu 16-bit                                                                                                                             |
+| [`Int32Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Int32Array)                 | Đại diện cho một mảng định kiểu của các số nguyên có dấu 32-bit                                                                                                                             |
+| [`Intl`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl)                             | Cung cấp quyền truy cập vào chức năng quốc tế hóa và bản địa hóa                                                                                                                            |
+| [`isFinite`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/isFinite)                     | Xác định xem một giá trị có phải là một số hữu hạn hay không                                                                                                                                |
+| [`isNaN`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/isNaN)                           | Xác định xem một giá trị có phải là `NaN` hay không                                                                                                                                         |
+| [`JSON`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON)                             | Cung cấp chức năng để chuyển đổi các giá trị JavaScript sang và từ định dạng JSON                                                                                                           |
+| [`Map`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map)                               | Đại diện cho một tập hợp các giá trị, trong đó mỗi giá trị chỉ có thể xuất hiện một lần                                                                                                     |
+| [`Math`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Math)                             | Cung cấp quyền truy cập vào các hàm và hằng số toán học                                                                                                                                     |
+| [`Number`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)                         | Đại diện cho một giá trị số                                                                                                                                                                 |
+| [`Object`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)                         | Đại diện cho đối tượng là cơ sở của tất cả các đối tượng JavaScript                                                                                                                         |
+| [`parseFloat`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/parseFloat)                 | Phân tích cú pháp một đối số chuỗi và trả về một số dấu phẩy động                                                                                                                           |
+| [`parseInt`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/parseInt)                     | Phân tích cú pháp một đối số chuỗi và trả về một số nguyên của cơ số được chỉ định                                                                                                          |
+| [`Promise`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)                       | Đại diện cho sự hoàn thành (hoặc thất bại) cuối cùng của một hoạt động bất đồng bộ, và giá trị kết quả của nó                                                                               |
+| [`Proxy`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Proxy)                           | Đại diện cho một đối tượng được sử dụng để xác định hành vi tùy chỉnh cho các hoạt động cơ bản (ví dụ: tra cứu thuộc tính, gán, liệt kê, gọi hàm, v.v.)                                     |
+| [`queueMicrotask`](https://developer.mozilla.org/docs/Web/API/queueMicrotask)                                         | Xếp hàng một microtask để được thực thi                                                                                                                                                     |
+| [`RangeError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RangeError)                 | Đại diện cho một lỗi khi một giá trị không nằm trong tập hợp hoặc phạm vi các giá trị được phép                                                                                             |
+| [`ReferenceError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError)         | Đại diện cho một lỗi khi một biến không tồn tại được tham chiếu                                                                                                                             |
+| [`Reflect`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Reflect)                       | Cung cấp các phương thức cho các hoạt động JavaScript có thể chặn được                                                                                                                      |
+| [`RegExp`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp)                         | Đại diện cho một biểu thức chính quy, cho phép bạn khớp các kết hợp ký tự                                                                                                                   |
+| [`Set`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)                               | Đại diện cho một tập hợp các giá trị, trong đó mỗi giá trị chỉ có thể xuất hiện một lần                                                                                                     |
+| [`setInterval`](https://developer.mozilla.org/docs/Web/API/setInterval)                                               | Gọi lặp lại một hàm, với độ trễ thời gian cố định giữa mỗi lần gọi                                                                                                                          |
+| [`setTimeout`](https://developer.mozilla.org/docs/Web/API/setTimeout)                                                 | Gọi một hàm hoặc đánh giá một biểu thức sau một số mili giây được chỉ định                                                                                                                  |
+| [`SharedArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)   | Đại diện cho một bộ đệm dữ liệu nhị phân thô có độ dài cố định, chung                                                                                                                       |
+| [`String`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)                         | Đại diện cho một chuỗi các ký tự                                                                                                                                                            |
+| [`structuredClone`](https://developer.mozilla.org/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)            | Tạo một bản sao sâu của một giá trị                                                                                                                                                         |
+| [`Symbol`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol)                         | Đại diện cho một kiểu dữ liệu duy nhất và bất biến được sử dụng làm khóa của một thuộc tính đối tượng                                                                                       |
+| [`SyntaxError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError)               | Đại diện cho một lỗi khi cố gắng diễn giải mã không hợp lệ về mặt cú pháp                                                                                                                   |
+| [`TypeError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/TypeError)                   | Đại diện cho một lỗi khi một giá trị không thuộc kiểu mong đợi                                                                                                                              |
+| [`Uint8Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)                 | Đại diện cho một mảng định kiểu của các số nguyên không dấu 8-bit                                                                                                                           |
+| [`Uint8ClampedArray`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray)   | Đại diện cho một mảng định kiểu của các số nguyên không dấu 8-bit được kẹp vào 0-255                                                                                                        |
+| [`Uint32Array`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array)               | Đại diện cho một mảng định kiểu của các số nguyên không dấu 32-bit                                                                                                                          |
+| [`URIError`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/URIError)                     | Đại diện cho một lỗi khi một hàm xử lý URI toàn cục được sử dụng sai cách                                                                                                                   |
+| [`URL`](https://developer.mozilla.org/docs/Web/API/URL)                                                               | Đại diện cho một đối tượng cung cấp các phương thức tĩnh được sử dụng để tạo URL đối tượng                                                                                                  |
+| [`URLPattern`](https://developer.mozilla.org/docs/Web/API/URLPattern)                                                 | Đại diện cho một mẫu URL                                                                                                                                                                    |
+| [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams)                                       | Đại diện cho một tập hợp các cặp khóa/giá trị                                                                                                                                               |
+| [`WeakMap`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)                       | Đại diện cho một tập hợp các cặp khóa/giá trị trong đó các khóa được tham chiếu yếu                                                                                                         |
+| [`WeakSet`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)                       | Đại diện cho một tập hợp các đối tượng trong đó mỗi đối tượng chỉ có thể xuất hiện một lần                                                                                                  |
+| [`WebAssembly`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)               | Cung cấp quyền truy cập vào WebAssembly                                                                                                                                                     |
 
 ### Next.js Specific Polyfills
 
 - [`AsyncLocalStorage`](https://nodejs.org/api/async_context.html#class-asynclocalstorage)
 
-### Environment Variables
+### Biến môi trường
 
-You can use `process.env` to access [Environment Variables](/docs/app/guides/environment-variables) for both `next dev` and `next build`.
+Bạn có thể sử dụng `process.env` để truy cập [Biến môi trường](/docs/app/guides/environment-variables) cho cả `next dev` và `next build`.
 
-### Unsupported APIs
+### Các API không được hỗ trợ
 
-The Edge Runtime has some restrictions including:
+Edge Runtime có một số hạn chế bao gồm:
 
-- Native Node.js APIs **are not supported**. For example, you can't read or write to the filesystem.
-- `node_modules` _can_ be used, as long as they implement ES Modules and do not use native Node.js APIs.
-- Calling `require` directly is **not allowed**. Use ES Modules instead.
+- Các API Node.js gốc **không được hỗ trợ**. Ví dụ, bạn không thể đọc hoặc ghi vào hệ thống tệp.
+- `node_modules` _có thể_ được sử dụng, miễn là chúng triển khai ES Modules và không sử dụng các API Node.js gốc.
+- Gọi `require` trực tiếp là **không được phép**. Sử dụng ES Modules thay thế.
 
-The following JavaScript language features are disabled, and **will not work:**
+Các tính năng ngôn ngữ JavaScript sau bị tắt, và **sẽ không hoạt động:**
 
-| API                                                                                                                             | Description                                                         |
-| ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [`eval`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/eval)                                       | Evaluates JavaScript code represented as a string                   |
-| [`new Function(evalString)`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function)               | Creates a new function with the code provided as an argument        |
-| [`WebAssembly.compile`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/compile)         | Compiles a WebAssembly module from a buffer source                  |
-| [`WebAssembly.instantiate`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate) | Compiles and instantiates a WebAssembly module from a buffer source |
+| API                                                                                                                             | Mô tả                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [`eval`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/eval)                                       | Đánh giá mã JavaScript được biểu diễn dưới dạng chuỗi        |
+| [`new Function(evalString)`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function)               | Tạo một hàm mới với mã được cung cấp làm đối số              |
+| [`WebAssembly.compile`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/compile)         | Biên dịch một mô-đun WebAssembly từ nguồn bộ đệm             |
+| [`WebAssembly.instantiate`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate) | Biên dịch và khởi tạo một mô-đun WebAssembly từ nguồn bộ đệm |
 
-In rare cases, your code could contain (or import) some dynamic code evaluation statements which _can not be reached at runtime_ and which can not be removed by treeshaking.
-You can relax the check to allow specific files with your Proxy configuration:
+Trong một số trường hợp hiếm hoi, mã của bạn có thể chứa (hoặc nhập) một số câu lệnh đánh giá mã động mà _không thể truy cập được khi chạy_ và không thể bị loại bỏ bởi treeshaking.
+Bạn có thể nới lỏng kiểm tra để cho phép các tệp cụ thể với cấu hình Proxy của mình:
 
 ```javascript filename="proxy.ts"
 export const config = {
   unstable_allowDynamic: [
-    // allows a single file
+    // cho phép một tệp duy nhất
     '/lib/utilities.js',
-    // use a glob to allow anything in the function-bind 3rd party module
+    // sử dụng glob để cho phép bất kỳ thứ gì trong mô-đun bên thứ 3 function-bind
     '**/node_modules/function-bind/**',
   ],
 }
 ```
 
-`unstable_allowDynamic` is a [glob](https://github.com/micromatch/micromatch#matching-features), or an array of globs, ignoring dynamic code evaluation for specific files. The globs are relative to your application root folder.
+`unstable_allowDynamic` là một [glob](https://github.com/micromatch/micromatch#matching-features), hoặc một mảng các globs, bỏ qua đánh giá mã động cho các tệp cụ thể. Các globs là tương đối với thư mục gốc ứng dụng của bạn.
 
-Be warned that if these statements are executed on the Edge, _they will throw and cause a runtime error_.
+Hãy cảnh báo rằng nếu các câu lệnh này được thực thi trên Edge, _chúng sẽ ném ra lỗi và gây ra lỗi runtime_.

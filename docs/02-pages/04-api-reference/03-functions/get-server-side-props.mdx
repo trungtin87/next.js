@@ -1,9 +1,9 @@
 ---
 title: getServerSideProps
-description: API reference for `getServerSideProps`. Learn how to fetch data on each request with Next.js.
+description: Tài liệu tham khảo API cho `getServerSideProps`. Tìm hiểu cách fetch data trên mỗi request với Next.js.
 ---
 
-When exporting a function called `getServerSideProps` (Server-Side Rendering) from a page, Next.js will pre-render this page on each request using the data returned by `getServerSideProps`. This is useful if you want to fetch data that changes often, and have the page update to show the most current data.
+Khi export một hàm có tên `getServerSideProps` (Server-Side Rendering) từ một trang, Next.js sẽ pre-render trang này trên mỗi request bằng cách sử dụng dữ liệu được trả về bởi `getServerSideProps`. Điều này hữu ích nếu bạn muốn fetch data thay đổi thường xuyên, và có trang cập nhật để hiển thị dữ liệu mới nhất.
 
 ```tsx filename="pages/index.tsx" switcher
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
@@ -14,10 +14,10 @@ type Repo = {
 }
 
 export const getServerSideProps = (async () => {
-  // Fetch data from external API
+  // Fetch data từ external API
   const res = await fetch('https://api.github.com/repos/vercel/next.js')
   const repo: Repo = await res.json()
-  // Pass data to the page via props
+  // Truyền data cho trang thông qua props
   return { props: { repo } }
 }) satisfies GetServerSideProps<{ repo: Repo }>
 
@@ -34,10 +34,10 @@ export default function Page({
 
 ```jsx filename="pages/index.js" switcher
 export async function getServerSideProps() {
-  // Fetch data from external API
+  // Fetch data từ external API
   const res = await fetch('https://api.github.com/repos/vercel/next.js')
   const repo = await res.json()
-  // Pass data to the page via props
+  // Truyền data cho trang thông qua props
   return { props: { repo } }
 }
 
@@ -50,45 +50,45 @@ export default function Page({ repo }) {
 }
 ```
 
-You can import modules in top-level scope for use in `getServerSideProps`. Imports used will **not be bundled for the client-side**. This means you can write **server-side code directly in `getServerSideProps`**, including fetching data from your database.
+Bạn có thể import các modules trong top-level scope để sử dụng trong `getServerSideProps`. Các imports được sử dụng sẽ **không được đóng gói cho phía client**. Điều này có nghĩa là bạn có thể viết **mã server-side trực tiếp trong `getServerSideProps`**, bao gồm cả việc fetch data từ database của bạn.
 
-## Context parameter
+## Tham số Context
 
-The `context` parameter is an object containing the following keys:
+Tham số `context` là một object chứa các keys sau:
 
-| Name            | Description                                                                                                                                                                                                           |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `params`        | If this page uses a [dynamic route](/docs/pages/building-your-application/routing/dynamic-routes), `params` contains the route parameters. If the page name is `[id].js`, then `params` will look like `{ id: ... }`. |
-| `req`           | [The `HTTP` IncomingMessage object](https://nodejs.org/api/http.html#http_class_http_incomingmessage), with an additional `cookies` prop, which is an object with string keys mapping to string values of cookies.    |
-| `res`           | [The `HTTP` response object](https://nodejs.org/api/http.html#http_class_http_serverresponse).                                                                                                                        |
-| `query`         | An object representing the query string, including dynamic route parameters.                                                                                                                                          |
-| `preview`       | (Deprecated for `draftMode`) `preview` is `true` if the page is in the [Preview Mode](/docs/pages/guides/preview-mode) and `false` otherwise.                                                                         |
-| `previewData`   | (Deprecated for `draftMode`) The [preview](/docs/pages/guides/preview-mode) data set by `setPreviewData`.                                                                                                             |
-| `draftMode`     | `draftMode` is `true` if the page is in the [Draft Mode](/docs/pages/guides/draft-mode) and `false` otherwise.                                                                                                        |
-| `resolvedUrl`   | A normalized version of the request `URL` that strips the `_next/data` prefix for client transitions and includes original query values.                                                                              |
-| `locale`        | Contains the active locale (if enabled).                                                                                                                                                                              |
-| `locales`       | Contains all supported locales (if enabled).                                                                                                                                                                          |
-| `defaultLocale` | Contains the configured default locale (if enabled).                                                                                                                                                                  |
+| Tên             | Mô tả                                                                                                                                                                                                         |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `params`        | Nếu trang này sử dụng [dynamic route](/docs/pages/building-your-application/routing/dynamic-routes), `params` chứa các route parameters. Nếu tên trang là `[id].js`, thì `params` sẽ trông như `{ id: ... }`. |
+| `req`           | [Object `HTTP` IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage), với một prop `cookies` bổ sung, là một object với string keys ánh xạ đến string values của cookies.        |
+| `res`           | [Object `HTTP` response](https://nodejs.org/api/http.html#http_class_http_serverresponse).                                                                                                                    |
+| `query`         | Một object đại diện cho query string, bao gồm các dynamic route parameters.                                                                                                                                   |
+| `preview`       | (Không dùng nữa cho `draftMode`) `preview` là `true` nếu trang đang ở [Preview Mode](/docs/pages/guides/preview-mode) và `false` nếu không.                                                                   |
+| `previewData`   | (Không dùng nữa cho `draftMode`) Dữ liệu [preview](/docs/pages/guides/preview-mode) được đặt bởi `setPreviewData`.                                                                                            |
+| `draftMode`     | `draftMode` là `true` nếu trang đang ở [Draft Mode](/docs/pages/guides/draft-mode) và `false` nếu không.                                                                                                      |
+| `resolvedUrl`   | Một phiên bản chuẩn hóa của request `URL` loại bỏ tiền tố `_next/data` cho client transitions và bao gồm các giá trị query gốc.                                                                               |
+| `locale`        | Chứa locale đang hoạt động (nếu được kích hoạt).                                                                                                                                                              |
+| `locales`       | Chứa tất cả các locales được hỗ trợ (nếu được kích hoạt).                                                                                                                                                     |
+| `defaultLocale` | Chứa locale mặc định được cấu hình (nếu được kích hoạt).                                                                                                                                                      |
 
-## getServerSideProps return values
+## Giá trị trả về của getServerSideProps
 
-The `getServerSideProps` function should return an object with **any one of the following** properties:
+Hàm `getServerSideProps` nên trả về một object với **bất kỳ một trong các** thuộc tính sau:
 
 ### `props`
 
-The `props` object is a key-value pair, where each value is received by the page component. It should be a [serializable object](https://developer.mozilla.org/docs/Glossary/Serialization) so that any props passed, could be serialized with [`JSON.stringify`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+Object `props` là một cặp key-value, trong đó mỗi giá trị được nhận bởi page component. Nó phải là một [serializable object](https://developer.mozilla.org/docs/Glossary/Serialization) để bất kỳ props nào được truyền, có thể được serialize với [`JSON.stringify`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 
 ```jsx
 export async function getServerSideProps(context) {
   return {
-    props: { message: `Next.js is awesome` }, // will be passed to the page component as props
+    props: { message: `Next.js is awesome` }, // sẽ được truyền cho page component như props
   }
 }
 ```
 
 ### `notFound`
 
-The `notFound` boolean allows the page to return a `404` status and [404 Page](/docs/pages/building-your-application/routing/custom-error#404-page). With `notFound: true`, the page will return a `404` even if there was a successfully generated page before. This is meant to support use cases like user-generated content getting removed by its author.
+Boolean `notFound` cho phép trang trả về trạng thái `404` và [404 Page](/docs/pages/building-your-application/routing/custom-error#404-page). Với `notFound: true`, trang sẽ trả về `404` ngay cả khi có một trang được tạo thành công trước đó. Điều này nhằm hỗ trợ các trường hợp sử dụng như nội dung do người dùng tạo bị xóa bởi tác giả của nó.
 
 ```js
 export async function getServerSideProps(context) {
@@ -102,14 +102,14 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { data }, // will be passed to the page component as props
+    props: { data }, // sẽ được truyền cho page component như props
   }
 }
 ```
 
 ### `redirect`
 
-The `redirect` object allows redirecting to internal and external resources. It should match the shape of `{ destination: string, permanent: boolean }`. In some rare cases, you might need to assign a custom status code for older `HTTP` clients to properly redirect. In these cases, you can use the `statusCode` property instead of the `permanent` property, but not both.
+Object `redirect` cho phép chuyển hướng đến các tài nguyên nội bộ và bên ngoài. Nó phải khớp với hình dạng của `{ destination: string, permanent: boolean }`. Trong một số trường hợp hiếm hoi, bạn có thể cần gán một mã trạng thái tùy chỉnh cho các `HTTP` clients cũ để chuyển hướng đúng cách. Trong những trường hợp này, bạn có thể sử dụng thuộc tính `statusCode` thay vì thuộc tính `permanent`, nhưng không cả hai.
 
 ```js
 export async function getServerSideProps(context) {
@@ -126,15 +126,15 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {}, // will be passed to the page component as props
+    props: {}, // sẽ được truyền cho page component như props
   }
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                           |
-| --------- | ------------------------------------------------------------------------------------------------- |
-| `v13.4.0` | [App Router](/docs/app/getting-started/fetching-data) is now stable with simplified data fetching |
-| `v10.0.0` | `locale`, `locales`, `defaultLocale`, and `notFound` options added.                               |
-| `v9.3.0`  | `getServerSideProps` introduced.                                                                  |
+| Phiên bản | Thay đổi                                                                                                  |
+| --------- | --------------------------------------------------------------------------------------------------------- |
+| `v13.4.0` | [App Router](/docs/app/getting-started/fetching-data) hiện đã ổn định với data fetching được đơn giản hóa |
+| `v10.0.0` | Các tùy chọn `locale`, `locales`, `defaultLocale`, và `notFound` được thêm vào.                           |
+| `v9.3.0`  | `getServerSideProps` được giới thiệu.                                                                     |

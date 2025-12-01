@@ -1,26 +1,26 @@
 ---
 title: Testing
-description: Learn how to set up Next.js with four commonly used testing tools — Cypress, Playwright, Vitest, and Jest.
+description: Tìm hiểu cách thiết lập Next.js với bốn công cụ testing thường được sử dụng — Cypress, Playwright, Vitest, và Jest.
 ---
 
-In React and Next.js, there are a few different types of tests you can write, each with its own purpose and use cases. This page provides an overview of types and commonly used tools you can use to test your application.
+Trong React và Next.js, có một vài loại test khác nhau mà bạn có thể viết, mỗi loại có mục đích và trường hợp sử dụng riêng. Trang này cung cấp tổng quan về các loại và các công cụ thường được sử dụng mà bạn có thể sử dụng để test ứng dụng của mình.
 
-## Types of tests
+## Các loại test
 
-- **Unit Testing** involves testing individual units (or blocks of code) in isolation. In React, a unit can be a single function, hook, or component.
-  - **Component Testing** is a more focused version of unit testing where the primary subject of the tests is React components. This may involve testing how components are rendered, their interaction with props, and their behavior in response to user events.
-  - **Integration Testing** involves testing how multiple units work together. This can be a combination of components, hooks, and functions.
-- **End-to-End (E2E) Testing** involves testing user flows in an environment that simulates real user scenarios, like the browser. This means testing specific tasks (e.g. signup flow) in a production-like environment.
-- **Snapshot Testing** involves capturing the rendered output of a component and saving it to a snapshot file. When tests run, the current rendered output of the component is compared against the saved snapshot. Changes in the snapshot are used to indicate unexpected changes in behavior.
+- **Unit Testing** liên quan đến việc test các đơn vị riêng lẻ (hoặc các khối mã) một cách độc lập. Trong React, một đơn vị có thể là một hàm, hook hoặc component duy nhất.
+  - **Component Testing** là một phiên bản tập trung hơn của unit testing trong đó chủ đề chính của các test là các component React. Điều này có thể liên quan đến việc test cách các component được render, tương tác của chúng với props, và hành vi của chúng để đáp ứng với các sự kiện của người dùng.
+  - **Integration Testing** liên quan đến việc test cách nhiều đơn vị hoạt động cùng nhau. Đây có thể là sự kết hợp của các component, hook và hàm.
+- **End-to-End (E2E) Testing** liên quan đến việc test các luồng người dùng trong một môi trường mô phỏng các kịch bản người dùng thực tế, như trình duyệt. Điều này có nghĩa là test các tác vụ cụ thể (ví dụ: luồng đăng ký) trong một môi trường giống production.
+- **Snapshot Testing** liên quan đến việc chụp đầu ra được render của một component và lưu nó vào một tệp snapshot. Khi các test chạy, đầu ra được render hiện tại của component được so sánh với snapshot đã lưu. Các thay đổi trong snapshot được sử dụng để chỉ ra các thay đổi không mong muốn trong hành vi.
 
 <AppOnly>
 
 ## Async Server Components
 
-Since `async` Server Components are new to the React ecosystem, some tools do not fully support them. In the meantime, we recommend using **End-to-End Testing** over **Unit Testing** for `async` components.
+Vì `async` Server Components là mới đối với hệ sinh thái React, một số công cụ không hỗ trợ đầy đủ chúng. Trong thời gian chờ đợi, chúng tôi khuyên bạn nên sử dụng **End-to-End Testing** thay vì **Unit Testing** cho các component `async`.
 
 </AppOnly>
 
-## Guides
+## Hướng dẫn
 
-See the guides below to learn how to set up Next.js with these commonly used testing tools:
+Xem các hướng dẫn bên dưới để tìm hiểu cách thiết lập Next.js với các công cụ testing thường được sử dụng này:

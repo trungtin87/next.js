@@ -1,12 +1,12 @@
 ---
 title: viewTransition
-description: Enable ViewTransition API from React in App Router
+description: Kích hoạt ViewTransition API từ React trong App Router
 version: experimental
 ---
 
-`viewTransition` is an experimental flag that enables the new [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API) in React. This API allows you to leverage the native View Transitions browser API to create seamless transitions between UI states.
+`viewTransition` là một cờ thử nghiệm kích hoạt [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API) mới trong React. API này cho phép bạn tận dụng View Transitions browser API gốc để tạo các chuyển đổi liền mạch giữa các trạng thái UI.
 
-To enable this feature, you need to set the `viewTransition` property to `true` in your `next.config.js` file.
+Để kích hoạt tính năng này, bạn cần đặt thuộc tính `viewTransition` thành `true` trong tệp `next.config.js` của bạn.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -19,20 +19,20 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-> Important Notice: The `<ViewTransition>` Component is already available in React's Canary release channel.
-> `experimental.viewTransition` is only required to enable deeper integration with Next.js features e.g. automatically
-> [adding Transition types](https://react.dev/reference/react/addTransitionType) for navigations. Next.js specific transition types are not implemented yet.
+> Thông báo quan trọng: Component `<ViewTransition>` đã có sẵn trong kênh phát hành Canary của React.
+> `experimental.viewTransition` chỉ cần thiết để kích hoạt tích hợp sâu hơn với các tính năng Next.js, ví dụ: tự động
+> [thêm Transition types](https://react.dev/reference/react/addTransitionType) cho các điều hướng. Các loại transition cụ thể của Next.js chưa được triển khai.
 
-## Usage
+## Cách sử dụng
 
-You can import the [`<ViewTransition>` Component](https://react.dev/reference/react/ViewTransition) from React in your application:
+Bạn có thể import [Component `<ViewTransition>`](https://react.dev/reference/react/ViewTransition) từ React trong ứng dụng của mình:
 
 ```jsx
 import { ViewTransition } from 'react'
 ```
 
-### Live Demo
+### Demo trực tiếp
 
-Check out our [Next.js View Transition Demo](https://view-transition-example.vercel.app) to see this feature in action.
+Xem [Next.js View Transition Demo](https://view-transition-example.vercel.app) của chúng tôi để thấy tính năng này hoạt động.
 
-As this API evolves, we will update our documentation and share more examples. However, for now, we strongly advise against using this feature in production.
+Khi API này phát triển, chúng tôi sẽ cập nhật tài liệu và chia sẻ thêm ví dụ. Tuy nhiên, hiện tại, chúng tôi đặc biệt khuyên bạn không nên sử dụng tính năng này trong production.

@@ -1,12 +1,12 @@
 ---
 title: generateStaticParams
-description: API reference for the generateStaticParams function.
+description: Tài liệu tham khảo API cho hàm generateStaticParams.
 ---
 
-The `generateStaticParams` function can be used in combination with [dynamic route segments](/docs/app/api-reference/file-conventions/dynamic-routes) to [**statically generate**](/docs/app/guides/caching#static-rendering) routes at build time instead of on-demand at request time.
+Hàm `generateStaticParams` có thể được sử dụng kết hợp với [các đoạn route động (dynamic route segments)](/docs/app/api-reference/file-conventions/dynamic-routes) để [**tạo tĩnh**](/docs/app/guides/caching#static-rendering) các route tại thời gian build (build time) thay vì theo yêu cầu tại thời gian request (request time).
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
-// Return a list of `params` to populate the [slug] dynamic segment
+// Trả về một danh sách `params` để điền vào đoạn động [slug]
 export async function generateStaticParams() {
   const posts = await fetch('https://.../posts').then((res) => res.json())
 
@@ -15,8 +15,8 @@ export async function generateStaticParams() {
   }))
 }
 
-// Multiple versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Nhiều phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 export default async function Page({
   params,
 }: {
@@ -28,7 +28,7 @@ export default async function Page({
 ```
 
 ```jsx filename="app/blog/[slug]/page.js" switcher
-// Return a list of `params` to populate the [slug] dynamic segment
+// Trả về một danh sách `params` để điền vào đoạn động [slug]
 export async function generateStaticParams() {
   const posts = await fetch('https://.../posts').then((res) => res.json())
 
@@ -37,53 +37,53 @@ export async function generateStaticParams() {
   }))
 }
 
-// Multiple versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Nhiều phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 export default async function Page({ params }) {
   const { slug } = await params
   // ...
 }
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - You can use the [`dynamicParams`](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) segment config option to control what happens when a dynamic segment is visited that was not generated with `generateStaticParams`.
-> - You must return [an empty array from `generateStaticParams`](#all-paths-at-build-time) or utilize [`export const dynamic = 'force-static'`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic) in order to revalidate (ISR) [paths at runtime](#all-paths-at-runtime).
-> - During `next dev`, `generateStaticParams` will be called when you navigate to a route.
-> - During `next build`, `generateStaticParams` runs before the corresponding Layouts or Pages are generated.
-> - During revalidation (ISR), `generateStaticParams` will not be called again.
-> - `generateStaticParams` replaces the [`getStaticPaths`](/docs/pages/api-reference/functions/get-static-paths) function in the Pages Router.
+> - Bạn có thể sử dụng tùy chọn cấu hình segment [`dynamicParams`](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) để kiểm soát điều gì sẽ xảy ra khi một đoạn động được truy cập mà không được tạo với `generateStaticParams`.
+> - Bạn phải trả về [một mảng rỗng từ `generateStaticParams`](#all-paths-at-build-time) hoặc sử dụng [`export const dynamic = 'force-static'`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic) để revalidate (ISR) [các đường dẫn tại runtime](#all-paths-at-runtime).
+> - Trong quá trình `next dev`, `generateStaticParams` sẽ được gọi khi bạn điều hướng đến một route.
+> - Trong quá trình `next build`, `generateStaticParams` chạy trước khi các Layouts hoặc Pages tương ứng được tạo.
+> - Trong quá trình revalidation (ISR), `generateStaticParams` sẽ không được gọi lại.
+> - `generateStaticParams` thay thế hàm [`getStaticPaths`](/docs/pages/api-reference/functions/get-static-paths) trong Pages Router.
 
 ## Parameters
 
-`options.params` (optional)
+`options.params` (tùy chọn)
 
-If multiple dynamic segments in a route use `generateStaticParams`, the child `generateStaticParams` function is executed once for each set of `params` the parent generates.
+Nếu nhiều dynamic segments trong một route sử dụng `generateStaticParams`, hàm `generateStaticParams` con được thực thi một lần cho mỗi tập hợp `params` mà cha tạo ra.
 
-The `params` object contains the populated `params` from the parent `generateStaticParams`, which can be used to [generate the `params` in a child segment](#multiple-dynamic-segments-in-a-route).
+Object `params` chứa các `params` đã được điền từ `generateStaticParams` cha, có thể được sử dụng để [tạo `params` trong một segment con](#multiple-dynamic-segments-in-a-route).
 
 ## Returns
 
-`generateStaticParams` should return an array of objects where each object represents the populated dynamic segments of a single route.
+`generateStaticParams` nên trả về một mảng các objects, trong đó mỗi object đại diện cho các dynamic segments đã được điền của một route đơn lẻ.
 
-- Each property in the object is a dynamic segment to be filled in for the route.
-- The properties name is the segment's name, and the properties value is what that segment should be filled in with.
+- Mỗi thuộc tính trong object là một dynamic segment cần được điền cho route.
+- Tên thuộc tính là tên của segment, và giá trị thuộc tính là những gì segment đó nên được điền vào.
 
-| Example Route                    | `generateStaticParams` Return Type        |
+| Ví dụ Route                      | Kiểu trả về của `generateStaticParams`    |
 | -------------------------------- | ----------------------------------------- |
 | `/product/[id]`                  | `{ id: string }[]`                        |
 | `/products/[category]/[product]` | `{ category: string, product: string }[]` |
 | `/products/[...slug]`            | `{ slug: string[] }[]`                    |
 
-## Single Dynamic Segment
+## Single Dynamic Segment (Đoạn động đơn lẻ)
 
 ```tsx filename="app/product/[id]/page.tsx" switcher
 export function generateStaticParams() {
   return [{ id: '1' }, { id: '2' }, { id: '3' }]
 }
 
-// Three versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Ba phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 // - /product/1
 // - /product/2
 // - /product/3
@@ -102,8 +102,8 @@ export function generateStaticParams() {
   return [{ id: '1' }, { id: '2' }, { id: '3' }]
 }
 
-// Three versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Ba phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 // - /product/1
 // - /product/2
 // - /product/3
@@ -113,7 +113,7 @@ export default async function Page({ params }) {
 }
 ```
 
-## Multiple Dynamic Segments
+## Multiple Dynamic Segments (Nhiều đoạn động)
 
 ```tsx filename="app/products/[category]/[product]/page.tsx" switcher
 export function generateStaticParams() {
@@ -124,8 +124,8 @@ export function generateStaticParams() {
   ]
 }
 
-// Three versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Ba phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 // - /products/a/1
 // - /products/b/2
 // - /products/c/3
@@ -148,8 +148,8 @@ export function generateStaticParams() {
   ]
 }
 
-// Three versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Ba phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 // - /products/a/1
 // - /products/b/2
 // - /products/c/3
@@ -166,8 +166,8 @@ export function generateStaticParams() {
   return [{ slug: ['a', '1'] }, { slug: ['b', '2'] }, { slug: ['c', '3'] }]
 }
 
-// Three versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Ba phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 // - /product/a/1
 // - /product/b/2
 // - /product/c/3
@@ -186,8 +186,8 @@ export function generateStaticParams() {
   return [{ slug: ['a', '1'] }, { slug: ['b', '2'] }, { slug: ['c', '3'] }]
 }
 
-// Three versions of this page will be statically generated
-// using the `params` returned by `generateStaticParams`
+// Ba phiên bản của trang này sẽ được tạo tĩnh
+// sử dụng `params` được trả về bởi `generateStaticParams`
 // - /product/a/1
 // - /product/b/2
 // - /product/c/3
@@ -197,13 +197,13 @@ export default async function Page({ params }) {
 }
 ```
 
-## Examples
+## Ví dụ
 
 ### Static Rendering
 
-#### All paths at build time
+#### Tất cả các đường dẫn tại thời gian build
 
-To statically render all paths at build time, supply the full list of paths to `generateStaticParams`:
+Để render tĩnh tất cả các đường dẫn tại thời gian build, cung cấp danh sách đầy đủ các đường dẫn cho `generateStaticParams`:
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export async function generateStaticParams() {
@@ -225,15 +225,15 @@ export async function generateStaticParams() {
 }
 ```
 
-#### Subset of paths at build time
+#### Một tập hợp con các đường dẫn tại thời gian build
 
-To statically render a subset of paths at build time, and the rest the first time they're visited at runtime, return a partial list of paths:
+Để render tĩnh một tập hợp con các đường dẫn tại thời gian build, và phần còn lại vào lần đầu tiên chúng được truy cập tại runtime, trả về một danh sách một phần các đường dẫn:
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export async function generateStaticParams() {
   const posts = await fetch('https://.../posts').then((res) => res.json())
 
-  // Render the first 10 posts at build time
+  // Render 10 bài viết đầu tiên tại thời gian build
   return posts.slice(0, 10).map((post) => ({
     slug: post.slug,
   }))
@@ -244,17 +244,17 @@ export async function generateStaticParams() {
 export async function generateStaticParams() {
   const posts = await fetch('https://.../posts').then((res) => res.json())
 
-  // Render the first 10 posts at build time
+  // Render 10 bài viết đầu tiên tại thời gian build
   return posts.slice(0, 10).map((post) => ({
     slug: post.slug,
   }))
 }
 ```
 
-Then, by using the [`dynamicParams`](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) segment config option, you can control what happens when a dynamic segment is visited that was not generated with `generateStaticParams`.
+Sau đó, bằng cách sử dụng tùy chọn cấu hình segment [`dynamicParams`](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams), bạn có thể kiểm soát điều gì sẽ xảy ra khi một dynamic segment được truy cập mà không được tạo với `generateStaticParams`.
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
-// All posts besides the top 10 will be a 404
+// Tất cả các bài viết ngoài top 10 sẽ là 404
 export const dynamicParams = false
 
 export async function generateStaticParams() {
@@ -268,7 +268,7 @@ export async function generateStaticParams() {
 ```
 
 ```jsx filename="app/blog/[slug]/page.js" switcher
-// All posts besides the top 10 will be a 404
+// Tất cả các bài viết ngoài top 10 sẽ là 404
 export const dynamicParams = false
 
 export async function generateStaticParams() {
@@ -281,9 +281,9 @@ export async function generateStaticParams() {
 }
 ```
 
-#### All paths at runtime
+#### Tất cả các đường dẫn tại runtime
 
-To statically render all paths the first time they're visited, return an empty array (no paths will be rendered at build time) or utilize [`export const dynamic = 'force-static'`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic):
+Để render tĩnh tất cả các đường dẫn vào lần đầu tiên chúng được truy cập, trả về một mảng rỗng (không có đường dẫn nào được render tại thời gian build) hoặc sử dụng [`export const dynamic = 'force-static'`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic):
 
 ```jsx filename="app/blog/[slug]/page.js"
 export async function generateStaticParams() {
@@ -291,31 +291,31 @@ export async function generateStaticParams() {
 }
 ```
 
-> **Good to know:** You must always return an array from `generateStaticParams`, even if it's empty. Otherwise, the route will be dynamically rendered.
+> **Cần biết:** Bạn phải luôn trả về một mảng từ `generateStaticParams`, ngay cả khi nó rỗng. Nếu không, route sẽ được render động.
 
 ```jsx filename="app/changelog/[slug]/page.js"
 export const dynamic = 'force-static'
 ```
 
-### Disable rendering for unspecified paths
+### Vô hiệu hóa rendering cho các đường dẫn không xác định
 
-To prevent unspecified paths from being statically rendered at runtime, add the `export const dynamicParams = false` option in a route segment. When this config option is used, only paths provided by `generateStaticParams` will be served, and unspecified routes will 404 or match (in the case of [catch-all routes](/docs/app/api-reference/file-conventions/dynamic-routes#catch-all-segments)).
+Để ngăn chặn các đường dẫn không xác định được render tĩnh tại runtime, thêm tùy chọn `export const dynamicParams = false` trong một route segment. Khi tùy chọn cấu hình này được sử dụng, chỉ các đường dẫn được cung cấp bởi `generateStaticParams` mới được phục vụ, và các route không xác định sẽ trả về 404 hoặc khớp (trong trường hợp [catch-all routes](/docs/app/api-reference/file-conventions/dynamic-routes#catch-all-segments)).
 
-### Multiple Dynamic Segments in a Route
+### Nhiều Dynamic Segments trong một Route
 
-You can generate params for dynamic segments above the current layout or page, but **not below**. For example, given the `app/products/[category]/[product]` route:
+Bạn có thể tạo params cho các dynamic segments ở trên layout hoặc page hiện tại, nhưng **không phải bên dưới**. Ví dụ, với route `app/products/[category]/[product]`:
 
-- `app/products/[category]/[product]/page.js` can generate params for **both** `[category]` and `[product]`.
-- `app/products/[category]/layout.js` can **only** generate params for `[category]`.
+- `app/products/[category]/[product]/page.js` có thể tạo params cho **cả** `[category]` và `[product]`.
+- `app/products/[category]/layout.js` **chỉ** có thể tạo params cho `[category]`.
 
-There are two approaches to generating params for a route with multiple dynamic segments:
+Có hai cách tiếp cận để tạo params cho một route với nhiều dynamic segments:
 
-#### Generate params from the bottom up
+#### Tạo params từ dưới lên (Generate params from the bottom up)
 
-Generate multiple dynamic segments from the child route segment.
+Tạo nhiều dynamic segments từ child route segment.
 
 ```tsx filename="app/products/[category]/[product]/page.tsx" switcher
-// Generate segments for both [category] and [product]
+// Tạo segments cho cả [category] và [product]
 export async function generateStaticParams() {
   const products = await fetch('https://.../products').then((res) => res.json())
 
@@ -335,7 +335,7 @@ export default function Page({
 ```
 
 ```jsx filename="app/products/[category]/[product]/page.js" switcher
-// Generate segments for both [category] and [product]
+// Tạo segments cho cả [category] và [product]
 export async function generateStaticParams() {
   const products = await fetch('https://.../products').then((res) => res.json())
 
@@ -350,12 +350,12 @@ export default function Page({ params }) {
 }
 ```
 
-#### Generate params from the top down
+#### Tạo params từ trên xuống (Generate params from the top down)
 
-Generate the parent segments first and use the result to generate the child segments.
+Tạo các parent segments trước và sử dụng kết quả để tạo các child segments.
 
 ```tsx filename="app/products/[category]/layout.tsx" switcher
-// Generate segments for [category]
+// Tạo segments cho [category]
 export async function generateStaticParams() {
   const products = await fetch('https://.../products').then((res) => res.json())
 
@@ -374,7 +374,7 @@ export default function Layout({
 ```
 
 ```jsx filename="app/products/[category]/layout.js" switcher
-// Generate segments for [category]
+// Tạo segments cho [category]
 export async function generateStaticParams() {
   const products = await fetch('https://.../products').then((res) => res.json())
 
@@ -388,13 +388,13 @@ export default function Layout({ params }) {
 }
 ```
 
-A child route segment's `generateStaticParams` function is executed once for each segment a parent `generateStaticParams` generates.
+Hàm `generateStaticParams` của một child route segment được thực thi một lần cho mỗi segment mà `generateStaticParams` của cha tạo ra.
 
-The child `generateStaticParams` function can use the `params` returned from the parent `generateStaticParams` function to dynamically generate its own segments.
+Hàm `generateStaticParams` con có thể sử dụng `params` được trả về từ hàm `generateStaticParams` cha để tạo động các segments của riêng nó.
 
 ```tsx filename="app/products/[category]/[product]/page.tsx" switcher
-// Generate segments for [product] using the `params` passed from
-// the parent segment's `generateStaticParams` function
+// Tạo segments cho [product] sử dụng `params` được truyền từ
+// hàm `generateStaticParams` của parent segment
 export async function generateStaticParams({
   params: { category },
 }: {
@@ -419,8 +419,8 @@ export default function Page({
 ```
 
 ```jsx filename="app/products/[category]/[product]/page.js" switcher
-// Generate segments for [product] using the `params` passed from
-// the parent segment's `generateStaticParams` function
+// Tạo segments cho [product] sử dụng `params` được truyền từ
+// hàm `generateStaticParams` của parent segment
 export async function generateStaticParams({ params: { category } }) {
   const products = await fetch(
     `https://.../products?category=${category}`
@@ -436,9 +436,9 @@ export default function Page({ params }) {
 }
 ```
 
-Notice that the params argument can be accessed synchronously and includes only parent segment params.
+Lưu ý rằng đối số params có thể được truy cập đồng bộ và chỉ bao gồm các params của parent segment.
 
-For type completion, you can make use of the TypeScript `Awaited` helper in combination with either [`Page Props helper`](/docs/app/api-reference/file-conventions/page#page-props-helper) or [`Layout Props helper`](/docs/app/api-reference/file-conventions/layout#layout-props-helper):
+Để hoàn thành kiểu (type completion), bạn có thể sử dụng TypeScript `Awaited` helper kết hợp với [`Page Props helper`](/docs/app/api-reference/file-conventions/page#page-props-helper) hoặc [`Layout Props helper`](/docs/app/api-reference/file-conventions/layout#layout-props-helper):
 
 ```ts filename="app/products/[category]/[product]/page.tsx" switcher
 export async function generateStaticParams({
@@ -456,10 +456,10 @@ export async function generateStaticParams({
 }
 ```
 
-> **Good to know**: `fetch` requests are automatically [memoized](/docs/app/guides/caching#request-memoization) for the same data across all `generate`-prefixed functions, Layouts, Pages, and Server Components. React [`cache` can be used](/docs/app/guides/caching#react-cache-function) if `fetch` is unavailable.
+> **Cần biết**: các `fetch` requests được tự động [ghi nhớ (memoized)](/docs/app/guides/caching#request-memoization) cho cùng một dữ liệu trên tất cả các hàm có tiền tố `generate`, Layouts, Pages, và Server Components. React [`cache` có thể được sử dụng](/docs/app/guides/caching#react-cache-function) nếu `fetch` không khả dụng.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                            |
-| --------- | ---------------------------------- |
-| `v13.0.0` | `generateStaticParams` introduced. |
+| Version   | Changes                                 |
+| --------- | --------------------------------------- |
+| `v13.0.0` | `generateStaticParams` được giới thiệu. |

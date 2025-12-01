@@ -1,17 +1,17 @@
 ---
 title: Client-side Fetching
-description: Learn about client-side data fetching, and how to use SWR, a data fetching React Hook library that handles caching, revalidation, focus tracking, refetching on interval and more.
+description: Tìm hiểu về client-side data fetching, và cách sử dụng SWR, một thư viện React Hook data fetching xử lý caching, revalidation, focus tracking, refetching theo khoảng thời gian và nhiều hơn nữa.
 ---
 
-Client-side data fetching is useful when your page doesn't require SEO indexing, when you don't need to pre-render your data, or when the content of your pages needs to update frequently. Unlike the server-side rendering APIs, you can use client-side data fetching at the component level.
+Client-side data fetching hữu ích khi trang của bạn không yêu cầu SEO indexing, khi bạn không cần pre-render dữ liệu của mình, hoặc khi nội dung của các trang của bạn cần cập nhật thường xuyên. Không giống như các API server-side rendering, bạn có thể sử dụng client-side data fetching ở cấp độ component.
 
-If done at the page level, the data is fetched at runtime, and the content of the page is updated as the data changes. When used at the component level, the data is fetched at the time of the component mount, and the content of the component is updated as the data changes.
+Nếu được thực hiện ở cấp độ trang, dữ liệu được lấy tại runtime, và nội dung của trang được cập nhật khi dữ liệu thay đổi. Khi được sử dụng ở cấp độ component, dữ liệu được lấy tại thời điểm component mount, và nội dung của component được cập nhật khi dữ liệu thay đổi.
 
-It's important to note that using client-side data fetching can affect the performance of your application and the load speed of your pages. This is because the data fetching is done at the time of the component or pages mount, and the data is not cached.
+Điều quan trọng cần lưu ý là sử dụng client-side data fetching có thể ảnh hưởng đến hiệu suất của ứng dụng của bạn và tốc độ tải của các trang của bạn. Điều này là do data fetching được thực hiện tại thời điểm component hoặc trang mount, và dữ liệu không được cache.
 
-## Client-side data fetching with useEffect
+## Client-side data fetching với useEffect
 
-The following example shows how you can fetch data on the client side using the useEffect hook.
+Ví dụ sau đây cho thấy cách bạn có thể lấy dữ liệu ở phía client bằng cách sử dụng hook useEffect.
 
 ```jsx
 import { useState, useEffect } from 'react'
@@ -41,13 +41,13 @@ function Profile() {
 }
 ```
 
-## Client-side data fetching with SWR
+## Client-side data fetching với SWR
 
-The team behind Next.js has created a React Hook library for data fetching called [**SWR**](https://swr.vercel.app/). It is **highly recommended** if you are fetching data on the client-side. It handles caching, revalidation, focus tracking, refetching on intervals, and more.
+Nhóm đằng sau Next.js đã tạo một thư viện React Hook để lấy dữ liệu có tên [**SWR**](https://swr.vercel.app/). Nó **được khuyến nghị cao** nếu bạn đang lấy dữ liệu ở phía client. Nó xử lý caching, revalidation, focus tracking, refetching theo khoảng thời gian, và nhiều hơn nữa.
 
-Using the same example as above, we can now use SWR to fetch the profile data. SWR will automatically cache the data for us and will revalidate the data if it becomes stale.
+Sử dụng cùng ví dụ như trên, giờ đây chúng ta có thể sử dụng SWR để lấy dữ liệu profile. SWR sẽ tự động cache dữ liệu cho chúng ta và sẽ revalidate dữ liệu nếu nó trở nên cũ.
 
-For more information on using SWR, check out the [SWR docs](https://swr.vercel.app/docs/getting-started).
+Để biết thêm thông tin về việc sử dụng SWR, hãy xem [tài liệu SWR](https://swr.vercel.app/docs/getting-started).
 
 ```jsx
 import useSWR from 'swr'

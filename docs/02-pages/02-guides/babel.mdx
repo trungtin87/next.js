@@ -1,23 +1,23 @@
 ---
-title: How to configure Babel in Next.js
+title: Cách cấu hình Babel trong Next.js
 nav_title: Babel
-description: Extend the babel preset added by Next.js with your own configs.
+description: Mở rộng preset babel được thêm bởi Next.js với các cấu hình của riêng bạn.
 ---
 
 <details>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
-- [Customizing babel configuration](https://github.com/vercel/next.js/tree/canary/examples/with-custom-babel-config)
+- [Tùy chỉnh cấu hình babel](https://github.com/vercel/next.js/tree/canary/examples/with-custom-babel-config)
 
 </details>
 
-Next.js includes the `next/babel` preset to your app, which includes everything needed to compile React applications and server-side code. But if you want to extend the default Babel configs, it's also possible.
+Next.js bao gồm preset `next/babel` vào ứng dụng của bạn, bao gồm mọi thứ cần thiết để biên dịch các ứng dụng React và mã phía server. Nhưng nếu bạn muốn mở rộng các cấu hình Babel mặc định, điều đó cũng có thể.
 
-## Adding Presets and Plugins
+## Thêm Presets và Plugins
 
-To start, you only need to define a `.babelrc` file (or `babel.config.js`) in the root directory of your project. If such a file is found, it will be considered as the _source of truth_, and therefore it needs to define what Next.js needs as well, which is the `next/babel` preset.
+Để bắt đầu, bạn chỉ cần định nghĩa tệp `.babelrc` (hoặc `babel.config.js`) trong thư mục gốc của dự án của bạn. Nếu tệp như vậy được tìm thấy, nó sẽ được coi là _nguồn sự thật_, và do đó nó cần định nghĩa những gì Next.js cần, đó là preset `next/babel`.
 
-Here's an example `.babelrc` file:
+Đây là một ví dụ về tệp `.babelrc`:
 
 ```json filename=".babelrc"
 {
@@ -26,9 +26,9 @@ Here's an example `.babelrc` file:
 }
 ```
 
-You can [take a look at this file](https://github.com/vercel/next.js/blob/canary/packages/next/src/build/babel/preset.ts) to learn about the presets included by `next/babel`.
+Bạn có thể [xem tệp này](https://github.com/vercel/next.js/blob/canary/packages/next/src/build/babel/preset.ts) để tìm hiểu về các preset được bao gồm bởi `next/babel`.
 
-To add presets/plugins **without configuring them**, you can do it this way:
+Để thêm presets/plugins **mà không cấu hình chúng**, bạn có thể làm theo cách này:
 
 ```json filename=".babelrc"
 {
@@ -37,9 +37,9 @@ To add presets/plugins **without configuring them**, you can do it this way:
 }
 ```
 
-## Customizing Presets and Plugins
+## Tùy chỉnh Presets và Plugins
 
-To add presets/plugins **with custom configuration**, do it on the `next/babel` preset like so:
+Để thêm presets/plugins **với cấu hình tùy chỉnh**, hãy làm điều đó trên preset `next/babel` như sau:
 
 ```json filename=".babelrc"
 {
@@ -58,9 +58,9 @@ To add presets/plugins **with custom configuration**, do it on the `next/babel` 
 }
 ```
 
-To learn more about the available options for each config, visit babel's [documentation](https://babeljs.io/docs/) site.
+Để tìm hiểu thêm về các tùy chọn có sẵn cho mỗi cấu hình, hãy truy cập trang web [tài liệu](https://babeljs.io/docs/) của babel.
 
-> **Good to know**:
+> **Thông tin hữu ích**:
 >
-> - Next.js uses the [**current** Node.js version](https://github.com/nodejs/release#release-schedule) for server-side compilations.
-> - The `modules` option on `"preset-env"` should be kept to `false`, otherwise webpack code splitting is turned off.
+> - Next.js sử dụng [phiên bản Node.js **hiện tại**](https://github.com/nodejs/release#release-schedule) cho các biên dịch phía server.
+> - Tùy chọn `modules` trên `"preset-env"` nên được giữ là `false`, nếu không webpack code splitting sẽ bị tắt.

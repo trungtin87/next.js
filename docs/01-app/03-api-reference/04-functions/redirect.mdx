@@ -1,64 +1,64 @@
 ---
 title: redirect
-description: API Reference for the redirect function.
+description: Tài liệu tham khảo API cho hàm redirect.
 related:
   links:
     - app/api-reference/functions/permanentRedirect
 ---
 
-The `redirect` function allows you to redirect the user to another URL. `redirect` can be used while rendering in [Server and Client Components](/docs/app/getting-started/server-and-client-components), [Route Handlers](/docs/app/api-reference/file-conventions/route), and [Server Actions](/docs/app/getting-started/updating-data).
+Hàm `redirect` cho phép bạn chuyển hướng người dùng đến một URL khác. `redirect` có thể được sử dụng trong khi render trong [Server và Client Components](/docs/app/getting-started/server-and-client-components), [Route Handlers](/docs/app/api-reference/file-conventions/route), và [Server Actions](/docs/app/getting-started/updating-data).
 
-When used in a [streaming context](/docs/app/getting-started/linking-and-navigating#streaming), this will insert a meta tag to emit the redirect on the client side. When used in a server action, it will serve a 303 HTTP redirect response to the caller. Otherwise, it will serve a 307 HTTP redirect response to the caller.
+Khi được sử dụng trong [ngữ cảnh streaming](/docs/app/getting-started/linking-and-navigating#streaming), điều này sẽ chèn một thẻ meta để phát ra chuyển hướng ở phía máy khách. Khi được sử dụng trong một server action, nó sẽ phục vụ phản hồi chuyển hướng HTTP 303 cho người gọi. Nếu không, nó sẽ phục vụ phản hồi chuyển hướng HTTP 307 cho người gọi.
 
-If a resource doesn't exist, you can use the [`notFound` function](/docs/app/api-reference/functions/not-found) instead.
+Nếu một tài nguyên không tồn tại, bạn có thể sử dụng hàm [`notFound`](/docs/app/api-reference/functions/not-found) thay thế.
 
-## Reference
+## Tham khảo
 
-### Parameters
+### Parameters (Tham số)
 
-The `redirect` function accepts two arguments:
+Hàm `redirect` chấp nhận hai đối số:
 
 ```js
 redirect(path, type)
 ```
 
-| Parameter | Type                                                          | Description                                                 |
-| --------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
-| `path`    | `string`                                                      | The URL to redirect to. Can be a relative or absolute path. |
-| `type`    | `'replace'` (default) or `'push'` (default in Server Actions) | The type of redirect to perform.                            |
+| Tham số | Kiểu                                                                 | Mô tả                                                                  |
+| ------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `path`  | `string`                                                             | URL để chuyển hướng đến. Có thể là đường dẫn tương đối hoặc tuyệt đối. |
+| `type`  | `'replace'` (mặc định) hoặc `'push'` (mặc định trong Server Actions) | Loại chuyển hướng để thực hiện.                                        |
 
-By default, `redirect` will use `push` (adding a new entry to the browser history stack) in [Server Actions](/docs/app/getting-started/updating-data) and `replace` (replacing the current URL in the browser history stack) everywhere else. You can override this behavior by specifying the `type` parameter.
+Theo mặc định, `redirect` sẽ sử dụng `push` (thêm một mục mới vào ngăn xếp lịch sử trình duyệt) trong [Server Actions](/docs/app/getting-started/updating-data) và `replace` (thay thế URL hiện tại trong ngăn xếp lịch sử trình duyệt) ở mọi nơi khác. Bạn có thể ghi đè hành vi này bằng cách chỉ định tham số `type`.
 
-The `RedirectType` object contains the available options for the `type` parameter.
+Đối tượng `RedirectType` chứa các tùy chọn có sẵn cho tham số `type`.
 
 ```ts
 import { redirect, RedirectType } from 'next/navigation'
 
 redirect('/redirect-to', RedirectType.replace)
-// or
+// hoặc
 redirect('/redirect-to', RedirectType.push)
 ```
 
-The `type` parameter has no effect when used in Server Components.
+Tham số `type` không có hiệu lực khi được sử dụng trong Server Components.
 
-### Returns
+### Returns (Giá trị trả về)
 
-`redirect` does not return a value.
+`redirect` không trả về giá trị.
 
-## Behavior
+## Hành vi
 
-- In Server Actions and Route Handlers, redirect should be called **outside** the `try` block when using `try/catch` statements.
-- If you prefer to return a 308 (Permanent) HTTP redirect instead of 307 (Temporary), you can use the [`permanentRedirect` function](/docs/app/api-reference/functions/permanentRedirect) instead.
-- `redirect` throws an error so it should be called **outside** the `try` block when using `try/catch` statements.
-- `redirect` can be called in Client Components during the rendering process but not in event handlers. You can use the [`useRouter` hook](/docs/app/api-reference/functions/use-router) instead.
-- `redirect` also accepts absolute URLs and can be used to redirect to external links.
-- If you'd like to redirect before the render process, use [`next.config.js`](/docs/app/guides/redirecting#redirects-in-nextconfigjs) or [Proxy](/docs/app/guides/redirecting#nextresponseredirect-in-proxy).
+- Trong Server Actions và Route Handlers, redirect nên được gọi **bên ngoài** khối `try` khi sử dụng các câu lệnh `try/catch`.
+- Nếu bạn muốn trả về chuyển hướng HTTP 308 (Vĩnh viễn) thay vì 307 (Tạm thời), bạn có thể sử dụng hàm [`permanentRedirect`](/docs/app/api-reference/functions/permanentRedirect) thay thế.
+- `redirect` ném ra một lỗi vì vậy nó nên được gọi **bên ngoài** khối `try` khi sử dụng các câu lệnh `try/catch`.
+- `redirect` có thể được gọi trong Client Components trong quá trình render nhưng không phải trong trình xử lý sự kiện. Bạn có thể sử dụng hook [`useRouter`](/docs/app/api-reference/functions/use-router) thay thế.
+- `redirect` cũng chấp nhận các URL tuyệt đối và có thể được sử dụng để chuyển hướng đến các liên kết bên ngoài.
+- Nếu bạn muốn chuyển hướng trước quá trình render, hãy sử dụng [`next.config.js`](/docs/app/guides/redirecting#redirects-in-nextconfigjs) hoặc [Proxy](/docs/app/guides/redirecting#nextresponseredirect-in-proxy).
 
-## Example
+## Ví dụ
 
 ### Server Component
 
-Invoking the `redirect()` function throws a `NEXT_REDIRECT` error and terminates rendering of the route segment in which it was thrown.
+Việc gọi hàm `redirect()` ném ra lỗi `NEXT_REDIRECT` và chấm dứt việc render phân đoạn route mà nó được ném ra.
 
 ```tsx filename="app/team/[id]/page.tsx" switcher
 import { redirect } from 'next/navigation'
@@ -106,11 +106,11 @@ export default async function Profile({ params }) {
 }
 ```
 
-> **Good to know**: `redirect` does not require you to use `return redirect()` as it uses the TypeScript [`never`](https://www.typescriptlang.org/docs/handbook/2/functions.html#never) type.
+> **Cần biết**: `redirect` không yêu cầu bạn sử dụng `return redirect()` vì nó sử dụng kiểu [`never`](https://www.typescriptlang.org/docs/handbook/2/functions.html#never) của TypeScript.
 
 ### Client Component
 
-`redirect` can be directly used in a Client Component.
+`redirect` có thể được sử dụng trực tiếp trong một Client Component.
 
 ```tsx filename="components/client-redirect.tsx" switcher
 'use client'
@@ -144,9 +144,9 @@ export function ClientRedirect() {
 }
 ```
 
-> **Good to know**: When using `redirect` in a Client Component on initial page load during Server-Side Rendering (SSR), it will perform a server-side redirect.
+> **Cần biết**: Khi sử dụng `redirect` trong một Client Component khi tải trang ban đầu trong quá trình Server-Side Rendering (SSR), nó sẽ thực hiện chuyển hướng phía máy chủ.
 
-`redirect` can be used in a Client Component through a Server Action. If you need to use an event handler to redirect the user, you can use the [`useRouter`](/docs/app/api-reference/functions/use-router) hook.
+`redirect` có thể được sử dụng trong một Client Component thông qua một Server Action. Nếu bạn cần sử dụng trình xử lý sự kiện để chuyển hướng người dùng, bạn có thể sử dụng hook [`useRouter`](/docs/app/api-reference/functions/use-router).
 
 ```tsx filename="app/client-redirect.tsx" switcher
 'use client'
@@ -200,23 +200,23 @@ export async function navigate(data) {
 
 ## FAQ
 
-### Why does `redirect` use 307 and 308?
+### Tại sao `redirect` sử dụng 307 và 308?
 
-When using `redirect()` you may notice that the status codes used are `307` for a temporary redirect, and `308` for a permanent redirect. While traditionally a `302` was used for a temporary redirect, and a `301` for a permanent redirect, many browsers changed the request method of the redirect, from a `POST` to `GET` request when using a `302`, regardless of the origins request method.
+Khi sử dụng `redirect()`, bạn có thể nhận thấy rằng các mã trạng thái được sử dụng là `307` cho chuyển hướng tạm thời, và `308` cho chuyển hướng vĩnh viễn. Trong khi theo truyền thống, `302` được sử dụng cho chuyển hướng tạm thời, và `301` cho chuyển hướng vĩnh viễn, nhiều trình duyệt đã thay đổi phương thức yêu cầu của chuyển hướng, từ yêu cầu `POST` sang `GET` khi sử dụng `302`, bất kể phương thức yêu cầu gốc là gì.
 
-Taking the following example of a redirect from `/users` to `/people`, if you make a `POST` request to `/users` to create a new user, and are conforming to a `302` temporary redirect, the request method will be changed from a `POST` to a `GET` request. This doesn't make sense, as to create a new user, you should be making a `POST` request to `/people`, and not a `GET` request.
+Lấy ví dụ sau về chuyển hướng từ `/users` sang `/people`, nếu bạn thực hiện yêu cầu `POST` đến `/users` để tạo người dùng mới, và tuân theo chuyển hướng tạm thời `302`, phương thức yêu cầu sẽ được thay đổi từ `POST` sang `GET`. Điều này không hợp lý, vì để tạo người dùng mới, bạn nên thực hiện yêu cầu `POST` đến `/people`, chứ không phải yêu cầu `GET`.
 
-The introduction of the `307` status code means that the request method is preserved as `POST`.
+Việc giới thiệu mã trạng thái `307` có nghĩa là phương thức yêu cầu được bảo tồn là `POST`.
 
-- `302` - Temporary redirect, will change the request method from `POST` to `GET`
-- `307` - Temporary redirect, will preserve the request method as `POST`
+- `302` - Chuyển hướng tạm thời, sẽ thay đổi phương thức yêu cầu từ `POST` sang `GET`
+- `307` - Chuyển hướng tạm thời, sẽ bảo tồn phương thức yêu cầu là `POST`
 
-The `redirect()` method uses a `307` by default, instead of a `302` temporary redirect, meaning your requests will _always_ be preserved as `POST` requests.
+Phương thức `redirect()` sử dụng `307` theo mặc định, thay vì chuyển hướng tạm thời `302`, có nghĩa là các yêu cầu của bạn sẽ _luôn_ được bảo tồn là yêu cầu `POST`.
 
-[Learn more](https://developer.mozilla.org/docs/Web/HTTP/Redirections) about HTTP Redirects.
+[Tìm hiểu thêm](https://developer.mozilla.org/docs/Web/HTTP/Redirections) về Chuyển hướng HTTP.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                |
-| --------- | ---------------------- |
-| `v13.0.0` | `redirect` introduced. |
+| Phiên bản | Thay đổi                    |
+| --------- | --------------------------- |
+| `v13.0.0` | `redirect` được giới thiệu. |

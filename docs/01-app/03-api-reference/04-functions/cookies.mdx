@@ -1,9 +1,9 @@
 ---
 title: cookies
-description: API Reference for the cookies function.
+description: Tài liệu tham khảo API cho hàm cookies.
 ---
 
-`cookies` is an **async** function that allows you to read the HTTP incoming request cookies in [Server Components](/docs/app/getting-started/server-and-client-components), and read/write outgoing request cookies in [Server Actions](/docs/app/getting-started/updating-data) or [Route Handlers](/docs/app/api-reference/file-conventions/route).
+`cookies` là một hàm **async** cho phép bạn đọc các HTTP incoming request cookies trong [Server Components](/docs/app/getting-started/server-and-client-components), và đọc/ghi outgoing request cookies trong [Server Actions](/docs/app/getting-started/updating-data) hoặc [Route Handlers](/docs/app/api-reference/file-conventions/route).
 
 ```tsx filename="app/page.tsx" switcher
 import { cookies } from 'next/headers'
@@ -25,76 +25,76 @@ export default async function Page() {
 }
 ```
 
-## Reference
+## Tham khảo
 
-### Methods
+### Phương thức
 
-The following methods are available:
+Các phương thức sau có sẵn:
 
-| Method                      | Return Type      | Description                                                                     |
-| --------------------------- | ---------------- | ------------------------------------------------------------------------------- |
-| `get('name')`               | Object           | Accepts a cookie name and returns an object with the name and value.            |
-| `getAll()`                  | Array of objects | Returns a list of all the cookies with a matching name.                         |
-| `has('name')`               | Boolean          | Accepts a cookie name and returns a boolean based on if the cookie exists.      |
-| `set(name, value, options)` | -                | Accepts a cookie name, value, and options and sets the outgoing request cookie. |
-| `delete(name)`              | -                | Accepts a cookie name and deletes the cookie.                                   |
-| `clear()`                   | -                | Deletes all cookies.                                                            |
-| `toString()`                | String           | Returns a string representation of the cookies.                                 |
+| Phương thức                 | Kiểu trả về      | Mô tả                                                                                 |
+| --------------------------- | ---------------- | ------------------------------------------------------------------------------------- |
+| `get('name')`               | Object           | Chấp nhận tên cookie và trả về một object với tên và giá trị.                         |
+| `getAll()`                  | Mảng các objects | Trả về danh sách tất cả các cookies có tên khớp.                                      |
+| `has('name')`               | Boolean          | Chấp nhận tên cookie và trả về một boolean dựa trên việc cookie có tồn tại hay không. |
+| `set(name, value, options)` | -                | Chấp nhận tên cookie, giá trị, và các tùy chọn và đặt outgoing request cookie.        |
+| `delete(name)`              | -                | Chấp nhận tên cookie và xóa cookie.                                                   |
+| `clear()`                   | -                | Xóa tất cả cookies.                                                                   |
+| `toString()`                | String           | Trả về biểu diễn chuỗi của các cookies.                                               |
 
-### Options
+### Tùy chọn
 
-When setting a cookie, the following properties from the `options` object are supported:
+Khi đặt một cookie, các thuộc tính sau từ object `options` được hỗ trợ:
 
-| Option        | Type                                   | Description                                                                        |
-| ------------- | -------------------------------------- | ---------------------------------------------------------------------------------- |
-| `name`        | String                                 | Specifies the name of the cookie.                                                  |
-| `value`       | String                                 | Specifies the value to be stored in the cookie.                                    |
-| `expires`     | Date                                   | Defines the exact date when the cookie will expire.                                |
-| `maxAge`      | Number                                 | Sets the cookie’s lifespan in seconds.                                             |
-| `domain`      | String                                 | Specifies the domain where the cookie is available.                                |
-| `path`        | String, default: `'/'`                 | Limits the cookie's scope to a specific path within the domain.                    |
-| `secure`      | Boolean                                | Ensures the cookie is sent only over HTTPS connections for added security.         |
-| `httpOnly`    | Boolean                                | Restricts the cookie to HTTP requests, preventing client-side access.              |
-| `sameSite`    | Boolean, `'lax'`, `'strict'`, `'none'` | Controls the cookie's cross-site request behavior.                                 |
-| `priority`    | String (`"low"`, `"medium"`, `"high"`) | Specifies the cookie's priority                                                    |
-| `partitioned` | Boolean                                | Indicates whether the cookie is [partitioned](https://github.com/privacycg/CHIPS). |
+| Tùy chọn      | Kiểu                                   | Mô tả                                                                                               |
+| ------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `name`        | String                                 | Chỉ định tên của cookie.                                                                            |
+| `value`       | String                                 | Chỉ định giá trị được lưu trữ trong cookie.                                                         |
+| `expires`     | Date                                   | Định nghĩa ngày chính xác khi cookie sẽ hết hạn.                                                    |
+| `maxAge`      | Number                                 | Đặt tuổi thọ của cookie tính bằng giây.                                                             |
+| `domain`      | String                                 | Chỉ định domain nơi cookie có sẵn.                                                                  |
+| `path`        | String, mặc định: `'/'`                | Giới hạn phạm vi của cookie trong một path cụ thể trong domain.                                     |
+| `secure`      | Boolean                                | Đảm bảo cookie chỉ được gửi qua kết nối HTTPS để tăng cường bảo mật.                                |
+| `httpOnly`    | Boolean                                | Hạn chế cookie đối với các HTTP requests, ngăn chặn truy cập client-side.                           |
+| `sameSite`    | Boolean, `'lax'`, `'strict'`, `'none'` | Kiểm soát hành vi cross-site request của cookie.                                                    |
+| `priority`    | String (`"low"`, `"medium"`, `"high"`) | Chỉ định mức độ ưu tiên của cookie                                                                  |
+| `partitioned` | Boolean                                | Chỉ ra liệu cookie có được [phân vùng (partitioned)](https://github.com/privacycg/CHIPS) hay không. |
 
-The only option with a default value is `path`.
+Tùy chọn duy nhất có giá trị mặc định là `path`.
 
-To learn more about these options, see the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies).
+Để tìm hiểu thêm về các tùy chọn này, xem [tài liệu MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies).
 
-## Good to know
+## Lưu ý
 
-- `cookies` is an **asynchronous** function that returns a promise. You must use `async/await` or React's [`use`](https://react.dev/reference/react/use) function to access cookies.
-  - In version 14 and earlier, `cookies` was a synchronous function. To help with backwards compatibility, you can still access it synchronously in Next.js 15, but this behavior will be deprecated in the future.
-- `cookies` is a [Dynamic API](/docs/app/guides/caching#dynamic-rendering) whose returned values cannot be known ahead of time. Using it in a layout or page will opt a route into [dynamic rendering](/docs/app/guides/caching#dynamic-rendering).
-- The `.delete` method can only be called:
-  - In a [Server Action](/docs/app/getting-started/updating-data) or [Route Handler](/docs/app/api-reference/file-conventions/route).
-  - If it belongs to the same domain from which `.set` is called. For wildcard domains, the specific subdomain must be an exact match. Additionally, the code must be executed on the same protocol (HTTP or HTTPS) as the cookie you want to delete.
-- HTTP does not allow setting cookies after streaming starts, so you must use `.set` in a [Server Action](/docs/app/getting-started/updating-data) or [Route Handler](/docs/app/api-reference/file-conventions/route).
+- `cookies` là một hàm **bất đồng bộ (asynchronous)** trả về một promise. Bạn phải sử dụng `async/await` hoặc hàm [`use`](https://react.dev/reference/react/use) của React để truy cập cookies.
+  - Trong phiên bản 14 và cũ hơn, `cookies` là một hàm đồng bộ. Để giúp tương thích ngược, bạn vẫn có thể truy cập nó đồng bộ trong Next.js 15, nhưng hành vi này sẽ bị deprecated trong tương lai.
+- `cookies` là một [Dynamic API](/docs/app/guides/caching#dynamic-rendering) có các giá trị trả về không thể biết trước. Sử dụng nó trong một layout hoặc page sẽ opt một route vào [dynamic rendering](/docs/app/guides/caching#dynamic-rendering).
+- Phương thức `.delete` chỉ có thể được gọi:
+  - Trong một [Server Action](/docs/app/getting-started/updating-data) hoặc [Route Handler](/docs/app/api-reference/file-conventions/route).
+  - Nếu nó thuộc về cùng một domain mà từ đó `.set` được gọi. Đối với wildcard domains, subdomain cụ thể phải khớp chính xác. Ngoài ra, mã phải được thực thi trên cùng một protocol (HTTP hoặc HTTPS) như cookie bạn muốn xóa.
+- HTTP không cho phép đặt cookies sau khi streaming bắt đầu, vì vậy bạn phải sử dụng `.set` trong một [Server Action](/docs/app/getting-started/updating-data) hoặc [Route Handler](/docs/app/api-reference/file-conventions/route).
 
-## Understanding Cookie Behavior in Server Components
+## Hiểu hành vi Cookie trong Server Components
 
-When working with cookies in Server Components, it's important to understand that cookies are fundamentally a client-side storage mechanism:
+Khi làm việc với cookies trong Server Components, điều quan trọng là phải hiểu rằng cookies về cơ bản là một cơ chế lưu trữ client-side:
 
-- **Reading cookies** works in Server Components because you're accessing the cookie data that the client's browser sends to the server in the HTTP request headers.
-- **Setting cookies** cannot be done directly in a Server Component, even when using a Route Handler or Server Action. This is because cookies are actually stored by the browser, not the server.
+- **Đọc cookies** hoạt động trong Server Components vì bạn đang truy cập dữ liệu cookie mà trình duyệt của client gửi đến server trong HTTP request headers.
+- **Đặt cookies** không thể được thực hiện trực tiếp trong một Server Component, ngay cả khi sử dụng Route Handler hoặc Server Action. Điều này là do cookies thực sự được lưu trữ bởi trình duyệt, không phải server.
 
-The server can only send instructions (via `Set-Cookie` headers) to tell the browser to store cookies - the actual storage happens on the client side. This is why cookie operations that modify state (`.set`, `.delete`, `.clear`) must be performed in a Route Handler or Server Action where the response headers can be properly set.
+Server chỉ có thể gửi hướng dẫn (thông qua headers `Set-Cookie`) để bảo trình duyệt lưu trữ cookies - việc lưu trữ thực tế diễn ra ở phía client. Đây là lý do tại sao các thao tác cookie sửa đổi state (`.set`, `.delete`, `.clear`) phải được thực hiện trong một Route Handler hoặc Server Action nơi response headers có thể được đặt đúng cách.
 
-## Understanding Cookie Behavior in Server Actions
+## Hiểu hành vi Cookie trong Server Actions
 
-After you set or delete a cookie in a Server Action, Next.js re-renders the current page and its layouts on the server so the UI reflects the new cookie value. See the [Caching guide](/docs/app/guides/caching#cookies).
+Sau khi bạn đặt hoặc xóa một cookie trong một Server Action, Next.js re-renders trang hiện tại và layouts của nó trên server để UI phản ánh giá trị cookie mới. Xem [hướng dẫn Caching](/docs/app/guides/caching#cookies).
 
-The UI is not unmounted, but effects that depend on data coming from the server will re-run.
+UI không bị unmounted, nhưng các effects phụ thuộc vào dữ liệu đến từ server sẽ chạy lại.
 
-To refresh cached data too, call [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) or [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) inside the action.
+Để refresh dữ liệu đã cache nữa, hãy gọi [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) hoặc [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) bên trong action.
 
-## Examples
+## Ví dụ
 
-### Getting a cookie
+### Lấy một cookie
 
-You can use the `(await cookies()).get('name')` method to get a single cookie:
+Bạn có thể sử dụng phương thức `(await cookies()).get('name')` để lấy một cookie đơn lẻ:
 
 ```tsx filename="app/page.tsx" switcher
 import { cookies } from 'next/headers'
@@ -116,9 +116,9 @@ export default async function Page() {
 }
 ```
 
-### Getting all cookies
+### Lấy tất cả cookies
 
-You can use the `(await cookies()).getAll()` method to get all cookies with a matching name. If `name` is unspecified, it returns all the available cookies.
+Bạn có thể sử dụng phương thức `(await cookies()).getAll()` để lấy tất cả cookies có tên khớp. Nếu `name` không được chỉ định, nó trả về tất cả các cookies có sẵn.
 
 ```tsx filename="app/page.tsx" switcher
 import { cookies } from 'next/headers'
@@ -148,9 +148,9 @@ export default async function Page() {
 }
 ```
 
-### Setting a cookie
+### Đặt một cookie
 
-You can use the `(await cookies()).set(name, value, options)` method in a [Server Action](/docs/app/getting-started/updating-data) or [Route Handler](/docs/app/api-reference/file-conventions/route) to set a cookie. The [`options` object](#options) is optional.
+Bạn có thể sử dụng phương thức `(await cookies()).set(name, value, options)` trong một [Server Action](/docs/app/getting-started/updating-data) hoặc [Route Handler](/docs/app/api-reference/file-conventions/route) để đặt một cookie. [Object `options`](#options) là tùy chọn.
 
 ```tsx filename="app/actions.ts" switcher
 'use server'
@@ -161,9 +161,9 @@ export async function create(data) {
   const cookieStore = await cookies()
 
   cookieStore.set('name', 'lee')
-  // or
+  // hoặc
   cookieStore.set('name', 'lee', { secure: true })
-  // or
+  // hoặc
   cookieStore.set({
     name: 'name',
     value: 'lee',
@@ -182,9 +182,9 @@ export async function create(data) {
   const cookieStore = await cookies()
 
   cookieStore.set('name', 'lee')
-  // or
+  // hoặc
   cookieStore.set('name', 'lee', { secure: true })
-  // or
+  // hoặc
   cookieStore.set({
     name: 'name',
     value: 'lee',
@@ -194,9 +194,9 @@ export async function create(data) {
 }
 ```
 
-### Checking if a cookie exists
+### Kiểm tra xem một cookie có tồn tại không
 
-You can use the `(await cookies()).has(name)` method to check if a cookie exists:
+Bạn có thể sử dụng phương thức `(await cookies()).has(name)` để kiểm tra xem một cookie có tồn tại không:
 
 ```tsx filename="app/page.ts" switcher
 import { cookies } from 'next/headers'
@@ -218,11 +218,11 @@ export default async function Page() {
 }
 ```
 
-### Deleting cookies
+### Xóa cookies
 
-There are three ways you can delete a cookie.
+Có ba cách bạn có thể xóa một cookie.
 
-Using the `delete()` method:
+Sử dụng phương thức `delete()`:
 
 ```tsx filename="app/actions.ts" switcher
 'use server'
@@ -244,7 +244,7 @@ export async function delete(data) {
 }
 ```
 
-Setting a new cookie with the same name and an empty value:
+Đặt một cookie mới với cùng tên và giá trị rỗng:
 
 ```tsx filename="app/actions.ts" switcher
 'use server'
@@ -266,7 +266,7 @@ export async function delete(data) {
 }
 ```
 
-Setting the `maxAge` to 0 will immediately expire a cookie. `maxAge` accepts a value in seconds.
+Đặt `maxAge` thành 0 sẽ làm hết hạn cookie ngay lập tức. `maxAge` chấp nhận giá trị tính bằng giây.
 
 ```tsx filename="app/actions.ts" switcher
 'use server'
@@ -285,13 +285,12 @@ import { cookies } from 'next/headers'
 
 export async function delete(data) {
   (await cookies()).set('name', 'value', { maxAge: 0 })
-``
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version      | Changes                                                                                                |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `v15.0.0-RC` | `cookies` is now an async function. A [codemod](/docs/app/guides/upgrading/codemods#150) is available. |
-| `v13.0.0`    | `cookies` introduced.                                                                                  |
+| Phiên bản    | Thay đổi                                                                                           |
+| ------------ | -------------------------------------------------------------------------------------------------- |
+| `v15.0.0-RC` | `cookies` bây giờ là một hàm async. Một [codemod](/docs/app/guides/upgrading/codemods#150) có sẵn. |
+| `v13.0.0`    | `cookies` được giới thiệu.                                                                         |

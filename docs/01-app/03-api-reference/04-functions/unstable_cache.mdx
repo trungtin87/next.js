@@ -1,11 +1,11 @@
 ---
 title: unstable_cache
-description: API Reference for the unstable_cache function.
+description: Tài liệu tham khảo API cho hàm unstable_cache.
 ---
 
-> **Warning:** This API will be replaced by [`use cache`](/docs/app/api-reference/directives/use-cache) when it reaches stability.
+> **Cảnh báo:** API này sẽ được thay thế bởi [`use cache`](/docs/app/api-reference/directives/use-cache) khi nó đạt đến độ ổn định.
 
-`unstable_cache` allows you to cache the results of expensive operations, like database queries, and reuse them across multiple requests.
+`unstable_cache` cho phép bạn cache kết quả của các hoạt động tốn kém, như truy vấn cơ sở dữ liệu, và tái sử dụng chúng qua nhiều requests.
 
 ```jsx
 import { getUser } from './data';
@@ -22,28 +22,28 @@ export default async function Component({ userID }) {
 }
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - Accessing dynamic data sources such as `headers` or `cookies` inside a cache scope is not supported. If you need this data inside a cached function use `headers` outside of the cached function and pass the required dynamic data in as an argument.
-> - This API uses Next.js' built-in [Data Cache](/docs/app/guides/caching#data-cache) to persist the result across requests and deployments.
+> - Truy cập các nguồn dữ liệu dynamic như `headers` hoặc `cookies` bên trong một phạm vi cache không được hỗ trợ. Nếu bạn cần dữ liệu này bên trong một hàm được cache, hãy sử dụng `headers` bên ngoài hàm được cache và truyền dữ liệu dynamic cần thiết vào như một đối số.
+> - API này sử dụng [Data Cache](/docs/app/guides/caching#data-cache) tích hợp sẵn của Next.js để duy trì kết quả qua các requests và deployments.
 
-## Parameters
+## Tham số
 
 ```jsx
 const data = unstable_cache(fetchData, keyParts, options)()
 ```
 
-- `fetchData`: This is an asynchronous function that fetches the data you want to cache. It must be a function that returns a `Promise`.
-- `keyParts`: This is an extra array of keys that further adds identification to the cache. By default, `unstable_cache` already uses the arguments and the stringified version of your function as the cache key. It is optional in most cases; the only time you need to use it is when you use external variables without passing them as parameters. However, it is important to add closures used within the function if you do not pass them as parameters.
-- `options`: This is an object that controls how the cache behaves. It can contain the following properties:
-  - `tags`: An array of tags that can be used to control cache invalidation. Next.js will not use this to uniquely identify the function.
-  - `revalidate`: The number of seconds after which the cache should be revalidated. Omit or pass `false` to cache indefinitely or until matching `revalidateTag()` or `revalidatePath()` methods are called.
+- `fetchData`: Đây là một hàm bất đồng bộ fetch dữ liệu bạn muốn cache. Nó phải là một hàm trả về một `Promise`.
+- `keyParts`: Đây là một mảng bổ sung các keys để thêm nhận dạng cho cache. Theo mặc định, `unstable_cache` đã sử dụng các đối số và phiên bản stringified của hàm của bạn làm cache key. Nó là tùy chọn trong hầu hết các trường hợp; lần duy nhất bạn cần sử dụng nó là khi bạn sử dụng các biến bên ngoài mà không truyền chúng dưới dạng tham số. Tuy nhiên, điều quan trọng là thêm các closures được sử dụng trong hàm nếu bạn không truyền chúng dưới dạng tham số.
+- `options`: Đây là một object kiểm soát cách cache hoạt động. Nó có thể chứa các thuộc tính sau:
+  - `tags`: Một mảng các tags có thể được sử dụng để kiểm soát việc invalidate cache. Next.js sẽ không sử dụng cái này để xác định duy nhất hàm.
+  - `revalidate`: Số giây sau đó cache nên được revalidate. Bỏ qua hoặc truyền `false` để cache vô thời hạn hoặc cho đến khi các phương thức `revalidateTag()` hoặc `revalidatePath()` khớp được gọi.
 
-## Returns
+## Giá trị trả về
 
-`unstable_cache` returns a function that when invoked, returns a Promise that resolves to the cached data. If the data is not in the cache, the provided function will be invoked, and its result will be cached and returned.
+`unstable_cache` trả về một hàm mà khi được gọi, trả về một Promise giải quyết thành dữ liệu đã cache. Nếu dữ liệu không có trong cache, hàm được cung cấp sẽ được gọi, và kết quả của nó sẽ được cache và trả về.
 
-## Example
+## Ví dụ
 
 ```tsx filename="app/page.tsx" switcher
 import { unstable_cache } from 'next/cache'
@@ -58,7 +58,7 @@ export default async function Page({
     async () => {
       return { id: userId }
     },
-    [userId], // add the user ID to the cache key
+    [userId], // thêm user ID vào cache key
     {
       tags: ['users'],
       revalidate: 60,
@@ -78,7 +78,7 @@ export default async function Page({ params } }) {
     async () => {
       return { id: userId };
     },
-    [userId], // add the user ID to the cache key
+    [userId], // thêm user ID vào cache key
     {
       tags: ["users"],
       revalidate: 60,
@@ -89,8 +89,8 @@ export default async function Page({ params } }) {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                      |
-| --------- | ---------------------------- |
-| `v14.0.0` | `unstable_cache` introduced. |
+| Phiên bản | Thay đổi                          |
+| --------- | --------------------------------- |
+| `v14.0.0` | `unstable_cache` được giới thiệu. |

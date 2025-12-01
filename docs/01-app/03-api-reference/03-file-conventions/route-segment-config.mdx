@@ -1,31 +1,31 @@
 ---
 title: Route Segment Config
-description: Learn about how to configure options for Next.js route segments.
+description: Tìm hiểu cách cấu hình các tùy chọn cho Next.js route segments.
 ---
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - The options outlined on this page are disabled if the [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) flag is on, and will eventually be deprecated in the future.
-> - Route Segment options only take effect in Server Component Pages, Layouts, or Route Handlers.
-> - `generateStaticParams` cannot be used inside a `'use client'` file.
+> - Các tùy chọn được nêu trên trang này bị vô hiệu hóa nếu cờ [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) được bật, và cuối cùng sẽ bị deprecated trong tương lai.
+> - Các tùy chọn Route Segment chỉ có hiệu lực trong Server Component Pages, Layouts, hoặc Route Handlers.
+> - `generateStaticParams` không thể được sử dụng bên trong một file `'use client'`.
 
-The Route Segment options allows you to configure the behavior of a [Page](/docs/app/api-reference/file-conventions/layout), [Layout](/docs/app/api-reference/file-conventions/layout), or [Route Handler](/docs/app/api-reference/file-conventions/route) by directly exporting the following variables:
+Các tùy chọn Route Segment cho phép bạn cấu hình hành vi của một [Page](/docs/app/api-reference/file-conventions/layout), [Layout](/docs/app/api-reference/file-conventions/layout), hoặc [Route Handler](/docs/app/api-reference/file-conventions/route) bằng cách export trực tiếp các biến sau:
 
-| Option                                | Type                                                                                                                      | Default                    |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| [`dynamic`](#dynamic)                 | `'auto' \| 'force-dynamic' \| 'error' \| 'force-static'`                                                                  | `'auto'`                   |
-| [`dynamicParams`](#dynamicparams)     | `boolean`                                                                                                                 | `true`                     |
-| [`revalidate`](#revalidate)           | `false \| 0 \| number`                                                                                                    | `false`                    |
-| [`fetchCache`](#fetchcache)           | `'auto' \| 'default-cache' \| 'only-cache' \| 'force-cache' \| 'force-no-store' \| 'default-no-store' \| 'only-no-store'` | `'auto'`                   |
-| [`runtime`](#runtime)                 | `'nodejs' \| 'edge'`                                                                                                      | `'nodejs'`                 |
-| [`preferredRegion`](#preferredregion) | `'auto' \| 'global' \| 'home' \| string \| string[]`                                                                      | `'auto'`                   |
-| [`maxDuration`](#maxduration)         | `number`                                                                                                                  | Set by deployment platform |
+| Tùy chọn                              | Kiểu                                                                                                                      | Mặc định                         |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| [`dynamic`](#dynamic)                 | `'auto' \| 'force-dynamic' \| 'error' \| 'force-static'`                                                                  | `'auto'`                         |
+| [`dynamicParams`](#dynamicparams)     | `boolean`                                                                                                                 | `true`                           |
+| [`revalidate`](#revalidate)           | `false \| 0 \| number`                                                                                                    | `false`                          |
+| [`fetchCache`](#fetchcache)           | `'auto' \| 'default-cache' \| 'only-cache' \| 'force-cache' \| 'force-no-store' \| 'default-no-store' \| 'only-no-store'` | `'auto'`                         |
+| [`runtime`](#runtime)                 | `'nodejs' \| 'edge'`                                                                                                      | `'nodejs'`                       |
+| [`preferredRegion`](#preferredregion) | `'auto' \| 'global' \| 'home' \| string \| string[]`                                                                      | `'auto'`                         |
+| [`maxDuration`](#maxduration)         | `number`                                                                                                                  | Được đặt bởi nền tảng triển khai |
 
-## Options
+## Tùy chọn
 
 ### `dynamic`
 
-Change the dynamic behavior of a layout or page to fully static or fully dynamic.
+Thay đổi hành vi dynamic của một layout hoặc page thành hoàn toàn static hoặc hoàn toàn dynamic.
 
 ```tsx filename="layout.tsx | page.tsx | route.ts" switcher
 export const dynamic = 'auto'
@@ -37,26 +37,26 @@ export const dynamic = 'auto'
 // 'auto' | 'force-dynamic' | 'error' | 'force-static'
 ```
 
-> **Good to know**: The new model in the `app` directory favors granular caching control at the `fetch` request level over the binary all-or-nothing model of `getServerSideProps` and `getStaticProps` at the page-level in the `pages` directory. The `dynamic` option is a way to opt back in to the previous model as a convenience and provides a simpler migration path.
+> **Lưu ý**: Mô hình mới trong thư mục `app` ủng hộ việc kiểm soát caching chi tiết ở cấp độ request `fetch` hơn là mô hình nhị phân tất cả hoặc không có gì của `getServerSideProps` và `getStaticProps` ở cấp độ page trong thư mục `pages`. Tùy chọn `dynamic` là một cách để opt back in vào mô hình trước đó như một sự tiện lợi và cung cấp một lộ trình di chuyển đơn giản hơn.
 
-- **`'auto'`** (default): The default option to cache as much as possible without preventing any components from opting into dynamic behavior.
-- **`'force-dynamic'`**: Force [dynamic rendering](/docs/app/guides/caching#dynamic-rendering), which will result in routes being rendered for each user at request time. This option is equivalent to:
-  - Setting the option of every `fetch()` request in a layout or page to `{ cache: 'no-store', next: { revalidate: 0 } }`.
-  - Setting the segment config to `export const fetchCache = 'force-no-store'`
+- **`'auto'`** (mặc định): Tùy chọn mặc định để cache nhiều nhất có thể mà không ngăn cản bất kỳ components nào opt vào hành vi dynamic.
+- **`'force-dynamic'`**: Bắt buộc [dynamic rendering](/docs/app/guides/caching#dynamic-rendering), điều này sẽ dẫn đến việc routes được render cho mỗi người dùng tại request time. Tùy chọn này tương đương với:
+  - Đặt tùy chọn của mọi request `fetch()` trong một layout hoặc page thành `{ cache: 'no-store', next: { revalidate: 0 } }`.
+  - Đặt segment config thành `export const fetchCache = 'force-no-store'`
 
-- **`'error'`**: Force static rendering and cache the data of a layout or page by causing an error if any components use [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) or uncached data. This option is equivalent to:
-  - `getStaticProps()` in the `pages` directory.
-  - Setting the option of every `fetch()` request in a layout or page to `{ cache: 'force-cache' }`.
-  - Setting the segment config to `fetchCache = 'only-cache'`.
-- **`'force-static'`**: Force static rendering and cache the data of a layout or page by forcing [`cookies`](/docs/app/api-reference/functions/cookies), [`headers()`](/docs/app/api-reference/functions/headers) and [`useSearchParams()`](/docs/app/api-reference/functions/use-search-params) to return empty values. It is possible to [`revalidate`](#revalidate), [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath), or [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag), in pages or layouts rendered with `force-static`.
+- **`'error'`**: Bắt buộc static rendering và cache dữ liệu của một layout hoặc page bằng cách gây ra lỗi nếu bất kỳ components nào sử dụng [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) hoặc dữ liệu không được cache. Tùy chọn này tương đương với:
+  - `getStaticProps()` trong thư mục `pages`.
+  - Đặt tùy chọn của mọi request `fetch()` trong một layout hoặc page thành `{ cache: 'force-cache' }`.
+  - Đặt segment config thành `fetchCache = 'only-cache'`.
+- **`'force-static'`**: Bắt buộc static rendering và cache dữ liệu của một layout hoặc page bằng cách buộc [`cookies`](/docs/app/api-reference/functions/cookies), [`headers()`](/docs/app/api-reference/functions/headers) và [`useSearchParams()`](/docs/app/api-reference/functions/use-search-params) trả về giá trị rỗng. Có thể [`revalidate`](#revalidate), [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath), hoặc [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag), trong pages hoặc layouts được render với `force-static`.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - Instructions on [how to migrate](/docs/app/guides/migrating/app-router-migration#step-6-migrating-data-fetching-methods) from `getServerSideProps` and `getStaticProps` to `dynamic: 'force-dynamic'` and `dynamic: 'error'` can be found in the [upgrade guide](/docs/app/guides/migrating/app-router-migration#step-6-migrating-data-fetching-methods).
+> - Hướng dẫn về [cách di chuyển](/docs/app/guides/migrating/app-router-migration#step-6-migrating-data-fetching-methods) từ `getServerSideProps` và `getStaticProps` sang `dynamic: 'force-dynamic'` và `dynamic: 'error'` có thể được tìm thấy trong [hướng dẫn nâng cấp](/docs/app/guides/migrating/app-router-migration#step-6-migrating-data-fetching-methods).
 
 ### `dynamicParams`
 
-Control what happens when a dynamic segment is visited that was not generated with [generateStaticParams](/docs/app/api-reference/functions/generate-static-params).
+Kiểm soát điều gì xảy ra khi một dynamic segment được truy cập mà không được tạo với [generateStaticParams](/docs/app/api-reference/functions/generate-static-params).
 
 ```tsx filename="layout.tsx | page.tsx" switcher
 export const dynamicParams = true // true | false
@@ -66,18 +66,18 @@ export const dynamicParams = true // true | false
 export const dynamicParams = true // true | false
 ```
 
-- **`true`** (default): Dynamic segments not included in `generateStaticParams` are generated on demand.
-- **`false`**: Dynamic segments not included in `generateStaticParams` will return a 404.
+- **`true`** (mặc định): Các dynamic segments không được bao gồm trong `generateStaticParams` được tạo theo yêu cầu (on demand).
+- **`false`**: Các dynamic segments không được bao gồm trong `generateStaticParams` sẽ trả về 404.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - This option replaces the `fallback: true | false | blocking` option of `getStaticPaths` in the `pages` directory.
-> - To statically render all paths the first time they're visited, you'll need to return an empty array in `generateStaticParams` or utilize `export const dynamic = 'force-static'`.
-> - When `dynamicParams = true`, the segment uses [Streaming Server Rendering](/docs/app/getting-started/linking-and-navigating#streaming).
+> - Tùy chọn này thay thế tùy chọn `fallback: true | false | blocking` của `getStaticPaths` trong thư mục `pages`.
+> - Để render tĩnh tất cả các paths lần đầu tiên chúng được truy cập, bạn sẽ cần trả về một mảng rỗng trong `generateStaticParams` hoặc sử dụng `export const dynamic = 'force-static'`.
+> - Khi `dynamicParams = true`, segment sử dụng [Streaming Server Rendering](/docs/app/getting-started/linking-and-navigating#streaming).
 
 ### `revalidate`
 
-Set the default revalidation time for a layout or page. This option does not override the `revalidate` value set by individual `fetch` requests.
+Đặt thời gian revalidation mặc định cho một layout hoặc page. Tùy chọn này không ghi đè giá trị `revalidate` được đặt bởi các requests `fetch` riêng lẻ.
 
 ```tsx filename="layout.tsx | page.tsx | route.ts" switcher
 export const revalidate = false
@@ -89,29 +89,29 @@ export const revalidate = false
 // false | 0 | number
 ```
 
-- **`false`** (default): The default heuristic to cache any `fetch` requests that set their `cache` option to `'force-cache'` or are discovered before a [Dynamic API](/docs/app/guides/caching#dynamic-rendering) is used. Semantically equivalent to `revalidate: Infinity` which effectively means the resource should be cached indefinitely. It is still possible for individual `fetch` requests to use `cache: 'no-store'` or `revalidate: 0` to avoid being cached and make the route dynamically rendered. Or set `revalidate` to a positive number lower than the route default to increase the revalidation frequency of a route.
-- **`0`**: Ensure a layout or page is always [dynamically rendered](/docs/app/guides/caching#dynamic-rendering) even if no Dynamic APIs or uncached data fetches are discovered. This option changes the default of `fetch` requests that do not set a `cache` option to `'no-store'` but leaves `fetch` requests that opt into `'force-cache'` or use a positive `revalidate` as is.
-- **`number`**: (in seconds) Set the default revalidation frequency of a layout or page to `n` seconds.
+- **`false`** (mặc định): Heuristic mặc định để cache bất kỳ requests `fetch` nào đặt tùy chọn `cache` của chúng thành `'force-cache'` hoặc được phát hiện trước khi một [Dynamic API](/docs/app/guides/caching#dynamic-rendering) được sử dụng. Về mặt ngữ nghĩa tương đương với `revalidate: Infinity` có nghĩa là tài nguyên nên được cache vô thời hạn. Vẫn có thể cho các requests `fetch` riêng lẻ sử dụng `cache: 'no-store'` hoặc `revalidate: 0` để tránh bị cache và làm cho route được render dynamic. Hoặc đặt `revalidate` thành một số dương thấp hơn mặc định của route để tăng tần suất revalidation của một route.
+- **`0`**: Đảm bảo một layout hoặc page luôn được [render dynamic](/docs/app/guides/caching#dynamic-rendering) ngay cả khi không có Dynamic APIs hoặc data fetches không được cache nào được phát hiện. Tùy chọn này thay đổi mặc định của các requests `fetch` không đặt tùy chọn `cache` thành `'no-store'` nhưng giữ nguyên các requests `fetch` opt vào `'force-cache'` hoặc sử dụng một `revalidate` dương.
+- **`number`**: (tính bằng giây) Đặt tần suất revalidation mặc định của một layout hoặc page thành `n` giây.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - The revalidate value needs to be statically analyzable. For example `revalidate = 600` is valid, but `revalidate = 60 * 10` is not.
-> - The revalidate value is not available when using `runtime = 'edge'`.
-> - In Development, Pages are _always_ rendered on-demand and are never cached. This allows you to see changes immediately without waiting for a revalidation period to pass.
+> - Giá trị revalidate cần phải có thể phân tích tĩnh. Ví dụ `revalidate = 600` là hợp lệ, nhưng `revalidate = 60 * 10` thì không.
+> - Giá trị revalidate không khả dụng khi sử dụng `runtime = 'edge'`.
+> - Trong Development, Pages _luôn_ được render on-demand và không bao giờ được cache. Điều này cho phép bạn thấy các thay đổi ngay lập tức mà không cần đợi thời gian revalidation trôi qua.
 
-#### Revalidation Frequency
+#### Tần suất Revalidation
 
-- The lowest `revalidate` across each layout and page of a single route will determine the revalidation frequency of the _entire_ route. This ensures that child pages are revalidated as frequently as their parent layouts.
-- Individual `fetch` requests can set a lower `revalidate` than the route's default `revalidate` to increase the revalidation frequency of the entire route. This allows you to dynamically opt-in to more frequent revalidation for certain routes based on some criteria.
+- `revalidate` thấp nhất trên mỗi layout và page của một route đơn lẻ sẽ xác định tần suất revalidation của _toàn bộ_ route. Điều này đảm bảo rằng các child pages được revalidate thường xuyên như các parent layouts của chúng.
+- Các requests `fetch` riêng lẻ có thể đặt `revalidate` thấp hơn `revalidate` mặc định của route để tăng tần suất revalidation của toàn bộ route. Điều này cho phép bạn opt-in dynamic vào revalidation thường xuyên hơn cho các routes nhất định dựa trên một số tiêu chí.
 
 ### `fetchCache`
 
 <details>
-  <summary>This is an advanced option that should only be used if you specifically need to override the default behavior.</summary>
+  <summary>Đây là một tùy chọn nâng cao chỉ nên được sử dụng nếu bạn đặc biệt cần ghi đè hành vi mặc định.</summary>
 
-By default, Next.js **will cache** any `fetch()` requests that are reachable **before** any [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) are used and **will not cache** `fetch` requests that are discovered **after** Dynamic APIs are used.
+Mặc định, Next.js **sẽ cache** bất kỳ requests `fetch()` nào có thể truy cập được **trước khi** bất kỳ [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) nào được sử dụng và **sẽ không cache** các requests `fetch` được phát hiện **sau khi** Dynamic APIs được sử dụng.
 
-`fetchCache` allows you to override the default `cache` option of all `fetch` requests in a layout or page.
+`fetchCache` cho phép bạn ghi đè tùy chọn `cache` mặc định của tất cả các requests `fetch` trong một layout hoặc page.
 
 ```tsx filename="layout.tsx | page.tsx | route.ts" switcher
 export const fetchCache = 'auto'
@@ -125,31 +125,31 @@ export const fetchCache = 'auto'
 // 'force-cache' | 'force-no-store' | 'default-no-store' | 'only-no-store'
 ```
 
-- **`'auto'`** (default): The default option to cache `fetch` requests before Dynamic APIs with the `cache` option they provide and not cache `fetch` requests after Dynamic APIs.
-- **`'default-cache'`**: Allow any `cache` option to be passed to `fetch` but if no option is provided then set the `cache` option to `'force-cache'`. This means that even `fetch` requests after Dynamic APIs are considered static.
-- **`'only-cache'`**: Ensure all `fetch` requests opt into caching by changing the default to `cache: 'force-cache'` if no option is provided and causing an error if any `fetch` requests use `cache: 'no-store'`.
-- **`'force-cache'`**: Ensure all `fetch` requests opt into caching by setting the `cache` option of all `fetch` requests to `'force-cache'`.
-- **`'default-no-store'`**: Allow any `cache` option to be passed to `fetch` but if no option is provided then set the `cache` option to `'no-store'`. This means that even `fetch` requests before Dynamic APIs are considered dynamic.
-- **`'only-no-store'`**: Ensure all `fetch` requests opt out of caching by changing the default to `cache: 'no-store'` if no option is provided and causing an error if any `fetch` requests use `cache: 'force-cache'`
-- **`'force-no-store'`**: Ensure all `fetch` requests opt out of caching by setting the `cache` option of all `fetch` requests to `'no-store'`. This forces all `fetch` requests to be re-fetched every request even if they provide a `'force-cache'` option.
+- **`'auto'`** (mặc định): Tùy chọn mặc định để cache các requests `fetch` trước Dynamic APIs với tùy chọn `cache` mà chúng cung cấp và không cache các requests `fetch` sau Dynamic APIs.
+- **`'default-cache'`**: Cho phép bất kỳ tùy chọn `cache` nào được truyền cho `fetch` nhưng nếu không có tùy chọn nào được cung cấp thì đặt tùy chọn `cache` thành `'force-cache'`. Điều này có nghĩa là ngay cả các requests `fetch` sau Dynamic APIs cũng được coi là static.
+- **`'only-cache'`**: Đảm bảo tất cả các requests `fetch` opt vào caching bằng cách thay đổi mặc định thành `cache: 'force-cache'` nếu không có tùy chọn nào được cung cấp và gây ra lỗi nếu bất kỳ requests `fetch` nào sử dụng `cache: 'no-store'`.
+- **`'force-cache'`**: Đảm bảo tất cả các requests `fetch` opt vào caching bằng cách đặt tùy chọn `cache` của tất cả các requests `fetch` thành `'force-cache'`.
+- **`'default-no-store'`**: Cho phép bất kỳ tùy chọn `cache` nào được truyền cho `fetch` nhưng nếu không có tùy chọn nào được cung cấp thì đặt tùy chọn `cache` thành `'no-store'`. Điều này có nghĩa là ngay cả các requests `fetch` trước Dynamic APIs cũng được coi là dynamic.
+- **`'only-no-store'`**: Đảm bảo tất cả các requests `fetch` opt out khỏi caching bằng cách thay đổi mặc định thành `cache: 'no-store'` nếu không có tùy chọn nào được cung cấp và gây ra lỗi nếu bất kỳ requests `fetch` nào sử dụng `cache: 'force-cache'`
+- **`'force-no-store'`**: Đảm bảo tất cả các requests `fetch` opt out khỏi caching bằng cách đặt tùy chọn `cache` của tất cả các requests `fetch` thành `'no-store'`. Điều này buộc tất cả các requests `fetch` phải được fetch lại mỗi request ngay cả khi chúng cung cấp tùy chọn `'force-cache'`.
 
-#### Cross-route segment behavior
+#### Hành vi Cross-route segment
 
-- Any options set across each layout and page of a single route need to be compatible with each other.
-  - If both the `'only-cache'` and `'force-cache'` are provided, then `'force-cache'` wins. If both `'only-no-store'` and `'force-no-store'` are provided, then `'force-no-store'` wins. The force option changes the behavior across the route so a single segment with `'force-*'` would prevent any errors caused by `'only-*'`.
-  - The intention of the `'only-*'` and `'force-*'` options is to guarantee the whole route is either fully static or fully dynamic. This means:
-    - A combination of `'only-cache'` and `'only-no-store'` in a single route is not allowed.
-    - A combination of `'force-cache'` and `'force-no-store'` in a single route is not allowed.
-  - A parent cannot provide `'default-no-store'` if a child provides `'auto'` or `'*-cache'` since that could make the same fetch have different behavior.
-- It is generally recommended to leave shared parent layouts as `'auto'` and customize the options where child segments diverge.
+- Bất kỳ tùy chọn nào được đặt trên mỗi layout và page của một route đơn lẻ cần phải tương thích với nhau.
+  - Nếu cả `'only-cache'` và `'force-cache'` đều được cung cấp, thì `'force-cache'` thắng. Nếu cả `'only-no-store'` và `'force-no-store'` đều được cung cấp, thì `'force-no-store'` thắng. Tùy chọn force thay đổi hành vi trên toàn bộ route vì vậy một segment đơn lẻ với `'force-*'` sẽ ngăn chặn bất kỳ lỗi nào gây ra bởi `'only-*'`.
+  - Mục đích của các tùy chọn `'only-*'` và `'force-*'` là để đảm bảo toàn bộ route hoặc là hoàn toàn static hoặc là hoàn toàn dynamic. Điều này có nghĩa là:
+    - Sự kết hợp của `'only-cache'` và `'only-no-store'` trong một route đơn lẻ là không được phép.
+    - Sự kết hợp của `'force-cache'` và `'force-no-store'` trong một route đơn lẻ là không được phép.
+  - Một parent không thể cung cấp `'default-no-store'` nếu một child cung cấp `'auto'` hoặc `'*-cache'` vì điều đó có thể làm cho cùng một fetch có hành vi khác nhau.
+- Thường được khuyến nghị để các shared parent layouts là `'auto'` và tùy chỉnh các tùy chọn nơi các child segments khác biệt.
 
 </details>
 
 ### `runtime`
 
-We recommend using the Node.js runtime for rendering your application. This option cannot be used in [Proxy](/docs/app/api-reference/file-conventions/proxy).
+Chúng tôi khuyên bạn nên sử dụng Node.js runtime để render ứng dụng của bạn. Tùy chọn này không thể được sử dụng trong [Proxy](/docs/app/api-reference/file-conventions/proxy).
 
-> **Good to know**: Using `runtime: 'edge'` is **not supported** for Cache Components.
+> **Lưu ý**: Sử dụng `runtime: 'edge'` là **không được hỗ trợ** cho Cache Components.
 
 ```tsx filename="layout.tsx | page.tsx | route.ts" switcher
 export const runtime = 'nodejs'
@@ -161,7 +161,7 @@ export const runtime = 'nodejs'
 // 'nodejs' | 'edge'
 ```
 
-- **`'nodejs'`** (default)
+- **`'nodejs'`** (mặc định)
 - **`'edge'`**
 
 ### `preferredRegion`
@@ -176,19 +176,19 @@ export const preferredRegion = 'auto'
 // 'auto' | 'global' | 'home' | ['iad1', 'sfo1']
 ```
 
-Support for `preferredRegion`, and regions supported, is dependent on your deployment platform.
+Hỗ trợ cho `preferredRegion`, và các regions được hỗ trợ, phụ thuộc vào nền tảng triển khai của bạn.
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - If a `preferredRegion` is not specified, it will inherit the option of the nearest parent layout.
-> - The root layout defaults to `all` regions.
+> - Nếu một `preferredRegion` không được chỉ định, nó sẽ kế thừa tùy chọn của parent layout gần nhất.
+> - Root layout mặc định là `all` regions.
 
 ### `maxDuration`
 
-By default, Next.js does not limit the execution of server-side logic (rendering a page or handling an API).
-Deployment platforms can use `maxDuration` from the Next.js build output to add specific execution limits.
+Mặc định, Next.js không giới hạn việc thực thi logic server-side (render một page hoặc xử lý một API).
+Các nền tảng triển khai có thể sử dụng `maxDuration` từ output build của Next.js để thêm các giới hạn thực thi cụ thể.
 
-**Note**: This setting requires Next.js `13.4.10` or higher.
+**Lưu ý**: Cài đặt này yêu cầu Next.js `13.4.10` hoặc cao hơn.
 
 ```tsx filename="layout.tsx | page.tsx | route.ts" switcher
 export const maxDuration = 5
@@ -198,19 +198,19 @@ export const maxDuration = 5
 export const maxDuration = 5
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - If using [Server Actions](/docs/app/getting-started/updating-data), set the `maxDuration` at the page level to change the default timeout of all Server Actions used on the page.
+> - Nếu sử dụng [Server Actions](/docs/app/getting-started/updating-data), đặt `maxDuration` ở cấp độ page để thay đổi timeout mặc định của tất cả các Server Actions được sử dụng trên page.
 
 ### `generateStaticParams`
 
-The `generateStaticParams` function can be used in combination with [dynamic route segments](/docs/app/api-reference/file-conventions/dynamic-routes) to define the list of route segment parameters that will be statically generated at build time instead of on-demand at request time.
+Hàm `generateStaticParams` có thể được sử dụng kết hợp với [dynamic route segments](/docs/app/api-reference/file-conventions/dynamic-routes) để định nghĩa danh sách các tham số route segment sẽ được tạo tĩnh tại build time thay vì on-demand tại request time.
 
-See the [API reference](/docs/app/api-reference/functions/generate-static-params) for more details.
+Xem [API reference](/docs/app/api-reference/functions/generate-static-params) để biết thêm chi tiết.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version      |                                                                                                                                                                                                                |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v16.0.0`    | `export const experimental_ppr = true` removed. A [codemod](/docs/app/guides/upgrading/codemods#remove-experimental_ppr-route-segment-config-from-app-router-pages-and-layouts) is available.                  |
-| `v15.0.0-RC` | `export const runtime = "experimental-edge"` deprecated. A [codemod](/docs/app/guides/upgrading/codemods#transform-app-router-route-segment-config-runtime-value-from-experimental-edge-to-edge) is available. |
+| Phiên bản    |                                                                                                                                                                                                                  |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v16.0.0`    | `export const experimental_ppr = true` đã bị xóa. Một [codemod](/docs/app/guides/upgrading/codemods#remove-experimental_ppr-route-segment-config-from-app-router-pages-and-layouts) có sẵn.                      |
+| `v15.0.0-RC` | `export const runtime = "experimental-edge"` đã bị deprecated. Một [codemod](/docs/app/guides/upgrading/codemods#transform-app-router-route-segment-config-runtime-value-from-experimental-edge-to-edge) có sẵn. |

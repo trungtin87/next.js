@@ -1,12 +1,12 @@
 ---
 title: inlineCss
-description: Enable inline CSS support.
+description: Kích hoạt hỗ trợ inline CSS.
 version: experimental
 ---
 
-## Usage
+## Sử dụng
 
-Experimental support for inlining CSS in the `<head>`. When this flag is enabled, all places where we normally generate a `<link>` tag will instead have a generated `<style>` tag.
+Hỗ trợ thử nghiệm cho việc inlining CSS trong `<head>`. Khi cờ này được bật, tất cả những nơi chúng tôi thường tạo thẻ `<link>` sẽ thay vào đó có thẻ `<style>` được tạo.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -31,36 +31,36 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-## Trade-Offs
+## Đánh đổi
 
-### When to Use Inline CSS
+### Khi nào nên sử dụng Inline CSS
 
-Inlining CSS can be beneficial in several scenarios:
+Inlining CSS có thể có lợi trong một số trường hợp:
 
-- **First-Time Visitors**: Since CSS files are render-blocking resources, inlining eliminates the initial download delay that first-time visitors experience, improving page load performance.
+- **Khách truy cập lần đầu**: Vì các file CSS là tài nguyên chặn hiển thị (render-blocking), việc inlining loại bỏ độ trễ tải xuống ban đầu mà khách truy cập lần đầu gặp phải, cải thiện hiệu suất tải trang.
 
-- **Performance Metrics**: By removing the additional network requests for CSS files, inlining can significantly improve key metrics like First Contentful Paint (FCP) and Largest Contentful Paint (LCP).
+- **Các chỉ số hiệu suất**: Bằng cách loại bỏ các yêu cầu mạng bổ sung cho các file CSS, việc inlining có thể cải thiện đáng kể các chỉ số chính như First Contentful Paint (FCP) và Largest Contentful Paint (LCP).
 
-- **Slow Connections**: For users on slower networks where each request adds considerable latency, inlining CSS can provide a noticeable performance boost by reducing network roundtrips.
+- **Kết nối chậm**: Đối với người dùng trên các mạng chậm hơn, nơi mỗi yêu cầu thêm độ trễ đáng kể, inlining CSS có thể cung cấp sự gia tăng hiệu suất đáng chú ý bằng cách giảm các vòng lặp mạng (network roundtrips).
 
-- **Atomic CSS Bundles (e.g., Tailwind)**: With utility-first frameworks like Tailwind CSS, the size of the styles required for a page is often O(1) relative to the complexity of the design. This makes inlining a compelling choice because the entire set of styles for the current page is lightweight and doesn’t grow with the page size. Inlining Tailwind styles ensures minimal payload and eliminates the need for additional network requests, which can further enhance performance.
+- **Atomic CSS Bundles (ví dụ: Tailwind)**: Với các framework utility-first như Tailwind CSS, kích thước của các styles cần thiết cho một trang thường là O(1) so với độ phức tạp của thiết kế. Điều này làm cho inlining trở thành một lựa chọn hấp dẫn vì toàn bộ tập hợp các styles cho trang hiện tại là nhẹ và không tăng theo kích thước trang. Inlining Tailwind styles đảm bảo payload tối thiểu và loại bỏ nhu cầu về các yêu cầu mạng bổ sung, điều này có thể nâng cao hiệu suất hơn nữa.
 
-### When Not to Use Inline CSS
+### Khi nào không nên sử dụng Inline CSS
 
-While inlining CSS offers significant benefits for performance, there are scenarios where it may not be the best choice:
+Mặc dù inlining CSS mang lại những lợi ích đáng kể cho hiệu suất, nhưng có những trường hợp nó có thể không phải là lựa chọn tốt nhất:
 
-- **Large CSS Bundles**: If your CSS bundle is too large, inlining it may significantly increase the size of the HTML, resulting in slower Time to First Byte (TTFB) and potentially worse performance for users with slow connections.
-- **Dynamic or Page-Specific CSS**: For applications with highly dynamic styles or pages that use different sets of CSS, inlining may lead to redundancy and bloat, as the full CSS for all pages may need to be inlined repeatedly.
+- **Các gói CSS lớn**: Nếu gói CSS của bạn quá lớn, việc inlining nó có thể làm tăng đáng kể kích thước của HTML, dẫn đến Time to First Byte (TTFB) chậm hơn và hiệu suất có thể kém hơn đối với người dùng có kết nối chậm.
+- **CSS động hoặc cụ thể cho trang**: Đối với các ứng dụng có styles rất động hoặc các trang sử dụng các bộ CSS khác nhau, việc inlining có thể dẫn đến dư thừa và phình to, vì toàn bộ CSS cho tất cả các trang có thể cần phải được inlined lặp đi lặp lại.
 
-- **Browser Caching**: In cases where visitors frequently return to your site, external CSS files allow browsers to cache styles efficiently, reducing data transfer for subsequent visits. Inlining CSS eliminates this benefit.
+- **Browser Caching**: Trong trường hợp khách truy cập thường xuyên quay lại trang web của bạn, các file CSS bên ngoài cho phép trình duyệt cache các styles một cách hiệu quả, giảm chuyển dữ liệu cho các lần truy cập tiếp theo. Inlining CSS loại bỏ lợi ích này.
 
-Evaluate these trade-offs carefully, and consider combining inlining with other strategies, such as critical CSS extraction or a hybrid approach, for the best results tailored to your site's needs.
+Đánh giá cẩn thận các sự đánh đổi này, và xem xét kết hợp inlining với các chiến lược khác, chẳng hạn như trích xuất critical CSS hoặc một cách tiếp cận lai, để có kết quả tốt nhất phù hợp với nhu cầu của trang web của bạn.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> This feature is currently experimental and has some known limitations:
+> Tính năng này hiện đang là thử nghiệm và có một số hạn chế đã biết:
 >
-> - CSS inlining is applied globally and cannot be configured on a per-page basis
-> - Styles are duplicated during initial page load - once within `<style>` tags for SSR and once in the RSC payload
-> - When navigating to statically rendered pages, styles will use `<link>` tags instead of inline CSS to avoid duplication
-> - This feature is not available in development mode and only works in production builds
+> - CSS inlining được áp dụng toàn cầu và không thể được cấu hình trên cơ sở từng trang
+> - Styles bị trùng lặp trong quá trình tải trang ban đầu - một lần trong các thẻ `<style>` cho SSR và một lần trong RSC payload
+> - Khi điều hướng đến các trang được render tĩnh, styles sẽ sử dụng các thẻ `<link>` thay vì inline CSS để tránh trùng lặp
+> - Tính năng này không có sẵn trong chế độ development và chỉ hoạt động trong các bản build production

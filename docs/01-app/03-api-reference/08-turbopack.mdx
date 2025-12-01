@@ -1,24 +1,24 @@
 ---
 title: Turbopack
-description: Turbopack is an incremental bundler optimized for JavaScript and TypeScript, written in Rust, and built into Next.js.
+description: Turbopack là một trình đóng gói (bundler) tăng dần được tối ưu hóa cho JavaScript và TypeScript, được viết bằng Rust và tích hợp sẵn trong Next.js.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-Turbopack is an **incremental bundler** optimized for JavaScript and TypeScript, written in Rust, and built into **Next.js**. You can use Turbopack with both the Pages and App Router for a **much faster** local development experience.
+Turbopack là một **trình đóng gói (bundler) tăng dần** được tối ưu hóa cho JavaScript và TypeScript, được viết bằng Rust và tích hợp sẵn trong **Next.js**. Bạn có thể sử dụng Turbopack với cả Pages và App Router để có trải nghiệm phát triển cục bộ **nhanh hơn nhiều**.
 
-## Why Turbopack?
+## Tại sao lại là Turbopack?
 
-We built Turbopack to push the performance of Next.js, including:
+Chúng tôi đã xây dựng Turbopack để đẩy mạnh hiệu suất của Next.js, bao gồm:
 
-- **Unified Graph:** Next.js supports multiple output environments (e.g., client and server). Managing multiple compilers and stitching bundles together can be tedious. Turbopack uses a **single, unified graph** for all environments.
-- **Bundling vs Native ESM:** Some tools skip bundling in development and rely on the browser's native ESM. This works well for small apps but can slow down large apps due to excessive network requests. Turbopack **bundles** in dev, but in an optimized way to keep large apps fast.
-- **Incremental Computation:** Turbopack parallelizes work across cores and **caches** results down to the function level. Once a piece of work is done, Turbopack won’t repeat it.
-- **Lazy Bundling:** Turbopack only bundles what is actually requested by the dev server. This lazy approach can reduce initial compile times and memory usage.
+- **Unified Graph (Đồ thị thống nhất):** Next.js hỗ trợ nhiều môi trường đầu ra (ví dụ: client và server). Việc quản lý nhiều trình biên dịch và ghép các gói lại với nhau có thể tẻ nhạt. Turbopack sử dụng một **đồ thị thống nhất, duy nhất** cho tất cả các môi trường.
+- **Bundling vs Native ESM:** Một số công cụ bỏ qua việc đóng gói trong quá trình phát triển và dựa vào ESM gốc của trình duyệt. Điều này hoạt động tốt cho các ứng dụng nhỏ nhưng có thể làm chậm các ứng dụng lớn do quá nhiều yêu cầu mạng. Turbopack **đóng gói** trong dev, nhưng theo cách tối ưu hóa để giữ cho các ứng dụng lớn nhanh chóng.
+- **Incremental Computation (Tính toán tăng dần):** Turbopack song song hóa công việc trên các lõi và **lưu vào bộ nhớ đệm** kết quả xuống cấp độ hàm. Khi một phần công việc được thực hiện, Turbopack sẽ không lặp lại nó.
+- **Lazy Bundling (Đóng gói lười):** Turbopack chỉ đóng gói những gì thực sự được yêu cầu bởi máy chủ dev. Cách tiếp cận lười này có thể giảm thời gian biên dịch ban đầu và sử dụng bộ nhớ.
 
-## Getting started
+## Bắt đầu
 
-Turbopack is now the **default bundler** in Next.js. No configuration is needed to use Turbopack:
+Turbopack hiện là **trình đóng gói mặc định** trong Next.js. Không cần cấu hình để sử dụng Turbopack:
 
 ```json filename="package.json" highlight={3}
 {
@@ -30,9 +30,9 @@ Turbopack is now the **default bundler** in Next.js. No configuration is needed 
 }
 ```
 
-### Using Webpack instead
+### Sử dụng Webpack thay thế
 
-If you need to use Webpack instead of Turbopack, you can opt-in with the `--webpack` flag:
+Nếu bạn cần sử dụng Webpack thay vì Turbopack, bạn có thể chọn tham gia với cờ `--webpack`:
 
 ```json filename="package.json"
 {
@@ -44,75 +44,75 @@ If you need to use Webpack instead of Turbopack, you can opt-in with the `--webp
 }
 ```
 
-## Supported features
+## Các tính năng được hỗ trợ
 
-Turbopack in Next.js has **zero-configuration** for the common use cases. Below is a summary of what is supported out of the box, plus some references to how you can configure Turbopack further when needed.
+Turbopack trong Next.js có **cấu hình bằng không (zero-configuration)** cho các trường hợp sử dụng phổ biến. Dưới đây là tóm tắt về những gì được hỗ trợ ngay lập tức, cộng với một số tài liệu tham khảo về cách bạn có thể định cấu hình Turbopack thêm khi cần.
 
-### Language features
+### Các tính năng ngôn ngữ
 
-| Feature                     | Status        | Notes                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| --------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **JavaScript & TypeScript** | **Supported** | Uses SWC under the hood. Type-checking is not done by Turbopack (run `tsc --watch` or rely on your IDE for type checks).                                                                                                                                                                                                                                                                                                |
-| **ECMAScript (ESNext)**     | **Supported** | Turbopack supports the latest ECMAScript features, matching SWC’s coverage.                                                                                                                                                                                                                                                                                                                                             |
-| **CommonJS**                | **Supported** | `require()` syntax is handled out of the box.                                                                                                                                                                                                                                                                                                                                                                           |
-| **ESM**                     | **Supported** | Static and dynamic `import` are fully supported.                                                                                                                                                                                                                                                                                                                                                                        |
-| **Babel**                   | **Supported** | Starting in Next.js 16, Turbopack uses Babel automatically if it detects [a configuration file][babel-config]. Unlike in webpack, SWC is always used for Next.js's internal transforms and downleveling to older ECMAScript revisions. Next.js with webpack disables SWC if a Babel configuration file is present. Files in `node_modules` are excluded, unless you [manually configure `babel-loader`][manual-loader]. |
+| Tính năng                   | Trạng thái      | Ghi chú                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **JavaScript & TypeScript** | **Được hỗ trợ** | Sử dụng SWC bên dưới. Kiểm tra kiểu (Type-checking) không được thực hiện bởi Turbopack (chạy `tsc --watch` hoặc dựa vào IDE của bạn để kiểm tra kiểu).                                                                                                                                                                                                                                                                                            |
+| **ECMAScript (ESNext)**     | **Được hỗ trợ** | Turbopack hỗ trợ các tính năng ECMAScript mới nhất, khớp với phạm vi bao phủ của SWC.                                                                                                                                                                                                                                                                                                                                                             |
+| **CommonJS**                | **Được hỗ trợ** | Cú pháp `require()` được xử lý ngay lập tức.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| **ESM**                     | **Được hỗ trợ** | `import` tĩnh và động được hỗ trợ đầy đủ.                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Babel**                   | **Được hỗ trợ** | Bắt đầu từ Next.js 16, Turbopack tự động sử dụng Babel nếu nó phát hiện [một tệp cấu hình][babel-config]. Không giống như trong webpack, SWC luôn được sử dụng cho các chuyển đổi nội bộ của Next.js và downleveling xuống các bản sửa đổi ECMAScript cũ hơn. Next.js với webpack vô hiệu hóa SWC nếu tệp cấu hình Babel hiện diện. Các tệp trong `node_modules` bị loại trừ, trừ khi bạn [định cấu hình thủ công `babel-loader`][manual-loader]. |
 
 [babel-config]: https://babeljs.io/docs/config-files
 [manual-loader]: /docs/app/api-reference/config/next-config-js/turbopack#configuring-webpack-loaders
 
-### Framework and React features
+### Các tính năng Framework và React
 
-| Feature                           | Status        | Notes                                                                                                                  |
-| --------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| **JSX / TSX**                     | **Supported** | SWC handles JSX/TSX compilation.                                                                                       |
-| **Fast Refresh**                  | **Supported** | No configuration needed.                                                                                               |
-| **React Server Components (RSC)** | **Supported** | For the Next.js App Router. Turbopack ensures correct server/client bundling.                                          |
-| **Root layout creation**          | Unsupported   | Automatic creation of a root layout in App Router is not supported. Turbopack will instruct you to create it manually. |
+| Tính năng                         | Trạng thái      | Ghi chú                                                                                                      |
+| --------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------ |
+| **JSX / TSX**                     | **Được hỗ trợ** | SWC xử lý biên dịch JSX/TSX.                                                                                 |
+| **Fast Refresh**                  | **Được hỗ trợ** | Không cần cấu hình.                                                                                          |
+| **React Server Components (RSC)** | **Được hỗ trợ** | Đối với Next.js App Router. Turbopack đảm bảo đóng gói server/client chính xác.                              |
+| **Tạo root layout**               | Không hỗ trợ    | Việc tự động tạo root layout trong App Router không được hỗ trợ. Turbopack sẽ hướng dẫn bạn tạo nó thủ công. |
 
-### CSS and styling
+### CSS và styling
 
-| Feature            | Status                  | Notes                                                                                                                                                                                                                                                                                                                                                                 |
-| ------------------ | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Global CSS**     | **Supported**           | Import `.css` files directly in your application.                                                                                                                                                                                                                                                                                                                     |
-| **CSS Modules**    | **Supported**           | `.module.css` files work natively (Lightning CSS).                                                                                                                                                                                                                                                                                                                    |
-| **CSS Nesting**    | **Supported**           | Lightning CSS supports [modern CSS nesting](https://lightningcss.dev/).                                                                                                                                                                                                                                                                                               |
-| **@import syntax** | **Supported**           | Combine multiple CSS files.                                                                                                                                                                                                                                                                                                                                           |
-| **PostCSS**        | **Supported**           | Automatically processes `postcss.config.js` in a Node.js worker pool. Useful for Tailwind, Autoprefixer, etc.                                                                                                                                                                                                                                                         |
-| **Sass / SCSS**    | **Supported** (Next.js) | For Next.js, Sass is supported out of the box. Custom Sass functions (`sassOptions.functions`) are not supported because Turbopack's Rust-based architecture cannot directly execute JavaScript functions, unlike webpack's Node.js environment. Use webpack if you need this feature. In the future, Turbopack standalone usage will likely require a loader config. |
-| **Less**           | Planned via plugins     | Not yet supported by default. Will likely require a loader config once custom loaders are stable.                                                                                                                                                                                                                                                                     |
-| **Lightning CSS**  | **In Use**              | Handles CSS transformations. Some low-usage CSS Modules features (like `:local/:global` as standalone pseudo-classes) are not yet supported. [See below for more details.](#unsupported-and-unplanned-features)                                                                                                                                                       |
+| Tính năng          | Trạng thái                  | Ghi chú                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Global CSS**     | **Được hỗ trợ**             | Import tệp `.css` trực tiếp trong ứng dụng của bạn.                                                                                                                                                                                                                                                                                                                                        |
+| **CSS Modules**    | **Được hỗ trợ**             | Các tệp `.module.css` hoạt động tự nhiên (Lightning CSS).                                                                                                                                                                                                                                                                                                                                  |
+| **CSS Nesting**    | **Được hỗ trợ**             | Lightning CSS hỗ trợ [CSS nesting hiện đại](https://lightningcss.dev/).                                                                                                                                                                                                                                                                                                                    |
+| **@import syntax** | **Được hỗ trợ**             | Kết hợp nhiều tệp CSS.                                                                                                                                                                                                                                                                                                                                                                     |
+| **PostCSS**        | **Được hỗ trợ**             | Tự động xử lý `postcss.config.js` trong một nhóm worker Node.js. Hữu ích cho Tailwind, Autoprefixer, v.v.                                                                                                                                                                                                                                                                                  |
+| **Sass / SCSS**    | **Được hỗ trợ** (Next.js)   | Đối với Next.js, Sass được hỗ trợ ngay lập tức. Các hàm Sass tùy chỉnh (`sassOptions.functions`) không được hỗ trợ vì kiến trúc dựa trên Rust của Turbopack không thể thực thi trực tiếp các hàm JavaScript, không giống như môi trường Node.js của webpack. Sử dụng webpack nếu bạn cần tính năng này. Trong tương lai, việc sử dụng độc lập Turbopack có thể sẽ yêu cầu cấu hình loader. |
+| **Less**           | Đã lên kế hoạch qua plugins | Chưa được hỗ trợ theo mặc định. Có thể sẽ yêu cầu cấu hình loader khi các loader tùy chỉnh ổn định.                                                                                                                                                                                                                                                                                        |
+| **Lightning CSS**  | **Đang sử dụng**            | Xử lý các chuyển đổi CSS. Một số tính năng CSS Modules ít sử dụng (như `:local/:global` dưới dạng pseudo-classes độc lập) chưa được hỗ trợ. [Xem bên dưới để biết thêm chi tiết.](#unsupported-and-unplanned-features)                                                                                                                                                                     |
 
 ### Assets
 
-| Feature                           | Status        | Notes                                                                                                                      |
-| --------------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| **Static Assets** (images, fonts) | **Supported** | Importing `import img from './img.png'` works out of the box. In Next.js, returns an object for the `<Image />` component. |
-| **JSON Imports**                  | **Supported** | Named or default imports from `.json` are supported.                                                                       |
+| Tính năng                               | Trạng thái      | Ghi chú                                                                                                                           |
+| --------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Static Assets** (hình ảnh, phông chữ) | **Được hỗ trợ** | Việc import `import img from './img.png'` hoạt động ngay lập tức. Trong Next.js, trả về một đối tượng cho thành phần `<Image />`. |
+| **JSON Imports**                        | **Được hỗ trợ** | Import được đặt tên hoặc mặc định từ `.json` được hỗ trợ.                                                                         |
 
 ### Module resolution
 
-| Feature               | Status              | Notes                                                                                                                                                           |
-| --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Path Aliases**      | **Supported**       | Reads `tsconfig.json`'s `paths` and `baseUrl`, matching Next.js behavior.                                                                                       |
-| **Manual Aliases**    | **Supported**       | [Configure `resolveAlias` in `next.config.js`](/docs/app/api-reference/config/next-config-js/turbopack#resolving-aliases) (similar to `webpack.resolve.alias`). |
-| **Custom Extensions** | **Supported**       | [Configure `resolveExtensions` in `next.config.js`](/docs/app/api-reference/config/next-config-js/turbopack#resolving-custom-extensions).                       |
-| **AMD**               | Partially Supported | Basic transforms work; advanced AMD usage is limited.                                                                                                           |
+| Tính năng             | Trạng thái           | Ghi chú                                                                                                                                                                  |
+| --------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Path Aliases**      | **Được hỗ trợ**      | Đọc `paths` và `baseUrl` của `tsconfig.json`, khớp với hành vi của Next.js.                                                                                              |
+| **Manual Aliases**    | **Được hỗ trợ**      | [Định cấu hình `resolveAlias` trong `next.config.js`](/docs/app/api-reference/config/next-config-js/turbopack#resolving-aliases) (tương tự như `webpack.resolve.alias`). |
+| **Custom Extensions** | **Được hỗ trợ**      | [Định cấu hình `resolveExtensions` trong `next.config.js`](/docs/app/api-reference/config/next-config-js/turbopack#resolving-custom-extensions).                         |
+| **AMD**               | Được hỗ trợ một phần | Các chuyển đổi cơ bản hoạt động; việc sử dụng AMD nâng cao bị hạn chế.                                                                                                   |
 
-### Performance and Fast Refresh
+### Performance và Fast Refresh
 
-| Feature                  | Status        | Notes                                                                                    |
-| ------------------------ | ------------- | ---------------------------------------------------------------------------------------- |
-| **Fast Refresh**         | **Supported** | Updates JavaScript, TypeScript, and CSS without a full refresh.                          |
-| **Incremental Bundling** | **Supported** | Turbopack lazily builds only what’s requested by the dev server, speeding up large apps. |
+| Tính năng                | Trạng thái      | Ghi chú                                                                                                      |
+| ------------------------ | --------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Fast Refresh**         | **Được hỗ trợ** | Cập nhật JavaScript, TypeScript, và CSS mà không cần làm mới hoàn toàn.                                      |
+| **Incremental Bundling** | **Được hỗ trợ** | Turbopack xây dựng một cách lười biếng chỉ những gì được yêu cầu bởi máy chủ dev, tăng tốc các ứng dụng lớn. |
 
-## Known gaps with webpack
+## Những khoảng cách đã biết với webpack
 
-There are a number of non-trivial behavior differences between webpack and Turbopack that are important to be aware of when migrating an application. Generally, these are less of a concern for new applications.
+Có một số khác biệt hành vi không nhỏ giữa webpack và Turbopack mà bạn cần lưu ý khi di chuyển một ứng dụng. Nhìn chung, những điều này ít đáng lo ngại hơn đối với các ứng dụng mới.
 
-### CSS Module Ordering
+### Thứ tự CSS Module
 
-Turbopack will follow JS import order to order [CSS modules](/docs/app/getting-started/css#css-modules) which are not otherwise ordered. For example:
+Turbopack sẽ tuân theo thứ tự import JS để sắp xếp [CSS modules](/docs/app/getting-started/css#css-modules) vốn không được sắp xếp theo cách khác. Ví dụ:
 
 ```jsx filename="components/BlogPost.jsx"
 import utilStyles from './utils.module.css'
@@ -126,29 +126,29 @@ export default function BlogPost() {
 }
 ```
 
-In this example, Turbopack will ensure that `utils.module.css` will appear before `button.module.css` in the produced CSS chunk, following the import order
+Trong ví dụ này, Turbopack sẽ đảm bảo rằng `utils.module.css` sẽ xuất hiện trước `button.module.css` trong đoạn CSS được tạo, tuân theo thứ tự import.
 
-Webpack generally does this as well, but there are cases where it will ignore JS inferred ordering, for example if it infers the JS file is side-effect-free.
+Webpack thường cũng làm như vậy, nhưng có những trường hợp nó sẽ bỏ qua thứ tự suy luận JS, ví dụ nếu nó suy luận tệp JS là không có tác dụng phụ (side-effect-free).
 
-This can lead to subtle rendering changes when adopting Turbopack, if applications have come to rely on an arbitrary ordering. Generally, the solution is easy, e.g. have `button.module.css` `@import utils.module.css` to force the ordering, or identify the conflicting rules and change them to not target the same properties.
+Điều này có thể dẫn đến những thay đổi hiển thị tinh tế khi áp dụng Turbopack, nếu các ứng dụng đã dựa vào một thứ tự tùy ý. Nhìn chung, giải pháp rất dễ dàng, ví dụ: để `button.module.css` `@import utils.module.css` để buộc thứ tự, hoặc xác định các quy tắc xung đột và thay đổi chúng để không nhắm mục tiêu vào cùng một thuộc tính.
 
-### Sass node_modules imports
+### Import Sass node_modules
 
-Turbopack supports importing `node_modules` Sass files out of the box. Webpack supports a legacy tilde `~` syntax for this, which is not supported by Turbopack.
+Turbopack hỗ trợ import các tệp Sass `node_modules` ngay lập tức. Webpack hỗ trợ cú pháp dấu ngã `~` cũ cho việc này, cú pháp này không được Turbopack hỗ trợ.
 
-From:
+Từ:
 
 ```scss filename="styles/globals.scss"
 @import '~bootstrap/dist/css/bootstrap.min.css';
 ```
 
-To:
+Thành:
 
 ```scss filename="styles/globals.scss"
 @import 'bootstrap/dist/css/bootstrap.min.css';
 ```
 
-If you can't update the imports, you can add a `turbopack.resolveAlias` configuration to map the `~` syntax to the actual path:
+Nếu bạn không thể cập nhật các import, bạn có thể thêm cấu hình `turbopack.resolveAlias` để ánh xạ cú pháp `~` tới đường dẫn thực tế:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -160,11 +160,11 @@ module.exports = {
 }
 ```
 
-### Bundle Sizes
+### Kích thước Bundle
 
-From our testing on production applications, we observed that Turbopack generally produces bundles that are similar in size to Webpack. However, the comparison can be difficult since turbopack tends to produce fewer but larger chunks. Our advice is to focus on higher level metrics like [Core Web Vitals](https://web.dev/articles/vitals) or your own application level metrics to compare performance across the two bundlers. We are however aware of one gap that can occasionally cause a large regression.
+Từ thử nghiệm của chúng tôi trên các ứng dụng production, chúng tôi nhận thấy rằng Turbopack thường tạo ra các gói có kích thước tương tự như Webpack. Tuy nhiên, việc so sánh có thể khó khăn vì turbopack có xu hướng tạo ra ít đoạn (chunks) hơn nhưng lớn hơn. Lời khuyên của chúng tôi là tập trung vào các chỉ số cấp cao hơn như [Core Web Vitals](https://web.dev/articles/vitals) hoặc các chỉ số cấp ứng dụng của riêng bạn để so sánh hiệu suất giữa hai trình đóng gói. Tuy nhiên, chúng tôi nhận thức được một khoảng cách đôi khi có thể gây ra sự hồi quy lớn.
 
-Turbopack does not yet have an equivalent to the [Inner Graph Optimization](https://webpack.js.org/configuration/optimization/#optimizationinnergraph) in webpack which is enabled by default. This optimization is useful to tree shake large modules. For example:
+Turbopack chưa có tương đương với [Inner Graph Optimization](https://webpack.js.org/configuration/optimization/#optimizationinnergraph) trong webpack được bật mặc định. Tối ưu hóa này hữu ích để tree shake các mô-đun lớn. Ví dụ:
 
 ```js filename=large.module.js
 import heavy from 'some-heavy-dependency.js'
@@ -176,66 +176,66 @@ export function usesHeavy() {
 export const CONSTANT_VALUE = 3
 ```
 
-If an application only uses `CONSTANT_VALUE` Turbopack will detect this and delete the `usesHeavy` export but not the corresponding `import`. However, with the Inner Graph Optimization, webpack can delete the `import` too which can drop the dependency as well.
+Nếu một ứng dụng chỉ sử dụng `CONSTANT_VALUE`, Turbopack sẽ phát hiện điều này và xóa xuất `usesHeavy` nhưng không xóa `import` tương ứng. Tuy nhiên, với Inner Graph Optimization, webpack cũng có thể xóa `import`, điều này cũng có thể loại bỏ sự phụ thuộc.
 
-We are planning to offer an equivalent to the Inner Graph Optimization in Turbopack but it is still under development. If you are affected by this gap, consider manually splitting modules.
+Chúng tôi đang lên kế hoạch cung cấp một tính năng tương đương với Inner Graph Optimization trong Turbopack nhưng nó vẫn đang được phát triển. Nếu bạn bị ảnh hưởng bởi khoảng cách này, hãy cân nhắc chia nhỏ các mô-đun theo cách thủ công.
 
-### Build Caching
+### Build Caching (Lưu trữ bộ nhớ đệm Build)
 
-Webpack supports [disk build caching](https://webpack.js.org/configuration/cache/#cache) to improve build performance. Turbopack provides a similar opt-in feature, currently in beta. Starting with Next 16, you can enable Turbopack’s filesystem cache by setting the following experimental flags:
+Webpack hỗ trợ [disk build caching](https://webpack.js.org/configuration/cache/#cache) để cải thiện hiệu suất build. Turbopack cung cấp một tính năng chọn tham gia tương tự, hiện đang trong giai đoạn beta. Bắt đầu với Next 16, bạn có thể bật bộ nhớ đệm hệ thống tệp của Turbopack bằng cách thiết lập các cờ thử nghiệm sau:
 
 - [`experimental.turbopackFileSystemCacheForDev`](/docs/app/api-reference/config/next-config-js/turbopackFileSystemCache)
 - [`experimental.turbopackFileSystemCacheForBuild`](/docs/app/api-reference/config/next-config-js/turbopackFileSystemCache)
 
-> **Good to know:** For this reason, when comparing webpack and Turbopack performance, make sure to delete the `.next` folder between builds to see a fair comparison or enable the turbopack filesystem cache feature.
+> **Cần biết:** Vì lý do này, khi so sánh hiệu suất webpack và Turbopack, hãy đảm bảo xóa thư mục `.next` giữa các lần build để thấy sự so sánh công bằng hoặc bật tính năng bộ nhớ đệm hệ thống tệp turbopack.
 
 ### Webpack plugins
 
-Turbopack does not support webpack plugins. This affects third-party tools that rely on webpack's plugin system for integration. We do support [webpack loaders](/docs/app/api-reference/config/next-config-js/turbopack#configuring-webpack-loaders). If you depend on webpack plugins, you'll need to find Turbopack-compatible alternatives or continue using webpack until equivalent functionality is available.
+Turbopack không hỗ trợ webpack plugins. Điều này ảnh hưởng đến các công cụ của bên thứ ba dựa vào hệ thống plugin của webpack để tích hợp. Chúng tôi hỗ trợ [webpack loaders](/docs/app/api-reference/config/next-config-js/turbopack#configuring-webpack-loaders). Nếu bạn phụ thuộc vào webpack plugins, bạn sẽ cần tìm các lựa chọn thay thế tương thích với Turbopack hoặc tiếp tục sử dụng webpack cho đến khi có chức năng tương đương.
 
-## Unsupported and unplanned features
+## Các tính năng không được hỗ trợ và không có kế hoạch
 
-Some features are not yet implemented or not planned:
+Một số tính năng chưa được triển khai hoặc không có kế hoạch:
 
-- **Legacy CSS Modules features**
-  - Standalone `:local` and `:global` pseudo-classes (only the function variant `:global(...)` is supported).
-  - The `@value` rule (superseded by CSS variables).
-  - `:import` and `:export` ICSS rules.
-  - `composes` in `.module.css` composing a `.css` file. In webpack this would treat the `.css` file as a CSS Module, with Turbopack the `.css` file will always be global. This means that if you want to use `composes` in a CSS Module, you need to change the `.css` file to a `.module.css` file.
-  - `@import` in CSS Modules importing `.css` as a CSS Module. In webpack this would treat the `.css` file as a CSS Module, with Turbopack the `.css` file will always be global. This means that if you want to use `@import` in a CSS Module, you need to change the `.css` file to a `.module.css` file.
+- **Các tính năng CSS Modules cũ**
+  - Các pseudo-classes `:local` và `:global` độc lập (chỉ biến thể hàm `:global(...)` được hỗ trợ).
+  - Quy tắc `@value` (được thay thế bởi biến CSS).
+  - Các quy tắc ICSS `:import` và `:export`.
+  - `composes` trong `.module.css` soạn thảo một tệp `.css`. Trong webpack, điều này sẽ coi tệp `.css` là một CSS Module, với Turbopack, tệp `.css` sẽ luôn là toàn cục. Điều này có nghĩa là nếu bạn muốn sử dụng `composes` trong một CSS Module, bạn cần thay đổi tệp `.css` thành tệp `.module.css`.
+  - `@import` trong CSS Modules import `.css` dưới dạng CSS Module. Trong webpack, điều này sẽ coi tệp `.css` là một CSS Module, với Turbopack, tệp `.css` sẽ luôn là toàn cục. Điều này có nghĩa là nếu bạn muốn sử dụng `@import` trong một CSS Module, bạn cần thay đổi tệp `.css` thành tệp `.module.css`.
 - **`sassOptions.functions`**
-  Custom Sass functions defined in `sassOptions.functions` are not supported. This feature allows defining JavaScript functions that can be called from Sass code during compilation. Turbopack's Rust-based architecture cannot directly execute JavaScript functions passed through `sassOptions.functions`, unlike webpack's Node.js-based sass-loader which runs entirely in JavaScript. If you're using custom Sass functions, you'll need to use webpack instead of Turbopack.
-- **`webpack()` configuration** in `next.config.js`
-  Turbopack replaces webpack, so `webpack()` configs are not recognized. Use the [`turbopack` config](/docs/app/api-reference/config/next-config-js/turbopack) instead.
+  Các hàm Sass tùy chỉnh được định nghĩa trong `sassOptions.functions` không được hỗ trợ. Tính năng này cho phép định nghĩa các hàm JavaScript có thể được gọi từ mã Sass trong quá trình biên dịch. Kiến trúc dựa trên Rust của Turbopack không thể thực thi trực tiếp các hàm JavaScript được truyền qua `sassOptions.functions`, không giống như sass-loader dựa trên Node.js của webpack chạy hoàn toàn trong JavaScript. Nếu bạn đang sử dụng các hàm Sass tùy chỉnh, bạn sẽ cần sử dụng webpack thay vì Turbopack.
+- **`webpack()` configuration** trong `next.config.js`
+  Turbopack thay thế webpack, vì vậy các cấu hình `webpack()` không được nhận dạng. Sử dụng [cấu hình `turbopack`](/docs/app/api-reference/config/next-config-js/turbopack) thay thế.
 - **Yarn PnP**
-  Not planned for Turbopack support in Next.js.
+  Không có kế hoạch hỗ trợ Turbopack trong Next.js.
 - **`experimental.urlImports`**
-  Not planned for Turbopack.
+  Không có kế hoạch cho Turbopack.
 - **`experimental.esmExternals`**
-  Not planned. Turbopack does not support the legacy `esmExternals` configuration in Next.js.
-- **Some Next.js Experimental Flags**
+  Không có kế hoạch. Turbopack không hỗ trợ cấu hình `esmExternals` cũ trong Next.js.
+- **Một số Cờ Thử nghiệm Next.js**
   - `experimental.nextScriptWorkers`
   - `experimental.sri.algorithm`
   - `experimental.fallbackNodePolyfills`
-    We plan to implement these in the future.
+    Chúng tôi dự định triển khai những điều này trong tương lai.
 
-For a full, detailed breakdown of each feature flag and its status, see the [Turbopack API Reference](/docs/app/api-reference/config/next-config-js/turbopack).
+Để có bảng phân tích đầy đủ, chi tiết về từng cờ tính năng và trạng thái của nó, hãy xem [Turbopack API Reference](/docs/app/api-reference/config/next-config-js/turbopack).
 
-## Configuration
+## Cấu hình
 
-Turbopack can be configured via `next.config.js` (or `next.config.ts`) under the `turbopack` key. Configuration options include:
+Turbopack có thể được định cấu hình thông qua `next.config.js` (hoặc `next.config.ts`) dưới khóa `turbopack`. Các tùy chọn cấu hình bao gồm:
 
 - **`rules`**
-  Define additional [webpack loaders](/docs/app/api-reference/config/next-config-js/turbopack#configuring-webpack-loaders) for file transformations.
+  Xác định thêm [webpack loaders](/docs/app/api-reference/config/next-config-js/turbopack#configuring-webpack-loaders) cho các chuyển đổi tệp.
 - **`resolveAlias`**
-  Create manual aliases (like `resolve.alias` in webpack).
+  Tạo các bí danh thủ công (như `resolve.alias` trong webpack).
 - **`resolveExtensions`**
-  Change or extend file extensions for module resolution.
+  Thay đổi hoặc mở rộng các phần mở rộng tệp cho phân giải mô-đun.
 
 ```js filename="next.config.js"
 module.exports = {
   turbopack: {
-    // Example: adding an alias and custom file extension
+    // Ví dụ: thêm một bí danh và phần mở rộng tệp tùy chỉnh
     resolveAlias: {
       underscore: 'lodash',
     },
@@ -244,29 +244,29 @@ module.exports = {
 }
 ```
 
-For more in-depth configuration examples, see the [Turbopack config documentation](/docs/app/api-reference/config/next-config-js/turbopack).
+Để biết thêm các ví dụ cấu hình chuyên sâu, hãy xem [tài liệu cấu hình Turbopack](/docs/app/api-reference/config/next-config-js/turbopack).
 
-## Generating trace files for performance debugging
+## Tạo tệp dấu vết (trace files) để gỡ lỗi hiệu suất
 
-If you encounter performance or memory issues and want to help the Next.js team diagnose them, you can generate a trace file by appending `NEXT_TURBOPACK_TRACING=1` to your dev command:
+Nếu bạn gặp vấn đề về hiệu suất hoặc bộ nhớ và muốn giúp nhóm Next.js chẩn đoán chúng, bạn có thể tạo tệp dấu vết bằng cách thêm `NEXT_TURBOPACK_TRACING=1` vào lệnh dev của mình:
 
 ```bash
 NEXT_TURBOPACK_TRACING=1 next dev
 ```
 
-This will produce a `.next/dev/trace-turbopack` file. Include that file when creating a GitHub issue on the [Next.js repo](https://github.com/vercel/next.js) to help us investigate.
+Điều này sẽ tạo ra một tệp `.next/dev/trace-turbopack`. Bao gồm tệp đó khi tạo một GitHub issue trên [Next.js repo](https://github.com/vercel/next.js) để giúp chúng tôi điều tra.
 
-By default the development server outputs to `.next/dev`. Read more about [isolatedDevBuild](/docs/app/api-reference/config/next-config-js/isolatedDevBuild).
+Theo mặc định, máy chủ phát triển xuất ra `.next/dev`. Đọc thêm về [isolatedDevBuild](/docs/app/api-reference/config/next-config-js/isolatedDevBuild).
 
-## Summary
+## Tóm tắt
 
-Turbopack is a **Rust-based**, **incremental** bundler designed to make local development and builds fast—especially for large applications. It is integrated into Next.js, offering zero-config CSS, React, and TypeScript support.
+Turbopack là một trình đóng gói **dựa trên Rust**, **tăng dần** được thiết kế để làm cho việc phát triển cục bộ và build nhanh chóng—đặc biệt là cho các ứng dụng lớn. Nó được tích hợp vào Next.js, cung cấp hỗ trợ CSS, React, và TypeScript cấu hình bằng không.
 
-## Version Changes
+## Thay đổi phiên bản
 
-| Version   | Changes                                                                                                            |
-| --------- | ------------------------------------------------------------------------------------------------------------------ |
-| `v16.0.0` | Turbopack becomes the default bundler for Next.js. Automatic support for Babel when a configuration file is found. |
-| `v15.5.0` | Turbopack support for `build` beta                                                                                 |
-| `v15.3.0` | Experimental support for `build`                                                                                   |
-| `v15.0.0` | Turbopack for `dev` stable                                                                                         |
+| Phiên bản | Thay đổi                                                                                                 |
+| --------- | -------------------------------------------------------------------------------------------------------- |
+| `v16.0.0` | Turbopack trở thành trình đóng gói mặc định cho Next.js. Tự động hỗ trợ Babel khi tìm thấy tệp cấu hình. |
+| `v15.5.0` | Hỗ trợ Turbopack cho `build` beta                                                                        |
+| `v15.3.0` | Hỗ trợ thử nghiệm cho `build`                                                                            |
+| `v15.0.0` | Turbopack cho `dev` ổn định                                                                              |

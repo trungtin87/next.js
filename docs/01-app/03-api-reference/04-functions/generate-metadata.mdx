@@ -1,19 +1,19 @@
 ---
 title: generateMetadata
-description: Learn how to add Metadata to your Next.js application for improved search engine optimization (SEO) and web shareability.
+description: Tìm hiểu cách thêm Metadata vào ứng dụng Next.js của bạn để cải thiện tối ưu hóa công cụ tìm kiếm (SEO) và khả năng chia sẻ web.
 related:
-  title: Next Steps
-  description: View all the Metadata API options.
+  title: Các bước tiếp theo
+  description: Xem tất cả các tùy chọn Metadata API.
   links:
     - app/api-reference/file-conventions/metadata
     - app/api-reference/functions/generate-viewport
 ---
 
-You can use the `metadata` object or the `generateMetadata` function to define metadata.
+Bạn có thể sử dụng object `metadata` hoặc hàm `generateMetadata` để định nghĩa metadata.
 
-## The `metadata` object
+## Object `metadata`
 
-To define static metadata, export a [`Metadata` object](#metadata-fields) from a `layout.js` or `page.js` file.
+Để định nghĩa static metadata, export một [`Metadata` object](#metadata-fields) từ file `layout.js` hoặc `page.js`.
 
 ```tsx filename="layout.tsx | page.tsx" switcher
 import type { Metadata } from 'next'
@@ -35,15 +35,15 @@ export const metadata = {
 export default function Page() {}
 ```
 
-> See the [Metadata Fields](#metadata-fields) for a complete list of supported options.
+> Xem [Metadata Fields](#metadata-fields) để biết danh sách đầy đủ các tùy chọn được hỗ trợ.
 
-## `generateMetadata` function
+## Hàm `generateMetadata`
 
-Dynamic metadata depends on **dynamic information**, such as the current route parameters, external data, or `metadata` in parent segments, can be set by exporting a `generateMetadata` function that returns a [`Metadata` object](#metadata-fields).
+Dynamic metadata phụ thuộc vào **thông tin động**, chẳng hạn như route parameters hiện tại, dữ liệu bên ngoài, hoặc `metadata` trong các parent segments, có thể được thiết lập bằng cách export một hàm `generateMetadata` trả về một [`Metadata` object](#metadata-fields).
 
-Resolving `generateMetadata` is part of rendering the page. If the page can be pre-rendered and `generateMetadata` doesn't introduce dynamic behavior, the resulting metadata is included in the page’s initial HTML.
+Việc resolve `generateMetadata` là một phần của quá trình render trang. Nếu trang có thể được pre-rendered và `generateMetadata` không giới thiệu hành vi động, metadata kết quả sẽ được bao gồm trong HTML ban đầu của trang.
 
-Otherwise the metadata resolved from `generateMetadata` [can be streamed](/docs/app/api-reference/functions/generate-metadata#streaming-metadata) after sending the initial UI.
+Ngược lại, metadata được resolve từ `generateMetadata` [có thể được stream](/docs/app/api-reference/functions/generate-metadata#streaming-metadata) sau khi gửi UI ban đầu.
 
 ```tsx filename="app/products/[id]/page.tsx" switcher
 import type { Metadata, ResolvingMetadata } from 'next'
@@ -99,26 +99,26 @@ export async function generateMetadata({ params, searchParams }, parent) {
 export default function Page({ params, searchParams }) {}
 ```
 
-For type completion of `params` and `searchParams`, you can type the first argument with [`PageProps<'/route'>`](/docs/app/api-reference/file-conventions/page#page-props-helper) or [`LayoutProps<'/route'>`](/docs/app/api-reference/file-conventions/layout#layout-props-helper) for pages and layouts respectively.
+Để hoàn thành type cho `params` và `searchParams`, bạn có thể type argument đầu tiên với [`PageProps<'/route'>`](/docs/app/api-reference/file-conventions/page#page-props-helper) hoặc [`LayoutProps<'/route'>`](/docs/app/api-reference/file-conventions/layout#layout-props-helper) cho pages và layouts tương ứng.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - Metadata can be added to `layout.js` and `page.js` files.
-> - Next.js will automatically resolve the metadata, and create the relevant `<head>` tags for the page.
-> - The `metadata` object and `generateMetadata` function exports are **only supported in Server Components**.
-> - You cannot export both the `metadata` object and `generateMetadata` function from the same route segment.
-> - `fetch` requests inside `generateMetadata` are automatically [memoized](/docs/app/guides/caching#request-memoization) for the same data across `generateMetadata`, `generateStaticParams`, Layouts, Pages, and Server Components.
-> - React [`cache` can be used](/docs/app/guides/caching#react-cache-function) if `fetch` is unavailable.
-> - [File-based metadata](/docs/app/api-reference/file-conventions/metadata) has the higher priority and will override the `metadata` object and `generateMetadata` function.
+> - Metadata có thể được thêm vào các file `layout.js` và `page.js`.
+> - Next.js sẽ tự động resolve metadata, và tạo các thẻ `<head>` liên quan cho trang.
+> - Các export object `metadata` và hàm `generateMetadata` **chỉ được hỗ trợ trong Server Components**.
+> - Bạn không thể export cả object `metadata` và hàm `generateMetadata` từ cùng một route segment.
+> - Các request `fetch` bên trong `generateMetadata` được tự động [memoized](/docs/app/guides/caching#request-memoization) cho cùng một dữ liệu giữa `generateMetadata`, `generateStaticParams`, Layouts, Pages, và Server Components.
+> - React [`cache` có thể được sử dụng](/docs/app/guides/caching#react-cache-function) nếu `fetch` không khả dụng.
+> - [File-based metadata](/docs/app/api-reference/file-conventions/metadata) có độ ưu tiên cao hơn và sẽ ghi đè object `metadata` và hàm `generateMetadata`.
 
-## Reference
+## Tham khảo
 
 ### Parameters
 
-`generateMetadata` function accepts the following parameters:
+Hàm `generateMetadata` chấp nhận các parameters sau:
 
-- `props` - An object containing the parameters of the current route:
-  - `params` - An object containing the [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) object from the root segment down to the segment `generateMetadata` is called from. Examples:
+- `props` - Một object chứa các parameters của route hiện tại:
+  - `params` - Một object chứa object [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) từ root segment xuống đến segment mà `generateMetadata` được gọi. Ví dụ:
 
     | Route                           | URL         | `params`                  |
     | ------------------------------- | ----------- | ------------------------- |
@@ -126,7 +126,7 @@ For type completion of `params` and `searchParams`, you can type the first argum
     | `app/shop/[tag]/[item]/page.js` | `/shop/1/2` | `{ tag: '1', item: '2' }` |
     | `app/shop/[...slug]/page.js`    | `/shop/1/2` | `{ slug: ['1', '2'] }`    |
 
-  - `searchParams` - An object containing the current URL's [search params](https://developer.mozilla.org/docs/Learn/Common_questions/What_is_a_URL#parameters). Examples:
+  - `searchParams` - Một object chứa [search params](https://developer.mozilla.org/docs/Learn/Common_questions/What_is_a_URL#parameters) của URL hiện tại. Ví dụ:
 
     | URL             | `searchParams`       |
     | --------------- | -------------------- |
@@ -134,26 +134,26 @@ For type completion of `params` and `searchParams`, you can type the first argum
     | `/shop?a=1&b=2` | `{ a: '1', b: '2' }` |
     | `/shop?a=1&a=2` | `{ a: ['1', '2'] }`  |
 
-- `parent` - A promise of the resolved metadata from parent route segments.
+- `parent` - Một promise của metadata đã được resolve từ các parent route segments.
 
 ### Returns
 
-`generateMetadata` should return a [`Metadata` object](#metadata-fields) containing one or more metadata fields.
+`generateMetadata` nên trả về một [`Metadata` object](#metadata-fields) chứa một hoặc nhiều metadata fields.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - If metadata doesn't depend on runtime information, it should be defined using the static [`metadata` object](#the-metadata-object) rather than `generateMetadata`.
-> - `fetch` requests are automatically [memoized](/docs/app/guides/caching#request-memoization) for the same data across `generateMetadata`, `generateStaticParams`, Layouts, Pages, and Server Components. React [`cache` can be used](/docs/app/guides/caching#react-cache-function) if `fetch` is unavailable.
-> - `searchParams` are only available in `page.js` segments.
-> - The [`redirect()`](/docs/app/api-reference/functions/redirect) and [`notFound()`](/docs/app/api-reference/functions/not-found) Next.js methods can also be used inside `generateMetadata`.
+> - Nếu metadata không phụ thuộc vào thông tin runtime, nó nên được định nghĩa bằng cách sử dụng static [`metadata` object](#the-metadata-object) thay vì `generateMetadata`.
+> - Các request `fetch` được tự động [memoized](/docs/app/guides/caching#request-memoization) cho cùng một dữ liệu giữa `generateMetadata`, `generateStaticParams`, Layouts, Pages, và Server Components. React [`cache` có thể được sử dụng](/docs/app/guides/caching#react-cache-function) nếu `fetch` không khả dụng.
+> - `searchParams` chỉ có sẵn trong các segments `page.js`.
+> - Các phương thức Next.js [`redirect()`](/docs/app/api-reference/functions/redirect) và [`notFound()`](/docs/app/api-reference/functions/not-found) cũng có thể được sử dụng bên trong `generateMetadata`.
 
 ### Metadata Fields
 
-The following fields are supported:
+Các fields sau đây được hỗ trợ:
 
 #### `title`
 
-The `title` attribute is used to set the title of the document. It can be defined as a simple [string](#string) or an optional [template object](#template).
+Thuộc tính `title` được sử dụng để đặt tiêu đề của tài liệu. Nó có thể được định nghĩa là một [string](#string) đơn giản hoặc một tùy chọn [template object](#template).
 
 ##### String
 
@@ -169,7 +169,7 @@ export const metadata = {
 
 ##### `default`
 
-`title.default` can be used to provide a **fallback title** to child route segments that don't define a `title`.
+`title.default` có thể được sử dụng để cung cấp một **fallback title** cho các child route segments không định nghĩa `title`.
 
 ```tsx filename="app/layout.tsx"
 import type { Metadata } from 'next'
@@ -191,7 +191,7 @@ export const metadata: Metadata = {}
 
 ##### `template`
 
-`title.template` can be used to add a prefix or a suffix to `titles` defined in **child** route segments.
+`title.template` có thể được sử dụng để thêm prefix hoặc suffix vào `titles` được định nghĩa trong các **child** route segments.
 
 ```tsx filename="app/layout.tsx" switcher
 import type { Metadata } from 'next'
@@ -231,17 +231,17 @@ export const metadata = {
 // Output: <title>About | Acme</title>
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - `title.template` applies to **child** route segments and **not** the segment it's defined in. This means:
->   - `title.default` is **required** when you add a `title.template`.
->   - `title.template` defined in `layout.js` will not apply to a `title` defined in a `page.js` of the same route segment.
->   - `title.template` defined in `page.js` has no effect because a page is always the terminating segment (it doesn't have any children route segments).
-> - `title.template` has **no effect** if a route has not defined a `title` or `title.default`.
+> - `title.template` áp dụng cho các **child** route segments và **không** áp dụng cho segment mà nó được định nghĩa. Điều này có nghĩa là:
+>   - `title.default` là **bắt buộc** khi bạn thêm `title.template`.
+>   - `title.template` được định nghĩa trong `layout.js` sẽ không áp dụng cho `title` được định nghĩa trong `page.js` của cùng một route segment.
+>   - `title.template` được định nghĩa trong `page.js` không có tác dụng vì page luôn là terminating segment (nó không có bất kỳ children route segments nào).
+> - `title.template` **không có tác dụng** nếu một route chưa định nghĩa `title` hoặc `title.default`.
 
 ##### `absolute`
 
-`title.absolute` can be used to provide a title that **ignores** `title.template` set in parent segments.
+`title.absolute` có thể được sử dụng để cung cấp một title **bỏ qua** `title.template` được đặt trong các parent segments.
 
 ```tsx filename="app/layout.tsx" switcher
 import type { Metadata } from 'next'
@@ -283,17 +283,17 @@ export const metadata = {
 // Output: <title>About</title>
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
 > - `layout.js`
->   - `title` (string) and `title.default` define the default title for child segments (that do not define their own `title`). It will augment `title.template` from the closest parent segment if it exists.
->   - `title.absolute` defines the default title for child segments. It ignores `title.template` from parent segments.
->   - `title.template` defines a new title template for child segments.
+>   - `title` (string) và `title.default` định nghĩa default title cho các child segments (những cái không định nghĩa `title` riêng của chúng). Nó sẽ bổ sung `title.template` từ parent segment gần nhất nếu tồn tại.
+>   - `title.absolute` định nghĩa default title cho các child segments. Nó bỏ qua `title.template` từ các parent segments.
+>   - `title.template` định nghĩa một title template mới cho các child segments.
 > - `page.js`
->   - If a page does not define its own title the closest parents resolved title will be used.
->   - `title` (string) defines the routes title. It will augment `title.template` from the closest parent segment if it exists.
->   - `title.absolute` defines the route title. It ignores `title.template` from parent segments.
->   - `title.template` has no effect in `page.js` because a page is always the terminating segment of a route.
+>   - Nếu một page không định nghĩa title riêng của nó, title đã được resolve của parents gần nhất sẽ được sử dụng.
+>   - `title` (string) định nghĩa routes title. Nó sẽ bổ sung `title.template` từ parent segment gần nhất nếu tồn tại.
+>   - `title.absolute` định nghĩa route title. Nó bỏ qua `title.template` từ các parent segments.
+>   - `title.template` không có tác dụng trong `page.js` vì một page luôn là terminating segment của một route.
 
 ### `description`
 
@@ -307,7 +307,7 @@ export const metadata = {
 <meta name="description" content="The React Framework for the Web" />
 ```
 
-### Other fields
+### Các fields khác
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -342,10 +342,10 @@ export const metadata = {
 
 #### `metadataBase`
 
-`metadataBase` is a convenience option to set a base URL prefix for `metadata` fields that require a fully qualified URL.
+`metadataBase` là một tùy chọn tiện lợi để đặt base URL prefix cho các `metadata` fields yêu cầu một fully qualified URL.
 
-- `metadataBase` allows URL-based `metadata` fields defined in the **current route segment and below** to use a **relative path** instead of an otherwise required absolute URL.
-- The field's relative path will be composed with `metadataBase` to form a fully qualified URL.
+- `metadataBase` cho phép các `metadata` fields dựa trên URL được định nghĩa trong **current route segment và bên dưới** sử dụng một **relative path** thay vì một absolute URL bắt buộc khác.
+- Relative path của field sẽ được kết hợp với `metadataBase` để tạo thành một fully qualified URL.
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -370,23 +370,23 @@ export const metadata = {
 <meta property="og:image" content="https://acme.com/og-image.png" />
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - `metadataBase` is typically set in root `app/layout.js` to apply to URL-based `metadata` fields across all routes.
-> - All URL-based `metadata` fields that require absolute URLs can be configured with a `metadataBase` option.
-> - `metadataBase` can contain a subdomain e.g. `https://app.acme.com` or base path e.g. `https://acme.com/start/from/here`
-> - If a `metadata` field provides an absolute URL, `metadataBase` will be ignored.
-> - Using a relative path in a URL-based `metadata` field without configuring a `metadataBase` will cause a build error.
-> - Next.js will normalize duplicate slashes between `metadataBase` (e.g. `https://acme.com/`) and a relative field (e.g. `/path`) to a single slash (e.g. `https://acme.com/path`)
+> - `metadataBase` thường được đặt trong root `app/layout.js` để áp dụng cho các `metadata` fields dựa trên URL trên tất cả các routes.
+> - Tất cả các `metadata` fields dựa trên URL yêu cầu absolute URLs có thể được cấu hình với tùy chọn `metadataBase`.
+> - `metadataBase` có thể chứa một subdomain ví dụ `https://app.acme.com` hoặc base path ví dụ `https://acme.com/start/from/here`
+> - Nếu một `metadata` field cung cấp một absolute URL, `metadataBase` sẽ bị bỏ qua.
+> - Sử dụng một relative path trong một `metadata` field dựa trên URL mà không cấu hình `metadataBase` sẽ gây ra lỗi build.
+> - Next.js sẽ chuẩn hóa các dấu gạch chéo trùng lặp giữa `metadataBase` (ví dụ `https://acme.com/`) và một relative field (ví dụ `/path`) thành một dấu gạch chéo đơn (ví dụ `https://acme.com/path`)
 
 #### URL Composition
 
-URL composition favors developer intent over default directory traversal semantics.
+URL composition ưu tiên ý định của developer hơn ngữ nghĩa duyệt thư mục mặc định.
 
-- Trailing slashes between `metadataBase` and `metadata` fields are normalized.
-- An "absolute" path in a `metadata` field (that typically would replace the whole URL path) is treated as a "relative" path (starting from the end of `metadataBase`).
+- Trailing slashes giữa `metadataBase` và `metadata` fields được chuẩn hóa.
+- Một "absolute" path trong một `metadata` field (thường sẽ thay thế toàn bộ URL path) được coi là một "relative" path (bắt đầu từ cuối của `metadataBase`).
 
-For example, given the following `metadataBase`:
+Ví dụ, với `metadataBase` sau:
 
 ```tsx filename="app/layout.tsx" switcher
 import type { Metadata } from 'next'
@@ -402,7 +402,7 @@ export const metadata = {
 }
 ```
 
-Any `metadata` fields that inherit the above `metadataBase` and set their own value will be resolved as follows:
+Bất kỳ `metadata` fields nào kế thừa `metadataBase` ở trên và đặt giá trị riêng của chúng sẽ được resolve như sau:
 
 | `metadata` field                 | Resolved URL                     |
 | -------------------------------- | -------------------------------- |
@@ -495,9 +495,9 @@ export const metadata = {
 <meta property="article:author" content="Josh" />
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - It may be more convenient to use the [file-based Metadata API](/docs/app/api-reference/file-conventions/metadata/opengraph-image#image-files-jpg-png-gif) for Open Graph images. Rather than having to sync the config export with actual files, the file-based API will automatically generate the correct metadata for you.
+> - Có thể thuận tiện hơn khi sử dụng [file-based Metadata API](/docs/app/api-reference/file-conventions/metadata/opengraph-image#image-files-jpg-png-gif) cho Open Graph images. Thay vì phải đồng bộ config export với các file thực tế, file-based API sẽ tự động tạo metadata chính xác cho bạn.
 
 ### `robots`
 
@@ -531,7 +531,7 @@ export const metadata: Metadata = {
 
 ### `icons`
 
-> **Good to know**: We recommend using the [file-based Metadata API](/docs/app/api-reference/file-conventions/metadata/app-icons#image-files-ico-jpg-png) for icons where possible. Rather than having to sync the config export with actual files, the file-based API will automatically generate the correct metadata for you.
+> **Cần biết**: Chúng tôi khuyên bạn nên sử dụng [file-based Metadata API](/docs/app/api-reference/file-conventions/metadata/app-icons#image-files-ico-jpg-png) cho icons nếu có thể. Thay vì phải đồng bộ config export với các file thực tế, file-based API sẽ tự động tạo metadata chính xác cho bạn.
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -598,19 +598,19 @@ export const metadata = {
 />
 ```
 
-> **Good to know**: The `msapplication-*` meta tags are no longer supported in Chromium builds of Microsoft Edge, and thus no longer needed.
+> **Cần biết**: Các thẻ meta `msapplication-*` không còn được hỗ trợ trong các bản build Chromium của Microsoft Edge, và do đó không còn cần thiết nữa.
 
 ### `themeColor`
 
-> **Deprecated**: The `themeColor` option in `metadata` is deprecated as of Next.js 14. Please use the [`viewport` configuration](/docs/app/api-reference/functions/generate-viewport) instead.
+> **Deprecated**: Tùy chọn `themeColor` trong `metadata` đã bị deprecated kể từ Next.js 14. Vui lòng sử dụng cấu hình [`viewport`](/docs/app/api-reference/functions/generate-viewport) thay thế.
 
 ### `colorScheme`
 
-> **Deprecated**: The `colorScheme` option in `metadata` is deprecated as of Next.js 14. Please use the [`viewport` configuration](/docs/app/api-reference/functions/generate-viewport) instead.
+> **Deprecated**: Tùy chọn `colorScheme` trong `metadata` đã bị deprecated kể từ Next.js 14. Vui lòng sử dụng cấu hình [`viewport`](/docs/app/api-reference/functions/generate-viewport) thay thế.
 
 ### `manifest`
 
-A web application manifest, as defined in the [Web Application Manifest specification](https://developer.mozilla.org/docs/Web/Manifest).
+Một web application manifest, như được định nghĩa trong [Web Application Manifest specification](https://developer.mozilla.org/docs/Web/Manifest).
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -624,9 +624,9 @@ export const metadata = {
 
 ### `twitter`
 
-The Twitter specification is (surprisingly) used for more than just X (formerly known as Twitter).
+Đặc tả Twitter (đáng ngạc nhiên) được sử dụng cho nhiều thứ hơn là chỉ X (trước đây gọi là Twitter).
 
-Learn more about the [Twitter Card markup reference](https://developer.x.com/en/docs/twitter-for-websites/cards/overview/markup).
+Tìm hiểu thêm về [Twitter Card markup reference](https://developer.x.com/en/docs/twitter-for-websites/cards/overview/markup).
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -702,7 +702,7 @@ export const metadata = {
 
 ### `viewport`
 
-> **Deprecated**: The `viewport` option in `metadata` is deprecated as of Next.js 14. Please use the [`viewport` configuration](/docs/app/api-reference/functions/generate-viewport) instead.
+> **Deprecated**: Tùy chọn `viewport` trong `metadata` đã bị deprecated kể từ Next.js 14. Vui lòng sử dụng cấu hình [`viewport`](/docs/app/api-reference/functions/generate-viewport) thay thế.
 
 ### `verification`
 
@@ -839,7 +839,7 @@ export const metadata = {
 
 ### `archives`
 
-Describes a collection of records, documents, or other materials of historical interest ([source](https://www.w3.org/TR/2011/WD-html5-20110113/links.html#rel-archives)).
+Mô tả một tập hợp các hồ sơ, tài liệu, hoặc các tài liệu khác có giá trị lịch sử ([nguồn](https://www.w3.org/TR/2011/WD-html5-20110113/links.html#rel-archives)).
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -889,9 +889,9 @@ export const metadata = {
 
 ### `facebook`
 
-You can connect a Facebook app or Facebook account to your webpage for certain Facebook Social Plugins [Facebook Documentation](https://developers.facebook.com/docs/plugins/comments/#moderation-setup-instructions)
+Bạn có thể kết nối một ứng dụng Facebook hoặc tài khoản Facebook với trang web của bạn cho một số Facebook Social Plugins [Facebook Documentation](https://developers.facebook.com/docs/plugins/comments/#moderation-setup-instructions)
 
-> **Good to know**: You can specify either appId or admins, but not both.
+> **Cần biết**: Bạn có thể chỉ định appId hoặc admins, nhưng không phải cả hai.
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -917,7 +917,7 @@ export const metadata = {
 <meta property="fb:admins" content="12345678" />
 ```
 
-If you want to generate multiple fb:admins meta tags you can use array value.
+Nếu bạn muốn tạo nhiều thẻ meta fb:admins bạn có thể sử dụng giá trị mảng.
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -934,7 +934,7 @@ export const metadata = {
 
 ### `pinterest`
 
-You can enable or disable [Pinterest Rich Pins](https://developers.pinterest.com/docs/web-features/rich-pins-overview/) on your webpage.
+Bạn có thể kích hoạt hoặc vô hiệu hóa [Pinterest Rich Pins](https://developers.pinterest.com/docs/web-features/rich-pins-overview/) trên trang web của bạn.
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -950,7 +950,7 @@ export const metadata = {
 
 ### `other`
 
-All metadata options should be covered using the built-in support. However, there may be custom metadata tags specific to your site, or brand new metadata tags just released. You can use the `other` option to render any custom metadata tag.
+Tất cả các tùy chọn metadata nên được bao phủ bằng cách sử dụng hỗ trợ tích hợp sẵn. Tuy nhiên, có thể có các thẻ metadata tùy chỉnh cụ thể cho trang web của bạn, hoặc các thẻ metadata hoàn toàn mới vừa được phát hành. Bạn có thể sử dụng tùy chọn `other` để render bất kỳ thẻ metadata tùy chỉnh nào.
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -964,7 +964,7 @@ export const metadata = {
 <meta name="custom" content="meta" />
 ```
 
-If you want to generate multiple same key meta tags you can use array value.
+Nếu bạn muốn tạo nhiều thẻ meta cùng key bạn có thể sử dụng giá trị mảng.
 
 ```jsx filename="layout.js | page.js"
 export const metadata = {
@@ -980,9 +980,9 @@ export const metadata = {
 
 ### Types
 
-You can add type safety to your metadata by using the `Metadata` type. If you are using the [built-in TypeScript plugin](/docs/app/api-reference/config/typescript) in your IDE, you do not need to manually add the type, but you can still explicitly add it if you want.
+Bạn có thể thêm type safety cho metadata của bạn bằng cách sử dụng type `Metadata`. Nếu bạn đang sử dụng [built-in TypeScript plugin](/docs/app/api-reference/config/typescript) trong IDE của bạn, bạn không cần phải thêm type thủ công, nhưng bạn vẫn có thể thêm nó một cách rõ ràng nếu bạn muốn.
 
-#### `metadata` object
+#### Object `metadata`
 
 ```tsx filename="layout.tsx | page.tsx"
 import type { Metadata } from 'next'
@@ -992,7 +992,7 @@ export const metadata: Metadata = {
 }
 ```
 
-#### `generateMetadata` function
+#### Hàm `generateMetadata`
 
 ##### Regular function
 
@@ -1018,7 +1018,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 ```
 
-##### With segment props
+##### Với segment props
 
 ```tsx filename="layout.tsx | page.tsx"
 import type { Metadata } from 'next'
@@ -1037,7 +1037,7 @@ export function generateMetadata({ params, searchParams }: Props): Metadata {
 export default function Page({ params, searchParams }: Props) {}
 ```
 
-##### With parent metadata
+##### Với parent metadata
 
 ```tsx filename="layout.tsx | page.tsx"
 import type { Metadata, ResolvingMetadata } from 'next'
@@ -1052,9 +1052,9 @@ export async function generateMetadata(
 }
 ```
 
-##### JavaScript Projects
+##### Dự án JavaScript
 
-For JavaScript projects, you can use JSDoc to add type safety.
+Đối với các dự án JavaScript, bạn có thể sử dụng JSDoc để thêm type safety.
 
 ```js filename="layout.js | page.js"
 /** @type {import("next").Metadata} */
@@ -1063,27 +1063,27 @@ export const metadata = {
 }
 ```
 
-### Unsupported Metadata
+### Metadata không được hỗ trợ
 
-The following metadata types do not currently have built-in support. However, they can still be rendered in the layout or page itself.
+Các loại metadata sau đây hiện không có hỗ trợ tích hợp sẵn. Tuy nhiên, chúng vẫn có thể được render trong layout hoặc page.
 
-| Metadata                      | Recommendation                                                                                                                                                                                                                               |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `<meta http-equiv="...">`     | Use appropriate HTTP Headers via [`redirect()`](/docs/app/api-reference/functions/redirect), [Proxy](/docs/app/api-reference/file-conventions/proxy#nextresponse), [Security Headers](/docs/app/api-reference/config/next-config-js/headers) |
-| `<base>`                      | Render the tag in the layout or page itself.                                                                                                                                                                                                 |
-| `<noscript>`                  | Render the tag in the layout or page itself.                                                                                                                                                                                                 |
-| `<style>`                     | Learn more about [styling in Next.js](/docs/app/getting-started/css).                                                                                                                                                                        |
-| `<script>`                    | Learn more about [using scripts](/docs/app/guides/scripts).                                                                                                                                                                                  |
-| `<link rel="stylesheet" />`   | `import` stylesheets directly in the layout or page itself.                                                                                                                                                                                  |
-| `<link rel="preload />`       | Use [ReactDOM preload method](#link-relpreload)                                                                                                                                                                                              |
-| `<link rel="preconnect" />`   | Use [ReactDOM preconnect method](#link-relpreconnect)                                                                                                                                                                                        |
-| `<link rel="dns-prefetch" />` | Use [ReactDOM prefetchDNS method](#link-reldns-prefetch)                                                                                                                                                                                     |
+| Metadata                      | Khuyến nghị                                                                                                                                                                                                                                          |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<meta http-equiv="...">`     | Sử dụng HTTP Headers thích hợp thông qua [`redirect()`](/docs/app/api-reference/functions/redirect), [Proxy](/docs/app/api-reference/file-conventions/proxy#nextresponse), [Security Headers](/docs/app/api-reference/config/next-config-js/headers) |
+| `<base>`                      | Render thẻ trong layout hoặc page.                                                                                                                                                                                                                   |
+| `<noscript>`                  | Render thẻ trong layout hoặc page.                                                                                                                                                                                                                   |
+| `<style>`                     | Tìm hiểu thêm về [styling trong Next.js](/docs/app/getting-started/css).                                                                                                                                                                             |
+| `<script>`                    | Tìm hiểu thêm về [sử dụng scripts](/docs/app/guides/scripts).                                                                                                                                                                                        |
+| `<link rel="stylesheet" />`   | `import` stylesheets trực tiếp trong layout hoặc page.                                                                                                                                                                                               |
+| `<link rel="preload />`       | Sử dụng [ReactDOM preload method](#link-relpreload)                                                                                                                                                                                                  |
+| `<link rel="preconnect" />`   | Sử dụng [ReactDOM preconnect method](#link-relpreconnect)                                                                                                                                                                                            |
+| `<link rel="dns-prefetch" />` | Sử dụng [ReactDOM prefetchDNS method](#link-reldns-prefetch)                                                                                                                                                                                         |
 
 ### Resource hints
 
-The `<link>` element has a number of `rel` keywords that can be used to hint to the browser that an external resource is likely to be needed. The browser uses this information to apply preloading optimizations depending on the keyword.
+Phần tử `<link>` có một số từ khóa `rel` có thể được sử dụng để gợi ý cho trình duyệt rằng một tài nguyên bên ngoài có khả năng sẽ cần thiết. Trình duyệt sử dụng thông tin này để áp dụng các tối ưu hóa preloading tùy thuộc vào từ khóa.
 
-While the Metadata API doesn't directly support these hints, you can use new [`ReactDOM` methods](https://github.com/facebook/react/pull/26237) to safely insert them into the `<head>` of the document.
+Mặc dù Metadata API không hỗ trợ trực tiếp các gợi ý này, bạn có thể sử dụng các phương thức [`ReactDOM` mới](https://github.com/facebook/react/pull/26237) để chèn chúng một cách an toàn vào `<head>` của tài liệu.
 
 ```tsx filename="app/preload-resources.tsx" switcher
 'use client'
@@ -1115,7 +1115,7 @@ export function PreloadResources() {
 
 #### `<link rel="preload">`
 
-Start loading a resource early in the page rendering (browser) lifecycle. [MDN Docs](https://developer.mozilla.org/docs/Web/HTML/Attributes/rel/preload).
+Bắt đầu tải một tài nguyên sớm trong vòng đời render trang (trình duyệt). [MDN Docs](https://developer.mozilla.org/docs/Web/HTML/Attributes/rel/preload).
 
 ```tsx
 ReactDOM.preload(href: string, options: { as: string })
@@ -1127,7 +1127,7 @@ ReactDOM.preload(href: string, options: { as: string })
 
 ##### `<link rel="preconnect">`
 
-Preemptively initiate a connection to an origin. [MDN Docs](https://developer.mozilla.org/docs/Web/HTML/Attributes/rel/preconnect).
+Chủ động khởi tạo kết nối đến một origin. [MDN Docs](https://developer.mozilla.org/docs/Web/HTML/Attributes/rel/preconnect).
 
 ```tsx
 ReactDOM.preconnect(href: string, options?: { crossOrigin?: string })
@@ -1139,7 +1139,7 @@ ReactDOM.preconnect(href: string, options?: { crossOrigin?: string })
 
 #### `<link rel="dns-prefetch">`
 
-Attempt to resolve a domain name before resources get requested. [MDN Docs](https://developer.mozilla.org/docs/Web/HTML/Attributes/rel/dns-prefetch).
+Cố gắng resolve tên miền trước khi các tài nguyên được yêu cầu. [MDN Docs](https://developer.mozilla.org/docs/Web/HTML/Attributes/rel/dns-prefetch).
 
 ```tsx
 ReactDOM.prefetchDNS(href: string)
@@ -1149,38 +1149,38 @@ ReactDOM.prefetchDNS(href: string)
 <link rel="dns-prefetch" href="..." />
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - These methods are currently only supported in Client Components, which are still Server Side Rendered on initial page load.
-> - Next.js in-built features such as `next/font`, `next/image` and `next/script` automatically handle relevant resource hints.
+> - Các phương thức này hiện chỉ được hỗ trợ trong Client Components, vẫn được Server Side Rendered khi tải trang ban đầu.
+> - Các tính năng tích hợp sẵn của Next.js như `next/font`, `next/image` và `next/script` tự động xử lý các resource hints liên quan.
 
-## Behavior
+## Hành vi
 
-### Default Fields
+### Các trường mặc định
 
-There are two default `meta` tags that are always added even if a route doesn't define metadata:
+Có hai thẻ `meta` mặc định luôn được thêm vào ngay cả khi một route không định nghĩa metadata:
 
-- The [meta charset tag](https://developer.mozilla.org/docs/Web/HTML/Element/meta#attr-charset) sets the character encoding for the website.
-- The [meta viewport tag](https://developer.mozilla.org/docs/Web/HTML/Viewport_meta_tag) sets the viewport width and scale for the website to adjust for different devices.
+- [Thẻ meta charset](https://developer.mozilla.org/docs/Web/HTML/Element/meta#attr-charset) đặt mã hóa ký tự cho trang web.
+- [Thẻ meta viewport](https://developer.mozilla.org/docs/Web/HTML/Viewport_meta_tag) đặt chiều rộng và tỷ lệ viewport cho trang web để điều chỉnh cho các thiết bị khác nhau.
 
 ```html
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 ```
 
-> **Good to know**: You can overwrite the default [`viewport`](/docs/app/api-reference/functions/generate-metadata#viewport) meta tag.
+> **Cần biết**: Bạn có thể ghi đè thẻ meta [`viewport`](/docs/app/api-reference/functions/generate-metadata#viewport) mặc định.
 
 ### Streaming metadata
 
-Streaming metadata allows Next.js to render and send the initial UI to the browser, without waiting for `generateMetadata` to complete.
+Streaming metadata cho phép Next.js render và gửi UI ban đầu đến trình duyệt, mà không cần đợi `generateMetadata` hoàn thành.
 
-When `generateMetadata` resolves, the resulting metadata tags are appended to the `<body>` tag. We have verified that metadata is interpreted correctly by bots that execute JavaScript and inspect the full DOM (e.g. `Googlebot`).
+Khi `generateMetadata` resolve, các thẻ metadata kết quả được thêm vào thẻ `<body>`. Chúng tôi đã xác minh rằng metadata được diễn giải chính xác bởi các bot thực thi JavaScript và kiểm tra toàn bộ DOM (ví dụ: `Googlebot`).
 
-For **HTML-limited bots** that can’t execute JavaScript (e.g. `facebookexternalhit`), metadata continues to block page rendering. The resulting metadata will be available in the `<head>` tag.
+Đối với các **HTML-limited bots** không thể thực thi JavaScript (ví dụ: `facebookexternalhit`), metadata tiếp tục chặn render trang. Metadata kết quả sẽ có sẵn trong thẻ `<head>`.
 
-Next.js automatically detects **HTML-limited bots** by looking at the User Agent header. You can use the [`htmlLimitedBots`](/docs/app/api-reference/config/next-config-js/htmlLimitedBots) option in your Next.js config file to override the default [User Agent list](https://github.com/vercel/next.js/blob/canary/packages/next/src/shared/lib/router/utils/html-bots.ts).
+Next.js tự động phát hiện **HTML-limited bots** bằng cách xem xét User Agent header. Bạn có thể sử dụng tùy chọn [`htmlLimitedBots`](/docs/app/api-reference/config/next-config-js/htmlLimitedBots) trong file cấu hình Next.js của bạn để ghi đè [danh sách User Agent](https://github.com/vercel/next.js/blob/canary/packages/next/src/shared/lib/router/utils/html-bots.ts) mặc định.
 
-To fully disable streaming metadata:
+Để tắt hoàn toàn streaming metadata:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -1198,25 +1198,25 @@ module.exports = {
 }
 ```
 
-Streaming metadata improves perceived performance by reducing [TTFB](https://developer.mozilla.org/docs/Glossary/Time_to_first_byte) and can help lowering [LCP](https://developer.mozilla.org/docs/Glossary/Largest_contentful_paint) time.
+Streaming metadata cải thiện hiệu suất cảm nhận bằng cách giảm [TTFB](https://developer.mozilla.org/docs/Glossary/Time_to_first_byte) và có thể giúp giảm thời gian [LCP](https://developer.mozilla.org/docs/Glossary/Largest_contentful_paint).
 
-Overriding `htmlLimitedBots` could lead to longer response times. Streaming metadata is an advanced feature, and the default should be sufficient for most cases.
+Ghi đè `htmlLimitedBots` có thể dẫn đến thời gian phản hồi lâu hơn. Streaming metadata là một tính năng nâng cao, và mặc định là đủ cho hầu hết các trường hợp.
 
-### Ordering
+### Thứ tự
 
-Metadata is evaluated in order, starting from the root segment down to the segment closest to the final `page.js` segment. For example:
+Metadata được đánh giá theo thứ tự, bắt đầu từ root segment xuống đến segment gần nhất với segment `page.js` cuối cùng. Ví dụ:
 
 1. `app/layout.tsx` (Root Layout)
 2. `app/blog/layout.tsx` (Nested Blog Layout)
 3. `app/blog/[slug]/page.tsx` (Blog Page)
 
-### Merging
+### Gộp (Merging)
 
-Following the [evaluation order](#ordering), Metadata objects exported from multiple segments in the same route are **shallowly** merged together to form the final metadata output of a route. Duplicate keys are **replaced** based on their ordering.
+Theo [thứ tự đánh giá](#ordering), các Metadata objects được export từ nhiều segments trong cùng một route được merge **nông (shallowly)** với nhau để tạo thành metadata output cuối cùng của một route. Các key trùng lặp được **thay thế** dựa trên thứ tự của chúng.
 
-This means metadata with nested fields such as [`openGraph`](/docs/app/api-reference/functions/generate-metadata#opengraph) and [`robots`](/docs/app/api-reference/functions/generate-metadata#robots) that are defined in an earlier segment are **overwritten** by the last segment to define them.
+Điều này có nghĩa là metadata với các fields lồng nhau như [`openGraph`](/docs/app/api-reference/functions/generate-metadata#opengraph) và [`robots`](/docs/app/api-reference/functions/generate-metadata#robots) được định nghĩa trong một segment trước đó sẽ bị **ghi đè** bởi segment cuối cùng định nghĩa chúng.
 
-#### Overwriting fields
+#### Ghi đè fields
 
 ```jsx filename="app/layout.js"
 export const metadata = {
@@ -1241,12 +1241,12 @@ export const metadata = {
 // <meta property="og:title" content="Blog" />
 ```
 
-In the example above:
+Trong ví dụ trên:
 
-- `title` from `app/layout.js` is **replaced** by `title` in `app/blog/page.js`.
-- All `openGraph` fields from `app/layout.js` are **replaced** in `app/blog/page.js` because `app/blog/page.js` sets `openGraph` metadata. Note the absence of `openGraph.description`.
+- `title` từ `app/layout.js` bị **thay thế** bởi `title` trong `app/blog/page.js`.
+- Tất cả các fields `openGraph` từ `app/layout.js` bị **thay thế** trong `app/blog/page.js` vì `app/blog/page.js` đặt metadata `openGraph`. Lưu ý sự vắng mặt của `openGraph.description`.
 
-If you'd like to share some nested fields between segments while overwriting others, you can pull them out into a separate variable:
+Nếu bạn muốn chia sẻ một số fields lồng nhau giữa các segments trong khi ghi đè các fields khác, bạn có thể tách chúng ra thành một biến riêng biệt:
 
 ```jsx filename="app/shared-metadata.js"
 export const openGraphImage = { images: ['http://...'] }
@@ -1274,9 +1274,9 @@ export const metadata = {
 }
 ```
 
-In the example above, the OG image is shared between `app/layout.js` and `app/about/page.js` while the titles are different.
+Trong ví dụ trên, OG image được chia sẻ giữa `app/layout.js` và `app/about/page.js` trong khi titles là khác nhau.
 
-#### Inheriting fields
+#### Kế thừa fields
 
 ```jsx filename="app/layout.js"
 export const metadata = {
@@ -1299,15 +1299,15 @@ export const metadata = {
 // <meta property="og:description" content="Acme is a..." />
 ```
 
-**Notes**
+**Ghi chú**
 
-- `title` from `app/layout.js` is **replaced** by `title` in `app/about/page.js`.
-- All `openGraph` fields from `app/layout.js` are **inherited** in `app/about/page.js` because `app/about/page.js` doesn't set `openGraph` metadata.
+- `title` từ `app/layout.js` bị **thay thế** bởi `title` trong `app/about/page.js`.
+- Tất cả các fields `openGraph` từ `app/layout.js` được **kế thừa** trong `app/about/page.js` vì `app/about/page.js` không đặt metadata `openGraph`.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                                                                 |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v15.2.0` | Introduced streaming support to `generateMetadata`.                                                                                                     |
-| `v13.2.0` | `viewport`, `themeColor`, and `colorScheme` deprecated in favor of the [`viewport` configuration](/docs/app/api-reference/functions/generate-viewport). |
-| `v13.2.0` | `metadata` and `generateMetadata` introduced.                                                                                                           |
+| Version   | Changes                                                                                                                                             |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v15.2.0` | Giới thiệu hỗ trợ streaming cho `generateMetadata`.                                                                                                 |
+| `v13.2.0` | `viewport`, `themeColor`, và `colorScheme` bị deprecated để ủng hộ [`viewport` configuration](/docs/app/api-reference/functions/generate-viewport). |
+| `v13.2.0` | `metadata` và `generateMetadata` được giới thiệu.                                                                                                   |

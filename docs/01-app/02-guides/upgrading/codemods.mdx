@@ -1,32 +1,32 @@
 ---
 title: Codemods
-description: Use codemods to upgrade your Next.js codebase when new features are released.
+description: Sử dụng codemods để nâng cấp codebase Next.js của bạn khi các tính năng mới được phát hành.
 ---
 
-Codemods are transformations that run on your codebase programmatically. This allows a large number of changes to be programmatically applied without having to manually go through every file.
+Codemods là các phép biến đổi chạy trên codebase của bạn theo chương trình. Điều này cho phép áp dụng một số lượng lớn các thay đổi theo chương trình mà không cần phải đi qua từng tệp theo cách thủ công.
 
-Next.js provides Codemod transformations to help upgrade your Next.js codebase when an API is updated or deprecated.
+Next.js cung cấp các phép biến đổi Codemod để giúp nâng cấp codebase Next.js của bạn khi một API được cập nhật hoặc không còn được dùng nữa (deprecated).
 
-## Usage
+## Sử dụng
 
-In your terminal, navigate (`cd`) into your project's folder, then run:
+Trong terminal của bạn, điều hướng (`cd`) vào thư mục dự án của bạn, sau đó chạy:
 
 ```bash filename="Terminal"
 npx @next/codemod <transform> <path>
 ```
 
-Replacing `<transform>` and `<path>` with appropriate values.
+Thay thế `<transform>` và `<path>` bằng các giá trị thích hợp.
 
-- `transform` - name of transform
-- `path` - files or directory to transform
-- `--dry` Do a dry-run, no code will be edited
-- `--print` Prints the changed output for comparison
+- `transform` - tên của phép biến đổi
+- `path` - tệp hoặc thư mục để biến đổi
+- `--dry` Chạy thử, không có mã nào được chỉnh sửa
+- `--print` In ra đầu ra đã thay đổi để so sánh
 
 ## Codemods
 
 ### 16.0
 
-#### Remove `experimental_ppr` Route Segment Config from App Router pages and layouts
+#### Xóa `experimental_ppr` Route Segment Config khỏi các trang và layouts của App Router
 
 ##### `remove-experimental-ppr`
 
@@ -34,13 +34,13 @@ Replacing `<transform>` and `<path>` with appropriate values.
 npx @next/codemod@latest remove-experimental-ppr .
 ```
 
-This codemod removes the `experimental_ppr` Route Segment Config from App Router pages and layouts.
+Codemod này xóa `experimental_ppr` Route Segment Config khỏi các trang và layouts của App Router.
 
 ```diff filename="app/page.tsx"
 - export const experimental_ppr = true;
 ```
 
-#### Remove `unstable_` prefix from stabilized API
+#### Xóa tiền tố `unstable_` khỏi API đã ổn định
 
 ##### `remove-unstable-prefix`
 
@@ -48,9 +48,9 @@ This codemod removes the `experimental_ppr` Route Segment Config from App Router
 npx @next/codemod@latest remove-unstable-prefix .
 ```
 
-This codemod removes the `unstable_` prefix from stabilized API.
+Codemod này xóa tiền tố `unstable_` khỏi API đã ổn định.
 
-For example:
+Ví dụ:
 
 ```ts
 import { unstable_cacheTag as cacheTag } from 'next/cache'
@@ -58,7 +58,7 @@ import { unstable_cacheTag as cacheTag } from 'next/cache'
 cacheTag()
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```ts
 import { cacheTag } from 'next/cache'
@@ -66,7 +66,7 @@ import { cacheTag } from 'next/cache'
 cacheTag()
 ```
 
-#### Migrate from deprecated `middleware` convention to `proxy`
+#### Di chuyển từ quy ước `middleware` không còn được dùng sang `proxy`
 
 ##### `middleware-to-proxy`
 
@@ -74,16 +74,16 @@ cacheTag()
 npx @next/codemod@latest middleware-to-proxy .
 ```
 
-This codemod migrates projects from using the deprecated `middleware` convention to using the `proxy` convention. It:
+Codemod này di chuyển các dự án từ việc sử dụng quy ước `middleware` không còn được dùng sang sử dụng quy ước `proxy`. Nó:
 
-- Renames `middleware.<extension>` to `proxy.<extension>` (e.g. `middleware.ts` to `proxy.ts`)
-- Renames named export `middleware` to `proxy`
-- Renames Next.js config property `experimental.middlewarePrefetch` to `experimental.proxyPrefetch`
-- Renames Next.js config property `experimental.middlewareClientMaxBodySize` to `experimental.proxyClientMaxBodySize`
-- Renames Next.js config property `experimental.externalMiddlewareRewritesResolve` to `experimental.externalProxyRewritesResolve`
-- Renames Next.js config property `skipMiddlewareUrlNormalize` to `skipProxyUrlNormalize`
+- Đổi tên `middleware.<extension>` thành `proxy.<extension>` (ví dụ: `middleware.ts` thành `proxy.ts`)
+- Đổi tên named export `middleware` thành `proxy`
+- Đổi tên thuộc tính cấu hình Next.js `experimental.middlewarePrefetch` thành `experimental.proxyPrefetch`
+- Đổi tên thuộc tính cấu hình Next.js `experimental.middlewareClientMaxBodySize` thành `experimental.proxyClientMaxBodySize`
+- Đổi tên thuộc tính cấu hình Next.js `experimental.externalMiddlewareRewritesResolve` thành `experimental.externalProxyRewritesResolve`
+- Đổi tên thuộc tính cấu hình Next.js `skipMiddlewareUrlNormalize` thành `skipProxyUrlNormalize`
 
-For example:
+Ví dụ:
 
 ```ts filename="middleware.ts"
 import { NextResponse } from 'next/server'
@@ -93,7 +93,7 @@ export function middleware() {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```ts filename="proxy.ts"
 import { NextResponse } from 'next/server'
@@ -103,7 +103,7 @@ export function proxy() {
 }
 ```
 
-#### Migrate from `next lint` to ESLint CLI
+#### Di chuyển từ `next lint` sang ESLint CLI
 
 ##### `next-lint-to-eslint-cli`
 
@@ -111,14 +111,14 @@ export function proxy() {
 npx @next/codemod@canary next-lint-to-eslint-cli .
 ```
 
-This codemod migrates projects from using `next lint` to using the ESLint CLI with your local ESLint config. It:
+Codemod này di chuyển các dự án từ việc sử dụng `next lint` sang sử dụng ESLint CLI với cấu hình ESLint cục bộ của bạn. Nó:
 
-- Creates an `eslint.config.mjs` file with Next.js recommended configurations
-- Updates `package.json` scripts to use `eslint .` instead of `next lint`
-- Adds necessary ESLint dependencies to `package.json`
-- Preserves existing ESLint configurations when found
+- Tạo tệp `eslint.config.mjs` với các cấu hình được đề xuất của Next.js
+- Cập nhật các scripts trong `package.json` để sử dụng `eslint .` thay vì `next lint`
+- Thêm các phụ thuộc ESLint cần thiết vào `package.json`
+- Bảo tồn các cấu hình ESLint hiện có khi tìm thấy
 
-For example:
+Ví dụ:
 
 ```json filename="package.json"
 {
@@ -128,7 +128,7 @@ For example:
 }
 ```
 
-Becomes:
+Trở thành:
 
 ```json filename="package.json"
 {
@@ -138,7 +138,7 @@ Becomes:
 }
 ```
 
-And creates:
+Và tạo:
 
 ```js filename="eslint.config.mjs"
 import { dirname } from 'path'
@@ -170,33 +170,33 @@ export default eslintConfig
 
 ### 15.0
 
-#### Transform App Router Route Segment Config `runtime` value from `experimental-edge` to `edge`
+#### Biến đổi giá trị `runtime` của App Router Route Segment Config từ `experimental-edge` sang `edge`
 
 ##### `app-dir-runtime-config-experimental-edge`
 
-> **Note**: This codemod is App Router specific.
+> **Lưu ý**: Codemod này dành riêng cho App Router.
 
 ```bash filename="Terminal"
 npx @next/codemod@latest app-dir-runtime-config-experimental-edge .
 ```
 
-This codemod transforms [Route Segment Config `runtime`](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#runtime) value `experimental-edge` to `edge`.
+Codemod này biến đổi giá trị [`runtime` của Route Segment Config](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#runtime) `experimental-edge` thành `edge`.
 
-For example:
+Ví dụ:
 
 ```ts
 export const runtime = 'experimental-edge'
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```ts
 export const runtime = 'edge'
 ```
 
-#### Migrate to async Dynamic APIs
+#### Di chuyển sang async Dynamic APIs
 
-APIs that opted into dynamic rendering that previously supported synchronous access are now asynchronous. You can read more about this breaking change in the [upgrade guide](/docs/app/guides/upgrading/version-15).
+Các API đã chọn tham gia dynamic rendering trước đây hỗ trợ truy cập đồng bộ giờ đây là bất đồng bộ. Bạn có thể đọc thêm về thay đổi phá vỡ này trong [hướng dẫn nâng cấp](/docs/app/guides/upgrading/version-15).
 
 ##### `next-async-request-api`
 
@@ -204,10 +204,10 @@ APIs that opted into dynamic rendering that previously supported synchronous acc
 npx @next/codemod@latest next-async-request-api .
 ```
 
-This codemod will transform dynamic APIs (`cookies()`, `headers()` and `draftMode()` from `next/headers`) that are now asynchronous to be properly awaited or wrapped with `React.use()` if applicable.
-When an automatic migration isn't possible, the codemod will either add a typecast (if a TypeScript file) or a comment to inform the user that it needs to be manually reviewed & updated.
+Codemod này sẽ biến đổi các API động (`cookies()`, `headers()` và `draftMode()` từ `next/headers`) hiện là bất đồng bộ để được await đúng cách hoặc được bao bọc bằng `React.use()` nếu có thể áp dụng.
+Khi không thể di chuyển tự động, codemod sẽ thêm typecast (nếu là tệp TypeScript) hoặc nhận xét để thông báo cho người dùng rằng nó cần được xem xét và cập nhật thủ công.
 
-For example:
+Ví dụ:
 
 ```tsx
 import { cookies, headers } from 'next/headers'
@@ -227,7 +227,7 @@ function getHeader() {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```tsx
 import { use } from 'react'
@@ -253,10 +253,10 @@ function getHeader() {
 }
 ```
 
-When we detect property access on the `params` or `searchParams` props in the page / route entries (`page.js`, `layout.js`, `route.js`, or `default.js`) or the `generateMetadata` / `generateViewport` APIs,
-it will attempt to transform the callsite from a sync to an async function, and await the property access. If it can't be made async (such as with a Client Component), it will use `React.use` to unwrap the promise .
+Khi chúng tôi phát hiện truy cập thuộc tính trên các props `params` hoặc `searchParams` trong các mục nhập page / route (`page.js`, `layout.js`, `route.js`, hoặc `default.js`) hoặc các API `generateMetadata` / `generateViewport`,
+nó sẽ cố gắng biến đổi callsite từ hàm đồng bộ sang hàm bất đồng bộ, và await truy cập thuộc tính. Nếu nó không thể được thực hiện bất đồng bộ (chẳng hạn như với Client Component), nó sẽ sử dụng `React.use` để unwrap promise.
 
-For example:
+Ví dụ:
 
 ```tsx
 // page.tsx
@@ -281,7 +281,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```tsx
 // page.tsx
@@ -307,10 +307,10 @@ export async function generateMetadata(props: {
 }
 ```
 
-> **Good to know:** When this codemod identifies a spot that might require manual intervention, but we aren't able to determine the exact fix, it will add a comment or typecast to the code to inform the user that it needs to be manually updated. These comments are prefixed with **@next/codemod**, and typecasts are prefixed with `UnsafeUnwrapped`.
-> Your build will error until these comments are explicitly removed. [Read more](/docs/messages/sync-dynamic-apis).
+> **Cần biết:** Khi codemod này xác định một điểm có thể yêu cầu can thiệp thủ công, nhưng chúng tôi không thể xác định bản sửa lỗi chính xác, nó sẽ thêm nhận xét hoặc typecast vào mã để thông báo cho người dùng rằng nó cần được cập nhật thủ công. Những nhận xét này có tiền tố **@next/codemod**, và typecasts có tiền tố `UnsafeUnwrapped`.
+> Bản build của bạn sẽ bị lỗi cho đến khi những nhận xét này được xóa rõ ràng. [Đọc thêm](/docs/messages/sync-dynamic-apis).
 
-#### Replace `geo` and `ip` properties of `NextRequest` with `@vercel/functions`
+#### Thay thế các thuộc tính `geo` và `ip` của `NextRequest` bằng `@vercel/functions`
 
 ##### `next-request-geo-ip`
 
@@ -318,9 +318,9 @@ export async function generateMetadata(props: {
 npx @next/codemod@latest next-request-geo-ip .
 ```
 
-This codemod installs `@vercel/functions` and transforms `geo` and `ip` properties of `NextRequest` with corresponding `@vercel/functions` features.
+Codemod này cài đặt `@vercel/functions` và biến đổi các thuộc tính `geo` và `ip` của `NextRequest` với các tính năng tương ứng của `@vercel/functions`.
 
-For example:
+Ví dụ:
 
 ```ts
 import type { NextRequest } from 'next/server'
@@ -330,7 +330,7 @@ export function GET(req: NextRequest) {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```ts
 import type { NextRequest } from 'next/server'
@@ -344,7 +344,7 @@ export function GET(req: NextRequest) {
 
 ### 14.0
 
-#### Migrate `ImageResponse` imports
+#### Di chuyển imports `ImageResponse`
 
 ##### `next-og-import`
 
@@ -352,21 +352,21 @@ export function GET(req: NextRequest) {
 npx @next/codemod@latest next-og-import .
 ```
 
-This codemod moves transforms imports from `next/server` to `next/og` for usage of [Dynamic OG Image Generation](/docs/app/getting-started/metadata-and-og-images#generated-open-graph-images).
+Codemod này di chuyển các imports biến đổi từ `next/server` sang `next/og` để sử dụng [Dynamic OG Image Generation](/docs/app/getting-started/metadata-and-og-images#generated-open-graph-images).
 
-For example:
+Ví dụ:
 
 ```js
 import { ImageResponse } from 'next/server'
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```js
 import { ImageResponse } from 'next/og'
 ```
 
-#### Use `viewport` export
+#### Sử dụng export `viewport`
 
 ##### `metadata-to-viewport-export`
 
@@ -374,9 +374,9 @@ import { ImageResponse } from 'next/og'
 npx @next/codemod@latest metadata-to-viewport-export .
 ```
 
-This codemod migrates certain viewport metadata to `viewport` export.
+Codemod này di chuyển metadata viewport nhất định sang export `viewport`.
 
-For example:
+Ví dụ:
 
 ```js
 export const metadata = {
@@ -388,7 +388,7 @@ export const metadata = {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```js
 export const metadata = {
@@ -403,7 +403,7 @@ export const viewport = {
 
 ### 13.2
 
-#### Use Built-in Font
+#### Sử dụng Phông chữ Tích hợp (Built-in Font)
 
 ##### `built-in-next-font`
 
@@ -411,15 +411,15 @@ export const viewport = {
 npx @next/codemod@latest built-in-next-font .
 ```
 
-This codemod uninstalls the `@next/font` package and transforms `@next/font` imports into the built-in `next/font`.
+Codemod này gỡ cài đặt gói `@next/font` và biến đổi các imports `@next/font` thành `next/font` tích hợp sẵn.
 
-For example:
+Ví dụ:
 
 ```js
 import { Inter } from '@next/font/google'
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```js
 import { Inter } from 'next/font/google'
@@ -427,7 +427,7 @@ import { Inter } from 'next/font/google'
 
 ### 13.0
 
-#### Rename Next Image Imports
+#### Đổi tên Next Image Imports
 
 ##### `next-image-to-legacy-image`
 
@@ -435,9 +435,9 @@ import { Inter } from 'next/font/google'
 npx @next/codemod@latest next-image-to-legacy-image .
 ```
 
-Safely renames `next/image` imports in existing Next.js 10, 11, or 12 applications to `next/legacy/image` in Next.js 13. Also renames `next/future/image` to `next/image`.
+Đổi tên an toàn các imports `next/image` trong các ứng dụng Next.js 10, 11, hoặc 12 hiện có thành `next/legacy/image` trong Next.js 13. Cũng đổi tên `next/future/image` thành `next/image`.
 
-For example:
+Ví dụ:
 
 ```jsx filename="pages/index.js"
 import Image1 from 'next/image'
@@ -453,12 +453,12 @@ export default function Home() {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```jsx filename="pages/index.js"
-// 'next/image' becomes 'next/legacy/image'
+// 'next/image' trở thành 'next/legacy/image'
 import Image1 from 'next/legacy/image'
-// 'next/future/image' becomes 'next/image'
+// 'next/future/image' trở thành 'next/image'
 import Image2 from 'next/image'
 
 export default function Home() {
@@ -471,7 +471,7 @@ export default function Home() {
 }
 ```
 
-#### Migrate to the New Image Component
+#### Di chuyển sang Thành phần Image Mới
 
 ##### `next-image-experimental`
 
@@ -479,15 +479,15 @@ export default function Home() {
 npx @next/codemod@latest next-image-experimental .
 ```
 
-Dangerously migrates from `next/legacy/image` to the new `next/image` by adding inline styles and removing unused props.
+Di chuyển nguy hiểm từ `next/legacy/image` sang `next/image` mới bằng cách thêm các kiểu nội tuyến và xóa các props không sử dụng.
 
-- Removes `layout` prop and adds `style`.
-- Removes `objectFit` prop and adds `style`.
-- Removes `objectPosition` prop and adds `style`.
-- Removes `lazyBoundary` prop.
-- Removes `lazyRoot` prop.
+- Xóa prop `layout` và thêm `style`.
+- Xóa prop `objectFit` và thêm `style`.
+- Xóa prop `objectPosition` và thêm `style`.
+- Xóa prop `lazyBoundary`.
+- Xóa prop `lazyRoot`.
 
-#### Remove `<a>` Tags From Link Components
+#### Xóa thẻ `<a>` Khỏi Link Components
 
 ##### `new-link`
 
@@ -497,23 +497,23 @@ npx @next/codemod@latest new-link .
 
 <AppOnly>
 
-Remove `<a>` tags inside [Link Components](/docs/app/api-reference/components/link).
+Xóa thẻ `<a>` bên trong [Link Components](/docs/app/api-reference/components/link).
 
 </AppOnly>
 
 <PagesOnly>
 
-Remove `<a>` tags inside [Link Components](/docs/pages/api-reference/components/link).
+Xóa thẻ `<a>` bên trong [Link Components](/docs/pages/api-reference/components/link).
 
 </PagesOnly>
 
-For example:
+Ví dụ:
 
 ```jsx
 <Link href="/about">
   <a>About</a>
 </Link>
-// transforms into
+// biến đổi thành
 <Link href="/about">
   About
 </Link>
@@ -521,7 +521,7 @@ For example:
 <Link href="/about">
   <a onClick={() => console.log('clicked')}>About</a>
 </Link>
-// transforms into
+// biến đổi thành
 <Link href="/about" onClick={() => console.log('clicked')}>
   About
 </Link>
@@ -529,7 +529,7 @@ For example:
 
 ### 11
 
-#### Migrate from CRA
+#### Di chuyển từ CRA
 
 ##### `cra-to-next`
 
@@ -537,13 +537,13 @@ For example:
 npx @next/codemod cra-to-next
 ```
 
-Migrates a Create React App project to Next.js; creating a Pages Router and necessary config to match behavior. Client-side only rendering is leveraged initially to prevent breaking compatibility due to `window` usage during SSR and can be enabled seamlessly to allow the gradual adoption of Next.js specific features.
+Di chuyển dự án Create React App sang Next.js; tạo Pages Router và cấu hình cần thiết để khớp hành vi. Client-side only rendering được tận dụng ban đầu để ngăn chặn phá vỡ khả năng tương thích do việc sử dụng `window` trong SSR và có thể được bật liền mạch để cho phép áp dụng dần dần các tính năng cụ thể của Next.js.
 
-Please share any feedback related to this transform [in this discussion](https://github.com/vercel/next.js/discussions/25858).
+Vui lòng chia sẻ bất kỳ phản hồi nào liên quan đến phép biến đổi này [trong cuộc thảo luận này](https://github.com/vercel/next.js/discussions/25858).
 
 ### 10
 
-#### Add React imports
+#### Thêm React imports
 
 ##### `add-missing-react-import`
 
@@ -551,9 +551,9 @@ Please share any feedback related to this transform [in this discussion](https:/
 npx @next/codemod add-missing-react-import
 ```
 
-Transforms files that do not import `React` to include the import in order for the new [React JSX transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) to work.
+Biến đổi các tệp không import `React` để bao gồm import để [React JSX transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) mới hoạt động.
 
-For example:
+Ví dụ:
 
 ```jsx filename="my-component.js"
 export default class Home extends React.Component {
@@ -563,7 +563,7 @@ export default class Home extends React.Component {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```jsx filename="my-component.js"
 import React from 'react'
@@ -576,7 +576,7 @@ export default class Home extends React.Component {
 
 ### 9
 
-#### Transform Anonymous Components into Named Components
+#### Biến đổi Anonymous Components thành Named Components
 
 ##### `name-default-component`
 
@@ -584,11 +584,11 @@ export default class Home extends React.Component {
 npx @next/codemod name-default-component
 ```
 
-**Versions 9 and above.**
+**Phiên bản 9 trở lên.**
 
-Transforms anonymous components into named components to make sure they work with [Fast Refresh](https://nextjs.org/blog/next-9-4#fast-refresh).
+Biến đổi các anonymous components thành named components để đảm bảo chúng hoạt động với [Fast Refresh](https://nextjs.org/blog/next-9-4#fast-refresh).
 
-For example:
+Ví dụ:
 
 ```jsx filename="my-component.js"
 export default function () {
@@ -596,7 +596,7 @@ export default function () {
 }
 ```
 
-Transforms into:
+Biến đổi thành:
 
 ```jsx filename="my-component.js"
 export default function MyComponent() {
@@ -604,13 +604,13 @@ export default function MyComponent() {
 }
 ```
 
-The component will have a camel-cased name based on the name of the file, and it also works with arrow functions.
+Thành phần sẽ có tên camel-cased dựa trên tên của tệp, và nó cũng hoạt động với arrow functions.
 
 ### 8
 
-> **Note**: Built-in AMP support and this codemod have been removed in Next.js 16.
+> **Lưu ý**: Hỗ trợ AMP tích hợp sẵn và codemod này đã bị xóa trong Next.js 16.
 
-#### Transform AMP HOC into page config
+#### Biến đổi AMP HOC thành page config
 
 ##### `withamp-to-config`
 
@@ -618,12 +618,12 @@ The component will have a camel-cased name based on the name of the file, and it
 npx @next/codemod withamp-to-config
 ```
 
-Transforms the `withAmp` HOC into Next.js 9 page configuration.
+Biến đổi `withAmp` HOC thành cấu hình trang Next.js 9.
 
-For example:
+Ví dụ:
 
 ```js
-// Before
+// Trước
 import { withAmp } from 'next/amp'
 
 function Home() {
@@ -634,7 +634,7 @@ export default withAmp(Home)
 ```
 
 ```js
-// After
+// Sau
 export default function Home() {
   return <h1>My AMP Page</h1>
 }
@@ -646,7 +646,7 @@ export const config = {
 
 ### 6
 
-#### Use `withRouter`
+#### Sử dụng `withRouter`
 
 ##### `url-to-withrouter`
 
@@ -654,9 +654,9 @@ export const config = {
 npx @next/codemod url-to-withrouter
 ```
 
-Transforms the deprecated automatically injected `url` property on top level pages to using `withRouter` and the `router` property it injects. Read more here: [https://nextjs.org/docs/messages/url-deprecated](/docs/messages/url-deprecated)
+Biến đổi thuộc tính `url` được tiêm tự động không còn được dùng trên các trang cấp cao nhất để sử dụng `withRouter` và thuộc tính `router` mà nó tiêm vào. Đọc thêm tại đây: [https://nextjs.org/docs/messages/url-deprecated](/docs/messages/url-deprecated)
 
-For example:
+Ví dụ:
 
 ```js filename="From"
 import React from 'react'
@@ -681,4 +681,4 @@ export default withRouter(
 )
 ```
 
-This is one case. All the cases that are transformed (and tested) can be found in the [`__testfixtures__` directory](https://github.com/vercel/next.js/tree/canary/packages/next-codemod/transforms/__testfixtures__/url-to-withrouter).
+Đây là một trường hợp. Tất cả các trường hợp được biến đổi (và kiểm tra) có thể được tìm thấy trong [thư mục `__testfixtures__`](https://github.com/vercel/next.js/tree/canary/packages/next-codemod/transforms/__testfixtures__/url-to-withrouter).

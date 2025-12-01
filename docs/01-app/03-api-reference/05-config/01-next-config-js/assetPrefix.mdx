@@ -1,33 +1,33 @@
 ---
 title: assetPrefix
-description: Learn how to use the assetPrefix config option to configure your CDN.
+description: Tìm hiểu cách sử dụng tùy chọn cấu hình assetPrefix để cấu hình CDN của bạn.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
 <AppOnly>
 
-> **Attention**: [Deploying to Vercel](/docs/app/getting-started/deploying) automatically configures a global CDN for your Next.js project.
-> You do not need to manually setup an Asset Prefix.
+> **Chú ý**: [Triển khai lên Vercel](/docs/app/getting-started/deploying) tự động cấu hình một CDN toàn cầu cho dự án Next.js của bạn.
+> Bạn không cần thiết lập Asset Prefix thủ công.
 
 </AppOnly>
 
 <PagesOnly>
 
-> **Attention**: [Deploying to Vercel](/docs/pages/getting-started/deploying) automatically configures a global CDN for your Next.js project.
-> You do not need to manually setup an Asset Prefix.
+> **Chú ý**: [Triển khai lên Vercel](/docs/pages/getting-started/deploying) tự động cấu hình một CDN toàn cầu cho dự án Next.js của bạn.
+> Bạn không cần thiết lập Asset Prefix thủ công.
 
 </PagesOnly>
 
-> **Good to know**: Next.js 9.5+ added support for a customizable [Base Path](/docs/app/api-reference/config/next-config-js/basePath), which is better
-> suited for hosting your application on a sub-path like `/docs`.
-> We do not suggest you use a custom Asset Prefix for this use case.
+> **Nên biết**: Next.js 9.5+ đã thêm hỗ trợ cho [Base Path](/docs/app/api-reference/config/next-config-js/basePath) có thể tùy chỉnh, phù hợp hơn
+> để host ứng dụng của bạn trên một sub-path như `/docs`.
+> Chúng tôi không khuyến nghị bạn sử dụng Asset Prefix tùy chỉnh cho trường hợp sử dụng này.
 
-## Set up a CDN
+## Thiết lập CDN
 
-To set up a [CDN](https://en.wikipedia.org/wiki/Content_delivery_network), you can set up an asset prefix and configure your CDN's origin to resolve to the domain that Next.js is hosted on.
+Để thiết lập một [CDN](https://en.wikipedia.org/wiki/Content_delivery_network), bạn có thể thiết lập một asset prefix và cấu hình origin của CDN để resolve đến domain mà Next.js được host.
 
-Open `next.config.mjs` and add the `assetPrefix` config based on the [phase](/docs/app/api-reference/config/next-config-js#async-configuration):
+Mở `next.config.mjs` và thêm cấu hình `assetPrefix` dựa trên [phase](/docs/app/api-reference/config/next-config-js#async-configuration):
 
 ```js filename="next.config.mjs"
 // @ts-check
@@ -45,32 +45,32 @@ export default (phase) => {
 }
 ```
 
-Next.js will automatically use your asset prefix for the JavaScript and CSS files it loads from the `/_next/` path (`.next/static/` folder). For example, with the above configuration, the following request for a JS chunk:
+Next.js sẽ tự động sử dụng asset prefix của bạn cho các tệp JavaScript và CSS mà nó tải từ đường dẫn `/_next/` (thư mục `.next/static/`). Ví dụ, với cấu hình trên, yêu cầu sau cho một JS chunk:
 
 ```
 /_next/static/chunks/4b9b41aaa062cbbfeff4add70f256968c51ece5d.4d708494b3aed70c04f0.js
 ```
 
-Would instead become:
+Sẽ thay vào đó trở thành:
 
 ```
 https://cdn.mydomain.com/_next/static/chunks/4b9b41aaa062cbbfeff4add70f256968c51ece5d.4d708494b3aed70c04f0.js
 ```
 
-The exact configuration for uploading your files to a given CDN will depend on your CDN of choice. The only folder you need to host on your CDN is the contents of `.next/static/`, which should be uploaded as `_next/static/` as the above URL request indicates. **Do not upload the rest of your `.next/` folder**, as you should not expose your server code and other configuration to the public.
+Cấu hình chính xác để tải các tệp của bạn lên một CDN nhất định sẽ phụ thuộc vào CDN bạn chọn. Thư mục duy nhất bạn cần host trên CDN của bạn là nội dung của `.next/static/`, nên được tải lên dưới dạng `_next/static/` như yêu cầu URL ở trên chỉ ra. **Không tải lên phần còn lại của thư mục `.next/` của bạn**, vì bạn không nên expose server code và cấu hình khác cho public.
 
-While `assetPrefix` covers requests to `_next/static`, it does not influence the following paths:
+Trong khi `assetPrefix` bao gồm các yêu cầu đến `_next/static`, nó không ảnh hưởng đến các đường dẫn sau:
 
 <AppOnly>
 
-- Files in the [public](/docs/app/api-reference/file-conventions/public-folder) folder; if you want to serve those assets over a CDN, you'll have to introduce the prefix yourself
+- Các tệp trong thư mục [public](/docs/app/api-reference/file-conventions/public-folder); nếu bạn muốn phục vụ các assets đó qua CDN, bạn sẽ phải tự giới thiệu prefix
 
 </AppOnly>
 
 <PagesOnly>
 
-- Files in the [public](/docs/pages/api-reference/file-conventions/public-folder) folder; if you want to serve those assets over a CDN, you'll have to introduce the prefix yourself
-- `/_next/data/` requests for `getServerSideProps` pages. These requests will always be made against the main domain since they're not static.
-- `/_next/data/` requests for `getStaticProps` pages. These requests will always be made against the main domain to support [Incremental Static Generation](/docs/pages/guides/incremental-static-regeneration), even if you're not using it (for consistency).
+- Các tệp trong thư mục [public](/docs/pages/api-reference/file-conventions/public-folder); nếu bạn muốn phục vụ các assets đó qua CDN, bạn sẽ phải tự giới thiệu prefix
+- Các yêu cầu `/_next/data/` cho các trang `getServerSideProps`. Các yêu cầu này sẽ luôn được thực hiện đối với domain chính vì chúng không phải là static.
+- Các yêu cầu `/_next/data/` cho các trang `getStaticProps`. Các yêu cầu này sẽ luôn được thực hiện đối với domain chính để hỗ trợ [Incremental Static Generation](/docs/pages/guides/incremental-static-regeneration), ngay cả khi bạn không sử dụng nó (để nhất quán).
 
 </PagesOnly>

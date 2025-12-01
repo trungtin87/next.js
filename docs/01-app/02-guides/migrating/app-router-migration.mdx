@@ -1,68 +1,68 @@
 ---
-title: How to migrate from Pages to the App Router
+title: Cách di chuyển từ Pages sang App Router
 nav_title: App Router
-description: Learn how to upgrade your existing Next.js application from the Pages Router to the App Router.
+description: Tìm hiểu cách nâng cấp ứng dụng Next.js hiện có của bạn từ Pages Router sang App Router.
 ---
 
-This guide will help you:
+Hướng dẫn này sẽ giúp bạn:
 
-- [Update your Next.js application from version 12 to version 13](#nextjs-version)
-- [Upgrade features that work in both the `pages` and the `app` directories](#upgrading-new-features)
-- [Incrementally migrate your existing application from `pages` to `app`](#migrating-from-pages-to-app)
+- [Cập nhật ứng dụng Next.js của bạn từ phiên bản 12 lên phiên bản 13](#nextjs-version)
+- [Nâng cấp các tính năng hoạt động trong cả thư mục `pages` và `app`](#upgrading-new-features)
+- [Di chuyển dần dần ứng dụng hiện có của bạn từ `pages` sang `app`](#migrating-from-pages-to-app)
 
-## Upgrading
+## Nâng cấp
 
-### Node.js Version
+### Phiên bản Node.js
 
-The minimum Node.js version is now **v18.17**. See the [Node.js documentation](https://nodejs.org/docs/latest-v18.x/api/) for more information.
+Phiên bản Node.js tối thiểu hiện nay là **v18.17**. Xem [tài liệu Node.js](https://nodejs.org/docs/latest-v18.x/api/) để biết thêm thông tin.
 
-### Next.js Version
+### Phiên bản Next.js
 
-To update to Next.js version 13, run the following command using your preferred package manager:
+Để cập nhật lên Next.js phiên bản 13, hãy chạy lệnh sau bằng trình quản lý gói ưa thích của bạn:
 
 ```bash filename="Terminal"
 npm install next@latest react@latest react-dom@latest
 ```
 
-### ESLint Version
+### Phiên bản ESLint
 
-If you're using ESLint, you need to upgrade your ESLint version:
+Nếu bạn đang sử dụng ESLint, bạn cần nâng cấp phiên bản ESLint của mình:
 
 ```bash filename="Terminal"
 npm install -D eslint-config-next@latest
 ```
 
-> **Good to know**: You may need to restart the ESLint server in VS Code for the ESLint changes to take effect. Open the Command Palette (`cmd+shift+p` on Mac; `ctrl+shift+p` on Windows) and search for `ESLint: Restart ESLint Server`.
+> **Lưu ý**: Bạn có thể cần khởi động lại ESLint server trong VS Code để các thay đổi ESLint có hiệu lực. Mở Command Palette (`cmd+shift+p` trên Mac; `ctrl+shift+p` trên Windows) và tìm kiếm `ESLint: Restart ESLint Server`.
 
-## Next Steps
+## Các bước tiếp theo
 
-After you've updated, see the following sections for next steps:
+Sau khi bạn đã cập nhật, hãy xem các phần sau để biết các bước tiếp theo:
 
-- [Upgrade new features](#upgrading-new-features): A guide to help you upgrade to new features such as the improved Image and Link Components.
-- [Migrate from the `pages` to `app` directory](#migrating-from-pages-to-app): A step-by-step guide to help you incrementally migrate from the `pages` to the `app` directory.
+- [Nâng cấp các tính năng mới](#upgrading-new-features): Hướng dẫn giúp bạn nâng cấp lên các tính năng mới như Image và Link Components được cải tiến.
+- [Di chuyển từ thư mục `pages` sang `app`](#migrating-from-pages-to-app): Hướng dẫn từng bước để giúp bạn di chuyển dần dần từ thư mục `pages` sang `app`.
 
-## Upgrading New Features
+## Nâng cấp các tính năng mới
 
-Next.js 13 introduced the new [App Router](/docs/app) with new features and conventions. The new Router is available in the `app` directory and co-exists with the `pages` directory.
+Next.js 13 đã giới thiệu [App Router](/docs/app) mới với các tính năng và quy ước mới. Router mới có sẵn trong thư mục `app` và cùng tồn tại với thư mục `pages`.
 
-Upgrading to Next.js 13 does **not** require using the App Router. You can continue using `pages` with new features that work in both directories, such as the updated [Image component](#image-component), [Link component](#link-component), [Script component](#script-component), and [Font optimization](#font-optimization).
+Nâng cấp lên Next.js 13 **không** yêu cầu sử dụng App Router. Bạn có thể tiếp tục sử dụng `pages` với các tính năng mới hoạt động trong cả hai thư mục, chẳng hạn như [Image component](#image-component), [Link component](#link-component), [Script component](#script-component), và [Font optimization](#font-optimization) đã được cập nhật.
 
 ### `<Image/>` Component
 
-Next.js 12 introduced new improvements to the Image Component with a temporary import: `next/future/image`. These improvements included less client-side JavaScript, easier ways to extend and style images, better accessibility, and native browser lazy loading.
+Next.js 12 đã giới thiệu những cải tiến mới cho Image Component với một import tạm thời: `next/future/image`. Những cải tiến này bao gồm ít JavaScript phía client hơn, cách dễ dàng hơn để mở rộng và tạo kiểu cho hình ảnh, khả năng truy cập tốt hơn và lazy loading gốc của trình duyệt.
 
-In version 13, this new behavior is now the default for `next/image`.
+Trong phiên bản 13, hành vi mới này hiện là mặc định cho `next/image`.
 
-There are two codemods to help you migrate to the new Image Component:
+Có hai codemods để giúp bạn di chuyển sang Image Component mới:
 
-- [**`next-image-to-legacy-image` codemod**](/docs/app/guides/upgrading/codemods#next-image-to-legacy-image): Safely and automatically renames `next/image` imports to `next/legacy/image`. Existing components will maintain the same behavior.
-- [**`next-image-experimental` codemod**](/docs/app/guides/upgrading/codemods#next-image-experimental): Dangerously adds inline styles and removes unused props. This will change the behavior of existing components to match the new defaults. To use this codemod, you need to run the `next-image-to-legacy-image` codemod first.
+- [**`next-image-to-legacy-image` codemod**](/docs/app/guides/upgrading/codemods#next-image-to-legacy-image): Đổi tên `next/image` imports thành `next/legacy/image` một cách an toàn và tự động. Các components hiện có sẽ duy trì hành vi tương tự.
+- [**`next-image-experimental` codemod**](/docs/app/guides/upgrading/codemods#next-image-experimental): Thêm inline styles một cách nguy hiểm và loại bỏ các props không sử dụng. Điều này sẽ thay đổi hành vi của các components hiện có để phù hợp với các mặc định mới. Để sử dụng codemod này, bạn cần chạy `next-image-to-legacy-image` codemod trước.
 
 ### `<Link>` Component
 
-The [`<Link>` Component](/docs/app/api-reference/components/link) no longer requires manually adding an `<a>` tag as a child. This behavior was added as an experimental option in [version 12.2](https://nextjs.org/blog/next-12-2) and is now the default. In Next.js 13, `<Link>` always renders `<a>` and allows you to forward props to the underlying tag.
+[`<Link>` Component](/docs/app/api-reference/components/link) không còn yêu cầu thêm thẻ `<a>` làm con theo cách thủ công nữa. Hành vi này đã được thêm vào như một tùy chọn thử nghiệm trong [phiên bản 12.2](https://nextjs.org/blog/next-12-2) và hiện là mặc định. Trong Next.js 13, `<Link>` luôn render `<a>` và cho phép bạn chuyển tiếp props đến thẻ bên dưới.
 
-For example:
+Ví dụ:
 
 ```jsx
 import Link from 'next/link'
@@ -78,58 +78,58 @@ import Link from 'next/link'
 </Link>
 ```
 
-To upgrade your links to Next.js 13, you can use the [`new-link` codemod](/docs/app/guides/upgrading/codemods#new-link).
+Để nâng cấp các liên kết của bạn lên Next.js 13, bạn có thể sử dụng [`new-link` codemod](/docs/app/guides/upgrading/codemods#new-link).
 
 ### `<Script>` Component
 
-The behavior of [`next/script`](/docs/app/api-reference/components/script) has been updated to support both `pages` and `app`, but some changes need to be made to ensure a smooth migration:
+Hành vi của [`next/script`](/docs/app/api-reference/components/script) đã được cập nhật để hỗ trợ cả `pages` và `app`, nhưng một số thay đổi cần được thực hiện để đảm bảo quá trình di chuyển suôn sẻ:
 
-- Move any `beforeInteractive` scripts you previously included in `_document.js` to the root layout file (`app/layout.tsx`).
-- The experimental `worker` strategy does not yet work in `app` and scripts denoted with this strategy will either have to be removed or modified to use a different strategy (e.g. `lazyOnload`).
-- `onLoad`, `onReady`, and `onError` handlers will not work in Server Components so make sure to move them to a [Client Component](/docs/app/getting-started/server-and-client-components) or remove them altogether.
+- Di chuyển bất kỳ scripts `beforeInteractive` nào bạn đã bao gồm trước đó trong `_document.js` sang file root layout (`app/layout.tsx`).
+- Chiến lược `worker` thử nghiệm chưa hoạt động trong `app` và các scripts được biểu thị bằng chiến lược này sẽ phải bị xóa hoặc sửa đổi để sử dụng một chiến lược khác (ví dụ: `lazyOnload`).
+- Các trình xử lý `onLoad`, `onReady`, và `onError` sẽ không hoạt động trong Server Components vì vậy hãy đảm bảo di chuyển chúng sang một [Client Component](/docs/app/getting-started/server-and-client-components) hoặc loại bỏ chúng hoàn toàn.
 
 ### Font Optimization
 
-Previously, Next.js helped you optimize fonts by [inlining font CSS](/docs/app/api-reference/components/font). Version 13 introduces the new [`next/font`](/docs/app/api-reference/components/font) module which gives you the ability to customize your font loading experience while still ensuring great performance and privacy. `next/font` is supported in both the `pages` and `app` directories.
+Trước đây, Next.js đã giúp bạn tối ưu hóa fonts bằng cách [inlining font CSS](/docs/app/api-reference/components/font). Phiên bản 13 giới thiệu module [`next/font`](/docs/app/api-reference/components/font) mới cung cấp cho bạn khả năng tùy chỉnh trải nghiệm tải font của mình trong khi vẫn đảm bảo hiệu suất tuyệt vời và quyền riêng tư. `next/font` được hỗ trợ trong cả thư mục `pages` và `app`.
 
-While [inlining CSS](/docs/app/api-reference/components/font) still works in `pages`, it does not work in `app`. You should use [`next/font`](/docs/app/api-reference/components/font) instead.
+Trong khi [inlining CSS](/docs/app/api-reference/components/font) vẫn hoạt động trong `pages`, nó không hoạt động trong `app`. Bạn nên sử dụng [`next/font`](/docs/app/api-reference/components/font) thay thế.
 
-See the [Font Optimization](/docs/app/api-reference/components/font) page to learn how to use `next/font`.
+Xem trang [Font Optimization](/docs/app/api-reference/components/font) để tìm hiểu cách sử dụng `next/font`.
 
-## Migrating from `pages` to `app`
+## Di chuyển từ `pages` sang `app`
 
-> **🎥 Watch:** Learn how to incrementally adopt the App Router → [YouTube (16 minutes)](https://www.youtube.com/watch?v=YQMSietiFm0).
+> **🎥 Xem:** Tìm hiểu cách áp dụng dần dần App Router → [YouTube (16 phút)](https://www.youtube.com/watch?v=YQMSietiFm0).
 
-Moving to the App Router may be the first time using React features that Next.js builds on top of such as Server Components, Suspense, and more. When combined with new Next.js features such as [special files](/docs/app/api-reference/file-conventions) and [layouts](/docs/app/api-reference/file-conventions/layout), migration means new concepts, mental models, and behavioral changes to learn.
+Chuyển sang App Router có thể là lần đầu tiên sử dụng các tính năng React mà Next.js xây dựng dựa trên đó như Server Components, Suspense, và nhiều hơn nữa. Khi kết hợp với các tính năng Next.js mới như [special files](/docs/app/api-reference/file-conventions) và [layouts](/docs/app/api-reference/file-conventions/layout), việc di chuyển có nghĩa là các khái niệm mới, mô hình tư duy và thay đổi hành vi cần tìm hiểu.
 
-We recommend reducing the combined complexity of these updates by breaking down your migration into smaller steps. The `app` directory is intentionally designed to work simultaneously with the `pages` directory to allow for incremental page-by-page migration.
+Chúng tôi khuyên bạn nên giảm độ phức tạp kết hợp của các bản cập nhật này bằng cách chia nhỏ quá trình di chuyển của bạn thành các bước nhỏ hơn. Thư mục `app` được thiết kế có chủ ý để hoạt động đồng thời với thư mục `pages` để cho phép di chuyển dần dần từng trang.
 
-- The `app` directory supports nested routes _and_ layouts. [Learn more](/docs/app/getting-started/layouts-and-pages).
-- Use nested folders to define routes and a special `page.js` file to make a route segment publicly accessible. [Learn more](#step-4-migrating-pages).
-- [Special file conventions](/docs/app/api-reference/file-conventions) are used to create UI for each route segment. The most common special files are `page.js` and `layout.js`.
-  - Use `page.js` to define UI unique to a route.
-  - Use `layout.js` to define UI that is shared across multiple routes.
-  - `.js`, `.jsx`, or `.tsx` file extensions can be used for special files.
-- You can colocate other files inside the `app` directory such as components, styles, tests, and more. [Learn more](/docs/app).
-- Data fetching functions like `getServerSideProps` and `getStaticProps` have been replaced with [a new API](/docs/app/getting-started/fetching-data) inside `app`. `getStaticPaths` has been replaced with [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params).
-- `pages/_app.js` and `pages/_document.js` have been replaced with a single `app/layout.js` root layout. [Learn more](/docs/app/api-reference/file-conventions/layout#root-layout).
-- `pages/_error.js` has been replaced with more granular `error.js` special files. [Learn more](/docs/app/getting-started/error-handling).
-- `pages/404.js` has been replaced with the [`not-found.js`](/docs/app/api-reference/file-conventions/not-found) file.
-- `pages/api/*` API Routes have been replaced with the [`route.js`](/docs/app/api-reference/file-conventions/route) (Route Handler) special file.
+- Thư mục `app` hỗ trợ nested routes _và_ layouts. [Tìm hiểu thêm](/docs/app/getting-started/layouts-and-pages).
+- Sử dụng các thư mục lồng nhau để xác định routes và một file `page.js` đặc biệt để làm cho một phân đoạn route có thể truy cập công khai. [Tìm hiểu thêm](#step-4-migrating-pages).
+- [Các quy ước file đặc biệt](/docs/app/api-reference/file-conventions) được sử dụng để tạo UI cho mỗi phân đoạn route. Các file đặc biệt phổ biến nhất là `page.js` và `layout.js`.
+  - Sử dụng `page.js` để xác định UI duy nhất cho một route.
+  - Sử dụng `layout.js` để xác định UI được chia sẻ qua nhiều routes.
+  - Các phần mở rộng file `.js`, `.jsx`, hoặc `.tsx` có thể được sử dụng cho các file đặc biệt.
+- Bạn có thể đặt các file khác bên trong thư mục `app` như components, styles, tests, và nhiều hơn nữa. [Tìm hiểu thêm](/docs/app).
+- Các hàm data fetching như `getServerSideProps` và `getStaticProps` đã được thay thế bằng [một API mới](/docs/app/getting-started/fetching-data) bên trong `app`. `getStaticPaths` đã được thay thế bằng [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params).
+- `pages/_app.js` và `pages/_document.js` đã được thay thế bằng một `app/layout.js` root layout duy nhất. [Tìm hiểu thêm](/docs/app/api-reference/file-conventions/layout#root-layout).
+- `pages/_error.js` đã được thay thế bằng các file đặc biệt `error.js` chi tiết hơn. [Tìm hiểu thêm](/docs/app/getting-started/error-handling).
+- `pages/404.js` đã được thay thế bằng file [`not-found.js`](/docs/app/api-reference/file-conventions/not-found).
+- `pages/api/*` API Routes đã được thay thế bằng file đặc biệt [`route.js`](/docs/app/api-reference/file-conventions/route) (Route Handler).
 
-### Step 1: Creating the `app` directory
+### Bước 1: Tạo thư mục `app`
 
-Update to the latest Next.js version (requires 13.4 or greater):
+Cập nhật lên phiên bản Next.js mới nhất (yêu cầu 13.4 hoặc cao hơn):
 
 ```bash
 npm install next@latest
 ```
 
-Then, create a new `app` directory at the root of your project (or `src/` directory).
+Sau đó, tạo một thư mục `app` mới tại thư mục gốc của dự án của bạn (hoặc thư mục `src/`).
 
-### Step 2: Creating a Root Layout
+### Bước 2: Tạo một Root Layout
 
-Create a new `app/layout.tsx` file inside the `app` directory. This is a [root layout](/docs/app/api-reference/file-conventions/layout#root-layout) that will apply to all routes inside `app`.
+Tạo một file `app/layout.tsx` mới bên trong thư mục `app`. Đây là một [root layout](/docs/app/api-reference/file-conventions/layout#root-layout) sẽ áp dụng cho tất cả các routes bên trong `app`.
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -161,12 +161,12 @@ export default function RootLayout({
 }
 ```
 
-- The `app` directory **must** include a root layout.
-- The root layout must define `<html>`, and `<body>` tags since Next.js does not automatically create them
-- The root layout replaces the `pages/_app.tsx` and `pages/_document.tsx` files.
-- `.js`, `.jsx`, or `.tsx` extensions can be used for layout files.
+- Thư mục `app` **phải** bao gồm một root layout.
+- Root layout phải xác định các thẻ `<html>`, và `<body>` vì Next.js không tự động tạo chúng
+- Root layout thay thế các file `pages/_app.tsx` và `pages/_document.tsx`.
+- Các phần mở rộng `.js`, `.jsx`, hoặc `.tsx` có thể được sử dụng cho các file layout.
 
-To manage `<head>` HTML elements, you can use the [built-in SEO support](/docs/app/getting-started/metadata-and-og-images):
+Để quản lý các phần tử HTML `<head>`, bạn có thể sử dụng [hỗ trợ SEO tích hợp](/docs/app/getting-started/metadata-and-og-images):
 
 ```tsx filename="app/layout.tsx" switcher
 import type { Metadata } from 'next'
@@ -184,20 +184,20 @@ export const metadata = {
 }
 ```
 
-#### Migrating `_document.js` and `_app.js`
+#### Di chuyển `_document.js` và `_app.js`
 
-If you have an existing `_app` or `_document` file, you can copy the contents (e.g. global styles) to the root layout (`app/layout.tsx`). Styles in `app/layout.tsx` will _not_ apply to `pages/*`. You should keep `_app`/`_document` while migrating to prevent your `pages/*` routes from breaking. Once fully migrated, you can then safely delete them.
+Nếu bạn có một file `_app` hoặc `_document` hiện có, bạn có thể sao chép nội dung (ví dụ: global styles) sang root layout (`app/layout.tsx`). Styles trong `app/layout.tsx` sẽ _không_ áp dụng cho `pages/*`. Bạn nên giữ `_app`/`_document` trong khi di chuyển để ngăn các routes `pages/*` của bạn bị hỏng. Sau khi di chuyển hoàn toàn, bạn có thể xóa chúng một cách an toàn.
 
-If you are using any React Context providers, they will need to be moved to a [Client Component](/docs/app/getting-started/server-and-client-components).
+Nếu bạn đang sử dụng bất kỳ React Context providers nào, chúng sẽ cần được chuyển sang một [Client Component](/docs/app/getting-started/server-and-client-components).
 
-#### Migrating the `getLayout()` pattern to Layouts (Optional)
+#### Di chuyển pattern `getLayout()` sang Layouts (Tùy chọn)
 
-Next.js recommended adding a [property to Page components](/docs/pages/building-your-application/routing/pages-and-layouts#layout-pattern) to achieve per-page layouts in the `pages` directory. This pattern can be replaced with native support for [nested layouts](/docs/app/api-reference/file-conventions/layout) in the `app` directory.
+Next.js khuyến nghị thêm một [thuộc tính vào Page components](/docs/pages/building-your-application/routing/pages-and-layouts#layout-pattern) để đạt được per-page layouts trong thư mục `pages`. Pattern này có thể được thay thế bằng hỗ trợ gốc cho [nested layouts](/docs/app/api-reference/file-conventions/layout) trong thư mục `app`.
 
 <details>
-  <summary>See before and after example</summary>
+  <summary>Xem ví dụ trước và sau</summary>
 
-**Before**
+**Trước**
 
 ```jsx filename="components/DashboardLayout.js"
 export default function DashboardLayout({ children }) {
@@ -222,9 +222,9 @@ Page.getLayout = function getLayout(page) {
 }
 ```
 
-**After**
+**Sau**
 
-- Remove the `Page.getLayout` property from `pages/dashboard/index.js` and follow the [steps for migrating pages](#step-4-migrating-pages) to the `app` directory.
+- Xóa thuộc tính `Page.getLayout` khỏi `pages/dashboard/index.js` và làm theo [các bước để di chuyển pages](#step-4-migrating-pages) sang thư mục `app`.
 
   ```jsx filename="app/dashboard/page.js"
   export default function Page() {
@@ -232,7 +232,7 @@ Page.getLayout = function getLayout(page) {
   }
   ```
 
-- Move the contents of `DashboardLayout` into a new [Client Component](/docs/app/getting-started/server-and-client-components) to retain `pages` directory behavior.
+- Di chuyển nội dung của `DashboardLayout` vào một [Client Component](/docs/app/getting-started/server-and-client-components) mới để giữ lại hành vi của thư mục `pages`.
 
   ```jsx filename="app/dashboard/DashboardLayout.js"
   'use client' // this directive should be at top of the file, before any imports.
@@ -248,7 +248,7 @@ Page.getLayout = function getLayout(page) {
   }
   ```
 
-- Import the `DashboardLayout` into a new `layout.js` file inside the `app` directory.
+- Import `DashboardLayout` vào một file `layout.js` mới bên trong thư mục `app`.
 
   ```jsx filename="app/dashboard/layout.js"
   import DashboardLayout from './DashboardLayout'
@@ -259,15 +259,15 @@ Page.getLayout = function getLayout(page) {
   }
   ```
 
-- You can incrementally move non-interactive parts of `DashboardLayout.js` (Client Component) into `layout.js` (Server Component) to reduce the amount of component JavaScript you send to the client.
+- Bạn có thể di chuyển dần dần các phần không tương tác của `DashboardLayout.js` (Client Component) vào `layout.js` (Server Component) để giảm lượng JavaScript component bạn gửi đến client.
 
 </details>
 
-### Step 3: Migrating `next/head`
+### Bước 3: Di chuyển `next/head`
 
-In the `pages` directory, the `next/head` React component is used to manage `<head>` HTML elements such as `title` and `meta` . In the `app` directory, `next/head` is replaced with the new [built-in SEO support](/docs/app/getting-started/metadata-and-og-images).
+Trong thư mục `pages`, React component `next/head` được sử dụng để quản lý các phần tử HTML `<head>` như `title` và `meta`. Trong thư mục `app`, `next/head` được thay thế bằng [hỗ trợ SEO tích hợp](/docs/app/getting-started/metadata-and-og-images) mới.
 
-**Before:**
+**Trước:**
 
 ```tsx filename="pages/index.tsx" switcher
 import Head from 'next/head'
@@ -297,7 +297,7 @@ export default function Page() {
 }
 ```
 
-**After:**
+**Sau:**
 
 ```tsx filename="app/page.tsx" switcher
 import type { Metadata } from 'next'
@@ -321,31 +321,31 @@ export default function Page() {
 }
 ```
 
-[See all metadata options](/docs/app/api-reference/functions/generate-metadata).
+[Xem tất cả các tùy chọn metadata](/docs/app/api-reference/functions/generate-metadata).
 
-### Step 4: Migrating Pages
+### Bước 4: Di chuyển Pages
 
-- Pages in the [`app` directory](/docs/app) are [Server Components](/docs/app/getting-started/server-and-client-components) by default. This is different from the `pages` directory where pages are [Client Components](/docs/app/getting-started/server-and-client-components).
-- [Data fetching](/docs/app/getting-started/fetching-data) has changed in `app`. `getServerSideProps`, `getStaticProps` and `getInitialProps` have been replaced with a simpler API.
-- The `app` directory uses nested folders to define routes and a special `page.js` file to make a route segment publicly accessible.
+- Pages trong [`app` directory](/docs/app) là [Server Components](/docs/app/getting-started/server-and-client-components) theo mặc định. Điều này khác với thư mục `pages` nơi pages là [Client Components](/docs/app/getting-started/server-and-client-components).
+- [Data fetching](/docs/app/getting-started/fetching-data) đã thay đổi trong `app`. `getServerSideProps`, `getStaticProps` và `getInitialProps` đã được thay thế bằng một API đơn giản hơn.
+- Thư mục `app` sử dụng các thư mục lồng nhau để xác định routes và một file `page.js` đặc biệt để làm cho một phân đoạn route có thể truy cập công khai.
 - | `pages` Directory | `app` Directory       | Route          |
   | ----------------- | --------------------- | -------------- |
   | `index.js`        | `page.js`             | `/`            |
   | `about.js`        | `about/page.js`       | `/about`       |
   | `blog/[slug].js`  | `blog/[slug]/page.js` | `/blog/post-1` |
 
-We recommend breaking down the migration of a page into two main steps:
+Chúng tôi khuyên bạn nên chia nhỏ việc di chuyển của một page thành hai bước chính:
 
-- Step 1: Move the default exported Page Component into a new Client Component.
-- Step 2: Import the new Client Component into a new `page.js` file inside the `app` directory.
+- Bước 1: Di chuyển Page Component được export mặc định vào một Client Component mới.
+- Bước 2: Import Client Component mới vào một file `page.js` mới bên trong thư mục `app`.
 
-> **Good to know**: This is the easiest migration path because it has the most comparable behavior to the `pages` directory.
+> **Lưu ý**: Đây là đường dẫn di chuyển dễ nhất vì nó có hành vi tương đương nhất với thư mục `pages`.
 
-**Step 1: Create a new Client Component**
+**Bước 1: Tạo một Client Component mới**
 
-- Create a new separate file inside the `app` directory (i.e. `app/home-page.tsx` or similar) that exports a Client Component. To define Client Components, add the `'use client'` directive to the top of the file (before any imports).
-  - Similar to the Pages Router, there is an [optimization step](/docs/app/getting-started/server-and-client-components#on-the-client-first-load) to prerender Client Components to static HTML on the initial page load.
-- Move the default exported page component from `pages/index.js` to `app/home-page.tsx`.
+- Tạo một file riêng biệt mới bên trong thư mục `app` (ví dụ: `app/home-page.tsx` hoặc tương tự) export một Client Component. Để xác định Client Components, thêm directive `'use client'` vào đầu file (trước bất kỳ imports nào).
+  - Tương tự như Pages Router, có một [bước tối ưu hóa](/docs/app/getting-started/server-and-client-components#on-the-client-first-load) để prerender Client Components thành HTML tĩnh khi tải trang ban đầu.
+- Di chuyển page component được export mặc định từ `pages/index.js` sang `app/home-page.tsx`.
 
 ```tsx filename="app/home-page.tsx" switcher
 'use client'
@@ -381,11 +381,11 @@ export default function HomePage({ recentPosts }) {
 }
 ```
 
-**Step 2: Create a new page**
+**Bước 2: Tạo một page mới**
 
-- Create a new `app/page.tsx` file inside the `app` directory. This is a Server Component by default.
-- Import the `home-page.tsx` Client Component into the page.
-- If you were fetching data in `pages/index.js`, move the data fetching logic directly into the Server Component using the new [data fetching APIs](/docs/app/getting-started/fetching-data). See the [data fetching upgrade guide](#step-6-migrating-data-fetching-methods) for more details.
+- Tạo một file `app/page.tsx` mới bên trong thư mục `app`. Đây là một Server Component theo mặc định.
+- Import `home-page.tsx` Client Component vào page.
+- Nếu bạn đang fetch dữ liệu trong `pages/index.js`, hãy di chuyển logic fetch dữ liệu trực tiếp vào Server Component bằng cách sử dụng [các API data fetching mới](/docs/app/getting-started/fetching-data). Xem [hướng dẫn nâng cấp data fetching](#step-6-migrating-data-fetching-methods) để biết thêm chi tiết.
 
   ```tsx filename="app/page.tsx" switcher
   // Import your Client Component
@@ -423,21 +423,21 @@ export default function HomePage({ recentPosts }) {
   }
   ```
 
-- If your previous page used `useRouter`, you'll need to update to the new routing hooks. [Learn more](/docs/app/api-reference/functions/use-router).
-- Start your development server and visit [`http://localhost:3000`](http://localhost:3000). You should see your existing index route, now served through the app directory.
+- Nếu page trước đó của bạn đã sử dụng `useRouter`, bạn sẽ cần cập nhật lên các routing hooks mới. [Tìm hiểu thêm](/docs/app/api-reference/functions/use-router).
+- Khởi động development server của bạn và truy cập [`http://localhost:3000`](http://localhost:3000). Bạn sẽ thấy index route hiện có của mình, hiện được phục vụ thông qua thư mục app.
 
-### Step 5: Migrating Routing Hooks
+### Bước 5: Di chuyển Routing Hooks
 
-A new router has been added to support the new behavior in the `app` directory.
+Một router mới đã được thêm vào để hỗ trợ hành vi mới trong thư mục `app`.
 
-In `app`, you should use the three new hooks imported from `next/navigation`: [`useRouter()`](/docs/app/api-reference/functions/use-router), [`usePathname()`](/docs/app/api-reference/functions/use-pathname), and [`useSearchParams()`](/docs/app/api-reference/functions/use-search-params).
+Trong `app`, bạn nên sử dụng ba hooks mới được import từ `next/navigation`: [`useRouter()`](/docs/app/api-reference/functions/use-router), [`usePathname()`](/docs/app/api-reference/functions/use-pathname), và [`useSearchParams()`](/docs/app/api-reference/functions/use-search-params).
 
-- The new `useRouter` hook is imported from `next/navigation` and has different behavior to the `useRouter` hook in `pages` which is imported from `next/router`.
-  - The [`useRouter` hook imported from `next/router`](/docs/pages/api-reference/functions/use-router) is not supported in the `app` directory but can continue to be used in the `pages` directory.
-- The new `useRouter` does not return the `pathname` string. Use the separate `usePathname` hook instead.
-- The new `useRouter` does not return the `query` object. Search parameters and dynamic route parameters are now separate. Use the `useSearchParams` and `useParams` hooks instead.
-- You can use `useSearchParams` and `usePathname` together to listen to page changes. See the [Router Events](/docs/app/api-reference/functions/use-router#router-events) section for more details.
-- These new hooks are only supported in Client Components. They cannot be used in Server Components.
+- Hook `useRouter` mới được import từ `next/navigation` và có hành vi khác với hook `useRouter` trong `pages` được import từ `next/router`.
+  - [`useRouter` hook được import từ `next/router`](/docs/pages/api-reference/functions/use-router) không được hỗ trợ trong thư mục `app` nhưng có thể tiếp tục được sử dụng trong thư mục `pages`.
+- `useRouter` mới không trả về chuỗi `pathname`. Sử dụng hook `usePathname` riêng biệt thay thế.
+- `useRouter` mới không trả về đối tượng `query`. Search parameters và dynamic route parameters hiện được tách biệt. Sử dụng các hooks `useSearchParams` và `useParams` thay thế.
+- Bạn có thể sử dụng `useSearchParams` và `usePathname` cùng nhau để lắng nghe các thay đổi của trang. Xem phần [Router Events](/docs/app/api-reference/functions/use-router#router-events) để biết thêm chi tiết.
+- Các hooks mới này chỉ được hỗ trợ trong Client Components. Chúng không thể được sử dụng trong Server Components.
 
 ```tsx filename="app/example-client-component.tsx" switcher
 'use client'
@@ -467,25 +467,25 @@ export default function ExampleClientComponent() {
 }
 ```
 
-In addition, the new `useRouter` hook has the following changes:
+Ngoài ra, hook `useRouter` mới có các thay đổi sau:
 
-- `isFallback` has been removed because `fallback` has [been replaced](#replacing-fallback).
-- The `locale`, `locales`, `defaultLocales`, `domainLocales` values have been removed because built-in i18n Next.js features are no longer necessary in the `app` directory. [Learn more about i18n](/docs/app/guides/internationalization).
-- `basePath` has been removed. The alternative will not be part of `useRouter`. It has not yet been implemented.
-- `asPath` has been removed because the concept of `as` has been removed from the new router.
-- `isReady` has been removed because it is no longer necessary. During [static rendering](/docs/app/guides/caching#static-rendering), any component that uses the [`useSearchParams()`](/docs/app/api-reference/functions/use-search-params) hook will skip the prerendering step and instead be rendered on the client at runtime.
-- `route` has been removed. `usePathname` or `useSelectedLayoutSegments()` provide an alternative.
+- `isFallback` đã bị xóa vì `fallback` đã [được thay thế](#replacing-fallback).
+- Các giá trị `locale`, `locales`, `defaultLocales`, `domainLocales` đã bị xóa vì các tính năng i18n tích hợp sẵn của Next.js không còn cần thiết trong thư mục `app`. [Tìm hiểu thêm về i18n](/docs/app/guides/internationalization).
+- `basePath` đã bị xóa. Giải pháp thay thế sẽ không phải là một phần của `useRouter`. Nó chưa được triển khai.
+- `asPath` đã bị xóa vì khái niệm `as` đã bị xóa khỏi router mới.
+- `isReady` đã bị xóa vì nó không còn cần thiết nữa. Trong quá trình [static rendering](/docs/app/guides/caching#static-rendering), bất kỳ component nào sử dụng hook [`useSearchParams()`](/docs/app/api-reference/functions/use-search-params) sẽ bỏ qua bước prerendering và thay vào đó được render trên client tại runtime.
+- `route` đã bị xóa. `usePathname` hoặc `useSelectedLayoutSegments()` cung cấp một giải pháp thay thế.
 
-[View the `useRouter()` API reference](/docs/app/api-reference/functions/use-router).
+[Xem tài liệu tham khảo API `useRouter()`](/docs/app/api-reference/functions/use-router).
 
-#### Sharing components between `pages` and `app`
+#### Chia sẻ components giữa `pages` và `app`
 
-To keep components compatible between the `pages` and `app` routers, refer to the [`useRouter` hook from `next/compat/router`](/docs/pages/api-reference/functions/use-router#the-nextcompatrouter-export).
-This is the `useRouter` hook from the `pages` directory, but intended to be used while sharing components between routers. Once you are ready to use it only on the `app` router, update to the new [`useRouter` from `next/navigation`](/docs/app/api-reference/functions/use-router).
+Để giữ cho các components tương thích giữa các routers `pages` và `app`, hãy tham khảo [`useRouter` hook từ `next/compat/router`](/docs/pages/api-reference/functions/use-router#the-nextcompatrouter-export).
+Đây là hook `useRouter` từ thư mục `pages`, nhưng nhằm mục đích được sử dụng trong khi chia sẻ components giữa các routers. Khi bạn đã sẵn sàng chỉ sử dụng nó trên router `app`, hãy cập nhật lên [`useRouter` mới từ `next/navigation`](/docs/app/api-reference/functions/use-router).
 
-### Step 6: Migrating Data Fetching Methods
+### Bước 6: Di chuyển Data Fetching Methods
 
-The `pages` directory uses `getServerSideProps` and `getStaticProps` to fetch data for pages. Inside the `app` directory, these previous data fetching functions are replaced with a [simpler API](/docs/app/getting-started/fetching-data) built on top of `fetch()` and `async` React Server Components.
+Thư mục `pages` sử dụng `getServerSideProps` và `getStaticProps` để fetch dữ liệu cho các trang. Bên trong thư mục `app`, các hàm fetch dữ liệu trước đây này được thay thế bằng một [API đơn giản hơn](/docs/app/getting-started/fetching-data) được xây dựng dựa trên `fetch()` và `async` React Server Components.
 
 ```tsx filename="app/page.tsx" switcher
 export default async function Page() {
@@ -531,7 +531,7 @@ export default async function Page() {
 
 #### Server-side Rendering (`getServerSideProps`)
 
-In the `pages` directory, `getServerSideProps` is used to fetch data on the server and forward props to the default exported React component in the file. The initial HTML for the page is prerendered from the server, followed by "hydrating" the page in the browser (making it interactive).
+Trong thư mục `pages`, `getServerSideProps` được sử dụng để fetch dữ liệu trên server và chuyển tiếp props đến React component được export mặc định trong file. HTML ban đầu cho trang được prerendered từ server, sau đó là "hydrating" trang trong trình duyệt (làm cho nó tương tác).
 
 ```jsx filename="pages/dashboard.js"
 // `pages` directory
@@ -554,9 +554,9 @@ export default function Dashboard({ projects }) {
 }
 ```
 
-In the App Router, we can colocate our data fetching inside our React components using [Server Components](/docs/app/getting-started/server-and-client-components). This allows us to send less JavaScript to the client, while maintaining the rendered HTML from the server.
+Trong App Router, chúng ta có thể đặt việc fetch dữ liệu của mình bên trong các React components bằng cách sử dụng [Server Components](/docs/app/getting-started/server-and-client-components). Điều này cho phép chúng ta gửi ít JavaScript hơn đến client, trong khi vẫn duy trì HTML được render từ server.
 
-By setting the `cache` option to `no-store`, we can indicate that the fetched data should [never be cached](/docs/app/getting-started/fetching-data). This is similar to `getServerSideProps` in the `pages` directory.
+Bằng cách đặt tùy chọn `cache` thành `no-store`, chúng ta có thể chỉ ra rằng dữ liệu đã fetch [không bao giờ được cache](/docs/app/getting-started/fetching-data). Điều này tương tự như `getServerSideProps` trong thư mục `pages`.
 
 ```tsx filename="app/dashboard/page.tsx" switcher
 // `app` directory
@@ -606,11 +606,11 @@ export default async function Dashboard() {
 }
 ```
 
-#### Accessing Request Object
+#### Truy cập Request Object
 
-In the `pages` directory, you can retrieve request-based data based on the Node.js HTTP API.
+Trong thư mục `pages`, bạn có thể truy xuất dữ liệu dựa trên request dựa trên Node.js HTTP API.
 
-For example, you can retrieve the `req` object from `getServerSideProps` and use it to retrieve the request's cookies and headers.
+Ví dụ, bạn có thể truy xuất đối tượng `req` từ `getServerSideProps` và sử dụng nó để truy xuất cookies và headers của request.
 
 ```jsx filename="pages/index.js"
 // `pages` directory
@@ -627,10 +627,10 @@ export default function Page(props) {
 }
 ```
 
-The `app` directory exposes new read-only functions to retrieve request data:
+Thư mục `app` hiển thị các hàm chỉ đọc mới để truy xuất dữ liệu request:
 
-- [`headers`](/docs/app/api-reference/functions/headers): Based on the Web Headers API, and can be used inside [Server Components](/docs/app/getting-started/server-and-client-components) to retrieve request headers.
-- [`cookies`](/docs/app/api-reference/functions/cookies): Based on the Web Cookies API, and can be used inside [Server Components](/docs/app/getting-started/server-and-client-components) to retrieve cookies.
+- [`headers`](/docs/app/api-reference/functions/headers): Dựa trên Web Headers API, và có thể được sử dụng bên trong [Server Components](/docs/app/getting-started/server-and-client-components) để truy xuất request headers.
+- [`cookies`](/docs/app/api-reference/functions/cookies): Dựa trên Web Cookies API, và có thể được sử dụng bên trong [Server Components](/docs/app/getting-started/server-and-client-components) để truy xuất cookies.
 
 ```tsx filename="app/page.tsx" switcher
 // `app` directory
@@ -672,7 +672,7 @@ export default async function Page() {
 
 #### Static Site Generation (`getStaticProps`)
 
-In the `pages` directory, the `getStaticProps` function is used to pre-render a page at build time. This function can be used to fetch data from an external API or directly from a database, and pass this data down to the entire page as it's being generated during the build.
+Trong thư mục `pages`, hàm `getStaticProps` được sử dụng để pre-render một trang tại build time. Hàm này có thể được sử dụng để fetch dữ liệu từ một API bên ngoài hoặc trực tiếp từ cơ sở dữ liệu, và truyền dữ liệu này xuống toàn bộ trang khi nó đang được tạo trong quá trình build.
 
 ```jsx filename="pages/index.js"
 // `pages` directory
@@ -689,7 +689,7 @@ export default function Index({ projects }) {
 }
 ```
 
-In the `app` directory, data fetching with [`fetch()`](/docs/app/api-reference/functions/fetch) will default to `cache: 'force-cache'`, which will cache the request data until manually invalidated. This is similar to `getStaticProps` in the `pages` directory.
+Trong thư mục `app`, việc fetch dữ liệu với [`fetch()`](/docs/app/api-reference/functions/fetch) sẽ mặc định là `cache: 'force-cache'`, sẽ cache dữ liệu request cho đến khi bị vô hiệu hóa thủ công. Điều này tương tự như `getStaticProps` trong thư mục `pages`.
 
 ```jsx filename="app/page.js"
 // `app` directory
@@ -711,7 +711,7 @@ export default async function Index() {
 
 #### Dynamic paths (`getStaticPaths`)
 
-In the `pages` directory, the `getStaticPaths` function is used to define the dynamic paths that should be pre-rendered at build time.
+Trong thư mục `pages`, hàm `getStaticPaths` được sử dụng để xác định các dynamic paths nên được pre-rendered tại build time.
 
 ```jsx filename="pages/posts/[id].js"
 // `pages` directory
@@ -735,9 +735,9 @@ export default function Post({ post }) {
 }
 ```
 
-In the `app` directory, `getStaticPaths` is replaced with [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params).
+Trong thư mục `app`, `getStaticPaths` được thay thế bằng [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params).
 
-[`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) behaves similarly to `getStaticPaths`, but has a simplified API for returning route parameters and can be used inside [layouts](/docs/app/api-reference/file-conventions/layout). The return shape of `generateStaticParams` is an array of segments instead of an array of nested `param` objects or a string of resolved paths.
+[`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) hoạt động tương tự như `getStaticPaths`, nhưng có API đơn giản hóa để trả về các tham số route và có thể được sử dụng bên trong [layouts](/docs/app/api-reference/file-conventions/layout). Hình dạng trả về của `generateStaticParams` là một mảng các segments thay vì một mảng các đối tượng `param` lồng nhau hoặc một chuỗi các đường dẫn đã giải quyết.
 
 ```jsx filename="app/posts/[id]/page.js"
 // `app` directory
@@ -761,13 +761,13 @@ export default async function Post({ params }) {
 }
 ```
 
-Using the name `generateStaticParams` is more appropriate than `getStaticPaths` for the new model in the `app` directory. The `get` prefix is replaced with a more descriptive `generate`, which sits better alone now that `getStaticProps` and `getServerSideProps` are no longer necessary. The `Paths` suffix is replaced by `Params`, which is more appropriate for nested routing with multiple dynamic segments.
+Sử dụng tên `generateStaticParams` thích hợp hơn `getStaticPaths` cho mô hình mới trong thư mục `app`. Tiền tố `get` được thay thế bằng `generate` mô tả hơn, phù hợp hơn khi đứng một mình bây giờ khi `getStaticProps` và `getServerSideProps` không còn cần thiết nữa. Hậu tố `Paths` được thay thế bằng `Params`, phù hợp hơn cho nested routing với nhiều dynamic segments.
 
 ---
 
-#### Replacing `fallback`
+#### Thay thế `fallback`
 
-In the `pages` directory, the `fallback` property returned from `getStaticPaths` is used to define the behavior of a page that isn't pre-rendered at build time. This property can be set to `true` to show a fallback page while the page is being generated, `false` to show a 404 page, or `blocking` to generate the page at request time.
+Trong thư mục `pages`, thuộc tính `fallback` được trả về từ `getStaticPaths` được sử dụng để xác định hành vi của một trang không được pre-rendered tại build time. Thuộc tính này có thể được đặt thành `true` để hiển thị trang fallback trong khi trang đang được tạo, `false` để hiển thị trang 404, hoặc `blocking` để tạo trang tại request time.
 
 ```jsx filename="pages/posts/[id].js"
 // `pages` directory
@@ -788,12 +788,12 @@ export default function Post({ post }) {
 }
 ```
 
-In the `app` directory the [`config.dynamicParams` property](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) controls how params outside of [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) are handled:
+Trong thư mục `app`, thuộc tính [`config.dynamicParams`](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) kiểm soát cách các params bên ngoài [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) được xử lý:
 
-- **`true`**: (default) Dynamic segments not included in `generateStaticParams` are generated on demand.
-- **`false`**: Dynamic segments not included in `generateStaticParams` will return a 404.
+- **`true`**: (mặc định) Các dynamic segments không có trong `generateStaticParams` được tạo theo yêu cầu.
+- **`false`**: Các dynamic segments không có trong `generateStaticParams` sẽ trả về 404.
 
-This replaces the `fallback: true | false | 'blocking'` option of `getStaticPaths` in the `pages` directory. The `fallback: 'blocking'` option is not included in `dynamicParams` because the difference between `'blocking'` and `true` is negligible with streaming.
+Điều này thay thế tùy chọn `fallback: true | false | 'blocking'` của `getStaticPaths` trong thư mục `pages`. Tùy chọn `fallback: 'blocking'` không có trong `dynamicParams` vì sự khác biệt giữa `'blocking'` và `true` là không đáng kể với streaming.
 
 ```jsx filename="app/posts/[id]/page.js"
 // `app` directory
@@ -815,11 +815,11 @@ export default async function Post({ params }) {
 }
 ```
 
-With [`dynamicParams`](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) set to `true` (the default), when a route segment is requested that hasn't been generated, it will be server-rendered and cached.
+Với [`dynamicParams`](/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams) được đặt thành `true` (mặc định), khi một phân đoạn route được yêu cầu mà chưa được tạo, nó sẽ được server-rendered và cached.
 
-#### Incremental Static Regeneration (`getStaticProps` with `revalidate`)
+#### Incremental Static Regeneration (`getStaticProps` với `revalidate`)
 
-In the `pages` directory, the `getStaticProps` function allows you to add a `revalidate` field to automatically regenerate a page after a certain amount of time.
+Trong thư mục `pages`, hàm `getStaticProps` cho phép bạn thêm trường `revalidate` để tự động tạo lại trang sau một khoảng thời gian nhất định.
 
 ```jsx filename="pages/index.js"
 // `pages` directory
@@ -843,7 +843,7 @@ export default function Index({ posts }) {
 }
 ```
 
-In the `app` directory, data fetching with [`fetch()`](/docs/app/api-reference/functions/fetch) can use `revalidate`, which will cache the request for the specified amount of seconds.
+Trong thư mục `app`, việc fetch dữ liệu với [`fetch()`](/docs/app/api-reference/functions/fetch) có thể sử dụng `revalidate`, sẽ cache request trong khoảng thời gian giây được chỉ định.
 
 ```jsx filename="app/page.js"
 // `app` directory
@@ -864,9 +864,9 @@ export default async function PostList() {
 
 #### API Routes
 
-API Routes continue to work in the `pages/api` directory without any changes. However, they have been replaced by [Route Handlers](/docs/app/api-reference/file-conventions/route) in the `app` directory.
+API Routes tiếp tục hoạt động trong thư mục `pages/api` mà không có bất kỳ thay đổi nào. Tuy nhiên, chúng đã được thay thế bằng [Route Handlers](/docs/app/api-reference/file-conventions/route) trong thư mục `app`.
 
-Route Handlers allow you to create custom request handlers for a given route using the Web [Request](https://developer.mozilla.org/docs/Web/API/Request) and [Response](https://developer.mozilla.org/docs/Web/API/Response) APIs.
+Route Handlers cho phép bạn tạo các trình xử lý request tùy chỉnh cho một route nhất định bằng cách sử dụng Web [Request](https://developer.mozilla.org/docs/Web/API/Request) và [Response](https://developer.mozilla.org/docs/Web/API/Response) APIs.
 
 ```ts filename="app/api/route.ts" switcher
 export async function GET(request: Request) {}
@@ -876,15 +876,15 @@ export async function GET(request: Request) {}
 export async function GET(request) {}
 ```
 
-> **Good to know**: If you previously used API routes to call an external API from the client, you can now use [Server Components](/docs/app/getting-started/server-and-client-components) instead to securely fetch data. Learn more about [data fetching](/docs/app/getting-started/fetching-data).
+> **Lưu ý**: Nếu bạn đã sử dụng API routes trước đây để gọi API bên ngoài từ client, bây giờ bạn có thể sử dụng [Server Components](/docs/app/getting-started/server-and-client-components) thay thế để fetch dữ liệu một cách an toàn. Tìm hiểu thêm về [data fetching](/docs/app/getting-started/fetching-data).
 
 #### Single-Page Applications
 
-If you are also migrating to Next.js from a Single-Page Application (SPA) at the same time, see our [documentation](/docs/app/guides/single-page-applications) to learn more.
+Nếu bạn cũng đang di chuyển sang Next.js từ một Single-Page Application (SPA) cùng một lúc, hãy xem [tài liệu](/docs/app/guides/single-page-applications) của chúng tôi để tìm hiểu thêm.
 
-### Step 7: Styling
+### Bước 7: Styling
 
-In the `pages` directory, global stylesheets are restricted to only `pages/_app.js`. With the `app` directory, this restriction has been lifted. Global styles can be added to any layout, page, or component.
+Trong thư mục `pages`, global stylesheets bị hạn chế chỉ trong `pages/_app.js`. Với thư mục `app`, hạn chế này đã được gỡ bỏ. Global styles có thể được thêm vào bất kỳ layout, page, hoặc component nào.
 
 - [CSS Modules](/docs/app/getting-started/css#css-modules)
 - [Tailwind CSS](/docs/app/getting-started/css#tailwind-css)
@@ -895,7 +895,7 @@ In the `pages` directory, global stylesheets are restricted to only `pages/_app.
 
 #### Tailwind CSS
 
-If you're using Tailwind CSS, you'll need to add the `app` directory to your `tailwind.config.js` file:
+Nếu bạn đang sử dụng Tailwind CSS, bạn sẽ cần thêm thư mục `app` vào file `tailwind.config.js` của mình:
 
 ```js filename="tailwind.config.js"
 module.exports = {
@@ -907,7 +907,7 @@ module.exports = {
 }
 ```
 
-You'll also need to import your global styles in your `app/layout.js` file:
+Bạn cũng sẽ cần import global styles của mình trong file `app/layout.js`:
 
 ```jsx filename="app/layout.js"
 import '../styles/globals.css'
@@ -921,14 +921,14 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Learn more about [styling with Tailwind CSS](/docs/app/getting-started/css#tailwind-css)
+Tìm hiểu thêm về [styling với Tailwind CSS](/docs/app/getting-started/css#tailwind-css)
 
-## Using App Router together with Pages Router
+## Sử dụng App Router cùng với Pages Router
 
-When navigating between routes served by the different Next.js routers, there will be a hard navigation. Automatic link prefetching with `next/link` will not prefetch across routers.
+Khi điều hướng giữa các routes được phục vụ bởi các Next.js routers khác nhau, sẽ có một hard navigation. Automatic link prefetching với `next/link` sẽ không prefetch qua các routers.
 
-Instead, you can [optimize navigations](https://vercel.com/guides/optimizing-hard-navigations) between App Router and Pages Router to retain the prefetched and fast page transitions. [Learn more](https://vercel.com/guides/optimizing-hard-navigations).
+Thay vào đó, bạn có thể [tối ưu hóa điều hướng](https://vercel.com/guides/optimizing-hard-navigations) giữa App Router và Pages Router để giữ lại các chuyển đổi trang nhanh và đã được prefetch. [Tìm hiểu thêm](https://vercel.com/guides/optimizing-hard-navigations).
 
 ## Codemods
 
-Next.js provides Codemod transformations to help upgrade your codebase when a feature is deprecated. See [Codemods](/docs/app/guides/upgrading/codemods) for more information.
+Next.js cung cấp các chuyển đổi Codemod để giúp nâng cấp codebase của bạn khi một tính năng bị phản đối (deprecated). Xem [Codemods](/docs/app/guides/upgrading/codemods) để biết thêm thông tin.

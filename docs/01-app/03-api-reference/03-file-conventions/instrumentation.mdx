@@ -1,21 +1,21 @@
 ---
 title: instrumentation.js
-description: API reference for the instrumentation.js file.
+description: Tài liệu tham khảo API cho tệp instrumentation.js.
 related:
-  title: Learn more about Instrumentation
+  title: Tìm hiểu thêm về Instrumentation
   links:
     - app/guides/instrumentation
 ---
 
-The `instrumentation.js|ts` file is used to integrate observability tools into your application, allowing you to track the performance and behavior, and to debug issues in production.
+Tệp `instrumentation.js|ts` được sử dụng để tích hợp các công cụ observability vào ứng dụng của bạn, cho phép bạn theo dõi hiệu suất và hành vi, và debug các vấn đề trong production.
 
-To use it, place the file in the **root** of your application or inside a [`src` folder](/docs/app/api-reference/file-conventions/src-folder) if using one.
+Để sử dụng nó, hãy đặt tệp trong **root** của ứng dụng của bạn hoặc bên trong thư mục [`src`](/docs/app/api-reference/file-conventions/src-folder) nếu sử dụng.
 
 ## Exports
 
-### `register` (optional)
+### `register` (tùy chọn)
 
-The file exports a `register` function that is called **once** when a new Next.js server instance is initiated. `register` can be an async function.
+Tệp export một hàm `register` được gọi **một lần** khi một Next.js server instance mới được khởi tạo. `register` có thể là một async function.
 
 ```ts filename="instrumentation.ts" switcher
 import { registerOTel } from '@vercel/otel'
@@ -33,12 +33,12 @@ export function register() {
 }
 ```
 
-### `onRequestError` (optional)
+### `onRequestError` (tùy chọn)
 
-You can optionally export an `onRequestError` function to track **server** errors to any custom observability provider.
+Bạn có thể tùy chọn export một hàm `onRequestError` để theo dõi các lỗi **server** đến bất kỳ custom observability provider nào.
 
-- If you're running any async tasks in `onRequestError`, make sure they're awaited. `onRequestError` will be triggered when the Next.js server captures the error.
-- The `error` instance might not be the original error instance thrown, as it may be processed by React if encountered during Server Components rendering. If this happens, you can use `digest` property on an error to identify the actual error type.
+- Nếu bạn đang chạy bất kỳ async tasks nào trong `onRequestError`, hãy đảm bảo chúng được awaited. `onRequestError` sẽ được kích hoạt khi Next.js server bắt được lỗi.
+- Instance `error` có thể không phải là error instance gốc được ném, vì nó có thể được xử lý bởi React nếu gặp phải trong quá trình Server Components rendering. Nếu điều này xảy ra, bạn có thể sử dụng thuộc tính `digest` trên error để xác định loại lỗi thực tế.
 
 ```ts filename="instrumentation.ts" switcher
 import { type Instrumentation } from 'next'
@@ -80,7 +80,7 @@ export async function onRequestError(err, request, context) {
 
 #### Parameters
 
-The function accepts three parameters: `error`, `request`, and `context`.
+Hàm chấp nhận ba parameters: `error`, `request`, và `context`.
 
 ```ts filename="Types"
 export function onRequestError(
@@ -104,13 +104,13 @@ export function onRequestError(
 ): void | Promise<void>
 ```
 
-- `error`: The caught error itself (type is always `Error`), and a `digest` property which is the unique ID of the error.
-- `request`: Read-only request information associated with the error.
-- `context`: The context in which the error occurred. This can be the type of router (App or Pages Router), and/or (Server Components (`'render'`), Route Handlers (`'route'`), Server Actions (`'action'`), or Proxy (`'proxy'`)).
+- `error`: Lỗi đã bắt được (type luôn là `Error`), và một thuộc tính `digest` là ID duy nhất của lỗi.
+- `request`: Thông tin request read-only liên quan đến lỗi.
+- `context`: Ngữ cảnh mà lỗi xảy ra. Đây có thể là loại router (App hoặc Pages Router), và/hoặc (Server Components (`'render'`), Route Handlers (`'route'`), Server Actions (`'action'`), hoặc Proxy (`'proxy'`)).
 
-### Specifying the runtime
+### Chỉ định runtime
 
-The `instrumentation.js` file works in both the Node.js and Edge runtime, however, you can use `process.env.NEXT_RUNTIME` to target a specific runtime.
+Tệp `instrumentation.js` hoạt động trong cả Node.js và Edge runtime, tuy nhiên, bạn có thể sử dụng `process.env.NEXT_RUNTIME` để nhắm mục tiêu một runtime cụ thể.
 
 ```js filename="instrumentation.js"
 export function register() {
@@ -130,10 +130,10 @@ export function onRequestError() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                 |
-| --------- | ------------------------------------------------------- |
-| `v15.0.0` | `onRequestError` introduced, `instrumentation` stable   |
-| `v14.0.4` | Turbopack support for `instrumentation`                 |
-| `v13.2.0` | `instrumentation` introduced as an experimental feature |
+| Phiên bản | Thay đổi                                                       |
+| --------- | -------------------------------------------------------------- |
+| `v15.0.0` | `onRequestError` được giới thiệu, `instrumentation` stable     |
+| `v14.0.4` | Hỗ trợ Turbopack cho `instrumentation`                         |
+| `v13.2.0` | `instrumentation` được giới thiệu như một experimental feature |

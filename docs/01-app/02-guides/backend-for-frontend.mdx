@@ -1,40 +1,40 @@
 ---
-title: How to use Next.js as a backend for your frontend
-nav_title: Backend for Frontend
-description: Learn how to use Next.js as a backend framework
+title: Cách sử dụng Next.js làm backend cho frontend của bạn
+nav_title: Backend cho Frontend
+description: Tìm hiểu cách sử dụng Next.js như một backend framework
 related:
   title: API Reference
-  description: Learn more about Route Handlers and Proxy
+  description: Tìm hiểu thêm về Route Handlers và Proxy
   links:
     - app/api-reference/file-conventions/route
     - app/api-reference/file-conventions/proxy
 ---
 
-Next.js supports the "Backend for Frontend" pattern. This lets you create public endpoints to handle HTTP requests and return any content type—not just HTML. You can also access data sources and perform side effects like updating remote data.
+Next.js hỗ trợ mẫu "Backend cho Frontend". Điều này cho phép bạn tạo các public endpoints để xử lý các yêu cầu HTTP và trả về bất kỳ loại nội dung nào—không chỉ HTML. Bạn cũng có thể truy cập các nguồn dữ liệu và thực hiện các tác dụng phụ như cập nhật dữ liệu từ xa.
 
-If you are starting a new project, using `create-next-app` with the `--api` flag automatically includes an example `route.ts` in your new project’s `app/` folder, demonstrating how to create an API endpoint.
+Nếu bạn đang bắt đầu một dự án mới, việc sử dụng `create-next-app` với cờ `--api` sẽ tự động bao gồm một ví dụ `route.ts` trong thư mục `app/` của dự án mới của bạn, minh họa cách tạo một API endpoint.
 
 ```bash filename="Terminal"
 npx create-next-app@latest --api
 ```
 
-> **Good to know**: Next.js backend capabilities are not a full backend replacement. They serve as an API layer that:
+> **Thông tin hữu ích**: Các khả năng backend của Next.js không phải là sự thay thế backend hoàn toàn. Chúng đóng vai trò như một lớp API mà:
 >
-> - is publicly reachable
-> - handles any HTTP request
-> - can return any content type
+> - có thể truy cập công khai
+> - xử lý bất kỳ yêu cầu HTTP nào
+> - có thể trả về bất kỳ loại nội dung nào
 
-To implement this pattern, use:
+Để triển khai mẫu này, hãy sử dụng:
 
 - [Route Handlers](/docs/app/api-reference/file-conventions/route)
 - [`proxy`](/docs/app/api-reference/file-conventions/proxy)
-- In Pages Router, [API Routes](/docs/pages/building-your-application/routing/api-routes)
+- Trong Pages Router, [API Routes](/docs/pages/building-your-application/routing/api-routes)
 
 ## Public Endpoints
 
-Route Handlers are public HTTP endpoints. Any client can access them.
+Route Handlers là các public HTTP endpoints. Bất kỳ client nào cũng có thể truy cập chúng.
 
-Create a Route Handler using the `route.ts` or `route.js` file convention:
+Tạo một Route Handler bằng cách sử dụng quy ước file `route.ts` hoặc `route.js`:
 
 ```ts filename="/app/api/route.ts" switcher
 export function GET(request: Request) {}
@@ -44,9 +44,9 @@ export function GET(request: Request) {}
 export function GET(request) {}
 ```
 
-This handles `GET` requests sent to `/api`.
+Điều này xử lý các yêu cầu `GET` được gửi đến `/api`.
 
-Use `try/catch` blocks for operations that may throw an exception:
+Sử dụng các khối `try/catch` cho các hoạt động có thể ném ra một ngoại lệ:
 
 ```ts filename="/app/api/route.ts" switcher
 import { submit } from '@/lib/submit'
@@ -80,29 +80,29 @@ export async function POST(request) {
 }
 ```
 
-Avoid exposing sensitive information in error messages sent to the client.
+Tránh để lộ thông tin nhạy cảm trong các thông báo lỗi được gửi đến client.
 
-To restrict access, implement authentication and authorization. See [Authentication](/docs/app/guides/authentication).
+Để hạn chế quyền truy cập, hãy triển khai xác thực và ủy quyền. Xem [Xác thực](/docs/app/guides/authentication).
 
-## Content types
+## Các loại nội dung
 
-Route Handlers let you serve non-UI responses, including JSON, XML, images, files, and plain text.
+Route Handlers cho phép bạn phục vụ các phản hồi không phải UI, bao gồm JSON, XML, hình ảnh, tệp và văn bản thuần túy.
 
-Next.js uses file conventions for common endpoints:
+Next.js sử dụng các quy ước file cho các endpoints phổ biến:
 
 - [`sitemap.xml`](/docs/app/api-reference/file-conventions/metadata/sitemap)
 - [`opengraph-image.jpg`, `twitter-image`](/docs/app/api-reference/file-conventions/metadata/opengraph-image)
-- [favicon, app icon, and apple-icon](/docs/app/api-reference/file-conventions/metadata/app-icons)
+- [favicon, app icon, và apple-icon](/docs/app/api-reference/file-conventions/metadata/app-icons)
 - [`manifest.json`](/docs/app/api-reference/file-conventions/metadata/manifest)
 - [`robots.txt`](/docs/app/api-reference/file-conventions/metadata/robots)
 
-You can also define custom ones, such as:
+Bạn cũng có thể xác định các loại tùy chỉnh, chẳng hạn như:
 
 - `llms.txt`
 - `rss.xml`
 - `.well-known`
 
-For example, `app/rss.xml/route.ts` creates a Route Handler for `rss.xml`.
+Ví dụ, `app/rss.xml/route.ts` tạo một Route Handler cho `rss.xml`.
 
 ```ts filename="/app/rss.xml/route.ts" switcher
 export async function GET(request: Request) {
@@ -164,13 +164,13 @@ export async function GET(request) {
 }
 ```
 
-Sanitize any input used to generate markup.
+Làm sạch bất kỳ đầu vào nào được sử dụng để tạo markup.
 
-### Consuming request payloads
+### Tiêu thụ request payloads
 
-Use Request [instance methods](https://developer.mozilla.org/en-US/docs/Web/API/Request#instance_methods) like `.json()`, `.formData()`, or `.text()` to access the request body.
+Sử dụng Request [instance methods](https://developer.mozilla.org/en-US/docs/Web/API/Request#instance_methods) như `.json()`, `.formData()`, hoặc `.text()` để truy cập request body.
 
-`GET` and `HEAD` requests don’t carry a body.
+Các yêu cầu `GET` và `HEAD` không mang theo body.
 
 ```ts filename="/app/api/echo-body/route.ts" switcher
 export async function POST(request: Request) {
@@ -186,7 +186,7 @@ export async function POST(request) {
 }
 ```
 
-> **Good to know**: Validate data before passing it to other systems
+> **Thông tin hữu ích**: Xác thực dữ liệu trước khi chuyển nó sang các hệ thống khác
 
 ```ts filename="/app/api/send-email/route.ts" switcher
 import { sendMail, validateInputs } from '@/lib/email-transporter'
@@ -232,7 +232,7 @@ export async function POST(request) {
 }
 ```
 
-You can only read the request body once. Clone the request if you need to read it again:
+Bạn chỉ có thể đọc request body một lần. Clone request nếu bạn cần đọc lại nó:
 
 ```ts filename="/app/api/clone/route.ts" switcher
 export async function POST(request: Request) {
@@ -266,11 +266,11 @@ export async function POST(request) {
 }
 ```
 
-## Manipulating data
+## Thao tác dữ liệu
 
-Route Handlers can transform, filter, and aggregate data from one or more sources. This keeps logic out of the frontend and avoids exposing internal systems.
+Route Handlers có thể chuyển đổi, lọc và tổng hợp dữ liệu từ một hoặc nhiều nguồn. Điều này giữ logic ra khỏi frontend và tránh để lộ các hệ thống nội bộ.
 
-You can also offload heavy computations to the server and reduce client battery and data usage.
+Bạn cũng có thể giảm tải các tính toán nặng cho server và giảm mức sử dụng pin và dữ liệu của client.
 
 ```ts file="/app/api/weather/route.ts" switcher
 import { parseWeatherData } from '@/lib/weather'
@@ -326,11 +326,11 @@ export async function POST(request) {
 }
 ```
 
-> **Good to know**: This example uses `POST` to avoid putting geo-location data in the URL. `GET` requests may be cached or logged, which could expose sensitive info.
+> **Thông tin hữu ích**: Ví dụ này sử dụng `POST` để tránh đưa dữ liệu vị trí địa lý vào URL. Các yêu cầu `GET` có thể được cache hoặc ghi lại, điều này có thể làm lộ thông tin nhạy cảm.
 
-## Proxying to a backend
+## Proxy đến một backend
 
-You can use a Route Handler as a `proxy` to another backend. Add validation logic before forwarding the request.
+Bạn có thể sử dụng một Route Handler như một `proxy` đến một backend khác. Thêm logic xác thực trước khi chuyển tiếp yêu cầu.
 
 ```ts filename="/app/api/[...slug]/route.ts" switcher
 import { isValidRequest } from '@/lib/utils'
@@ -386,22 +386,22 @@ export async function POST(request, { params }) {
 }
 ```
 
-Or use:
+Hoặc sử dụng:
 
 - `proxy` [rewrites](#proxy)
-- [`rewrites`](/docs/app/api-reference/config/next-config-js/rewrites) in `next.config.js`.
+- [`rewrites`](/docs/app/api-reference/config/next-config-js/rewrites) trong `next.config.js`.
 
-## NextRequest and NextResponse
+## NextRequest và NextResponse
 
-Next.js extends the [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) Web APIs with methods that simplify common operations. These extensions are available in both Route Handlers and Proxy.
+Next.js mở rộng các Web APIs [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) và [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) với các phương thức giúp đơn giản hóa các hoạt động phổ biến. Các phần mở rộng này có sẵn trong cả Route Handlers và Proxy.
 
-Both provide methods for reading and manipulating cookies.
+Cả hai đều cung cấp các phương thức để đọc và thao tác cookie.
 
-`NextRequest` includes the [`nextUrl`](/docs/app/api-reference/functions/next-request#nexturl) property, which exposes parsed values from the incoming request, for example, it makes it easier to access request pathname and search params.
+`NextRequest` bao gồm thuộc tính [`nextUrl`](/docs/app/api-reference/functions/next-request#nexturl), hiển thị các giá trị đã phân tích cú pháp từ yêu cầu đến, ví dụ, nó giúp dễ dàng truy cập pathname và search params của yêu cầu.
 
-`NextResponse` provides helpers like `next()`, `json()`, `redirect()`, and `rewrite()`.
+`NextResponse` cung cấp các helpers như `next()`, `json()`, `redirect()`, và `rewrite()`.
 
-You can pass `NextRequest` to any function expecting `Request`. Likewise, you can return `NextResponse` where a `Response` is expected.
+Bạn có thể truyền `NextRequest` cho bất kỳ hàm nào mong đợi `Request`. Tương tự, bạn có thể trả về `NextResponse` ở nơi `Response` được mong đợi.
 
 ```ts filename="/app/echo-pathname/route.ts" switcher
 import { type NextRequest, NextResponse } from 'next/server'
@@ -439,13 +439,13 @@ export async function GET(request) {
 }
 ```
 
-Learn more about [`NextRequest`](/docs/app/api-reference/functions/next-request) and [`NextResponse`](/docs/app/api-reference/functions/next-response).
+Tìm hiểu thêm về [`NextRequest`](/docs/app/api-reference/functions/next-request) và [`NextResponse`](/docs/app/api-reference/functions/next-response).
 
-## Webhooks and callback URLs
+## Webhooks và callback URLs
 
-Use Route Handlers to receive event notifications from third-party applications.
+Sử dụng Route Handlers để nhận thông báo sự kiện từ các ứng dụng của bên thứ ba.
 
-For example, revalidate a route when content changes in a CMS. Configure the CMS to call a specific endpoint on changes.
+Ví dụ, revalidate một route khi nội dung thay đổi trong CMS. Cấu hình CMS để gọi một endpoint cụ thể khi có thay đổi.
 
 ```ts filename="/app/webhook/route.ts" switcher
 import { type NextRequest, NextResponse } from 'next/server'
@@ -491,7 +491,7 @@ export async function GET(request) {
 }
 ```
 
-Callback URLs are another use case. When a user completes a third-party flow, the third party sends them to a callback URL. Use a Route Handler to verify the response and decide where to redirect the user.
+Callback URLs là một trường hợp sử dụng khác. Khi người dùng hoàn thành một luồng của bên thứ ba, bên thứ ba sẽ gửi họ đến một callback URL. Sử dụng Route Handler để xác minh phản hồi và quyết định nơi chuyển hướng người dùng.
 
 ```ts filename="/app/auth/callback/route.ts" switcher
 import { type NextRequest, NextResponse } from 'next/server'
@@ -537,7 +537,7 @@ export async function GET(request) {
 }
 ```
 
-## Redirects
+## Chuyển hướng
 
 ```ts filename="app/api/route.ts" switcher
 import { redirect } from 'next/navigation'
@@ -555,13 +555,13 @@ export async function GET(request) {
 }
 ```
 
-Learn more about redirects in [`redirect`](/docs/app/api-reference/functions/redirect) and [`permanentRedirect`](/docs/app/api-reference/functions/permanentRedirect)
+Tìm hiểu thêm về chuyển hướng trong [`redirect`](/docs/app/api-reference/functions/redirect) và [`permanentRedirect`](/docs/app/api-reference/functions/permanentRedirect)
 
 ## Proxy
 
-Only one `proxy` file is allowed per project. Use `config.matcher` to target specific paths. Learn more about [`proxy`](/docs/app/api-reference/file-conventions/proxy).
+Chỉ cho phép một file `proxy` cho mỗi dự án. Sử dụng `config.matcher` để nhắm mục tiêu các đường dẫn cụ thể. Tìm hiểu thêm về [`proxy`](/docs/app/api-reference/file-conventions/proxy).
 
-Use `proxy` to generate a response before the request reaches a route path.
+Sử dụng `proxy` để tạo phản hồi trước khi yêu cầu đến đường dẫn route.
 
 ```ts filename="proxy.ts" switcher
 import { isAuthenticated } from '@lib/auth'
@@ -597,7 +597,7 @@ export function proxy(request) {
 }
 ```
 
-You can also proxy requests using `proxy`:
+Bạn cũng có thể proxy các yêu cầu bằng cách sử dụng `proxy`:
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse } from 'next/server'
@@ -621,7 +621,7 @@ export function proxy(request) {
 }
 ```
 
-Another type of response `proxy` can produce are redirects:
+Một loại phản hồi khác mà `proxy` có thể tạo ra là chuyển hướng:
 
 ```ts filename="proxy.ts" switcher
 import { NextResponse } from 'next/server'
@@ -645,20 +645,20 @@ export function proxy(request) {
 }
 ```
 
-## Security
+## Bảo mật
 
-### Working with headers
+### Làm việc với headers
 
-Be deliberate about where headers go, and avoid directly passing incoming request headers to the outgoing response.
+Hãy thận trọng về nơi các headers đi, và tránh chuyển trực tiếp các headers yêu cầu đến vào phản hồi đi.
 
-- **Upstream request headers**: In Proxy, `NextResponse.next({ request: { headers } })` modifies the headers your server receives and does not expose them to the client.
-- **Response headers**: `new Response(..., { headers })`, `NextResponse.json(..., { headers })`, `NextResponse.next({ headers })`, or `response.headers.set(...)` send headers back to the client. If sensitive values were appended to these headers, they will be visible to clients.
+- **Upstream request headers**: Trong Proxy, `NextResponse.next({ request: { headers } })` sửa đổi các headers mà server của bạn nhận được và không để lộ chúng cho client.
+- **Response headers**: `new Response(..., { headers })`, `NextResponse.json(..., { headers })`, `NextResponse.next({ headers })`, hoặc `response.headers.set(...)` gửi các headers trở lại client. Nếu các giá trị nhạy cảm được thêm vào các headers này, chúng sẽ hiển thị cho clients.
 
-Learn more in [NextResponse headers in Proxy](/docs/app/api-reference/functions/next-response#next).
+Tìm hiểu thêm trong [NextResponse headers trong Proxy](/docs/app/api-reference/functions/next-response#next).
 
-### Rate limiting
+### Giới hạn tốc độ
 
-You can implement rate limiting in your Next.js backend. In addition to code-based checks, enable any rate limiting features provided by your host.
+Bạn có thể triển khai giới hạn tốc độ trong backend Next.js của mình. Ngoài các kiểm tra dựa trên mã, hãy bật bất kỳ tính năng giới hạn tốc độ nào được cung cấp bởi host của bạn.
 
 ```ts filename="/app/resource/route.ts" switcher
 import { NextResponse } from 'next/server'
@@ -690,33 +690,33 @@ export async function POST(request) {
 }
 ```
 
-### Verify payloads
+### Xác minh payloads
 
-Never trust incoming request data. Validate content type and size, and sanitize against XSS before use.
+Không bao giờ tin tưởng dữ liệu yêu cầu đến. Xác thực loại nội dung và kích thước, và làm sạch chống lại XSS trước khi sử dụng.
 
-Use timeouts to prevent abuse and protect server resources.
+Sử dụng thời gian chờ để ngăn chặn lạm dụng và bảo vệ tài nguyên server.
 
-Store user-generated static assets in dedicated services. When possible, upload them from the browser and store the returned URI in your database to reduce request size.
+Lưu trữ các tài sản tĩnh do người dùng tạo trong các dịch vụ chuyên dụng. Khi có thể, hãy tải chúng lên từ trình duyệt và lưu trữ URI trả về trong cơ sở dữ liệu của bạn để giảm kích thước yêu cầu.
 
-### Access to protected resources
+### Truy cập vào các tài nguyên được bảo vệ
 
-Always verify credentials before granting access. Do not rely on proxy alone for authentication and authorization.
+Luôn xác minh thông tin đăng nhập trước khi cấp quyền truy cập. Không dựa vào proxy một mình để xác thực và ủy quyền.
 
-Remove sensitive or unnecessary data from responses and backend logs.
+Xóa dữ liệu nhạy cảm hoặc không cần thiết khỏi các phản hồi và nhật ký backend.
 
-Rotate credentials and API keys regularly.
+Xoay vòng thông tin đăng nhập và khóa API thường xuyên.
 
 ## Preflight Requests
 
-Preflight requests use the `OPTIONS` method to ask the server if a request is allowed based on origin, method, and headers.
+Preflight requests sử dụng phương thức `OPTIONS` để hỏi server xem một yêu cầu có được phép hay không dựa trên nguồn gốc, phương thức và headers.
 
-If `OPTIONS` is not defined, Next.js adds it automatically and sets the `Allow` header based on the other defined methods.
+Nếu `OPTIONS` không được xác định, Next.js sẽ tự động thêm nó và đặt header `Allow` dựa trên các phương thức đã xác định khác.
 
 - [CORS](/docs/app/api-reference/file-conventions/route#cors)
 
-## Library patterns
+## Các mẫu thư viện
 
-Community libraries often use the factory pattern for Route Handlers.
+Các thư viện cộng đồng thường sử dụng mẫu factory cho Route Handlers.
 
 ```ts filename="/app/api/[...path]/route.ts"
 import { createHandler } from 'third-party-library'
@@ -730,9 +730,9 @@ export const GET = handler
 export { handler as POST }
 ```
 
-This creates a shared handler for `GET` and `POST` requests. The library customizes behavior based on the `method` and `pathname` in the request.
+Điều này tạo ra một trình xử lý được chia sẻ cho các yêu cầu `GET` và `POST`. Thư viện tùy chỉnh hành vi dựa trên `method` và `pathname` trong yêu cầu.
 
-Libraries can also provide a `proxy` factory.
+Các thư viện cũng có thể cung cấp một `proxy` factory.
 
 ```ts filename="proxy.ts"
 import { createMiddleware } from 'third-party-library'
@@ -740,50 +740,50 @@ import { createMiddleware } from 'third-party-library'
 export default createMiddleware()
 ```
 
-> **Good to know**: Third-party libraries may still refer to `proxy` as `middleware`.
+> **Thông tin hữu ích**: Các thư viện của bên thứ ba vẫn có thể gọi `proxy` là `middleware`.
 
-## More examples
+## Thêm ví dụ
 
-See more examples on using [Router Handlers](/docs/app/api-reference/file-conventions/route#examples) and the [`proxy`](/docs/app/api-reference/file-conventions/proxy#examples) API references.
+Xem thêm ví dụ về cách sử dụng [Router Handlers](/docs/app/api-reference/file-conventions/route#examples) và các tham chiếu API [`proxy`](/docs/app/api-reference/file-conventions/proxy#examples).
 
-These examples include, working with [Cookies](/docs/app/api-reference/file-conventions/route#cookies), [Headers](/docs/app/api-reference/file-conventions/route#headers), [Streaming](/docs/app/api-reference/file-conventions/route#streaming), Proxy [negative matching](/docs/app/api-reference/file-conventions/proxy#negative-matching), and other useful code snippets.
+Các ví dụ này bao gồm, làm việc với [Cookies](/docs/app/api-reference/file-conventions/route#cookies), [Headers](/docs/app/api-reference/file-conventions/route#headers), [Streaming](/docs/app/api-reference/file-conventions/route#streaming), Proxy [negative matching](/docs/app/api-reference/file-conventions/proxy#negative-matching), và các đoạn mã hữu ích khác.
 
-## Caveats
+## Những lưu ý
 
 ### Server Components
 
-Fetch data in Server Components directly from its source, not via Route Handlers.
+Fetch dữ liệu trong Server Components trực tiếp từ nguồn của nó, không phải qua Route Handlers.
 
-For Server Components pre-rendered at build time, using Route Handlers will fail the build step. This is because, while building there is no server listening for these requests.
+Đối với Server Components được pre-rendered tại build time, việc sử dụng Route Handlers sẽ làm hỏng bước build. Điều này là do, trong khi build, không có server nào lắng nghe các yêu cầu này.
 
-For Server Components rendered on demand, fetching from Route Handlers is slower due to the extra HTTP round trip between the handler and the render process.
+Đối với Server Components được render theo yêu cầu, việc fetch từ Route Handlers chậm hơn do chuyến đi khứ hồi HTTP bổ sung giữa trình xử lý và quy trình render.
 
-> A server side `fetch` request uses absolute URLs. This implies an HTTP round trip, to an external server. During development, your own development server acts as the external server. At build time there is no server, and at runtime, the server is available through your public facing domain.
+> Một yêu cầu `fetch` phía server sử dụng URL tuyệt đối. Điều này ngụ ý một chuyến đi khứ hồi HTTP, đến một server bên ngoài. Trong quá trình phát triển, development server của riêng bạn hoạt động như server bên ngoài. Tại build time, không có server, và tại runtime, server có sẵn thông qua miền công cộng của bạn.
 
-Server Components cover most data-fetching needs. However, fetching data client side might be necessary for:
+Server Components bao gồm hầu hết các nhu cầu fetch dữ liệu. Tuy nhiên, fetch dữ liệu phía client có thể cần thiết cho:
 
-- Data that depends on client-only Web APIs:
+- Dữ liệu phụ thuộc vào các Web APIs chỉ dành cho client:
   - Geo-location API
   - Storage API
   - Audio API
   - File API
-- Frequently polled data
+- Dữ liệu được thăm dò thường xuyên
 
-For these, use community libraries like [`swr`](https://swr.vercel.app/) or [`react-query`](https://tanstack.com/query/latest/docs/framework/react/overview).
+Đối với những trường hợp này, hãy sử dụng các thư viện cộng đồng như [`swr`](https://swr.vercel.app/) hoặc [`react-query`](https://tanstack.com/query/latest/docs/framework/react/overview).
 
 ### Server Actions
 
-Server Actions let you run server-side code from the client. Their primary purpose is to mutate data from your frontend client.
+Server Actions cho phép bạn chạy mã phía server từ client. Mục đích chính của chúng là thay đổi dữ liệu từ frontend client của bạn.
 
-Server Actions are queued. Using them for data fetching introduces sequential execution.
+Server Actions được xếp hàng. Sử dụng chúng để fetch dữ liệu sẽ giới thiệu việc thực thi tuần tự.
 
-### `export` mode
+### Chế độ `export`
 
-`export` mode outputs a static site without a runtime server. Features that require the Next.js runtime are [not supported](/docs/app/guides/static-exports#unsupported-features), because this mode produces a static site, and no runtime server.
+Chế độ `export` xuất ra một trang web tĩnh mà không có runtime server. Các tính năng yêu cầu Next.js runtime [không được hỗ trợ](/docs/app/guides/static-exports#unsupported-features), vì chế độ này tạo ra một trang web tĩnh, và không có runtime server.
 
-In `export mode`, only `GET` Route Handlers are supported, in combination with the [`dynamic`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic) route segment config, set to `'force-static'`.
+Trong `export mode`, chỉ các `GET` Route Handlers được hỗ trợ, kết hợp với cấu hình phân đoạn route [`dynamic`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic), được đặt thành `'force-static'`.
 
-This can be used to generate static HTML, JSON, TXT, or other files.
+Điều này có thể được sử dụng để tạo HTML tĩnh, JSON, TXT, hoặc các tệp khác.
 
 ```js filename="app/hello-world/route.ts"
 export const dynamic = 'force-static'
@@ -793,11 +793,11 @@ export function GET() {
 }
 ```
 
-### Deployment environment
+### Môi trường triển khai
 
-Some hosts deploy Route Handlers as lambda functions. This means:
+Một số host triển khai Route Handlers dưới dạng các hàm lambda. Điều này có nghĩa là:
 
-- Route Handlers cannot share data between requests.
-- The environment may not support writing to File System.
-- Long-running handlers may be terminated due to timeouts.
-- WebSockets won’t work because the connection closes on timeout, or after the response is generated.
+- Route Handlers không thể chia sẻ dữ liệu giữa các yêu cầu.
+- Môi trường có thể không hỗ trợ ghi vào File System.
+- Các trình xử lý chạy lâu có thể bị chấm dứt do hết thời gian chờ.
+- WebSockets sẽ không hoạt động vì kết nối đóng khi hết thời gian chờ, hoặc sau khi phản hồi được tạo.

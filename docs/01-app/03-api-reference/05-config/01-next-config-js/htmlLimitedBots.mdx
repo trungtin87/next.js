@@ -1,9 +1,9 @@
 ---
 title: htmlLimitedBots
-description: Specify a list of user agents that should receive blocking metadata.
+description: Chỉ định danh sách các user agent nên nhận blocking metadata.
 ---
 
-The `htmlLimitedBots` config allows you to specify a list of user agents that should receive blocking metadata instead of [streaming metadata](/docs/app/api-reference/functions/generate-metadata#streaming-metadata).
+Cấu hình `htmlLimitedBots` cho phép bạn chỉ định danh sách các user agent nên nhận blocking metadata thay vì [streaming metadata](/docs/app/api-reference/functions/generate-metadata#streaming-metadata).
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -21,18 +21,18 @@ module.exports = {
 }
 ```
 
-## Default list
+## Danh sách mặc định
 
-Next.js includes a default list of HTML limited bots, including:
+Next.js bao gồm danh sách mặc định các HTML limited bots, bao gồm:
 
-- Google crawlers (e.g. Mediapartners-Google, AdsBot-Google, Google-PageRenderer)
+- Các crawler của Google (ví dụ: Mediapartners-Google, AdsBot-Google, Google-PageRenderer)
 - Bingbot
 - Twitterbot
 - Slackbot
 
-See the full list [here](https://github.com/vercel/next.js/blob/canary/packages/next/src/shared/lib/router/utils/html-bots.ts).
+Xem danh sách đầy đủ [tại đây](https://github.com/vercel/next.js/blob/canary/packages/next/src/shared/lib/router/utils/html-bots.ts).
 
-Specifying a `htmlLimitedBots` config will override the Next.js' default list. However, this is advanced behavior, and the default should be sufficient for most cases.
+Chỉ định cấu hình `htmlLimitedBots` sẽ ghi đè danh sách mặc định của Next.js. Tuy nhiên, đây là hành vi nâng cao, và mặc định nên đủ cho hầu hết các trường hợp.
 
 ```ts filename="next.config.ts" switcher
 const config: NextConfig = {
@@ -48,9 +48,9 @@ module.exports = {
 }
 ```
 
-## Disabling
+## Vô hiệu hóa
 
-To fully disable streaming metadata:
+Để vô hiệu hóa hoàn toàn streaming metadata:
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -68,8 +68,8 @@ module.exports = {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version | Changes                              |
-| ------- | ------------------------------------ |
-| 15.2.0  | `htmlLimitedBots` option introduced. |
+| Phiên bản | Thay đổi                                    |
+| --------- | ------------------------------------------- |
+| 15.2.0    | Tùy chọn `htmlLimitedBots` được giới thiệu. |

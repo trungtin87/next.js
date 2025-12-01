@@ -1,17 +1,17 @@
 ---
 title: use client
-description: Learn how to use the use client directive to render a component on the client.
+description: Tìm hiểu cách sử dụng chỉ thị use client để render một component ở phía client.
 ---
 
-The `'use client'` directive declares an entry point for the components to be rendered on the **client side** and should be used when creating interactive user interfaces (UI) that require client-side JavaScript capabilities, such as state management, event handling, and access to browser APIs. This is a React feature.
+Chỉ thị `'use client'` khai báo một entry point cho các component sẽ được render ở **phía client** và nên được sử dụng khi tạo các giao diện người dùng tương tác (UI) yêu cầu khả năng JavaScript phía client, chẳng hạn như quản lý state, xử lý sự kiện và truy cập vào các browser APIs. Đây là một tính năng của React.
 
-> **Good to know:**
+> **Nên biết:**
 >
-> You do not need to add the `'use client'` directive to every file that contains Client Components. You only need to add it to the files whose components you want to render directly within Server Components. The `'use client'` directive defines the client-server [boundary](https://nextjs.org/docs/app/building-your-application/rendering#network-boundary), and the components exported from such a file serve as entry points to the client.
+> Bạn không cần thêm chỉ thị `'use client'` vào mọi tệp chứa Client Components. Bạn chỉ cần thêm nó vào các tệp có các component bạn muốn render trực tiếp trong Server Components. Chỉ thị `'use client'` định nghĩa [boundary](https://nextjs.org/docs/app/building-your-application/rendering#network-boundary) client-server, và các component được export từ tệp như vậy phục vụ như các entry points cho client.
 
-## Usage
+## Cách sử dụng
 
-To declare an entry point for the Client Components, add the `'use client'` directive **at the top of the file**, before any imports:
+Để khai báo một entry point cho Client Components, hãy thêm chỉ thị `'use client'` **ở đầu tệp**, trước bất kỳ imports nào:
 
 ```tsx filename="app/components/counter.tsx" highlight={1} switcher
 'use client'
@@ -47,13 +47,13 @@ export default function Counter() {
 }
 ```
 
-When using the `'use client'` directive, the props of the Client Components must be [serializable](https://react.dev/reference/rsc/use-client#serializable-types). This means the props need to be in a format that React can serialize when sending data from the server to the client.
+Khi sử dụng chỉ thị `'use client'`, các props của Client Components phải là [serializable](https://react.dev/reference/rsc/use-client#serializable-types). Điều này có nghĩa là các props cần ở định dạng mà React có thể serialize khi gửi dữ liệu từ server đến client.
 
 ```tsx filename="app/components/counter.tsx" highlight={4} switcher
 'use client'
 
 export default function Counter({
-  onClick /* ❌ Function is not serializable */,
+  onClick /* ❌ Function không serializable */,
 }) {
   return (
     <div>
@@ -67,7 +67,7 @@ export default function Counter({
 'use client'
 
 export default function Counter({
-  onClick /* ❌ Function is not serializable */,
+  onClick /* ❌ Function không serializable */,
 }) {
   return (
     <div>
@@ -77,18 +77,18 @@ export default function Counter({
 }
 ```
 
-## Nesting Client Components within Server Components
+## Lồng Client Components trong Server Components
 
-Combining Server and Client Components allows you to build applications that are both performant and interactive:
+Kết hợp Server và Client Components cho phép bạn xây dựng các ứng dụng vừa hiệu suất vừa tương tác:
 
-1. **Server Components**: Use for static content, data fetching, and SEO-friendly elements.
-2. **Client Components**: Use for interactive elements that require state, effects, or browser APIs.
-3. **Component composition**: Nest Client Components within Server Components as needed for a clear separation of server and client logic.
+1. **Server Components**: Sử dụng cho nội dung tĩnh, data fetching và các phần tử thân thiện với SEO.
+2. **Client Components**: Sử dụng cho các phần tử tương tác yêu cầu state, effects hoặc browser APIs.
+3. **Component composition**: Lồng Client Components trong Server Components khi cần thiết để tách biệt rõ ràng logic server và client.
 
-In the following example:
+Trong ví dụ sau:
 
-- `Header` is a Server Component handling static content.
-- `Counter` is a Client Component enabling interactivity within the page.
+- `Header` là một Server Component xử lý nội dung tĩnh.
+- `Counter` là một Client Component cho phép tương tác trong trang.
 
 ```tsx filename="app/page.tsx" highlight={2,8} switcher
 import Header from './header'
@@ -118,6 +118,6 @@ export default function Page() {
 }
 ```
 
-## Reference
+## Tham khảo
 
-See the [React documentation](https://react.dev/reference/rsc/use-client) for more information on `'use client'`.
+Xem [tài liệu React](https://react.dev/reference/rsc/use-client) để biết thêm thông tin về `'use client'`.

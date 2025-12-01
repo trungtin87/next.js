@@ -1,10 +1,10 @@
 ---
-title: How to upgrade to version 9
-nav_title: Version 9
-description: Upgrade your Next.js Application from Version 8 to Version 9.
+title: Cách nâng cấp lên phiên bản 9
+nav_title: Phiên bản 9
+description: Nâng cấp Ứng dụng Next.js của bạn từ Phiên bản 8 lên Phiên bản 9.
 ---
 
-To upgrade to version 9, run the following command:
+Để nâng cấp lên phiên bản 9, hãy chạy lệnh sau:
 
 ```bash filename="Terminal"
 npm i next@9
@@ -22,15 +22,15 @@ pnpm up next@9
 bun add next@9
 ```
 
-> **Good to know:** If you are using TypeScript, ensure you also upgrade `@types/react` and `@types/react-dom` to their corresponding versions.
+> **Nên biết:** Nếu bạn đang sử dụng TypeScript, hãy đảm bảo bạn cũng nâng cấp `@types/react` và `@types/react-dom` lên các phiên bản tương ứng của chúng.
 
-## Check your Custom App File (`pages/_app.js`)
+## Kiểm tra Custom App File (`pages/_app.js`) của bạn
 
-If you previously copied the [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app) example, you may be able to remove your `getInitialProps`.
+Nếu trước đây bạn đã sao chép ví dụ [Custom `<App>`](/docs/pages/building-your-application/routing/custom-app), bạn có thể loại bỏ `getInitialProps` của mình.
 
-Removing `getInitialProps` from `pages/_app.js` (when possible) is important to leverage new Next.js features!
+Việc loại bỏ `getInitialProps` khỏi `pages/_app.js` (khi có thể) là quan trọng để tận dụng các tính năng mới của Next.js!
 
-The following `getInitialProps` does nothing and may be removed:
+`getInitialProps` sau đây không làm gì cả và có thể bị loại bỏ:
 
 ```js
 class MyApp extends App {
@@ -51,23 +51,23 @@ class MyApp extends App {
 }
 ```
 
-## Breaking Changes
+## Những thay đổi đột phá (Breaking Changes)
 
-### `@zeit/next-typescript` is no longer necessary
+### `@zeit/next-typescript` không còn cần thiết nữa
 
-Next.js will now ignore usage `@zeit/next-typescript` and warn you to remove it. Please remove this plugin from your `next.config.js`.
+Next.js bây giờ sẽ bỏ qua việc sử dụng `@zeit/next-typescript` và cảnh báo bạn loại bỏ nó. Vui lòng loại bỏ plugin này khỏi `next.config.js` của bạn.
 
-Remove references to `@zeit/next-typescript/babel` from your custom `.babelrc` (if present).
+Loại bỏ các tham chiếu đến `@zeit/next-typescript/babel` khỏi `.babelrc` tùy chỉnh của bạn (nếu có).
 
-The usage of [`fork-ts-checker-webpack-plugin`](https://github.com/Realytics/fork-ts-checker-webpack-plugin/issues) should also be removed from your `next.config.js`.
+Việc sử dụng [`fork-ts-checker-webpack-plugin`](https://github.com/Realytics/fork-ts-checker-webpack-plugin/issues) cũng nên được loại bỏ khỏi `next.config.js` của bạn.
 
-TypeScript Definitions are published with the `next` package, so you need to uninstall `@types/next` as they would conflict.
+TypeScript Definitions được publish cùng với gói `next`, vì vậy bạn cần gỡ cài đặt `@types/next` vì chúng sẽ xung đột.
 
-The following types are different:
+Các types sau đây là khác nhau:
 
-> This list was created by the community to help you upgrade, if you find other differences please send a pull-request to this list to help other users.
+> Danh sách này được tạo bởi cộng đồng để giúp bạn nâng cấp, nếu bạn tìm thấy những khác biệt khác vui lòng gửi pull-request vào danh sách này để giúp những người dùng khác.
 
-From:
+Từ:
 
 ```tsx
 import { NextContext } from 'next'
@@ -75,7 +75,7 @@ import { NextAppContext, DefaultAppIProps } from 'next/app'
 import { NextDocumentContext, DefaultDocumentIProps } from 'next/document'
 ```
 
-to
+thành
 
 ```tsx
 import { NextPageContext } from 'next'
@@ -83,16 +83,16 @@ import { AppContext, AppInitialProps } from 'next/app'
 import { DocumentContext, DocumentInitialProps } from 'next/document'
 ```
 
-### The `config` key is now an export on a page
+### Key `config` bây giờ là một export trên một trang
 
-You may no longer export a custom variable named `config` from a page (i.e. `export { config }` / `export const config ...`).
-This exported variable is now used to specify page-level Next.js configuration like Opt-in AMP and API Route features.
+Bạn không thể export một biến tùy chỉnh có tên `config` từ một trang nữa (ví dụ: `export { config }` / `export const config ...`).
+Biến được export này hiện được sử dụng để chỉ định cấu hình Next.js cấp trang như Opt-in AMP và các tính năng API Route.
 
-You must rename a non-Next.js-purposed `config` export to something different.
+Bạn phải đổi tên export `config` không dành cho mục đích Next.js thành một cái gì đó khác.
 
-### `next/dynamic` no longer renders "loading..." by default while loading
+### `next/dynamic` không còn render "loading..." theo mặc định trong khi tải
 
-Dynamic components will not render anything by default while loading. You can still customize this behavior by setting the `loading` property:
+Dynamic components sẽ không render bất cứ thứ gì theo mặc định trong khi tải. Bạn vẫn có thể tùy chỉnh hành vi này bằng cách đặt thuộc tính `loading`:
 
 ```jsx
 import dynamic from 'next/dynamic'
@@ -105,19 +105,19 @@ const DynamicComponentWithCustomLoading = dynamic(
 )
 ```
 
-### `withAmp` has been removed in favor of an exported configuration object
+### `withAmp` đã bị loại bỏ để ủng hộ configuration object được export
 
-Next.js now has the concept of page-level configuration, so the `withAmp` higher-order component has been removed for consistency.
+Next.js hiện có khái niệm cấu hình cấp trang, vì vậy higher-order component `withAmp` đã bị loại bỏ để nhất quán.
 
-This change can be **automatically migrated by running the following commands in the root of your Next.js project:**
+Thay đổi này có thể được **tự động di chuyển bằng cách chạy các lệnh sau trong thư mục gốc của dự án Next.js của bạn:**
 
 ```bash filename="Terminal"
 curl -L https://github.com/vercel/next-codemod/archive/master.tar.gz | tar -xz --strip=2 next-codemod-master/transforms/withamp-to-config.js npx jscodeshift -t ./withamp-to-config.js pages/**/*.js
 ```
 
-To perform this migration by hand, or view what the codemod will produce, see below:
+Để thực hiện việc di chuyển này bằng tay, hoặc xem những gì codemod sẽ tạo ra, xem bên dưới:
 
-**Before**
+**Trước**
 
 ```jsx
 import { withAmp } from 'next/amp'
@@ -131,7 +131,7 @@ export default withAmp(Home)
 export default withAmp(Home, { hybrid: true })
 ```
 
-**After**
+**Sau**
 
 ```jsx
 export default function Home() {
@@ -145,11 +145,11 @@ export const config = {
 }
 ```
 
-### `next export` no longer exports pages as `index.html`
+### `next export` không còn export các trang dưới dạng `index.html`
 
-Previously, exporting `pages/about.js` would result in `out/about/index.html`. This behavior has been changed to result in `out/about.html`.
+Trước đây, việc export `pages/about.js` sẽ dẫn đến `out/about/index.html`. Hành vi này đã được thay đổi để dẫn đến `out/about.html`.
 
-You can revert to the previous behavior by creating a `next.config.js` with the following content:
+Bạn có thể quay lại hành vi trước đó bằng cách tạo `next.config.js` với nội dung sau:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -157,20 +157,20 @@ module.exports = {
 }
 ```
 
-### `pages/api/` is treated differently
+### `pages/api/` được xử lý khác biệt
 
-Pages in `pages/api/` are now considered [API Routes](https://nextjs.org/blog/next-9#api-routes).
-Pages in this directory will no longer contain a client-side bundle.
+Các trang trong `pages/api/` hiện được coi là [API Routes](https://nextjs.org/blog/next-9#api-routes).
+Các trang trong thư mục này sẽ không còn chứa client-side bundle.
 
-## Deprecated Features
+## Các tính năng đã Deprecated
 
-### `next/dynamic` has deprecated loading multiple modules at once
+### `next/dynamic` đã deprecate việc tải nhiều modules cùng lúc
 
-The ability to load multiple modules at once has been deprecated in `next/dynamic` to be closer to React's implementation (`React.lazy` and `Suspense`).
+Khả năng tải nhiều modules cùng lúc đã bị deprecate trong `next/dynamic` để gần hơn với implementation của React (`React.lazy` và `Suspense`).
 
-Updating code that relies on this behavior is relatively straightforward! We've provided an example of a before/after to help you migrate your application:
+Cập nhật code dựa trên hành vi này tương đối đơn giản! Chúng tôi đã cung cấp một ví dụ trước/sau để giúp bạn di chuyển ứng dụng của mình:
 
-**Before**
+**Trước**
 
 ```jsx
 import dynamic from 'next/dynamic'
@@ -200,7 +200,7 @@ function DynamicBundle() {
 export default DynamicBundle
 ```
 
-**After**
+**Sau**
 
 ```jsx
 import dynamic from 'next/dynamic'

@@ -1,12 +1,12 @@
 ---
 title: unstable_rethrow
-description: API Reference for the unstable_rethrow function.
+description: Tài liệu tham khảo API cho hàm unstable_rethrow.
 version: unstable
 ---
 
-`unstable_rethrow` can be used to avoid catching internal errors thrown by Next.js when attempting to handle errors thrown in your application code.
+`unstable_rethrow` có thể được sử dụng để tránh bắt các lỗi nội bộ được ném bởi Next.js khi cố gắng xử lý các lỗi được ném trong code ứng dụng của bạn.
 
-For example, calling the `notFound` function will throw an internal Next.js error and render the [`not-found.js`](/docs/app/api-reference/file-conventions/not-found) component. However, if used inside the `try` block of a `try/catch` statement, the error will be caught, preventing `not-found.js` from rendering:
+Ví dụ, gọi hàm `notFound` sẽ ném một lỗi nội bộ Next.js và render component [`not-found.js`](/docs/app/api-reference/file-conventions/not-found). Tuy nhiên, nếu được sử dụng bên trong khối `try` của câu lệnh `try/catch`, lỗi sẽ bị bắt, ngăn `not-found.js` render:
 
 ```tsx filename="@/app/ui/component.tsx"
 import { notFound } from 'next/navigation'
@@ -24,7 +24,7 @@ export default async function Page() {
 }
 ```
 
-You can use `unstable_rethrow` API to re-throw the internal error and continue with the expected behavior:
+Bạn có thể sử dụng API `unstable_rethrow` để ném lại lỗi nội bộ và tiếp tục với hành vi mong đợi:
 
 ```tsx filename="@/app/ui/component.tsx"
 import { notFound, unstable_rethrow } from 'next/navigation'
@@ -43,13 +43,13 @@ export default async function Page() {
 }
 ```
 
-The following Next.js APIs rely on throwing an error which should be rethrown and handled by Next.js itself:
+Các API Next.js sau dựa vào việc ném một lỗi mà nên được ném lại và được xử lý bởi chính Next.js:
 
 - [`notFound()`](/docs/app/api-reference/functions/not-found)
 - [`redirect()`](/docs/app/guides/redirecting#redirect-function)
 - [`permanentRedirect()`](/docs/app/guides/redirecting#permanentredirect-function)
 
-If a route segment is marked to throw an error unless it's static, a Dynamic API call will also throw an error that should similarly not be caught by the developer. Note that Partial Prerendering (PPR) affects this behavior as well. These APIs are:
+Nếu một route segment được đánh dấu để ném một lỗi trừ khi nó là static, một lời gọi Dynamic API cũng sẽ ném một lỗi mà tương tự không nên được bắt bởi nhà phát triển. Lưu ý rằng Partial Prerendering (PPR) ảnh hưởng đến hành vi này. Các API này là:
 
 - [`cookies`](/docs/app/api-reference/functions/cookies)
 - [`headers`](/docs/app/api-reference/functions/headers)
@@ -57,9 +57,9 @@ If a route segment is marked to throw an error unless it's static, a Dynamic API
 - `fetch(..., { cache: 'no-store' })`
 - `fetch(..., { next: { revalidate: 0 } })`
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - This method should be called at the top of the catch block, passing the error object as its only argument. It can also be used within a `.catch` handler of a promise.
-> - You may be able to avoid using `unstable_rethrow` if you encapsulate your API calls that throw and let the **caller** handle the exception.
-> - Only use `unstable_rethrow` if your caught exceptions may include both application errors and framework-controlled exceptions (like `redirect()` or `notFound()`).
-> - Any resource cleanup (like clearing intervals, timers, etc) would have to either happen prior to the call to `unstable_rethrow` or within a `finally` block.
+> - Phương thức này nên được gọi ở đầu khối catch, truyền đối tượng lỗi làm đối số duy nhất của nó. Nó cũng có thể được sử dụng trong một handler `.catch` của một promise.
+> - Bạn có thể tránh sử dụng `unstable_rethrow` nếu bạn đóng gói các lời gọi API của bạn mà ném và để **caller** xử lý ngoại lệ.
+> - Chỉ sử dụng `unstable_rethrow` nếu các ngoại lệ bị bắt của bạn có thể bao gồm cả lỗi ứng dụng và ngoại lệ được kiểm soát bởi framework (như `redirect()` hoặc `notFound()`).
+> - Bất kỳ việc dọn dẹp tài nguyên nào (như xóa intervals, timers, v.v.) sẽ phải xảy ra trước lời gọi đến `unstable_rethrow` hoặc trong một khối `finally`.

@@ -1,32 +1,32 @@
 ---
-title: Next.js Compiler
-description: Next.js Compiler, written in Rust, which transforms and minifies your Next.js application.
+title: Trình biên dịch Next.js
+description: Trình biên dịch Next.js, được viết bằng Rust, giúp chuyển đổi và thu nhỏ ứng dụng Next.js của bạn.
 ---
 
-The Next.js Compiler, written in Rust using [SWC](https://swc.rs/), allows Next.js to transform and minify your JavaScript code for production. This replaces Babel for individual files and Terser for minifying output bundles.
+Trình biên dịch Next.js, được viết bằng Rust sử dụng [SWC](https://swc.rs/), cho phép Next.js chuyển đổi và thu nhỏ mã JavaScript của bạn cho môi trường production. Điều này thay thế Babel cho các tệp riêng lẻ và Terser để thu nhỏ các gói đầu ra.
 
-Compilation using the Next.js Compiler is 17x faster than Babel and enabled by default since Next.js version 12. If you have an existing Babel configuration or are using [unsupported features](#unsupported-features), your application will opt-out of the Next.js Compiler and continue using Babel.
+Việc biên dịch sử dụng Trình biên dịch Next.js nhanh hơn 17 lần so với Babel và được bật mặc định kể từ Next.js phiên bản 12. Nếu bạn có cấu hình Babel hiện có hoặc đang sử dụng [các tính năng không được hỗ trợ](#unsupported-features), ứng dụng của bạn sẽ từ chối Trình biên dịch Next.js và tiếp tục sử dụng Babel.
 
-## Why SWC?
+## Tại sao lại là SWC?
 
-[SWC](https://swc.rs/) is an extensible Rust-based platform for the next generation of fast developer tools.
+[SWC](https://swc.rs/) là một nền tảng dựa trên Rust có thể mở rộng cho thế hệ công cụ phát triển nhanh tiếp theo.
 
-SWC can be used for compilation, minification, bundling, and more – and is designed to be extended. It's something you can call to perform code transformations (either built-in or custom). Running those transformations happens through higher-level tools like Next.js.
+SWC có thể được sử dụng để biên dịch, thu nhỏ, đóng gói và hơn thế nữa – và được thiết kế để có thể mở rộng. Nó là thứ bạn có thể gọi để thực hiện các chuyển đổi mã (tích hợp sẵn hoặc tùy chỉnh). Việc chạy các chuyển đổi đó diễn ra thông qua các công cụ cấp cao hơn như Next.js.
 
-We chose to build on SWC for a few reasons:
+Chúng tôi chọn xây dựng dựa trên SWC vì một vài lý do:
 
-- **Extensibility:** SWC can be used as a Crate inside Next.js, without having to fork the library or workaround design constraints.
-- **Performance:** We were able to achieve ~3x faster Fast Refresh and ~5x faster builds in Next.js by switching to SWC, with more room for optimization still in progress.
-- **WebAssembly:** Rust's support for WASM is essential for supporting all possible platforms and taking Next.js development everywhere.
-- **Community:** The Rust community and ecosystem are amazing and still growing.
+- **Khả năng mở rộng:** SWC có thể được sử dụng như một Crate bên trong Next.js, mà không cần phải fork thư viện hoặc tìm cách giải quyết các hạn chế về thiết kế.
+- **Hiệu suất:** Chúng tôi đã đạt được Fast Refresh nhanh hơn ~3 lần và build nhanh hơn ~5 lần trong Next.js bằng cách chuyển sang SWC, với nhiều không gian để tối ưu hóa vẫn đang được tiến hành.
+- **WebAssembly:** Sự hỗ trợ của Rust cho WASM là điều cần thiết để hỗ trợ mọi nền tảng có thể và đưa việc phát triển Next.js đi khắp mọi nơi.
+- **Cộng đồng:** Cộng đồng và hệ sinh thái Rust rất tuyệt vời và vẫn đang phát triển.
 
-## Supported Features
+## Các tính năng được hỗ trợ
 
 ### Styled Components
 
-We're working to port `babel-plugin-styled-components` to the Next.js Compiler.
+Chúng tôi đang làm việc để port `babel-plugin-styled-components` sang Trình biên dịch Next.js.
 
-First, update to the latest version of Next.js: `npm install next@latest`. Then, update your `next.config.js` file:
+Đầu tiên, hãy cập nhật lên phiên bản mới nhất của Next.js: `npm install next@latest`. Sau đó, cập nhật tệp `next.config.js` của bạn:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -36,35 +36,35 @@ module.exports = {
 }
 ```
 
-For advanced use cases, you can configure individual properties for styled-components compilation.
+Đối với các trường hợp sử dụng nâng cao, bạn có thể định cấu hình các thuộc tính riêng lẻ cho việc biên dịch styled-components.
 
-> Note: `ssr` and `displayName` transforms are the main requirement for using `styled-components` in Next.js.
+> Lưu ý: `ssr` và `displayName` transforms là yêu cầu chính để sử dụng `styled-components` trong Next.js.
 
 ```js filename="next.config.js"
 module.exports = {
   compiler: {
-    // see https://styled-components.com/docs/tooling#babel-plugin for more info on the options.
+    // xem https://styled-components.com/docs/tooling#babel-plugin để biết thêm thông tin về các tùy chọn.
     styledComponents: {
-      // Enabled by default in development, disabled in production to reduce file size,
-      // setting this will override the default for all environments.
+      // Được bật mặc định trong development, bị tắt trong production để giảm kích thước tệp,
+      // thiết lập này sẽ ghi đè mặc định cho tất cả các môi trường.
       displayName?: boolean,
-      // Enabled by default.
+      // Được bật mặc định.
       ssr?: boolean,
-      // Enabled by default.
+      // Được bật mặc định.
       fileName?: boolean,
-      // Empty by default.
+      // Trống theo mặc định.
       topLevelImportPaths?: string[],
-      // Defaults to ["index"].
+      // Mặc định là ["index"].
       meaninglessFileNames?: string[],
-      // Enabled by default.
+      // Được bật mặc định.
       minify?: boolean,
-      // Enabled by default.
+      // Được bật mặc định.
       transpileTemplateLiterals?: boolean,
-      // Empty by default.
+      // Trống theo mặc định.
       namespace?: string,
-      // Disabled by default.
+      // Bị tắt mặc định.
       pure?: boolean,
-      // Enabled by default.
+      // Được bật mặc định.
       cssProp?: boolean,
     },
   },
@@ -73,41 +73,41 @@ module.exports = {
 
 ### Jest
 
-The Next.js Compiler transpiles your tests and simplifies configuring Jest together with Next.js including:
+Trình biên dịch Next.js chuyển đổi (transpiles) các bài kiểm tra của bạn và đơn giản hóa việc định cấu hình Jest cùng với Next.js bao gồm:
 
-- Auto mocking of `.css`, `.module.css` (and their `.scss` variants), and image imports
-- Automatically sets up `transform` using SWC
-- Loading `.env` (and all variants) into `process.env`
-- Ignores `node_modules` from test resolving and transforms
-- Ignoring `.next` from test resolving
-- Loads `next.config.js` for flags that enable experimental SWC transforms
+- Tự động mock `.css`, `.module.css` (và các biến thể `.scss` của chúng), và import hình ảnh
+- Tự động thiết lập `transform` sử dụng SWC
+- Tải `.env` (và tất cả các biến thể) vào `process.env`
+- Bỏ qua `node_modules` khỏi test resolving và transforms
+- Bỏ qua `.next` khỏi test resolving
+- Tải `next.config.js` cho các cờ kích hoạt các chuyển đổi SWC thử nghiệm
 
-First, update to the latest version of Next.js: `npm install next@latest`. Then, update your `jest.config.js` file:
+Đầu tiên, hãy cập nhật lên phiên bản mới nhất của Next.js: `npm install next@latest`. Sau đó, cập nhật tệp `jest.config.js` của bạn:
 
 ```js filename="jest.config.js"
 const nextJest = require('next/jest')
 
-// Providing the path to your Next.js app which will enable loading next.config.js and .env files
+// Cung cấp đường dẫn đến ứng dụng Next.js của bạn, sẽ cho phép tải các tệp next.config.js và .env
 const createJestConfig = nextJest({ dir: './' })
 
-// Any custom config you want to pass to Jest
+// Bất kỳ cấu hình tùy chỉnh nào bạn muốn chuyển cho Jest
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 }
 
-// createJestConfig is exported in this way to ensure that next/jest can load the Next.js configuration, which is async
+// createJestConfig được xuất theo cách này để đảm bảo rằng next/jest có thể tải cấu hình Next.js, vốn là bất đồng bộ
 module.exports = createJestConfig(customJestConfig)
 ```
 
 ### Relay
 
-To enable [Relay](https://relay.dev/) support:
+Để kích hoạt hỗ trợ [Relay](https://relay.dev/):
 
 ```js filename="next.config.js"
 module.exports = {
   compiler: {
     relay: {
-      // This should match relay.config.js
+      // Điều này nên khớp với relay.config.js
       src: './',
       artifactDirectory: './__generated__',
       language: 'typescript',
@@ -117,13 +117,13 @@ module.exports = {
 }
 ```
 
-> **Good to know**: In Next.js, all JavaScript files in `pages` directory are considered routes. So, for `relay-compiler` you'll need to specify `artifactDirectory` configuration settings outside of the `pages`, otherwise `relay-compiler` will generate files next to the source file in the `__generated__` directory, and this file will be considered a route, which will break production builds.
+> **Cần biết**: Trong Next.js, tất cả các tệp JavaScript trong thư mục `pages` được coi là các route. Vì vậy, đối với `relay-compiler`, bạn sẽ cần chỉ định cài đặt cấu hình `artifactDirectory` bên ngoài `pages`, nếu không `relay-compiler` sẽ tạo các tệp bên cạnh tệp nguồn trong thư mục `__generated__`, và tệp này sẽ được coi là một route, điều này sẽ làm hỏng các bản build production.
 
 ### Remove React Properties
 
-Allows to remove JSX properties. This is often used for testing. Similar to `babel-plugin-react-remove-properties`.
+Cho phép xóa các thuộc tính JSX. Điều này thường được sử dụng cho testing. Tương tự như `babel-plugin-react-remove-properties`.
 
-To remove properties matching the default regex `^data-test`:
+Để xóa các thuộc tính khớp với regex mặc định `^data-test`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -133,13 +133,13 @@ module.exports = {
 }
 ```
 
-To remove custom properties:
+Để xóa các thuộc tính tùy chỉnh:
 
 ```js filename="next.config.js"
 module.exports = {
   compiler: {
-    // The regexes defined here are processed in Rust so the syntax is different from
-    // JavaScript `RegExp`s. See https://docs.rs/regex.
+    // Các regex được định nghĩa ở đây được xử lý trong Rust nên cú pháp khác với
+    // JavaScript `RegExp`s. Xem https://docs.rs/regex.
     reactRemoveProperties: { properties: ['^data-custom$'] },
   },
 }
@@ -147,9 +147,9 @@ module.exports = {
 
 ### Remove Console
 
-This transform allows for removing all `console.*` calls in application code (not `node_modules`). Similar to `babel-plugin-transform-remove-console`.
+Chuyển đổi này cho phép xóa tất cả các lệnh gọi `console.*` trong mã ứng dụng (không phải `node_modules`). Tương tự như `babel-plugin-transform-remove-console`.
 
-Remove all `console.*` calls:
+Xóa tất cả các lệnh gọi `console.*`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -159,7 +159,7 @@ module.exports = {
 }
 ```
 
-Remove `console.*` output except `console.error`:
+Xóa đầu ra `console.*` ngoại trừ `console.error`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -173,11 +173,11 @@ module.exports = {
 
 ### Legacy Decorators
 
-Next.js will automatically detect `experimentalDecorators` in `jsconfig.json` or `tsconfig.json`. Legacy decorators are commonly used with older versions of libraries like `mobx`.
+Next.js sẽ tự động phát hiện `experimentalDecorators` trong `jsconfig.json` hoặc `tsconfig.json`. Legacy decorators thường được sử dụng với các phiên bản cũ hơn của các thư viện như `mobx`.
 
-This flag is only supported for compatibility with existing applications. We do not recommend using legacy decorators in new applications.
+Cờ này chỉ được hỗ trợ để tương thích với các ứng dụng hiện có. Chúng tôi không khuyên bạn nên sử dụng legacy decorators trong các ứng dụng mới.
 
-First, update to the latest version of Next.js: `npm install next@latest`. Then, update your `jsconfig.json` or `tsconfig.json` file:
+Đầu tiên, hãy cập nhật lên phiên bản mới nhất của Next.js: `npm install next@latest`. Sau đó, cập nhật tệp `jsconfig.json` hoặc `tsconfig.json` của bạn:
 
 ```js
 {
@@ -189,9 +189,9 @@ First, update to the latest version of Next.js: `npm install next@latest`. Then,
 
 ### importSource
 
-Next.js will automatically detect `jsxImportSource` in `jsconfig.json` or `tsconfig.json` and apply that. This is commonly used with libraries like [Theme UI](https://theme-ui.com).
+Next.js sẽ tự động phát hiện `jsxImportSource` trong `jsconfig.json` hoặc `tsconfig.json` và áp dụng nó. Điều này thường được sử dụng với các thư viện như [Theme UI](https://theme-ui.com).
 
-First, update to the latest version of Next.js: `npm install next@latest`. Then, update your `jsconfig.json` or `tsconfig.json` file:
+Đầu tiên, hãy cập nhật lên phiên bản mới nhất của Next.js: `npm install next@latest`. Sau đó, cập nhật tệp `jsconfig.json` hoặc `tsconfig.json` của bạn:
 
 ```js
 {
@@ -203,30 +203,30 @@ First, update to the latest version of Next.js: `npm install next@latest`. Then,
 
 ### Emotion
 
-We're working to port `@emotion/babel-plugin` to the Next.js Compiler.
+Chúng tôi đang làm việc để port `@emotion/babel-plugin` sang Trình biên dịch Next.js.
 
-First, update to the latest version of Next.js: `npm install next@latest`. Then, update your `next.config.js` file:
+Đầu tiên, hãy cập nhật lên phiên bản mới nhất của Next.js: `npm install next@latest`. Sau đó, cập nhật tệp `next.config.js` của bạn:
 
 ```js filename="next.config.js"
 
 module.exports = {
   compiler: {
     emotion: boolean | {
-      // default is true. It will be disabled when build type is production.
+      // mặc định là true. Nó sẽ bị tắt khi loại build là production.
       sourceMap?: boolean,
-      // default is 'dev-only'.
+      // mặc định là 'dev-only'.
       autoLabel?: 'never' | 'dev-only' | 'always',
-      // default is '[local]'.
-      // Allowed values: `[local]` `[filename]` and `[dirname]`
-      // This option only works when autoLabel is set to 'dev-only' or 'always'.
-      // It allows you to define the format of the resulting label.
-      // The format is defined via string where variable parts are enclosed in square brackets [].
-      // For example labelFormat: "my-classname--[local]", where [local] will be replaced with the name of the variable the result is assigned to.
+      // mặc định là '[local]'.
+      // Các giá trị được phép: `[local]` `[filename]` và `[dirname]`
+      // Tùy chọn này chỉ hoạt động khi autoLabel được đặt thành 'dev-only' hoặc 'always'.
+      // Nó cho phép bạn xác định định dạng của nhãn kết quả.
+      // Định dạng được xác định qua chuỗi trong đó các phần biến được bao quanh trong dấu ngoặc vuông [].
+      // Ví dụ labelFormat: "my-classname--[local]", trong đó [local] sẽ được thay thế bằng tên của biến mà kết quả được gán cho.
       labelFormat?: string,
-      // default is undefined.
-      // This option allows you to tell the compiler what imports it should
-      // look at to determine what it should transform so if you re-export
-      // Emotion's exports, you can still use transforms.
+      // mặc định là undefined.
+      // Tùy chọn này cho phép bạn cho trình biên dịch biết nó nên xem xét các import nào
+      // để xác định những gì nó nên chuyển đổi, vì vậy nếu bạn re-export
+      // các export của Emotion, bạn vẫn có thể sử dụng các chuyển đổi.
       importMap?: {
         [packageName: string]: {
           [exportName: string]: {
@@ -240,15 +240,15 @@ module.exports = {
 }
 ```
 
-### Minification
+### Minification (Thu nhỏ)
 
-Next.js' swc compiler is used for minification by default since v13. This is 7x faster than Terser.
+Trình biên dịch swc của Next.js được sử dụng để thu nhỏ theo mặc định kể từ v13. Nó nhanh hơn 7 lần so với Terser.
 
-> **Good to know:** Starting with v15, minification cannot be customized using `next.config.js`. Support for the `swcMinify` flag has been removed.
+> **Cần biết:** Bắt đầu từ v15, việc thu nhỏ không thể được tùy chỉnh bằng `next.config.js`. Hỗ trợ cho cờ `swcMinify` đã bị loại bỏ.
 
-### Module Transpilation
+### Module Transpilation (Chuyển đổi Module)
 
-Next.js can automatically transpile and bundle dependencies from local packages (like monorepos) or from external dependencies (`node_modules`). This replaces the `next-transpile-modules` package.
+Next.js có thể tự động chuyển đổi và đóng gói các phụ thuộc từ các gói cục bộ (như monorepos) hoặc từ các phụ thuộc bên ngoài (`node_modules`). Điều này thay thế gói `next-transpile-modules`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -256,16 +256,16 @@ module.exports = {
 }
 ```
 
-### Modularize Imports
+### Modularize Imports (Mô-đun hóa Import)
 
-This option has been superseded by [`optimizePackageImports`](/docs/app/api-reference/config/next-config-js/optimizePackageImports) in Next.js 13.5. We recommend upgrading to use the new option that does not require manual configuration of import paths.
+Tùy chọn này đã được thay thế bởi [`optimizePackageImports`](/docs/app/api-reference/config/next-config-js/optimizePackageImports) trong Next.js 13.5. Chúng tôi khuyên bạn nên nâng cấp để sử dụng tùy chọn mới không yêu cầu cấu hình thủ công các đường dẫn import.
 
-### Define (Replacing variables during build)
+### Define (Thay thế biến trong quá trình build)
 
-The `define` option allows you to statically replace variables in your code at build-time.
-The option takes an object as key-value pairs, where the keys are the variables that should be replaced with the corresponding values.
+Tùy chọn `define` cho phép bạn thay thế tĩnh các biến trong mã của mình tại thời điểm build.
+Tùy chọn này nhận một đối tượng dưới dạng các cặp key-value, trong đó các key là các biến cần được thay thế bằng các giá trị tương ứng.
 
-Use the `compiler.define` field in `next.config.js` to define variables for all environments (server, edge, and client). Or, use `compiler.defineServer` to define variables only for server-side (server and edge) code:
+Sử dụng trường `compiler.define` trong `next.config.js` để định nghĩa các biến cho tất cả các môi trường (server, edge, và client). Hoặc, sử dụng `compiler.defineServer` để định nghĩa các biến chỉ cho mã phía máy chủ (server và edge):
 
 ```js filename="next.config.js"
 module.exports = {
@@ -281,34 +281,34 @@ module.exports = {
 }
 ```
 
-### Build Lifecycle Hooks
+### Build Lifecycle Hooks (Hooks Vòng đời Build)
 
-The Next.js Compiler supports lifecycle hooks that allow you to run custom code at specific points during the build process. Currently, the following hook is supported:
+Trình biên dịch Next.js hỗ trợ các lifecycle hooks cho phép bạn chạy mã tùy chỉnh tại các điểm cụ thể trong quá trình build. Hiện tại, hook sau được hỗ trợ:
 
 #### runAfterProductionCompile
 
-A hook function that executes after production build compilation finishes, but before running post-compilation tasks such as type checking and static page generation. This hook provides access to project metadata including the project directory and build output directory, making it useful for third-party tools to collect build outputs like sourcemaps.
+Một hàm hook thực thi sau khi quá trình biên dịch build production kết thúc, nhưng trước khi chạy các tác vụ sau biên dịch như kiểm tra kiểu (type checking) và tạo trang tĩnh. Hook này cung cấp quyền truy cập vào siêu dữ liệu dự án bao gồm thư mục dự án và thư mục đầu ra build, làm cho nó hữu ích cho các công cụ của bên thứ ba để thu thập các kết quả build như sourcemaps.
 
 ```js filename="next.config.js"
 module.exports = {
   compiler: {
     runAfterProductionCompile: async ({ distDir, projectDir }) => {
-      // Your custom code here
+      // Mã tùy chỉnh của bạn ở đây
     },
   },
 }
 ```
 
-The hook receives an object with the following properties:
+Hook nhận một đối tượng với các thuộc tính sau:
 
-- `distDir`: The build output directory (defaults to `.next`)
-- `projectDir`: The root directory of the project
+- `distDir`: Thư mục đầu ra build (mặc định là `.next`)
+- `projectDir`: Thư mục gốc của dự án
 
-## Experimental Features
+## Các tính năng thử nghiệm
 
 ### SWC Trace profiling
 
-You can generate SWC's internal transform traces as chromium's [trace event format](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview?mode=html#%21=).
+Bạn có thể tạo các dấu vết chuyển đổi nội bộ của SWC dưới dạng [định dạng sự kiện dấu vết](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview?mode=html#%21=) của chromium.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -318,11 +318,11 @@ module.exports = {
 }
 ```
 
-Once enabled, swc will generate trace named as `swc-trace-profile-${timestamp}.json` under `.next/`. Chromium's trace viewer (chrome://tracing/, https://ui.perfetto.dev/), or compatible flamegraph viewer (https://www.speedscope.app/) can load & visualize generated traces.
+Sau khi được bật, swc sẽ tạo dấu vết có tên là `swc-trace-profile-${timestamp}.json` dưới `.next/`. Trình xem dấu vết của Chromium (chrome://tracing/, https://ui.perfetto.dev/), hoặc trình xem flamegraph tương thích (https://www.speedscope.app/) có thể tải và hiển thị các dấu vết đã tạo.
 
-### SWC Plugins (experimental)
+### SWC Plugins (thử nghiệm)
 
-You can configure swc's transform to use SWC's experimental plugin support written in wasm to customize transformation behavior.
+Bạn có thể định cấu hình chuyển đổi của swc để sử dụng hỗ trợ plugin thử nghiệm của SWC được viết bằng wasm để tùy chỉnh hành vi chuyển đổi.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -339,21 +339,21 @@ module.exports = {
 }
 ```
 
-`swcPlugins` accepts an array of tuples for configuring plugins. A tuple for the plugin contains the path to the plugin and an object for plugin configuration. The path to the plugin can be an npm module package name or an absolute path to the `.wasm` binary itself.
+`swcPlugins` chấp nhận một mảng các bộ giá trị (tuples) để định cấu hình plugin. Một bộ giá trị cho plugin chứa đường dẫn đến plugin và một đối tượng cho cấu hình plugin. Đường dẫn đến plugin có thể là tên gói mô-đun npm hoặc đường dẫn tuyệt đối đến chính tệp nhị phân `.wasm`.
 
-## Unsupported Features
+## Các tính năng không được hỗ trợ
 
-When your application has a `.babelrc` file, Next.js will automatically fall back to using Babel for transforming individual files. This ensures backwards compatibility with existing applications that leverage custom Babel plugins.
+Khi ứng dụng của bạn có tệp `.babelrc`, Next.js sẽ tự động quay lại sử dụng Babel để chuyển đổi các tệp riêng lẻ. Điều này đảm bảo khả năng tương thích ngược với các ứng dụng hiện có tận dụng các plugin Babel tùy chỉnh.
 
-If you're using a custom Babel setup, [please share your configuration](https://github.com/vercel/next.js/discussions/30174). We're working to port as many commonly used Babel transformations as possible, as well as supporting plugins in the future.
+Nếu bạn đang sử dụng thiết lập Babel tùy chỉnh, [vui lòng chia sẻ cấu hình của bạn](https://github.com/vercel/next.js/discussions/30174). Chúng tôi đang làm việc để port càng nhiều chuyển đổi Babel thường được sử dụng càng tốt, cũng như hỗ trợ các plugin trong tương lai.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                                                                                                                  |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v13.1.0` | [Module Transpilation](https://nextjs.org/blog/next-13-1#built-in-module-transpilation-stable) and [Modularize Imports](https://nextjs.org/blog/next-13-1#import-resolution-for-smaller-bundles) stable. |
-| `v13.0.0` | SWC Minifier enabled by default.                                                                                                                                                                         |
-| `v12.3.0` | SWC Minifier [stable](https://nextjs.org/blog/next-12-3#swc-minifier-stable).                                                                                                                            |
-| `v12.2.0` | [SWC Plugins](#swc-plugins-experimental) experimental support added.                                                                                                                                     |
-| `v12.1.0` | Added support for Styled Components, Jest, Relay, Remove React Properties, Legacy Decorators, Remove Console, and jsxImportSource.                                                                       |
-| `v12.0.0` | Next.js Compiler [introduced](https://nextjs.org/blog/next-12).                                                                                                                                          |
+| Phiên bản | Thay đổi                                                                                                                                                                                                    |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v13.1.0` | [Module Transpilation](https://nextjs.org/blog/next-13-1#built-in-module-transpilation-stable) và [Modularize Imports](https://nextjs.org/blog/next-13-1#import-resolution-for-smaller-bundles) đã ổn định. |
+| `v13.0.0` | SWC Minifier được bật mặc định.                                                                                                                                                                             |
+| `v12.3.0` | SWC Minifier [ổn định](https://nextjs.org/blog/next-12-3#swc-minifier-stable).                                                                                                                              |
+| `v12.2.0` | Đã thêm hỗ trợ thử nghiệm [SWC Plugins](#swc-plugins-experimental).                                                                                                                                         |
+| `v12.1.0` | Đã thêm hỗ trợ cho Styled Components, Jest, Relay, Remove React Properties, Legacy Decorators, Remove Console, và jsxImportSource.                                                                          |
+| `v12.0.0` | Trình biên dịch Next.js [được giới thiệu](https://nextjs.org/blog/next-12).                                                                                                                                 |

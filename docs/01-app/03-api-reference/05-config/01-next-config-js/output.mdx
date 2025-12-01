@@ -1,29 +1,29 @@
 ---
 title: output
-description: Next.js automatically traces which files are needed by each page to allow for easy deployment of your application. Learn how it works here.
+description: Next.js tự động theo dõi các tệp cần thiết cho mỗi trang để cho phép triển khai ứng dụng của bạn dễ dàng. Tìm hiểu cách nó hoạt động tại đây.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-During a build, Next.js will automatically trace each page and its dependencies to determine all of the files that are needed for deploying a production version of your application.
+Trong quá trình build, Next.js sẽ tự động theo dõi từng trang và các dependencies của nó để xác định tất cả các tệp cần thiết cho việc triển khai phiên bản production của ứng dụng của bạn.
 
-This feature helps reduce the size of deployments drastically. Previously, when deploying with Docker you would need to have all files from your package's `dependencies` installed to run `next start`. Starting with Next.js 12, you can leverage Output File Tracing in the `.next/` directory to only include the necessary files.
+Tính năng này giúp giảm đáng kể kích thước của các bản triển khai. Trước đây, khi triển khai với Docker, bạn sẽ cần cài đặt tất cả các tệp từ `dependencies` của gói để chạy `next start`. Bắt đầu từ Next.js 12, bạn có thể tận dụng Output File Tracing trong thư mục `.next/` để chỉ bao gồm các tệp cần thiết.
 
-Furthermore, this removes the need for the deprecated `serverless` target which can cause various issues and also creates unnecessary duplication.
+Hơn nữa, điều này loại bỏ nhu cầu về target `serverless` không dùng nữa, có thể gây ra nhiều vấn đề khác nhau và cũng tạo ra sự trùng lặp không cần thiết.
 
-## How it Works
+## Cách nó hoạt động
 
-During `next build`, Next.js will use [`@vercel/nft`](https://github.com/vercel/nft) to statically analyze `import`, `require`, and `fs` usage to determine all files that a page might load.
+Trong quá trình `next build`, Next.js sẽ sử dụng [`@vercel/nft`](https://github.com/vercel/nft) để phân tích tĩnh việc sử dụng `import`, `require`, và `fs` để xác định tất cả các tệp mà một trang có thể tải.
 
-Next.js' production server is also traced for its needed files and output at `.next/next-server.js.nft.json` which can be leveraged in production.
+Production server của Next.js cũng được theo dõi các tệp cần thiết và xuất ra tại `.next/next-server.js.nft.json` có thể được tận dụng trong production.
 
-To leverage the `.nft.json` files emitted to the `.next` output directory, you can read the list of files in each trace that are relative to the `.nft.json` file and then copy them to your deployment location.
+Để tận dụng các tệp `.nft.json` được phát ra thư mục output `.next`, bạn có thể đọc danh sách các tệp trong mỗi trace tương đối với tệp `.nft.json` và sau đó sao chép chúng đến vị trí triển khai của bạn.
 
-## Automatically Copying Traced Files
+## Tự động sao chép các tệp được theo dõi
 
-Next.js can automatically create a `standalone` folder that copies only the necessary files for a production deployment including select files in `node_modules`.
+Next.js có thể tự động tạo một thư mục `standalone` sao chép chỉ các tệp cần thiết cho một bản triển khai production bao gồm các tệp chọn lọc trong `node_modules`.
 
-To leverage this automatic copying you can enable it in your `next.config.js`:
+Để tận dụng việc sao chép tự động này, bạn có thể kích hoạt nó trong `next.config.js` của mình:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -31,17 +31,17 @@ module.exports = {
 }
 ```
 
-This will create a folder at `.next/standalone` which can then be deployed on its own without installing `node_modules`.
+Điều này sẽ tạo ra một thư mục tại `.next/standalone` sau đó có thể được triển khai riêng mà không cần cài đặt `node_modules`.
 
-Additionally, a minimal `server.js` file is also output which can be used instead of `next start`. This minimal server does not copy the `public` or `.next/static` folders by default as these should ideally be handled by a CDN instead, although these folders can be copied to the `standalone/public` and `standalone/.next/static` folders manually, after which `server.js` file will serve these automatically.
+Ngoài ra, một tệp `server.js` tối thiểu cũng được xuất ra có thể được sử dụng thay vì `next start`. Server tối thiểu này không sao chép các thư mục `public` hoặc `.next/static` theo mặc định vì những thư mục này lý tưởng nhất nên được xử lý bởi CDN, mặc dù các thư mục này có thể được sao chép thủ công vào các thư mục `standalone/public` và `standalone/.next/static`, sau đó tệp `server.js` sẽ phục vụ chúng tự động.
 
-To copy these manually, you can use the `cp` command-line tool after you `next build`:
+Để sao chép chúng thủ công, bạn có thể sử dụng công cụ dòng lệnh `cp` sau khi `next build`:
 
 ```bash filename="Terminal"
 cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/
 ```
 
-To start your minimal `server.js` file locally, run the following command:
+Để khởi động tệp `server.js` tối thiểu của bạn cục bộ, hãy chạy lệnh sau:
 
 ```bash filename="Terminal"
 node .next/standalone/server.js
@@ -49,24 +49,24 @@ node .next/standalone/server.js
 
 <AppOnly>
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - If your project needs to listen to a specific port or hostname, you can define `PORT` or `HOSTNAME` environment variables before running `server.js`. For example, run `PORT=8080 HOSTNAME=0.0.0.0 node server.js` to start the server on `http://0.0.0.0:8080`.
+> - Nếu dự án của bạn cần lắng nghe một cổng hoặc hostname cụ thể, bạn có thể định nghĩa các biến môi trường `PORT` hoặc `HOSTNAME` trước khi chạy `server.js`. Ví dụ, chạy `PORT=8080 HOSTNAME=0.0.0.0 node server.js` để khởi động server trên `http://0.0.0.0:8080`.
 
 </AppOnly>
 
 <PagesOnly>
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - `next.config.js` is read during `next build` and serialized into the `server.js` output file.
-> - If your project needs to listen to a specific port or hostname, you can define `PORT` or `HOSTNAME` environment variables before running `server.js`. For example, run `PORT=8080 HOSTNAME=0.0.0.0 node server.js` to start the server on `http://0.0.0.0:8080`.
+> - `next.config.js` được đọc trong quá trình `next build` và được serialize vào tệp output `server.js`.
+> - Nếu dự án của bạn cần lắng nghe một cổng hoặc hostname cụ thể, bạn có thể định nghĩa các biến môi trường `PORT` hoặc `HOSTNAME` trước khi chạy `server.js`. Ví dụ, chạy `PORT=8080 HOSTNAME=0.0.0.0 node server.js` để khởi động server trên `http://0.0.0.0:8080`.
 
 </PagesOnly>
 
-## Caveats
+## Lưu ý
 
-- While tracing in monorepo setups, the project directory is used for tracing by default. For `next build packages/web-app`, `packages/web-app` would be the tracing root and any files outside of that folder will not be included. To include files outside of this folder you can set `outputFileTracingRoot` in your `next.config.js`.
+- Trong khi theo dõi trong các thiết lập monorepo, thư mục dự án được sử dụng để theo dõi theo mặc định. Đối với `next build packages/web-app`, `packages/web-app` sẽ là tracing root và bất kỳ tệp nào bên ngoài thư mục đó sẽ không được bao gồm. Để bao gồm các tệp bên ngoài thư mục này, bạn có thể đặt `outputFileTracingRoot` trong `next.config.js` của mình.
 
 ```js filename="packages/web-app/next.config.js"
 const path = require('path')
@@ -77,10 +77,10 @@ module.exports = {
 }
 ```
 
-- There are some cases in which Next.js might fail to include required files, or might incorrectly include unused files. In those cases, you can leverage `outputFileTracingExcludes` and `outputFileTracingIncludes` respectively in `next.config.js`. Each option accepts an object whose keys are **route globs** (matched with [picomatch](https://www.npmjs.com/package/picomatch#basic-globbing) against the route path, e.g. `/api/hello`) and whose values are **glob patterns resolved from the project root** that specify files to include or exclude in the trace.
+- Có một số trường hợp Next.js có thể không bao gồm các tệp cần thiết, hoặc có thể bao gồm sai các tệp không sử dụng. Trong những trường hợp đó, bạn có thể tận dụng `outputFileTracingExcludes` và `outputFileTracingIncludes` tương ứng trong `next.config.js`. Mỗi tùy chọn chấp nhận một object có các key là **route globs** (được khớp với [picomatch](https://www.npmjs.com/package/picomatch#basic-globbing) so với đường dẫn route, ví dụ `/api/hello`) và có các value là **glob patterns được giải quyết từ project root** chỉ định các tệp để bao gồm hoặc loại trừ trong trace.
 
-> **Good to know**:
-> In a monorepo, `project root` refers to the Next.js project root (the folder containing next.config.js, e.g., packages/web-app), not necessarily the monorepo root.
+> **Nên biết**:
+> Trong một monorepo, `project root` đề cập đến Next.js project root (thư mục chứa next.config.js, ví dụ: packages/web-app), không nhất thiết là monorepo root.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -96,10 +96,10 @@ module.exports = {
 }
 ```
 
-Using a `src/` directory does not change how you write these options:
+Sử dụng thư mục `src/` không thay đổi cách bạn viết các tùy chọn này:
 
-- **Keys** still match the route path (`'/api/hello'`, `'/products/[id]'`, etc.).
-- **Values** can reference paths under `src/` since they are resolved relative to the project root.
+- **Keys** vẫn khớp với đường dẫn route (`'/api/hello'`, `'/products/[id]'`, v.v.).
+- **Values** có thể tham chiếu đến các đường dẫn dưới `src/` vì chúng được giải quyết tương đối với project root.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -113,7 +113,7 @@ module.exports = {
 }
 ```
 
-You can also target all routes using a global key like `'/*'`:
+Bạn cũng có thể nhắm mục tiêu tất cả các routes bằng cách sử dụng một global key như `'/*'`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -123,12 +123,12 @@ module.exports = {
 }
 ```
 
-These options are applied to server traces and do not affect routes that do not produce a server trace file:
+Các tùy chọn này được áp dụng cho server traces và không ảnh hưởng đến các routes không tạo ra tệp server trace:
 
-- Edge Runtime routes are not affected.
-- Fully static pages are not affected.
+- Edge Runtime routes không bị ảnh hưởng.
+- Các trang hoàn toàn tĩnh không bị ảnh hưởng.
 
-In monorepos or when you need to include files outside the app folder, combine `outputFileTracingRoot` with includes:
+Trong monorepos hoặc khi bạn cần bao gồm các tệp bên ngoài thư mục app, hãy kết hợp `outputFileTracingRoot` với includes:
 
 ```js filename="next.config.js"
 const path = require('path')
@@ -142,12 +142,12 @@ module.exports = {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> - Prefer forward slashes (`/`) in patterns for cross-platform compatibility.
-> - Keep patterns as narrow as possible to avoid oversized traces (avoid `**/*` at the repo root).
+> - Ưu tiên dấu gạch chéo (`/`) trong các patterns để tương thích đa nền tảng.
+> - Giữ các patterns càng hẹp càng tốt để tránh traces quá lớn (tránh `**/*` tại repo root).
 
-Common include patterns for native/runtime assets:
+Các include patterns phổ biến cho native/runtime assets:
 
 ```js filename="next.config.js"
 module.exports = {

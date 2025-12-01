@@ -1,14 +1,14 @@
 ---
 title: draftMode
-description: API Reference for the draftMode function.
+description: Tài liệu tham khảo API cho hàm draftMode.
 related:
-  title: Next Steps
-  description: Learn how to use Draft Mode with this step-by-step guide.
+  title: Bước tiếp theo
+  description: Tìm hiểu cách sử dụng Draft Mode với hướng dẫn từng bước này.
   links:
     - app/guides/draft-mode
 ---
 
-`draftMode` is an **async** function allows you to enable and disable [Draft Mode](/docs/app/guides/draft-mode), as well as check if Draft Mode is enabled in a [Server Component](/docs/app/getting-started/server-and-client-components).
+`draftMode` là một hàm **async** cho phép bạn enable và disable [Draft Mode](/docs/app/guides/draft-mode), cũng như kiểm tra xem Draft Mode có được enable hay không trong một [Server Component](/docs/app/getting-started/server-and-client-components).
 
 ```tsx filename="app/page.ts" switcher
 import { draftMode } from 'next/headers'
@@ -26,28 +26,28 @@ export default async function Page() {
 }
 ```
 
-## Reference
+## Tham khảo
 
-The following methods and properties are available:
+Các phương thức và thuộc tính sau đây có sẵn:
 
-| Method      | Description                                                                       |
-| ----------- | --------------------------------------------------------------------------------- |
-| `isEnabled` | A boolean value that indicates if Draft Mode is enabled.                          |
-| `enable()`  | Enables Draft Mode in a Route Handler by setting a cookie (`__prerender_bypass`). |
-| `disable()` | Disables Draft Mode in a Route Handler by deleting a cookie.                      |
+| Phương thức | Mô tả                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| `isEnabled` | Một giá trị boolean cho biết liệu Draft Mode có được enable hay không.                     |
+| `enable()`  | Enable Draft Mode trong một Route Handler bằng cách set một cookie (`__prerender_bypass`). |
+| `disable()` | Disable Draft Mode trong một Route Handler bằng cách xóa một cookie.                       |
 
-## Good to know
+## Nên biết
 
-- `draftMode` is an **asynchronous** function that returns a promise. You must use `async/await` or React's [`use`](https://react.dev/reference/react/use) function.
-  - In version 14 and earlier, `draftMode` was a synchronous function. To help with backwards compatibility, you can still access it synchronously in Next.js 15, but this behavior will be deprecated in the future.
-- A new bypass cookie value will be generated each time you run `next build`. This ensures that the bypass cookie can’t be guessed.
-- To test Draft Mode locally over HTTP, your browser will need to allow third-party cookies and local storage access.
+- `draftMode` là một hàm **asynchronous** trả về một promise. Bạn phải sử dụng `async/await` hoặc hàm [`use`](https://react.dev/reference/react/use) của React.
+  - Trong phiên bản 14 và trước đó, `draftMode` là một hàm đồng bộ. Để giúp tương thích ngược, bạn vẫn có thể truy cập nó một cách đồng bộ trong Next.js 15, nhưng hành vi này sẽ bị deprecated trong tương lai.
+- Một giá trị bypass cookie mới sẽ được tạo mỗi khi bạn chạy `next build`. Điều này đảm bảo rằng bypass cookie không thể bị đoán.
+- Để test Draft Mode locally qua HTTP, trình duyệt của bạn sẽ cần cho phép third-party cookies và local storage access.
 
-## Examples
+## Ví dụ
 
-### Enabling Draft Mode
+### Enable Draft Mode
 
-To enable Draft Mode, create a new [Route Handler](/docs/app/api-reference/file-conventions/route) and call the `enable()` method:
+Để enable Draft Mode, hãy tạo một [Route Handler](/docs/app/api-reference/file-conventions/route) mới và gọi phương thức `enable()`:
 
 ```tsx filename="app/draft/route.ts" switcher
 import { draftMode } from 'next/headers'
@@ -69,11 +69,11 @@ export async function GET(request) {
 }
 ```
 
-### Disabling Draft Mode
+### Disable Draft Mode
 
-By default, the Draft Mode session ends when the browser is closed.
+Theo mặc định, Draft Mode session kết thúc khi trình duyệt bị đóng.
 
-To disable Draft Mode manually, call the `disable()` method in your [Route Handler](/docs/app/api-reference/file-conventions/route):
+Để disable Draft Mode thủ công, hãy gọi phương thức `disable()` trong [Route Handler](/docs/app/api-reference/file-conventions/route) của bạn:
 
 ```tsx filename="app/draft/route.ts" switcher
 import { draftMode } from 'next/headers'
@@ -95,11 +95,11 @@ export async function GET(request) {
 }
 ```
 
-Then, send a request to invoke the Route Handler. If calling the route using the [`<Link>` component](/docs/app/api-reference/components/link), you must pass `prefetch={false}` to prevent accidentally deleting the cookie on prefetch.
+Sau đó, gửi một request để invoke Route Handler. Nếu gọi route bằng cách sử dụng [component `<Link>`](/docs/app/api-reference/components/link), bạn phải truyền `prefetch={false}` để tránh vô tình xóa cookie khi prefetch.
 
-### Checking if Draft Mode is enabled
+### Kiểm tra xem Draft Mode có được enable hay không
 
-You can check if Draft Mode is enabled in a Server Component with the `isEnabled` property:
+Bạn có thể kiểm tra xem Draft Mode có được enable hay không trong một Server Component với thuộc tính `isEnabled`:
 
 ```tsx filename="app/page.ts" switcher
 import { draftMode } from 'next/headers'
@@ -129,9 +129,9 @@ export default async function Page() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version      | Changes                                                                                                  |
-| ------------ | -------------------------------------------------------------------------------------------------------- |
-| `v15.0.0-RC` | `draftMode` is now an async function. A [codemod](/docs/app/guides/upgrading/codemods#150) is available. |
-| `v13.4.0`    | `draftMode` introduced.                                                                                  |
+| Phiên bản    | Thay đổi                                                                                              |
+| ------------ | ----------------------------------------------------------------------------------------------------- |
+| `v15.0.0-RC` | `draftMode` giờ là một async function. Một [codemod](/docs/app/guides/upgrading/codemods#150) có sẵn. |
+| `v13.4.0`    | `draftMode` được giới thiệu.                                                                          |

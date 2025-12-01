@@ -1,17 +1,17 @@
 ---
 title: compress
-description: Next.js provides gzip compression to compress rendered content and static files, it only works with the server target. Learn more about it here.
+description: Next.js cung cấp nén gzip để nén nội dung được render và các tệp tĩnh, nó chỉ hoạt động với server target. Tìm hiểu thêm về nó tại đây.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-By default, Next.js uses `gzip` to compress rendered content and static files when using `next start` or a custom server. This is an optimization for applications that do not have compression configured. If compression is _already_ configured in your application via a custom server, Next.js will not add compression.
+Theo mặc định, Next.js sử dụng `gzip` để nén nội dung được render và các tệp tĩnh khi sử dụng `next start` hoặc custom server. Đây là một tối ưu hóa cho các ứng dụng không có cấu hình nén. Nếu nén _đã_ được cấu hình trong ứng dụng của bạn thông qua custom server, Next.js sẽ không thêm nén.
 
-You can check if compression is enabled and which algorithm is used by looking at the [`Accept-Encoding`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) (browser accepted options) and [`Content-Encoding`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) (currently used) headers in the response.
+Bạn có thể kiểm tra xem nén có được kích hoạt hay không và thuật toán nào đang được sử dụng bằng cách xem các header [`Accept-Encoding`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) (các tùy chọn được trình duyệt chấp nhận) và [`Content-Encoding`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) (hiện đang được sử dụng) trong phản hồi.
 
-## Disabling compression
+## Vô hiệu hóa nén
 
-To disable **compression**, set the `compress` config option to `false`:
+Để vô hiệu hóa **nén**, hãy đặt tùy chọn cấu hình `compress` thành `false`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -19,4 +19,4 @@ module.exports = {
 }
 ```
 
-We **do not recommend disabling compression** unless you have compression configured on your server, as compression reduces bandwidth usage and improves the performance of your application. For example, you're using [nginx](https://nginx.org/) and want to switch to `brotli`, set the `compress` option to `false` to allow nginx to handle compression.
+Chúng tôi **không khuyến nghị vô hiệu hóa nén** trừ khi bạn đã cấu hình nén trên server của mình, vì nén giảm mức sử dụng băng thông và cải thiện hiệu suất của ứng dụng của bạn. Ví dụ, bạn đang sử dụng [nginx](https://nginx.org/) và muốn chuyển sang `brotli`, hãy đặt tùy chọn `compress` thành `false` để cho phép nginx xử lý nén.

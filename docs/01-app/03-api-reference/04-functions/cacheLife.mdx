@@ -1,9 +1,9 @@
 ---
 title: cacheLife
-description: Learn how to use the cacheLife function to set the cache expiration time for a cached function or component.
+description: Tìm hiểu cách sử dụng hàm cacheLife để đặt thời gian hết hạn cache cho một hàm hoặc component được cache.
 related:
-  title: Related
-  description: View related API references.
+  title: Liên quan
+  description: Xem các tài liệu tham khảo API liên quan.
   links:
     - app/api-reference/config/next-config-js/cacheComponents
     - app/api-reference/directives/use-cache
@@ -11,11 +11,11 @@ related:
     - app/api-reference/functions/cacheTag
 ---
 
-The `cacheLife` function is used to set the cache lifetime of a function or component. It should be used alongside the [`use cache`](/docs/app/api-reference/directives/use-cache) directive, and within the scope of the function or component.
+Hàm `cacheLife` được sử dụng để đặt thời gian tồn tại cache của một hàm hoặc component. Nó nên được sử dụng cùng với directive [`use cache`](/docs/app/api-reference/directives/use-cache), và trong phạm vi của hàm hoặc component.
 
-## Usage
+## Sử dụng
 
-To use `cacheLife`, enable the [`cacheComponents` flag](/docs/app/api-reference/config/next-config-js/cacheComponents) in your `next.config.js` file:
+Để sử dụng `cacheLife`, hãy bật [cờ `cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) trong file `next.config.js` của bạn:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -35,7 +35,7 @@ const nextConfig = {
 export default nextConfig
 ```
 
-Then, import and invoke the `cacheLife` function within the scope of the function or component:
+Sau đó, import và gọi hàm `cacheLife` trong phạm vi của hàm hoặc component:
 
 ```tsx filename="app/page.tsx" highlight={5} switcher
 'use cache'
@@ -57,55 +57,55 @@ export default async function Page() {
 }
 ```
 
-## Reference
+## Tham khảo
 
-### Default cache profiles
+### Các cache profiles mặc định
 
-Next.js provides a set of named cache profiles modeled on various timescales. If you don't specify a cache profile in the `cacheLife` function alongside the `use cache` directive, Next.js will automatically apply the `default` cache profile.
+Next.js cung cấp một tập hợp các cache profiles được đặt tên mô phỏng theo các khoảng thời gian khác nhau. Nếu bạn không chỉ định một cache profile trong hàm `cacheLife` cùng với directive `use cache`, Next.js sẽ tự động áp dụng cache profile `default`.
 
-However, we recommend always adding a cache profile when using the `use cache` directive to explicitly define caching behavior.
+Tuy nhiên, chúng tôi khuyên bạn luôn thêm một cache profile khi sử dụng directive `use cache` để định nghĩa rõ ràng hành vi caching.
 
-| **Profile** | `stale`    | `revalidate` | `expire` | **Description**                                                          |
-| ----------- | ---------- | ------------ | -------- | ------------------------------------------------------------------------ |
-| `default`   | 5 minutes  | 15 minutes   | 1 year   | Default profile, suitable for content that doesn't need frequent updates |
-| `seconds`   | 30 seconds | 1 second     | 1 minute | For rapidly changing content requiring near real-time updates            |
-| `minutes`   | 5 minutes  | 1 minute     | 1 hour   | For content that updates frequently within an hour                       |
-| `hours`     | 5 minutes  | 1 hour       | 1 day    | For content that updates daily but can be slightly stale                 |
-| `days`      | 5 minutes  | 1 day        | 1 week   | For content that updates weekly but can be a day old                     |
-| `weeks`     | 5 minutes  | 1 week       | 30 days  | For content that updates monthly but can be a week old                   |
-| `max`       | 5 minutes  | 30 days      | 1 year   | For very stable content that rarely needs updating                       |
+| **Profile** | `stale` | `revalidate` | `expire` | **Mô tả**                                                                 |
+| ----------- | ------- | ------------ | -------- | ------------------------------------------------------------------------- |
+| `default`   | 5 phút  | 15 phút      | 1 năm    | Profile mặc định, phù hợp cho nội dung không cần cập nhật thường xuyên    |
+| `seconds`   | 30 giây | 1 giây       | 1 phút   | Cho nội dung thay đổi nhanh chóng yêu cầu cập nhật gần như thời gian thực |
+| `minutes`   | 5 phút  | 1 phút       | 1 giờ    | Cho nội dung cập nhật thường xuyên trong vòng một giờ                     |
+| `hours`     | 5 phút  | 1 giờ        | 1 ngày   | Cho nội dung cập nhật hàng ngày nhưng có thể hơi cũ                       |
+| `days`      | 5 phút  | 1 ngày       | 1 tuần   | Cho nội dung cập nhật hàng tuần nhưng có thể cũ một ngày                  |
+| `weeks`     | 5 phút  | 1 tuần       | 30 ngày  | Cho nội dung cập nhật hàng tháng nhưng có thể cũ một tuần                 |
+| `max`       | 5 phút  | 30 ngày      | 1 năm    | Cho nội dung rất ổn định hiếm khi cần cập nhật                            |
 
-The string values used to reference cache profiles don't carry inherent meaning; instead they serve as semantic labels. This allows you to better understand and manage your cached content within your codebase.
+Các giá trị chuỗi được sử dụng để tham chiếu cache profiles không mang ý nghĩa cố hữu; thay vào đó chúng đóng vai trò là các nhãn ngữ nghĩa. Điều này cho phép bạn hiểu rõ hơn và quản lý nội dung được cache trong codebase của mình.
 
-> **Good to know:** Updating the [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes) and [`expireTime`](/docs/app/api-reference/config/next-config-js/expireTime) config options also updates the `stale` and `expire` properties of the `default` cache profile.
+> **Lưu ý:** Cập nhật các tùy chọn cấu hình [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes) và [`expireTime`](/docs/app/api-reference/config/next-config-js/expireTime) cũng cập nhật các thuộc tính `stale` và `expire` của cache profile `default`.
 
-### Custom cache profiles
+### Các cache profiles tùy chỉnh
 
-You can configure custom cache profiles by adding them to the [`cacheLife`](/docs/app/api-reference/config/next-config-js/cacheLife) option in your `next.config.ts` file.
+Bạn có thể cấu hình các cache profiles tùy chỉnh bằng cách thêm chúng vào tùy chọn [`cacheLife`](/docs/app/api-reference/config/next-config-js/cacheLife) trong file `next.config.ts` của bạn.
 
-Cache profiles are objects that contain the following properties:
+Cache profiles là các objects chứa các thuộc tính sau:
 
-| **Property** | **Value** | **Description**                                                                                                             | **Requirement**                             |
-| ------------ | --------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| `stale`      | `number`  | Duration the client should cache a value without checking the server.                                                       | Optional                                    |
-| `revalidate` | `number`  | Frequency at which the cache should refresh on the server; stale values may be served while revalidating.                   | Optional                                    |
-| `expire`     | `number`  | Maximum duration for which a value can remain stale before switching to dynamic fetching; must be longer than `revalidate`. | Optional - Must be longer than `revalidate` |
+| **Thuộc tính** | **Giá trị** | **Mô tả**                                                                                                             | **Yêu cầu**                          |
+| -------------- | ----------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `stale`        | `number`    | Thời lượng client nên cache một giá trị mà không cần kiểm tra server.                                                 | Tùy chọn                             |
+| `revalidate`   | `number`    | Tần suất cache nên refresh trên server; các giá trị cũ có thể được phục vụ trong khi revalidating.                    | Tùy chọn                             |
+| `expire`       | `number`    | Thời lượng tối đa mà một giá trị có thể duy trì cũ trước khi chuyển sang dynamic fetching; phải dài hơn `revalidate`. | Tùy chọn - Phải dài hơn `revalidate` |
 
-The "stale" property differs from the [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes) setting in that it specifically controls client-side router caching. While `staleTimes` is a global setting that affects all instances of both dynamic and static data, the `cacheLife` configuration allows you to define "stale" times on a per-function or per-route basis.
+Thuộc tính "stale" khác với cài đặt [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes) ở chỗ nó kiểm soát cụ thể client-side router caching. Trong khi `staleTimes` là một cài đặt global ảnh hưởng đến tất cả các instances của cả dữ liệu dynamic và static, cấu hình `cacheLife` cho phép bạn định nghĩa thời gian "stale" trên cơ sở từng hàm hoặc từng route.
 
-### `stale` time in the client router cache
+### Thời gian `stale` trong client router cache
 
-The "stale" property does not set the `Cache-control: max-age` header. Instead, it controls the client-side router cache. The server sends this value to the client via the `x-nextjs-stale-time` response header (in seconds), which the client router uses to determine how long to cache the route before needing to revalidate.
+Thuộc tính "stale" không đặt header `Cache-control: max-age`. Thay vào đó, nó kiểm soát client-side router cache. Server gửi giá trị này đến client thông qua response header `x-nextjs-stale-time` (tính bằng giây), mà client router sử dụng để xác định bao lâu để cache route trước khi cần revalidate.
 
-**The client enforces a minimum stale time of 30 seconds**: This ensures that prefetched data remains usable long enough for users to click on links after they've been prefetched. Without this minimum, very short stale times would cause prefetched data to expire before it could be used, making prefetching ineffective.
+**Client thực thi thời gian stale tối thiểu là 30 giây**: Điều này đảm bảo rằng dữ liệu đã prefetch vẫn có thể sử dụng đủ lâu để người dùng nhấp vào các liên kết sau khi chúng đã được prefetch. Nếu không có mức tối thiểu này, thời gian stale rất ngắn sẽ khiến dữ liệu đã prefetch hết hạn trước khi nó có thể được sử dụng, làm cho việc prefetching không hiệu quả.
 
-This minimum only applies to time-based expiration. When you call [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag), [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath), [`updateTag`](/docs/app/api-reference/functions/updateTag), or [`refresh`](/docs/app/api-reference/functions/refresh) from a Server Action, the entire client cache is immediately cleared, bypassing the stale time entirely.
+Mức tối thiểu này chỉ áp dụng cho việc hết hạn dựa trên thời gian. Khi bạn gọi [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag), [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath), [`updateTag`](/docs/app/api-reference/functions/updateTag), hoặc [`refresh`](/docs/app/api-reference/functions/refresh) từ một Server Action, toàn bộ client cache sẽ bị xóa ngay lập tức, bỏ qua hoàn toàn thời gian stale.
 
-## Examples
+## Ví dụ
 
-### Defining reusable cache profiles
+### Định nghĩa các cache profiles tái sử dụng
 
-You can create a reusable cache profile by defining them in your `next.config.ts` file. Choose a name that suits your use case and set values for the `stale`, `revalidate`, and `expire` properties. You can create as many custom cache profiles as needed. Each profile can be referenced by its name as a string value passed to the `cacheLife` function.
+Bạn có thể tạo một cache profile tái sử dụng bằng cách định nghĩa chúng trong file `next.config.ts` của bạn. Chọn một tên phù hợp với trường hợp sử dụng của bạn và đặt giá trị cho các thuộc tính `stale`, `revalidate`, và `expire`. Bạn có thể tạo bao nhiêu cache profiles tùy chỉnh nếu cần. Mỗi profile có thể được tham chiếu bởi tên của nó dưới dạng một giá trị chuỗi được truyền cho hàm `cacheLife`.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -114,9 +114,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   cacheLife: {
     biweekly: {
-      stale: 60 * 60 * 24 * 14, // 14 days
-      revalidate: 60 * 60 * 24, // 1 day
-      expire: 60 * 60 * 24 * 14, // 14 days
+      stale: 60 * 60 * 24 * 14, // 14 ngày
+      revalidate: 60 * 60 * 24, // 1 ngày
+      expire: 60 * 60 * 24 * 14, // 14 ngày
     },
   },
 }
@@ -129,9 +129,9 @@ const nextConfig = {
   cacheComponents: true,
   cacheLife: {
     biweekly: {
-      stale: 60 * 60 * 24 * 14, // 14 days
-      revalidate: 60 * 60 * 24, // 1 day
-      expire: 60 * 60 * 24 * 14, // 14 days
+      stale: 60 * 60 * 24 * 14, // 14 ngày
+      revalidate: 60 * 60 * 24, // 1 ngày
+      expire: 60 * 60 * 24 * 14, // 14 ngày
     },
   },
 }
@@ -139,7 +139,7 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-The example above caches for 14 days, checks for updates daily, and expires the cache after 14 days. You can then reference this profile throughout your application by its name:
+Ví dụ trên cache trong 14 ngày, kiểm tra cập nhật hàng ngày, và hết hạn cache sau 14 ngày. Sau đó, bạn có thể tham chiếu profile này trong toàn bộ ứng dụng của mình bằng tên của nó:
 
 ```tsx filename="app/page.tsx" highlight={5}
 'use cache'
@@ -151,22 +151,22 @@ export default async function Page() {
 }
 ```
 
-### Overriding the default cache profiles
+### Ghi đè các cache profiles mặc định
 
-While the default cache profiles provide a useful way to think about how fresh or stale any given part of cacheable output can be, you may prefer different named profiles to better align with your applications caching strategies.
+Mặc dù các cache profiles mặc định cung cấp một cách hữu ích để suy nghĩ về độ mới hoặc cũ của bất kỳ phần output có thể cache nào, bạn có thể thích các profiles được đặt tên khác nhau để phù hợp hơn với các chiến lược caching của ứng dụng của bạn.
 
-You can override the default named cache profiles by creating a new configuration with the same name as the defaults.
+Bạn có thể ghi đè các cache profiles được đặt tên mặc định bằng cách tạo một cấu hình mới có cùng tên với các mặc định.
 
-The example below shows how to override the default “days” cache profile:
+Ví dụ dưới đây cho thấy cách ghi đè cache profile "days" mặc định:
 
 ```ts filename="next.config.ts"
 const nextConfig = {
   cacheComponents: true,
   cacheLife: {
     days: {
-      stale: 3600, // 1 hour
-      revalidate: 900, // 15 minutes
-      expire: 86400, // 1 day
+      stale: 3600, // 1 giờ
+      revalidate: 900, // 15 phút
+      expire: 86400, // 1 ngày
     },
   },
 }
@@ -174,9 +174,9 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-### Defining cache profiles inline
+### Định nghĩa cache profiles inline
 
-For specific use cases, you can set a custom cache profile by passing an object to the `cacheLife` function:
+Đối với các trường hợp sử dụng cụ thể, bạn có thể đặt một cache profile tùy chỉnh bằng cách truyền một object cho hàm `cacheLife`:
 
 ```tsx filename="app/page.tsx" highlight={5-9} switcher
 'use cache'
@@ -184,9 +184,9 @@ import { cacheLife } from 'next/cache'
 
 export default async function Page() {
   cacheLife({
-    stale: 3600, // 1 hour
-    revalidate: 900, // 15 minutes
-    expire: 86400, // 1 day
+    stale: 3600, // 1 giờ
+    revalidate: 900, // 15 phút
+    expire: 86400, // 1 ngày
   })
 
   return <div>Page</div>
@@ -199,22 +199,22 @@ import { cacheLife } from 'next/cache'
 
 export default async function Page() {
   cacheLife({
-    stale: 3600, // 1 hour
-    revalidate: 900, // 15 minutes
-    expire: 86400, // 1 day
+    stale: 3600, // 1 giờ
+    revalidate: 900, // 15 phút
+    expire: 86400, // 1 ngày
   })
 
   return <div>Page</div>
 }
 ```
 
-This inline cache profile will only be applied to the function or file it was created in. If you want to reuse the same profile throughout your application, you can [add the configuration](#defining-reusable-cache-profiles) to the `cacheLife` property of your `next.config.ts` file.
+Cache profile inline này sẽ chỉ được áp dụng cho hàm hoặc file mà nó được tạo ra. Nếu bạn muốn tái sử dụng cùng một profile trong toàn bộ ứng dụng của mình, bạn có thể [thêm cấu hình](#defining-reusable-cache-profiles) vào thuộc tính `cacheLife` của file `next.config.ts` của bạn.
 
-### Nested usage of `use cache` and `cacheLife`
+### Sử dụng lồng nhau của `use cache` và `cacheLife`
 
-When defining multiple caching behaviors in the same route or component tree, if the inner caches specify their own `cacheLife` profile, the outer cache will respect the shortest cache duration among them. **This applies only if the outer cache does not have its own explicit `cacheLife` profile defined.**
+Khi định nghĩa nhiều hành vi caching trong cùng một route hoặc component tree, nếu các caches bên trong chỉ định profile `cacheLife` riêng của chúng, cache bên ngoài sẽ tôn trọng thời lượng cache ngắn nhất trong số chúng. **Điều này chỉ áp dụng nếu cache bên ngoài không có profile `cacheLife` rõ ràng của riêng nó được định nghĩa.**
 
-For example, if you add the `use cache` directive to your page, without specifying a cache profile, the default cache profile will be applied implicitly (`cacheLife(”default”)`). If a component imported into the page also uses the `use cache` directive with its own cache profile, the outer and inner cache profiles are compared, and shortest duration set in the profiles will be applied.
+Ví dụ, nếu bạn thêm directive `use cache` vào page của mình, mà không chỉ định một cache profile, cache profile mặc định sẽ được áp dụng ngầm (`cacheLife("default")`). Nếu một component được import vào page cũng sử dụng directive `use cache` với cache profile riêng của nó, các cache profiles bên ngoài và bên trong được so sánh, và thời lượng ngắn nhất được đặt trong các profiles sẽ được áp dụng.
 
 ```tsx filename="app/components/parent.tsx" highlight={5,6}
 // Parent component
@@ -233,7 +233,7 @@ export async function ParentComponent() {
 }
 ```
 
-And in a separate file, we defined the Child component that was imported:
+Và trong một file riêng biệt, chúng tôi đã định nghĩa Child component đã được import:
 
 ```tsx filename="app/components/child.tsx" highlight={4,5}
 // Child component
@@ -244,6 +244,6 @@ export async function ChildComponent() {
   cacheLife('hours')
   return <div>Child Content</div>
 
-  // This component's cache will respect the shorter 'hours' profile
+  // Cache của component này sẽ tôn trọng profile 'hours' ngắn hơn
 }
 ```

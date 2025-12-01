@@ -1,13 +1,13 @@
 ---
 title: trailingSlash
-description: Configure Next.js pages to resolve with or without a trailing slash.
+description: Cấu hình các trang Next.js để giải quyết có hoặc không có dấu gạch chéo ở cuối (trailing slash).
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-By default Next.js will redirect URLs with trailing slashes to their counterpart without a trailing slash. For example `/about/` will redirect to `/about`. You can configure this behavior to act the opposite way, where URLs without trailing slashes are redirected to their counterparts with trailing slashes.
+Theo mặc định Next.js sẽ chuyển hướng các URL có dấu gạch chéo ở cuối sang URL tương ứng không có dấu gạch chéo ở cuối. Ví dụ `/about/` sẽ chuyển hướng đến `/about`. Bạn có thể cấu hình hành vi này để hoạt động theo cách ngược lại, trong đó các URL không có dấu gạch chéo ở cuối được chuyển hướng đến các URL tương ứng có dấu gạch chéo ở cuối.
 
-Open `next.config.js` and add the `trailingSlash` config:
+Mở `next.config.js` và thêm cấu hình `trailingSlash`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -15,19 +15,19 @@ module.exports = {
 }
 ```
 
-With this option set, URLs like `/about` will redirect to `/about/`.
+Với tùy chọn này được đặt, các URL như `/about` sẽ chuyển hướng đến `/about/`.
 
-When using `trailingSlash: true`, certain URLs are exceptions and will not have a trailing slash appended:
+Khi sử dụng `trailingSlash: true`, một số URL là ngoại lệ và sẽ không có dấu gạch chéo ở cuối được thêm vào:
 
-- Static file URLs, such as files with extensions.
-- Any paths under `.well-known/`.
+- URL tệp tĩnh, chẳng hạn như các tệp có phần mở rộng.
+- Bất kỳ đường dẫn nào dưới `.well-known/`.
 
-For example, the following URLs will remain unchanged: `/file.txt`, `images/photos/picture.png`, and `.well-known/subfolder/config.json`.
+Ví dụ, các URL sau sẽ không thay đổi: `/file.txt`, `images/photos/picture.png`, và `.well-known/subfolder/config.json`.
 
-When used with [`output: "export"`](/docs/app/guides/static-exports) configuration, the `/about` page will output `/about/index.html` (instead of the default `/about.html`).
+Khi sử dụng với cấu hình [`output: "export"`](/docs/app/guides/static-exports), trang `/about` sẽ xuất ra `/about/index.html` (thay vì mặc định `/about.html`).
 
-## Version History
+## Lịch sử phiên bản
 
-| Version  | Changes                |
-| -------- | ---------------------- |
-| `v9.5.0` | `trailingSlash` added. |
+| Phiên bản | Thay đổi                       |
+| --------- | ------------------------------ |
+| `v9.5.0`  | `trailingSlash` được thêm vào. |

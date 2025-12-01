@@ -1,33 +1,33 @@
 ---
-title: favicon, icon, and apple-icon
-description: API Reference for the Favicon, Icon and Apple Icon file conventions.
+title: favicon, icon, và apple-icon
+description: Tài liệu tham khảo API cho các file conventions Favicon, Icon và Apple Icon.
 ---
 
-The `favicon`, `icon`, or `apple-icon` file conventions allow you to set icons for your application.
+Các file conventions `favicon`, `icon`, hoặc `apple-icon` cho phép bạn đặt icons cho ứng dụng của mình.
 
-They are useful for adding app icons that appear in places like web browser tabs, phone home screens, and search engine results.
+Chúng hữu ích để thêm app icons xuất hiện ở những nơi như tab trình duyệt web, màn hình chính điện thoại và kết quả của công cụ tìm kiếm.
 
-There are two ways to set app icons:
+Có hai cách để đặt app icons:
 
-- [Using image files (.ico, .jpg, .png)](#image-files-ico-jpg-png)
-- [Using code to generate an icon (.js, .ts, .tsx)](#generate-icons-using-code-js-ts-tsx)
+- [Sử dụng image files (.ico, .jpg, .png)](#image-files-ico-jpg-png)
+- [Sử dụng code để tạo icon (.js, .ts, .tsx)](#generate-icons-using-code-js-ts-tsx)
 
 ## Image files (.ico, .jpg, .png)
 
-Use an image file to set an app icon by placing a `favicon`, `icon`, or `apple-icon` image file within your `/app` directory.
-The `favicon` image can only be located in the top level of `app/`.
+Sử dụng một image file để đặt app icon bằng cách đặt một image file `favicon`, `icon`, hoặc `apple-icon` bên trong thư mục `/app` của bạn.
+Hình ảnh `favicon` chỉ có thể được đặt ở cấp cao nhất của `app/`.
 
-Next.js will evaluate the file and automatically add the appropriate tags to your app's `<head>` element.
+Next.js sẽ đánh giá file và tự động thêm các thẻ thích hợp vào phần tử `<head>` của ứng dụng của bạn.
 
-| File convention             | Supported file types                    | Valid locations |
-| --------------------------- | --------------------------------------- | --------------- |
-| [`favicon`](#favicon)       | `.ico`                                  | `app/`          |
-| [`icon`](#icon)             | `.ico`, `.jpg`, `.jpeg`, `.png`, `.svg` | `app/**/*`      |
-| [`apple-icon`](#apple-icon) | `.jpg`, `.jpeg`, `.png`                 | `app/**/*`      |
+| File convention             | Các loại file được hỗ trợ               | Vị trí hợp lệ |
+| --------------------------- | --------------------------------------- | ------------- |
+| [`favicon`](#favicon)       | `.ico`                                  | `app/`        |
+| [`icon`](#icon)             | `.ico`, `.jpg`, `.jpeg`, `.png`, `.svg` | `app/**/*`    |
+| [`apple-icon`](#apple-icon) | `.jpg`, `.jpeg`, `.png`                 | `app/**/*`    |
 
 ### `favicon`
 
-Add a `favicon.ico` image file to the root `/app` route segment.
+Thêm một image file `favicon.ico` vào root `/app` route segment.
 
 ```html filename="<head> output"
 <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -35,7 +35,7 @@ Add a `favicon.ico` image file to the root `/app` route segment.
 
 ### `icon`
 
-Add an `icon.(ico|jpg|jpeg|png|svg)` image file.
+Thêm một image file `icon.(ico|jpg|jpeg|png|svg)`.
 
 ```html filename="<head> output"
 <link
@@ -48,7 +48,7 @@ Add an `icon.(ico|jpg|jpeg|png|svg)` image file.
 
 ### `apple-icon`
 
-Add an `apple-icon.(jpg|jpeg|png)` image file.
+Thêm một image file `apple-icon.(jpg|jpeg|png)`.
 
 ```html filename="<head> output"
 <link
@@ -59,26 +59,26 @@ Add an `apple-icon.(jpg|jpeg|png)` image file.
 />
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - You can set multiple icons by adding a number suffix to the file name. For example, `icon1.png`, `icon2.png`, etc. Numbered files will sort lexically.
-> - Favicons can only be set in the root `/app` segment. If you need more granularity, you can use [`icon`](#icon).
-> - The appropriate `<link>` tags and attributes such as `rel`, `href`, `type`, and `sizes` are determined by the icon type and metadata of the evaluated file.
-> - For example, a 32 by 32px `.png` file will have `type="image/png"` and `sizes="32x32"` attributes.
-> - `sizes="any"` is added to icons when the extension is `.svg` or the image size of the file is not determined. More details in this [favicon handbook](https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs).
+> - Bạn có thể đặt nhiều icons bằng cách thêm hậu tố số vào tên file. Ví dụ, `icon1.png`, `icon2.png`, v.v. Các file được đánh số sẽ sắp xếp theo thứ tự từ điển.
+> - Favicons chỉ có thể được đặt trong root `/app` segment. Nếu bạn cần độ chi tiết cao hơn, bạn có thể sử dụng [`icon`](#icon).
+> - Các thẻ `<link>` và thuộc tính thích hợp như `rel`, `href`, `type`, và `sizes` được xác định bởi loại icon và metadata của file được đánh giá.
+> - Ví dụ, một file `.png` 32 x 32px sẽ có các thuộc tính `type="image/png"` và `sizes="32x32"`.
+> - `sizes="any"` được thêm vào icons khi phần mở rộng là `.svg` hoặc kích thước hình ảnh của file không được xác định. Chi tiết thêm trong [favicon handbook](https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs) này.
 
-## Generate icons using code (.js, .ts, .tsx)
+## Tạo icons sử dụng code (.js, .ts, .tsx)
 
-In addition to using [literal image files](#image-files-ico-jpg-png), you can programmatically **generate** icons using code.
+Ngoài việc sử dụng [literal image files](#image-files-ico-jpg-png), bạn có thể **tạo** icons bằng lập trình sử dụng code.
 
-Generate an app icon by creating an `icon` or `apple-icon` route that default exports a function.
+Tạo một app icon bằng cách tạo một route `icon` hoặc `apple-icon` export mặc định một function.
 
-| File convention | Supported file types |
-| --------------- | -------------------- |
-| `icon`          | `.js`, `.ts`, `.tsx` |
-| `apple-icon`    | `.js`, `.ts`, `.tsx` |
+| File convention | Các loại file được hỗ trợ |
+| --------------- | ------------------------- |
+| `icon`          | `.js`, `.ts`, `.tsx`      |
+| `apple-icon`    | `.js`, `.ts`, `.tsx`      |
 
-The easiest way to generate an icon is to use the [`ImageResponse`](/docs/app/api-reference/functions/image-response) API from `next/og`.
+Cách dễ nhất để tạo một icon là sử dụng API [`ImageResponse`](/docs/app/api-reference/functions/image-response) từ `next/og`.
 
 ```tsx filename="app/icon.tsx" switcher
 import { ImageResponse } from 'next/og'
@@ -112,8 +112,8 @@ export default function Icon() {
     ),
     // ImageResponse options
     {
-      // For convenience, we can re-use the exported icons size metadata
-      // config to also set the ImageResponse's width and height.
+      // Để thuận tiện, chúng ta có thể sử dụng lại config metadata size của icon đã export
+      // để cũng đặt width và height của ImageResponse.
       ...size,
     }
   )
@@ -152,8 +152,8 @@ export default function Icon() {
     ),
     // ImageResponse options
     {
-      // For convenience, we can re-use the exported icons size metadata
-      // config to also set the ImageResponse's width and height.
+      // Để thuận tiện, chúng ta có thể sử dụng lại config metadata size của icon đã export
+      // để cũng đặt width và height của ImageResponse.
       ...size,
     }
   )
@@ -164,22 +164,22 @@ export default function Icon() {
 <link rel="icon" href="/icon?<generated>" type="image/png" sizes="32x32" />
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - By default, generated icons are [**statically optimized**](/docs/app/guides/caching#static-rendering) (generated at build time and cached) unless they use [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) or uncached data.
-> - You can generate multiple icons in the same file using [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata).
-> - You cannot generate a `favicon` icon. Use [`icon`](#icon) or a [favicon.ico](#favicon) file instead.
-> - App icons are special Route Handlers that are cached by default unless they use a [Dynamic API](/docs/app/guides/caching#dynamic-apis) or [dynamic config](/docs/app/guides/caching#segment-config-options) option.
+> - Mặc định, các icons được tạo được [**tối ưu hóa tĩnh**](/docs/app/guides/caching#static-rendering) (được tạo tại build time và cached) trừ khi chúng sử dụng [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) hoặc uncached data.
+> - Bạn có thể tạo nhiều icons trong cùng một file sử dụng [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata).
+> - Bạn không thể tạo một `favicon` icon. Sử dụng [`icon`](#icon) hoặc một file [favicon.ico](#favicon) thay thế.
+> - App icons là các Route Handlers đặc biệt được cache mặc định trừ khi chúng sử dụng một tùy chọn [Dynamic API](/docs/app/guides/caching#dynamic-apis) hoặc [dynamic config](/docs/app/guides/caching#segment-config-options).
 
 ### Props
 
-The default export function receives the following props:
+Function export mặc định nhận các props sau:
 
-#### `params` (optional)
+#### `params` (tùy chọn)
 
-A promise that resolves to an object containing the [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) object from the root segment down to the segment `icon` or `apple-icon` is colocated in.
+Một promise resolve thành một object chứa object [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) từ root segment xuống đến segment mà `icon` hoặc `apple-icon` được đặt cùng.
 
-> **Good to know**: If you use [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata), the function will also receive an `id` prop that is a promise resolving to the `id` value from one of the items returned by `generateImageMetadata`.
+> **Lưu ý**: Nếu bạn sử dụng [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata), function cũng sẽ nhận một prop `id` là một promise resolving thành giá trị `id` từ một trong các items được trả về bởi `generateImageMetadata`.
 
 ```tsx filename="app/shop/[slug]/icon.tsx" switcher
 export default async function Icon({
@@ -207,13 +207,13 @@ export default async function Icon({ params }) {
 
 ### Returns
 
-The default export function should return a `Blob` | `ArrayBuffer` | `TypedArray` | `DataView` | `ReadableStream` | `Response`.
+Function export mặc định nên trả về một `Blob` | `ArrayBuffer` | `TypedArray` | `DataView` | `ReadableStream` | `Response`.
 
-> **Good to know**: `ImageResponse` satisfies this return type.
+> **Lưu ý**: `ImageResponse` thỏa mãn return type này.
 
 ### Config exports
 
-You can optionally configure the icon's metadata by exporting `size` and `contentType` variables from the `icon` or `apple-icon` route.
+Bạn có thể tùy chọn cấu hình metadata của icon bằng cách export các biến `size` và `contentType` từ route `icon` hoặc `apple-icon`.
 
 | Option                        | Type                                                                                                            |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -258,11 +258,11 @@ export default function Icon() {}
 
 #### Route Segment Config
 
-`icon` and `apple-icon` are specialized [Route Handlers](/docs/app/api-reference/file-conventions/route) that can use the same [route segment configuration](/docs/app/api-reference/file-conventions/route-segment-config) options as Pages and Layouts.
+`icon` và `apple-icon` là các [Route Handlers](/docs/app/api-reference/file-conventions/route) chuyên biệt có thể sử dụng các tùy chọn [route segment configuration](/docs/app/api-reference/file-conventions/route-segment-config) giống như Pages và Layouts.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                              |
-| --------- | ---------------------------------------------------- |
-| `v16.0.0` | `params` is now a promise that resolves to an object |
-| `v13.3.0` | `favicon` `icon` and `apple-icon` introduced         |
+| Phiên bản | Thay đổi                                                 |
+| --------- | -------------------------------------------------------- |
+| `v16.0.0` | `params` bây giờ là một promise resolve thành một object |
+| `v13.3.0` | `favicon` `icon` và `apple-icon` được giới thiệu         |

@@ -1,19 +1,19 @@
 ---
-title: Installation
-description: Learn how to create a new Next.js application with the `create-next-app` CLI, and set up TypeScript, ESLint, and Module Path Aliases.
+title: Cài đặt
+description: Tìm hiểu cách tạo một ứng dụng Next.js mới với CLI `create-next-app`, và thiết lập TypeScript, ESLint, và Module Path Aliases.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng component `<PagesOnly>Content</PagesOnly>` để thêm nội dung cụ thể cho Pages Router. Bất kỳ nội dung chia sẻ nào không nên được bao bọc trong một component. */}
 
 <AppOnly>
 
-Create a new Next.js app and run it locally.
+Tạo một ứng dụng Next.js mới và chạy nó trên máy local.
 
-## Quick start
+## Bắt đầu nhanh
 
-1. Create a new Next.js app named `my-app`
-2. `cd my-app` and start the dev server.
-3. Visit `http://localhost:3000`.
+1. Tạo một ứng dụng Next.js mới có tên `my-app`
+2. `cd my-app` và khởi động dev server.
+3. Truy cập `http://localhost:3000`.
 
 ```bash package="pnpm"
 pnpm create next-app@latest my-app --yes
@@ -39,26 +39,26 @@ cd my-app
 bun dev
 ```
 
-- `--yes` skips prompts using saved preferences or defaults. The default setup enables TypeScript, Tailwind, App Router, and Turbopack, with import alias `@/*`.
+- `--yes` bỏ qua các prompts bằng cách sử dụng preferences đã lưu hoặc mặc định. Thiết lập mặc định kích hoạt TypeScript, Tailwind, App Router, và Turbopack, với import alias `@/*`.
 
 </AppOnly>
 
-## System requirements
+## Yêu cầu hệ thống
 
-Before you begin, make sure your system meets the following requirements:
+Trước khi bắt đầu, hãy đảm bảo hệ thống của bạn đáp ứng các yêu cầu sau:
 
-- [Node.js 20.9](https://nodejs.org/) or later.
-- macOS, Windows (including WSL), or Linux.
+- [Node.js 20.9](https://nodejs.org/) hoặc mới hơn.
+- macOS, Windows (bao gồm WSL), hoặc Linux.
 
-## Create with the CLI
+## Tạo với CLI
 
-The quickest way to create a new Next.js app is using [`create-next-app`](/docs/app/api-reference/cli/create-next-app), which sets up everything automatically for you. To create a project, run:
+Cách nhanh nhất để tạo một ứng dụng Next.js mới là sử dụng [`create-next-app`](/docs/app/api-reference/cli/create-next-app), công cụ này sẽ thiết lập mọi thứ tự động cho bạn. Để tạo một dự án, chạy:
 
 ```bash filename="Terminal"
 npx create-next-app@latest
 ```
 
-On installation, you'll see the following prompts:
+Khi cài đặt, bạn sẽ thấy các prompts sau:
 
 ```txt filename="Terminal"
 What is your project named? my-app
@@ -68,7 +68,7 @@ Would you like to use the recommended Next.js defaults?
     No, customize settings - Choose your own preferences
 ```
 
-If you choose to `customize settings`, you'll see the following prompts:
+Nếu bạn chọn `customize settings`, bạn sẽ thấy các prompts sau:
 
 ```txt filename="Terminal"
 Would you like to use TypeScript? No / Yes
@@ -82,11 +82,11 @@ Would you like to customize the import alias (`@/*` by default)? No / Yes
 What import alias would you like configured? @/*
 ```
 
-After the prompts, [`create-next-app`](/docs/app/api-reference/cli/create-next-app) will create a folder with your project name and install the required dependencies.
+Sau khi hoàn tất các prompts, [`create-next-app`](/docs/app/api-reference/cli/create-next-app) sẽ tạo một thư mục với tên dự án của bạn và cài đặt các dependencies cần thiết.
 
-## Manual installation
+## Cài đặt thủ công
 
-To manually create a new Next.js app, install the required packages:
+Để tạo một ứng dụng Next.js mới theo cách thủ công, hãy cài đặt các packages cần thiết:
 
 ```bash package="pnpm"
 pnpm i next@latest react@latest react-dom@latest
@@ -104,9 +104,9 @@ yarn add next@latest react@latest react-dom@latest
 bun add next@latest react@latest react-dom@latest
 ```
 
-> **Good to know**: The App Router uses [React canary releases](https://react.dev/blog/2023/05/03/react-canaries) built-in, which include all the stable React 19 changes, as well as newer features being validated in frameworks. The Pages Router uses the React version you install in `package.json`.
+> **Lưu ý**: App Router sử dụng [React canary releases](https://react.dev/blog/2023/05/03/react-canaries) tích hợp sẵn, bao gồm tất cả các thay đổi ổn định của React 19, cũng như các tính năng mới hơn đang được xác thực trong các frameworks. Pages Router sử dụng phiên bản React mà bạn cài đặt trong `package.json`.
 
-Then, add the following scripts to your `package.json` file:
+Sau đó, thêm các scripts sau vào file `package.json` của bạn:
 
 ```json filename="package.json"
 {
@@ -120,22 +120,22 @@ Then, add the following scripts to your `package.json` file:
 }
 ```
 
-These scripts refer to the different stages of developing an application:
+Các scripts này đại diện cho các giai đoạn khác nhau khi phát triển một ứng dụng:
 
-- `next dev`: Starts the development server using Turbopack (default bundler).
-- `next build`: Builds the application for production.
-- `next start`: Starts the production server.
-- `eslint`: Runs ESLint.
+- `next dev`: Khởi động development server sử dụng Turbopack (bundler mặc định).
+- `next build`: Build ứng dụng cho production.
+- `next start`: Khởi động production server.
+- `eslint`: Chạy ESLint.
 
-Turbopack is now the default bundler. To use Webpack run `next dev --webpack` or `next build --webpack`. See the [Turbopack docs](/docs/app/api-reference/turbopack) for configuration details.
+Turbopack hiện là bundler mặc định. Để sử dụng Webpack, chạy `next dev --webpack` hoặc `next build --webpack`. Xem [tài liệu Turbopack](/docs/app/api-reference/turbopack) để biết chi tiết cấu hình.
 
 <AppOnly>
 
-### Create the `app` directory
+### Tạo thư mục `app`
 
-Next.js uses file-system routing, which means the routes in your application are determined by how you structure your files.
+Next.js sử dụng file-system routing (định tuyến dựa trên hệ thống file), có nghĩa là các routes trong ứng dụng của bạn được xác định bởi cách bạn cấu trúc các files.
 
-Create an `app` folder. Then, inside `app`, create a `layout.tsx` file. This file is the [root layout](/docs/app/api-reference/file-conventions/layout#root-layout). It's required and must contain the `<html>` and `<body>` tags.
+Tạo một thư mục `app`. Sau đó, bên trong `app`, tạo một file `layout.tsx`. File này là [root layout](/docs/app/api-reference/file-conventions/layout#root-layout). Nó là bắt buộc và phải chứa các thẻ `<html>` và `<body>`.
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -161,7 +161,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Create a home page `app/page.tsx` with some initial content:
+Tạo một trang chủ `app/page.tsx` với một số nội dung ban đầu:
 
 ```tsx filename="app/page.tsx" switcher
 export default function Page() {
@@ -175,7 +175,7 @@ export default function Page() {
 }
 ```
 
-Both `layout.tsx` and `page.tsx` will be rendered when the user visits the root of your application (`/`).
+Cả `layout.tsx` và `page.tsx` sẽ được render khi người dùng truy cập root của ứng dụng (`/`).
 
 <Image
   alt="App Folder Structure"
@@ -185,20 +185,20 @@ Both `layout.tsx` and `page.tsx` will be rendered when the user visits the root 
   height="363"
 />
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - If you forget to create the root layout, Next.js will automatically create this file when running the development server with `next dev`.
-> - You can optionally use a [`src` folder](/docs/app/api-reference/file-conventions/src-folder) in the root of your project to separate your application's code from configuration files.
+> - Nếu bạn quên tạo root layout, Next.js sẽ tự động tạo file này khi chạy development server với `next dev`.
+> - Bạn có thể tùy chọn sử dụng thư mục [`src`](/docs/app/api-reference/file-conventions/src-folder) ở root của dự án để tách code ứng dụng khỏi các file cấu hình.
 
 </AppOnly>
 
 <PagesOnly>
 
-### Create the `pages` directory
+### Tạo thư mục `pages`
 
-Next.js uses file-system routing, which means the routes in your application are determined by how you structure your files.
+Next.js sử dụng file-system routing (định tuyến dựa trên hệ thống file), có nghĩa là các routes trong ứng dụng của bạn được xác định bởi cách bạn cấu trúc các files.
 
-Create a `pages` directory at the root of your project. Then, add an `index.tsx` file inside your `pages` folder. This will be your home page (`/`):
+Tạo một thư mục `pages` ở root của dự án. Sau đó, thêm một file `index.tsx` bên trong thư mục `pages`. Đây sẽ là trang chủ của bạn (`/`):
 
 ```tsx filename="pages/index.tsx" switcher
 export default function Page() {
@@ -212,7 +212,7 @@ export default function Page() {
 }
 ```
 
-Next, add an `_app.tsx` file inside `pages/` to define the global layout. Learn more about the [custom App file](/docs/pages/building-your-application/routing/custom-app).
+Tiếp theo, thêm một file `_app.tsx` bên trong `pages/` để định nghĩa global layout. Tìm hiểu thêm về [custom App file](/docs/pages/building-your-application/routing/custom-app).
 
 ```tsx filename="pages/_app.tsx" switcher
 import type { AppProps } from 'next/app'
@@ -228,7 +228,7 @@ export default function App({ Component, pageProps }) {
 }
 ```
 
-Finally, add a `_document.tsx` file inside `pages/` to control the initial response from the server. Learn more about the [custom Document file](/docs/pages/building-your-application/routing/custom-document).
+Cuối cùng, thêm một file `_document.tsx` bên trong `pages/` để kiểm soát response ban đầu từ server. Tìm hiểu thêm về [custom Document file](/docs/pages/building-your-application/routing/custom-document).
 
 ```tsx filename="pages/_document.tsx" switcher
 import { Html, Head, Main, NextScript } from 'next/document'
@@ -264,11 +264,11 @@ export default function Document() {
 
 </PagesOnly>
 
-### Create the `public` folder (optional)
+### Tạo thư mục `public` (tùy chọn)
 
-Create a [`public` folder](/docs/app/api-reference/file-conventions/public-folder) at the root of your project to store static assets such as images, fonts, etc. Files inside `public` can then be referenced by your code starting from the base URL (`/`).
+Tạo một thư mục [`public`](/docs/app/api-reference/file-conventions/public-folder) ở root của dự án để lưu trữ các static assets như images, fonts, v.v. Các files bên trong `public` sau đó có thể được tham chiếu bởi code của bạn bắt đầu từ base URL (`/`).
 
-You can then reference these assets using the root path (`/`). For example, `public/profile.png` can be referenced as `/profile.png`:
+Bạn có thể tham chiếu các assets này bằng cách sử dụng root path (`/`). Ví dụ, `public/profile.png` có thể được tham chiếu là `/profile.png`:
 
 ```tsx filename="app/page.tsx" highlight={4} switcher
 import Image from 'next/image'
@@ -286,29 +286,29 @@ export default function Page() {
 }
 ```
 
-## Run the development server
+## Chạy development server
 
-1. Run `npm run dev` to start the development server.
-2. Visit `http://localhost:3000` to view your application.
-3. Edit the <AppOnly>`app/page.tsx`</AppOnly><PagesOnly>`pages/index.tsx`</PagesOnly> file and save it to see the updated result in your browser.
+1. Chạy `npm run dev` để khởi động development server.
+2. Truy cập `http://localhost:3000` để xem ứng dụng của bạn.
+3. Chỉnh sửa file <AppOnly>`app/page.tsx`</AppOnly><PagesOnly>`pages/index.tsx`</PagesOnly> và lưu lại để thấy kết quả cập nhật trong trình duyệt.
 
-## Set up TypeScript
+## Thiết lập TypeScript
 
-> Minimum TypeScript version: `v5.1.0`
+> Phiên bản TypeScript tối thiểu: `v5.1.0`
 
-Next.js comes with built-in TypeScript support. To add TypeScript to your project, rename a file to `.ts` / `.tsx` and run `next dev`. Next.js will automatically install the necessary dependencies and add a `tsconfig.json` file with the recommended config options.
+Next.js đi kèm với hỗ trợ TypeScript tích hợp sẵn. Để thêm TypeScript vào dự án của bạn, đổi tên một file thành `.ts` / `.tsx` và chạy `next dev`. Next.js sẽ tự động cài đặt các dependencies cần thiết và thêm file `tsconfig.json` với các tùy chọn cấu hình được khuyến nghị.
 
 <AppOnly>
 
-### IDE Plugin
+### Plugin IDE
 
-Next.js includes a custom TypeScript plugin and type checker, which VSCode and other code editors can use for advanced type-checking and auto-completion.
+Next.js bao gồm một TypeScript plugin và type checker tùy chỉnh, mà VSCode và các code editors khác có thể sử dụng cho việc type-checking và auto-completion nâng cao.
 
-You can enable the plugin in VS Code by:
+Bạn có thể kích hoạt plugin trong VS Code bằng cách:
 
-1. Opening the command palette (`Ctrl/⌘` + `Shift` + `P`)
-2. Searching for "TypeScript: Select TypeScript Version"
-3. Selecting "Use Workspace Version"
+1. Mở command palette (`Ctrl/⌘` + `Shift` + `P`)
+2. Tìm kiếm "TypeScript: Select TypeScript Version"
+3. Chọn "Use Workspace Version"
 
 <Image
   alt="TypeScript Command Palette"
@@ -320,13 +320,13 @@ You can enable the plugin in VS Code by:
 
 </AppOnly>
 
-See the [TypeScript reference](/docs/app/api-reference/config/next-config-js/typescript) page for more information.
+Xem trang [tài liệu tham khảo TypeScript](/docs/app/api-reference/config/next-config-js/typescript) để biết thêm thông tin.
 
-## Set up linting
+## Thiết lập linting
 
-Next.js supports linting with either ESLint or Biome. Choose a linter and run it directly via `package.json` scripts.
+Next.js hỗ trợ linting với ESLint hoặc Biome. Chọn một linter và chạy nó trực tiếp qua `package.json` scripts.
 
-- Use **ESLint** (comprehensive rules):
+- Sử dụng **ESLint** (quy tắc toàn diện):
 
 ```json filename="package.json"
 {
@@ -337,7 +337,7 @@ Next.js supports linting with either ESLint or Biome. Choose a linter and run it
 }
 ```
 
-- Or use **Biome** (fast linter + formatter):
+- Hoặc sử dụng **Biome** (linter + formatter nhanh):
 
 ```json filename="package.json"
 {
@@ -348,33 +348,33 @@ Next.js supports linting with either ESLint or Biome. Choose a linter and run it
 }
 ```
 
-If your project previously used `next lint`, migrate your scripts to the ESLint CLI with the codemod:
+Nếu dự án của bạn trước đây sử dụng `next lint`, hãy di chuyển các scripts của bạn sang ESLint CLI với codemod:
 
 ```bash filename="Terminal"
 npx @next/codemod@canary next-lint-to-eslint-cli .
 ```
 
-If you use ESLint, create an explicit config (recommended `eslint.config.mjs`). ESLint supports both [the legacy `.eslintrc.*` and the newer `eslint.config.mjs` formats](https://eslint.org/docs/latest/use/configure/configuration-files#configuring-eslint). See the [ESLint API reference](/docs/app/api-reference/config/eslint#with-core-web-vitals) for a recommended setup.
+Nếu bạn sử dụng ESLint, hãy tạo một cấu hình rõ ràng (khuyến nghị `eslint.config.mjs`). ESLint hỗ trợ cả [định dạng cũ `.eslintrc.*` và định dạng mới `eslint.config.mjs`](https://eslint.org/docs/latest/use/configure/configuration-files#configuring-eslint). Xem [tài liệu tham khảo ESLint API](/docs/app/api-reference/config/eslint#with-core-web-vitals) để biết thiết lập được khuyến nghị.
 
-> **Good to know**: Starting with Next.js 16, `next build` no longer runs the linter automatically. Instead, you can run your linter through NPM scripts.
+> **Lưu ý**: Bắt đầu từ Next.js 16, `next build` không còn tự động chạy linter nữa. Thay vào đó, bạn có thể chạy linter thông qua NPM scripts.
 
-See the [ESLint Plugin](/docs/app/api-reference/config/eslint) page for more information.
+Xem trang [ESLint Plugin](/docs/app/api-reference/config/eslint) để biết thêm thông tin.
 
-## Set up Absolute Imports and Module Path Aliases
+## Thiết lập Absolute Imports và Module Path Aliases
 
-Next.js has in-built support for the `"paths"` and `"baseUrl"` options of `tsconfig.json` and `jsconfig.json` files.
+Next.js có hỗ trợ tích hợp sẵn cho các tùy chọn `"paths"` và `"baseUrl"` của các files `tsconfig.json` và `jsconfig.json`.
 
-These options allow you to alias project directories to absolute paths, making it easier and cleaner to import modules. For example:
+Các tùy chọn này cho phép bạn alias các thư mục dự án thành absolute paths, giúp việc import modules dễ dàng và sạch sẽ hơn. Ví dụ:
 
 ```jsx
-// Before
+// Trước
 import { Button } from '../../../components/button'
 
-// After
+// Sau
 import { Button } from '@/components/button'
 ```
 
-To configure absolute imports, add the `baseUrl` configuration option to your `tsconfig.json` or `jsconfig.json` file. For example:
+Để cấu hình absolute imports, thêm tùy chọn cấu hình `baseUrl` vào file `tsconfig.json` hoặc `jsconfig.json` của bạn. Ví dụ:
 
 ```json filename="tsconfig.json or jsconfig.json"
 {
@@ -384,9 +384,9 @@ To configure absolute imports, add the `baseUrl` configuration option to your `t
 }
 ```
 
-In addition to configuring the `baseUrl` path, you can use the `"paths"` option to `"alias"` module paths.
+Ngoài việc cấu hình `baseUrl` path, bạn có thể sử dụng tùy chọn `"paths"` để `"alias"` module paths.
 
-For example, the following configuration maps `@/components/*` to `components/*`:
+Ví dụ, cấu hình sau ánh xạ `@/components/*` thành `components/*`:
 
 ```json filename="tsconfig.json or jsconfig.json"
 {
@@ -400,4 +400,4 @@ For example, the following configuration maps `@/components/*` to `components/*`
 }
 ```
 
-Each of the `"paths"` are relative to the `baseUrl` location.
+Mỗi `"paths"` đều tương đối với vị trí `baseUrl`.

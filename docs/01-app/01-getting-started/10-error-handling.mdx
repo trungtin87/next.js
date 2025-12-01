@@ -1,9 +1,9 @@
 ---
-title: Error Handling
-description: Learn how to display expected errors and handle uncaught exceptions.
+title: Xử lý lỗi
+description: Tìm hiểu cách hiển thị expected errors và xử lý uncaught exceptions.
 related:
-  title: API Reference
-  description: Learn more about the features mentioned in this page by reading the API Reference.
+  title: Tài liệu tham khảo API
+  description: Tìm hiểu thêm về các tính năng được đề cập trong trang này bằng cách đọc Tài liệu tham khảo API.
   links:
     - app/api-reference/functions/redirect
     - app/api-reference/file-conventions/error
@@ -11,17 +11,17 @@ related:
     - app/api-reference/file-conventions/not-found
 ---
 
-Errors can be divided into two categories: [expected errors](#handling-expected-errors) and [uncaught exceptions](#handling-uncaught-exceptions). This page will walk you through how you can handle these errors in your Next.js application.
+Lỗi có thể được chia thành hai loại: [expected errors](#handling-expected-errors) và [uncaught exceptions](#handling-uncaught-exceptions). Trang này sẽ hướng dẫn bạn cách xử lý các lỗi này trong ứng dụng Next.js của bạn.
 
-## Handling expected errors
+## Xử lý expected errors
 
-Expected errors are those that can occur during the normal operation of the application, such as those from [server-side form validation](/docs/app/guides/forms) or failed requests. These errors should be handled explicitly and returned to the client.
+Expected errors là những lỗi có thể xảy ra trong quá trình hoạt động bình thường của ứng dụng, chẳng hạn như những lỗi từ [server-side form validation](/docs/app/guides/forms) hoặc failed requests. Những lỗi này nên được xử lý một cách rõ ràng và trả về cho client.
 
 ### Server Functions
 
-You can use the [`useActionState`](https://react.dev/reference/react/useActionState) hook to handle expected errors in [Server Functions](https://react.dev/reference/rsc/server-functions).
+Bạn có thể sử dụng hook [`useActionState`](https://react.dev/reference/react/useActionState) để xử lý expected errors trong [Server Functions](https://react.dev/reference/rsc/server-functions).
 
-For these errors, avoid using `try`/`catch` blocks and throw errors. Instead, model expected errors as return values.
+Đối với những lỗi này, tránh sử dụng các khối `try`/`catch` và throw errors. Thay vào đó, mô hình hóa expected errors dưới dạng return values.
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -61,7 +61,7 @@ export async function createPost(prevState, formData) {
 }
 ```
 
-You can pass your action to the `useActionState` hook and use the returned `state` to display an error message.
+Bạn có thể truyền action của bạn vào hook `useActionState` và sử dụng `state` được trả về để hiển thị một error message.
 
 ```tsx filename="app/ui/form.tsx" highlight={11,19} switcher
 'use client'
@@ -117,7 +117,7 @@ export function Form() {
 
 ### Server Components
 
-When fetching data inside of a Server Component, you can use the response to conditionally render an error message or [`redirect`](/docs/app/api-reference/functions/redirect).
+Khi fetching data bên trong Server Component, bạn có thể sử dụng response để có điều kiện render một error message hoặc [`redirect`](/docs/app/api-reference/functions/redirect).
 
 ```tsx filename="app/page.tsx" switcher
 export default async function Page() {
@@ -147,7 +147,7 @@ export default async function Page() {
 
 ### Not found
 
-You can call the [`notFound`](/docs/app/api-reference/functions/not-found) function within a route segment and use the [`not-found.js`](/docs/app/api-reference/file-conventions/not-found) file to show a 404 UI.
+Bạn có thể gọi function [`notFound`](/docs/app/api-reference/functions/not-found) trong một route segment và sử dụng file [`not-found.js`](/docs/app/api-reference/file-conventions/not-found) để hiển thị một 404 UI.
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 import { getPostBySlug } from '@/lib/posts'
@@ -191,15 +191,15 @@ export default function NotFound() {
 }
 ```
 
-## Handling uncaught exceptions
+## Xử lý uncaught exceptions
 
-Uncaught exceptions are unexpected errors that indicate bugs or issues that should not occur during the normal flow of your application. These should be handled by throwing errors, which will then be caught by error boundaries.
+Uncaught exceptions là những lỗi không mong đợi chỉ ra bugs hoặc vấn đề không nên xảy ra trong quá trình hoạt động bình thường của ứng dụng của bạn. Chúng nên được xử lý bằng cách throwing errors, sau đó sẽ được catch bởi error boundaries.
 
 ### Nested error boundaries
 
-Next.js uses error boundaries to handle uncaught exceptions. Error boundaries catch errors in their child components and display a fallback UI instead of the component tree that crashed.
+Next.js sử dụng error boundaries để xử lý uncaught exceptions. Error boundaries catch errors trong các child components của chúng và hiển thị fallback UI thay vì component tree bị crashed.
 
-Create an error boundary by adding an [`error.js`](/docs/app/api-reference/file-conventions/error) file inside a route segment and exporting a React component:
+Tạo error boundary bằng cách thêm file [`error.js`](/docs/app/api-reference/file-conventions/error) bên trong route segment và export một React component:
 
 ```tsx filename="app/dashboard/error.tsx" switcher
 'use client' // Error boundaries must be Client Components
@@ -261,7 +261,7 @@ export default function Error({ error, reset }) {
 }
 ```
 
-Errors will bubble up to the nearest parent error boundary. This allows for granular error handling by placing `error.tsx` files at different levels in the [route hierarchy](/docs/app/getting-started/project-structure#component-hierarchy).
+Errors sẽ bubble up đến nearest parent error boundary. Điều này cho phép granular error handling bằng cách đặt các file `error.tsx` ở các levels khác nhau trong [route hierarchy](/docs/app/getting-started/project-structure#component-hierarchy).
 
 <Image
   alt="Nested Error Component Hierarchy"
@@ -271,11 +271,11 @@ Errors will bubble up to the nearest parent error boundary. This allows for gran
   height="687"
 />
 
-Error boundaries don’t catch errors inside event handlers. They’re designed to catch errors [during rendering](https://react.dev/reference/react/Component#static-getderivedstatefromerror) to show a **fallback UI** instead of crashing the whole app.
+Error boundaries không catch errors bên trong event handlers. Chúng được thiết kế để catch errors [during rendering](https://react.dev/reference/react/Component#static-getderivedstatefromerror) để hiển thị **fallback UI** thay vì crash toàn bộ app.
 
-In general, errors in event handlers or async code aren’t handled by error boundaries because they run after rendering.
+Nói chung, errors trong event handlers hoặc async code không được xử lý bởi error boundaries vì chúng chạy sau khi rendering.
 
-To handle these cases, catch the error manually and store it using `useState` or `useReducer`, then update the UI to inform the user.
+Để xử lý những trường hợp này, catch error một cách thủ công và lưu trữ nó bằng `useState` hoặc `useReducer`, sau đó cập nhật UI để thông báo cho người dùng.
 
 ```tsx
 'use client'
@@ -306,7 +306,7 @@ export function Button() {
 }
 ```
 
-Note that unhandled errors inside `startTransition` from `useTransition`, will bubble up to the nearest error boundary.
+Lưu ý rằng unhandled errors bên trong `startTransition` từ `useTransition`, sẽ bubble up đến nearest error boundary.
 
 ```tsx
 'use client'
@@ -331,7 +331,7 @@ export function Button() {
 
 ### Global errors
 
-While less common, you can handle errors in the root layout using the [`global-error.js`](/docs/app/api-reference/file-conventions/error#global-error) file, located in the root app directory, even when leveraging [internationalization](/docs/app/guides/internationalization). Global error UI must define its own `<html>` and `<body>` tags, since it is replacing the root layout or template when active.
+Ít phổ biến hơn, bạn có thể xử lý errors trong root layout bằng cách sử dụng file [`global-error.js`](/docs/app/api-reference/file-conventions/error#global-error), nằm trong root app directory, ngay cả khi sử dụng [internationalization](/docs/app/guides/internationalization). Global error UI phải định nghĩa các tags `<html>` và `<body>` riêng của nó, vì nó đang thay thế root layout hoặc template khi active.
 
 ```tsx filename="app/global-error.tsx" switcher
 'use client' // Error boundaries must be Client Components

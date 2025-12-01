@@ -1,13 +1,13 @@
 ---
 title: serverActions
-description: Configure Server Actions behavior in your Next.js application.
+description: Cấu hình hành vi Server Actions trong ứng dụng Next.js của bạn.
 ---
 
-Options for configuring Server Actions behavior in your Next.js application.
+Các tùy chọn để cấu hình hành vi Server Actions trong ứng dụng Next.js của bạn.
 
 ## `allowedOrigins`
 
-A list of extra safe origin domains from which Server Actions can be invoked. Next.js compares the origin of a Server Action request with the host domain, ensuring they match to prevent CSRF attacks. If not provided, only the same origin is allowed.
+Danh sách các miền nguồn gốc (origin) an toàn bổ sung mà từ đó Server Actions có thể được gọi. Next.js so sánh nguồn gốc của yêu cầu Server Action với miền host, đảm bảo chúng khớp để ngăn chặn các cuộc tấn công CSRF. Nếu không được cung cấp, chỉ cùng nguồn gốc được cho phép.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -23,9 +23,9 @@ module.exports = {
 
 ## `bodySizeLimit`
 
-By default, the maximum size of the request body sent to a Server Action is 1MB, to prevent the consumption of excessive server resources in parsing large amounts of data, as well as potential DDoS attacks.
+Theo mặc định, kích thước tối đa của request body được gửi đến Server Action là 1MB, để ngăn chặn việc tiêu thụ quá nhiều tài nguyên server trong việc phân tích lượng lớn dữ liệu, cũng như các cuộc tấn công DDoS tiềm ẩn.
 
-However, you can configure this limit using the `serverActions.bodySizeLimit` option. It can take the number of bytes or any string format supported by bytes, for example `1000`, `'500kb'` or `'3mb'`.
+Tuy nhiên, bạn có thể cấu hình giới hạn này bằng cách sử dụng tùy chọn `serverActions.bodySizeLimit`. Nó có thể nhận số byte hoặc bất kỳ định dạng chuỗi nào được hỗ trợ bởi bytes, ví dụ `1000`, `'500kb'` hoặc `'3mb'`.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -39,9 +39,9 @@ module.exports = {
 }
 ```
 
-## Enabling Server Actions (v13)
+## Kích hoạt Server Actions (v13)
 
-Server Actions became a stable feature in Next.js 14, and are enabled by default. However, if you are using an earlier version of Next.js, you can enable them by setting `experimental.serverActions` to `true`.
+Server Actions đã trở thành tính năng ổn định trong Next.js 14, và được kích hoạt theo mặc định. Tuy nhiên, nếu bạn đang sử dụng phiên bản Next.js cũ hơn, bạn có thể kích hoạt chúng bằng cách đặt `experimental.serverActions` thành `true`.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */

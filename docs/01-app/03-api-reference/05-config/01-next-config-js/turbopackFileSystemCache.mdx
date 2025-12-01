@@ -1,23 +1,23 @@
 ---
 title: Turbopack FileSystem Caching
 nav_title: turbopackFileSystemCache
-description: Learn how to enable FileSystem Caching for Turbopack builds
+description: Tìm hiểu cách kích hoạt FileSystem Caching cho các bản build Turbopack
 ---
 
-## Usage
+## Cách sử dụng
 
-Turbopack FileSystem Cache enables Turbopack to reduce work across `next dev` or `next build` commands. When enabled, Turbopack will save and restore data to the `.next` folder between builds, which can greatly speed up subsequent builds and dev sessions.
+Turbopack FileSystem Cache cho phép Turbopack giảm công việc qua các lệnh `next dev` hoặc `next build`. Khi được kích hoạt, Turbopack sẽ lưu và khôi phục dữ liệu vào thư mục `.next` giữa các lần build, điều này có thể tăng tốc đáng kể các lần build và phiên dev tiếp theo.
 
-> **Good to know:** The FileSystem Cache feature is Beta and is still under development. Users adopting should expect some stability issues. We recommend first adopting it for development.
+> **Thông tin hữu ích:** Tính năng FileSystem Cache là Beta và vẫn đang được phát triển. Người dùng áp dụng nên mong đợi một số vấn đề về tính ổn định. Chúng tôi khuyên bạn nên áp dụng nó cho quá trình phát triển trước.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   experimental: {
-    // Enable filesystem caching for `next dev`
+    // Kích hoạt filesystem caching cho `next dev`
     turbopackFileSystemCacheForDev: true,
-    // Enable filesystem caching for `next build`
+    // Kích hoạt filesystem caching cho `next build`
     turbopackFileSystemCacheForBuild: true,
   },
 }
@@ -29,9 +29,9 @@ export default nextConfig
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // Enable filesystem caching for `next dev`
+    // Kích hoạt filesystem caching cho `next dev`
     turbopackFileSystemCacheForDev: true,
-    // Enable filesystem caching for `next build`
+    // Kích hoạt filesystem caching cho `next build`
     turbopackFileSystemCacheForBuild: true,
   },
 }
@@ -39,9 +39,9 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-## Version Changes
+## Thay đổi phiên bản
 
-| Version   | Changes                                                        |
-| --------- | -------------------------------------------------------------- |
-| `v16.0.0` | Beta release with separate flags for build and dev             |
-| `v15.5.0` | Persistent caching released as experimental on canary releases |
+| Phiên bản | Thay đổi                                                                       |
+| --------- | ------------------------------------------------------------------------------ |
+| `v16.0.0` | Phát hành Beta với các cờ riêng biệt cho build và dev                          |
+| `v15.5.0` | Persistent caching được phát hành như thử nghiệm trên các bản phát hành canary |

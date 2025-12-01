@@ -1,17 +1,17 @@
 ---
 title: cacheComponents
-description: Learn how to enable the cacheComponents flag in Next.js.
+description: Tìm hiểu cách kích hoạt cờ cacheComponents trong Next.js.
 ---
 
-The `cacheComponents` flag is a feature in Next.js that causes data fetching operations in the App Router to be excluded from pre-renders unless they are explicitly cached. This can be useful for optimizing the performance of dynamic data fetching in Server Components.
+Cờ `cacheComponents` là một tính năng trong Next.js khiến các hoạt động data fetching trong App Router bị loại trừ khỏi pre-render trừ khi chúng được cache một cách rõ ràng. Điều này có thể hữu ích để tối ưu hóa hiệu suất của dynamic data fetching trong Server Components.
 
-It is useful if your application requires fresh data fetching during runtime rather than serving from a pre-rendered cache.
+Nó hữu ích nếu ứng dụng của bạn yêu cầu data fetching mới trong runtime thay vì phục vụ từ cache được pre-render.
 
-It is expected to be used in conjunction with [`use cache`](/docs/app/api-reference/directives/use-cache) so that your data fetching happens at runtime by default unless you define specific parts of your application to be cached with `use cache` at the page, function, or component level.
+Nó được kỳ vọng sử dụng cùng với [`use cache`](/docs/app/api-reference/directives/use-cache) để data fetching của bạn xảy ra tại runtime theo mặc định trừ khi bạn định nghĩa các phần cụ thể của ứng dụng của bạn được cache với `use cache` ở cấp độ trang, hàm hoặc component.
 
-## Usage
+## Cách sử dụng
 
-To enable the `cacheComponents` flag, set it to `true` in your `next.config.ts` file:
+Để kích hoạt cờ `cacheComponents`, hãy đặt nó thành `true` trong tệp `next.config.ts` của bạn:
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -23,18 +23,18 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-When `cacheComponents` is enabled, you can use the following cache functions and configurations:
+Khi `cacheComponents` được kích hoạt, bạn có thể sử dụng các hàm và cấu hình cache sau:
 
-- The [`use cache` directive](/docs/app/api-reference/directives/use-cache)
-- The [`cacheLife` function](/docs/app/api-reference/config/next-config-js/cacheLife) with `use cache`
-- The [`cacheTag` function](/docs/app/api-reference/functions/cacheTag)
+- [Chỉ thị `use cache`](/docs/app/api-reference/directives/use-cache)
+- [Hàm `cacheLife`](/docs/app/api-reference/config/next-config-js/cacheLife) với `use cache`
+- [Hàm `cacheTag`](/docs/app/api-reference/functions/cacheTag)
 
-## Notes
+## Lưu ý
 
-- While `cacheComponents` can optimize performance by ensuring fresh data fetching during runtime, it may also introduce additional latency compared to serving pre-rendered content.
+- Trong khi `cacheComponents` có thể tối ưu hóa hiệu suất bằng cách đảm bảo data fetching mới trong runtime, nó cũng có thể gây ra độ trễ bổ sung so với việc phục vụ nội dung được pre-render.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version | Change                                                                                                                            |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| 16.0.0  | `cacheComponents` introduced. This flag controls the `ppr`, `useCache`, and `dynamicIO` flags as a single, unified configuration. |
+| Phiên bản | Thay đổi                                                                                                                           |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 16.0.0    | `cacheComponents` được giới thiệu. Cờ này kiểm soát các cờ `ppr`, `useCache`, và `dynamicIO` như một cấu hình thống nhất duy nhất. |

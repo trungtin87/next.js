@@ -1,15 +1,15 @@
 ---
 title: forbidden
-description: API Reference for the forbidden function.
+description: Tài liệu tham khảo API cho hàm forbidden.
 version: experimental
 related:
   links:
     - app/api-reference/file-conventions/forbidden
 ---
 
-The `forbidden` function throws an error that renders a Next.js 403 error page. It's useful for handling authorization errors in your application. You can customize the UI using the [`forbidden.js` file](/docs/app/api-reference/file-conventions/forbidden).
+Hàm `forbidden` ném ra một lỗi render trang lỗi 403 của Next.js. Nó hữu ích để xử lý các lỗi ủy quyền (authorization errors) trong ứng dụng của bạn. Bạn có thể tùy chỉnh UI bằng cách sử dụng [file `forbidden.js`](/docs/app/api-reference/file-conventions/forbidden).
 
-To start using `forbidden`, enable the experimental [`authInterrupts`](/docs/app/api-reference/config/next-config-js/authInterrupts) configuration option in your `next.config.js` file:
+Để bắt đầu sử dụng `forbidden`, hãy bật tùy chọn cấu hình thực nghiệm [`authInterrupts`](/docs/app/api-reference/config/next-config-js/authInterrupts) trong file `next.config.js` của bạn:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -31,7 +31,7 @@ module.exports = {
 }
 ```
 
-`forbidden` can be invoked in [Server Components](/docs/app/getting-started/server-and-client-components), [Server Actions](/docs/app/getting-started/updating-data), and [Route Handlers](/docs/app/api-reference/file-conventions/route).
+`forbidden` có thể được gọi trong [Server Components](/docs/app/getting-started/server-and-client-components), [Server Actions](/docs/app/getting-started/updating-data), và [Route Handlers](/docs/app/api-reference/file-conventions/route).
 
 ```tsx filename="app/auth/page.tsx" switcher
 import { verifySession } from '@/app/lib/dal'
@@ -40,12 +40,12 @@ import { forbidden } from 'next/navigation'
 export default async function AdminPage() {
   const session = await verifySession()
 
-  // Check if the user has the 'admin' role
+  // Kiểm tra xem người dùng có vai trò 'admin' hay không
   if (session.role !== 'admin') {
     forbidden()
   }
 
-  // Render the admin page for authorized users
+  // Render trang admin cho người dùng được ủy quyền
   return <></>
 }
 ```
@@ -57,25 +57,25 @@ import { forbidden } from 'next/navigation'
 export default async function AdminPage() {
   const session = await verifySession()
 
-  // Check if the user has the 'admin' role
+  // Kiểm tra xem người dùng có vai trò 'admin' hay không
   if (session.role !== 'admin') {
     forbidden()
   }
 
-  // Render the admin page for authorized users
+  // Render trang admin cho người dùng được ủy quyền
   return <></>
 }
 ```
 
-## Good to know
+## Lưu ý
 
-- The `forbidden` function cannot be called in the [root layout](/docs/app/api-reference/file-conventions/layout#root-layout).
+- Hàm `forbidden` không thể được gọi trong [root layout](/docs/app/api-reference/file-conventions/layout#root-layout).
 
-## Examples
+## Ví dụ
 
-### Role-based route protection
+### Bảo vệ route dựa trên vai trò
 
-You can use `forbidden` to restrict access to certain routes based on user roles. This ensures that users who are authenticated but lack the required permissions cannot access the route.
+Bạn có thể sử dụng `forbidden` để hạn chế quyền truy cập vào các routes nhất định dựa trên vai trò của người dùng. Điều này đảm bảo rằng người dùng đã xác thực nhưng thiếu quyền hạn cần thiết không thể truy cập route.
 
 ```tsx filename="app/admin/page.tsx" switcher
 import { verifySession } from '@/app/lib/dal'
@@ -84,12 +84,12 @@ import { forbidden } from 'next/navigation'
 export default async function AdminPage() {
   const session = await verifySession()
 
-  // Check if the user has the 'admin' role
+  // Kiểm tra xem người dùng có vai trò 'admin' hay không
   if (session.role !== 'admin') {
     forbidden()
   }
 
-  // Render the admin page for authorized users
+  // Render trang admin cho người dùng được ủy quyền
   return (
     <main>
       <h1>Admin Dashboard</h1>
@@ -106,12 +106,12 @@ import { forbidden } from 'next/navigation'
 export default async function AdminPage() {
   const session = await verifySession()
 
-  // Check if the user has the 'admin' role
+  // Kiểm tra xem người dùng có vai trò 'admin' hay không
   if (session.role !== 'admin') {
     forbidden()
   }
 
-  // Render the admin page for authorized users
+  // Render trang admin cho người dùng được ủy quyền
   return (
     <main>
       <h1>Admin Dashboard</h1>
@@ -121,9 +121,9 @@ export default async function AdminPage() {
 }
 ```
 
-### Mutations with Server Actions
+### Mutations với Server Actions
 
-When implementing mutations in Server Actions, you can use `forbidden` to only allow users with a specific role to update sensitive data.
+Khi triển khai mutations trong Server Actions, bạn có thể sử dụng `forbidden` để chỉ cho phép người dùng có vai trò cụ thể cập nhật dữ liệu nhạy cảm.
 
 ```ts filename="app/actions/update-role.ts" switcher
 'use server'
@@ -135,12 +135,12 @@ import db from '@/app/lib/db'
 export async function updateRole(formData: FormData) {
   const session = await verifySession()
 
-  // Ensure only admins can update roles
+  // Đảm bảo chỉ admins mới có thể cập nhật vai trò
   if (session.role !== 'admin') {
     forbidden()
   }
 
-  // Perform the role update for authorized users
+  // Thực hiện cập nhật vai trò cho người dùng được ủy quyền
   // ...
 }
 ```
@@ -155,18 +155,18 @@ import db from '@/app/lib/db'
 export async function updateRole(formData) {
   const session = await verifySession()
 
-  // Ensure only admins can update roles
+  // Đảm bảo chỉ admins mới có thể cập nhật vai trò
   if (session.role !== 'admin') {
     forbidden()
   }
 
-  // Perform the role update for authorized users
+  // Thực hiện cập nhật vai trò cho người dùng được ủy quyền
   // ...
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                 |
-| --------- | ----------------------- |
-| `v15.1.0` | `forbidden` introduced. |
+| Phiên bản | Thay đổi                     |
+| --------- | ---------------------------- |
+| `v15.1.0` | `forbidden` được giới thiệu. |

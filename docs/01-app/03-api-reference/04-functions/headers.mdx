@@ -1,9 +1,9 @@
 ---
 title: headers
-description: API reference for the headers function.
+description: Tài liệu tham khảo API cho hàm headers.
 ---
 
-`headers` is an **async** function that allows you to **read** the HTTP incoming request headers from a [Server Component](/docs/app/getting-started/server-and-client-components).
+`headers` là một hàm **async** cho phép bạn **đọc** các HTTP incoming request headers từ một [Server Component](/docs/app/getting-started/server-and-client-components).
 
 ```tsx filename="app/page.tsx" switcher
 import { headers } from 'next/headers'
@@ -23,33 +23,33 @@ export default async function Page() {
 }
 ```
 
-## Reference
+## Tham khảo
 
 ### Parameters
 
-`headers` does not take any parameters.
+`headers` không nhận bất kỳ parameters nào.
 
 ### Returns
 
-`headers` returns a **read-only** [Web Headers](https://developer.mozilla.org/docs/Web/API/Headers) object.
+`headers` trả về một đối tượng [Web Headers](https://developer.mozilla.org/docs/Web/API/Headers) **read-only**.
 
-- [`Headers.entries()`](https://developer.mozilla.org/docs/Web/API/Headers/entries): Returns an [`iterator`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) allowing to go through all key/value pairs contained in this object.
-- [`Headers.forEach()`](https://developer.mozilla.org/docs/Web/API/Headers/forEach): Executes a provided function once for each key/value pair in this `Headers` object.
-- [`Headers.get()`](https://developer.mozilla.org/docs/Web/API/Headers/get): Returns a [`String`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) sequence of all the values of a header within a `Headers` object with a given name.
-- [`Headers.has()`](https://developer.mozilla.org/docs/Web/API/Headers/has): Returns a boolean stating whether a `Headers` object contains a certain header.
-- [`Headers.keys()`](https://developer.mozilla.org/docs/Web/API/Headers/keys): Returns an [`iterator`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) allowing you to go through all keys of the key/value pairs contained in this object.
-- [`Headers.values()`](https://developer.mozilla.org/docs/Web/API/Headers/values): Returns an [`iterator`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) allowing you to go through all values of the key/value pairs contained in this object.
+- [`Headers.entries()`](https://developer.mozilla.org/docs/Web/API/Headers/entries): Trả về một [`iterator`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) cho phép đi qua tất cả các cặp key/value có trong đối tượng này.
+- [`Headers.forEach()`](https://developer.mozilla.org/docs/Web/API/Headers/forEach): Thực thi một hàm được cung cấp một lần cho mỗi cặp key/value trong đối tượng `Headers` này.
+- [`Headers.get()`](https://developer.mozilla.org/docs/Web/API/Headers/get): Trả về một chuỗi [`String`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) của tất cả các giá trị của một header trong một đối tượng `Headers` với một tên cho trước.
+- [`Headers.has()`](https://developer.mozilla.org/docs/Web/API/Headers/has): Trả về một boolean cho biết liệu một đối tượng `Headers` có chứa một header nhất định hay không.
+- [`Headers.keys()`](https://developer.mozilla.org/docs/Web/API/Headers/keys): Trả về một [`iterator`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) cho phép bạn đi qua tất cả các keys của các cặp key/value có trong đối tượng này.
+- [`Headers.values()`](https://developer.mozilla.org/docs/Web/API/Headers/values): Trả về một [`iterator`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) cho phép bạn đi qua tất cả các values của các cặp key/value có trong đối tượng này.
 
-## Good to know
+## Nên biết
 
-- `headers` is an **asynchronous** function that returns a promise. You must use `async/await` or React's [`use`](https://react.dev/reference/react/use) function.
-  - In version 14 and earlier, `headers` was a synchronous function. To help with backwards compatibility, you can still access it synchronously in Next.js 15, but this behavior will be deprecated in the future.
-- Since `headers` is read-only, you cannot `set` or `delete` the outgoing request headers.
-- `headers` is a [Dynamic API](/docs/app/guides/caching#dynamic-rendering) whose returned values cannot be known ahead of time. Using it in will opt a route into **[dynamic rendering](/docs/app/guides/caching#dynamic-rendering)**.
+- `headers` là một hàm **asynchronous** trả về một promise. Bạn phải sử dụng `async/await` hoặc hàm [`use`](https://react.dev/reference/react/use) của React.
+  - Trong phiên bản 14 và trước đó, `headers` là một hàm đồng bộ. Để giúp tương thích ngược, bạn vẫn có thể truy cập nó một cách đồng bộ trong Next.js 15, nhưng hành vi này sẽ bị deprecated trong tương lai.
+- Vì `headers` là read-only, bạn không thể `set` hoặc `delete` các outgoing request headers.
+- `headers` là một [Dynamic API](/docs/app/guides/caching#dynamic-rendering) có các giá trị trả về không thể biết trước. Sử dụng nó sẽ opt một route vào **[dynamic rendering](/docs/app/guides/caching#dynamic-rendering)**.
 
-## Examples
+## Ví dụ
 
-### Using the Authorization header
+### Sử dụng Authorization header
 
 ```jsx filename="app/page.js"
 import { headers } from 'next/headers'
@@ -65,9 +65,9 @@ export default async function Page() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version      | Changes                                                                                                |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `v15.0.0-RC` | `headers` is now an async function. A [codemod](/docs/app/guides/upgrading/codemods#150) is available. |
-| `v13.0.0`    | `headers` introduced.                                                                                  |
+| Phiên bản    | Thay đổi                                                                                            |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| `v15.0.0-RC` | `headers` giờ là một async function. Một [codemod](/docs/app/guides/upgrading/codemods#150) có sẵn. |
+| `v13.0.0`    | `headers` được giới thiệu.                                                                          |

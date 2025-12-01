@@ -1,38 +1,38 @@
 ---
 title: Error Handling
-description: Handle errors in your Next.js app.
+description: Xử lý lỗi trong ứng dụng Next.js của bạn.
 ---
 
-This documentation explains how you can handle development, server-side, and client-side errors.
+Tài liệu này giải thích cách bạn có thể xử lý các lỗi development, server-side và client-side.
 
-## Handling Errors in Development
+## Xử lý lỗi trong Development
 
-When there is a runtime error during the development phase of your Next.js application, you will encounter an **overlay**. It is a modal that covers the webpage. It is **only** visible when the development server runs using `next dev` via `pnpm dev`, `npm run dev`, `yarn dev`, or `bun dev` and will not be shown in production. Fixing the error will automatically dismiss the overlay.
+Khi có lỗi runtime trong giai đoạn development của ứng dụng Next.js của bạn, bạn sẽ gặp một **overlay**. Đó là một modal che phủ trang web. Nó **chỉ** hiển thị khi development server chạy bằng `next dev` thông qua `pnpm dev`, `npm run dev`, `yarn dev`, hoặc `bun dev` và sẽ không được hiển thị trong production. Sửa lỗi sẽ tự động loại bỏ overlay.
 
-Here is an example of an overlay:
+Đây là một ví dụ về overlay:
 
 {/* TODO UPDATE SCREENSHOT */}
-![Example of an overlay when in development mode](https://assets.vercel.com/image/upload/v1645118290/docs-assets/static/docs/error-handling/overlay.png)
+{/* ![Example of an overlay when in development mode](https://assets.vercel.com/image/upload/v1645118290/docs-assets/static/docs/error-handling/overlay.png) */}
 
-## Handling Server Errors
+## Xử lý lỗi Server
 
-Next.js provides a static 500 page by default to handle server-side errors that occur in your application. You can also [customize this page](/docs/pages/building-your-application/routing/custom-error#customizing-the-500-page) by creating a `pages/500.js` file.
+Next.js cung cấp một trang 500 tĩnh theo mặc định để xử lý các lỗi server-side xảy ra trong ứng dụng của bạn. Bạn cũng có thể [tùy chỉnh trang này](/docs/pages/building-your-application/routing/custom-error#customizing-the-500-page) bằng cách tạo một tệp `pages/500.js`.
 
-Having a 500 page in your application does not show specific errors to the app user.
+Có một trang 500 trong ứng dụng của bạn không hiển thị lỗi cụ thể cho người dùng ứng dụng.
 
-You can also use [404 page](/docs/pages/building-your-application/routing/custom-error#404-page) to handle specific runtime error like `file not found`.
+Bạn cũng có thể sử dụng [trang 404](/docs/pages/building-your-application/routing/custom-error#404-page) để xử lý lỗi runtime cụ thể như `file not found`.
 
-## Handling Client Errors
+## Xử lý lỗi Client
 
-React [Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) is a graceful way to handle a JavaScript error on the client so that the other parts of the application continue working. In addition to preventing the page from crashing, it allows you to provide a custom fallback component and even log error information.
+React [Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) là một cách graceful để xử lý lỗi JavaScript ở phía client để các phần khác của ứng dụng tiếp tục hoạt động. Ngoài việc ngăn trang bị crash, nó cho phép bạn cung cấp một fallback component tùy chỉnh và thậm chí log thông tin lỗi.
 
-To use Error Boundaries for your Next.js application, you must create a class component `ErrorBoundary` and wrap the `Component` prop in the `pages/_app.js` file. This component will be responsible to:
+Để sử dụng Error Boundaries cho ứng dụng Next.js của bạn, bạn phải tạo một class component `ErrorBoundary` và wrap prop `Component` trong tệp `pages/_app.js`. Component này sẽ chịu trách nhiệm:
 
-- Render a fallback UI after an error is thrown
-- Provide a way to reset the Application's state
-- Log error information
+- Render một fallback UI sau khi một lỗi được ném
+- Cung cấp một cách để reset state của Application
+- Log thông tin lỗi
 
-You can create an `ErrorBoundary` class component by extending `React.Component`. For example:
+Bạn có thể tạo một class component `ErrorBoundary` bằng cách extend `React.Component`. Ví dụ:
 
 ```jsx
 class ErrorBoundary extends React.Component {
@@ -77,9 +77,9 @@ class ErrorBoundary extends React.Component {
 export default ErrorBoundary
 ```
 
-The `ErrorBoundary` component keeps track of an `hasError` state. The value of this state variable is a boolean. When the value of `hasError` is `true`, then the `ErrorBoundary` component will render a fallback UI. Otherwise, it will render the children components.
+Component `ErrorBoundary` theo dõi một state `hasError`. Giá trị của biến state này là một boolean. Khi giá trị của `hasError` là `true`, thì component `ErrorBoundary` sẽ render một fallback UI. Nếu không, nó sẽ render các children components.
 
-After creating an `ErrorBoundary` component, import it in the `pages/_app.js` file to wrap the `Component` prop in your Next.js application.
+Sau khi tạo một component `ErrorBoundary`, hãy import nó trong tệp `pages/_app.js` để wrap prop `Component` trong ứng dụng Next.js của bạn.
 
 ```jsx
 // Import the ErrorBoundary component
@@ -97,8 +97,8 @@ function MyApp({ Component, pageProps }) {
 export default MyApp
 ```
 
-You can learn more about [Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) in React's documentation.
+Bạn có thể tìm hiểu thêm về [Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) trong tài liệu của React.
 
-### Reporting Errors
+### Báo cáo lỗi
 
-To monitor client errors, use a service like [Sentry](https://github.com/vercel/next.js/tree/canary/examples/with-sentry), Bugsnag or Datadog.
+Để monitor các lỗi client, hãy sử dụng một dịch vụ như [Sentry](https://github.com/vercel/next.js/tree/canary/examples/with-sentry), Bugsnag hoặc Datadog.

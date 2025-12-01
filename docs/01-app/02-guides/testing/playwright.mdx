@@ -1,36 +1,36 @@
 ---
-title: How to set up Playwright with Next.js
+title: Cách thiết lập Playwright với Next.js
 nav_title: Playwright
-description: Learn how to set up Playwright with Next.js for End-to-End (E2E) Testing.
+description: Tìm hiểu cách thiết lập Playwright với Next.js cho End-to-End (E2E) Testing.
 ---
 
-Playwright is a testing framework that lets you automate Chromium, Firefox, and WebKit with a single API. You can use it to write **End-to-End (E2E)** testing. This guide will show you how to set up Playwright with Next.js and write your first tests.
+Playwright là một testing framework cho phép bạn tự động hóa Chromium, Firefox và WebKit với một API duy nhất. Bạn có thể sử dụng nó để viết **End-to-End (E2E)** testing. Hướng dẫn này sẽ chỉ cho bạn cách thiết lập Playwright với Next.js và viết các tests đầu tiên của bạn.
 
 ## Quickstart
 
-The fastest way to get started is to use `create-next-app` with the [with-playwright example](https://github.com/vercel/next.js/tree/canary/examples/with-playwright). This will create a Next.js project complete with Playwright configured.
+Cách nhanh nhất để bắt đầu là sử dụng `create-next-app` với [ví dụ with-playwright](https://github.com/vercel/next.js/tree/canary/examples/with-playwright). Điều này sẽ tạo một dự án Next.js hoàn chỉnh với Playwright đã được cấu hình.
 
 ```bash filename="Terminal"
 npx create-next-app@latest --example with-playwright with-playwright-app
 ```
 
-## Manual setup
+## Thiết lập thủ công
 
-To install Playwright, run the following command:
+Để cài đặt Playwright, hãy chạy lệnh sau:
 
 ```bash filename="Terminal"
 npm init playwright
-# or
+# hoặc
 yarn create playwright
-# or
+# hoặc
 pnpm create playwright
 ```
 
-This will take you through a series of prompts to setup and configure Playwright for your project, including adding a `playwright.config.ts` file. Please refer to the [Playwright installation guide](https://playwright.dev/docs/intro#installation) for the step-by-step guide.
+Điều này sẽ đưa bạn qua một loạt các prompts để thiết lập và cấu hình Playwright cho dự án của bạn, bao gồm thêm một tệp `playwright.config.ts`. Vui lòng tham khảo [hướng dẫn cài đặt Playwright](https://playwright.dev/docs/intro#installation) để biết hướng dẫn từng bước.
 
-## Creating your first Playwright E2E test
+## Tạo Playwright E2E test đầu tiên của bạn
 
-Create two new Next.js pages:
+Tạo hai trang Next.js mới:
 
 <AppOnly>
 
@@ -92,7 +92,7 @@ export default function About() {
 
 </PagesOnly>
 
-Then, add a test to verify that your navigation is working correctly:
+Sau đó, thêm một test để xác minh rằng navigation của bạn hoạt động chính xác:
 
 ```ts filename="tests/example.spec.ts"
 import { test, expect } from '@playwright/test'
@@ -109,22 +109,22 @@ test('should navigate to the about page', async ({ page }) => {
 })
 ```
 
-> **Good to know**: You can use `page.goto("/")` instead of `page.goto("http://localhost:3000/")`, if you add [`"baseURL": "http://localhost:3000"`](https://playwright.dev/docs/api/class-testoptions#test-options-base-url) to the `playwright.config.ts` [configuration file](https://playwright.dev/docs/test-configuration).
+> **Nên biết**: Bạn có thể sử dụng `page.goto("/")` thay vì `page.goto("http://localhost:3000/")`, nếu bạn thêm [`"baseURL": "http://localhost:3000"`](https://playwright.dev/docs/api/class-testoptions#test-options-base-url) vào [tệp cấu hình](https://playwright.dev/docs/test-configuration) `playwright.config.ts`.
 
-### Running your Playwright tests
+### Chạy Playwright tests của bạn
 
-Playwright will simulate a user navigating your application using three browsers: Chromium, Firefox and Webkit, this requires your Next.js server to be running. We recommend running your tests against your production code to more closely resemble how your application will behave.
+Playwright sẽ mô phỏng một người dùng điều hướng ứng dụng của bạn bằng ba trình duyệt: Chromium, Firefox và Webkit, điều này yêu cầu Next.js server của bạn đang chạy. Chúng tôi khuyến nghị chạy các tests của bạn đối với production code của bạn để mô phỏng chặt chẽ hơn cách ứng dụng của bạn sẽ hoạt động.
 
-Run `npm run build` and `npm run start`, then run `npx playwright test` in another terminal window to run the Playwright tests.
+Chạy `npm run build` và `npm run start`, sau đó chạy `npx playwright test` trong một cửa sổ terminal khác để chạy các Playwright tests.
 
-> **Good to know**: Alternatively, you can use the [`webServer`](https://playwright.dev/docs/test-webserver/) feature to let Playwright start the development server and wait until it's fully available.
+> **Nên biết**: Ngoài ra, bạn có thể sử dụng tính năng [`webServer`](https://playwright.dev/docs/test-webserver/) để cho phép Playwright khởi động development server và đợi cho đến khi nó hoàn toàn có sẵn.
 
-### Running Playwright on Continuous Integration (CI)
+### Chạy Playwright trên Continuous Integration (CI)
 
-Playwright will by default run your tests in the [headless mode](https://playwright.dev/docs/ci#running-headed). To install all the Playwright dependencies, run `npx playwright install-deps`.
+Playwright theo mặc định sẽ chạy các tests của bạn trong [headless mode](https://playwright.dev/docs/ci#running-headed). Để cài đặt tất cả các Playwright dependencies, hãy chạy `npx playwright install-deps`.
 
-You can learn more about Playwright and Continuous Integration from these resources:
+Bạn có thể tìm hiểu thêm về Playwright và Continuous Integration từ các tài nguyên sau:
 
-- [Next.js with Playwright example](https://github.com/vercel/next.js/tree/canary/examples/with-playwright)
-- [Playwright on your CI provider](https://playwright.dev/docs/ci)
+- [Ví dụ Next.js với Playwright](https://github.com/vercel/next.js/tree/canary/examples/with-playwright)
+- [Playwright trên CI provider của bạn](https://playwright.dev/docs/ci)
 - [Playwright Discord](https://discord.com/invite/playwright-807756831384403968)

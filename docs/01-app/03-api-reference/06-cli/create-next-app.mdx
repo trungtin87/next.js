@@ -1,63 +1,63 @@
 ---
 title: create-next-app
-description: Create Next.js apps using one command with the create-next-app CLI.
+description: Tạo ứng dụng Next.js bằng một lệnh với create-next-app CLI.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-The `create-next-app` CLI allow you to create a new Next.js application using the default template or an [example](https://github.com/vercel/next.js/tree/canary/examples) from a public GitHub repository. It is the easiest way to get started with Next.js.
+`create-next-app` CLI cho phép bạn tạo một ứng dụng Next.js mới bằng cách sử dụng template mặc định hoặc một [ví dụ](https://github.com/vercel/next.js/tree/canary/examples) từ một kho lưu trữ GitHub công khai. Đây là cách dễ nhất để bắt đầu với Next.js.
 
-Basic usage:
+Sử dụng cơ bản:
 
 ```bash filename="Terminal"
 npx create-next-app@latest [project-name] [options]
 ```
 
-## Reference
+## Tham khảo
 
-The following options are available:
+Các tùy chọn sau đây có sẵn:
 
-| Options                                 | Description                                                           |
-| --------------------------------------- | --------------------------------------------------------------------- |
-| `-h` or `--help`                        | Show all available options                                            |
-| `-v` or `--version`                     | Output the version number                                             |
-| `--no-*`                                | Negate default options. E.g. `--no-ts`                                |
-| `--ts` or `--typescript`                | Initialize as a TypeScript project (default)                          |
-| `--js` or `--javascript`                | Initialize as a JavaScript project                                    |
-| `--tailwind`                            | Initialize with Tailwind CSS config (default)                         |
-| `--react-compiler`                      | Initialize with React Compiler enabled                                |
-| `--eslint`                              | Initialize with ESLint config                                         |
-| `--biome`                               | Initialize with Biome config                                          |
-| `--no-linter`                           | Skip linter configuration                                             |
-| `--app`                                 | Initialize as an App Router project                                   |
-| `--api`                                 | Initialize a project with only route handlers                         |
-| `--src-dir`                             | Initialize inside a `src/` directory                                  |
-| `--turbopack`                           | Force enable Turbopack in generated package.json (enabled by default) |
-| `--webpack`                             | Force enable Webpack in generated package.json                        |
-| `--import-alias <alias-to-configure>`   | Specify import alias to use (default "@/\*")                          |
-| `--empty`                               | Initialize an empty project                                           |
-| `--use-npm`                             | Explicitly tell the CLI to bootstrap the application using npm        |
-| `--use-pnpm`                            | Explicitly tell the CLI to bootstrap the application using pnpm       |
-| `--use-yarn`                            | Explicitly tell the CLI to bootstrap the application using Yarn       |
-| `--use-bun`                             | Explicitly tell the CLI to bootstrap the application using Bun        |
-| `-e` or `--example [name] [github-url]` | An example to bootstrap the app with                                  |
-| `--example-path <path-to-example>`      | Specify the path to the example separately                            |
-| `--reset-preferences`                   | Explicitly tell the CLI to reset any stored preferences               |
-| `--skip-install`                        | Explicitly tell the CLI to skip installing packages                   |
-| `--disable-git`                         | Explicitly tell the CLI to disable git initialization                 |
-| `--yes`                                 | Use previous preferences or defaults for all options                  |
+| Tùy chọn                                  | Mô tả                                                                   |
+| ----------------------------------------- | ----------------------------------------------------------------------- |
+| `-h` hoặc `--help`                        | Hiển thị tất cả các tùy chọn có sẵn                                     |
+| `-v` hoặc `--version`                     | Xuất số phiên bản                                                       |
+| `--no-*`                                  | Phủ định các tùy chọn mặc định. Ví dụ: `--no-ts`                        |
+| `--ts` hoặc `--typescript`                | Khởi tạo như một dự án TypeScript (mặc định)                            |
+| `--js` hoặc `--javascript`                | Khởi tạo như một dự án JavaScript                                       |
+| `--tailwind`                              | Khởi tạo với cấu hình Tailwind CSS (mặc định)                           |
+| `--react-compiler`                        | Khởi tạo với React Compiler được bật                                    |
+| `--eslint`                                | Khởi tạo với cấu hình ESLint                                            |
+| `--biome`                                 | Khởi tạo với cấu hình Biome                                             |
+| `--no-linter`                             | Bỏ qua cấu hình linter                                                  |
+| `--app`                                   | Khởi tạo như một dự án App Router                                       |
+| `--api`                                   | Khởi tạo một dự án chỉ với route handlers                               |
+| `--src-dir`                               | Khởi tạo bên trong thư mục `src/`                                       |
+| `--turbopack`                             | Buộc bật Turbopack trong package.json được tạo (được bật theo mặc định) |
+| `--webpack`                               | Buộc bật Webpack trong package.json được tạo                            |
+| `--import-alias <alias-to-configure>`     | Chỉ định import alias để sử dụng (mặc định "@/\*")                      |
+| `--empty`                                 | Khởi tạo một dự án trống                                                |
+| `--use-npm`                               | Chỉ định rõ ràng cho CLI để bootstrap ứng dụng bằng npm                 |
+| `--use-pnpm`                              | Chỉ định rõ ràng cho CLI để bootstrap ứng dụng bằng pnpm                |
+| `--use-yarn`                              | Chỉ định rõ ràng cho CLI để bootstrap ứng dụng bằng Yarn                |
+| `--use-bun`                               | Chỉ định rõ ràng cho CLI để bootstrap ứng dụng bằng Bun                 |
+| `-e` hoặc `--example [name] [github-url]` | Một ví dụ để bootstrap ứng dụng với                                     |
+| `--example-path <path-to-example>`        | Chỉ định đường dẫn đến ví dụ một cách riêng biệt                        |
+| `--reset-preferences`                     | Chỉ định rõ ràng cho CLI để reset bất kỳ tùy chọn nào đã lưu            |
+| `--skip-install`                          | Chỉ định rõ ràng cho CLI để bỏ qua cài đặt các gói                      |
+| `--disable-git`                           | Chỉ định rõ ràng cho CLI để vô hiệu hóa khởi tạo git                    |
+| `--yes`                                   | Sử dụng các tùy chọn trước đó hoặc mặc định cho tất cả các tùy chọn     |
 
-## Examples
+## Ví dụ
 
-### With the default template
+### Với template mặc định
 
-To create a new app using the default template, run the following command in your terminal:
+Để tạo một ứng dụng mới sử dụng template mặc định, chạy lệnh sau trong terminal của bạn:
 
 ```bash filename="Terminal"
 npx create-next-app@latest
 ```
 
-On installation, you'll see the following prompts:
+Khi cài đặt, bạn sẽ thấy các lời nhắc sau:
 
 ```txt filename="Terminal"
 What is your project named? my-app
@@ -67,7 +67,7 @@ Would you like to use the recommended Next.js defaults?
     No, customize settings - Choose your own preferences
 ```
 
-If you choose to `customize settings`, you'll see the following prompts:
+Nếu bạn chọn `customize settings`, bạn sẽ thấy các lời nhắc sau:
 
 ```txt filename="Terminal"
 Would you like to use TypeScript? No / Yes
@@ -81,31 +81,31 @@ Would you like to customize the import alias (`@/*` by default)? No / Yes
 What import alias would you like configured? @/*
 ```
 
-After the prompts, `create-next-app` will create a folder with your project name and install the required dependencies.
+Sau các lời nhắc, `create-next-app` sẽ tạo một thư mục với tên dự án của bạn và cài đặt các dependencies cần thiết.
 
-### Linter Options
+### Tùy chọn Linter
 
-**ESLint**: The traditional and most popular JavaScript linter. Includes Next.js-specific rules from `@next/eslint-plugin-next`.
+**ESLint**: Linter JavaScript truyền thống và phổ biến nhất. Bao gồm các quy tắc cụ thể của Next.js từ `@next/eslint-plugin-next`.
 
-**Biome**: A fast, modern linter and formatter that combines the functionality of ESLint and Prettier. Includes built-in Next.js and React domain support for optimal performance.
+**Biome**: Một linter và formatter hiện đại, nhanh chóng kết hợp chức năng của ESLint và Prettier. Bao gồm hỗ trợ domain Next.js và React tích hợp để có hiệu suất tối ưu.
 
-**None**: Skip linter configuration entirely. You can always add a linter later.
+**None**: Bỏ qua cấu hình linter hoàn toàn. Bạn luôn có thể thêm một linter sau này.
 
-Once you've answered the prompts, a new project will be created with your chosen configuration.
+Khi bạn đã trả lời các lời nhắc, một dự án mới sẽ được tạo với cấu hình bạn đã chọn.
 
-### With an official Next.js example
+### Với một ví dụ Next.js chính thức
 
-To create a new app using an official Next.js example, use the `--example` flag. For example:
+Để tạo một ứng dụng mới sử dụng một ví dụ Next.js chính thức, sử dụng cờ `--example`. Ví dụ:
 
 ```bash filename="Terminal"
 npx create-next-app@latest --example [example-name] [your-project-name]
 ```
 
-You can view a list of all available examples along with setup instructions in the [Next.js repository](https://github.com/vercel/next.js/tree/canary/examples).
+Bạn có thể xem danh sách tất cả các ví dụ có sẵn cùng với hướng dẫn thiết lập trong [kho lưu trữ Next.js](https://github.com/vercel/next.js/tree/canary/examples).
 
-### With any public GitHub example
+### Với bất kỳ ví dụ GitHub công khai nào
 
-To create a new app using any public GitHub example, use the `--example` option with the GitHub repo's URL. For example:
+Để tạo một ứng dụng mới sử dụng bất kỳ ví dụ GitHub công khai nào, sử dụng tùy chọn `--example` với URL của repo GitHub. Ví dụ:
 
 ```bash filename="Terminal"
 npx create-next-app@latest --example "https://github.com/.../" [your-project-name]

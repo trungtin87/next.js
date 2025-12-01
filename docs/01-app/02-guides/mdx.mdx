@@ -1,68 +1,68 @@
 ---
-title: How to use markdown and MDX in Next.js
+title: Cách sử dụng markdown và MDX trong Next.js
 nav_title: MDX
-description: Learn how to configure MDX and use it in your Next.js apps.
+description: Tìm hiểu cách cấu hình MDX và sử dụng nó trong các ứng dụng Next.js của bạn.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng component `<PagesOnly>Content</PagesOnly>` để thêm nội dung cụ thể cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bọc trong một component. */}
 
-[Markdown](https://daringfireball.net/projects/markdown/syntax) is a lightweight markup language used to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML. It's commonly used for writing content on websites and blogs.
+[Markdown](https://daringfireball.net/projects/markdown/syntax) là một ngôn ngữ đánh dấu nhẹ được sử dụng để định dạng văn bản. Nó cho phép bạn viết bằng cú pháp văn bản thuần túy và chuyển đổi nó thành HTML hợp lệ về mặt cấu trúc. Nó thường được sử dụng để viết nội dung trên các trang web và blog.
 
-You write...
+Bạn viết...
 
 ```md
 I **love** using [Next.js](https://nextjs.org/)
 ```
 
-Output:
+Kết quả:
 
 ```html
 <p>I <strong>love</strong> using <a href="https://nextjs.org/">Next.js</a></p>
 ```
 
-[MDX](https://mdxjs.com/) is a superset of markdown that lets you write [JSX](https://react.dev/learn/writing-markup-with-jsx) directly in your markdown files. It is a powerful way to add dynamic interactivity and embed React components within your content.
+[MDX](https://mdxjs.com/) là một tập hợp siêu của markdown cho phép bạn viết [JSX](https://react.dev/learn/writing-markup-with-jsx) trực tiếp trong các tệp markdown của mình. Đây là một cách mạnh mẽ để thêm tính tương tác động và nhúng các React component vào nội dung của bạn.
 
-Next.js can support both local MDX content inside your application, as well as remote MDX files fetched dynamically on the server. The Next.js plugin handles transforming markdown and React components into HTML, including support for usage in Server Components (the default in App Router).
+Next.js có thể hỗ trợ cả nội dung MDX cục bộ bên trong ứng dụng của bạn, cũng như các tệp MDX từ xa được fetch động trên server. Plugin Next.js xử lý việc chuyển đổi markdown và React components thành HTML, bao gồm hỗ trợ sử dụng trong Server Components (mặc định trong App Router).
 
-> **Good to know**: View the [Portfolio Starter Kit](https://vercel.com/templates/next.js/portfolio-starter-kit) template for a complete working example.
+> **Cần biết**: Xem template [Portfolio Starter Kit](https://vercel.com/templates/next.js/portfolio-starter-kit) để có một ví dụ hoạt động hoàn chỉnh.
 
-## Install dependencies
+## Cài đặt dependencies
 
-The `@next/mdx` package, and related packages, are used to configure Next.js so it can process markdown and MDX. **It sources data from local files**, allowing you to create pages with a `.md` or `.mdx` extension, directly in your `/pages` or `/app` directory.
+Gói `@next/mdx`, và các gói liên quan, được sử dụng để cấu hình Next.js để nó có thể xử lý markdown và MDX. **Nó lấy dữ liệu từ các tệp cục bộ**, cho phép bạn tạo các trang với phần mở rộng `.md` hoặc `.mdx`, trực tiếp trong thư mục `/pages` hoặc `/app` của bạn.
 
-Install these packages to render MDX with Next.js:
+Cài đặt các gói này để render MDX với Next.js:
 
 ```bash filename="Terminal"
 npm install @next/mdx @mdx-js/loader @mdx-js/react @types/mdx
 ```
 
-## Configure `next.config.mjs`
+## Cấu hình `next.config.mjs`
 
-Update the `next.config.mjs` file at your project's root to configure it to use MDX:
+Cập nhật tệp `next.config.mjs` tại thư mục gốc của dự án của bạn để cấu hình nó sử dụng MDX:
 
 ```js filename="next.config.mjs"
 import createMDX from '@next/mdx'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configure `pageExtensions` to include markdown and MDX files
+  // Cấu hình `pageExtensions` để bao gồm các tệp markdown và MDX
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-  // Optionally, add any other Next.js config below
+  // Tùy chọn, thêm bất kỳ cấu hình Next.js nào khác bên dưới
 }
 
 const withMDX = createMDX({
-  // Add markdown plugins here, as desired
+  // Thêm các markdown plugins ở đây, nếu muốn
 })
 
-// Merge MDX config with Next.js config
+// Hợp nhất cấu hình MDX với cấu hình Next.js
 export default withMDX(nextConfig)
 ```
 
-This allows `.mdx` files to act as pages, routes, or imports in your application.
+Điều này cho phép các tệp `.mdx` hoạt động như các trang, routes, hoặc imports trong ứng dụng của bạn.
 
-### Handling `.md` files
+### Xử lý các tệp `.md`
 
-By default, `next/mdx` only compiles files with the `.mdx` extension. To handle `.md` files with webpack, update the `extension` option:
+Theo mặc định, `next/mdx` chỉ biên dịch các tệp có phần mở rộng `.mdx`. Để xử lý các tệp `.md` với webpack, hãy cập nhật tùy chọn `extension`:
 
 ```js filename="next.config.mjs"
 const withMDX = createMDX({
@@ -70,9 +70,9 @@ const withMDX = createMDX({
 })
 ```
 
-## Add an `mdx-components.tsx` file
+## Thêm tệp `mdx-components.tsx`
 
-Create an `mdx-components.tsx` (or `.js`) file in the root of your project to define global MDX Components. For example, at the same level as `pages` or `app`, or inside `src` if applicable.
+Tạo một tệp `mdx-components.tsx` (hoặc `.js`) trong thư mục gốc của dự án của bạn để định nghĩa các MDX Components toàn cục. Ví dụ, ở cùng cấp với `pages` hoặc `app`, hoặc bên trong `src` nếu có.
 
 ```tsx filename="mdx-components.tsx" switcher
 import type { MDXComponents } from 'mdx/types'
@@ -92,25 +92,25 @@ export function useMDXComponents() {
 }
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - `mdx-components.tsx` is **required** to use `@next/mdx` with App Router and will not work without it.
-> - Learn more about the [`mdx-components.tsx` file convention](/docs/app/api-reference/file-conventions/mdx-components).
-> - Learn how to [use custom styles and components](#using-custom-styles-and-components).
+> - `mdx-components.tsx` là **bắt buộc** để sử dụng `@next/mdx` với App Router và sẽ không hoạt động nếu thiếu nó.
+> - Tìm hiểu thêm về [quy ước tệp `mdx-components.tsx`](/docs/app/api-reference/file-conventions/mdx-components).
+> - Tìm hiểu cách [sử dụng style và component tùy chỉnh](#using-custom-styles-and-components).
 
-## Rendering MDX
+## Render MDX
 
-You can render MDX using Next.js's file based routing or by importing MDX files into other pages.
+Bạn có thể render MDX bằng cách sử dụng file based routing của Next.js hoặc bằng cách import các tệp MDX vào các trang khác.
 
-### Using file based routing
+### Sử dụng file based routing
 
-When using file based routing, you can use MDX pages like any other page.
+Khi sử dụng file based routing, bạn có thể sử dụng các trang MDX giống như bất kỳ trang nào khác.
 
 <AppOnly>
 
-In App Router apps, that includes being able to use [metadata](/docs/app/getting-started/metadata-and-og-images).
+Trong các ứng dụng App Router, điều đó bao gồm khả năng sử dụng [metadata](/docs/app/getting-started/metadata-and-og-images).
 
-Create a new MDX page within the `/app` directory:
+Tạo một trang MDX mới trong thư mục `/app`:
 
 ```txt
   my-project
@@ -125,7 +125,7 @@ Create a new MDX page within the `/app` directory:
 
 <PagesOnly>
 
-Create a new MDX page within the `/pages` directory:
+Tạo một trang MDX mới trong thư mục `/pages`:
 
 ```txt
   my-project
@@ -137,7 +137,7 @@ Create a new MDX page within the `/pages` directory:
 
 </PagesOnly>
 
-You can use MDX in these files, and even import React components, directly inside your MDX page:
+Bạn có thể sử dụng MDX trong các tệp này, và thậm chí import các React component, trực tiếp bên trong trang MDX của bạn:
 
 ```mdx
 import { MyComponent } from 'my-component'
@@ -157,13 +157,13 @@ Checkout my React component:
 <MyComponent />
 ```
 
-Navigating to the `/mdx-page` route should display your rendered MDX page.
+Điều hướng đến route `/mdx-page` sẽ hiển thị trang MDX đã render của bạn.
 
-### Using imports
+### Sử dụng imports
 
 <AppOnly>
 
-Create a new page within the `/app` directory and an MDX file wherever you'd like:
+Tạo một trang mới trong thư mục `/app` và một tệp MDX ở bất cứ đâu bạn muốn:
 
 ```txt
   .
@@ -180,7 +180,7 @@ Create a new page within the `/app` directory and an MDX file wherever you'd lik
 
 <PagesOnly>
 
-Create a new page within the `/pages` directory and an MDX file wherever you'd like:
+Tạo một trang mới trong thư mục `/pages` và một tệp MDX ở bất cứ đâu bạn muốn:
 
 ```txt
   .
@@ -194,7 +194,7 @@ Create a new page within the `/pages` directory and an MDX file wherever you'd l
 
 </PagesOnly>
 
-You can use MDX in these files, and even import React components, directly inside your MDX page:
+Bạn có thể sử dụng MDX trong các tệp này, và thậm chí import các React component, trực tiếp bên trong trang MDX của bạn:
 
 ```mdx filename="markdown/welcome.mdx" switcher
 import { MyComponent } from 'my-component'
@@ -214,7 +214,7 @@ Checkout my React component:
 <MyComponent />
 ```
 
-Import the MDX file inside the page to display the content:
+Import tệp MDX bên trong trang để hiển thị nội dung:
 
 <AppOnly>
 
@@ -256,15 +256,15 @@ export default function Page() {
 
 </PagesOnly>
 
-Navigating to the `/mdx-page` route should display your rendered MDX page.
+Điều hướng đến route `/mdx-page` sẽ hiển thị trang MDX đã render của bạn.
 
 <AppOnly>
 
-### Using dynamic imports
+### Sử dụng dynamic imports
 
-You can import dynamic MDX components instead of using filesystem routing for MDX files.
+Bạn có thể import các MDX component động thay vì sử dụng filesystem routing cho các tệp MDX.
 
-For example, you can have a dynamic route segment which loads MDX components from a separate directory:
+Ví dụ, bạn có thể có một phân đoạn route động tải các MDX component từ một thư mục riêng biệt:
 
 <Image
   alt="Route segments for dynamic MDX components"
@@ -274,7 +274,7 @@ For example, you can have a dynamic route segment which loads MDX components fro
   height="849"
 />
 
-[`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) can be used to prerender the provided routes. By marking `dynamicParams` as `false`, accessing a route not defined in `generateStaticParams` will 404.
+[`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params) có thể được sử dụng để prerender các route được cung cấp. Bằng cách đánh dấu `dynamicParams` là `false`, việc truy cập một route không được định nghĩa trong `generateStaticParams` sẽ trả về 404.
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export default async function Page({
@@ -310,13 +310,13 @@ export function generateStaticParams() {
 export const dynamicParams = false
 ```
 
-> **Good to know**: Ensure you specify the `.mdx` file extension in your import. While it is not required to use [module path aliases](/docs/app/getting-started/installation#set-up-absolute-imports-and-module-path-aliases) (e.g., `@/content`), it does simplify your import path.
+> **Cần biết**: Đảm bảo bạn chỉ định phần mở rộng tệp `.mdx` trong import của mình. Mặc dù không bắt buộc phải sử dụng [module path aliases](/docs/app/getting-started/installation#set-up-absolute-imports-and-module-path-aliases) (v.d., `@/content`), nhưng nó giúp đơn giản hóa đường dẫn import của bạn.
 
 </AppOnly>
 
-## Using custom styles and components
+## Sử dụng style và component tùy chỉnh
 
-Markdown, when rendered, maps to native HTML elements. For example, writing the following markdown:
+Markdown, khi được render, ánh xạ tới các phần tử HTML gốc. Ví dụ, viết markdown sau:
 
 ```md
 ## This is a heading
@@ -328,7 +328,7 @@ This is a list in markdown:
 - Three
 ```
 
-Generates the following HTML:
+Tạo ra HTML sau:
 
 ```html
 <h2>This is a heading</h2>
@@ -342,23 +342,23 @@ Generates the following HTML:
 </ul>
 ```
 
-To style your markdown, you can provide custom components that map to the generated HTML elements. Styles and components can be implemented globally, locally, and with shared layouts.
+Để style cho markdown của bạn, bạn có thể cung cấp các component tùy chỉnh ánh xạ tới các phần tử HTML được tạo ra. Style và component có thể được triển khai toàn cục, cục bộ, và với các layout được chia sẻ.
 
-### Global styles and components
+### Style và component toàn cục
 
-Adding styles and components in `mdx-components.tsx` will affect _all_ MDX files in your application.
+Thêm style và component trong `mdx-components.tsx` sẽ ảnh hưởng đến _tất cả_ các tệp MDX trong ứng dụng của bạn.
 
 ```tsx filename="mdx-components.tsx" switcher
 import type { MDXComponents } from 'mdx/types'
 import Image, { ImageProps } from 'next/image'
 
-// This file allows you to provide custom React components
-// to be used in MDX files. You can import and use any
-// React component you want, including inline styles,
-// components from other libraries, and more.
+// Tệp này cho phép bạn cung cấp các React component tùy chỉnh
+// để sử dụng trong các tệp MDX. Bạn có thể import và sử dụng bất kỳ
+// React component nào bạn muốn, bao gồm inline styles,
+// component từ các thư viện khác, và hơn thế nữa.
 
 const components = {
-  // Allows customizing built-in components, e.g. to add styling.
+  // Cho phép tùy chỉnh các component tích hợp sẵn, v.d. để thêm styling.
   h1: ({ children }) => (
     <h1 style={{ color: 'red', fontSize: '48px' }}>{children}</h1>
   ),
@@ -379,13 +379,13 @@ export function useMDXComponents(): MDXComponents {
 ```js filename="mdx-components.js" switcher
 import Image from 'next/image'
 
-// This file allows you to provide custom React components
-// to be used in MDX files. You can import and use any
-// React component you want, including inline styles,
-// components from other libraries, and more.
+// Tệp này cho phép bạn cung cấp các React component tùy chỉnh
+// để sử dụng trong các tệp MDX. Bạn có thể import và sử dụng bất kỳ
+// React component nào bạn muốn, bao gồm inline styles,
+// component từ các thư viện khác, và hơn thế nữa.
 
 const components = {
-  // Allows customizing built-in components, e.g. to add styling.
+  // Cho phép tùy chỉnh các component tích hợp sẵn, v.d. để thêm styling.
   h1: ({ children }) => (
     <h1 style={{ color: 'red', fontSize: '48px' }}>{children}</h1>
   ),
@@ -399,9 +399,9 @@ export function useMDXComponents() {
 }
 ```
 
-### Local styles and components
+### Style và component cục bộ
 
-You can apply local styles and components to specific pages by passing them into imported MDX components. These will merge with and override [global styles and components](#global-styles-and-components).
+Bạn có thể áp dụng style và component cục bộ cho các trang cụ thể bằng cách truyền chúng vào các MDX component đã import. Những cái này sẽ hợp nhất với và ghi đè [style và component toàn cục](#global-styles-and-components).
 
 <AppOnly>
 
@@ -479,18 +479,18 @@ export default function Page() {
 
 <AppOnly>
 
-To share a layout across MDX pages, you can use the [built-in layouts support](/docs/app/api-reference/file-conventions/layout) with the App Router.
+Để chia sẻ một layout giữa các trang MDX, bạn có thể sử dụng [hỗ trợ layout tích hợp sẵn](/docs/app/api-reference/file-conventions/layout) với App Router.
 
 ```tsx filename="app/mdx-page/layout.tsx" switcher
 export default function MdxLayout({ children }: { children: React.ReactNode }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return <div style={{ color: 'blue' }}>{children}</div>
 }
 ```
 
 ```jsx filename="app/mdx-page/layout.js" switcher
 export default function MdxLayout({ children }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return <div style={{ color: 'blue' }}>{children}</div>
 }
 ```
@@ -499,23 +499,23 @@ export default function MdxLayout({ children }) {
 
 <PagesOnly>
 
-To share a layout around MDX pages, create a layout component:
+Để chia sẻ một layout xung quanh các trang MDX, hãy tạo một component layout:
 
 ```tsx filename="components/mdx-layout.tsx" switcher
 export default function MdxLayout({ children }: { children: React.ReactNode }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return <div style={{ color: 'blue' }}>{children}</div>
 }
 ```
 
 ```jsx filename="components/mdx-layout.js" switcher
 export default function MdxLayout({ children }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return <div style={{ color: 'blue' }}>{children}</div>
 }
 ```
 
-Then, import the layout component into the MDX page, wrap the MDX content in the layout, and export it:
+Sau đó, import component layout vào trang MDX, bọc nội dung MDX trong layout, và export nó:
 
 ```mdx
 import MdxLayout from '../components/mdx-layout'
@@ -530,19 +530,19 @@ export default function MDXPage({ children }) {
 
 </PagesOnly>
 
-### Using Tailwind typography plugin
+### Sử dụng Tailwind typography plugin
 
-If you are using [Tailwind](https://tailwindcss.com) to style your application, using the [`@tailwindcss/typography` plugin](https://tailwindcss.com/docs/plugins#typography) will allow you to reuse your Tailwind configuration and styles in your markdown files.
+Nếu bạn đang sử dụng [Tailwind](https://tailwindcss.com) để style cho ứng dụng của mình, việc sử dụng [`@tailwindcss/typography` plugin](https://tailwindcss.com/docs/plugins#typography) sẽ cho phép bạn tái sử dụng cấu hình Tailwind và style của mình trong các tệp markdown.
 
-The plugin adds a set of `prose` classes that can be used to add typographic styles to content blocks that come from sources, like markdown.
+Plugin thêm một tập hợp các class `prose` có thể được sử dụng để thêm các style typography vào các khối nội dung đến từ các nguồn, như markdown.
 
-[Install Tailwind typography](https://github.com/tailwindlabs/tailwindcss-typography?tab=readme-ov-file#installation) and use with [shared layouts](#shared-layouts) to add the `prose` you want.
+[Cài đặt Tailwind typography](https://github.com/tailwindlabs/tailwindcss-typography?tab=readme-ov-file#installation) và sử dụng với [shared layouts](#shared-layouts) để thêm `prose` bạn muốn.
 
 <AppOnly>
 
 ```tsx filename="app/mdx-page/layout.tsx" switcher
 export default function MdxLayout({ children }: { children: React.ReactNode }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return (
     <div className="prose prose-headings:mt-8 prose-headings:font-semibold prose-headings:text-black prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg dark:prose-headings:text-white">
       {children}
@@ -553,7 +553,7 @@ export default function MdxLayout({ children }: { children: React.ReactNode }) {
 
 ```jsx filename="app/mdx-page/layout.js" switcher
 export default function MdxLayout({ children }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return (
     <div className="prose prose-headings:mt-8 prose-headings:font-semibold prose-headings:text-black prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg dark:prose-headings:text-white">
       {children}
@@ -566,11 +566,11 @@ export default function MdxLayout({ children }) {
 
 <PagesOnly>
 
-To share a layout around MDX pages, create a layout component:
+Để chia sẻ một layout xung quanh các trang MDX, hãy tạo một component layout:
 
 ```tsx filename="components/mdx-layout.tsx" switcher
 export default function MdxLayout({ children }: { children: React.ReactNode }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return (
     <div className="prose prose-headings:mt-8 prose-headings:font-semibold prose-headings:text-black prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg dark:prose-headings:text-white">
       {children}
@@ -581,7 +581,7 @@ export default function MdxLayout({ children }: { children: React.ReactNode }) {
 
 ```jsx filename="components/mdx-layout.js" switcher
 export default function MdxLayout({ children }) {
-  // Create any shared layout or styles here
+  // Tạo bất kỳ layout hoặc style được chia sẻ nào ở đây
   return (
     <div className="prose prose-headings:mt-8 prose-headings:font-semibold prose-headings:text-black prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg dark:prose-headings:text-white">
       {children}
@@ -590,7 +590,7 @@ export default function MdxLayout({ children }) {
 }
 ```
 
-Then, import the layout component into the MDX page, wrap the MDX content in the layout, and export it:
+Sau đó, import component layout vào trang MDX, bọc nội dung MDX trong layout, và export nó:
 
 ```mdx
 import MdxLayout from '../components/mdx-layout'
@@ -607,13 +607,13 @@ export default function MDXPage({ children }) {
 
 ## Frontmatter
 
-Frontmatter is a YAML like key/value pairing that can be used to store data about a page. `@next/mdx` does **not** support frontmatter by default, though there are many solutions for adding frontmatter to your MDX content, such as:
+Frontmatter là một cặp key/value giống như YAML có thể được sử dụng để lưu trữ dữ liệu về một trang. `@next/mdx` **không** hỗ trợ frontmatter theo mặc định, mặc dù có nhiều giải pháp để thêm frontmatter vào nội dung MDX của bạn, chẳng hạn như:
 
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter)
 - [remark-mdx-frontmatter](https://github.com/remcohaszing/remark-mdx-frontmatter)
 - [gray-matter](https://github.com/jonschlinkert/gray-matter)
 
-`@next/mdx` **does** allow you to use exports like any other JavaScript component:
+`@next/mdx` **cho phép** bạn sử dụng các export giống như bất kỳ JavaScript component nào khác:
 
 ```mdx filename="content/blog-post.mdx" switcher
 export const metadata = {
@@ -623,7 +623,7 @@ export const metadata = {
 # Blog post
 ```
 
-Metadata can now be referenced outside of the MDX file:
+Metadata bây giờ có thể được tham chiếu bên ngoài tệp MDX:
 
 <AppOnly>
 
@@ -673,20 +673,20 @@ export default function Page() {
 
 </PagesOnly>
 
-A common use case for this is when you want to iterate over a collection of MDX and extract data. For example, creating a blog index page from all blog posts. You can use packages like [Node's `fs` module](https://nodejs.org/api/fs.html) or [globby](https://www.npmjs.com/package/globby) to read a directory of posts and extract the metadata.
+Một trường hợp sử dụng phổ biến cho việc này là khi bạn muốn lặp qua một tập hợp các MDX và trích xuất dữ liệu. Ví dụ, tạo một trang chỉ mục blog từ tất cả các bài đăng blog. Bạn có thể sử dụng các gói như [module `fs` của Node](https://nodejs.org/api/fs.html) hoặc [globby](https://www.npmjs.com/package/globby) để đọc một thư mục các bài đăng và trích xuất metadata.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - Using `fs`, `globby`, etc. can only be used server-side.
-> - View the [Portfolio Starter Kit](https://vercel.com/templates/next.js/portfolio-starter-kit) template for a complete working example.
+> - Sử dụng `fs`, `globby`, v.v. chỉ có thể được sử dụng ở phía server.
+> - Xem template [Portfolio Starter Kit](https://vercel.com/templates/next.js/portfolio-starter-kit) để có một ví dụ hoạt động hoàn chỉnh.
 
-## remark and rehype Plugins
+## remark và rehype Plugins
 
-You can optionally provide remark and rehype plugins to transform the MDX content.
+Bạn có thể tùy chọn cung cấp các plugin remark và rehype để chuyển đổi nội dung MDX.
 
-For example, you can use [`remark-gfm`](https://github.com/remarkjs/remark-gfm) to support GitHub Flavored Markdown.
+Ví dụ, bạn có thể sử dụng [`remark-gfm`](https://github.com/remarkjs/remark-gfm) để hỗ trợ GitHub Flavored Markdown.
 
-Since the remark and rehype ecosystem is ESM only, you'll need to use `next.config.mjs` or `next.config.ts` as the configuration file.
+Vì hệ sinh thái remark và rehype chỉ là ESM, bạn sẽ cần sử dụng `next.config.mjs` hoặc `next.config.ts` làm tệp cấu hình.
 
 ```js filename="next.config.mjs"
 import remarkGfm from 'remark-gfm'
@@ -694,26 +694,26 @@ import createMDX from '@next/mdx'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow .mdx extensions for files
+  // Cho phép phần mở rộng .mdx cho các tệp
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-  // Optionally, add any other Next.js config below
+  // Tùy chọn, thêm bất kỳ cấu hình Next.js nào khác bên dưới
 }
 
 const withMDX = createMDX({
-  // Add markdown plugins here, as desired
+  // Thêm các markdown plugins ở đây, nếu muốn
   options: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [],
   },
 })
 
-// Combine MDX and Next.js config
+// Kết hợp cấu hình MDX và Next.js
 export default withMDX(nextConfig)
 ```
 
-### Using Plugins with Turbopack
+### Sử dụng Plugins với Turbopack
 
-To use plugins with [Turbopack](/docs/app/api-reference/turbopack), upgrade to the latest `@next/mdx` and specify plugin names using a string:
+Để sử dụng các plugin với [Turbopack](/docs/app/api-reference/turbopack), hãy nâng cấp lên `@next/mdx` mới nhất và chỉ định tên plugin bằng một chuỗi:
 
 ```js filename="next.config.mjs"
 import createMDX from '@next/mdx'
@@ -726,15 +726,15 @@ const nextConfig = {
 const withMDX = createMDX({
   options: {
     remarkPlugins: [
-      // Without options
+      // Không có tùy chọn
       'remark-gfm',
-      // With options
+      // Có tùy chọn
       ['remark-toc', { heading: 'The Table' }],
     ],
     rehypePlugins: [
-      // Without options
+      // Không có tùy chọn
       'rehype-slug',
-      // With options
+      // Có tùy chọn
       ['rehype-katex', { strict: true, throwOnError: true }],
     ],
   },
@@ -743,17 +743,17 @@ const withMDX = createMDX({
 export default withMDX(nextConfig)
 ```
 
-> **Good to know**:
+> **Cần biết**:
 >
-> remark and rehype plugins without serializable options cannot be used yet with [Turbopack](/docs/app/api-reference/turbopack), because JavaScript functions can't be passed to Rust.
+> Các plugin remark và rehype không có tùy chọn có thể tuần tự hóa (serializable options) chưa thể được sử dụng với [Turbopack](/docs/app/api-reference/turbopack), vì các hàm JavaScript không thể được truyền sang Rust.
 
 ## Remote MDX
 
-If your MDX files or content lives _somewhere else_, you can fetch it dynamically on the server. This is useful for content stored in a CMS, database, or anywhere else. A community package for this use is [`next-mdx-remote-client`](https://github.com/ipikuka/next-mdx-remote-client?tab=readme-ov-file#the-part-associated-with-nextjs-app-router).
+Nếu các tệp hoặc nội dung MDX của bạn nằm ở _nơi khác_, bạn có thể fetch nó động trên server. Điều này hữu ích cho nội dung được lưu trữ trong CMS, cơ sở dữ liệu, hoặc bất kỳ nơi nào khác. Một gói cộng đồng cho mục đích sử dụng này là [`next-mdx-remote-client`](https://github.com/ipikuka/next-mdx-remote-client?tab=readme-ov-file#the-part-associated-with-nextjs-app-router).
 
-> **Good to know**: Please proceed with caution. MDX compiles to JavaScript and is executed on the server. You should only fetch MDX content from a trusted source, otherwise this can lead to remote code execution (RCE).
+> **Cần biết**: Vui lòng tiến hành thận trọng. MDX biên dịch thành JavaScript và được thực thi trên server. Bạn chỉ nên fetch nội dung MDX từ một nguồn đáng tin cậy, nếu không điều này có thể dẫn đến thực thi mã từ xa (RCE).
 
-The following example uses `next-mdx-remote-client`:
+Ví dụ sau sử dụng `next-mdx-remote-client`:
 
 <AppOnly>
 
@@ -761,7 +761,7 @@ The following example uses `next-mdx-remote-client`:
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
 export default async function RemoteMdxPage() {
-  // MDX text - can be from a database, CMS, fetch, anywhere...
+  // MDX text - có thể từ cơ sở dữ liệu, CMS, fetch, bất cứ đâu...
   const res = await fetch('https://...')
   const markdown = await res.text()
   return <MDXRemote source={markdown} />
@@ -772,7 +772,7 @@ export default async function RemoteMdxPage() {
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
 export default async function RemoteMdxPage() {
-  // MDX text - can be from a database, CMS, fetch, anywhere...
+  // MDX text - có thể từ cơ sở dữ liệu, CMS, fetch, bất cứ đâu...
   const res = await fetch('https://...')
   const markdown = await res.text()
   return <MDXRemote source={markdown} />
@@ -796,13 +796,13 @@ type Props = {
 
 export default function RemoteMdxPage({ mdxSource }: Props) {
   if ('error' in mdxSource) {
-    // either render error UI or throw `mdxSource.error`
+    // hoặc render UI lỗi hoặc throw `mdxSource.error`
   }
   return <MDXClient {...mdxSource} />
 }
 
 export async function getStaticProps() {
-  // MDX text - can be from a database, CMS, fetch, anywhere...
+  // MDX text - có thể từ cơ sở dữ liệu, CMS, fetch, bất cứ đâu...
   const res = await fetch('https:...')
   const mdxText = await res.text()
   const mdxSource = await serialize({ source: mdxText })
@@ -816,13 +816,13 @@ import { MDXClient } from 'next-mdx-remote-client'
 
 export default function RemoteMdxPage({ mdxSource }) {
   if ('error' in mdxSource) {
-    // either render error UI or throw `mdxSource.error`
+    // hoặc render UI lỗi hoặc throw `mdxSource.error`
   }
   return <MDXClient {...mdxSource} />
 }
 
 export async function getStaticProps() {
-  // MDX text - can be from a database, CMS, fetch, anywhere...
+  // MDX text - có thể từ cơ sở dữ liệu, CMS, fetch, bất cứ đâu...
   const res = await fetch('https:...')
   const mdxText = await res.text()
   const mdxSource = await serialize({ source: mdxText })
@@ -832,13 +832,13 @@ export async function getStaticProps() {
 
 </PagesOnly>
 
-Navigating to the `/mdx-page-remote` route should display your rendered MDX.
+Điều hướng đến route `/mdx-page-remote` sẽ hiển thị MDX đã render của bạn.
 
-## Deep Dive: How do you transform markdown into HTML?
+## Tìm hiểu sâu: Làm thế nào để bạn chuyển đổi markdown thành HTML?
 
-React does not natively understand markdown. The markdown plaintext needs to first be transformed into HTML. This can be accomplished with `remark` and `rehype`.
+React không hiểu markdown một cách tự nhiên. Văn bản thuần túy markdown cần phải được chuyển đổi thành HTML trước. Điều này có thể được thực hiện với `remark` và `rehype`.
 
-`remark` is an ecosystem of tools around markdown. `rehype` is the same, but for HTML. For example, the following code snippet transforms markdown into HTML:
+`remark` là một hệ sinh thái các công cụ xung quanh markdown. `rehype` cũng tương tự, nhưng dành cho HTML. Ví dụ, đoạn mã sau chuyển đổi markdown thành HTML:
 
 ```js
 import { unified } from 'unified'
@@ -851,23 +851,23 @@ main()
 
 async function main() {
   const file = await unified()
-    .use(remarkParse) // Convert into markdown AST
-    .use(remarkRehype) // Transform to HTML AST
-    .use(rehypeSanitize) // Sanitize HTML input
-    .use(rehypeStringify) // Convert AST into serialized HTML
+    .use(remarkParse) // Chuyển đổi thành markdown AST
+    .use(remarkRehype) // Chuyển đổi thành HTML AST
+    .use(rehypeSanitize) // Làm sạch đầu vào HTML
+    .use(rehypeStringify) // Chuyển đổi AST thành HTML được tuần tự hóa
     .process('Hello, Next.js!')
 
   console.log(String(file)) // <p>Hello, Next.js!</p>
 }
 ```
 
-The `remark` and `rehype` ecosystem contains plugins for [syntax highlighting](https://github.com/atomiks/rehype-pretty-code), [linking headings](https://github.com/rehypejs/rehype-autolink-headings), [generating a table of contents](https://github.com/remarkjs/remark-toc), and more.
+Hệ sinh thái `remark` và `rehype` chứa các plugin cho [syntax highlighting](https://github.com/atomiks/rehype-pretty-code), [linking headings](https://github.com/rehypejs/rehype-autolink-headings), [tạo mục lục](https://github.com/remarkjs/remark-toc), và nhiều hơn nữa.
 
-When using `@next/mdx` as shown above, you **do not** need to use `remark` or `rehype` directly, as it is handled for you. We're describing it here for a deeper understanding of what the `@next/mdx` package is doing underneath.
+Khi sử dụng `@next/mdx` như đã trình bày ở trên, bạn **không** cần phải sử dụng `remark` hoặc `rehype` trực tiếp, vì nó được xử lý cho bạn. Chúng tôi mô tả nó ở đây để hiểu sâu hơn về những gì gói `@next/mdx` đang làm bên dưới.
 
-## Using the Rust-based MDX compiler (experimental)
+## Sử dụng trình biên dịch MDX dựa trên Rust (thử nghiệm)
 
-Next.js supports a new MDX compiler written in Rust. This compiler is still experimental and is not recommended for production use. To use the new compiler, you need to configure `next.config.js` when you pass it to `withMDX`:
+Next.js hỗ trợ một trình biên dịch MDX mới được viết bằng Rust. Trình biên dịch này vẫn đang trong giai đoạn thử nghiệm và không được khuyến nghị cho sử dụng production. Để sử dụng trình biên dịch mới, bạn cần cấu hình `next.config.js` khi bạn truyền nó cho `withMDX`:
 
 ```js filename="next.config.js"
 module.exports = withMDX({
@@ -877,7 +877,7 @@ module.exports = withMDX({
 })
 ```
 
-`mdxRs` also accepts an object to configure how to transform mdx files.
+`mdxRs` cũng chấp nhận một đối tượng để cấu hình cách chuyển đổi các tệp mdx.
 
 ```js filename="next.config.js"
 module.exports = withMDX({
@@ -885,13 +885,13 @@ module.exports = withMDX({
     mdxRs: {
       jsxRuntime?: string            // Custom jsx runtime
       jsxImportSource?: string       // Custom jsx import source,
-      mdxType?: 'gfm' | 'commonmark' // Configure what kind of mdx syntax will be used to parse & transform
+      mdxType?: 'gfm' | 'commonmark' // Cấu hình loại cú pháp mdx nào sẽ được sử dụng để phân tích cú pháp & chuyển đổi
     },
   },
 })
 ```
 
-## Helpful Links
+## Liên kết hữu ích
 
 - [MDX](https://mdxjs.com)
 - [`@next/mdx`](https://www.npmjs.com/package/@next/mdx)

@@ -1,18 +1,18 @@
 ---
 title: generateBuildId
-description: Configure the build id, which is used to identify the current build in which your application is being served.
+description: Cấu hình build id, được sử dụng để xác định bản build hiện tại mà ứng dụng của bạn đang phục vụ.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Next.js generates an ID during `next build` to identify which version of your application is being served. The same build should be used and boot up multiple containers.
+Next.js tạo ra một ID trong quá trình `next build` để xác định phiên bản nào của ứng dụng của bạn đang được phục vụ. Cùng một bản build nên được sử dụng và khởi động nhiều container.
 
-If you are rebuilding for each stage of your environment, you will need to generate a consistent build ID to use between containers. Use the `generateBuildId` command in `next.config.js`:
+Nếu bạn đang build lại cho từng giai đoạn của môi trường của mình, bạn sẽ cần tạo một build ID nhất quán để sử dụng giữa các container. Sử dụng lệnh `generateBuildId` trong `next.config.js`:
 
 ```jsx filename="next.config.js"
 module.exports = {
   generateBuildId: async () => {
-    // This could be anything, using the latest git hash
+    // Điều này có thể là bất cứ thứ gì, sử dụng git hash mới nhất
     return process.env.GIT_HASH
   },
 }

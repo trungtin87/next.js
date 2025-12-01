@@ -1,15 +1,15 @@
 ---
 title: allowedDevOrigins
-description: Use `allowedDevOrigins` to configure additional origins that can request the dev server.
+description: Sử dụng `allowedDevOrigins` để cấu hình thêm các nguồn gốc (origins) có thể yêu cầu dev server.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Next.js does not automatically block cross-origin requests during development, but will block by default in a future major version of Next.js to prevent unauthorized requesting of internal assets/endpoints that are available in development mode.
+Next.js không tự động chặn các yêu cầu cross-origin trong quá trình phát triển, nhưng sẽ chặn theo mặc định trong phiên bản chính tiếp theo của Next.js để ngăn chặn việc yêu cầu trái phép các tài sản/endpoint nội bộ có sẵn trong chế độ phát triển.
 
-To configure a Next.js application to allow requests from origins other than the hostname the server was initialized with (`localhost` by default) you can use the `allowedDevOrigins` config option.
+Để cấu hình ứng dụng Next.js cho phép các yêu cầu từ các nguồn gốc khác ngoài hostname mà server được khởi tạo (`localhost` theo mặc định), bạn có thể sử dụng tùy chọn cấu hình `allowedDevOrigins`.
 
-`allowedDevOrigins` allows you to set additional origins that can be used in development mode. For example, to use `local-origin.dev` instead of only `localhost`, open `next.config.js` and add the `allowedDevOrigins` config:
+`allowedDevOrigins` cho phép bạn đặt các nguồn gốc bổ sung có thể được sử dụng trong chế độ phát triển. Ví dụ, để sử dụng `local-origin.dev` thay vì chỉ `localhost`, hãy mở `next.config.js` và thêm cấu hình `allowedDevOrigins`:
 
 ```js filename="next.config.js"
 module.exports = {

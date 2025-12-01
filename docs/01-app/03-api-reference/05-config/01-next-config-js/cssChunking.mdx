@@ -1,19 +1,19 @@
 ---
 title: cssChunking
-description: Use the `cssChunking` option to control how CSS files are chunked in your Next.js application.
+description: Sử dụng tùy chọn `cssChunking` để kiểm soát cách các tệp CSS được chia thành chunk trong ứng dụng Next.js của bạn.
 version: experimental
 ---
 
-CSS Chunking is a strategy used to improve the performance of your web application by splitting and re-ordering CSS files into chunks. This allows you to load only the CSS that is needed for a specific route, instead of loading all the application's CSS at once.
+CSS Chunking là một chiến lược được sử dụng để cải thiện hiệu suất của ứng dụng web của bạn bằng cách chia và sắp xếp lại các tệp CSS thành các chunk. Điều này cho phép bạn chỉ tải CSS cần thiết cho một route cụ thể, thay vì tải tất cả CSS của ứng dụng cùng một lúc.
 
-You can control how CSS files are chunked using the `experimental.cssChunking` option in your `next.config.js` file:
+Bạn có thể kiểm soát cách các tệp CSS được chia thành chunk bằng cách sử dụng tùy chọn `experimental.cssChunking` trong tệp `next.config.js` của bạn:
 
 ```tsx filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
 
 const nextConfig = {
   experimental: {
-    cssChunking: true, // default
+    cssChunking: true, // mặc định
   },
 } satisfies NextConfig
 
@@ -24,19 +24,19 @@ export default nextConfig
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    cssChunking: true, // default
+    cssChunking: true, // mặc định
   },
 }
 
 module.exports = nextConfig
 ```
 
-## Options
+## Tùy chọn
 
-- **`true` (default)**: Next.js will try to merge CSS files whenever possible, determining explicit and implicit dependencies between files from import order to reduce the number of chunks and therefore the number of requests.
-- **`false`**: Next.js will not attempt to merge or re-order your CSS files.
-- **`'strict'`**: Next.js will load CSS files in the correct order they are imported into your files, which can lead to more chunks and requests.
+- **`true` (mặc định)**: Next.js sẽ cố gắng merge các tệp CSS bất cứ khi nào có thể, xác định các phụ thuộc rõ ràng và ngầm định giữa các tệp từ thứ tự import để giảm số lượng chunk và do đó giảm số lượng yêu cầu.
+- **`false`**: Next.js sẽ không cố gắng merge hoặc sắp xếp lại các tệp CSS của bạn.
+- **`'strict'`**: Next.js sẽ tải các tệp CSS theo đúng thứ tự chúng được import vào các tệp của bạn, điều này có thể dẫn đến nhiều chunk và yêu cầu hơn.
 
-You may consider using `'strict'` if you run into unexpected CSS behavior. For example, if you import `a.css` and `b.css` in different files using a different `import` order (`a` before `b`, or `b` before `a`), `true` will merge the files in any order and assume there are no dependencies between them. However, if `b.css` depends on `a.css`, you may want to use `'strict'` to prevent the files from being merged, and instead, load them in the order they are imported - which can result in more chunks and requests.
+Bạn có thể cân nhắc sử dụng `'strict'` nếu bạn gặp phải hành vi CSS không mong muốn. Ví dụ, nếu bạn import `a.css` và `b.css` trong các tệp khác nhau bằng cách sử dụng thứ tự `import` khác nhau (`a` trước `b`, hoặc `b` trước `a`), `true` sẽ merge các tệp theo bất kỳ thứ tự nào và giả định không có phụ thuộc giữa chúng. Tuy nhiên, nếu `b.css` phụ thuộc vào `a.css`, bạn có thể muốn sử dụng `'strict'` để ngăn các tệp bị merge, và thay vào đó, tải chúng theo thứ tự chúng được import - điều này có thể dẫn đến nhiều chunk và yêu cầu hơn.
 
-For most applications, we recommend `true` as it leads to fewer requests and better performance.
+Đối với hầu hết các ứng dụng, chúng tôi khuyên bạn nên sử dụng `true` vì nó dẫn đến ít yêu cầu hơn và hiệu suất tốt hơn.

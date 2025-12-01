@@ -1,11 +1,11 @@
 ---
 title: userAgent
-description: The userAgent helper extends the Web Request API with additional properties and methods to interact with the user agent object from the request.
+description: Helper userAgent mở rộng Web Request API với các thuộc tính và phương thức bổ sung để tương tác với đối tượng user agent từ request.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng component `<PagesOnly>Content</PagesOnly>` để thêm nội dung cụ thể cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bọc trong một component. */}
 
-The `userAgent` helper extends the [Web Request API](https://developer.mozilla.org/docs/Web/API/Request) with additional properties and methods to interact with the user agent object from the request.
+Helper `userAgent` mở rộng [Web Request API](https://developer.mozilla.org/docs/Web/API/Request) với các thuộc tính và phương thức bổ sung để tương tác với đối tượng user agent từ request.
 
 ```ts filename="proxy.ts" switcher
 import { NextRequest, NextResponse, userAgent } from 'next/server'
@@ -14,8 +14,8 @@ export function proxy(request: NextRequest) {
   const url = request.nextUrl
   const { device } = userAgent(request)
 
-  // device.type can be: 'mobile', 'tablet', 'console', 'smarttv',
-  // 'wearable', 'embedded', or undefined (for desktop browsers)
+  // device.type có thể là: 'mobile', 'tablet', 'console', 'smarttv',
+  // 'wearable', 'embedded', hoặc undefined (cho desktop browsers)
   const viewport = device.type || 'desktop'
 
   url.searchParams.set('viewport', viewport)
@@ -30,8 +30,8 @@ export function proxy(request) {
   const url = request.nextUrl
   const { device } = userAgent(request)
 
-  // device.type can be: 'mobile', 'tablet', 'console', 'smarttv',
-  // 'wearable', 'embedded', or undefined (for desktop browsers)
+  // device.type có thể là: 'mobile', 'tablet', 'console', 'smarttv',
+  // 'wearable', 'embedded', hoặc undefined (cho desktop browsers)
   const viewport = device.type || 'desktop'
 
   url.searchParams.set('viewport', viewport)
@@ -41,39 +41,39 @@ export function proxy(request) {
 
 ## `isBot`
 
-A boolean indicating whether the request comes from a known bot.
+Một boolean chỉ ra liệu request có đến từ một bot đã biết hay không.
 
 ## `browser`
 
-An object containing information about the browser used in the request.
+Một object chứa thông tin về trình duyệt được sử dụng trong request.
 
-- `name`: A string representing the browser's name, or `undefined` if not identifiable.
-- `version`: A string representing the browser's version, or `undefined`.
+- `name`: Một chuỗi đại diện cho tên của trình duyệt, hoặc `undefined` nếu không thể xác định.
+- `version`: Một chuỗi đại diện cho phiên bản của trình duyệt, hoặc `undefined`.
 
 ## `device`
 
-An object containing information about the device used in the request.
+Một object chứa thông tin về thiết bị được sử dụng trong request.
 
-- `model`: A string representing the model of the device, or `undefined`.
-- `type`: A string representing the type of the device, such as `console`, `mobile`, `tablet`, `smarttv`, `wearable`, `embedded`, or `undefined`.
-- `vendor`: A string representing the vendor of the device, or `undefined`.
+- `model`: Một chuỗi đại diện cho model của thiết bị, hoặc `undefined`.
+- `type`: Một chuỗi đại diện cho loại thiết bị, chẳng hạn như `console`, `mobile`, `tablet`, `smarttv`, `wearable`, `embedded`, hoặc `undefined`.
+- `vendor`: Một chuỗi đại diện cho nhà cung cấp của thiết bị, hoặc `undefined`.
 
 ## `engine`
 
-An object containing information about the browser's engine.
+Một object chứa thông tin về engine của trình duyệt.
 
-- `name`: A string representing the engine's name. Possible values include: `Amaya`, `Blink`, `EdgeHTML`, `Flow`, `Gecko`, `Goanna`, `iCab`, `KHTML`, `Links`, `Lynx`, `NetFront`, `NetSurf`, `Presto`, `Tasman`, `Trident`, `w3m`, `WebKit` or `undefined`.
-- `version`: A string representing the engine's version, or `undefined`.
+- `name`: Một chuỗi đại diện cho tên của engine. Các giá trị có thể bao gồm: `Amaya`, `Blink`, `EdgeHTML`, `Flow`, `Gecko`, `Goanna`, `iCab`, `KHTML`, `Links`, `Lynx`, `NetFront`, `NetSurf`, `Presto`, `Tasman`, `Trident`, `w3m`, `WebKit` hoặc `undefined`.
+- `version`: Một chuỗi đại diện cho phiên bản của engine, hoặc `undefined`.
 
 ## `os`
 
-An object containing information about the operating system.
+Một object chứa thông tin về hệ điều hành.
 
-- `name`: A string representing the name of the OS, or `undefined`.
-- `version`: A string representing the version of the OS, or `undefined`.
+- `name`: Một chuỗi đại diện cho tên của OS, hoặc `undefined`.
+- `version`: Một chuỗi đại diện cho phiên bản của OS, hoặc `undefined`.
 
 ## `cpu`
 
-An object containing information about the CPU architecture.
+Một object chứa thông tin về kiến trúc CPU.
 
-- `architecture`: A string representing the architecture of the CPU. Possible values include: `68k`, `amd64`, `arm`, `arm64`, `armhf`, `avr`, `ia32`, `ia64`, `irix`, `irix64`, `mips`, `mips64`, `pa-risc`, `ppc`, `sparc`, `sparc64` or `undefined`
+- `architecture`: Một chuỗi đại diện cho kiến trúc của CPU. Các giá trị có thể bao gồm: `68k`, `amd64`, `arm`, `arm64`, `armhf`, `avr`, `ia32`, `ia64`, `irix`, `irix64`, `mips`, `mips64`, `pa-risc`, `ppc`, `sparc`, `sparc64` hoặc `undefined`

@@ -1,11 +1,11 @@
 ---
 title: transpilePackages
-description: Automatically transpile and bundle dependencies from local packages (like monorepos) or from external dependencies (`node_modules`).
+description: Tự động transpile và đóng gói các dependencies từ các gói cục bộ (như monorepos) hoặc từ các dependencies bên ngoài (`node_modules`).
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Next.js can automatically transpile and bundle dependencies from local packages (like monorepos) or from external dependencies (`node_modules`). This replaces the `next-transpile-modules` package.
+Next.js có thể tự động transpile và đóng gói các dependencies từ các gói cục bộ (như monorepos) hoặc từ các dependencies bên ngoài (`node_modules`). Điều này thay thế cho gói `next-transpile-modules`.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -16,8 +16,8 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                    |
-| --------- | -------------------------- |
-| `v13.0.0` | `transpilePackages` added. |
+| Phiên bản | Thay đổi                           |
+| --------- | ---------------------------------- |
+| `v13.0.0` | `transpilePackages` được thêm vào. |

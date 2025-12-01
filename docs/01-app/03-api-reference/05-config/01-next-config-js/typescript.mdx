@@ -1,25 +1,25 @@
 ---
 title: typescript
-description: Next.js reports TypeScript errors by default. Learn to opt-out of this behavior here.
+description: Next.js báo cáo lỗi TypeScript theo mặc định. Tìm hiểu cách chọn không tham gia hành vi này tại đây.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Next.js fails your **production build** (`next build`) when TypeScript errors are present in your project.
+Next.js sẽ làm thất bại **bản build production** (`next build`) của bạn khi có lỗi TypeScript trong dự án của bạn.
 
-If you'd like Next.js to dangerously produce production code even when your application has errors, you can disable the built-in type checking step.
+Nếu bạn muốn Next.js tạo mã production một cách nguy hiểm ngay cả khi ứng dụng của bạn có lỗi, bạn có thể vô hiệu hóa bước kiểm tra kiểu tích hợp sẵn.
 
-If disabled, be sure you are running type checks as part of your build or deploy process, otherwise this can be very dangerous.
+Nếu bị vô hiệu hóa, hãy đảm bảo bạn đang chạy kiểm tra kiểu như một phần của quy trình build hoặc deploy của mình, nếu không điều này có thể rất nguy hiểm.
 
-Open `next.config.js` and enable the `ignoreBuildErrors` option in the `typescript` config:
+Mở `next.config.js` và kích hoạt tùy chọn `ignoreBuildErrors` trong cấu hình `typescript`:
 
 ```js filename="next.config.js"
 module.exports = {
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
+    // !! CẢNH BÁO !!
+    // Nguy hiểm cho phép các bản build production hoàn thành thành công ngay cả khi
+    // dự án của bạn có lỗi kiểu.
+    // !! CẢNH BÁO !!
     ignoreBuildErrors: true,
   },
 }

@@ -1,25 +1,25 @@
 ---
 title: reactCompiler
-description: Enable the React Compiler to automatically optimize component rendering.
+description: Kích hoạt React Compiler để tự động tối ưu hóa việc render component.
 ---
 
-Next.js includes support for the [React Compiler](https://react.dev/learn/react-compiler/introduction), a tool designed to improve performance by automatically optimizing component rendering. This reduces the need for manual memoization using `useMemo` and `useCallback`.
+Next.js bao gồm hỗ trợ cho [React Compiler](https://react.dev/learn/react-compiler/introduction), một công cụ được thiết kế để cải thiện hiệu suất bằng cách tự động tối ưu hóa việc render component. Điều này giảm nhu cầu memoization thủ công bằng `useMemo` và `useCallback`.
 
-Next.js includes a custom performance optimization written in SWC that makes the React Compiler more efficient. Instead of running the compiler on every file, Next.js analyzes your project and only applies the React Compiler to relevant files. This avoids unnecessary work and leads to faster builds compared to using the Babel plugin on its own.
+Next.js bao gồm một tối ưu hóa hiệu suất tùy chỉnh được viết bằng SWC giúp React Compiler hiệu quả hơn. Thay vì chạy compiler trên mọi tệp, Next.js phân tích dự án của bạn và chỉ áp dụng React Compiler cho các tệp liên quan. Điều này tránh công việc không cần thiết và dẫn đến các bản build nhanh hơn so với việc sử dụng plugin Babel một mình.
 
-## How It Works
+## Cách hoạt động
 
-The React Compiler runs through a Babel plugin. To keep builds fast, Next.js uses a custom SWC optimization that only applies the React Compiler to relevant files—like those with JSX or React Hooks.
+React Compiler chạy thông qua một plugin Babel. Để giữ cho các bản build nhanh, Next.js sử dụng tối ưu hóa SWC tùy chỉnh chỉ áp dụng React Compiler cho các tệp liên quan—như những tệp có JSX hoặc React Hooks.
 
-This avoids compiling everything and keeps the performance cost minimal. You may still see slightly slower builds compared to the default Rust-based compiler, but the impact is small and localized.
+Điều này tránh biên dịch mọi thứ và giữ chi phí hiệu suất ở mức tối thiểu. Bạn vẫn có thể thấy các bản build chậm hơn một chút so với compiler mặc định dựa trên Rust, nhưng tác động là nhỏ và được bản địa hóa.
 
-To use it, install the `babel-plugin-react-compiler`:
+Để sử dụng nó, hãy cài đặt `babel-plugin-react-compiler`:
 
 ```bash filename="Terminal"
 npm install -D babel-plugin-react-compiler
 ```
 
-Then, add `reactCompiler` option in `next.config.js`:
+Sau đó, thêm tùy chọn `reactCompiler` trong `next.config.js`:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -42,7 +42,7 @@ module.exports = nextConfig
 
 ## Annotations
 
-You can configure the compiler to run in "opt-in" mode as follows:
+Bạn có thể cấu hình compiler để chạy ở chế độ "opt-in" như sau:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -67,7 +67,7 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-Then, you can annotate specific components or hooks with the `"use memo"` directive from React to opt-in:
+Sau đó, bạn có thể chú thích các component hoặc hook cụ thể với chỉ thị `"use memo"` từ React để chọn tham gia:
 
 ```ts filename="app/page.tsx" switcher
 export default function Page() {
@@ -83,4 +83,4 @@ export default function Page() {
 }
 ```
 
-> **Note:** You can also use the `"use no memo"` directive from React for the opposite effect, to opt-out a component or hook.
+> **Lưu ý:** Bạn cũng có thể sử dụng chỉ thị `"use no memo"` từ React để có hiệu ứng ngược lại, chọn không tham gia một component hoặc hook.

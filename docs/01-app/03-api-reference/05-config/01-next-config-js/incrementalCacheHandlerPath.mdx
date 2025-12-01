@@ -1,12 +1,12 @@
 ---
 title: Custom Next.js Cache Handler
 nav_title: cacheHandler
-description: Configure the Next.js cache used for storing and revalidating data to use any external service like Redis, Memcached, or others.
+description: Cấu hình Next.js cache được sử dụng để lưu trữ và revalidate dữ liệu để sử dụng bất kỳ dịch vụ bên ngoài nào như Redis, Memcached, hoặc các dịch vụ khác.
 ---
 
-You can configure the Next.js cache location if you want to persist cached pages and data to durable storage, or share the cache across multiple containers or instances of your Next.js application.
+Bạn có thể cấu hình vị trí cache Next.js nếu bạn muốn persist các cached pages và dữ liệu vào durable storage, hoặc chia sẻ cache trên nhiều containers hoặc instances của ứng dụng Next.js của bạn.
 
-> **Good to know**: The `cacheHandler` configuration is specifically used by Next.js for server cache operations such as storing and revalidating ISR and route handler responses. It is not used by `'use cache'`, `'use cache: remote'`, nor `'use cache: private'`, which manage their own cache independently.
+> **Nên biết**: Cấu hình `cacheHandler` được sử dụng cụ thể bởi Next.js cho các hoạt động server cache như lưu trữ và revalidate ISR và route handler responses. Nó không được sử dụng bởi `'use cache'`, `'use cache: remote'`, cũng như `'use cache: private'`, chúng quản lý cache của riêng chúng một cách độc lập.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -15,64 +15,64 @@ module.exports = {
 }
 ```
 
-View an example of a [custom cache handler](/docs/app/guides/self-hosting#configuring-caching) and learn more about the implementation.
+Xem một ví dụ về [custom cache handler](/docs/app/guides/self-hosting#configuring-caching) và tìm hiểu thêm về implementation.
 
-## API Reference
+## Tham khảo API
 
-The cache handler can implement the following methods: `get`, `set`, `revalidateTag`, and `resetRequestCache`.
+Cache handler có thể triển khai các phương thức sau: `get`, `set`, `revalidateTag`, và `resetRequestCache`.
 
 ### `get()`
 
-| Parameter | Type     | Description                  |
-| --------- | -------- | ---------------------------- |
-| `key`     | `string` | The key to the cached value. |
+| Tham số | Kiểu     | Mô tả                       |
+| ------- | -------- | --------------------------- |
+| `key`   | `string` | Key đến giá trị được cache. |
 
-Returns the cached value or `null` if not found.
+Trả về giá trị được cache hoặc `null` nếu không tìm thấy.
 
 ### `set()`
 
-| Parameter | Type           | Description                      |
-| --------- | -------------- | -------------------------------- |
-| `key`     | `string`       | The key to store the data under. |
-| `data`    | Data or `null` | The data to be cached.           |
-| `ctx`     | `{ tags: [] }` | The cache tags provided.         |
+| Tham số | Kiểu             | Mô tả                         |
+| ------- | ---------------- | ----------------------------- |
+| `key`   | `string`         | Key để lưu trữ dữ liệu dưới.  |
+| `data`  | Data hoặc `null` | Dữ liệu sẽ được cache.        |
+| `ctx`   | `{ tags: [] }`   | Các cache tags được cung cấp. |
 
-Returns `Promise<void>`.
+Trả về `Promise<void>`.
 
 ### `revalidateTag()`
 
-| Parameter | Type                   | Description                   |
-| --------- | ---------------------- | ----------------------------- |
-| `tag`     | `string` or `string[]` | The cache tags to revalidate. |
+| Tham số | Kiểu                     | Mô tả                         |
+| ------- | ------------------------ | ----------------------------- |
+| `tag`   | `string` hoặc `string[]` | Các cache tags để revalidate. |
 
-Returns `Promise<void>`. Learn more about [revalidating data](/docs/app/guides/incremental-static-regeneration) or the [`revalidateTag()`](/docs/app/api-reference/functions/revalidateTag) function.
+Trả về `Promise<void>`. Tìm hiểu thêm về [revalidating data](/docs/app/guides/incremental-static-regeneration) hoặc hàm [`revalidateTag()`](/docs/app/api-reference/functions/revalidateTag).
 
 ### `resetRequestCache()`
 
-This method resets the temporary in-memory cache for a single request before the next request.
+Phương thức này reset cache in-memory tạm thời cho một request duy nhất trước request tiếp theo.
 
-Returns `void`.
+Trả về `void`.
 
-**Good to know:**
+**Nên biết:**
 
-- `revalidatePath` is a convenience layer on top of cache tags. Calling `revalidatePath` will call your `revalidateTag` function, which you can then choose if you want to tag cache keys based on the path.
+- `revalidatePath` là một convenience layer trên các cache tags. Gọi `revalidatePath` sẽ gọi hàm `revalidateTag` của bạn, sau đó bạn có thể chọn nếu bạn muốn tag các cache keys dựa trên path.
 
-## Platform Support
+## Hỗ trợ Platform
 
-| Deployment Option                                                   | Supported         |
+| Tùy chọn triển khai                                                 | Được hỗ trợ       |
 | ------------------------------------------------------------------- | ----------------- |
-| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Yes               |
-| [Docker container](/docs/app/getting-started/deploying#docker)      | Yes               |
-| [Static export](/docs/app/getting-started/deploying#static-export)  | No                |
-| [Adapters](/docs/app/getting-started/deploying#adapters)            | Platform-specific |
+| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Có                |
+| [Docker container](/docs/app/getting-started/deploying#docker)      | Có                |
+| [Static export](/docs/app/getting-started/deploying#static-export)  | Không             |
+| [Adapters](/docs/app/getting-started/deploying#adapters)            | Tùy theo platform |
 
-Learn how to [configure ISR](/docs/app/guides/self-hosting#caching-and-isr) when self-hosting Next.js.
+Tìm hiểu cách [cấu hình ISR](/docs/app/guides/self-hosting#caching-and-isr) khi self-hosting Next.js.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                      |
-| --------- | ------------------------------------------------------------ |
-| `v14.1.0` | Renamed to `cacheHandler` and became stable.                 |
-| `v13.4.0` | `incrementalCacheHandlerPath` support for `revalidateTag`.   |
-| `v13.4.0` | `incrementalCacheHandlerPath` support for standalone output. |
-| `v12.2.0` | Experimental `incrementalCacheHandlerPath` added.            |
+| Phiên bản | Thay đổi                                                    |
+| --------- | ----------------------------------------------------------- |
+| `v14.1.0` | Đổi tên thành `cacheHandler` và trở nên stable.             |
+| `v13.4.0` | Hỗ trợ `incrementalCacheHandlerPath` cho `revalidateTag`.   |
+| `v13.4.0` | Hỗ trợ `incrementalCacheHandlerPath` cho standalone output. |
+| `v12.2.0` | Thêm experimental `incrementalCacheHandlerPath`.            |

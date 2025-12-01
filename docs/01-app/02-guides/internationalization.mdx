@@ -1,22 +1,22 @@
 ---
 title: Internationalization
-description: Add support for multiple languages with internationalized routing and localized content.
+description: Thêm hỗ trợ cho nhiều ngôn ngữ với internationalized routing và nội dung được bản địa hóa.
 ---
 
-Next.js enables you to configure the routing and rendering of content to support multiple languages. Making your site adaptive to different locales includes translated content (localization) and internationalized routes.
+Next.js cho phép bạn cấu hình routing và render nội dung để hỗ trợ nhiều ngôn ngữ. Việc làm cho trang web của bạn thích ứng với các locale khác nhau bao gồm nội dung được dịch (localization) và các route được quốc tế hóa (internationalized routes).
 
-## Terminology
+## Thuật ngữ
 
-- **Locale:** An identifier for a set of language and formatting preferences. This usually includes the preferred language of the user and possibly their geographic region.
-  - `en-US`: English as spoken in the United States
-  - `nl-NL`: Dutch as spoken in the Netherlands
-  - `nl`: Dutch, no specific region
+- **Locale:** Một định danh cho một tập hợp các tùy chọn ngôn ngữ và định dạng. Điều này thường bao gồm ngôn ngữ ưa thích của người dùng và có thể là khu vực địa lý của họ.
+  - `en-US`: Tiếng Anh được nói tại Hoa Kỳ
+  - `nl-NL`: Tiếng Hà Lan được nói tại Hà Lan
+  - `nl`: Tiếng Hà Lan, không có khu vực cụ thể
 
-## Routing Overview
+## Tổng quan về Routing
 
-It’s recommended to use the user’s language preferences in the browser to select which locale to use. Changing your preferred language will modify the incoming `Accept-Language` header to your application.
+Khuyến nghị sử dụng tùy chọn ngôn ngữ của người dùng trong trình duyệt để chọn locale nào sẽ sử dụng. Việc thay đổi ngôn ngữ ưa thích của bạn sẽ sửa đổi header `Accept-Language` gửi đến ứng dụng của bạn.
 
-For example, using the following libraries, you can look at an incoming `Request` to determine which locale to select, based on the `Headers`, locales you plan to support, and the default locale.
+Ví dụ, sử dụng các thư viện sau, bạn có thể xem xét một `Request` đến để xác định locale nào sẽ được chọn, dựa trên `Headers`, các locale bạn dự định hỗ trợ, và locale mặc định.
 
 ```js filename="proxy.js"
 import { match } from '@formatjs/intl-localematcher'
@@ -30,18 +30,18 @@ let defaultLocale = 'en-US'
 match(languages, locales, defaultLocale) // -> 'en-US'
 ```
 
-Routing can be internationalized by either the sub-path (`/fr/products`) or domain (`my-site.fr/products`). With this information, you can now redirect the user based on the locale inside [Proxy](/docs/app/api-reference/file-conventions/proxy).
+Routing có thể được quốc tế hóa bằng sub-path (`/fr/products`) hoặc domain (`my-site.fr/products`). Với thông tin này, giờ đây bạn có thể chuyển hướng người dùng dựa trên locale bên trong [Middleware](/docs/app/api-reference/file-conventions/middleware).
 
-```js filename="proxy.js"
+```js filename="middleware.js"
 import { NextResponse } from "next/server";
 
 let locales = ['en-US', 'nl-NL', 'nl']
 
-// Get the preferred locale, similar to the above or using a library
+// Lấy locale ưa thích, tương tự như trên hoặc sử dụng thư viện
 function getLocale(request) { ... }
 
-export function proxy(request) {
-  // Check if there is any supported locale in the pathname
+export function middleware(request) {
+  // Kiểm tra xem có locale nào được hỗ trợ trong pathname hay không
   const { pathname } = request.nextUrl
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -49,29 +49,29 @@ export function proxy(request) {
 
   if (pathnameHasLocale) return
 
-  // Redirect if there is no locale
+  // Chuyển hướng nếu không có locale
   const locale = getLocale(request)
   request.nextUrl.pathname = `/${locale}${pathname}`
-  // e.g. incoming request is /products
-  // The new URL is now /en-US/products
+  // v.d. request đến là /products
+  // URL mới bây giờ là /en-US/products
   return NextResponse.redirect(request.nextUrl)
 }
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
+    // Bỏ qua tất cả các đường dẫn nội bộ (_next)
     '/((?!_next).*)',
-    // Optional: only run on root (/) URL
+    // Tùy chọn: chỉ chạy trên root (/) URL
     // '/'
   ],
 }
 ```
 
-Finally, ensure all special files inside `app/` are nested under `app/[lang]`. This enables the Next.js router to dynamically handle different locales in the route, and forward the `lang` parameter to every layout and page. For example:
+Cuối cùng, đảm bảo tất cả các tệp đặc biệt bên trong `app/` được lồng dưới `app/[lang]`. Điều này cho phép router của Next.js xử lý động các locale khác nhau trong route, và chuyển tham số `lang` đến mọi layout và page. Ví dụ:
 
 ```tsx filename="app/[lang]/page.tsx" switcher
-// You now have access to the current locale
-// e.g. /en-US/products -> `lang` is "en-US"
+// Bây giờ bạn có quyền truy cập vào locale hiện tại
+// v.d. /en-US/products -> `lang` là "en-US"
 export default async function Page({
   params,
 }: {
@@ -83,21 +83,21 @@ export default async function Page({
 ```
 
 ```jsx filename="app/[lang]/page.js" switcher
-// You now have access to the current locale
-// e.g. /en-US/products -> `lang` is "en-US"
+// Bây giờ bạn có quyền truy cập vào locale hiện tại
+// v.d. /en-US/products -> `lang` là "en-US"
 export default async function Page({ params }) {
   const { lang } = await params
   return ...
 }
 ```
 
-The root layout can also be nested in the new folder (e.g. `app/[lang]/layout.js`).
+Root layout cũng có thể được lồng trong thư mục mới (v.d. `app/[lang]/layout.js`).
 
 ## Localization
 
-Changing displayed content based on the user’s preferred locale, or localization, is not something specific to Next.js. The patterns described below would work the same with any web application.
+Việc thay đổi nội dung hiển thị dựa trên locale ưa thích của người dùng, hay localization, không phải là điều gì đó đặc thù của Next.js. Các mẫu được mô tả dưới đây sẽ hoạt động tương tự với bất kỳ ứng dụng web nào.
 
-Let’s assume we want to support both English and Dutch content inside our application. We might maintain two different “dictionaries”, which are objects that give us a mapping from some key to a localized string. For example:
+Giả sử chúng ta muốn hỗ trợ cả nội dung tiếng Anh và tiếng Hà Lan trong ứng dụng của mình. Chúng ta có thể duy trì hai "từ điển" khác nhau, là các đối tượng cung cấp ánh xạ từ một key nào đó đến một chuỗi đã được bản địa hóa. Ví dụ:
 
 ```json filename="dictionaries/en.json"
 {
@@ -115,7 +115,7 @@ Let’s assume we want to support both English and Dutch content inside our appl
 }
 ```
 
-We can then create a `getDictionary` function to load the translations for the requested locale:
+Sau đó, chúng ta có thể tạo một hàm `getDictionary` để tải các bản dịch cho locale được yêu cầu:
 
 ```ts filename="app/[lang]/dictionaries.ts" switcher
 import 'server-only'
@@ -140,7 +140,7 @@ const dictionaries = {
 export const getDictionary = async (locale) => dictionaries[locale]()
 ```
 
-Given the currently selected language, we can fetch the dictionary inside of a layout or page.
+Với ngôn ngữ được chọn hiện tại, chúng ta có thể fetch từ điển bên trong một layout hoặc page.
 
 ```tsx filename="app/[lang]/page.tsx" switcher
 import { getDictionary } from './dictionaries'
@@ -166,11 +166,11 @@ export default async function Page({ params }) {
 }
 ```
 
-Because all layouts and pages in the `app/` directory default to [Server Components](/docs/app/getting-started/server-and-client-components), we do not need to worry about the size of the translation files affecting our client-side JavaScript bundle size. This code will **only run on the server**, and only the resulting HTML will be sent to the browser.
+Bởi vì tất cả các layout và page trong thư mục `app/` mặc định là [Server Components](/docs/app/getting-started/server-and-client-components), chúng ta không cần phải lo lắng về kích thước của các tệp dịch ảnh hưởng đến kích thước gói JavaScript phía máy khách của chúng ta. Mã này sẽ **chỉ chạy trên server**, và chỉ có HTML kết quả được gửi đến trình duyệt.
 
 ## Static Rendering
 
-To generate static routes for a given set of locales, we can use `generateStaticParams` with any page or layout. This can be global, for example, in the root layout:
+Để tạo các route tĩnh cho một tập hợp các locale nhất định, chúng ta có thể sử dụng `generateStaticParams` với bất kỳ page hoặc layout nào. Điều này có thể là toàn cục, ví dụ, trong root layout:
 
 ```tsx filename="app/[lang]/layout.tsx" switcher
 export async function generateStaticParams() {
@@ -206,7 +206,7 @@ export default async function RootLayout({ children, params }) {
 }
 ```
 
-## Resources
+## Tài nguyên
 
 - [Minimal i18n routing and translations](https://github.com/vercel/next.js/tree/canary/examples/i18n-routing)
 - [`next-intl`](https://next-intl.dev)

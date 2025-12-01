@@ -1,22 +1,22 @@
 ---
 title: generateImageMetadata
-description: Learn how to generate multiple images in a single Metadata API special file.
+description: Tìm hiểu cách tạo nhiều hình ảnh trong một file đặc biệt Metadata API duy nhất.
 related:
-  title: Next Steps
-  description: View all the Metadata API options.
+  title: Các bước tiếp theo
+  description: Xem tất cả các tùy chọn Metadata API.
   links:
     - app/api-reference/file-conventions/metadata
 ---
 
-You can use `generateImageMetadata` to generate different versions of one image or return multiple images for one route segment. This is useful for when you want to avoid hard-coding metadata values, such as for icons.
+Bạn có thể sử dụng `generateImageMetadata` để tạo các phiên bản khác nhau của một hình ảnh hoặc trả về nhiều hình ảnh cho một route segment. Điều này hữu ích khi bạn muốn tránh hard-coding các giá trị metadata, chẳng hạn như cho các icons.
 
 ## Parameters
 
-`generateImageMetadata` function accepts the following parameters:
+Hàm `generateImageMetadata` chấp nhận các parameters sau:
 
-#### `params` (optional)
+#### `params` (tùy chọn)
 
-An object containing the [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) object from the root segment down to the segment `generateImageMetadata` is called from.
+Một object chứa object [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) từ root segment xuống đến segment mà `generateImageMetadata` được gọi.
 
 ```tsx filename="icon.tsx" switcher
 export function generateImageMetadata({
@@ -42,7 +42,7 @@ export function generateImageMetadata({ params }) {
 
 ## Returns
 
-The `generateImageMetadata` function should return an `array` of objects containing the image's metadata such as `alt` and `size`. In addition, each item **must** include an `id` value which will be passed as a promise to the props of the image generating function.
+Hàm `generateImageMetadata` nên trả về một `array` các objects chứa metadata của hình ảnh như `alt` và `size`. Ngoài ra, mỗi item **phải** bao gồm một giá trị `id` sẽ được truyền dưới dạng một promise cho các props của hàm tạo hình ảnh.
 
 | Image Metadata Object | Type                                |
 | --------------------- | ----------------------------------- |
@@ -135,11 +135,11 @@ export default async function Icon({ id }) {
 
 ## Image generation function props
 
-When using `generateImageMetadata`, the default export image generation function receives the following props:
+Khi sử dụng `generateImageMetadata`, hàm tạo hình ảnh export mặc định nhận các props sau:
 
 #### `id`
 
-A promise that resolves to the `id` value from one of the items returned by `generateImageMetadata`. The `id` will be a `string` or `number` depending on what was returned from `generateImageMetadata`.
+Một promise resolve thành giá trị `id` từ một trong các items được trả về bởi `generateImageMetadata`. `id` sẽ là một `string` hoặc `number` tùy thuộc vào những gì được trả về từ `generateImageMetadata`.
 
 ```tsx filename="icon.tsx" switcher
 export default async function Icon({ id }: { id: Promise<string | number> }) {
@@ -155,9 +155,9 @@ export default async function Icon({ id }) {
 }
 ```
 
-#### `params` (optional)
+#### `params` (tùy chọn)
 
-A promise that resolves to an object containing the [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) from the root segment down to the segment the image is colocated in.
+Một promise resolve thành một object chứa các [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) từ root segment xuống đến segment mà hình ảnh được đặt cùng.
 
 ```tsx filename="icon.tsx" switcher
 export default async function Icon({
@@ -177,11 +177,11 @@ export default async function Icon({ params }) {
 }
 ```
 
-### Examples
+### Ví dụ
 
-#### Using external data
+#### Sử dụng dữ liệu bên ngoài
 
-This example uses the `params` object and external data to generate multiple [Open Graph images](/docs/app/api-reference/file-conventions/metadata/opengraph-image) for a route segment.
+Ví dụ này sử dụng object `params` và dữ liệu bên ngoài để tạo nhiều [Open Graph images](/docs/app/api-reference/file-conventions/metadata/opengraph-image) cho một route segment.
 
 ```tsx filename="app/products/[id]/opengraph-image.tsx" switcher
 import { ImageResponse } from 'next/og'
@@ -265,10 +265,10 @@ export default async function Image({ params, id }) {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                             |
-| --------- | --------------------------------------------------------------------------------------------------- |
-| `v16.0.0` | `id` passed to the Image generation function is now a promise that resolves to `string` or `number` |
-| `v16.0.0` | `params` passed to the Image generation function is now a promise that resolves to an object        |
-| `v13.3.0` | `generateImageMetadata` introduced.                                                                 |
+| Version   | Changes                                                                                     |
+| --------- | ------------------------------------------------------------------------------------------- |
+| `v16.0.0` | `id` được truyền cho hàm tạo Image hiện là một promise resolve thành `string` hoặc `number` |
+| `v16.0.0` | `params` được truyền cho hàm tạo Image hiện là một promise resolve thành một object         |
+| `v13.3.0` | `generateImageMetadata` được giới thiệu.                                                    |

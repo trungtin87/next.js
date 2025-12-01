@@ -1,33 +1,33 @@
 ---
-title: How to think about data security in Next.js
-nav_title: Data Security
-description: Learn the built-in data security features in Next.js and learn best practices for protecting your application's data.
+title: Cách suy nghĩ về bảo mật dữ liệu trong Next.js
+nav_title: Bảo mật dữ liệu
+description: Tìm hiểu các tính năng bảo mật dữ liệu tích hợp sẵn trong Next.js và học các phương pháp hay nhất để bảo vệ dữ liệu ứng dụng của bạn.
 related:
-  title: Next Steps
-  description: Learn more about the topics mentioned in this guide.
+  title: Các bước tiếp theo
+  description: Tìm hiểu thêm về các chủ đề được đề cập trong hướng dẫn này.
   links:
     - app/guides/authentication
     - app/guides/content-security-policy
     - app/guides/forms
 ---
 
-[React Server Components](https://react.dev/reference/rsc/server-components) improve performance and simplify data fetching, but also shift where and how data is accessed, changing some of the traditional security assumptions for handling data in frontend apps.
+[React Server Components](https://react.dev/reference/rsc/server-components) cải thiện hiệu suất và đơn giản hóa việc tìm nạp dữ liệu, nhưng cũng thay đổi vị trí và cách thức truy cập dữ liệu, thay đổi một số giả định bảo mật truyền thống để xử lý dữ liệu trong các ứng dụng frontend.
 
-This guide will help you understand how to think about data security in Next.js and how to implement best practices.
+Hướng dẫn này sẽ giúp bạn hiểu cách suy nghĩ về bảo mật dữ liệu trong Next.js và cách triển khai các phương pháp hay nhất.
 
-## Data fetching approaches
+## Các phương pháp tìm nạp dữ liệu
 
-There are three main approaches we recommend for fetching data in Next.js, depending on the size and age of your project:
+Có ba phương pháp chính mà chúng tôi khuyên dùng để tìm nạp dữ liệu trong Next.js, tùy thuộc vào quy mô và tuổi của dự án của bạn:
 
-- [HTTP APIs](#external-http-apis): for existing large applications and organizations.
-- [Data Access Layer](#data-access-layer): for new projects.
-- [Component-Level Data Access](#component-level-data-access): for prototypes and learning.
+- [API HTTP](#api-http-ben-ngoai): cho các ứng dụng và tổ chức lớn hiện có.
+- [Lớp truy cập dữ liệu](#lop-truy-cap-du-lieu): cho các dự án mới.
+- [Truy cập dữ liệu cấp thành phần](#truy-cap-du-lieu-cap-thanh-phan): để tạo mẫu và học tập.
 
-We recommend choosing one data fetching approach and avoiding mixing them. This makes it clear for both developers working in your code base and security auditors what to expect.
+Chúng tôi khuyên bạn nên chọn một phương pháp tìm nạp dữ liệu và tránh trộn lẫn chúng. Điều này giúp các nhà phát triển làm việc trong cơ sở mã của bạn và các kiểm toán viên bảo mật hiểu rõ những gì sẽ xảy ra.
 
-### External HTTP APIs
+### API HTTP bên ngoài
 
-You should follow a **Zero Trust** model when adopting Server Components in an existing project. You can continue calling your existing API endpoints such as REST or GraphQL from Server Components using [`fetch`](/docs/app/api-reference/functions/fetch), just as you would in Client Components.
+Bạn nên tuân theo mô hình **Zero Trust** khi áp dụng Server Components trong một dự án hiện có. Bạn có thể tiếp tục gọi các điểm cuối API hiện có của mình như REST hoặc GraphQL từ Server Components bằng cách sử dụng [`fetch`](/docs/app/api-reference/functions/fetch), giống như cách bạn làm trong Client Components.
 
 ```tsx filename="app/page.tsx"
 import { cookies } from 'next/headers'
@@ -47,36 +47,36 @@ export default async function Page() {
 }
 ```
 
-This approach works well when:
+Cách tiếp cận này hoạt động tốt khi:
 
-- You already have security practices in place.
-- Separate backend teams use other languages or manage APIs independently.
+- Bạn đã có sẵn các thực hành bảo mật.
+- Các nhóm backend riêng biệt sử dụng các ngôn ngữ khác hoặc quản lý API một cách độc lập.
 
-### Data Access Layer
+### Lớp truy cập dữ liệu
 
-For new projects, we recommend creating a dedicated **Data Access Layer (DAL)**. This is a internal library that controls how and when data is fetched, and what gets passed to your render context.
+Đối với các dự án mới, chúng tôi khuyên bạn nên tạo một **Lớp truy cập dữ liệu (DAL)** chuyên dụng. Đây là một thư viện nội bộ kiểm soát cách thức và thời điểm dữ liệu được tìm nạp và những gì được chuyển đến ngữ cảnh hiển thị của bạn.
 
-A Data Access Layer should:
+Một Lớp truy cập dữ liệu nên:
 
-- Only run on the server.
-- Perform authorization checks.
-- Return safe, minimal **Data Transfer Objects (DTOs)**.
+- Chỉ chạy trên máy chủ.
+- Thực hiện kiểm tra ủy quyền.
+- Trả về **Đối tượng truyền dữ liệu (DTO)** an toàn, tối thiểu.
 
-This approach centralizes all data access logic, making it easier to enforce consistent data access and reduces the risk of authorization bugs. You also get the benefit of sharing an in-memory cache across different parts of a request.
+Cách tiếp cận này tập trung tất cả logic truy cập dữ liệu, giúp thực thi truy cập dữ liệu nhất quán dễ dàng hơn và giảm nguy cơ lỗi ủy quyền. Bạn cũng nhận được lợi ích của việc chia sẻ bộ nhớ đệm trong bộ nhớ trên các phần khác nhau của một yêu cầu.
 
 ```ts filename="data/auth.ts"
 import { cache } from 'react'
 import { cookies } from 'next/headers'
 
-// Cached helper methods makes it easy to get the same value in many places
-// without manually passing it around. This discourages passing it from Server
-// Component to Server Component which minimizes risk of passing it to a Client
+// Các phương thức trợ giúp được lưu trong bộ nhớ đệm giúp dễ dàng nhận được cùng một giá trị ở nhiều nơi
+// mà không cần truyền thủ công. Điều này không khuyến khích việc truyền nó từ Server
+// Component sang Server Component, giúp giảm thiểu nguy cơ truyền nó đến Client
 // Component.
 export const getCurrentUser = cache(async () => {
   const token = cookies().get('AUTH_TOKEN')
   const decodedToken = await decryptAndValidate(token)
-  // Don't include secret tokens or private information as public fields.
-  // Use classes to avoid accidentally passing the whole object to the client.
+  // Không bao gồm các mã thông báo bí mật hoặc thông tin cá nhân dưới dạng các trường công khai.
+  // Sử dụng các lớp để tránh vô tình chuyển toàn bộ đối tượng cho máy khách.
   return new User(decodedToken.id)
 })
 ```
@@ -86,25 +86,25 @@ import 'server-only'
 import { getCurrentUser } from './auth'
 
 function canSeeUsername(viewer: User) {
-  // Public info for now, but can change
+  // Thông tin công khai hiện tại, nhưng có thể thay đổi
   return true
 }
 
 function canSeePhoneNumber(viewer: User, team: string) {
-  // Privacy rules
+  // Quy tắc về quyền riêng tư
   return viewer.isAdmin || team === viewer.team
 }
 
 export async function getProfileDTO(slug: string) {
-  // Don't pass values, read back cached values, also solves context and easier to make it lazy
+  // Không truyền giá trị, đọc lại các giá trị được lưu trong bộ nhớ đệm, cũng giải quyết được bối cảnh và dễ dàng thực hiện nó một cách lười biếng
 
-  // use a database API that supports safe templating of queries
+  // sử dụng API cơ sở dữ liệu hỗ trợ tạo khuôn mẫu truy vấn an toàn
   const [rows] = await sql`SELECT * FROM user WHERE slug = ${slug}`
   const userData = rows[0]
 
   const currentUser = await getCurrentUser()
 
-  // only return the data relevant for this query and not everything
+  // chỉ trả về dữ liệu liên quan cho truy vấn này chứ không phải mọi thứ
   // <https://www.w3.org/2001/tag/doc/APIMinimization>
   return {
     username: canSeeUsername(currentUser) ? userData.username : null,
@@ -119,20 +119,20 @@ export async function getProfileDTO(slug: string) {
 import { getProfile } from '../../data/user'
 
 export async function Page({ params: { slug } }) {
-  // This page can now safely pass around this profile knowing
-  // that it shouldn't contain anything sensitive.
+  // Trang này hiện có thể truyền hồ sơ này một cách an toàn khi biết
+  // rằng nó không được chứa bất kỳ thông tin nhạy cảm nào.
   const profile = await getProfile(slug);
   ...
 }
 ```
 
-> **Good to know:** Secret keys should be stored in environment variables, but only the Data Access Layer should access `process.env`. This keeps secrets from being exposed to other parts of the application.
+> **Cần biết:** Các khóa bí mật nên được lưu trữ trong các biến môi trường, nhưng chỉ Lớp truy cập dữ liệu mới được truy cập `process.env`. Điều này giúp các bí mật không bị lộ ra các phần khác của ứng dụng.
 
-### Component-level data access
+### Truy cập dữ liệu cấp thành phần
 
-For quick prototypes and iteration, database queries can be placed directly in Server Components.
+Để tạo mẫu và lặp lại nhanh chóng, các truy vấn cơ sở dữ liệu có thể được đặt trực tiếp trong Server Components.
 
-This approach, however, makes it easier to accidentally expose private data to the client, for example:
+Tuy nhiên, cách tiếp cận này giúp dễ dàng vô tình làm lộ dữ liệu cá nhân cho máy khách, ví dụ:
 
 ```tsx filename="app/page.tsx"
 import Profile from './components/profile.tsx'
@@ -140,8 +140,8 @@ import Profile from './components/profile.tsx'
 export async function Page({ params: { slug } }) {
   const [rows] = await sql`SELECT * FROM user WHERE slug = ${slug}`
   const userData = rows[0]
-  // EXPOSED: This exposes all the fields in userData to the client because
-  // we are passing the data from the Server Component to the Client.
+  // LỘ RA: Điều này làm lộ tất cả các trường trong userData cho máy khách vì
+  // chúng ta đang truyền dữ liệu từ Server Component đến Client.
   return <Profile user={userData} />
 }
 ```
@@ -149,10 +149,10 @@ export async function Page({ params: { slug } }) {
 ```tsx filename="app/ui/profile.tsx"
 'use client'
 
-// BAD: This is a bad props interface because it accepts way more data than the
-// Client Component needs and it encourages server components to pass all that
-// data down. A better solution would be to accept a limited object with just
-// the fields necessary for rendering the profile.
+// XẤU: Đây là một giao diện props tồi vì nó chấp nhận nhiều dữ liệu hơn mức cần thiết của
+// Client Component và nó khuyến khích các thành phần máy chủ truyền tất cả
+// dữ liệu đó xuống. Một giải pháp tốt hơn sẽ là chấp nhận một đối tượng giới hạn chỉ với
+// các trường cần thiết để hiển thị hồ sơ.
 export default async function Profile({ user }: { user: User }) {
   return (
     <div>
@@ -163,7 +163,7 @@ export default async function Profile({ user }: { user: User }) {
 }
 ```
 
-You should sanitize the data before passing it to the Client Component:
+Bạn nên khử trùng dữ liệu trước khi chuyển nó đến Client Component:
 
 ```ts filename="data/user.ts"
 import { sql } from './db'
@@ -172,7 +172,7 @@ export async function getUser(slug: string) {
   const [rows] = await sql`SELECT * FROM user WHERE slug = ${slug}`
   const user = rows[0]
 
-  // Return only the public fields
+  // Chỉ trả về các trường công khai
   return {
     name: user.name,
   }
@@ -193,32 +193,32 @@ export default async function Page({
 }
 ```
 
-## Reading data
+## Đọc dữ liệu
 
-### Passing data from server to client
+### Truyền dữ liệu từ máy chủ đến máy khách
 
-On the initial load, both Server and Client Components run on the server to generate HTML. However, they execute in isolated module systems. This ensures that Server Components can access private data and APIs, while Client Components cannot.
+Khi tải ban đầu, cả Server và Client Components đều chạy trên máy chủ để tạo HTML. Tuy nhiên, chúng thực thi trong các hệ thống mô-đun bị cô lập. Điều này đảm bảo rằng Server Components có thể truy cập dữ liệu và API riêng tư, trong khi Client Components không thể.
 
 **Server Components:**
 
-- Run only on the server.
-- Can safely access environment variables, secrets, databases, and internal APIs.
+- Chỉ chạy trên máy chủ.
+- Có thể truy cập an toàn các biến môi trường, bí mật, cơ sở dữ liệu và API nội bộ.
 
 **Client Components:**
 
-- Run on the server during pre-rendering, but must follow the same security assumptions as code running in the browser.
-- Must not access privileged data or server-only modules.
+- Chạy trên máy chủ trong quá trình kết xuất trước, nhưng phải tuân theo các giả định bảo mật giống như mã chạy trong trình duyệt.
+- Không được truy cập dữ liệu đặc quyền hoặc các mô-đun chỉ dành cho máy chủ.
 
-This ensures the app is secure by default, but it's possible to accidentally expose private data through how data is fetched or passed to components.
+Điều này đảm bảo ứng dụng được bảo mật theo mặc định, nhưng có thể vô tình làm lộ dữ liệu cá nhân thông qua cách dữ liệu được tìm nạp hoặc chuyển đến các thành phần.
 
 ### Tainting
 
-To prevent accidental exposure of private data to the client, you can use React Taint APIs:
+Để ngăn chặn việc vô tình làm lộ dữ liệu riêng tư cho máy khách, bạn có thể sử dụng React Taint API:
 
-- [`experimental_taintObjectReference`](https://react.dev/reference/react/experimental_taintObjectReference) for data objects.
-- [`experimental_taintUniqueValue`](https://react.dev/reference/react/experimental_taintUniqueValue) for specific values.
+- [`experimental_taintObjectReference`](https://react.dev/reference/react/experimental_taintObjectReference) cho các đối tượng dữ liệu.
+- [`experimental_taintUniqueValue`](https://react.dev/reference/react/experimental_taintUniqueValue) cho các giá trị cụ thể.
 
-You can enable usage in your Next.js app with the [`experimental.taint`](/docs/app/api-reference/config/next-config-js/taint) option in `next.config.js`:
+Bạn có thể bật việc sử dụng trong ứng dụng Next.js của mình bằng tùy chọn [`experimental.taint`](/docs/app/api-reference/config/next-config-js/taint) trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -228,16 +228,16 @@ module.exports = {
 }
 ```
 
-This prevents the tainted objects or values from being passed to the client. However, it's an additional layer of protection, you should still filter and sanitize the data in your [DAL](#data-access-layer) before passing it to React's render context.
+Điều này ngăn các đối tượng hoặc giá trị bị nhiễm độc được chuyển đến máy khách. Tuy nhiên, đây là một lớp bảo vệ bổ sung, bạn vẫn nên lọc và khử trùng dữ liệu trong [DAL](#data-access-layer) của mình trước khi chuyển nó đến ngữ cảnh hiển thị của React.
 
-> **Good to know:**
+> **Cần biết:**
 >
-> - By default, environment variables are only available on the Server. Next.js exposes any environment variable prefixed with `NEXT_PUBLIC_` to the client. [Learn more](/docs/app/guides/environment-variables).
-> - Functions and classes are already blocked from being passed to Client Components by default.
+> - Theo mặc định, các biến môi trường chỉ có sẵn trên Máy chủ. Next.js hiển thị bất kỳ biến môi trường nào có tiền tố `NEXT_PUBLIC_` cho máy khách. [Tìm hiểu thêm](/docs/app/guides/environment-variables).
+> - Các hàm và lớp đã bị chặn không cho chuyển đến Client Components theo mặc định.
 
-### Preventing client-side execution of server-only code
+### Ngăn chặn việc thực thi mã chỉ dành cho máy chủ phía máy khách
 
-To prevent server-only code from being executed on the client, you can mark a module with the [`server-only`](https://www.npmjs.com/package/server-only) package:
+Để ngăn mã chỉ dành cho máy chủ thực thi trên máy khách, bạn có thể đánh dấu một mô-đun bằng gói [`server-only`](https://www.npmjs.com/package/server-only):
 
 ```bash package="npm"
 npm install server-only
@@ -261,56 +261,56 @@ import 'server-only'
 //...
 ```
 
-This ensures that proprietary code or internal business logic stays on the server by causing a build error if the module is imported in the client environment.
+Điều này đảm bảo rằng mã độc quyền hoặc logic kinh doanh nội bộ vẫn ở trên máy chủ bằng cách gây ra lỗi xây dựng nếu mô-đun được nhập trong môi trường máy khách.
 
-## Mutating Data
+## Thay đổi dữ liệu
 
-Next.js handles mutations with [Server Actions](https://react.dev/reference/rsc/server-functions).
+Next.js xử lý các thay đổi bằng [Server Actions](https://react.dev/reference/rsc/server-functions).
 
-### Built-in Server Actions Security features
+### Các tính năng bảo mật tích hợp sẵn của Server Actions
 
-By default, when a Server Action is created and exported, it creates a public HTTP endpoint and should be treated with the same security assumptions and authorization checks. This means, even if a Server Action or utility function is not imported elsewhere in your code, it's still publicly accessible.
+Theo mặc định, khi một Server Action được tạo và xuất, nó sẽ tạo một điểm cuối HTTP công khai và phải được xử lý với các giả định bảo mật và kiểm tra ủy quyền tương tự. Điều này có nghĩa là, ngay cả khi một Server Action hoặc hàm tiện ích không được nhập ở nơi khác trong mã của bạn, nó vẫn có thể truy cập công khai.
 
-To improve security, Next.js has the following built-in features:
+Để cải thiện bảo mật, Next.js có các tính năng tích hợp sau:
 
-- **Secure action IDs:** Next.js creates encrypted, non-deterministic IDs to allow the client to reference and call the Server Action. These IDs are periodically recalculated between builds for enhanced security.
-- **Dead code elimination:** Unused Server Actions (referenced by their IDs) are removed from client bundle to avoid public access.
+- **ID hành động an toàn:** Next.js tạo các ID được mã hóa, không xác định để cho phép máy khách tham chiếu và gọi Server Action. Các ID này được tính toán lại định kỳ giữa các bản dựng để tăng cường bảo mật.
+- **Loại bỏ mã chết:** Các Server Actions không sử dụng (được tham chiếu bởi ID của chúng) sẽ bị xóa khỏi gói máy khách để tránh truy cập công khai.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> The IDs are created during compilation and are cached for a maximum of 14 days. They will be regenerated when a new build is initiated or when the build cache is invalidated.
-> This security improvement reduces the risk in cases where an authentication layer is missing. However, you should still treat Server Actions like public HTTP endpoints.
+> Các ID được tạo trong quá trình biên dịch và được lưu vào bộ nhớ đệm trong tối đa 14 ngày. Chúng sẽ được tạo lại khi một bản dựng mới được bắt đầu hoặc khi bộ nhớ đệm của bản dựng bị vô hiệu.
+> Cải tiến bảo mật này giúp giảm thiểu rủi ro trong trường hợp thiếu lớp xác thực. Tuy nhiên, bạn vẫn nên coi Server Actions như các điểm cuối HTTP công khai.
 
 ```jsx
 // app/actions.js
 'use server'
 
-// If this action **is** used in our application, Next.js
-// will create a secure ID to allow the client to reference
-// and call the Server Action.
+// Nếu hành động này **được** sử dụng trong ứng dụng của chúng tôi, Next.js
+// sẽ tạo một ID an toàn để cho phép máy khách tham chiếu
+// và gọi Server Action.
 export async function updateUserAction(formData) {}
 
-// If this action **is not** used in our application, Next.js
-// will automatically remove this code during `next build`
-// and will not create a public endpoint.
+// Nếu hành động này **không được** sử dụng trong ứng dụng của chúng tôi, Next.js
+// sẽ tự động xóa mã này trong quá trình `next build`
+// và sẽ không tạo điểm cuối công khai.
 export async function deleteUserAction(formData) {}
 ```
 
-### Validating client input
+### Xác thực đầu vào của máy khách
 
-You should always validate input from client, as they can be easily modified. For example, form data, URL parameters, headers, and searchParams:
+Bạn phải luôn xác thực đầu vào từ máy khách, vì chúng có thể dễ dàng bị sửa đổi. Ví dụ: dữ liệu biểu mẫu, tham số URL, tiêu đề và searchParams:
 
 ```tsx filename="app/page.tsx"
-// BAD: Trusting searchParams directly
+// XẤU: Tin tưởng trực tiếp vào searchParams
 export default async function Page({ searchParams }) {
   const isAdmin = searchParams.get('isAdmin')
   if (isAdmin === 'true') {
-    // Vulnerable: relies on untrusted client data
+    // Dễ bị tấn công: dựa vào dữ liệu máy khách không đáng tin cậy
     return <AdminPanel />
   }
 }
 
-// GOOD: Re-verify every time
+// TỐT: Xác minh lại mỗi lần
 import { cookies } from 'next/headers'
 import { verifyAdmin } from './auth'
 
@@ -324,9 +324,9 @@ export default async function Page() {
 }
 ```
 
-### Authentication and authorization
+### Xác thực và ủy quyền
 
-You should always ensure that a user is authorized to perform an action. For example:
+Bạn phải luôn đảm bảo rằng người dùng được ủy quyền để thực hiện một hành động. Ví dụ:
 
 ```tsx filename="app/actions.ts"
 'use server'
@@ -336,18 +336,18 @@ import { auth } from './lib'
 export function addItem() {
   const { user } = auth()
   if (!user) {
-    throw new Error('You must be signed in to perform this action')
+    throw new Error('Bạn phải đăng nhập để thực hiện hành động này')
   }
 
   // ...
 }
 ```
 
-Learn more about [Authentication](/docs/app/guides/authentication) in Next.js.
+Tìm hiểu thêm về [Xác thực](/docs/app/guides/authentication) trong Next.js.
 
-### Closures and encryption
+### Bao đóng và mã hóa
 
-Defining a Server Action inside a component creates a [closure](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures) where the action has access to the outer function's scope. For example, the `publish` action has access to the `publishVersion` variable:
+Việc định nghĩa một Server Action bên trong một thành phần sẽ tạo ra một [bao đóng](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures) trong đó hành động có quyền truy cập vào phạm vi của hàm bên ngoài. Ví dụ, hành động `publish` có quyền truy cập vào biến `publishVersion`:
 
 ```tsx filename="app/page.tsx" switcher
 export default async function Page() {
@@ -356,14 +356,14 @@ export default async function Page() {
   async function publish() {
     "use server";
     if (publishVersion !== await getLatestVersion()) {
-      throw new Error('The version has changed since pressing publish');
+      throw new Error('Phiên bản đã thay đổi kể từ khi nhấn xuất bản');
     }
     ...
   }
 
   return (
     <form>
-      <button formAction={publish}>Publish</button>
+      <button formAction={publish}>Xuất bản</button>
     </form>
   );
 }
@@ -376,44 +376,44 @@ export default async function Page() {
   async function publish() {
     "use server";
     if (publishVersion !== await getLatestVersion()) {
-      throw new Error('The version has changed since pressing publish');
+      throw new Error('Phiên bản đã thay đổi kể từ khi nhấn xuất bản');
     }
     ...
   }
 
   return (
     <form>
-      <button formAction={publish}>Publish</button>
+      <button formAction={publish}>Xuất bản</button>
     </form>
   );
 }
 ```
 
-Closures are useful when you need to capture a _snapshot_ of data (e.g. `publishVersion`) at the time of rendering so that it can be used later when the action is invoked.
+Bao đóng hữu ích khi bạn cần ghi lại một _ảnh chụp nhanh_ dữ liệu (ví dụ: `publishVersion`) tại thời điểm kết xuất để có thể sử dụng sau này khi hành động được gọi.
 
-However, for this to happen, the captured variables are sent to the client and back to the server when the action is invoked. To prevent sensitive data from being exposed to the client, Next.js automatically encrypts the closed-over variables. A new private key is generated for each action every time a Next.js application is built. This means actions can only be invoked for a specific build.
+Tuy nhiên, để điều này xảy ra, các biến được ghi lại sẽ được gửi đến máy khách và quay lại máy chủ khi hành động được gọi. Để ngăn dữ liệu nhạy cảm bị lộ cho máy khách, Next.js tự động mã hóa các biến được đóng lại. Một khóa riêng tư mới được tạo cho mỗi hành động mỗi khi một ứng dụng Next.js được xây dựng. Điều này có nghĩa là các hành động chỉ có thể được gọi cho một bản dựng cụ thể.
 
-> **Good to know:** We don't recommend relying on encryption alone to prevent sensitive values from being exposed on the client.
+> **Cần biết:** Chúng tôi không khuyên bạn chỉ dựa vào mã hóa để ngăn các giá trị nhạy cảm bị lộ trên máy khách.
 
-### Overwriting encryption keys (advanced)
+### Ghi đè khóa mã hóa (nâng cao)
 
-When self-hosting your Next.js application across multiple servers, each server instance may end up with a different encryption key, leading to potential inconsistencies.
+Khi tự lưu trữ ứng dụng Next.js của bạn trên nhiều máy chủ, mỗi phiên bản máy chủ có thể có một khóa mã hóa khác nhau, dẫn đến sự không nhất quán tiềm tàng.
 
-To mitigate this, you can overwrite the encryption key using the `process.env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` environment variable. Specifying this variable ensures that your encryption keys are persistent across builds, and all server instances use the same key. This variable **must** be AES-GCM encrypted.
+Để giảm thiểu điều này, bạn có thể ghi đè khóa mã hóa bằng cách sử dụng biến môi trường `process.env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY`. Việc chỉ định biến này đảm bảo rằng các khóa mã hóa của bạn ổn định qua các bản dựng và tất cả các phiên bản máy chủ đều sử dụng cùng một khóa. Biến này **phải** được mã hóa AES-GCM.
 
-This is an advanced use case where consistent encryption behavior across multiple deployments is critical for your application. You should consider standard security practices such key rotation and signing.
+Đây là một trường hợp sử dụng nâng cao trong đó hành vi mã hóa nhất quán trên nhiều lần triển khai là rất quan trọng đối với ứng dụng của bạn. Bạn nên xem xét các thực hành bảo mật tiêu chuẩn như luân chuyển và ký khóa.
 
-> **Good to know:** Next.js applications deployed to Vercel automatically handle this.
+> **Cần biết:** Các ứng dụng Next.js được triển khai lên Vercel sẽ tự động xử lý việc này.
 
-### Allowed origins (advanced)
+### Nguồn gốc được phép (nâng cao)
 
-Since Server Actions can be invoked in a `<form>` element, this opens them up to [CSRF attacks](https://developer.mozilla.org/en-US/docs/Glossary/CSRF).
+Vì Server Actions có thể được gọi trong phần tử `<form>`, điều này khiến chúng dễ bị tấn công [CSRF](https://developer.mozilla.org/en-US/docs/Glossary/CSRF).
 
-Behind the scenes, Server Actions use the `POST` method, and only this HTTP method is allowed to invoke them. This prevents most CSRF vulnerabilities in modern browsers, particularly with [SameSite cookies](https://web.dev/articles/samesite-cookies-explained) being the default.
+Ở hậu trường, Server Actions sử dụng phương thức `POST` và chỉ phương thức HTTP này mới được phép gọi chúng. Điều này ngăn chặn hầu hết các lỗ hổng CSRF trong các trình duyệt hiện đại, đặc biệt là với [cookie SameSite](https://web.dev/articles/samesite-cookies-explained) là mặc định.
 
-As an additional protection, Server Actions in Next.js also compare the [Origin header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin) to the [Host header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) (or `X-Forwarded-Host`). If these don't match, the request will be aborted. In other words, Server Actions can only be invoked on the same host as the page that hosts it.
+Như một biện pháp bảo vệ bổ sung, Server Actions trong Next.js cũng so sánh tiêu đề [Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin) với tiêu đề [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) (hoặc `X-Forwarded-Host`). Nếu chúng không khớp, yêu cầu sẽ bị hủy bỏ. Nói cách khác, Server Actions chỉ có thể được gọi trên cùng một máy chủ với trang lưu trữ nó.
 
-For large applications that use reverse proxies or multi-layered backend architectures (where the server API differs from the production domain), it's recommended to use the configuration option [`serverActions.allowedOrigins`](/docs/app/api-reference/config/next-config-js/serverActions) option to specify a list of safe origins. The option accepts an array of strings.
+Đối với các ứng dụng lớn sử dụng proxy ngược hoặc kiến trúc backend nhiều lớp (trong đó API máy chủ khác với miền sản xuất), bạn nên sử dụng tùy chọn cấu hình [`serverActions.allowedOrigins`](/docs/app/api-reference/config/next-config-js/serverActions) để chỉ định một danh sách các nguồn gốc an toàn. Tùy chọn chấp nhận một mảng các chuỗi.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -426,14 +426,14 @@ module.exports = {
 }
 ```
 
-Learn more about [Security and Server Actions](https://nextjs.org/blog/security-nextjs-server-components-actions).
+Tìm hiểu thêm về [Bảo mật và Server Actions](https://nextjs.org/blog/security-nextjs-server-components-actions).
 
-### Avoiding side-effects during rendering
+### Tránh các tác dụng phụ trong quá trình kết xuất
 
-Mutations (e.g. logging out users, updating databases, invalidating caches) should never be a side-effect, either in Server or Client Components. Next.js explicitly prevents setting cookies or triggering cache revalidation within render methods to avoid unintended side effects.
+Các đột biến (ví dụ: đăng xuất người dùng, cập nhật cơ sở dữ liệu, vô hiệu hóa bộ nhớ đệm) không bao giờ được là tác dụng phụ, dù là trong Server hay Client Components. Next.js ngăn chặn rõ ràng việc đặt cookie hoặc kích hoạt xác thực lại bộ nhớ đệm trong các phương thức kết xuất để tránh các tác dụng phụ không mong muốn.
 
 ```tsx filename="app/page.tsx"
-// BAD: Triggering a mutation during rendering
+// XẤU: Kích hoạt một đột biến trong quá trình kết xuất
 export default async function Page({ searchParams }) {
   if (searchParams.get('logout')) {
     cookies().delete('AUTH_TOKEN')
@@ -443,10 +443,10 @@ export default async function Page({ searchParams }) {
 }
 ```
 
-Instead, you should use Server Actions to handle mutations.
+Thay vào đó, bạn nên sử dụng Server Actions để xử lý các đột biến.
 
 ```tsx filename="app/page.tsx"
-// GOOD: Using Server Actions to handle mutations
+// TỐT: Sử dụng Server Actions để xử lý các đột biến
 import { logout } from './actions'
 
 export default function Page() {
@@ -454,21 +454,21 @@ export default function Page() {
     <>
       <UserProfile />
       <form action={logout}>
-        <button type="submit">Logout</button>
+        <button type="submit">Đăng xuất</button>
       </form>
     </>
   )
 }
 ```
 
-> **Good to know:** Next.js uses `POST` requests to handle mutations. This prevents accidental side-effects from GET requests, reducing Cross-Site Request Forgery (CSRF) risks.
+> **Cần biết:** Next.js sử dụng các yêu cầu `POST` để xử lý các đột biến. Điều này ngăn chặn các tác dụng phụ ngẫu nhiên từ các yêu cầu GET, giảm rủi ro Giả mạo yêu cầu trên nhiều trang web (CSRF).
 
-## Auditing
+## Kiểm toán
 
-If you're doing an audit of a Next.js project, here are a few things we recommend looking extra at:
+Nếu bạn đang thực hiện kiểm toán một dự án Next.js, đây là một vài điều chúng tôi khuyên bạn nên xem xét kỹ hơn:
 
-- **Data Access Layer:** Is there an established practice for an isolated Data Access Layer? Verify that database packages and environment variables are not imported outside the Data Access Layer.
-- **`"use client"` files:** Are the Component props expecting private data? Are the type signatures overly broad?
-- **`"use server"` files:** Are the Action arguments validated in the action or inside the Data Access Layer? Is the user re-authorized inside the action?
-- **`/[param]/.`** Folders with brackets are user input. Are params validated?
-- **`proxy.ts` and `route.ts`:** Have a lot of power. Spend extra time auditing these using traditional techniques. Perform Penetration Testing or Vulnerability Scanning regularly or in alignment with your team's software development lifecycle.
+- **Lớp truy cập dữ liệu:** Có một thực hành đã được thiết lập cho một Lớp truy cập dữ liệu bị cô lập không? Xác minh rằng các gói cơ sở dữ liệu và biến môi trường không được nhập bên ngoài Lớp truy cập dữ liệu.
+- **Tệp `"use client"`:** Các đạo cụ Thành phần có mong đợi dữ liệu riêng tư không? Các chữ ký kiểu có quá rộng không?
+- **Tệp `"use server"`:** Các đối số Hành động có được xác thực trong hành động hoặc bên trong Lớp truy cập dữ liệu không? Người dùng có được ủy quyền lại bên trong hành động không?
+- **`/[param]/.`** Các thư mục có dấu ngoặc là đầu vào của người dùng. Các tham số có được xác thực không?
+- **`proxy.ts` và `route.ts`:** Có rất nhiều quyền lực. Dành thêm thời gian để kiểm toán chúng bằng các kỹ thuật truyền thống. Thực hiện Kiểm tra thâm nhập hoặc Quét lỗ hổng thường xuyên hoặc phù hợp với vòng đời phát triển phần mềm của nhóm bạn.

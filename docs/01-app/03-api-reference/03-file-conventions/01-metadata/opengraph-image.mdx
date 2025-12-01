@@ -1,37 +1,37 @@
 ---
-title: opengraph-image and twitter-image
-description: API Reference for the Open Graph Image and Twitter Image file conventions.
+title: opengraph-image và twitter-image
+description: Tài liệu tham khảo API cho các file conventions Open Graph Image và Twitter Image.
 ---
 
-The `opengraph-image` and `twitter-image` file conventions allow you to set Open Graph and Twitter images for a route segment.
+Các file conventions `opengraph-image` và `twitter-image` cho phép bạn đặt Open Graph và Twitter images cho một route segment.
 
-They are useful for setting the images that appear on social networks and messaging apps when a user shares a link to your site.
+Chúng hữu ích để đặt các hình ảnh xuất hiện trên các mạng xã hội và ứng dụng nhắn tin khi người dùng chia sẻ một liên kết đến trang web của bạn.
 
-There are two ways to set Open Graph and Twitter images:
+Có hai cách để đặt Open Graph và Twitter images:
 
-- [Using image files (.jpg, .png, .gif)](#image-files-jpg-png-gif)
-- [Using code to generate images (.js, .ts, .tsx)](#generate-images-using-code-js-ts-tsx)
+- [Sử dụng image files (.jpg, .png, .gif)](#image-files-jpg-png-gif)
+- [Sử dụng code để tạo images (.js, .ts, .tsx)](#generate-images-using-code-js-ts-tsx)
 
 ## Image files (.jpg, .png, .gif)
 
-Use an image file to set a route segment's shared image by placing an `opengraph-image` or `twitter-image` image file in the segment.
+Sử dụng một image file để đặt shared image của route segment bằng cách đặt một image file `opengraph-image` hoặc `twitter-image` trong segment.
 
-Next.js will evaluate the file and automatically add the appropriate tags to your app's `<head>` element.
+Next.js sẽ đánh giá file và tự động thêm các thẻ thích hợp vào phần tử `<head>` của ứng dụng của bạn.
 
-| File convention                                 | Supported file types            |
+| File convention                                 | Các loại file được hỗ trợ       |
 | ----------------------------------------------- | ------------------------------- |
 | [`opengraph-image`](#opengraph-image)           | `.jpg`, `.jpeg`, `.png`, `.gif` |
 | [`twitter-image`](#twitter-image)               | `.jpg`, `.jpeg`, `.png`, `.gif` |
 | [`opengraph-image.alt`](#opengraph-imagealttxt) | `.txt`                          |
 | [`twitter-image.alt`](#twitter-imagealttxt)     | `.txt`                          |
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> The `twitter-image` file size must not exceed [5MB](https://developer.x.com/en/docs/x-for-websites/cards/overview/summary), and the `opengraph-image` file size must not exceed [8MB](https://developers.facebook.com/docs/sharing/webmasters/images). If the image file size exceeds these limits, the build will fail.
+> Kích thước file `twitter-image` không được vượt quá [5MB](https://developer.x.com/en/docs/x-for-websites/cards/overview/summary), và kích thước file `opengraph-image` không được vượt quá [8MB](https://developers.facebook.com/docs/sharing/webmasters/images). Nếu kích thước image file vượt quá các giới hạn này, build sẽ thất bại.
 
 ### `opengraph-image`
 
-Add an `opengraph-image.(jpg|jpeg|png|gif)` image file to any route segment.
+Thêm một image file `opengraph-image.(jpg|jpeg|png|gif)` vào bất kỳ route segment nào.
 
 ```html filename="<head> output"
 <meta property="og:image" content="<generated>" />
@@ -42,7 +42,7 @@ Add an `opengraph-image.(jpg|jpeg|png|gif)` image file to any route segment.
 
 ### `twitter-image`
 
-Add a `twitter-image.(jpg|jpeg|png|gif)` image file to any route segment.
+Thêm một image file `twitter-image.(jpg|jpeg|png|gif)` vào bất kỳ route segment nào.
 
 ```html filename="<head> output"
 <meta name="twitter:image" content="<generated>" />
@@ -53,7 +53,7 @@ Add a `twitter-image.(jpg|jpeg|png|gif)` image file to any route segment.
 
 ### `opengraph-image.alt.txt`
 
-Add an accompanying `opengraph-image.alt.txt` file in the same route segment as the `opengraph-image.(jpg|jpeg|png|gif)` image it's alt text.
+Thêm một file `opengraph-image.alt.txt` đi kèm trong cùng route segment với image `opengraph-image.(jpg|jpeg|png|gif)` mà nó là alt text.
 
 ```txt filename="opengraph-image.alt.txt"
 About Acme
@@ -65,7 +65,7 @@ About Acme
 
 ### `twitter-image.alt.txt`
 
-Add an accompanying `twitter-image.alt.txt` file in the same route segment as the `twitter-image.(jpg|jpeg|png|gif)` image it's alt text.
+Thêm một file `twitter-image.alt.txt` đi kèm trong cùng route segment với image `twitter-image.(jpg|jpeg|png|gif)` mà nó là alt text.
 
 ```txt filename="twitter-image.alt.txt"
 About Acme
@@ -75,24 +75,24 @@ About Acme
 <meta property="twitter:image:alt" content="About Acme" />
 ```
 
-## Generate images using code (.js, .ts, .tsx)
+## Tạo images sử dụng code (.js, .ts, .tsx)
 
-In addition to using [literal image files](#image-files-jpg-png-gif), you can programmatically **generate** images using code.
+Ngoài việc sử dụng [literal image files](#image-files-jpg-png-gif), bạn có thể **tạo** images bằng lập trình sử dụng code.
 
-Generate a route segment's shared image by creating an `opengraph-image` or `twitter-image` route that default exports a function.
+Tạo shared image của route segment bằng cách tạo một route `opengraph-image` hoặc `twitter-image` export mặc định một function.
 
-| File convention   | Supported file types |
-| ----------------- | -------------------- |
-| `opengraph-image` | `.js`, `.ts`, `.tsx` |
-| `twitter-image`   | `.js`, `.ts`, `.tsx` |
+| File convention   | Các loại file được hỗ trợ |
+| ----------------- | ------------------------- |
+| `opengraph-image` | `.js`, `.ts`, `.tsx`      |
+| `twitter-image`   | `.js`, `.ts`, `.tsx`      |
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - By default, generated images are [**statically optimized**](/docs/app/guides/caching#static-rendering) (generated at build time and cached) unless they use [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) or uncached data.
-> - You can generate multiple Images in the same file using [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata).
-> - `opengraph-image.js` and `twitter-image.js` are special Route Handlers that is cached by default unless it uses a [Dynamic API](/docs/app/guides/caching#dynamic-apis) or [dynamic config](/docs/app/guides/caching#segment-config-options) option.
+> - Mặc định, các images được tạo được [**tối ưu hóa tĩnh**](/docs/app/guides/caching#static-rendering) (được tạo tại build time và cached) trừ khi chúng sử dụng [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering) hoặc uncached data.
+> - Bạn có thể tạo nhiều Images trong cùng một file sử dụng [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata).
+> - `opengraph-image.js` và `twitter-image.js` là các Route Handlers đặc biệt được cache mặc định trừ khi nó sử dụng một tùy chọn [Dynamic API](/docs/app/guides/caching#dynamic-apis) hoặc [dynamic config](/docs/app/guides/caching#segment-config-options).
 
-The easiest way to generate an image is to use the [ImageResponse](/docs/app/api-reference/functions/image-response) API from `next/og`.
+Cách dễ nhất để tạo một image là sử dụng API [ImageResponse](/docs/app/api-reference/functions/image-response) từ `next/og`.
 
 ```tsx filename="app/about/opengraph-image.tsx" switcher
 import { ImageResponse } from 'next/og'
@@ -134,8 +134,8 @@ export default async function Image() {
     ),
     // ImageResponse options
     {
-      // For convenience, we can re-use the exported opengraph-image
-      // size config to also set the ImageResponse's width and height.
+      // Để thuận tiện, chúng ta có thể sử dụng lại config size của opengraph-image đã export
+      // để cũng đặt width và height của ImageResponse.
       ...size,
       fonts: [
         {
@@ -190,8 +190,8 @@ export default async function Image() {
     ),
     // ImageResponse options
     {
-      // For convenience, we can re-use the exported opengraph-image
-      // size config to also set the ImageResponse's width and height.
+      // Để thuận tiện, chúng ta có thể sử dụng lại config size của opengraph-image đã export
+      // để cũng đặt width và height của ImageResponse.
       ...size,
       fonts: [
         {
@@ -216,13 +216,13 @@ export default async function Image() {
 
 ### Props
 
-The default export function receives the following props:
+Function export mặc định nhận các props sau:
 
-#### `params` (optional)
+#### `params` (tùy chọn)
 
-A promise that resolves to an object containing the [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) object from the root segment down to the segment `opengraph-image` or `twitter-image` is colocated in.
+Một promise resolve thành một object chứa object [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) từ root segment xuống đến segment mà `opengraph-image` hoặc `twitter-image` được đặt cùng.
 
-> **Good to know**: If you use [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata), the function will also receive an `id` prop that is a promise resolving to the `id` value from one of the items returned by `generateImageMetadata`.
+> **Lưu ý**: Nếu bạn sử dụng [`generateImageMetadata`](/docs/app/api-reference/functions/generate-image-metadata), function cũng sẽ nhận một prop `id` là một promise resolving thành giá trị `id` từ một trong các items được trả về bởi `generateImageMetadata`.
 
 ```tsx filename="app/shop/[slug]/opengraph-image.tsx" switcher
 export default async function Image({
@@ -250,13 +250,13 @@ export default async function Image({ params }) {
 
 ### Returns
 
-The default export function should return a `Blob` | `ArrayBuffer` | `TypedArray` | `DataView` | `ReadableStream` | `Response`.
+Function export mặc định nên trả về một `Blob` | `ArrayBuffer` | `TypedArray` | `DataView` | `ReadableStream` | `Response`.
 
-> **Good to know**: `ImageResponse` satisfies this return type.
+> **Lưu ý**: `ImageResponse` thỏa mãn return type này.
 
 ### Config exports
 
-You can optionally configure the image's metadata by exporting `alt`, `size`, and `contentType` variables from `opengraph-image` or `twitter-image` route.
+Bạn có thể tùy chọn cấu hình metadata của image bằng cách export các biến `alt`, `size`, và `contentType` từ route `opengraph-image` hoặc `twitter-image`.
 
 | Option                        | Type                                                                                                            |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -321,16 +321,16 @@ export default function Image() {}
 
 #### Route Segment Config
 
-`opengraph-image` and `twitter-image` are specialized [Route Handlers](/docs/app/api-reference/file-conventions/route) that can use the same [route segment configuration](/docs/app/api-reference/file-conventions/route-segment-config) options as Pages and Layouts.
+`opengraph-image` và `twitter-image` là các [Route Handlers](/docs/app/api-reference/file-conventions/route) chuyên biệt có thể sử dụng các tùy chọn [route segment configuration](/docs/app/api-reference/file-conventions/route-segment-config) giống như Pages và Layouts.
 
-### Examples
+### Ví dụ
 
-#### Using external data
+#### Sử dụng external data
 
-This example uses the `params` object and external data to generate the image.
+Ví dụ này sử dụng object `params` và external data để tạo image.
 
-> **Good to know**:
-> By default, this generated image will be [statically optimized](/docs/app/guides/caching#static-rendering). You can configure the individual `fetch` [`options`](/docs/app/api-reference/functions/fetch) or route segments [options](/docs/app/api-reference/file-conventions/route-segment-config#revalidate) to change this behavior.
+> **Lưu ý**:
+> Mặc định, image được tạo này sẽ được [tối ưu hóa tĩnh](/docs/app/guides/caching#static-rendering). Bạn có thể cấu hình [`options`](/docs/app/api-reference/functions/fetch) của `fetch` riêng lẻ hoặc [options](/docs/app/api-reference/file-conventions/route-segment-config#revalidate) của route segments để thay đổi hành vi này.
 
 ```tsx filename="app/posts/[slug]/opengraph-image.tsx" switcher
 import { ImageResponse } from 'next/og'
@@ -414,9 +414,9 @@ export default async function Image({ params }) {
 }
 ```
 
-#### Using Node.js runtime with local assets
+#### Sử dụng Node.js runtime với local assets
 
-These examples use the Node.js runtime to fetch a local image from the file system and pass it to the `<img>` `src` attribute, either as a base64 string or an `ArrayBuffer`. Place the local asset relative to the project root, not the example source file.
+Các ví dụ này sử dụng Node.js runtime để fetch một local image từ file system và truyền nó vào thuộc tính `src` của `<img>`, dưới dạng base64 string hoặc `ArrayBuffer`. Đặt local asset tương đối với project root, không phải file source ví dụ.
 
 ```tsx filename="app/opengraph-image.tsx" switcher
 import { ImageResponse } from 'next/og'
@@ -468,7 +468,7 @@ export default async function Image() {
 }
 ```
 
-Passing an `ArrayBuffer` to the `src` attribute of an `<img>` element is not part of the HTML spec. The rendering engine used by `next/og` supports it, but because TypeScript definitions follow the spec, you need a `@ts-expect-error` directive or similar to use this [feature](https://github.com/vercel/satori/issues/606#issuecomment-2144000453).
+Truyền một `ArrayBuffer` vào thuộc tính `src` của một phần tử `<img>` không phải là một phần của HTML spec. Rendering engine được sử dụng bởi `next/og` hỗ trợ nó, nhưng vì các định nghĩa TypeScript tuân theo spec, bạn cần một directive `@ts-expect-error` hoặc tương tự để sử dụng [tính năng](https://github.com/vercel/satori/issues/606#issuecomment-2144000453) này.
 
 ```tsx filename="app/opengraph-image.tsx" switcher
 import { ImageResponse } from 'next/og'
@@ -521,9 +521,9 @@ export default async function Image() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                              |
-| --------- | ---------------------------------------------------- |
-| `v16.0.0` | `params` is now a promise that resolves to an object |
-| `v13.3.0` | `opengraph-image` and `twitter-image` introduced.    |
+| Phiên bản | Thay đổi                                                 |
+| --------- | -------------------------------------------------------- |
+| `v16.0.0` | `params` bây giờ là một promise resolve thành một object |
+| `v13.3.0` | `opengraph-image` và `twitter-image` được giới thiệu.    |

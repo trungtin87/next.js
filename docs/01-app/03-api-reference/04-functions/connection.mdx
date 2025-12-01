@@ -1,18 +1,18 @@
 ---
 title: connection
-description: API Reference for the connection function.
+description: Tài liệu tham khảo API cho hàm connection.
 ---
 
-The `connection()` function allows you to indicate rendering should wait for an incoming user request before continuing.
+Hàm `connection()` cho phép bạn chỉ ra rằng rendering nên đợi một yêu cầu người dùng đến trước khi tiếp tục.
 
-It's useful when a component doesn't use [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering), but you want it to be dynamically rendered at runtime and not statically rendered at build time. This usually occurs when you access external information that you intentionally want to change the result of a render, such as `Math.random()` or `new Date()`.
+Nó hữu ích khi một component không sử dụng [Dynamic APIs](/docs/app/guides/caching#dynamic-rendering), nhưng bạn muốn nó được render động tại runtime chứ không phải render tĩnh tại thời điểm build. Điều này thường xảy ra khi bạn truy cập thông tin bên ngoài mà bạn cố ý muốn thay đổi kết quả của một lần render, chẳng hạn như `Math.random()` hoặc `new Date()`.
 
 ```ts filename="app/page.tsx" switcher
 import { connection } from 'next/server'
 
 export default async function Page() {
   await connection()
-  // Everything below will be excluded from prerendering
+  // Mọi thứ bên dưới sẽ được loại trừ khỏi prerendering
   const rand = Math.random()
   return <span>{rand}</span>
 }
@@ -23,36 +23,36 @@ import { connection } from 'next/server'
 
 export default async function Page() {
   await connection()
-  // Everything below will be excluded from prerendering
+  // Mọi thứ bên dưới sẽ được loại trừ khỏi prerendering
   const rand = Math.random()
   return <span>{rand}</span>
 }
 ```
 
-## Reference
+## Tham khảo
 
-### Type
+### Kiểu
 
 ```jsx
 function connection(): Promise<void>
 ```
 
-### Parameters
+### Tham số
 
-- The function does not accept any parameters.
+- Hàm không chấp nhận bất kỳ tham số nào.
 
-### Returns
+### Giá trị trả về
 
-- The function returns a `void` Promise. It is not meant to be consumed.
+- Hàm trả về một `void` Promise. Nó không có nghĩa là để được sử dụng.
 
-## Good to know
+## Thông tin hữu ích
 
-- `connection` replaces [`unstable_noStore`](/docs/app/api-reference/functions/unstable_noStore) to better align with the future of Next.js.
-- The function is only necessary when dynamic rendering is required and common Dynamic APIs are not used.
+- `connection` thay thế [`unstable_noStore`](/docs/app/api-reference/functions/unstable_noStore) để phù hợp hơn với tương lai của Next.js.
+- Hàm chỉ cần thiết khi dynamic rendering được yêu cầu và các Dynamic API thông thường không được sử dụng.
 
-### Version History
+### Lịch sử phiên bản
 
-| Version      | Changes                  |
-| ------------ | ------------------------ |
-| `v15.0.0`    | `connection` stabilized. |
-| `v15.0.0-RC` | `connection` introduced. |
+| Phiên bản    | Thay đổi                      |
+| ------------ | ----------------------------- |
+| `v15.0.0`    | `connection` ổn định.         |
+| `v15.0.0-RC` | `connection` được giới thiệu. |

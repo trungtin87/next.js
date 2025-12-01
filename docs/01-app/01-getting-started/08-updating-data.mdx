@@ -1,35 +1,35 @@
 ---
-title: Updating Data
-description: Learn how to mutate data using Server Functions.
+title: Cập nhật dữ liệu
+description: Tìm hiểu cách thay đổi dữ liệu bằng Server Functions.
 related:
-  title: API Reference
-  description: Learn more about the features mentioned in this page by reading the API Reference.
+  title: Tài liệu tham khảo API
+  description: Tìm hiểu thêm về các tính năng được đề cập trong trang này bằng cách đọc Tài liệu tham khảo API.
   links:
     - app/api-reference/functions/revalidatePath
     - app/api-reference/functions/revalidateTag
     - app/api-reference/functions/redirect
 ---
 
-You can update data in Next.js using React's [Server Functions](https://react.dev/reference/rsc/server-functions). This page will go through how you can [create](#creating-server-functions) and [invoke](#invoking-server-functions) Server Functions.
+Bạn có thể cập nhật dữ liệu trong Next.js bằng cách sử dụng [Server Functions](https://react.dev/reference/rsc/server-functions) của React. Trang này sẽ hướng dẫn bạn cách [tạo](#creating-server-functions) và [gọi](#invoking-server-functions) Server Functions.
 
-## What are Server Functions?
+## Server Functions là gì?
 
-A **Server Function** is an asynchronous function that runs on the server. They can be called from client through a network request, which is why they must be asynchronous.
+Một **Server Function** là một hàm bất đồng bộ (asynchronous function) chạy trên server. Chúng có thể được gọi từ client thông qua một network request, đó là lý do tại sao chúng phải là bất đồng bộ.
 
-In an `action` or mutation context, they are also called **Server Actions**.
+Trong ngữ cảnh `action` hoặc mutation, chúng còn được gọi là **Server Actions**.
 
-By convention, a Server Action is an async function used with [`startTransition`](https://react.dev/reference/react/startTransition). This happens automatically when the function is:
+Theo quy ước, một Server Action là một async function được sử dụng với [`startTransition`](https://react.dev/reference/react/startTransition). Điều này xảy ra tự động khi function được:
 
-- Passed to a `<form>` using the `action` prop.
-- Passed to a `<button>` using the `formAction` prop.
+- Truyền vào một `<form>` sử dụng prop `action`.
+- Truyền vào một `<button>` sử dụng prop `formAction`.
 
-In Next.js, Server Actions integrate with the framework's [caching](/docs/app/guides/caching) architecture. When an action is invoked, Next.js can return both the updated UI and new data in a single server roundtrip.
+Trong Next.js, Server Actions tích hợp với kiến trúc [caching](/docs/app/guides/caching) của framework. Khi một action được gọi, Next.js có thể trả về cả UI đã cập nhật và dữ liệu mới trong một server roundtrip duy nhất.
 
-Behind the scenes, actions use the `POST` method, and only this HTTP method can invoke them.
+Đằng sau hậu trường, actions sử dụng phương thức `POST`, và chỉ phương thức HTTP này mới có thể gọi chúng.
 
-## Creating Server Functions
+## Tạo Server Functions
 
-A Server Function can be defined by using the [`use server`](https://react.dev/reference/rsc/use-server) directive. You can place the directive at the top of an **asynchronous** function to mark the function as a Server Function, or at the top of a separate file to mark all exports of that file.
+Một Server Function có thể được định nghĩa bằng cách sử dụng directive [`use server`](https://react.dev/reference/rsc/use-server). Bạn có thể đặt directive ở đầu một hàm **bất đồng bộ** để đánh dấu hàm đó là một Server Function, hoặc ở đầu một file riêng biệt để đánh dấu tất cả các exports của file đó.
 
 ```ts filename="app/lib/actions.ts" switcher
 export async function createPost(formData: FormData) {
@@ -71,7 +71,7 @@ export async function deletePost(formData) {
 
 ### Server Components
 
-Server Functions can be inlined in Server Components by adding the `"use server"` directive to the top of the function body:
+Server Functions có thể được nội tuyến (inlined) trong Server Components bằng cách thêm directive `"use server"` vào đầu thân hàm:
 
 ```tsx filename="app/page.tsx" switcher
 export default function Page() {
@@ -97,11 +97,11 @@ export default function Page() {
 }
 ```
 
-> **Good to know:** Server Components support progressive enhancement by default, meaning forms that call Server Actions will be submitted even if JavaScript hasn't loaded yet or is disabled.
+> **Lưu ý:** Server Components hỗ trợ progressive enhancement theo mặc định, nghĩa là các forms gọi Server Actions sẽ được submit ngay cả khi JavaScript chưa tải xong hoặc bị vô hiệu hóa.
 
 ### Client Components
 
-It's not possible to define Server Functions in Client Components. However, you can invoke them in Client Components by importing them from a file that has the `"use server"` directive at the top of it:
+Không thể định nghĩa Server Functions trong Client Components. Tuy nhiên, bạn có thể gọi chúng trong Client Components bằng cách import chúng từ một file có directive `"use server"` ở đầu file đó:
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -135,11 +135,11 @@ export function Button() {
 }
 ```
 
-> **Good to know:** In Client Components, forms invoking Server Actions will queue submissions if JavaScript isn't loaded yet, and will be prioritized for hydration. After hydration, the browser does not refresh on form submission.
+> **Lưu ý:** Trong Client Components, các forms gọi Server Actions sẽ xếp hàng các submissions nếu JavaScript chưa được tải, và sẽ được ưu tiên khi hydration. Sau khi hydration, trình duyệt không refresh khi form submission.
 
-### Passing actions as props
+### Truyền actions như props
 
-You can also pass an action to a Client Component as a prop:
+Bạn cũng có thể truyền một action cho một Client Component như một prop:
 
 ```jsx
 <ClientComponent updateItemAction={updateItem} />
@@ -165,20 +165,20 @@ export default function ClientComponent({ updateItemAction }) {
 }
 ```
 
-## Invoking Server Functions
+## Gọi Server Functions
 
-There are two main ways you can invoke a Server Function:
+Có hai cách chính bạn có thể gọi một Server Function:
 
-1. [Forms](#forms) in Server and Client Components
-2. [Event Handlers](#event-handlers) and [useEffect](#useeffect) in Client Components
+1. [Forms](#forms) trong Server và Client Components
+2. [Event Handlers](#event-handlers) và [useEffect](#useeffect) trong Client Components
 
-> **Good to know:** Server Functions are designed for server-side mutations. The client currently dispatches and awaits them one at a time. This is an implementation detail and may change. If you need parallel data fetching, use [data fetching](/docs/app/getting-started/fetching-data#server-components) in Server Components, or perform parallel work inside a single Server Function or [Route Handler](/docs/app/guides/backend-for-frontend#manipulating-data).
+> **Lưu ý:** Server Functions được thiết kế cho server-side mutations. Client hiện tại gửi và chờ chúng từng cái một. Đây là một chi tiết triển khai và có thể thay đổi. Nếu bạn cần parallel data fetching, sử dụng [data fetching](/docs/app/getting-started/fetching-data#server-components) trong Server Components, hoặc thực hiện công việc song song bên trong một Server Function hoặc [Route Handler](/docs/app/guides/backend-for-frontend#manipulating-data) duy nhất.
 
 ### Forms
 
-React extends the HTML [`<form>`](https://react.dev/reference/react-dom/components/form) element to allow Server Function to be invoked with the HTML `action` prop.
+React mở rộng phần tử HTML [`<form>`](https://react.dev/reference/react-dom/components/form) để cho phép Server Function được gọi với prop `action` của HTML.
 
-When invoked in a form, the function automatically receives the [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData/FormData) object. You can extract the data using the native [`FormData` methods](https://developer.mozilla.org/en-US/docs/Web/API/FormData#instance_methods):
+Khi được gọi trong một form, hàm tự động nhận đối tượng [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData/FormData). Bạn có thể trích xuất dữ liệu bằng cách sử dụng các [phương thức `FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData#instance_methods) native:
 
 ```tsx filename="app/ui/form.tsx" switcher
 import { createPost } from '@/app/actions'
@@ -234,7 +234,7 @@ export async function createPost(formData) {
 
 ### Event Handlers
 
-You can invoke a Server Function in a Client Component by using event handlers such as `onClick`.
+Bạn có thể gọi một Server Function trong một Client Component bằng cách sử dụng event handlers như `onClick`.
 
 ```tsx filename="app/like-button.tsx" switcher
 'use client'
@@ -286,11 +286,11 @@ export default function LikeButton({ initialLikes }) {
 }
 ```
 
-## Examples
+## Ví dụ
 
-### Showing a pending state
+### Hiển thị pending state
 
-While executing a Server Function, you can show a loading indicator with React's [`useActionState`](https://react.dev/reference/react/useActionState) hook. This hook returns a `pending` boolean:
+Trong khi thực thi một Server Function, bạn có thể hiển thị một loading indicator với hook [`useActionState`](https://react.dev/reference/react/useActionState) của React. Hook này trả về một boolean `pending`:
 
 ```tsx filename="app/ui/button.tsx" switcher
 'use client'
@@ -330,7 +330,7 @@ export function Button() {
 
 ### Revalidating
 
-After performing an update, you can revalidate the Next.js cache and show the updated data by calling [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) or [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) within the Server Function:
+Sau khi thực hiện một bản cập nhật, bạn có thể revalidate Next.js cache và hiển thị dữ liệu đã cập nhật bằng cách gọi [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) hoặc [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) bên trong Server Function:
 
 ```ts filename="app/lib/actions.ts" switcher
 import { revalidatePath } from 'next/cache'
@@ -357,7 +357,7 @@ export async function createPost(formData) {
 
 ### Redirecting
 
-You may want to redirect the user to a different page after performing an update. You can do this by calling [`redirect`](/docs/app/api-reference/functions/redirect) within the Server Function.
+Bạn có thể muốn chuyển hướng người dùng đến một trang khác sau khi thực hiện một bản cập nhật. Bạn có thể làm điều này bằng cách gọi [`redirect`](/docs/app/api-reference/functions/redirect) bên trong Server Function.
 
 ```ts filename="app/lib/actions.ts" switcher
 'use server'
@@ -389,15 +389,15 @@ export async function createPost(formData) {
 }
 ```
 
-Calling `redirect` [throws](/docs/app/api-reference/functions/redirect#behavior) a framework handled control-flow exception. Any code after it won't execute. If you need fresh data, call [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) or [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) beforehand.
+Việc gọi `redirect` [throws](/docs/app/api-reference/functions/redirect#behavior) một ngoại lệ control-flow được framework xử lý. Bất kỳ mã nào sau đó sẽ không thực thi. Nếu bạn cần dữ liệu mới, hãy gọi [`revalidatePath`](/docs/app/api-reference/functions/revalidatePath) hoặc [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) trước đó.
 
 ### Cookies
 
-You can `get`, `set`, and `delete` cookies inside a Server Action using the [`cookies`](/docs/app/api-reference/functions/cookies) API.
+Bạn có thể `get`, `set`, và `delete` cookies bên trong một Server Action bằng cách sử dụng API [`cookies`](/docs/app/api-reference/functions/cookies).
 
-When you [set or delete](/docs/app/api-reference/functions/cookies#understanding-cookie-behavior-in-server-actions) a cookie in a Server Action, Next.js re-renders the current page and its layouts on the server so the **UI reflects the new cookie value**.
+Khi bạn [set hoặc delete](/docs/app/api-reference/functions/cookies#understanding-cookie-behavior-in-server-actions) một cookie trong một Server Action, Next.js re-renders trang hiện tại và các layouts của nó trên server để **UI phản ánh giá trị cookie mới**.
 
-> **Good to know**: The server update applies to the current React tree, re-rendering, mounting, or unmounting components, as needed. Client state is preserved for re-rendered components, and effects re-run if their dependencies changed.
+> **Lưu ý:** Bản cập nhật server áp dụng cho cây React hiện tại, re-rendering, mounting, hoặc unmounting components, khi cần thiết. Client state được giữ nguyên cho các components được re-rendered, và effects chạy lại nếu dependencies của chúng thay đổi.
 
 ```ts filename="app/actions.ts" switcher
 'use server'
@@ -440,7 +440,7 @@ export async function exampleAction() {
 
 ### useEffect
 
-You can use the React [`useEffect`](https://react.dev/reference/react/useEffect) hook to invoke a Server Action when the component mounts or a dependency changes. This is useful for mutations that depend on global events or need to be triggered automatically. For example, `onKeyDown` for app shortcuts, an intersection observer hook for infinite scrolling, or when the component mounts to update a view count:
+Bạn có thể sử dụng hook [`useEffect`](https://react.dev/reference/react/useEffect) của React để gọi một Server Action khi component mounts hoặc một dependency thay đổi. Điều này hữu ích cho các mutations phụ thuộc vào các sự kiện toàn cầu hoặc cần được kích hoạt tự động. Ví dụ, `onKeyDown` cho các phím tắt ứng dụng, một intersection observer hook cho cuộn vô hạn, hoặc khi component mounts để cập nhật số lượt xem:
 
 ```tsx filename="app/view-count.tsx" switcher
 'use client'

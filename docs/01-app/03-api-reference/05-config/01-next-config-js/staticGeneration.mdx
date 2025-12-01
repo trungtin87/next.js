@@ -1,10 +1,10 @@
 ---
 title: staticGeneration*
-description: Learn how to configure static generation in your Next.js application.
+description: Tìm hiểu cách cấu hình Static Generation trong ứng dụng Next.js của bạn.
 version: experimental
 ---
 
-The `staticGeneration*` options allow you to configure the Static Generation process for advanced use cases.
+Các tùy chọn `staticGeneration*` cho phép bạn cấu hình quá trình Static Generation cho các trường hợp sử dụng nâng cao.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -32,10 +32,10 @@ const nextConfig = {
 export default nextConfig
 ```
 
-## Config Options
+## Tùy chọn cấu hình
 
-The following options are available:
+Các tùy chọn sau đây có sẵn:
 
-- `staticGenerationRetryCount`: The number of times to retry a failed page generation before failing the build.
-- `staticGenerationMaxConcurrency`: The maximum number of pages to be processed per worker.
-- `staticGenerationMinPagesPerWorker`: The minimum number of pages to be processed before starting a new worker.
+- `staticGenerationRetryCount`: Số lần thử lại tạo trang thất bại trước khi làm thất bại bản build.
+- `staticGenerationMaxConcurrency`: Số lượng trang tối đa được xử lý trên mỗi worker.
+- `staticGenerationMinPagesPerWorker`: Số lượng trang tối thiểu được xử lý trước khi khởi động một worker mới.

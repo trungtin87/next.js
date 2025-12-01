@@ -1,21 +1,21 @@
 ---
 title: serverComponentsHmrCache
-description: Configure whether fetch responses in Server Components are cached across HMR refresh requests.
+description: Cấu hình xem các phản hồi fetch trong Server Components có được cache qua các yêu cầu làm mới HMR hay không.
 version: experimental
 ---
 
-The experimental `serverComponentsHmrCache` option allows you to cache `fetch` responses in Server Components across Hot Module Replacement (HMR) refreshes in local development. This results in faster responses and reduced costs for billed API calls.
+Tùy chọn thử nghiệm `serverComponentsHmrCache` cho phép bạn cache các phản hồi `fetch` trong Server Components qua các lần làm mới Hot Module Replacement (HMR) trong quá trình phát triển cục bộ. Điều này dẫn đến phản hồi nhanh hơn và giảm chi phí cho các cuộc gọi API tính phí.
 
-By default, the HMR cache applies to all `fetch` requests, including those with the `cache: 'no-store'` option. This means uncached requests will not show fresh data between HMR refreshes. However, the cache will be cleared on navigation or full-page reloads.
+Theo mặc định, HMR cache áp dụng cho tất cả các yêu cầu `fetch`, bao gồm cả những yêu cầu với tùy chọn `cache: 'no-store'`. Điều này có nghĩa là các yêu cầu không được cache sẽ không hiển thị dữ liệu mới giữa các lần làm mới HMR. Tuy nhiên, cache sẽ được xóa khi điều hướng hoặc tải lại toàn bộ trang.
 
-You can disable the HMR cache by setting `serverComponentsHmrCache` to `false` in your `next.config.js` file:
+Bạn có thể vô hiệu hóa HMR cache bằng cách đặt `serverComponentsHmrCache` thành `false` trong tệp `next.config.js` của bạn:
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   experimental: {
-    serverComponentsHmrCache: false, // defaults to true
+    serverComponentsHmrCache: false, // mặc định là true
   },
 }
 
@@ -26,11 +26,11 @@ export default nextConfig
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverComponentsHmrCache: false, // defaults to true
+    serverComponentsHmrCache: false, // mặc định là true
   },
 }
 
 module.exports = nextConfig
 ```
 
-> **Good to know:** For better observability, we recommend using the [`logging.fetches`](/docs/app/api-reference/config/next-config-js/logging) option which logs fetch cache hits and misses in the console during development.
+> **Thông tin hữu ích:** Để quan sát tốt hơn, chúng tôi khuyên bạn nên sử dụng tùy chọn [`logging.fetches`](/docs/app/api-reference/config/next-config-js/logging) để ghi lại các lần truy cập và bỏ lỡ cache fetch trong console trong quá trình phát triển.

@@ -1,41 +1,41 @@
 ---
 title: Automatic Static Optimization
-description: Next.js automatically optimizes your app to be static HTML whenever possible. Learn how it works here.
+description: Next.js tự động tối ưu hóa ứng dụng của bạn thành HTML tĩnh bất cứ khi nào có thể. Tìm hiểu cách nó hoạt động tại đây.
 ---
 
-Next.js automatically determines that a page is static (can be prerendered) if it has no blocking data requirements. This determination is made by the absence of `getServerSideProps` and `getInitialProps` in the page.
+Next.js tự động xác định rằng một trang là static (có thể được prerendered) nếu nó không có yêu cầu dữ liệu blocking. Xác định này được thực hiện bởi sự vắng mặt của `getServerSideProps` và `getInitialProps` trong trang.
 
-This feature allows Next.js to emit hybrid applications that contain **both server-rendered and statically generated pages**.
+Tính năng này cho phép Next.js phát ra các ứng dụng hybrid chứa **cả các trang server-rendered và statically generated**.
 
-> **Good to know**: Statically generated pages are still reactive. Next.js will hydrate your application client-side to give it full interactivity.
+> **Nên biết**: Các trang được tạo tĩnh vẫn reactive. Next.js sẽ hydrate ứng dụng của bạn ở phía client để cung cấp cho nó khả năng tương tác đầy đủ.
 
-One of the main benefits of this feature is that optimized pages require no server-side computation, and can be instantly streamed to the end-user from multiple CDN locations. The result is an _ultra fast_ loading experience for your users.
+Một trong những lợi ích chính của tính năng này là các trang được tối ưu hóa không yêu cầu tính toán phía server, và có thể được stream ngay lập tức đến người dùng cuối từ nhiều vị trí CDN. Kết quả là trải nghiệm tải _cực kỳ nhanh_ cho người dùng của bạn.
 
-## How it works
+## Cách hoạt động
 
-If `getServerSideProps` or `getInitialProps` is present in a page, Next.js will switch to render the page on-demand, per-request (meaning [Server-Side Rendering](/docs/pages/building-your-application/rendering/server-side-rendering)).
+Nếu `getServerSideProps` hoặc `getInitialProps` có mặt trong một trang, Next.js sẽ chuyển sang render trang on-demand, per-request (nghĩa là [Server-Side Rendering](/docs/pages/building-your-application/rendering/server-side-rendering)).
 
-If the above is not the case, Next.js will **statically optimize** your page automatically by prerendering the page to static HTML.
+Nếu trường hợp trên không xảy ra, Next.js sẽ **statically optimize** trang của bạn một cách tự động bằng cách prerender trang thành HTML tĩnh.
 
-During prerendering, the router's `query` object will be empty since we do not have `query` information to provide during this phase. After hydration, Next.js will trigger an update to your application to provide the route parameters in the `query` object.
+Trong quá trình prerendering, đối tượng `query` của router sẽ trống vì chúng ta không có thông tin `query` để cung cấp trong giai đoạn này. Sau khi hydration, Next.js sẽ kích hoạt một cập nhật cho ứng dụng của bạn để cung cấp các route parameters trong đối tượng `query`.
 
-The cases where the query will be updated after hydration triggering another render are:
+Các trường hợp mà query sẽ được cập nhật sau khi hydration kích hoạt một render khác là:
 
-- The page is a [dynamic-route](/docs/pages/building-your-application/routing/dynamic-routes).
-- The page has query values in the URL.
-- [Rewrites](/docs/pages/api-reference/config/next-config-js/rewrites) are configured in your `next.config.js` since these can have parameters that may need to be parsed and provided in the `query`.
+- Trang là một [dynamic-route](/docs/pages/building-your-application/routing/dynamic-routes).
+- Trang có các giá trị query trong URL.
+- [Rewrites](/docs/pages/api-reference/config/next-config-js/rewrites) được cấu hình trong `next.config.js` của bạn vì chúng có thể có các parameters cần được parse và cung cấp trong `query`.
 
-To be able to distinguish if the query is fully updated and ready for use, you can leverage the `isReady` field on [`next/router`](/docs/pages/api-reference/functions/use-router#router-object).
+Để có thể phân biệt nếu query đã được cập nhật đầy đủ và sẵn sàng để sử dụng, bạn có thể tận dụng trường `isReady` trên [`next/router`](/docs/pages/api-reference/functions/use-router#router-object).
 
-> **Good to know**: Parameters added with [dynamic routes](/docs/pages/building-your-application/routing/dynamic-routes) to a page that's using [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) will always be available inside the `query` object.
+> **Nên biết**: Các parameters được thêm với [dynamic routes](/docs/pages/building-your-application/routing/dynamic-routes) vào một trang đang sử dụng [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) sẽ luôn có sẵn bên trong đối tượng `query`.
 
-`next build` will emit `.html` files for statically optimized pages. For example, the result for the page `pages/about.js` would be:
+`next build` sẽ phát ra các tệp `.html` cho các trang được tối ưu hóa tĩnh. Ví dụ, kết quả cho trang `pages/about.js` sẽ là:
 
 ```bash filename="Terminal"
 .next/server/pages/about.html
 ```
 
-And if you add `getServerSideProps` to the page, it will then be JavaScript, like so:
+Và nếu bạn thêm `getServerSideProps` vào trang, nó sau đó sẽ là JavaScript, như sau:
 
 ```bash filename="Terminal"
 .next/server/pages/about.js
@@ -43,6 +43,6 @@ And if you add `getServerSideProps` to the page, it will then be JavaScript, lik
 
 ## Caveats
 
-- If you have a [custom `App`](/docs/pages/building-your-application/routing/custom-app) with `getInitialProps` then this optimization will be turned off in pages without [Static Generation](/docs/pages/building-your-application/data-fetching/get-static-props).
-- If you have a [custom `Document`](/docs/pages/building-your-application/routing/custom-document) with `getInitialProps` be sure you check if `ctx.req` is defined before assuming the page is server-side rendered. `ctx.req` will be `undefined` for pages that are prerendered.
-- Avoid using the `asPath` value on [`next/router`](/docs/pages/api-reference/functions/use-router#router-object) in the rendering tree until the router's `isReady` field is `true`. Statically optimized pages only know `asPath` on the client and not the server, so using it as a prop may lead to mismatch errors. The [`active-class-name` example](https://github.com/vercel/next.js/tree/canary/examples/active-class-name) demonstrates one way to use `asPath` as a prop.
+- Nếu bạn có một [custom `App`](/docs/pages/building-your-application/routing/custom-app) với `getInitialProps` thì tối ưu hóa này sẽ bị tắt trong các trang không có [Static Generation](/docs/pages/building-your-application/data-fetching/get-static-props).
+- Nếu bạn có một [custom `Document`](/docs/pages/building-your-application/routing/custom-document) với `getInitialProps`, hãy đảm bảo kiểm tra xem `ctx.req` có được định nghĩa trước khi giả định rằng trang được server-side rendered. `ctx.req` sẽ là `undefined` cho các trang được prerendered.
+- Tránh sử dụng giá trị `asPath` trên [`next/router`](/docs/pages/api-reference/functions/use-router#router-object) trong rendering tree cho đến khi trường `isReady` của router là `true`. Các trang được tối ưu hóa tĩnh chỉ biết `asPath` trên client chứ không phải server, vì vậy việc sử dụng nó làm prop có thể dẫn đến lỗi mismatch. Ví dụ [`active-class-name`](https://github.com/vercel/next.js/tree/canary/examples/active-class-name) minh họa một cách để sử dụng `asPath` làm prop.

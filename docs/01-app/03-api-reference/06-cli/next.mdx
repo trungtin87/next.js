@@ -1,63 +1,63 @@
 ---
 title: next CLI
-description: Learn how to run and build your application with the Next.js CLI.
+description: Tìm hiểu cách chạy và build ứng dụng của bạn với Next.js CLI.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-The Next.js CLI allows you to develop, build, start your application, and more.
+Next.js CLI cho phép bạn phát triển, build, khởi động ứng dụng của mình và hơn thế nữa.
 
-Basic usage:
+Sử dụng cơ bản:
 
 ```bash filename="Terminal"
 npx next [command] [options]
 ```
 
-## Reference
+## Tham khảo
 
-The following options are available:
+Các tùy chọn sau có sẵn:
 
-| Options             | Description                        |
-| ------------------- | ---------------------------------- |
-| `-h` or `--help`    | Shows all available options        |
-| `-v` or `--version` | Outputs the Next.js version number |
+| Tùy chọn              | Mô tả                               |
+| --------------------- | ----------------------------------- |
+| `-h` hoặc `--help`    | Hiển thị tất cả các tùy chọn có sẵn |
+| `-v` hoặc `--version` | Xuất ra số phiên bản Next.js        |
 
-### Commands
+### Các lệnh (Commands)
 
-The following commands are available:
+Các lệnh sau có sẵn:
 
-| Command                                | Description                                                                                                   |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| [`dev`](#next-dev-options)             | Starts Next.js in development mode with Hot Module Reloading, error reporting, and more.                      |
-| [`build`](#next-build-options)         | Creates an optimized production build of your application. Displaying information about each route.           |
-| [`start`](#next-start-options)         | Starts Next.js in production mode. The application should be compiled with `next build` first.                |
-| [`info`](#next-info-options)           | Prints relevant details about the current system which can be used to report Next.js bugs.                    |
-| [`telemetry`](#next-telemetry-options) | Allows you to enable or disable Next.js' completely anonymous telemetry collection.                           |
-| [`typegen`](#next-typegen-options)     | Generates TypeScript definitions for routes, pages, layouts, and route handlers without running a full build. |
+| Lệnh                                   | Mô tả                                                                                                     |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [`dev`](#next-dev-options)             | Khởi động Next.js ở chế độ development với Hot Module Reloading, báo cáo lỗi, và hơn thế nữa.             |
+| [`build`](#next-build-options)         | Tạo một bản build production được tối ưu hóa cho ứng dụng của bạn. Hiển thị thông tin về từng route.      |
+| [`start`](#next-start-options)         | Khởi động Next.js ở chế độ production. Ứng dụng nên được biên dịch với `next build` trước.                |
+| [`info`](#next-info-options)           | In ra các chi tiết liên quan về hệ thống hiện tại có thể được sử dụng để báo cáo lỗi Next.js.             |
+| [`telemetry`](#next-telemetry-options) | Cho phép bạn bật hoặc tắt việc thu thập telemetry hoàn toàn ẩn danh của Next.js.                          |
+| [`typegen`](#next-typegen-options)     | Tạo các định nghĩa TypeScript cho routes, pages, layouts, và route handlers mà không cần chạy full build. |
 
-> **Good to know**: Running `next` without a command is an alias for `next dev`.
+> **Cần biết**: Chạy `next` mà không có lệnh là một bí danh cho `next dev`.
 
-### `next dev` options
+### Tùy chọn `next dev`
 
-`next dev` starts the application in development mode with Hot Module Reloading (HMR), error reporting, and more. The following options are available when running `next dev`:
+`next dev` khởi động ứng dụng ở chế độ development với Hot Module Reloading (HMR), báo cáo lỗi, và hơn thế nữa. Các tùy chọn sau có sẵn khi chạy `next dev`:
 
-| Option                                   | Description                                                                                                                                          |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h, --help`                             | Show all available options.                                                                                                                          |
-| `[directory]`                            | A directory in which to build the application. If not provided, current directory is used.                                                           |
-| `--turbopack`                            | Force enable [Turbopack](/docs/app/api-reference/turbopack) (enabled by default). Also available as `--turbo`.                                       |
-| `--webpack`                              | Use Webpack instead of the default [Turbopack](/docs/app/api-reference/turbopack) bundler for development.                                           |
-| `-p` or `--port <port>`                  | Specify a port number on which to start the application. Default: 3000, env: PORT                                                                    |
-| `-H`or `--hostname <hostname>`           | Specify a hostname on which to start the application. Useful for making the application available for other devices on the network. Default: 0.0.0.0 |
-| `--experimental-https`                   | Starts the server with HTTPS and generates a self-signed certificate.                                                                                |
-| `--experimental-https-key <path>`        | Path to a HTTPS key file.                                                                                                                            |
-| `--experimental-https-cert <path>`       | Path to a HTTPS certificate file.                                                                                                                    |
-| `--experimental-https-ca <path>`         | Path to a HTTPS certificate authority file.                                                                                                          |
-| `--experimental-upload-trace <traceUrl>` | Reports a subset of the debugging trace to a remote HTTP URL.                                                                                        |
+| Tùy chọn                                 | Mô tả                                                                                                                             |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `-h, --help`                             | Hiển thị tất cả các tùy chọn có sẵn.                                                                                              |
+| `[directory]`                            | Một thư mục để build ứng dụng trong đó. Nếu không được cung cấp, thư mục hiện tại sẽ được sử dụng.                                |
+| `--turbopack`                            | Buộc bật [Turbopack](/docs/app/api-reference/turbopack) (được bật mặc định). Cũng có sẵn dưới dạng `--turbo`.                     |
+| `--webpack`                              | Sử dụng Webpack thay vì trình đóng gói [Turbopack](/docs/app/api-reference/turbopack) mặc định cho development.                   |
+| `-p` hoặc `--port <port>`                | Chỉ định số cổng để khởi động ứng dụng. Mặc định: 3000, env: PORT                                                                 |
+| `-H` hoặc `--hostname <hostname>`        | Chỉ định tên máy chủ để khởi động ứng dụng. Hữu ích để làm cho ứng dụng có sẵn cho các thiết bị khác trên mạng. Mặc định: 0.0.0.0 |
+| `--experimental-https`                   | Khởi động máy chủ với HTTPS và tạo chứng chỉ tự ký (self-signed certificate).                                                     |
+| `--experimental-https-key <path>`        | Đường dẫn đến tệp khóa HTTPS.                                                                                                     |
+| `--experimental-https-cert <path>`       | Đường dẫn đến tệp chứng chỉ HTTPS.                                                                                                |
+| `--experimental-https-ca <path>`         | Đường dẫn đến tệp chứng chỉ authority HTTPS.                                                                                      |
+| `--experimental-upload-trace <traceUrl>` | Báo cáo một tập hợp con của dấu vết gỡ lỗi (debugging trace) đến một URL HTTP từ xa.                                              |
 
-### `next build` options
+### Tùy chọn `next build`
 
-`next build` creates an optimized production build of your application. The output displays information about each route. For example:
+`next build` tạo một bản build production được tối ưu hóa cho ứng dụng của bạn. Đầu ra hiển thị thông tin về từng route. Ví dụ:
 
 ```bash filename="Terminal"
 Route (app)
@@ -68,43 +68,43 @@ Route (app)
 ƒ  (Dynamic)  server-rendered on demand
 ```
 
-The following options are available for the `next build` command:
+Các tùy chọn sau có sẵn cho lệnh `next build`:
 
-| Option                             | Description                                                                                                                                                                        |
-| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h, --help`                       | Show all available options.                                                                                                                                                        |
-| `[directory]`                      | A directory on which to build the application. If not provided, the current directory will be used.                                                                                |
-| `--turbopack`                      | Force enable [Turbopack](/docs/app/api-reference/turbopack) (enabled by default). Also available as `--turbo`.                                                                     |
-| `--webpack`                        | Build using Webpack.                                                                                                                                                               |
-| `-d` or `--debug`                  | Enables a more verbose build output. With this flag enabled additional build output like rewrites, redirects, and headers will be shown.                                           |
+| Tùy chọn                           | Mô tả                                                                                                                                                                                       |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-h, --help`                       | Hiển thị tất cả các tùy chọn có sẵn.                                                                                                                                                        |
+| `[directory]`                      | Một thư mục để build ứng dụng trên đó. Nếu không được cung cấp, thư mục hiện tại sẽ được sử dụng.                                                                                           |
+| `--turbopack`                      | Buộc bật [Turbopack](/docs/app/api-reference/turbopack) (được bật mặc định). Cũng có sẵn dưới dạng `--turbo`.                                                                               |
+| `--webpack`                        | Build sử dụng Webpack.                                                                                                                                                                      |
+| `-d` hoặc `--debug`                | Bật đầu ra build chi tiết hơn. Với cờ này được bật, đầu ra build bổ sung như rewrites, redirects, và headers sẽ được hiển thị.                                                              |
 |                                    |
-| `--profile`                        | Enables production [profiling for React](https://react.dev/reference/react/Profiler).                                                                                              |
-| `--no-lint`                        | Disables linting. _Note: linting will be removed from `next build` in Next 16. If you're using Next 15.5+ with a linter other than `eslint`, linting during build will not occur._ |
-| `--no-mangling`                    | Disables [mangling](https://en.wikipedia.org/wiki/Name_mangling). This may affect performance and should only be used for debugging purposes.                                      |
-| `--experimental-app-only`          | Builds only App Router routes.                                                                                                                                                     |
-| `--experimental-build-mode [mode]` | Uses an experimental build mode. (choices: "compile", "generate", default: "default")                                                                                              |
-| `--debug-prerender`                | Debug prerender errors in development.                                                                                                                                             |
-| `--debug-build-paths=<patterns>`   | Build only specific routes for debugging.                                                                                                                                          |
+| `--profile`                        | Bật [profiling cho React](https://react.dev/reference/react/Profiler) trong production.                                                                                                     |
+| `--no-lint`                        | Tắt linting. _Lưu ý: linting sẽ bị xóa khỏi `next build` trong Next 16. Nếu bạn đang sử dụng Next 15.5+ với một linter khác ngoài `eslint`, linting trong quá trình build sẽ không xảy ra._ |
+| `--no-mangling`                    | Tắt [mangling](https://en.wikipedia.org/wiki/Name_mangling). Điều này có thể ảnh hưởng đến hiệu suất và chỉ nên được sử dụng cho mục đích gỡ lỗi.                                           |
+| `--experimental-app-only`          | Chỉ build các routes của App Router.                                                                                                                                                        |
+| `--experimental-build-mode [mode]` | Sử dụng chế độ build thử nghiệm. (lựa chọn: "compile", "generate", mặc định: "default")                                                                                                     |
+| `--debug-prerender`                | Gỡ lỗi lỗi prerender trong development.                                                                                                                                                     |
+| `--debug-build-paths=<patterns>`   | Chỉ build các routes cụ thể để gỡ lỗi.                                                                                                                                                      |
 
-### `next start` options
+### Tùy chọn `next start`
 
-`next start` starts the application in production mode. The application should be compiled with [`next build`](#next-build-options) first.
+`next start` khởi động ứng dụng ở chế độ production. Ứng dụng nên được biên dịch với [`next build`](#next-build-options) trước.
 
-The following options are available for the `next start` command:
+Các tùy chọn sau có sẵn cho lệnh `next start`:
 
-| Option                                  | Description                                                                                                     |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `-h` or `--help`                        | Show all available options.                                                                                     |
-| `[directory]`                           | A directory on which to start the application. If no directory is provided, the current directory will be used. |
-| `-p` or `--port <port>`                 | Specify a port number on which to start the application. (default: 3000, env: PORT)                             |
-| `-H` or `--hostname <hostname>`         | Specify a hostname on which to start the application (default: 0.0.0.0).                                        |
-| `--keepAliveTimeout <keepAliveTimeout>` | Specify the maximum amount of milliseconds to wait before closing the inactive connections.                     |
+| Tùy chọn                                | Mô tả                                                                                                                |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `-h` hoặc `--help`                      | Hiển thị tất cả các tùy chọn có sẵn.                                                                                 |
+| `[directory]`                           | Một thư mục để khởi động ứng dụng trên đó. Nếu không có thư mục nào được cung cấp, thư mục hiện tại sẽ được sử dụng. |
+| `-p` hoặc `--port <port>`               | Chỉ định số cổng để khởi động ứng dụng. (mặc định: 3000, env: PORT)                                                  |
+| `-H` hoặc `--hostname <hostname>`       | Chỉ định tên máy chủ để khởi động ứng dụng (mặc định: 0.0.0.0).                                                      |
+| `--keepAliveTimeout <keepAliveTimeout>` | Chỉ định lượng mili giây tối đa để chờ trước khi đóng các kết nối không hoạt động.                                   |
 
-### `next info` options
+### Tùy chọn `next info`
 
-`next info` prints relevant details about the current system which can be used to report Next.js bugs when opening a [GitHub issue](https://github.com/vercel/next.js/issues). This information includes Operating System platform/arch/version, Binaries (Node.js, npm, Yarn, pnpm), package versions (`next`, `react`, `react-dom`), and more.
+`next info` in ra các chi tiết liên quan về hệ thống hiện tại có thể được sử dụng để báo cáo lỗi Next.js khi mở một [GitHub issue](https://github.com/vercel/next.js/issues). Thông tin này bao gồm nền tảng/kiến trúc/phiên bản Hệ điều hành, Binaries (Node.js, npm, Yarn, pnpm), phiên bản gói (`next`, `react`, `react-dom`), và hơn thế nữa.
 
-The output should look like this:
+Đầu ra sẽ trông giống như thế này:
 
 ```bash filename="Terminal"
 Operating System:
@@ -128,153 +128,153 @@ Next.js Config:
   output: N/A
 ```
 
-The following options are available for the `next info` command:
+Các tùy chọn sau có sẵn cho lệnh `next info`:
 
-| Option           | Description                                    |
-| ---------------- | ---------------------------------------------- |
-| `-h` or `--help` | Show all available options                     |
-| `--verbose`      | Collects additional information for debugging. |
+| Tùy chọn           | Mô tả                                 |
+| ------------------ | ------------------------------------- |
+| `-h` hoặc `--help` | Hiển thị tất cả các tùy chọn có sẵn   |
+| `--verbose`        | Thu thập thông tin bổ sung để gỡ lỗi. |
 
-### `next telemetry` options
+### Tùy chọn `next telemetry`
 
-Next.js collects **completely anonymous** telemetry data about general usage. Participation in this anonymous program is optional, and you can opt-out if you prefer not to share information.
+Next.js thu thập dữ liệu telemetry **hoàn toàn ẩn danh** về việc sử dụng chung. Việc tham gia vào chương trình ẩn danh này là tùy chọn, và bạn có thể chọn không tham gia nếu bạn không muốn chia sẻ thông tin.
 
-The following options are available for the `next telemetry` command:
+Các tùy chọn sau có sẵn cho lệnh `next telemetry`:
 
-| Option       | Description                             |
-| ------------ | --------------------------------------- |
-| `-h, --help` | Show all available options.             |
-| `--enable`   | Enables Next.js' telemetry collection.  |
-| `--disable`  | Disables Next.js' telemetry collection. |
+| Tùy chọn     | Mô tả                                |
+| ------------ | ------------------------------------ |
+| `-h, --help` | Hiển thị tất cả các tùy chọn có sẵn. |
+| `--enable`   | Bật thu thập telemetry của Next.js.  |
+| `--disable`  | Tắt thu thập telemetry của Next.js.  |
 
-Learn more about [Telemetry](/telemetry).
+Tìm hiểu thêm về [Telemetry](/telemetry).
 
-### `next typegen` Options
+### Tùy chọn `next typegen`
 
-`next typegen` generates TypeScript definitions for your application's routes without performing a full build. This is useful for IDE autocomplete and CI type-checking of route usage.
+`next typegen` tạo các định nghĩa TypeScript cho các routes của ứng dụng của bạn mà không cần thực hiện full build. Điều này hữu ích cho việc tự động hoàn thành của IDE và kiểm tra kiểu CI (CI type-checking) của việc sử dụng route.
 
-Previously, route types were only generated during `next dev` or `next build`, which meant running `tsc --noEmit` directly wouldn't validate your route types. Now you can generate types independently and validate them externally:
+Trước đây, các loại route chỉ được tạo trong quá trình `next dev` hoặc `next build`, điều này có nghĩa là chạy `tsc --noEmit` trực tiếp sẽ không xác thực các loại route của bạn. Bây giờ bạn có thể tạo các loại một cách độc lập và xác thực chúng bên ngoài:
 
 ```bash filename="Terminal"
-# Generate route types first, then validate with TypeScript
+# Tạo các loại route trước, sau đó xác thực với TypeScript
 next typegen && tsc --noEmit
 
-# Or in CI workflows for type checking without building
+# Hoặc trong quy trình làm việc CI để kiểm tra kiểu mà không cần build
 next typegen && npm run type-check
 ```
 
-The following options are available for the `next typegen` command:
+Các tùy chọn sau có sẵn cho lệnh `next typegen`:
 
-| Option        | Description                                                                                  |
-| ------------- | -------------------------------------------------------------------------------------------- |
-| `-h, --help`  | Show all available options.                                                                  |
-| `[directory]` | A directory on which to generate types. If not provided, the current directory will be used. |
+| Tùy chọn      | Mô tả                                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| `-h, --help`  | Hiển thị tất cả các tùy chọn có sẵn.                                                            |
+| `[directory]` | Một thư mục để tạo các loại trên đó. Nếu không được cung cấp, thư mục hiện tại sẽ được sử dụng. |
 
-Output files are written to `<distDir>/types` (typically: `.next/dev/types` or `.next/types`, see [`isolatedDevBuild`](/docs/app/api-reference/config/next-config-js/isolatedDevBuild)):
+Các tệp đầu ra được ghi vào `<distDir>/types` (thường là: `.next/dev/types` hoặc `.next/types`, xem [`isolatedDevBuild`](/docs/app/api-reference/config/next-config-js/isolatedDevBuild)):
 
 ```bash filename="Terminal"
 next typegen
-# or for a specific app
+# hoặc cho một ứng dụng cụ thể
 next typegen ./apps/web
 ```
 
-Additionally, `next typegen` generates a `next-env.d.ts` file. We recommend adding `next-env.d.ts` to your `.gitignore` file.
+Ngoài ra, `next typegen` tạo một tệp `next-env.d.ts`. Chúng tôi khuyên bạn nên thêm `next-env.d.ts` vào tệp `.gitignore` của mình.
 
-The `next-env.d.ts` file is included into your `tsconfig.json` file, to make Next.js types available to your project.
+Tệp `next-env.d.ts` được bao gồm vào tệp `tsconfig.json` của bạn, để làm cho các loại Next.js có sẵn cho dự án của bạn.
 
-To ensure `next-env.d.ts` is present before type-checking run `next typegen`. The commands `next dev` and `next build` also generate the `next-env.d.ts` file, but it is often undesirable to run these just to type-check, for example in CI/CD environments.
+Để đảm bảo `next-env.d.ts` hiện diện trước khi kiểm tra kiểu, hãy chạy `next typegen`. Các lệnh `next dev` và `next build` cũng tạo tệp `next-env.d.ts`, nhưng thường không mong muốn chạy những lệnh này chỉ để kiểm tra kiểu, ví dụ trong môi trường CI/CD.
 
-> **Good to know**: `next typegen` loads your Next.js config (`next.config.js`, `next.config.mjs`, or `next.config.ts`) using the production build phase. Ensure any required environment variables and dependencies are available so the config can load correctly.
+> **Cần biết**: `next typegen` tải cấu hình Next.js của bạn (`next.config.js`, `next.config.mjs`, hoặc `next.config.ts`) bằng cách sử dụng giai đoạn build production. Đảm bảo bất kỳ biến môi trường và phụ thuộc cần thiết nào đều có sẵn để cấu hình có thể tải chính xác.
 
-## Examples
+## Ví dụ
 
-### Debugging prerender errors
+### Gỡ lỗi lỗi prerender
 
-If you encounter prerendering errors during `next build`, you can pass the `--debug-prerender` flag to get more detailed output:
+Nếu bạn gặp lỗi prerendering trong quá trình `next build`, bạn có thể chuyển cờ `--debug-prerender` để nhận đầu ra chi tiết hơn:
 
 ```bash filename="Terminal"
 next build --debug-prerender
 ```
 
-This enables several experimental options to make debugging easier:
+Điều này cho phép một số tùy chọn thử nghiệm để làm cho việc gỡ lỗi dễ dàng hơn:
 
-- Disables server code minification:
+- Tắt thu nhỏ mã máy chủ (server code minification):
   - `experimental.serverMinification = false`
   - `experimental.turbopackMinify = false`
-- Generates source maps for server bundles:
+- Tạo source maps cho các gói máy chủ:
   - `experimental.serverSourceMaps = true`
-- Enables source map consumption in child processes used for prerendering:
+- Bật tiêu thụ source map trong các tiến trình con được sử dụng cho prerendering:
   - `enablePrerenderSourceMaps = true`
-- Continues building even after the first prerender error, so you can see all issues at once:
+- Tiếp tục build ngay cả sau lỗi prerender đầu tiên, vì vậy bạn có thể thấy tất cả các vấn đề cùng một lúc:
   - `experimental.prerenderEarlyExit = false`
 
-This helps surface more readable stack traces and code frames in the build output.
+Điều này giúp hiển thị các stack traces và khung mã dễ đọc hơn trong đầu ra build.
 
-> **Warning**: `--debug-prerender` is for debugging in development only. Do not deploy builds generated with `--debug-prerender` to production, as it may impact performance.
+> **Cảnh báo**: `--debug-prerender` chỉ dành cho việc gỡ lỗi trong development. Không triển khai các bản build được tạo với `--debug-prerender` lên production, vì nó có thể ảnh hưởng đến hiệu suất.
 
-### Building specific routes
+### Build các routes cụ thể
 
-You can build only specific routes in the App and Pages Routers using the `--debug-build-paths` option. This is useful for faster debugging when working with large applications. The `--debug-build-paths` option accepts comma-separated file paths and supports glob patterns:
+Bạn có thể chỉ build các routes cụ thể trong App và Pages Routers bằng cách sử dụng tùy chọn `--debug-build-paths`. Điều này hữu ích cho việc gỡ lỗi nhanh hơn khi làm việc với các ứng dụng lớn. Tùy chọn `--debug-build-paths` chấp nhận các đường dẫn tệp được phân tách bằng dấu phẩy và hỗ trợ các mẫu glob:
 
 ```bash filename="Terminal"
-# Build a specific route
+# Build một route cụ thể
 next build --debug-build-paths="app/page.tsx"
 
-# Build more than one route
+# Build nhiều hơn một route
 next build --debug-build-paths="app/page.tsx,pages/index.tsx"
 
-# Use glob patterns
+# Sử dụng các mẫu glob
 next build --debug-build-paths="app/**/page.tsx"
 next build --debug-build-paths="pages/*.tsx"
 ```
 
-### Changing the default port
+### Thay đổi cổng mặc định
 
-By default, Next.js uses `http://localhost:3000` during development and with `next start`. The default port can be changed with the `-p` option, like so:
+Theo mặc định, Next.js sử dụng `http://localhost:3000` trong quá trình development và với `next start`. Cổng mặc định có thể được thay đổi với tùy chọn `-p`, như sau:
 
 ```bash filename="Terminal"
 next dev -p 4000
 ```
 
-Or using the `PORT` environment variable:
+Hoặc sử dụng biến môi trường `PORT`:
 
 ```bash filename="Terminal"
 PORT=4000 next dev
 ```
 
-> **Good to know**: `PORT` cannot be set in `.env` as booting up the HTTP server happens before any other code is initialized.
+> **Cần biết**: `PORT` không thể được đặt trong `.env` vì việc khởi động máy chủ HTTP xảy ra trước khi bất kỳ mã nào khác được khởi tạo.
 
-### Using HTTPS during development
+### Sử dụng HTTPS trong quá trình development
 
-For certain use cases like webhooks or authentication, you can use [HTTPS](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS) to have a secure environment on `localhost`. Next.js can generate a self-signed certificate with `next dev` using the `--experimental-https` flag:
+Đối với một số trường hợp sử dụng nhất định như webhooks hoặc xác thực, bạn có thể sử dụng [HTTPS](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS) để có môi trường an toàn trên `localhost`. Next.js có thể tạo chứng chỉ tự ký với `next dev` bằng cách sử dụng cờ `--experimental-https`:
 
 ```bash filename="Terminal"
 next dev --experimental-https
 ```
 
-With the generated certificate, the Next.js development server will exist at `https://localhost:3000`. The default port `3000` is used unless a port is specified with `-p`, `--port`, or `PORT`.
+Với chứng chỉ đã tạo, máy chủ phát triển Next.js sẽ tồn tại tại `https://localhost:3000`. Cổng mặc định `3000` được sử dụng trừ khi một cổng được chỉ định với `-p`, `--port`, hoặc `PORT`.
 
-You can also provide a custom certificate and key with `--experimental-https-key` and `--experimental-https-cert`. Optionally, you can provide a custom CA certificate with `--experimental-https-ca` as well.
+Bạn cũng có thể cung cấp chứng chỉ và khóa tùy chỉnh với `--experimental-https-key` và `--experimental-https-cert`. Tùy chọn, bạn cũng có thể cung cấp chứng chỉ CA tùy chỉnh với `--experimental-https-ca`.
 
 ```bash filename="Terminal"
 next dev --experimental-https --experimental-https-key ./certificates/localhost-key.pem --experimental-https-cert ./certificates/localhost.pem
 ```
 
-`next dev --experimental-https` is only intended for development and creates a locally trusted certificate with [`mkcert`](https://github.com/FiloSottile/mkcert). In production, use properly issued certificates from trusted authorities.
+`next dev --experimental-https` chỉ dành cho development và tạo chứng chỉ được tin cậy cục bộ với [`mkcert`](https://github.com/FiloSottile/mkcert). Trong production, hãy sử dụng các chứng chỉ được cấp đúng cách từ các cơ quan đáng tin cậy.
 
-### Configuring a timeout for downstream proxies
+### Định cấu hình thời gian chờ cho proxy hạ nguồn (downstream proxies)
 
-When deploying Next.js behind a downstream proxy (e.g. a load-balancer like AWS ELB/ALB), it's important to configure Next's underlying HTTP server with [keep-alive timeouts](https://nodejs.org/api/http.html#http_server_keepalivetimeout) that are _larger_ than the downstream proxy's timeouts. Otherwise, once a keep-alive timeout is reached for a given TCP connection, Node.js will immediately terminate that connection without notifying the downstream proxy. This results in a proxy error whenever it attempts to reuse a connection that Node.js has already terminated.
+Khi triển khai Next.js đằng sau một proxy hạ nguồn (ví dụ: bộ cân bằng tải như AWS ELB/ALB), điều quan trọng là phải định cấu hình máy chủ HTTP cơ bản của Next với [keep-alive timeouts](https://nodejs.org/api/http.html#http_server_keepalivetimeout) _lớn hơn_ thời gian chờ của proxy hạ nguồn. Nếu không, khi đạt đến thời gian chờ keep-alive cho một kết nối TCP nhất định, Node.js sẽ ngay lập tức chấm dứt kết nối đó mà không thông báo cho proxy hạ nguồn. Điều này dẫn đến lỗi proxy bất cứ khi nào nó cố gắng sử dụng lại một kết nối mà Node.js đã chấm dứt.
 
-To configure the timeout values for the production Next.js server, pass `--keepAliveTimeout` (in milliseconds) to `next start`, like so:
+Để định cấu hình các giá trị thời gian chờ cho máy chủ Next.js production, hãy chuyển `--keepAliveTimeout` (tính bằng mili giây) cho `next start`, như sau:
 
 ```bash filename="Terminal"
 next start --keepAliveTimeout 70000
 ```
 
-### Passing Node.js arguments
+### Truyền các đối số Node.js
 
-You can pass any [node arguments](https://nodejs.org/api/cli.html#cli_node_options_options) to `next` commands. For example:
+Bạn có thể truyền bất kỳ [đối số node](https://nodejs.org/api/cli.html#cli_node_options_options) nào cho các lệnh `next`. Ví dụ:
 
 ```bash filename="Terminal"
 NODE_OPTIONS='--throw-deprecation' next
@@ -282,8 +282,8 @@ NODE_OPTIONS='-r esm' next
 NODE_OPTIONS='--inspect' next
 ```
 
-| Version   | Changes                                                                         |
-| --------- | ------------------------------------------------------------------------------- |
-| `v16.0.0` | The JS bundle size metrics have been removed from `next build`                  |
-| `v15.5.0` | Add the `next typegen` command                                                  |
-| `v15.4.0` | Add `--debug-prerender` option for `next build` to help debug prerender errors. |
+| Phiên bản | Thay đổi                                                                         |
+| --------- | -------------------------------------------------------------------------------- |
+| `v16.0.0` | Các chỉ số kích thước gói JS đã bị xóa khỏi `next build`                         |
+| `v15.5.0` | Thêm lệnh `next typegen`                                                         |
+| `v15.4.0` | Thêm tùy chọn `--debug-prerender` cho `next build` để giúp gỡ lỗi lỗi prerender. |

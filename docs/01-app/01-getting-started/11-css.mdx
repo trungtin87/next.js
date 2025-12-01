@@ -1,16 +1,16 @@
 ---
 title: CSS
-description: Learn about the different ways to add CSS to your application, including Tailwind CSS, CSS Modules, Global CSS, and more.
+description: Tìm hiểu về các cách khác nhau để thêm CSS vào ứng dụng của bạn, bao gồm Tailwind CSS, CSS Modules, Global CSS, và nhiều hơn nữa.
 related:
-  title: Next Steps
-  description: Learn more about the alternatives ways you can use CSS in your application.
+  title: Các bước tiếp theo
+  description: Tìm hiểu thêm về các cách thay thế bạn có thể sử dụng CSS trong ứng dụng của bạn.
   links:
     - app/guides/tailwind-v3-css
     - app/guides/sass
     - app/guides/css-in-js
 ---
 
-Next.js provides several ways to style your application using CSS, including:
+Next.js cung cấp một vài cách để style ứng dụng của bạn sử dụng CSS, bao gồm:
 
 - [Tailwind CSS](#tailwind-css)
 - [CSS Modules](#css-modules)
@@ -21,11 +21,11 @@ Next.js provides several ways to style your application using CSS, including:
 
 ## Tailwind CSS
 
-[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework that provides low-level utility classes to build custom designs.
+[Tailwind CSS](https://tailwindcss.com/) là một utility-first CSS framework cung cấp các utility classes cấp thấp để xây dựng các thiết kế tùy chỉnh.
 
 <AppOnly>
 
-Install Tailwind CSS:
+Cài đặt Tailwind CSS:
 
 ```bash package="pnpm"
 pnpm add -D tailwindcss @tailwindcss/postcss
@@ -43,7 +43,7 @@ yarn add -D tailwindcss @tailwindcss/postcss
 bun add -D tailwindcss @tailwindcss/postcss
 ```
 
-Add the PostCSS plugin to your `postcss.config.mjs` file:
+Thêm PostCSS plugin vào file `postcss.config.mjs` của bạn:
 
 ```js filename="postcss.config.mjs"
 export default {
@@ -53,13 +53,13 @@ export default {
 }
 ```
 
-Import Tailwind in your global CSS file:
+Import Tailwind trong file global CSS của bạn:
 
 ```css filename="app/globals.css"
 @import 'tailwindcss';
 ```
 
-Import the CSS file in your root layout:
+Import file CSS trong root layout của bạn:
 
 ```tsx filename="app/layout.tsx" switcher
 import './globals.css'
@@ -89,7 +89,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Now you can start using Tailwind's utility classes in your application:
+Bây giờ bạn có thể bắt đầu sử dụng các utility classes của Tailwind trong ứng dụng của bạn:
 
 ```tsx filename="app/page.tsx" switcher
 export default function Page() {
@@ -115,7 +115,7 @@ export default function Page() {
 
 <PagesOnly>
 
-Install Tailwind CSS:
+Cài đặt Tailwind CSS:
 
 ```bash package="pnpm"
 pnpm add -D tailwindcss @tailwindcss/postcss
@@ -133,7 +133,7 @@ yarn add -D tailwindcss @tailwindcss/postcss
 bun add -D tailwindcss @tailwindcss/postcss
 ```
 
-Add the PostCSS plugin to your `postcss.config.mjs` file:
+Thêm PostCSS plugin vào file `postcss.config.mjs` của bạn:
 
 ```js filename="postcss.config.mjs"
 export default {
@@ -143,13 +143,13 @@ export default {
 }
 ```
 
-Import Tailwind in your global CSS file:
+Import Tailwind trong file global CSS của bạn:
 
 ```css filename="styles/globals.css"
 @import 'tailwindcss';
 ```
 
-Import the CSS file in your `pages/_app.js` file:
+Import file CSS trong file `pages/_app.js` của bạn:
 
 ```jsx filename="pages/_app.js"
 import '@/styles/globals.css'
@@ -159,7 +159,7 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-Now you can start using Tailwind's utility classes in your application:
+Bây giờ bạn có thể bắt đầu sử dụng các utility classes của Tailwind trong ứng dụng của bạn:
 
 ```tsx filename="pages/index.tsx" switcher
 export default function Home() {
@@ -183,15 +183,15 @@ export default function Home() {
 
 </PagesOnly>
 
-> **Good to know:** If you need broader browser support for very old browsers, see the [Tailwind CSS v3 setup instructions](/docs/app/guides/tailwind-v3-css).
+> **Lưu ý:** Nếu bạn cần hỗ trợ trình duyệt rộng hơn cho các trình duyệt rất cũ, xem [hướng dẫn cài đặt Tailwind CSS v3](/docs/app/guides/tailwind-v3-css).
 
 ## CSS Modules
 
-CSS Modules locally scope CSS by generating unique class names. This allows you to use the same class in different files without worrying about naming collisions.
+CSS Modules giới hạn phạm vi CSS cục bộ bằng cách tạo ra các tên class duy nhất. Điều này cho phép bạn sử dụng cùng một tên class trong các file khác nhau mà không lo về xung đột đặt tên.
 
 <AppOnly>
 
-To start using CSS Modules, create a new file with the extension `.module.css` and import it into any component inside the `app` directory:
+Để bắt đầu sử dụng CSS Modules, tạo một file mới với phần mở rộng `.module.css` và import nó vào bất kỳ component nào bên trong thư mục `app`:
 
 ```css filename="app/blog/blog.module.css"
 .blog {
@@ -219,7 +219,7 @@ export default function Layout() {
 
 <PagesOnly>
 
-To start using CSS Modules, create a new file with the extension `.module.css` and import it into any component inside the `pages` directory:
+Để bắt đầu sử dụng CSS Modules, tạo một file mới với phần mở rộng `.module.css` và import nó vào bất kỳ component nào bên trong thư mục `pages`:
 
 ```css filename="/styles/blog.module.css"
 .blog {
@@ -247,11 +247,11 @@ export default function Page() {
 
 ## Global CSS
 
-You can use global CSS to apply styles across your application.
+Bạn có thể sử dụng global CSS để áp dụng styles trên toàn bộ ứng dụng của bạn.
 
 <AppOnly>
 
-Create a `app/global.css` file and import it in the root layout to apply the styles to **every route** in your application:
+Tạo một file `app/global.css` và import nó trong root layout để áp dụng styles cho **mọi route** trong ứng dụng của bạn:
 
 ```css filename="app/global.css"
 body {
@@ -291,13 +291,13 @@ export default function RootLayout({ children }) {
 }
 ```
 
-> **Good to know:** Global styles can be imported into any layout, page, or component inside the `app` directory. However, since Next.js uses React's built-in support for stylesheets to integrate with Suspense, this currently does not remove stylesheets as you navigate between routes which can lead to conflicts. We recommend using global styles for _truly_ global CSS (like Tailwind's base styles), [Tailwind CSS](#tailwind-css) for component styling, and [CSS Modules](#css-modules) for custom scoped CSS when needed.
+> **Lưu ý:** Global styles có thể được import vào bất kỳ layout, page, hoặc component nào bên trong thư mục `app`. Tuy nhiên, vì Next.js sử dụng hỗ trợ tích hợp sẵn của React cho stylesheets để tích hợp với Suspense, điều này hiện tại không loại bỏ stylesheets khi bạn điều hướng giữa các routes, điều này có thể dẫn đến xung đột. Chúng tôi khuyên bạn nên sử dụng global styles cho CSS _thực sự_ global (như base styles của Tailwind), [Tailwind CSS](#tailwind-css) cho component styling, và [CSS Modules](#css-modules) cho custom scoped CSS khi cần thiết.
 
 </AppOnly>
 
 <PagesOnly>
 
-Import the stylesheet in the `pages/_app.js` file to apply the styles to **every route** in your application:
+Import stylesheet trong file `pages/_app.js` để áp dụng styles cho **mọi route** trong ứng dụng của bạn:
 
 ```tsx filename="pages/_app.js"
 import '@/styles/global.css'
@@ -307,7 +307,7 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-Due to the global nature of stylesheets, and to avoid conflicts, you should import them inside [`pages/_app.js`](/docs/pages/building-your-application/routing/custom-app).
+Do tính chất toàn cầu của stylesheets, và để tránh xung đột, bạn nên import chúng bên trong [`pages/_app.js`](/docs/pages/building-your-application/routing/custom-app).
 
 </PagesOnly>
 
@@ -315,7 +315,7 @@ Due to the global nature of stylesheets, and to avoid conflicts, you should impo
 
 <AppOnly>
 
-Stylesheets published by external packages can be imported anywhere in the `app` directory, including colocated components:
+Stylesheets được publish bởi các packages bên ngoài có thể được import ở bất kỳ đâu trong thư mục `app`, bao gồm cả các colocated components:
 
 ```tsx filename="app/layout.tsx" switcher
 import 'bootstrap/dist/css/bootstrap.css'
@@ -345,19 +345,19 @@ export default function RootLayout({ children }) {
 }
 ```
 
-> **Good to know:** In React 19, `<link rel="stylesheet" href="..." />` can also be used. See the [React `link` documentation](https://react.dev/reference/react-dom/components/link) for more information.
+> **Lưu ý:** Trong React 19, `<link rel="stylesheet" href="..." />` cũng có thể được sử dụng. Xem [tài liệu React `link`](https://react.dev/reference/react-dom/components/link) để biết thêm thông tin.
 
 </AppOnly>
 
 <PagesOnly>
 
-Next.js allows you to import CSS files from a JavaScript file. This is possible because Next.js extends the concept of [`import`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/import) beyond JavaScript.
+Next.js cho phép bạn import CSS files từ một JavaScript file. Điều này là có thể vì Next.js mở rộng khái niệm [`import`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/import) vượt ra ngoài JavaScript.
 
-### Import styles from `node_modules`
+### Import styles từ `node_modules`
 
-Since Next.js **9.5.4**, importing a CSS file from `node_modules` is permitted anywhere in your application.
+Kể từ Next.js **9.5.4**, việc import một CSS file từ `node_modules` được cho phép ở bất kỳ đâu trong ứng dụng của bạn.
 
-For global stylesheets, like `bootstrap` or `nprogress`, you should import the file inside `pages/_app.js`. For example:
+Đối với global stylesheets, như `bootstrap` hoặc `nprogress`, bạn nên import file bên trong `pages/_app.js`. Ví dụ:
 
 ```jsx filename="pages/_app.js"
 import 'bootstrap/dist/css/bootstrap.css'
@@ -367,7 +367,7 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-To import CSS required by a third-party component, you can do so in your component. For example:
+Để import CSS được yêu cầu bởi một third-party component, bạn có thể làm như vậy trong component của bạn. Ví dụ:
 
 ```jsx filename="components/example-dialog.js"
 import { useState } from 'react'
@@ -397,11 +397,11 @@ function ExampleDialog(props) {
 
 </PagesOnly>
 
-## Ordering and Merging
+## Ordering và Merging
 
-Next.js optimizes CSS during production builds by automatically chunking (merging) stylesheets. The **order of your CSS** depends on the **order you import styles in your code**.
+Next.js tối ưu hóa CSS trong quá trình production builds bằng cách tự động chunking (gộp) stylesheets. **Thứ tự của CSS** phụ thuộc vào **thứ tự bạn import styles trong code của bạn**.
 
-For example, `base-button.module.css` will be ordered before `page.module.css` since `<BaseButton>` is imported before `page.module.css`:
+Ví dụ, `base-button.module.css` sẽ được sắp xếp trước `page.module.css` vì `<BaseButton>` được import trước `page.module.css`:
 
 ```tsx filename="page.tsx" switcher
 import { BaseButton } from './base-button'
@@ -437,22 +437,22 @@ export function BaseButton() {
 }
 ```
 
-### Recommendations
+### Khuyến nghị
 
-To keep CSS ordering predictable:
+Để giữ thứ tự CSS có thể dự đoán được:
 
-- Try to contain CSS imports to a single JavaScript or TypeScript entry file
-- Import global styles and Tailwind stylesheets in the root of your application.
-- **Use Tailwind CSS** for most styling needs as it covers common design patterns with utility classes.
-- Use CSS Modules for component-specific styles when Tailwind utilities aren't sufficient.
-- Use a consistent naming convention for your CSS modules. For example, using `<name>.module.css` over `<name>.tsx`.
-- Extract shared styles into shared components to avoid duplicate imports.
-- Turn off linters or formatters that auto-sort imports like ESLint’s [`sort-imports`](https://eslint.org/docs/latest/rules/sort-imports).
-- You can use the [`cssChunking`](/docs/app/api-reference/config/next-config-js/cssChunking) option in `next.config.js` to control how CSS is chunked.
+- Cố gắng chứa các CSS imports trong một JavaScript hoặc TypeScript entry file duy nhất
+- Import global styles và Tailwind stylesheets ở root của ứng dụng của bạn.
+- **Sử dụng Tailwind CSS** cho hầu hết các nhu cầu styling vì nó bao gồm các design patterns phổ biến với utility classes.
+- Sử dụng CSS Modules cho component-specific styles khi Tailwind utilities không đủ.
+- Sử dụng một quy ước đặt tên nhất quán cho các CSS modules của bạn. Ví dụ, sử dụng `<name>.module.css` thay vì `<name>.tsx`.
+- Extract shared styles vào các shared components để tránh duplicate imports.
+- Tắt linters hoặc formatters tự động sắp xếp imports như [`sort-imports`](https://eslint.org/docs/latest/rules/sort-imports) của ESLint.
+- Bạn có thể sử dụng option [`cssChunking`](/docs/app/api-reference/config/next-config-js/cssChunking) trong `next.config.js` để kiểm soát cách CSS được chunked.
 
 ## Development vs Production
 
-- In development (`next dev`), CSS updates apply instantly with [Fast Refresh](/docs/architecture/fast-refresh).
-- In production (`next build`), all CSS files are automatically concatenated into **many minified and code-split** `.css` files, ensuring the minimal amount of CSS is loaded for a route.
-- CSS still loads with JavaScript disabled in production, but JavaScript is required in development for Fast Refresh.
-- CSS ordering can behave differently in development, always ensure to check the build (`next build`) to verify the final CSS order.
+- Trong development (`next dev`), CSS updates áp dụng ngay lập tức với [Fast Refresh](/docs/architecture/fast-refresh).
+- Trong production (`next build`), tất cả CSS files được tự động nối lại thành **nhiều file `.css` đã được minified và code-split**, đảm bảo lượng CSS tối thiểu được load cho một route.
+- CSS vẫn load khi JavaScript bị tắt trong production, nhưng JavaScript được yêu cầu trong development cho Fast Refresh.
+- Thứ tự CSS có thể hoạt động khác nhau trong development, luôn đảm bảo kiểm tra build (`next build`) để xác minh thứ tự CSS cuối cùng.

@@ -1,20 +1,20 @@
 ---
 title: onDemandEntries
-description: Configure how Next.js will dispose and keep in memory pages created in development.
+description: Cấu hình cách Next.js sẽ hủy bỏ và giữ trong bộ nhớ các trang được tạo trong quá trình phát triển (development).
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Next.js exposes some options that give you some control over how the server will dispose or keep in memory built pages in development.
+Next.js cung cấp một số tùy chọn cho phép bạn kiểm soát cách server sẽ hủy bỏ hoặc giữ trong bộ nhớ các trang đã build trong quá trình phát triển.
 
-To change the defaults, open `next.config.js` and add the `onDemandEntries` config:
+Để thay đổi các giá trị mặc định, hãy mở `next.config.js` và thêm cấu hình `onDemandEntries`:
 
 ```js filename="next.config.js"
 module.exports = {
   onDemandEntries: {
-    // period (in ms) where the server will keep pages in the buffer
+    // khoảng thời gian (tính bằng ms) mà server sẽ giữ các trang trong bộ đệm
     maxInactiveAge: 25 * 1000,
-    // number of pages that should be kept simultaneously without being disposed
+    // số lượng trang nên được giữ đồng thời mà không bị hủy bỏ
     pagesBufferLength: 2,
   },
 }

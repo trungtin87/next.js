@@ -1,21 +1,21 @@
 ---
-title: How to preview content with Draft Mode in Next.js
+title: Cách xem trước nội dung với Draft Mode trong Next.js
 nav_title: Draft Mode
-description: Next.js has draft mode to toggle between static and dynamic pages. You can learn how it works with App Router here.
+description: Next.js có chế độ bản nháp (draft mode) để chuyển đổi giữa các trang tĩnh và động. Bạn có thể tìm hiểu cách nó hoạt động với App Router tại đây.
 related:
-  title: Next Steps
-  description: See the API reference for more information on how to use Draft Mode.
+  title: Các bước tiếp theo
+  description: Xem tài liệu tham khảo API để biết thêm thông tin về cách sử dụng Draft Mode.
   links:
     - app/api-reference/functions/draft-mode
 ---
 
-**Draft Mode** allows you to preview draft content from your headless CMS in your Next.js application. This is useful for static pages that are generated at build time as it allows you to switch to [dynamic rendering](/docs/app/guides/caching#dynamic-rendering) and see the draft changes without having to rebuild your entire site.
+**Draft Mode** cho phép bạn xem trước nội dung bản nháp từ headless CMS trong ứng dụng Next.js của bạn. Điều này hữu ích cho các trang tĩnh được tạo tại thời điểm build vì nó cho phép bạn chuyển sang [render động](/docs/app/guides/caching#dynamic-rendering) và xem các thay đổi bản nháp mà không cần phải build lại toàn bộ trang web của bạn.
 
-This page walks through how to enable and use Draft Mode.
+Trang này hướng dẫn cách kích hoạt và sử dụng Draft Mode.
 
-## Step 1: Create a Route Handler
+## Bước 1: Tạo một Route Handler
 
-Create a [Route Handler](/docs/app/api-reference/file-conventions/route). It can have any name, for example, `app/api/draft/route.ts`.
+Tạo một [Route Handler](/docs/app/api-reference/file-conventions/route). Nó có thể có bất kỳ tên nào, ví dụ, `app/api/draft/route.ts`.
 
 ```ts filename="app/api/draft/route.ts" switcher
 export async function GET(request: Request) {
@@ -29,7 +29,7 @@ export async function GET() {
 }
 ```
 
-Then, import the [`draftMode`](/docs/app/api-reference/functions/draft-mode) function and call the `enable()` method.
+Sau đó, import hàm [`draftMode`](/docs/app/api-reference/functions/draft-mode) và gọi phương thức `enable()`.
 
 ```ts filename="app/api/draft/route.ts" switcher
 import { draftMode } from 'next/headers'
@@ -51,62 +51,62 @@ export async function GET(request) {
 }
 ```
 
-This will set a **cookie** to enable draft mode. Subsequent requests containing this cookie will trigger draft mode and change the behavior of statically generated pages.
+Điều này sẽ đặt một **cookie** để kích hoạt draft mode. Các yêu cầu tiếp theo chứa cookie này sẽ kích hoạt draft mode và thay đổi hành vi của các trang được tạo tĩnh.
 
-You can test this manually by visiting `/api/draft` and looking at your browser’s developer tools. Notice the `Set-Cookie` response header with a cookie named `__prerender_bypass`.
+Bạn có thể kiểm tra điều này thủ công bằng cách truy cập `/api/draft` và xem các công cụ dành cho nhà phát triển của trình duyệt. Chú ý header phản hồi `Set-Cookie` với một cookie có tên `__prerender_bypass`.
 
-## Step 2: Access the Route Handler from your Headless CMS
+## Bước 2: Truy cập Route Handler từ Headless CMS của bạn
 
-> These steps assume that the headless CMS you’re using supports setting **custom draft URLs**. If it doesn’t, you can still use this method to secure your draft URLs, but you’ll need to construct and access the draft URL manually. The specific steps will vary depending on which headless CMS you’re using.
+> Các bước này giả định rằng headless CMS bạn đang sử dụng hỗ trợ đặt **URL bản nháp tùy chỉnh**. Nếu không, bạn vẫn có thể sử dụng phương pháp này để bảo mật các URL bản nháp của mình, nhưng bạn sẽ cần phải xây dựng và truy cập URL bản nháp theo cách thủ công. Các bước cụ thể sẽ khác nhau tùy thuộc vào headless CMS bạn đang sử dụng.
 
-To securely access the Route Handler from your headless CMS:
+Để truy cập an toàn Route Handler từ headless CMS của bạn:
 
-1. Create a **secret token string** using a token generator of your choice. This secret will only be known by your Next.js app and your headless CMS.
-2. If your headless CMS supports setting custom draft URLs, specify a draft URL (this assumes that your Route Handler is located at `app/api/draft/route.ts`). For example:
+1. Tạo một **chuỗi token bí mật** bằng cách sử dụng trình tạo token bạn chọn. Bí mật này sẽ chỉ được biết bởi ứng dụng Next.js và headless CMS của bạn.
+2. Nếu headless CMS của bạn hỗ trợ đặt URL bản nháp tùy chỉnh, hãy chỉ định URL bản nháp (điều này giả định rằng Route Handler của bạn nằm tại `app/api/draft/route.ts`). Ví dụ:
 
 ```bash filename="Terminal"
 https://<your-site>/api/draft?secret=<token>&slug=<path>
 ```
 
-> - `<your-site>` should be your deployment domain.
-> - `<token>` should be replaced with the secret token you generated.
-> - `<path>` should be the path for the page that you want to view. If you want to view `/posts/one`, then you should use `&slug=/posts/one`.
+> - `<your-site>` nên là miền triển khai của bạn.
+> - `<token>` nên được thay thế bằng token bí mật bạn đã tạo.
+> - `<path>` nên là đường dẫn cho trang mà bạn muốn xem. Nếu bạn muốn xem `/posts/one`, thì bạn nên sử dụng `&slug=/posts/one`.
 >
-> Your headless CMS might allow you to include a variable in the draft URL so that `<path>` can be set dynamically based on the CMS’s data like so: `&slug=/posts/{entry.fields.slug}`
+> Headless CMS của bạn có thể cho phép bạn bao gồm một biến trong URL bản nháp để `<path>` có thể được đặt động dựa trên dữ liệu của CMS như sau: `&slug=/posts/{entry.fields.slug}`
 
-3. In your Route Handler, check that the secret matches and that the `slug` parameter exists (if not, the request should fail), call `draftMode.enable()` to set the cookie. Then, redirect the browser to the path specified by `slug`:
+3. Trong Route Handler của bạn, kiểm tra xem bí mật có khớp không và tham số `slug` có tồn tại không (nếu không, yêu cầu sẽ thất bại), gọi `draftMode.enable()` để đặt cookie. Sau đó, chuyển hướng trình duyệt đến đường dẫn được chỉ định bởi `slug`:
 
 ```ts filename="app/api/draft/route.ts" switcher
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export async function GET(request: Request) {
-  // Parse query string parameters
+  // Phân tích các tham số chuỗi truy vấn
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   const slug = searchParams.get('slug')
 
-  // Check the secret and next parameters
-  // This secret should only be known to this Route Handler and the CMS
+  // Kiểm tra bí mật và các tham số tiếp theo
+  // Bí mật này chỉ nên được biết bởi Route Handler này và CMS
   if (secret !== 'MY_SECRET_TOKEN' || !slug) {
     return new Response('Invalid token', { status: 401 })
   }
 
-  // Fetch the headless CMS to check if the provided `slug` exists
-  // getPostBySlug would implement the required fetching logic to the headless CMS
+  // Fetch headless CMS để kiểm tra xem `slug` được cung cấp có tồn tại không
+  // getPostBySlug sẽ thực hiện logic fetching cần thiết đến headless CMS
   const post = await getPostBySlug(slug)
 
-  // If the slug doesn't exist prevent draft mode from being enabled
+  // Nếu slug không tồn tại, ngăn chặn draft mode được kích hoạt
   if (!post) {
     return new Response('Invalid slug', { status: 401 })
   }
 
-  // Enable Draft Mode by setting the cookie
+  // Kích hoạt Draft Mode bằng cách đặt cookie
   const draft = await draftMode()
   draft.enable()
 
-  // Redirect to the path from the fetched post
-  // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities
+  // Chuyển hướng đến đường dẫn từ bài đăng đã fetch
+  // Chúng tôi không chuyển hướng đến searchParams.slug vì điều đó có thể dẫn đến các lỗ hổng chuyển hướng mở
   redirect(post.slug)
 }
 ```
@@ -116,48 +116,48 @@ import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export async function GET(request) {
-  // Parse query string parameters
+  // Phân tích các tham số chuỗi truy vấn
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   const slug = searchParams.get('slug')
 
-  // Check the secret and next parameters
-  // This secret should only be known to this Route Handler and the CMS
+  // Kiểm tra bí mật và các tham số tiếp theo
+  // Bí mật này chỉ nên được biết bởi Route Handler này và CMS
   if (secret !== 'MY_SECRET_TOKEN' || !slug) {
     return new Response('Invalid token', { status: 401 })
   }
 
-  // Fetch the headless CMS to check if the provided `slug` exists
-  // getPostBySlug would implement the required fetching logic to the headless CMS
+  // Fetch headless CMS để kiểm tra xem `slug` được cung cấp có tồn tại không
+  // getPostBySlug sẽ thực hiện logic fetching cần thiết đến headless CMS
   const post = await getPostBySlug(slug)
 
-  // If the slug doesn't exist prevent draft mode from being enabled
+  // Nếu slug không tồn tại, ngăn chặn draft mode được kích hoạt
   if (!post) {
     return new Response('Invalid slug', { status: 401 })
   }
 
-  // Enable Draft Mode by setting the cookie
+  // Kích hoạt Draft Mode bằng cách đặt cookie
   const draft = await draftMode()
   draft.enable()
 
-  // Redirect to the path from the fetched post
-  // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities
+  // Chuyển hướng đến đường dẫn từ bài đăng đã fetch
+  // Chúng tôi không chuyển hướng đến searchParams.slug vì điều đó có thể dẫn đến các lỗ hổng chuyển hướng mở
   redirect(post.slug)
 }
 ```
 
-If it succeeds, then the browser will be redirected to the path you want to view with the draft mode cookie.
+Nếu thành công, trình duyệt sẽ được chuyển hướng đến đường dẫn bạn muốn xem với cookie draft mode.
 
-## Step 3: Preview the Draft Content
+## Bước 3: Xem trước Nội dung Bản nháp
 
-The next step is to update your page to check the value of `draftMode().isEnabled`.
+Bước tiếp theo là cập nhật trang của bạn để kiểm tra giá trị của `draftMode().isEnabled`.
 
-If you request a page which has the cookie set, then data will be fetched at **request time** (instead of at build time).
+Nếu bạn yêu cầu một trang có cookie được đặt, thì dữ liệu sẽ được fetch tại **thời gian yêu cầu** (thay vì tại thời điểm build).
 
-Furthermore, the value of `isEnabled` will be `true`.
+Hơn nữa, giá trị của `isEnabled` sẽ là `true`.
 
 ```tsx filename="app/page.tsx" switcher
-// page that fetches data
+// trang fetch dữ liệu
 import { draftMode } from 'next/headers'
 
 async function getData() {
@@ -185,7 +185,7 @@ export default async function Page() {
 ```
 
 ```jsx filename="app/page.js" switcher
-// page that fetches data
+// trang fetch dữ liệu
 import { draftMode } from 'next/headers'
 
 async function getData() {
@@ -212,4 +212,4 @@ export default async function Page() {
 }
 ```
 
-If you access the draft Route Handler (with `secret` and `slug`) from your headless CMS or manually using the URL, you should now be able to see the draft content. And, if you update your draft without publishing, you should be able to view the draft.
+Nếu bạn truy cập draft Route Handler (với `secret` và `slug`) từ headless CMS của bạn hoặc thủ công bằng cách sử dụng URL, bây giờ bạn sẽ có thể xem nội dung bản nháp. Và, nếu bạn cập nhật bản nháp của mình mà không xuất bản, bạn sẽ có thể xem bản nháp.

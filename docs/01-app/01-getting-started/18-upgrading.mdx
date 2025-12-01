@@ -1,24 +1,24 @@
 ---
-title: Upgrading
-description: Learn how to upgrade your Next.js application to the latest version or canary.
+title: Nâng cấp
+description: Tìm hiểu cách nâng cấp ứng dụng Next.js của bạn lên phiên bản mới nhất hoặc canary.
 related:
-  title: Version guides
-  description: See the version guides for in-depth upgrade instructions.
+  title: Hướng dẫn phiên bản
+  description: Xem hướng dẫn phiên bản để biết hướng dẫn nâng cấp chi tiết.
   links:
     - app/guides/upgrading/version-16
     - app/guides/upgrading/version-15
     - app/guides/upgrading/version-14
 ---
 
-## Latest version
+## Phiên bản mới nhất
 
-To update to the latest version of Next.js, you can use the `upgrade` codemod:
+Để cập nhật lên phiên bản mới nhất của Next.js, bạn có thể sử dụng codemod `upgrade`:
 
 ```bash filename="Terminal"
 npx @next/codemod@latest upgrade latest
 ```
 
-If you prefer to upgrade manually, install the latest Next.js and React versions:
+Nếu bạn muốn nâng cấp thủ công, hãy cài đặt các phiên bản Next.js và React mới nhất:
 
 ```bash package="pnpm"
 pnpm i next@latest react@latest react-dom@latest eslint-config-next@latest
@@ -36,17 +36,17 @@ yarn add next@latest react@latest react-dom@latest eslint-config-next@latest
 bun add next@latest react@latest react-dom@latest eslint-config-next@latest
 ```
 
-## Canary version
+## Phiên bản Canary
 
-To update to the latest canary, make sure you're on the latest version of Next.js and everything is working as expected. Then, run the following command:
+Để cập nhật lên canary mới nhất, hãy đảm bảo bạn đang ở phiên bản mới nhất của Next.js và mọi thứ đang hoạt động như mong đợi. Sau đó, chạy lệnh sau:
 
 ```bash filename="Terminal"
 npm i next@canary
 ```
 
-### Features available in canary
+### Các tính năng có sẵn trong canary
 
-The following features are currently available in canary:
+Các tính năng sau hiện có sẵn trong canary:
 
 **Caching**:
 

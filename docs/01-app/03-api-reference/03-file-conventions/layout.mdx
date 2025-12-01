@@ -1,9 +1,9 @@
 ---
 title: layout.js
-description: API reference for the layout.js file.
+description: Tài liệu tham khảo API cho file layout.js.
 ---
 
-The `layout` file is used to define a layout in your Next.js application.
+File `layout` được sử dụng để định nghĩa một layout trong ứng dụng Next.js của bạn.
 
 ```tsx filename="app/dashboard/layout.tsx" switcher
 export default function DashboardLayout({
@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }) {
 }
 ```
 
-A **root layout** is the top-most layout in the root `app` directory. It is used to define the `<html>` and `<body>` tags and other globally shared UI.
+Một **root layout** là layout cao nhất trong thư mục root `app`. Nó được sử dụng để định nghĩa các thẻ `<html>` và `<body>` và các UI được chia sẻ toàn cục khác.
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -47,17 +47,17 @@ export default function RootLayout({ children }) {
 }
 ```
 
-## Reference
+## Tham khảo
 
 ### Props
 
-#### `children` (required)
+#### `children` (bắt buộc)
 
-Layout components should accept and use a `children` prop. During rendering, `children` will be populated with the route segments the layout is wrapping. These will primarily be the component of a child [Layout](/docs/app/api-reference/file-conventions/page) (if it exists) or [Page](/docs/app/api-reference/file-conventions/page), but could also be other special files like [Loading](/docs/app/api-reference/file-conventions/loading) or [Error](/docs/app/getting-started/error-handling) when applicable.
+Các Layout components nên chấp nhận và sử dụng một prop `children`. Trong quá trình rendering, `children` sẽ được điền với các route segments mà layout đang bao bọc. Những cái này chủ yếu sẽ là component của một child [Layout](/docs/app/api-reference/file-conventions/page) (nếu nó tồn tại) hoặc [Page](/docs/app/api-reference/file-conventions/page), nhưng cũng có thể là các file đặc biệt khác như [Loading](/docs/app/api-reference/file-conventions/loading) hoặc [Error](/docs/app/getting-started/error-handling) khi áp dụng.
 
-#### `params` (optional)
+#### `params` (tùy chọn)
 
-A promise that resolves to an object containing the [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) object from the root segment down to that layout.
+Một promise resolve thành một object chứa object [dynamic route parameters](/docs/app/api-reference/file-conventions/dynamic-routes) từ root segment xuống đến layout đó.
 
 ```tsx filename="app/dashboard/[team]/layout.tsx" switcher
 export default async function Layout({
@@ -83,33 +83,33 @@ export default async function Layout({ children, params }) {
 | `app/shop/[tag]/[item]/layout.js` | `/shop/1/2`    | `Promise<{ tag: '1', item: '2' }>` |
 | `app/blog/[...slug]/layout.js`    | `/blog/1/2`    | `Promise<{ slug: ['1', '2'] }>`    |
 
-- Since the `params` prop is a promise. You must use `async/await` or React's [`use`](https://react.dev/reference/react/use) function to access the values.
-  - In version 14 and earlier, `params` was a synchronous prop. To help with backwards compatibility, you can still access it synchronously in Next.js 15, but this behavior will be deprecated in the future.
+- Vì prop `params` là một promise. Bạn phải sử dụng `async/await` hoặc hàm [`use`](https://react.dev/reference/react/use) của React để truy cập các giá trị.
+  - Trong phiên bản 14 và cũ hơn, `params` là một synchronous prop. Để giúp tương thích ngược, bạn vẫn có thể truy cập nó một cách đồng bộ trong Next.js 15, nhưng hành vi này sẽ bị deprecated trong tương lai.
 
 ### Layout Props Helper
 
-You can type layouts with `LayoutProps` to get a strongly typed `params` and named slots inferred from your directory structure. `LayoutProps` is a globally available helper.
+Bạn có thể type layouts với `LayoutProps` để nhận được `params` được typed mạnh và các named slots được suy ra từ cấu trúc thư mục của bạn. `LayoutProps` là một helper có sẵn toàn cục.
 
 ```tsx filename="app/dashboard/layout.tsx"
 export default function Layout(props: LayoutProps<'/dashboard'>) {
   return (
     <section>
       {props.children}
-      {/* If you have app/dashboard/@analytics, it appears as a typed slot: */}
+      {/* Nếu bạn có app/dashboard/@analytics, nó xuất hiện như một typed slot: */}
       {/* {props.analytics} */}
     </section>
   )
 }
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - Types are generated during `next dev`, `next build` or `next typegen`.
-> - After type generation, the `LayoutProps` helper is globally available. It doesn't need to be imported.
+> - Types được tạo trong quá trình `next dev`, `next build` hoặc `next typegen`.
+> - Sau khi tạo type, helper `LayoutProps` có sẵn toàn cục. Nó không cần phải được import.
 
 ### Root Layout
 
-The `app` directory **must** include a **root layout**, which is the top-most layout in the root `app` directory. Typically, the root layout is `app/layout.js`.
+Thư mục `app` **phải** bao gồm một **root layout**, là layout cao nhất trong thư mục root `app`. Thông thường, root layout là `app/layout.js`.
 
 ```tsx filename="app/layout.tsx" switcher
 export default function RootLayout({
@@ -135,21 +135,21 @@ export default function RootLayout({ children }) {
 }
 ```
 
-- The root layout **must** define `<html>` and `<body>` tags.
-  - You should **not** manually add `<head>` tags such as `<title>` and `<meta>` to root layouts. Instead, you should use the [Metadata API](/docs/app/getting-started/metadata-and-og-images) which automatically handles advanced requirements such as streaming and de-duplicating `<head>` elements.
-- You can use [route groups](/docs/app/api-reference/file-conventions/route-groups) to create **multiple root layouts**.
-  - Navigating **across multiple root layouts** will cause a **full page load** (as opposed to a client-side navigation). For example, navigating from `/cart` that uses `app/(shop)/layout.js` to `/blog` that uses `app/(marketing)/layout.js` will cause a full page load. This **only** applies to multiple root layouts.
-- The root layout can be under a **dynamic segment**, for example when implementing [internationalization](/docs/app/guides/internationalization) with `app/[lang]/layout.js`.
+- Root layout **phải** định nghĩa các thẻ `<html>` và `<body>`.
+  - Bạn **không nên** thêm thủ công các thẻ `<head>` như `<title>` và `<meta>` vào root layouts. Thay vào đó, bạn nên sử dụng [Metadata API](/docs/app/getting-started/metadata-and-og-images) tự động xử lý các yêu cầu nâng cao như streaming và de-duplicating các phần tử `<head>`.
+- Bạn có thể sử dụng [route groups](/docs/app/api-reference/file-conventions/route-groups) để tạo **nhiều root layouts**.
+  - Điều hướng **giữa nhiều root layouts** sẽ gây ra một **full page load** (trái ngược với client-side navigation). Ví dụ, điều hướng từ `/cart` sử dụng `app/(shop)/layout.js` đến `/blog` sử dụng `app/(marketing)/layout.js` sẽ gây ra một full page load. Điều này **chỉ** áp dụng cho nhiều root layouts.
+- Root layout có thể nằm dưới một **dynamic segment**, ví dụ khi triển khai [internationalization](/docs/app/guides/internationalization) với `app/[lang]/layout.js`.
 
 ## Caveats
 
 ### Request Object
 
-Layouts are cached in the client during navigation to avoid unnecessary server requests.
+Layouts được cache trong client trong quá trình điều hướng để tránh các yêu cầu server không cần thiết.
 
-[Layouts](/docs/app/api-reference/file-conventions/layout) do not rerender. They can be cached and reused to avoid unnecessary computation when navigating between pages. By restricting layouts from accessing the raw request, Next.js can prevent the execution of potentially slow or expensive user code within the layout, which could negatively impact performance.
+[Layouts](/docs/app/api-reference/file-conventions/layout) không rerender. Chúng có thể được cache và tái sử dụng để tránh tính toán không cần thiết khi điều hướng giữa các trang. Bằng cách hạn chế layouts truy cập raw request, Next.js có thể ngăn chặn việc thực thi mã người dùng có khả năng chậm hoặc tốn kém trong layout, điều này có thể ảnh hưởng tiêu cực đến hiệu suất.
 
-To access the request object, you can use [`headers`](/docs/app/api-reference/functions/headers) and [`cookies`](/docs/app/api-reference/functions/cookies) APIs in [Server Components](/docs/app/getting-started/server-and-client-components) and Functions.
+Để truy cập request object, bạn có thể sử dụng các APIs [`headers`](/docs/app/api-reference/functions/headers) và [`cookies`](/docs/app/api-reference/functions/cookies) trong [Server Components](/docs/app/getting-started/server-and-client-components) và Functions.
 
 ```tsx filename="app/shop/layout.tsx" switcher
 import { cookies } from 'next/headers'
@@ -173,9 +173,9 @@ export default async function Layout({ children }) {
 
 ### Query params
 
-Layouts do not rerender on navigation, so they cannot access search params which would otherwise become stale.
+Layouts không rerender khi điều hướng, vì vậy chúng không thể truy cập search params nếu không chúng sẽ trở nên cũ (stale).
 
-To access updated query parameters, you can use the Page [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) prop, or read them inside a Client Component using the [`useSearchParams`](/docs/app/api-reference/functions/use-search-params) hook. Since Client Components re-render on navigation, they have access to the latest query parameters.
+Để truy cập các query parameters đã cập nhật, bạn có thể sử dụng prop [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) của Page, hoặc đọc chúng bên trong một Client Component sử dụng hook [`useSearchParams`](/docs/app/api-reference/functions/use-search-params). Vì Client Components re-render khi điều hướng, chúng có quyền truy cập vào các query parameters mới nhất.
 
 ```tsx filename="app/ui/search.tsx" switcher
 'use client'
@@ -233,9 +233,9 @@ export default function Layout({ children }) {
 
 ### Pathname
 
-Layouts do not re-render on navigation, so they do not access pathname which would otherwise become stale.
+Layouts không re-render khi điều hướng, vì vậy chúng không truy cập pathname nếu không chúng sẽ trở nên cũ (stale).
 
-To access the current pathname, you can read it inside a Client Component using the [`usePathname`](/docs/app/api-reference/functions/use-pathname) hook. Since Client Components re-render during navigation, they have access to the latest pathname.
+Để truy cập pathname hiện tại, bạn có thể đọc nó bên trong một Client Component sử dụng hook [`usePathname`](/docs/app/api-reference/functions/use-pathname). Vì Client Components re-render trong quá trình điều hướng, chúng có quyền truy cập vào pathname mới nhất.
 
 ```tsx filename="app/ui/breadcrumbs.tsx" switcher
 'use client'
@@ -311,9 +311,9 @@ export default function Layout({ children }) {
 
 ### Fetching Data
 
-Layouts cannot pass data to their `children`. However, you can fetch the same data in a route more than once, and use React [`cache`](https://react.dev/reference/react/cache) to dedupe the requests without affecting performance.
+Layouts không thể truyền dữ liệu cho `children` của chúng. Tuy nhiên, bạn có thể fetch cùng một dữ liệu trong một route nhiều lần, và sử dụng React [`cache`](https://react.dev/reference/react/cache) để dedupe các requests mà không ảnh hưởng đến hiệu suất.
 
-Alternatively, when using [`fetch`](/docs/app/api-reference/functions/fetch)in Next.js, requests are automatically deduped.
+Ngoài ra, khi sử dụng [`fetch`](/docs/app/api-reference/functions/fetch) trong Next.js, các requests được tự động deduped.
 
 ```tsx filename="app/lib/data.ts" switcher
 export async function getUser(id: string) {
@@ -392,7 +392,7 @@ export default async function Page() {
 
 ### Accessing child segments
 
-Layouts do not have access to the route segments below itself. To access all route segments, you can use [`useSelectedLayoutSegment`](/docs/app/api-reference/functions/use-selected-layout-segment) or [`useSelectedLayoutSegments`](/docs/app/api-reference/functions/use-selected-layout-segments) in a Client Component.
+Layouts không có quyền truy cập vào các route segments bên dưới chính nó. Để truy cập tất cả các route segments, bạn có thể sử dụng [`useSelectedLayoutSegment`](/docs/app/api-reference/functions/use-selected-layout-segment) hoặc [`useSelectedLayoutSegments`](/docs/app/api-reference/functions/use-selected-layout-segments) trong một Client Component.
 
 ```tsx filename="app/ui/nav-link.tsx" switcher
 'use client'
@@ -485,11 +485,11 @@ export default async function Layout({ children }) {
 }
 ```
 
-## Examples
+## Ví dụ
 
 ### Metadata
 
-You can modify the `<head>` HTML elements such as `title` and `meta` using the [`metadata` object](/docs/app/api-reference/functions/generate-metadata#the-metadata-object) or [`generateMetadata` function](/docs/app/api-reference/functions/generate-metadata#generatemetadata-function).
+Bạn có thể sửa đổi các phần tử HTML `<head>` như `title` và `meta` sử dụng [`metadata` object](/docs/app/api-reference/functions/generate-metadata#the-metadata-object) hoặc [`generateMetadata` function](/docs/app/api-reference/functions/generate-metadata#generatemetadata-function).
 
 ```tsx filename="app/layout.tsx" switcher
 import type { Metadata } from 'next'
@@ -513,13 +513,13 @@ export default function Layout({ children }) {
 }
 ```
 
-> **Good to know**: You should **not** manually add `<head>` tags such as `<title>` and `<meta>` to root layouts. Instead, use the [Metadata APIs](/docs/app/api-reference/functions/generate-metadata) which automatically handles advanced requirements such as streaming and de-duplicating `<head>` elements.
+> **Lưu ý**: Bạn **không nên** thêm thủ công các thẻ `<head>` như `<title>` và `<meta>` vào root layouts. Thay vào đó, sử dụng [Metadata APIs](/docs/app/api-reference/functions/generate-metadata) tự động xử lý các yêu cầu nâng cao như streaming và de-duplicating các phần tử `<head>`.
 
 ### Active Nav Links
 
-You can use the [`usePathname`](/docs/app/api-reference/functions/use-pathname) hook to determine if a nav link is active.
+Bạn có thể sử dụng hook [`usePathname`](/docs/app/api-reference/functions/use-pathname) để xác định xem một nav link có đang active hay không.
 
-Since `usePathname` is a client hook, you need to extract the nav links into a Client Component, which can be imported into your layout:
+Vì `usePathname` là một client hook, bạn cần tách các nav links thành một Client Component, có thể được import vào layout của bạn:
 
 ```tsx filename="app/ui/nav-links.tsx" switcher
 'use client'
@@ -603,9 +603,9 @@ export default function Layout({ children }) {
 }
 ```
 
-### Displaying content based on `params`
+### Hiển thị nội dung dựa trên `params`
 
-Using [dynamic route segments](/docs/app/api-reference/file-conventions/dynamic-routes), you can display or fetch specific content based on the `params` prop.
+Sử dụng [dynamic route segments](/docs/app/api-reference/file-conventions/dynamic-routes), bạn có thể hiển thị hoặc fetch nội dung cụ thể dựa trên prop `params`.
 
 ```tsx filename="app/dashboard/layout.tsx" switcher
 export default async function DashboardLayout({
@@ -643,9 +643,9 @@ export default async function DashboardLayout({ children, params }) {
 }
 ```
 
-### Reading `params` in Client Components
+### Đọc `params` trong Client Components
 
-To use `params` in a Client Component (which cannot be `async`), you can use React's [`use`](https://react.dev/reference/react/use) function to read the promise:
+Để sử dụng `params` trong một Client Component (không thể là `async`), bạn có thể sử dụng hàm [`use`](https://react.dev/reference/react/use) của React để đọc promise:
 
 ```tsx filename="app/page.tsx" switcher
 'use client'
@@ -671,9 +671,9 @@ export default function Page({ params }) {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version      | Changes                                                                                       |
-| ------------ | --------------------------------------------------------------------------------------------- |
-| `v15.0.0-RC` | `params` is now a promise. A [codemod](/docs/app/guides/upgrading/codemods#150) is available. |
-| `v13.0.0`    | `layout` introduced.                                                                          |
+| Phiên bản    | Thay đổi                                                                                        |
+| ------------ | ----------------------------------------------------------------------------------------------- |
+| `v15.0.0-RC` | `params` bây giờ là một promise. Một [codemod](/docs/app/guides/upgrading/codemods#150) có sẵn. |
+| `v13.0.0`    | `layout` được giới thiệu.                                                                       |

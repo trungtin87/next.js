@@ -1,9 +1,9 @@
 ---
-title: Metadata and OG images
-description: Learn how to add metadata to your pages and create dynamic OG images.
+title: Metadata và OG images
+description: Tìm hiểu cách thêm metadata vào trang của bạn và tạo OG images động.
 related:
-  title: API Reference
-  description: Learn more about the Metadata APIs mentioned in this page.
+  title: Tài liệu tham khảo API
+  description: Tìm hiểu thêm về Metadata APIs được đề cập trong trang này.
   links:
     - app/api-reference/functions/generate-metadata
     - app/api-reference/functions/generate-viewport
@@ -16,33 +16,33 @@ related:
     - app/api-reference/config/next-config-js/htmlLimitedBots
 ---
 
-The Metadata APIs can be used to define your application metadata for improved SEO and web shareability and include:
+Metadata APIs có thể được sử dụng để định nghĩa application metadata của bạn cho SEO và khả năng chia sẻ web được cải thiện và bao gồm:
 
-1. [The static `metadata` object](#static-metadata)
-2. [The dynamic `generateMetadata` function](#generated-metadata)
-3. Special [file conventions](/docs/app/api-reference/file-conventions/metadata) that can be used to add static or dynamically generated [favicons](#favicons) and [OG images](#static-open-graph-images).
+1. [Object `metadata` tĩnh](#static-metadata)
+2. [Function `generateMetadata` động](#generated-metadata)
+3. [File conventions](/docs/app/api-reference/file-conventions/metadata) đặc biệt có thể được sử dụng để thêm [favicons](#favicons) và [OG images](#static-open-graph-images) tĩnh hoặc được generate động.
 
-With all the options above, Next.js will automatically generate the relevant `<head>` tags for your page, which can be inspected in the browser's developer tools.
+Với tất cả các options trên, Next.js sẽ tự động generate các tags `<head>` liên quan cho trang của bạn, có thể được kiểm tra trong developer tools của trình duyệt.
 
-The `metadata` object and `generateMetadata` function exports are only supported in Server Components.
+Object `metadata` và exports function `generateMetadata` chỉ được hỗ trợ trong Server Components.
 
-## Default fields
+## Các trường mặc định
 
-There are two default `meta` tags that are always added even if a route doesn't define metadata:
+Có hai default `meta` tags luôn được thêm ngay cả khi một route không định nghĩa metadata:
 
-- The [meta charset tag](https://developer.mozilla.org/docs/Web/HTML/Element/meta#attr-charset) sets the character encoding for the website.
-- The [meta viewport tag](https://developer.mozilla.org/docs/Web/HTML/Viewport_meta_tag) sets the viewport width and scale for the website to adjust for different devices.
+- [Meta charset tag](https://developer.mozilla.org/docs/Web/HTML/Element/meta#attr-charset) đặt character encoding cho website.
+- [Meta viewport tag](https://developer.mozilla.org/docs/Web/HTML/Viewport_meta_tag) đặt viewport width và scale cho website để điều chỉnh cho các thiết bị khác nhau.
 
 ```html
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 ```
 
-The other metadata fields can be defined with the `Metadata` object (for [static metadata](#static-metadata)) or the `generateMetadata` function (for [generated metadata](#generated-metadata)).
+Các metadata fields khác có thể được định nghĩa với object `Metadata` (cho [static metadata](#static-metadata)) hoặc function `generateMetadata` (cho [generated metadata](#generated-metadata)).
 
 ## Static metadata
 
-To define static metadata, export a [`Metadata` object](/docs/app/api-reference/functions/generate-metadata#metadata-object) from a static [`layout.js`](/docs/app/api-reference/file-conventions/layout) or [`page.js`](/docs/app/api-reference/file-conventions/page) file. For example, to add a title and description to the blog route:
+Để định nghĩa static metadata, export một [`Metadata` object](/docs/app/api-reference/functions/generate-metadata#metadata-object) từ file [`layout.js`](/docs/app/api-reference/file-conventions/layout) hoặc [`page.js`](/docs/app/api-reference/file-conventions/page) tĩnh. Ví dụ, để thêm title và description cho blog route:
 
 ```tsx filename="app/blog/layout.tsx" switcher
 import type { Metadata } from 'next'
@@ -64,11 +64,11 @@ export const metadata = {
 export default function Layout() {}
 ```
 
-You can view a full list of available options, in the [`generateMetadata` documentation](/docs/app/api-reference/functions/generate-metadata#metadata-fields).
+Bạn có thể xem danh sách đầy đủ các options có sẵn trong [tài liệu `generateMetadata`](/docs/app/api-reference/functions/generate-metadata#metadata-fields).
 
 ## Generated metadata
 
-You can use [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata) function to `fetch` metadata that depends on data. For example, to fetch the title and description for a specific blog post:
+Bạn có thể sử dụng function [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata) để `fetch` metadata phụ thuộc vào data. Ví dụ, để fetch title và description cho một blog post cụ thể:
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 import type { Metadata, ResolvingMetadata } from 'next'
@@ -118,21 +118,21 @@ export default function Page({ params, searchParams }) {}
 
 ### Streaming metadata
 
-For dynamically rendered pages, Next.js streams metadata separately, injecting it into the HTML once `generateMetadata` resolves, without blocking UI rendering.
+Đối với các trang được rendered động, Next.js streams metadata riêng biệt, inject nó vào HTML một khi `generateMetadata` resolves, mà không blocking UI rendering.
 
-Streaming metadata improves perceived performance by allowing visual content to stream first.
+Streaming metadata cải thiện perceived performance bằng cách cho phép visual content stream trước.
 
-Streaming metadata is **disabled for bots and crawlers** that expect metadata to be in the `<head>` tag (e.g. `Twitterbot`, `Slackbot`, `Bingbot`). These are detected by using the User Agent header from the incoming request.
+Streaming metadata **bị disabled cho bots và crawlers** mong đợi metadata nằm trong tag `<head>` (ví dụ `Twitterbot`, `Slackbot`, `Bingbot`). Chúng được phát hiện bằng cách sử dụng User Agent header từ incoming request.
 
-You can customize or **disable** streaming metadata completely, with the [`htmlLimitedBots`](/docs/app/api-reference/config/next-config-js/htmlLimitedBots#disabling) option in your Next.js config file.
+Bạn có thể customize hoặc **disable** streaming metadata hoàn toàn, với option [`htmlLimitedBots`](/docs/app/api-reference/config/next-config-js/htmlLimitedBots#disabling) trong Next.js config file của bạn.
 
-Statically rendered pages don’t use streaming since metadata is resolved at build time.
+Các trang được rendered tĩnh không sử dụng streaming vì metadata được resolve tại build time.
 
-Learn more about [streaming metadata](/docs/app/api-reference/functions/generate-metadata#streaming-metadata).
+Tìm hiểu thêm về [streaming metadata](/docs/app/api-reference/functions/generate-metadata#streaming-metadata).
 
 ### Memoizing data requests
 
-There may be cases where you need to fetch the **same** data for metadata and the page itself. To avoid duplicate requests, you can use React's [`cache` function](https://react.dev/reference/react/cache) to memoize the return value and only fetch the data once. For example, to fetch the blog post information for both the metadata and the page:
+Có thể có trường hợp bạn cần fetch **cùng** data cho metadata và chính page. Để tránh duplicate requests, bạn có thể sử dụng React's [`cache` function](https://react.dev/reference/react/cache) để memoize return value và chỉ fetch data một lần. Ví dụ, để fetch blog post information cho cả metadata và page:
 
 ```ts filename="app/lib/data.ts" highlight={5} switcher
 import { cache } from 'react'
@@ -196,18 +196,18 @@ export default async function Page({ params }) {
 
 ## File-based metadata
 
-The following special files are available for metadata:
+Các special files sau có sẵn cho metadata:
 
-- [favicon.ico, apple-icon.jpg, and icon.jpg](/docs/app/api-reference/file-conventions/metadata/app-icons)
-- [opengraph-image.jpg and twitter-image.jpg](/docs/app/api-reference/file-conventions/metadata/opengraph-image)
+- [favicon.ico, apple-icon.jpg, và icon.jpg](/docs/app/api-reference/file-conventions/metadata/app-icons)
+- [opengraph-image.jpg và twitter-image.jpg](/docs/app/api-reference/file-conventions/metadata/opengraph-image)
 - [robots.txt](/docs/app/api-reference/file-conventions/metadata/robots)
 - [sitemap.xml](/docs/app/api-reference/file-conventions/metadata/sitemap)
 
-You can use these for static metadata, or you can programmatically generate these files with code.
+Bạn có thể sử dụng chúng cho static metadata, hoặc bạn có thể programmatically generate những files này bằng code.
 
 ## Favicons
 
-Favicons are small icons that represent your site in bookmarks and search results. To add a favicon to your application, create a `favicon.ico` and add to the root of the app folder.
+Favicons là các icons nhỏ đại diện cho trang web của bạn trong bookmarks và search results. Để thêm favicon vào ứng dụng của bạn, tạo một `favicon.ico` và thêm vào root của app folder.
 
 <Image
   alt="Favicon Special File inside the App Folder with sibling layout and page files"
@@ -217,11 +217,11 @@ Favicons are small icons that represent your site in bookmarks and search result
   height="444"
 />
 
-> You can also programmatically generate favicons using code. See the [favicon docs](/docs/app/api-reference/file-conventions/metadata/app-icons) for more information.
+> Bạn cũng có thể programmatically generate favicons bằng code. Xem [favicon docs](/docs/app/api-reference/file-conventions/metadata/app-icons) để biết thêm thông tin.
 
 ## Static Open Graph images
 
-Open Graph (OG) images are images that represent your site in social media. To add a static OG image to your application, create a `opengraph-image.png` file in the root of the app folder.
+Open Graph (OG) images là hình ảnh đại diện cho trang web của bạn trên social media. Để thêm static OG image vào ứng dụng của bạn, tạo file `opengraph-image.png` trong root của app folder.
 
 <Image
   alt="OG image special file inside the App folder with sibling layout and page files"
@@ -231,7 +231,7 @@ Open Graph (OG) images are images that represent your site in social media. To a
   height="444"
 />
 
-You can also add OG images for specific routes by creating a `opengraph-image.png` deeper down the folder structure. For example, to create an OG image specific to the `/blog` route, add a `opengraph-image.jpg` file inside the `blog` folder.
+Bạn cũng có thể thêm OG images cho các routes cụ thể bằng cách tạo `opengraph-image.png` sâu hơn trong folder structure. Ví dụ, để tạo một OG image cụ thể cho route `/blog`, thêm file `opengraph-image.jpg` bên trong thư mục `blog`.
 
 <Image
   alt="OG image special file inside the blog folder"
@@ -241,15 +241,15 @@ You can also add OG images for specific routes by creating a `opengraph-image.pn
   height="525"
 />
 
-The more specific image will take precedence over any OG images above it in the folder structure.
+Image cụ thể hơn sẽ được ưu tiên hơn bất kỳ OG images nào phía trên nó trong folder structure.
 
-> Other image formats such as `jpeg`, `png`, and `gif` are also supported. See the [Open Graph Image docs](/docs/app/api-reference/file-conventions/metadata/opengraph-image) for more information.
+> Các định dạng hình ảnh khác như `jpeg`, `png`, và `gif` cũng được hỗ trợ. Xem [Open Graph Image docs](/docs/app/api-reference/file-conventions/metadata/opengraph-image) để biết thêm thông tin.
 
 ## Generated Open Graph images
 
-The [`ImageResponse` constructor](/docs/app/api-reference/functions/image-response) allows you to generate dynamic images using JSX and CSS. This is useful for OG images that depend on data.
+[`ImageResponse` constructor](/docs/app/api-reference/functions/image-response) cho phép bạn generate dynamic images bằng JSX và CSS. Điều này hữu ích cho OG images phụ thuộc vào data.
 
-For example, to generate a unique OG image for each blog post, add a `opengraph-image.tsx` file inside the `blog` folder, and import the `ImageResponse` constructor from `next/og`:
+Ví dụ, để generate một OG image duy nhất cho mỗi blog post, thêm file `opengraph-image.tsx` bên trong thư mục `blog`, và import `ImageResponse` constructor từ `next/og`:
 
 ```tsx filename="app/blog/[slug]/opengraph-image.tsx" switcher
 import { ImageResponse } from 'next/og'
@@ -325,10 +325,10 @@ export default async function Image({ params }) {
 }
 ```
 
-`ImageResponse` supports common CSS properties including flexbox and absolute positioning, custom fonts, text wrapping, centering, and nested images. [See the full list of supported CSS properties](/docs/app/api-reference/functions/image-response).
+`ImageResponse` hỗ trợ các common CSS properties bao gồm flexbox và absolute positioning, custom fonts, text wrapping, centering, và nested images. [Xem danh sách đầy đủ các CSS properties được hỗ trợ](/docs/app/api-reference/functions/image-response).
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - Examples are available in the [Vercel OG Playground](https://og-playground.vercel.app/).
-> - `ImageResponse` uses [`@vercel/og`](https://vercel.com/docs/og-image-generation), [`satori`](https://github.com/vercel/satori), and `resvg` to convert HTML and CSS into PNG.
-> - Only flexbox and a subset of CSS properties are supported. Advanced layouts (e.g. `display: grid`) will not work.
+> - Examples có sẵn trong [Vercel OG Playground](https://og-playground.vercel.app/).
+> - `ImageResponse` sử dụng [`@vercel/og`](https://vercel.com/docs/og-image-generation), [`satori`](https://github.com/vercel/satori), và `resvg` để chuyển đổi HTML và CSS thành PNG.
+> - Chỉ flexbox và một tập hợp con các CSS properties được hỗ trợ. Advanced layouts (ví dụ `display: grid`) sẽ không hoạt động.

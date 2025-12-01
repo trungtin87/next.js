@@ -1,12 +1,12 @@
 ---
 title: staleTimes
-description: Learn how to override the invalidation time of the Client Router Cache.
+description: Tìm hiểu cách ghi đè thời gian vô hiệu hóa của Client Router Cache.
 version: experimental
 ---
 
-`staleTimes` is an experimental feature that enables caching of page segments in the [client-side router cache](/docs/app/guides/caching#client-side-router-cache).
+`staleTimes` là một tính năng thử nghiệm cho phép caching các đoạn trang trong [client-side router cache](/docs/app/guides/caching#client-side-router-cache).
 
-You can enable this experimental feature and provide custom revalidation times by setting the experimental `staleTimes` flag:
+Bạn có thể kích hoạt tính năng thử nghiệm này và cung cấp thời gian revalidation tùy chỉnh bằng cách đặt cờ thử nghiệm `staleTimes`:
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -22,24 +22,24 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-The `static` and `dynamic` properties correspond with the time period (in seconds) based on different types of [link prefetching](/docs/app/api-reference/components/link#prefetch).
+Các thuộc tính `static` và `dynamic` tương ứng với khoảng thời gian (tính bằng giây) dựa trên các loại [link prefetching](/docs/app/api-reference/components/link#prefetch) khác nhau.
 
-- The `dynamic` property is used when the page is neither statically generated nor fully prefetched (e.g. with `prefetch={true}`).
-  - Default: 0 seconds (not cached)
-- The `static` property is used for statically generated pages, or when the `prefetch` prop on `Link` is set to `true`, or when calling [`router.prefetch`](/docs/app/guides/caching#routerprefetch).
-  - Default: 5 minutes
+- Thuộc tính `dynamic` được sử dụng khi trang không được tạo tĩnh cũng như không được prefetch đầy đủ (ví dụ: với `prefetch={true}`).
+  - Mặc định: 0 giây (không được cache)
+- Thuộc tính `static` được sử dụng cho các trang được tạo tĩnh, hoặc khi prop `prefetch` trên `Link` được đặt thành `true`, hoặc khi gọi [`router.prefetch`](/docs/app/guides/caching#routerprefetch).
+  - Mặc định: 5 phút
 
-> **Good to know:**
+> **Thông tin hữu ích**:
 >
-> - [Loading boundaries](/docs/app/api-reference/file-conventions/loading) are considered reusable for the `static` period defined in this configuration.
-> - This doesn't affect [partial rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions), **meaning shared layouts won't automatically be refetched on every navigation, only the page segment that changes.**
-> - This doesn't change [back/forward caching](/docs/app/guides/caching#client-side-router-cache) behavior to prevent layout shift and to prevent losing the browser scroll position.
+> - [Loading boundaries](/docs/app/api-reference/file-conventions/loading) được coi là có thể tái sử dụng cho khoảng thời gian `static` được định nghĩa trong cấu hình này.
+> - Điều này không ảnh hưởng đến [partial rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions), **có nghĩa là các layout được chia sẻ sẽ không tự động được refetch trên mỗi điều hướng, chỉ có đoạn trang thay đổi.**
+> - Điều này không thay đổi hành vi [back/forward caching](/docs/app/guides/caching#client-side-router-cache) để ngăn chặn layout shift và để ngăn mất vị trí cuộn của trình duyệt.
 
-You can learn more about the Client Router Cache [here](/docs/app/guides/caching#client-side-router-cache).
+Bạn có thể tìm hiểu thêm về Client Router Cache [tại đây](/docs/app/guides/caching#client-side-router-cache).
 
-### Version History
+### Lịch sử phiên bản
 
-| Version   | Changes                                                    |
-| --------- | ---------------------------------------------------------- |
-| `v15.0.0` | The `dynamic` `staleTimes` default changed from 30s to 0s. |
-| `v14.2.0` | Experimental `staleTimes` introduced.                      |
+| Phiên bản | Thay đổi                                                     |
+| --------- | ------------------------------------------------------------ |
+| `v15.0.0` | Mặc định `dynamic` `staleTimes` đã thay đổi từ 30s thành 0s. |
+| `v14.2.0` | `staleTimes` thử nghiệm được giới thiệu.                     |

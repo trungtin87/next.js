@@ -1,18 +1,18 @@
 ---
-title: How to use debugging tools with Next.js
-nav_title: Debugging
-description: Learn how to debug your Next.js application with VS Code, Chrome DevTools, or Firefox DevTools.
+title: Cách sử dụng công cụ gỡ lỗi với Next.js
+nav_title: Debugging (Gỡ lỗi)
+description: Tìm hiểu cách gỡ lỗi ứng dụng Next.js của bạn với VS Code, Chrome DevTools, hoặc Firefox DevTools.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-This documentation explains how you can debug your Next.js frontend and backend code with full source maps support using the [VS Code debugger](https://code.visualstudio.com/docs/editor/debugging), [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools), or [Firefox DevTools](https://firefox-source-docs.mozilla.org/devtools-user/).
+Tài liệu này giải thích cách bạn có thể gỡ lỗi mã frontend và backend Next.js của mình với hỗ trợ source maps đầy đủ bằng cách sử dụng [VS Code debugger](https://code.visualstudio.com/docs/editor/debugging), [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools), hoặc [Firefox DevTools](https://firefox-source-docs.mozilla.org/devtools-user/).
 
-Any debugger that can attach to Node.js can also be used to debug a Next.js application. You can find more details in the Node.js [Debugging Guide](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+Bất kỳ trình gỡ lỗi nào có thể gắn vào Node.js cũng có thể được sử dụng để gỡ lỗi ứng dụng Next.js. Bạn có thể tìm thêm chi tiết trong [Hướng dẫn Gỡ lỗi](https://nodejs.org/en/docs/guides/debugging-getting-started/) của Node.js.
 
-## Debugging with VS Code
+## Gỡ lỗi với VS Code
 
-Create a file named `.vscode/launch.json` at the root of your project with the following content:
+Tạo một tệp có tên `.vscode/launch.json` tại thư mục gốc của dự án của bạn với nội dung sau:
 
 ```json filename="launch.json"
 {
@@ -62,64 +62,64 @@ Create a file named `.vscode/launch.json` at the root of your project with the f
 }
 ```
 
-> **Note**: To use Firefox debugging in VS Code, you'll need to install the [Firefox Debugger extension](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug).
+> **Lưu ý**: Để sử dụng gỡ lỗi Firefox trong VS Code, bạn sẽ cần cài đặt [Firefox Debugger extension](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug).
 
-`npm run dev` can be replaced with `yarn dev` if you're using Yarn or `pnpm dev` if you're using pnpm.
+`npm run dev` có thể được thay thế bằng `yarn dev` nếu bạn đang sử dụng Yarn hoặc `pnpm dev` nếu bạn đang sử dụng pnpm.
 
-In the "Next.js: debug full stack" configuration, `serverReadyAction.action` specifies which browser to open when the server is ready. `debugWithEdge` means to launch the Edge browser. If you are using Chrome, change this value to `debugWithChrome`.
+Trong cấu hình "Next.js: debug full stack", `serverReadyAction.action` chỉ định trình duyệt nào sẽ mở khi máy chủ sẵn sàng. `debugWithEdge` có nghĩa là khởi chạy trình duyệt Edge. Nếu bạn đang sử dụng Chrome, hãy thay đổi giá trị này thành `debugWithChrome`.
 
-If you're [changing the port number](/docs/pages/api-reference/cli/next#next-dev-options) your application starts on, replace the `3000` in `http://localhost:3000` with the port you're using instead.
+Nếu bạn đang [thay đổi số cổng](/docs/pages/api-reference/cli/next#next-dev-options) mà ứng dụng của bạn bắt đầu, hãy thay thế `3000` trong `http://localhost:3000` bằng cổng bạn đang sử dụng.
 
-If you're running Next.js from a directory other than root (for example, if you're using Turborepo) then you need to add `cwd` to the server-side and full stack debugging tasks. For example, `"cwd": "${workspaceFolder}/apps/web"`.
+Nếu bạn đang chạy Next.js từ một thư mục khác ngoài thư mục gốc (ví dụ, nếu bạn đang sử dụng Turborepo) thì bạn cần thêm `cwd` vào các tác vụ gỡ lỗi server-side và full stack. Ví dụ, `"cwd": "${workspaceFolder}/apps/web"`.
 
-Now go to the Debug panel (`Ctrl+Shift+D` on Windows/Linux, `⇧+⌘+D` on macOS), select a launch configuration, then press `F5` or select **Debug: Start Debugging** from the Command Palette to start your debugging session.
+Bây giờ hãy chuyển đến bảng Debug (`Ctrl+Shift+D` trên Windows/Linux, `⇧+⌘+D` trên macOS), chọn một cấu hình khởi chạy, sau đó nhấn `F5` hoặc chọn **Debug: Start Debugging** từ Command Palette để bắt đầu phiên gỡ lỗi của bạn.
 
-## Using the Debugger in Jetbrains WebStorm
+## Sử dụng Trình gỡ lỗi trong Jetbrains WebStorm
 
-Click the drop down menu listing the runtime configuration, and click `Edit Configurations...`. Create a `JavaScript Debug` debug configuration with `http://localhost:3000` as the URL. Customize to your liking (e.g. Browser for debugging, store as project file), and click `OK`. Run this debug configuration, and the selected browser should automatically open. At this point, you should have 2 applications in debug mode: the NextJS node application, and the client/browser application.
+Nhấp vào menu thả xuống liệt kê cấu hình runtime, và nhấp vào `Edit Configurations...`. Tạo một cấu hình gỡ lỗi `JavaScript Debug` với `http://localhost:3000` làm URL. Tùy chỉnh theo ý thích của bạn (ví dụ: Trình duyệt để gỡ lỗi, lưu trữ dưới dạng tệp dự án), và nhấp vào `OK`. Chạy cấu hình gỡ lỗi này, và trình duyệt đã chọn sẽ tự động mở. Tại thời điểm này, bạn sẽ có 2 ứng dụng ở chế độ gỡ lỗi: ứng dụng node NextJS, và ứng dụng client/browser.
 
-## Debugging with Browser DevTools
+## Gỡ lỗi với Browser DevTools
 
-### Client-side code
+### Mã Client-side
 
-Start your development server as usual by running `next dev`, `npm run dev`, or `yarn dev`. Once the server starts, open `http://localhost:3000` (or your alternate URL) in your preferred browser.
+Khởi động máy chủ phát triển của bạn như bình thường bằng cách chạy `next dev`, `npm run dev`, hoặc `yarn dev`. Khi máy chủ khởi động, hãy mở `http://localhost:3000` (hoặc URL thay thế của bạn) trong trình duyệt ưa thích của bạn.
 
-For Chrome:
+Đối với Chrome:
 
-- Open Chrome's Developer Tools (`Ctrl+Shift+J` on Windows/Linux, `⌥+⌘+I` on macOS)
-- Go to the **Sources** tab
+- Mở Chrome's Developer Tools (`Ctrl+Shift+J` trên Windows/Linux, `⌥+⌘+I` trên macOS)
+- Đi tới tab **Sources**
 
-For Firefox:
+Đối với Firefox:
 
-- Open Firefox's Developer Tools (`Ctrl+Shift+I` on Windows/Linux, `⌥+⌘+I` on macOS)
-- Go to the **Debugger** tab
+- Mở Firefox's Developer Tools (`Ctrl+Shift+I` trên Windows/Linux, `⌥+⌘+I` trên macOS)
+- Đi tới tab **Debugger**
 
-In either browser, any time your client-side code reaches a [`debugger`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/debugger) statement, code execution will pause and that file will appear in the debug area. You can also search for files to set breakpoints manually:
+Trong cả hai trình duyệt, bất cứ khi nào mã phía máy khách của bạn đạt đến câu lệnh [`debugger`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/debugger), việc thực thi mã sẽ tạm dừng và tệp đó sẽ xuất hiện trong khu vực gỡ lỗi. Bạn cũng có thể tìm kiếm các tệp để đặt breakpoints thủ công:
 
-- In Chrome: Press `Ctrl+P` on Windows/Linux or `⌘+P` on macOS
-- In Firefox: Press `Ctrl+P` on Windows/Linux or `⌘+P` on macOS, or use the file tree in the left panel
+- Trong Chrome: Nhấn `Ctrl+P` trên Windows/Linux hoặc `⌘+P` trên macOS
+- Trong Firefox: Nhấn `Ctrl+P` trên Windows/Linux hoặc `⌘+P` trên macOS, hoặc sử dụng cây tệp trong bảng điều khiển bên trái
 
-Note that when searching, your source files will have paths starting with `webpack://_N_E/./`.
+Lưu ý rằng khi tìm kiếm, các tệp nguồn của bạn sẽ có đường dẫn bắt đầu bằng `webpack://_N_E/./`.
 
 ### React Developer Tools
 
-For React-specific debugging, install the [React Developer Tools](https://react.dev/learn/react-developer-tools) browser extension. This essential tool helps you:
+Để gỡ lỗi dành riêng cho React, hãy cài đặt tiện ích mở rộng trình duyệt [React Developer Tools](https://react.dev/learn/react-developer-tools). Công cụ thiết yếu này giúp bạn:
 
-- Inspect React components
-- Edit props and state
-- Identify performance problems
+- Kiểm tra các thành phần React
+- Chỉnh sửa props và state
+- Xác định các vấn đề về hiệu suất
 
-### Server-side code
+### Mã Server-side
 
-To debug server-side Next.js code with browser DevTools, you need to pass the [`--inspect`](https://nodejs.org/api/cli.html#cli_inspect_host_port) flag to the underlying Node.js process:
+Để gỡ lỗi mã Next.js phía máy chủ với browser DevTools, bạn cần truyền cờ [`--inspect`](https://nodejs.org/api/cli.html#cli_inspect_host_port) cho quy trình Node.js cơ bản:
 
 ```bash filename="Terminal"
 NODE_OPTIONS='--inspect' next dev
 ```
 
-> **Good to know**: Use `NODE_OPTIONS='--inspect=0.0.0.0'` to allow remote debugging access outside localhost, such as when running the app in a Docker container.
+> **Cần biết**: Sử dụng `NODE_OPTIONS='--inspect=0.0.0.0'` để cho phép truy cập gỡ lỗi từ xa bên ngoài localhost, chẳng hạn như khi chạy ứng dụng trong vùng chứa Docker.
 
-If you're using `npm run dev` or `yarn dev` then you should update the `dev` script on your `package.json`:
+Nếu bạn đang sử dụng `npm run dev` hoặc `yarn dev` thì bạn nên cập nhật script `dev` trong `package.json` của mình:
 
 ```json filename="package.json"
 {
@@ -129,7 +129,7 @@ If you're using `npm run dev` or `yarn dev` then you should update the `dev` scr
 }
 ```
 
-Launching the Next.js dev server with the `--inspect` flag will look something like this:
+Khởi chạy máy chủ dev Next.js với cờ `--inspect` sẽ trông giống như thế này:
 
 ```bash filename="Terminal"
 Debugger listening on ws://127.0.0.1:9229/0cf90313-350d-4466-a748-cd60f4e47c95
@@ -137,34 +137,34 @@ For help, see: https://nodejs.org/en/docs/inspector
 ready - started server on 0.0.0.0:3000, url: http://localhost:3000
 ```
 
-For Chrome:
+Đối với Chrome:
 
-1. Open a new tab and visit `chrome://inspect`
-2. Click **Configure...** to ensure both debugging ports are listed
-3. Add both `localhost:9229` and `localhost:9230` if they're not already present
-4. Look for your Next.js application in the **Remote Target** section
-5. Click **inspect** to open a separate DevTools window
-6. Go to the **Sources** tab
+1. Mở một tab mới và truy cập `chrome://inspect`
+2. Nhấp vào **Configure...** để đảm bảo cả hai cổng gỡ lỗi đều được liệt kê
+3. Thêm cả `localhost:9229` và `localhost:9230` nếu chúng chưa có
+4. Tìm ứng dụng Next.js của bạn trong phần **Remote Target**
+5. Nhấp vào **inspect** để mở một cửa sổ DevTools riêng biệt
+6. Đi tới tab **Sources**
 
-For Firefox:
+Đối với Firefox:
 
-1. Open a new tab and visit `about:debugging`
-2. Click **This Firefox** in the left sidebar
-3. Under **Remote Targets**, find your Next.js application
-4. Click **Inspect** to open the debugger
-5. Go to the **Debugger** tab
+1. Mở một tab mới và truy cập `about:debugging`
+2. Nhấp vào **This Firefox** trong thanh bên trái
+3. Trong **Remote Targets**, tìm ứng dụng Next.js của bạn
+4. Nhấp vào **Inspect** để mở trình gỡ lỗi
+5. Đi tới tab **Debugger**
 
-Debugging server-side code works similarly to client-side debugging. When searching for files (`Ctrl+P`/`⌘+P`), your source files will have paths starting with `webpack://{application-name}/./` (where `{application-name}` will be replaced with the name of your application according to your `package.json` file).
+Gỡ lỗi mã phía máy chủ hoạt động tương tự như gỡ lỗi phía máy khách. Khi tìm kiếm các tệp (`Ctrl+P`/`⌘+P`), các tệp nguồn của bạn sẽ có đường dẫn bắt đầu bằng `webpack://{application-name}/./` (trong đó `{application-name}` sẽ được thay thế bằng tên ứng dụng của bạn theo tệp `package.json`).
 
-### Inspect Server Errors with Browser DevTools
+### Kiểm tra Lỗi Máy chủ với Browser DevTools
 
-When you encounter an error, inspecting the source code can help trace the root cause of errors.
+Khi bạn gặp lỗi, việc kiểm tra mã nguồn có thể giúp truy tìm nguyên nhân gốc rễ của lỗi.
 
-Next.js will display a Node.js icon underneath the Next.js version indicator on the error overlay. By clicking that icon, the DevTools URL is copied to your clipboard. You can open a new browser tab with that URL to inspect the Next.js server process.
+Next.js sẽ hiển thị biểu tượng Node.js bên dưới chỉ báo phiên bản Next.js trên lớp phủ lỗi. Bằng cách nhấp vào biểu tượng đó, URL DevTools được sao chép vào clipboard của bạn. Bạn có thể mở một tab trình duyệt mới với URL đó để kiểm tra quy trình máy chủ Next.js.
 
-### Debugging on Windows
+### Gỡ lỗi trên Windows
 
-Windows users may run into an issue when using `NODE_OPTIONS='--inspect'` as that syntax is not supported on Windows platforms. To get around this, install the [`cross-env`](https://www.npmjs.com/package/cross-env) package as a development dependency (`-D` with `npm` and `yarn`) and replace the `dev` script with the following.
+Người dùng Windows có thể gặp sự cố khi sử dụng `NODE_OPTIONS='--inspect'` vì cú pháp đó không được hỗ trợ trên các nền tảng Windows. Để giải quyết vấn đề này, hãy cài đặt gói [`cross-env`](https://www.npmjs.com/package/cross-env) như một phụ thuộc phát triển (`-D` với `npm` và `yarn`) và thay thế script `dev` bằng script sau.
 
 ```json filename="package.json"
 {
@@ -174,13 +174,13 @@ Windows users may run into an issue when using `NODE_OPTIONS='--inspect'` as tha
 }
 ```
 
-`cross-env` will set the `NODE_OPTIONS` environment variable regardless of which platform you are on (including Mac, Linux, and Windows) and allow you to debug consistently across devices and operating systems.
+`cross-env` sẽ đặt biến môi trường `NODE_OPTIONS` bất kể bạn đang ở nền tảng nào (bao gồm Mac, Linux, và Windows) và cho phép bạn gỡ lỗi nhất quán trên các thiết bị và hệ điều hành.
 
-> **Good to know**: Ensure Windows Defender is disabled on your machine. This external service will check _every file read_, which has been reported to greatly increase Fast Refresh time with `next dev`. This is a known issue, not related to Next.js, but it does affect Next.js development.
+> **Cần biết**: Đảm bảo Windows Defender bị vô hiệu hóa trên máy của bạn. Dịch vụ bên ngoài này sẽ kiểm tra _mọi tệp được đọc_, điều này đã được báo cáo là làm tăng đáng kể thời gian Fast Refresh với `next dev`. Đây là một vấn đề đã biết, không liên quan đến Next.js, nhưng nó ảnh hưởng đến việc phát triển Next.js.
 
-## More information
+## Thông tin thêm
 
-To learn more about how to use a JavaScript debugger, take a look at the following documentation:
+Để tìm hiểu thêm về cách sử dụng trình gỡ lỗi JavaScript, hãy xem tài liệu sau:
 
 - [Node.js debugging in VS Code: Breakpoints](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_breakpoints)
 - [Chrome DevTools: Debug JavaScript](https://developers.google.com/web/tools/chrome-devtools/javascript)

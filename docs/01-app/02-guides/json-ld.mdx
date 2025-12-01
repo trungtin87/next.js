@@ -1,16 +1,16 @@
 ---
-title: How to implement JSON-LD in your Next.js application
+title: Cách triển khai JSON-LD trong ứng dụng Next.js của bạn
 nav_title: JSON-LD
-description: Learn how to add JSON-LD to your Next.js application to describe your content to search engines and AI.
+description: Tìm hiểu cách thêm JSON-LD vào ứng dụng Next.js của bạn để mô tả nội dung của bạn cho các công cụ tìm kiếm và AI.
 ---
 
-[JSON-LD](https://json-ld.org/) is a format for structured data that can be used by search engines and AI to help them understand the structure of the page beyond pure content. For example, you can use it to describe a person, an event, an organization, a movie, a book, a recipe, and many other types of entities.
+[JSON-LD](https://json-ld.org/) là một định dạng cho dữ liệu có cấu trúc có thể được sử dụng bởi các công cụ tìm kiếm và AI để giúp chúng hiểu cấu trúc của trang ngoài nội dung thuần túy. Ví dụ, bạn có thể sử dụng nó để mô tả một người, một sự kiện, một tổ chức, một bộ phim, một cuốn sách, một công thức nấu ăn, và nhiều loại thực thể khác.
 
-Our current recommendation for JSON-LD is to render structured data as a `<script>` tag in your `layout.js` or `page.js` components.
+Khuyến nghị hiện tại của chúng tôi cho JSON-LD là render dữ liệu có cấu trúc dưới dạng thẻ `<script>` trong các component `layout.js` hoặc `page.js` của bạn.
 
-The following snippet uses `JSON.stringify`, which does not sanitize malicious strings used in XSS injection. To prevent this type of vulnerability, you can scrub `HTML` tags from the `JSON-LD` payload, for example, by replacing the character, `<`, with its unicode equivalent, `\u003c`.
+Đoạn mã sau sử dụng `JSON.stringify`, không làm sạch các chuỗi độc hại được sử dụng trong XSS injection. Để ngăn chặn loại lỗ hổng này, bạn có thể làm sạch các thẻ `HTML` khỏi payload `JSON-LD`, ví dụ, bằng cách thay thế ký tự, `<`, bằng unicode tương đương của nó, `\\u003c`.
 
-Review your organization's recommended approach to sanitize potentially dangerous strings, or use community maintained alternatives for `JSON.stringify` such as, [serialize-javascript](https://www.npmjs.com/package/serialize-javascript).
+Xem lại cách tiếp cận được khuyến nghị của tổ chức bạn để làm sạch các chuỗi có khả năng nguy hiểm, hoặc sử dụng các lựa chọn thay thế được cộng đồng duy trì cho `JSON.stringify` như, [serialize-javascript](https://www.npmjs.com/package/serialize-javascript).
 
 ```tsx filename="app/products/[id]/page.tsx" switcher
 export default async function Page({ params }) {
@@ -68,9 +68,9 @@ export default async function Page({ params }) {
 }
 ```
 
-You can validate and test your structured data with the [Rich Results Test](https://search.google.com/test/rich-results) for Google or the generic [Schema Markup Validator](https://validator.schema.org/).
+Bạn có thể xác thực và kiểm tra dữ liệu có cấu trúc của mình bằng [Rich Results Test](https://search.google.com/test/rich-results) cho Google hoặc [Schema Markup Validator](https://validator.schema.org/) chung.
 
-You can type your JSON-LD with TypeScript using community packages like [`schema-dts`](https://www.npmjs.com/package/schema-dts):
+Bạn có thể gõ JSON-LD của mình bằng TypeScript bằng cách sử dụng các package cộng đồng như [`schema-dts`](https://www.npmjs.com/package/schema-dts):
 
 ```tsx
 import { Product, WithContext } from 'schema-dts'

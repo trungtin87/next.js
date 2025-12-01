@@ -1,9 +1,9 @@
 ---
 title: Fetching Data
-description: Learn how to fetch data and stream content that depends on data.
+description: Tìm hiểu cách fetch dữ liệu và stream nội dung phụ thuộc vào dữ liệu.
 related:
-  title: API Reference
-  description: Learn more about the features mentioned in this page by reading the API Reference.
+  title: Tài liệu tham khảo API
+  description: Tìm hiểu thêm về các tính năng được đề cập trong trang này bằng cách đọc Tài liệu tham khảo API.
   links:
     - app/guides/data-security
     - app/api-reference/functions/fetch
@@ -12,20 +12,20 @@ related:
     - app/api-reference/config/next-config-js/taint
 ---
 
-This page will walk you through how you can fetch data in [Server and Client Components](/docs/app/getting-started/server-and-client-components), and how to [stream](#streaming) components that depend on data.
+Trang này sẽ hướng dẫn bạn cách fetch dữ liệu trong [Server và Client Components](/docs/app/getting-started/server-and-client-components), và cách [stream](#streaming) các components phụ thuộc vào dữ liệu.
 
 ## Fetching data
 
 ### Server Components
 
-You can fetch data in Server Components using:
+Bạn có thể fetch dữ liệu trong Server Components bằng cách sử dụng:
 
-1. The [`fetch` API](#with-the-fetch-api)
-2. An [ORM or database](#with-an-orm-or-database)
+1. [`fetch` API](#with-the-fetch-api)
+2. Một [ORM hoặc database](#with-an-orm-or-database)
 
-#### With the `fetch` API
+#### Với `fetch` API
 
-To fetch data with the `fetch` API, turn your component into an asynchronous function, and await the `fetch` call. For example:
+Để fetch dữ liệu với `fetch` API, hãy biến component của bạn thành một hàm bất đồng bộ (asynchronous function), và await lệnh gọi `fetch`. Ví dụ:
 
 ```tsx filename="app/blog/page.tsx" switcher
 export default async function Page() {
@@ -55,14 +55,14 @@ export default async function Page() {
 }
 ```
 
-> **Good to know:**
+> **Lưu ý:**
 >
-> - `fetch` responses are not cached by default. However, Next.js will [pre-render](/docs/app/guides/caching#static-rendering) the route and the output will be cached for improved performance. If you'd like to opt into [dynamic rendering](/docs/app/guides/caching#dynamic-rendering), use the `{ cache: 'no-store' }` option. See the [`fetch` API Reference](/docs/app/api-reference/functions/fetch).
-> - During development, you can log `fetch` calls for better visibility and debugging. See the [`logging` API reference](/docs/app/api-reference/config/next-config-js/logging).
+> - Các phản hồi `fetch` không được cache theo mặc định. Tuy nhiên, Next.js sẽ [pre-render](/docs/app/guides/caching#static-rendering) route và đầu ra sẽ được cache để cải thiện hiệu suất. Nếu bạn muốn chọn tham gia [dynamic rendering](/docs/app/guides/caching#dynamic-rendering), sử dụng tùy chọn `{ cache: 'no-store' }`. Xem [Tham khảo `fetch` API](/docs/app/api-reference/functions/fetch).
+> - Trong quá trình phát triển, bạn có thể log các lệnh gọi `fetch` để hiển thị và debug tốt hơn. Xem [tham khảo `logging` API](/docs/app/api-reference/config/next-config-js/logging).
 
-#### With an ORM or database
+#### Với một ORM hoặc database
 
-Since Server Components are rendered on the server, you can safely make database queries using an ORM or database client. Turn your component into an asynchronous function, and await the call:
+Vì Server Components được render trên server, bạn có thể thực hiện các truy vấn cơ sở dữ liệu một cách an toàn bằng cách sử dụng một ORM hoặc database client. Biến component của bạn thành một hàm bất đồng bộ, và await lệnh gọi:
 
 ```tsx filename="app/blog/page.tsx" switcher
 import { db, posts } from '@/lib/db'
@@ -96,14 +96,14 @@ export default async function Page() {
 
 ### Client Components
 
-There are two ways to fetch data in Client Components, using:
+Có hai cách để fetch dữ liệu trong Client Components, sử dụng:
 
-1. React's [`use` hook](https://react.dev/reference/react/use)
-2. A community library like [SWR](https://swr.vercel.app/) or [React Query](https://tanstack.com/query/latest)
+1. [`use` hook](https://react.dev/reference/react/use) của React
+2. Một thư viện cộng đồng như [SWR](https://swr.vercel.app/) hoặc [React Query](https://tanstack.com/query/latest)
 
-#### Streaming data with the `use` hook
+#### Streaming data với `use` hook
 
-You can use React's [`use` hook](https://react.dev/reference/react/use) to [stream](#streaming) data from the server to client. Start by fetching data in your Server component, and pass the promise to your Client Component as prop:
+Bạn có thể sử dụng [`use` hook](https://react.dev/reference/react/use) của React để [stream](#streaming) dữ liệu từ server đến client. Bắt đầu bằng cách fetch dữ liệu trong Server component của bạn, và truyền promise cho Client Component của bạn dưới dạng prop:
 
 ```tsx filename="app/blog/page.tsx" switcher
 import Posts from '@/app/ui/posts'
@@ -137,7 +137,7 @@ export default function Page() {
 }
 ```
 
-Then, in your Client Component, use the `use` hook to read the promise:
+Sau đó, trong Client Component của bạn, sử dụng `use` hook để đọc promise:
 
 ```tsx filename="app/ui/posts.tsx" switcher
 'use client'
@@ -177,11 +177,11 @@ export default function Posts({ posts }) {
 }
 ```
 
-In the example above, the `<Posts>` component is wrapped in a [`<Suspense>` boundary](https://react.dev/reference/react/Suspense). This means the fallback will be shown while the promise is being resolved. Learn more about [streaming](#streaming).
+Trong ví dụ trên, component `<Posts>` được bọc trong một [`<Suspense>` boundary](https://react.dev/reference/react/Suspense). Điều này có nghĩa là fallback sẽ được hiển thị trong khi promise đang được giải quyết. Tìm hiểu thêm về [streaming](#streaming).
 
-#### Community libraries
+#### Thư viện cộng đồng
 
-You can use a community library like [SWR](https://swr.vercel.app/) or [React Query](https://tanstack.com/query/latest) to fetch data in Client Components. These libraries have their own semantics for caching, streaming, and other features. For example, with SWR:
+Bạn có thể sử dụng một thư viện cộng đồng như [SWR](https://swr.vercel.app/) hoặc [React Query](https://tanstack.com/query/latest) để fetch dữ liệu trong Client Components. Các thư viện này có ngữ nghĩa riêng cho caching, streaming, và các tính năng khác. Ví dụ, với SWR:
 
 ```tsx filename="app/blog/page.tsx" switcher
 'use client'
@@ -234,17 +234,17 @@ export default function BlogPage() {
 }
 ```
 
-## Deduplicate requests and cache data
+## Deduplicate requests và cache data
 
-One way to deduplicate `fetch` requests is with [request memoization](/docs/app/guides/caching#request-memoization). With this mechanism, `fetch` calls using `GET` or `HEAD` with the same URL and options in a single render pass are combined into one request. This happens automatically, and you can [opt out](/docs/app/guides/caching#opting-out) by passing an Abort signal to `fetch`.
+Một cách để loại bỏ các `fetch` requests trùng lặp là với [request memoization](/docs/app/guides/caching#request-memoization). Với cơ chế này, các lệnh gọi `fetch` sử dụng `GET` hoặc `HEAD` với cùng URL và tùy chọn trong một lần render duy nhất được kết hợp thành một request. Điều này xảy ra tự động, và bạn có thể [chọn không tham gia](/docs/app/guides/caching#opting-out) bằng cách truyền một tín hiệu Abort cho `fetch`.
 
-Request memoization is scoped to the lifetime of a request.
+Request memoization có phạm vi trong vòng đời của một request.
 
-You can also deduplicate `fetch` requests by using Next.js’ [Data Cache](/docs/app/guides/caching#data-cache), for example by setting `cache: 'force-cache'` in your `fetch` options.
+Bạn cũng có thể loại bỏ các `fetch` requests trùng lặp bằng cách sử dụng [Data Cache](/docs/app/guides/caching#data-cache) của Next.js, ví dụ bằng cách đặt `cache: 'force-cache'` trong các tùy chọn `fetch` của bạn.
 
-Data Cache allows sharing data across the current render pass and incoming requests.
+Data Cache cho phép chia sẻ dữ liệu qua lần render hiện tại và các requests đến.
 
-If you are _not_ using `fetch`, and instead using an ORM or database directly, you can wrap your data access with the [React `cache`](https://react.dev/reference/react/cache) function.
+Nếu bạn _không_ sử dụng `fetch`, và thay vào đó sử dụng một ORM hoặc cơ sở dữ liệu trực tiếp, bạn có thể bọc truy cập dữ liệu của mình với hàm [`cache` của React](https://react.dev/reference/react/cache).
 
 ```tsx filename="app/lib/data.ts" switcher
 import { cache } from 'react'
@@ -271,11 +271,11 @@ export const getPost = cache(async (id) => {
 
 ## Streaming
 
-> **Warning:** The content below assumes the [`cacheComponents` config option](/docs/app/api-reference/config/next-config-js/cacheComponents) is enabled in your application. The flag was introduced in Next.js 15 canary.
+> **Cảnh báo:** Nội dung dưới đây giả định tùy chọn cấu hình [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) được bật trong ứng dụng của bạn. Cờ này đã được giới thiệu trong Next.js 15 canary.
 
-When you fetch data in Server Components, the data is fetched and rendered on the server for each request. If you have any slow data requests, the whole route will be blocked from rendering until all the data is fetched.
+Khi bạn fetch dữ liệu trong Server Components, dữ liệu được fetch và render trên server cho mỗi request. Nếu bạn có bất kỳ requests dữ liệu chậm nào, toàn bộ route sẽ bị chặn không cho render cho đến khi tất cả dữ liệu được fetch.
 
-To improve the initial load time and user experience, you can use streaming to break up the page's HTML into smaller chunks and progressively send those chunks from the server to the client.
+Để cải thiện thời gian tải ban đầu và trải nghiệm người dùng, bạn có thể sử dụng streaming để chia nhỏ HTML của trang thành các phần (chunks) nhỏ hơn và dần dần gửi các phần đó từ server đến client.
 
 <Image
   alt="How Server Rendering with Streaming Works"
@@ -285,14 +285,14 @@ To improve the initial load time and user experience, you can use streaming to b
   height="785"
 />
 
-There are two ways you can implement streaming in your application:
+Có hai cách bạn có thể triển khai streaming trong ứng dụng của mình:
 
-1. Wrapping a page with a [`loading.js` file](#with-loadingjs)
-2. Wrapping a component with [`<Suspense>`](#with-suspense)
+1. Bọc một trang với file [`loading.js`](#with-loadingjs)
+2. Bọc một component với [`<Suspense>`](#with-suspense)
 
-### With `loading.js`
+### Với `loading.js`
 
-You can create a `loading.js` file in the same folder as your page to stream the **entire page** while the data is being fetched. For example, to stream `app/blog/page.js`, add the file inside the `app/blog` folder.
+Bạn có thể tạo một file `loading.js` trong cùng thư mục với trang của bạn để stream **toàn bộ trang** trong khi dữ liệu đang được fetch. Ví dụ, để stream `app/blog/page.js`, thêm file vào bên trong thư mục `app/blog`.
 
 <Image
   alt="Blog folder structure with loading.js file"
@@ -316,7 +316,7 @@ export default function Loading() {
 }
 ```
 
-On navigation, the user will immediately see the layout and a [loading state](#creating-meaningful-loading-states) while the page is being rendered. The new content will then be automatically swapped in once rendering is complete.
+Khi điều hướng, người dùng sẽ ngay lập tức thấy layout và một [trạng thái đang tải](#creating-meaningful-loading-states) trong khi trang đang được render. Nội dung mới sau đó sẽ được tự động hoán đổi vào khi rendering hoàn tất.
 
 <Image
   alt="Loading UI"
@@ -326,7 +326,7 @@ On navigation, the user will immediately see the layout and a [loading state](#c
   height="691"
 />
 
-Behind-the-scenes, `loading.js` will be nested inside `layout.js`, and will automatically wrap the `page.js` file and any children below in a `<Suspense>` boundary.
+Đằng sau hậu trường, `loading.js` sẽ được lồng bên trong `layout.js`, và sẽ tự động bọc file `page.js` và bất kỳ children nào bên dưới trong một `<Suspense>` boundary.
 
 <Image
   alt="loading.js overview"
@@ -336,11 +336,11 @@ Behind-the-scenes, `loading.js` will be nested inside `layout.js`, and will auto
   height="768"
 />
 
-This approach works well for route segments (layouts and pages), but for more granular streaming, you can use `<Suspense>`.
+Cách tiếp cận này hoạt động tốt cho các route segments (layouts và pages), nhưng để streaming chi tiết hơn, bạn có thể sử dụng `<Suspense>`.
 
-### With `<Suspense>`
+### Với `<Suspense>`
 
-`<Suspense>` allows you to be more granular about what parts of the page to stream. For example, you can immediately show any page content that falls outside of the `<Suspense>` boundary, and stream in the list of blog posts inside the boundary.
+`<Suspense>` cho phép bạn chi tiết hơn về những phần nào của trang để stream. Ví dụ, bạn có thể hiển thị ngay lập tức bất kỳ nội dung trang nào nằm ngoài `<Suspense>` boundary, và stream danh sách các bài đăng blog bên trong boundary.
 
 ```tsx filename="app/blog/page.tsx" switcher
 import { Suspense } from 'react'
@@ -390,17 +390,17 @@ export default function BlogPage() {
 }
 ```
 
-### Creating meaningful loading states
+### Tạo trạng thái đang tải có ý nghĩa
 
-An instant loading state is fallback UI that is shown immediately to the user after navigation. For the best user experience, we recommend designing loading states that are meaningful and help users understand the app is responding. For example, you can use skeletons and spinners, or a small but meaningful part of future screens such as a cover photo, title, etc.
+Một trạng thái đang tải tức thì là fallback UI được hiển thị ngay lập tức cho người dùng sau khi điều hướng. Để có trải nghiệm người dùng tốt nhất, chúng tôi khuyên bạn nên thiết kế các trạng thái đang tải có ý nghĩa và giúp người dùng hiểu rằng ứng dụng đang phản hồi. Ví dụ, bạn có thể sử dụng skeletons và spinners, hoặc một phần nhỏ nhưng có ý nghĩa của màn hình tương lai như ảnh bìa, tiêu đề, v.v.
 
-In development, you can preview and inspect the loading state of your components using the [React Devtools](https://react.dev/learn/react-developer-tools).
+Trong quá trình phát triển, bạn có thể xem trước và kiểm tra trạng thái đang tải của các components bằng cách sử dụng [React Devtools](https://react.dev/learn/react-developer-tools).
 
-## Examples
+## Ví dụ
 
 ### Sequential data fetching
 
-Sequential data fetching happens when nested components in a tree each fetch their own data and the requests are not [deduplicated](/docs/app/guides/caching#request-memoization), leading to longer response times.
+Sequential data fetching xảy ra khi các components lồng nhau trong một cây mỗi cái tự fetch dữ liệu của riêng nó và các requests không được [loại bỏ trùng lặp](/docs/app/guides/caching#request-memoization), dẫn đến thời gian phản hồi lâu hơn.
 
 <Image
   alt="Sequential and Parallel Data Fetching"
@@ -410,9 +410,9 @@ Sequential data fetching happens when nested components in a tree each fetch the
   height="525"
 />
 
-There may be cases where you want this pattern because one fetch depends on the result of the other.
+Có thể có những trường hợp bạn muốn pattern này vì một fetch phụ thuộc vào kết quả của cái kia.
 
-For example, the `<Playlists>` component will only start fetching data once the `<Artist>` component has finished fetching data because `<Playlists>` depends on the `artistID` prop:
+Ví dụ, component `<Playlists>` sẽ chỉ bắt đầu fetch dữ liệu khi component `<Artist>` đã hoàn tất fetch dữ liệu vì `<Playlists>` phụ thuộc vào prop `artistID`:
 
 ```tsx filename="app/artist/[username]/page.tsx" switcher
 export default async function Page({
@@ -482,15 +482,15 @@ async function Playlists({ artistID }) {
 }
 ```
 
-To improve the user experience, you should use [React `<Suspense>`](/docs/app/getting-started/linking-and-navigating#streaming) to show a `fallback` while data is being fetch. This will enable [streaming](#streaming) and prevent the whole route from being blocked by the sequential data requests.
+Để cải thiện trải nghiệm người dùng, bạn nên sử dụng [React `<Suspense>`](/docs/app/getting-started/linking-and-navigating#streaming) để hiển thị một `fallback` trong khi dữ liệu đang được fetch. Điều này sẽ kích hoạt [streaming](#streaming) và ngăn toàn bộ route bị chặn bởi các requests dữ liệu tuần tự.
 
 ### Parallel data fetching
 
-Parallel data fetching happens when data requests in a route are eagerly initiated and start at the same time.
+Parallel data fetching xảy ra khi các requests dữ liệu trong một route được khởi tạo sớm và bắt đầu cùng một lúc.
 
-By default, [layouts and pages](/docs/app/getting-started/layouts-and-pages) are rendered in parallel. So each segment starts fetching data as soon as possible.
+Theo mặc định, [layouts và pages](/docs/app/getting-started/layouts-and-pages) được render song song. Vì vậy, mỗi segment bắt đầu fetch dữ liệu càng sớm càng tốt.
 
-However, within _any_ component, multiple `async`/`await` requests can still be sequential if placed after the other. For example, `getAlbums` will be blocked until `getArtist` is resolved:
+Tuy nhiên, trong _bất kỳ_ component nào, nhiều requests `async`/`await` vẫn có thể là tuần tự nếu được đặt sau cái kia. Ví dụ, `getAlbums` sẽ bị chặn cho đến khi `getArtist` được giải quyết:
 
 ```tsx filename="app/artist/[username]/page.tsx" switcher
 import { getArtist, getAlbums } from '@/app/lib/data'
@@ -504,7 +504,7 @@ export default async function Page({ params }) {
 }
 ```
 
-Start multiple requests by calling `fetch`, then await them with [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all). Requests begin as soon as `fetch` is called.
+Bắt đầu nhiều requests bằng cách gọi `fetch`, sau đó await chúng với [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all). Requests bắt đầu ngay khi `fetch` được gọi.
 
 ```tsx filename="app/artist/[username]/page.tsx" highlight={3,8,23} switcher
 import Albums from './albums'
@@ -572,13 +572,13 @@ export default async function Page({ params }) {
 }
 ```
 
-> **Good to know:** If one request fails when using `Promise.all`, the entire operation will fail. To handle this, you can use the [`Promise.allSettled`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) method instead.
+> **Lưu ý:** Nếu một request thất bại khi sử dụng `Promise.all`, toàn bộ hoạt động sẽ thất bại. Để xử lý điều này, bạn có thể sử dụng phương thức [`Promise.allSettled`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled) thay thế.
 
 ### Preloading data
 
-You can preload data by creating an utility function that you eagerly call above blocking requests. `<Item>` conditionally renders based on the `checkIsAvailable()` function.
+Bạn có thể preload dữ liệu bằng cách tạo một hàm tiện ích mà bạn gọi sớm phía trên các requests chặn. `<Item>` render có điều kiện dựa trên hàm `checkIsAvailable()`.
 
-You can call `preload()` before `checkIsAvailable()` to eagerly initiate `<Item/>` data dependencies. By the time `<Item/>` is rendered, its data has already been fetched.
+Bạn có thể gọi `preload()` trước `checkIsAvailable()` để khởi tạo sớm các phụ thuộc dữ liệu của `<Item/>`. Vào thời điểm `<Item/>` được render, dữ liệu của nó đã được fetch.
 
 ```tsx filename="app/item/[id]/page.tsx" switcher
 import { getItem, checkIsAvailable } from '@/lib/data'
@@ -631,7 +631,7 @@ export async function Item({ id }) {
   // ...
 ```
 
-Additionally, you can use React's [`cache` function](https://react.dev/reference/react/cache) and the [`server-only` package](https://www.npmjs.com/package/server-only) to create a reusable utility function. This approach allows you to cache the data fetching function and ensure that it's only executed on the server.
+Ngoài ra, bạn có thể sử dụng [`cache` function](https://react.dev/reference/react/cache) của React và [`server-only` package](https://www.npmjs.com/package/server-only) để tạo một hàm tiện ích có thể tái sử dụng. Cách tiếp cận này cho phép bạn cache hàm fetch dữ liệu và đảm bảo rằng nó chỉ được thực thi trên server.
 
 ```ts filename="utils/get-item.ts" switcher
 import { cache } from 'react'

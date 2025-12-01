@@ -1,18 +1,18 @@
 ---
 title: ESLint Plugin
 nav_title: ESLint
-description: Learn how to use and configure the ESLint plugin to catch common issues and problems in a Next.js application.
+description: Tìm hiểu cách sử dụng và cấu hình plugin ESLint để bắt các vấn đề phổ biến trong ứng dụng Next.js.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng thành phần `<PagesOnly>Content</PagesOnly>` để thêm nội dung dành riêng cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bao bọc trong một thành phần. */}
 
-Next.js provides an ESLint plugin, [`@next/eslint-plugin-next`](https://www.npmjs.com/package/@next/eslint-plugin-next), already bundled within the base configuration that makes it possible to catch common issues and problems in a Next.js application.
+Next.js cung cấp một plugin ESLint, [`@next/eslint-plugin-next`](https://www.npmjs.com/package/@next/eslint-plugin-next), đã được đóng gói trong cấu hình cơ sở giúp có thể bắt các vấn đề phổ biến trong ứng dụng Next.js.
 
-## Setup ESLint
+## Cài đặt ESLint
 
-Get linting working quickly with the ESLint CLI (flat config):
+Làm cho linting hoạt động nhanh chóng với ESLint CLI (flat config):
 
-1. Install ESLint and the Next.js config:
+1. Cài đặt ESLint và cấu hình Next.js:
 
    ```bash package="pnpm"
    pnpm add -D eslint eslint-config-next
@@ -30,7 +30,7 @@ Get linting working quickly with the ESLint CLI (flat config):
    bun add -d eslint eslint-config-next
    ```
 
-2. Create `eslint.config.mjs` with the Next.js config:
+2. Tạo `eslint.config.mjs` với cấu hình Next.js:
 
    ```js filename="eslint.config.mjs"
    import { defineConfig, globalIgnores } from 'eslint/config'
@@ -38,9 +38,9 @@ Get linting working quickly with the ESLint CLI (flat config):
 
    const eslintConfig = defineConfig([
      ...nextVitals,
-     // Override default ignores of eslint-config-next.
+     // Ghi đè các ignores mặc định của eslint-config-next.
      globalIgnores([
-       // Default ignores of eslint-config-next:
+       // Ignores mặc định của eslint-config-next:
        '.next/**',
        'out/**',
        'build/**',
@@ -51,7 +51,7 @@ Get linting working quickly with the ESLint CLI (flat config):
    export default eslintConfig
    ```
 
-3. Run ESLint:
+3. Chạy ESLint:
 
    ```bash package="pnpm"
    pnpm exec eslint .
@@ -69,58 +69,58 @@ Get linting working quickly with the ESLint CLI (flat config):
    bunx eslint .
    ```
 
-## Reference
+## Tham khảo
 
-Recommended rule-sets from the following ESLint plugins are all used within `eslint-config-next`:
+Các bộ quy tắc được đề xuất từ các plugin ESLint sau đều được sử dụng trong `eslint-config-next`:
 
 - [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin-react)
 - [`eslint-plugin-react-hooks`](https://www.npmjs.com/package/eslint-plugin-react-hooks)
 - [`@next/eslint-plugin-next`](https://www.npmjs.com/package/@next/eslint-plugin-next)
 
-### Rules
+### Quy tắc (Rules)
 
-The full set of rules is as follows:
+Bộ quy tắc đầy đủ như sau:
 
-| Enabled in recommended config | Rule                                                                                                                     | Description                                                                                                      |
-| :---------------------------: | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-|      <Check size={18} />      | [@next/next/google-font-display](/docs/messages/google-font-display)                                                     | Enforce font-display behavior with Google Fonts.                                                                 |
-|      <Check size={18} />      | [@next/next/google-font-preconnect](/docs/messages/google-font-preconnect)                                               | Ensure `preconnect` is used with Google Fonts.                                                                   |
-|      <Check size={18} />      | [@next/next/inline-script-id](/docs/messages/inline-script-id)                                                           | Enforce `id` attribute on `next/script` components with inline content.                                          |
-|      <Check size={18} />      | [@next/next/next-script-for-ga](/docs/messages/next-script-for-ga)                                                       | Prefer `next/script` component when using the inline script for Google Analytics.                                |
-|      <Check size={18} />      | [@next/next/no-assign-module-variable](/docs/messages/no-assign-module-variable)                                         | Prevent assignment to the `module` variable.                                                                     |
-|      <Check size={18} />      | [@next/next/no-async-client-component](/docs/messages/no-async-client-component)                                         | Prevent Client Components from being async functions.                                                            |
-|      <Check size={18} />      | [@next/next/no-before-interactive-script-outside-document](/docs/messages/no-before-interactive-script-outside-document) | Prevent usage of `next/script`'s `beforeInteractive` strategy outside of `pages/_document.js`.                   |
-|      <Check size={18} />      | [@next/next/no-css-tags](/docs/messages/no-css-tags)                                                                     | Prevent manual stylesheet tags.                                                                                  |
-|      <Check size={18} />      | [@next/next/no-document-import-in-page](/docs/messages/no-document-import-in-page)                                       | Prevent importing `next/document` outside of `pages/_document.js`.                                               |
-|      <Check size={18} />      | [@next/next/no-duplicate-head](/docs/messages/no-duplicate-head)                                                         | Prevent duplicate usage of `<Head>` in `pages/_document.js`.                                                     |
-|      <Check size={18} />      | [@next/next/no-head-element](/docs/messages/no-head-element)                                                             | Prevent usage of `<head>` element.                                                                               |
-|      <Check size={18} />      | [@next/next/no-head-import-in-document](/docs/messages/no-head-import-in-document)                                       | Prevent usage of `next/head` in `pages/_document.js`.                                                            |
-|      <Check size={18} />      | [@next/next/no-html-link-for-pages](/docs/messages/no-html-link-for-pages)                                               | Prevent usage of `<a>` elements to navigate to internal Next.js pages.                                           |
-|      <Check size={18} />      | [@next/next/no-img-element](/docs/messages/no-img-element)                                                               | Prevent usage of `<img>` element due to slower LCP and higher bandwidth.                                         |
-|      <Check size={18} />      | [@next/next/no-page-custom-font](/docs/messages/no-page-custom-font)                                                     | Prevent page-only custom fonts.                                                                                  |
-|      <Check size={18} />      | [@next/next/no-script-component-in-head](/docs/messages/no-script-component-in-head)                                     | Prevent usage of `next/script` in `next/head` component.                                                         |
-|      <Check size={18} />      | [@next/next/no-styled-jsx-in-document](/docs/messages/no-styled-jsx-in-document)                                         | Prevent usage of `styled-jsx` in `pages/_document.js`.                                                           |
-|      <Check size={18} />      | [@next/next/no-sync-scripts](/docs/messages/no-sync-scripts)                                                             | Prevent synchronous scripts.                                                                                     |
-|      <Check size={18} />      | [@next/next/no-title-in-document-head](/docs/messages/no-title-in-document-head)                                         | Prevent usage of `<title>` with `Head` component from `next/document`.                                           |
-|      <Check size={18} />      | @next/next/no-typos                                                                                                      | Prevent common typos in [Next.js's data fetching functions](/docs/pages/building-your-application/data-fetching) |
-|      <Check size={18} />      | [@next/next/no-unwanted-polyfillio](/docs/messages/no-unwanted-polyfillio)                                               | Prevent duplicate polyfills from Polyfill.io.                                                                    |
+| Được bật trong cấu hình đề xuất | Quy tắc                                                                                                                  | Mô tả                                                                                                                              |
+| :-----------------------------: | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+|       <Check size={18} />       | [@next/next/google-font-display](/docs/messages/google-font-display)                                                     | Thực thi hành vi hiển thị phông chữ với Google Fonts.                                                                              |
+|       <Check size={18} />       | [@next/next/google-font-preconnect](/docs/messages/google-font-preconnect)                                               | Đảm bảo `preconnect` được sử dụng với Google Fonts.                                                                                |
+|       <Check size={18} />       | [@next/next/inline-script-id](/docs/messages/inline-script-id)                                                           | Thực thi thuộc tính `id` trên các thành phần `next/script` với nội dung nội tuyến.                                                 |
+|       <Check size={18} />       | [@next/next/next-script-for-ga](/docs/messages/next-script-for-ga)                                                       | Ưu tiên thành phần `next/script` khi sử dụng script nội tuyến cho Google Analytics.                                                |
+|       <Check size={18} />       | [@next/next/no-assign-module-variable](/docs/messages/no-assign-module-variable)                                         | Ngăn chặn việc gán cho biến `module`.                                                                                              |
+|       <Check size={18} />       | [@next/next/no-async-client-component](/docs/messages/no-async-client-component)                                         | Ngăn chặn Client Components là các hàm async.                                                                                      |
+|       <Check size={18} />       | [@next/next/no-before-interactive-script-outside-document](/docs/messages/no-before-interactive-script-outside-document) | Ngăn chặn việc sử dụng chiến lược `beforeInteractive` của `next/script` bên ngoài `pages/_document.js`.                            |
+|       <Check size={18} />       | [@next/next/no-css-tags](/docs/messages/no-css-tags)                                                                     | Ngăn chặn các thẻ stylesheet thủ công.                                                                                             |
+|       <Check size={18} />       | [@next/next/no-document-import-in-page](/docs/messages/no-document-import-in-page)                                       | Ngăn chặn việc import `next/document` bên ngoài `pages/_document.js`.                                                              |
+|       <Check size={18} />       | [@next/next/no-duplicate-head](/docs/messages/no-duplicate-head)                                                         | Ngăn chặn việc sử dụng trùng lặp `<Head>` trong `pages/_document.js`.                                                              |
+|       <Check size={18} />       | [@next/next/no-head-element](/docs/messages/no-head-element)                                                             | Ngăn chặn việc sử dụng phần tử `<head>`.                                                                                           |
+|       <Check size={18} />       | [@next/next/no-head-import-in-document](/docs/messages/no-head-import-in-document)                                       | Ngăn chặn việc sử dụng `next/head` trong `pages/_document.js`.                                                                     |
+|       <Check size={18} />       | [@next/next/no-html-link-for-pages](/docs/messages/no-html-link-for-pages)                                               | Ngăn chặn việc sử dụng các phần tử `<a>` để điều hướng đến các trang nội bộ của Next.js.                                           |
+|       <Check size={18} />       | [@next/next/no-img-element](/docs/messages/no-img-element)                                                               | Ngăn chặn việc sử dụng phần tử `<img>` do LCP chậm hơn và băng thông cao hơn.                                                      |
+|       <Check size={18} />       | [@next/next/no-page-custom-font](/docs/messages/no-page-custom-font)                                                     | Ngăn chặn các phông chữ tùy chỉnh chỉ dành cho trang.                                                                              |
+|       <Check size={18} />       | [@next/next/no-script-component-in-head](/docs/messages/no-script-component-in-head)                                     | Ngăn chặn việc sử dụng `next/script` trong thành phần `next/head`.                                                                 |
+|       <Check size={18} />       | [@next/next/no-styled-jsx-in-document](/docs/messages/no-styled-jsx-in-document)                                         | Ngăn chặn việc sử dụng `styled-jsx` trong `pages/_document.js`.                                                                    |
+|       <Check size={18} />       | [@next/next/no-sync-scripts](/docs/messages/no-sync-scripts)                                                             | Ngăn chặn các script đồng bộ.                                                                                                      |
+|       <Check size={18} />       | [@next/next/no-title-in-document-head](/docs/messages/no-title-in-document-head)                                         | Ngăn chặn việc sử dụng `<title>` với thành phần `Head` từ `next/document`.                                                         |
+|       <Check size={18} />       | @next/next/no-typos                                                                                                      | Ngăn chặn các lỗi chính tả phổ biến trong [các hàm data fetching của Next.js](/docs/pages/building-your-application/data-fetching) |
+|       <Check size={18} />       | [@next/next/no-unwanted-polyfillio](/docs/messages/no-unwanted-polyfillio)                                               | Ngăn chặn các polyfills trùng lặp từ Polyfill.io.                                                                                  |
 
-We recommend using an appropriate [integration](https://eslint.org/docs/user-guide/integrations#editors) to view warnings and errors directly in your code editor during development.
+Chúng tôi khuyên bạn nên sử dụng một [tích hợp](https://eslint.org/docs/user-guide/integrations#editors) phù hợp để xem các cảnh báo và lỗi trực tiếp trong trình soạn thảo mã của bạn trong quá trình phát triển.
 
 <details>
-  <summary>`next lint` removal</summary>
+  <summary>Loại bỏ `next lint`</summary>
 
-Starting with Next.js 16, `next lint` is removed.
+Bắt đầu với Next.js 16, `next lint` bị loại bỏ.
 
-As part of the removal, the `eslint` option in your Next config file is no longer needed and can be safely removed.
+Là một phần của việc loại bỏ, tùy chọn `eslint` trong tệp cấu hình Next của bạn không còn cần thiết và có thể được loại bỏ một cách an toàn.
 
 </details>
 
-## Examples
+## Ví dụ
 
-### Specifying a root directory within a monorepo
+### Chỉ định thư mục gốc trong monorepo
 
-If you're using `@next/eslint-plugin-next` in a project where Next.js isn't installed in your root directory (such as a monorepo), you can tell `@next/eslint-plugin-next` where to find your Next.js application using the `settings` property in your `eslint.config.mjs`:
+Nếu bạn đang sử dụng `@next/eslint-plugin-next` trong một dự án nơi Next.js không được cài đặt trong thư mục gốc của bạn (chẳng hạn như monorepo), bạn có thể cho `@next/eslint-plugin-next` biết nơi tìm ứng dụng Next.js của bạn bằng cách sử dụng thuộc tính `settings` trong `eslint.config.mjs` của bạn:
 
 ```js filename="eslint.config.mjs"
 import { defineConfig } from 'eslint/config'
@@ -148,11 +148,11 @@ const eslintConfig = defineConfig([
 export default eslintConfig
 ```
 
-`rootDir` can be a path (relative or absolute), a glob (i.e. `"packages/*/"`), or an array of paths and/or globs.
+`rootDir` có thể là một đường dẫn (tương đối hoặc tuyệt đối), một glob (tức là `"packages/*/"`), hoặc một mảng các đường dẫn và/hoặc globs.
 
-### Disabling rules
+### Vô hiệu hóa quy tắc
 
-If you would like to modify or disable any rules provided by the supported plugins (`react`, `react-hooks`, `next`), you can directly change them using the `rules` property in your `eslint.config.mjs`:
+Nếu bạn muốn sửa đổi hoặc vô hiệu hóa bất kỳ quy tắc nào được cung cấp bởi các plugin được hỗ trợ (`react`, `react-hooks`, `next`), bạn có thể thay đổi trực tiếp chúng bằng cách sử dụng thuộc tính `rules` trong `eslint.config.mjs` của bạn:
 
 ```js filename="eslint.config.mjs"
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -166,9 +166,9 @@ const eslintConfig = defineConfig([
       '@next/next/no-page-custom-font': 'off',
     },
   },
-  // Override default ignores of eslint-config-next.
+  // Ghi đè các ignores mặc định của eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
+    // Ignores mặc định của eslint-config-next:
     '.next/**',
     'out/**',
     'build/**',
@@ -179,9 +179,9 @@ const eslintConfig = defineConfig([
 export default eslintConfig
 ```
 
-### With Core Web Vitals
+### Với Core Web Vitals
 
-Enable the `next/core-web-vitals` rule set by extending it in your ESLint config.
+Bật bộ quy tắc `next/core-web-vitals` bằng cách mở rộng nó trong cấu hình ESLint của bạn.
 
 ```js filename="eslint.config.mjs"
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -189,9 +189,9 @@ import nextVitals from 'eslint-config-next/core-web-vitals'
 
 const eslintConfig = defineConfig([
   ...nextVitals,
-  // Override default ignores of eslint-config-next.
+  // Ghi đè các ignores mặc định của eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
+    // Ignores mặc định của eslint-config-next:
     '.next/**',
     'out/**',
     'build/**',
@@ -202,13 +202,13 @@ const eslintConfig = defineConfig([
 export default eslintConfig
 ```
 
-`next/core-web-vitals` updates `@next/eslint-plugin-next` to error on a number of rules that are warnings by default if they affect [Core Web Vitals](https://web.dev/vitals/).
+`next/core-web-vitals` cập nhật `@next/eslint-plugin-next` để báo lỗi trên một số quy tắc là cảnh báo theo mặc định nếu chúng ảnh hưởng đến [Core Web Vitals](https://web.dev/vitals/).
 
-> The `next/core-web-vitals` entry point is automatically included for new applications built with [Create Next App](/docs/app/api-reference/cli/create-next-app).
+> Điểm nhập `next/core-web-vitals` được tự động bao gồm cho các ứng dụng mới được xây dựng với [Create Next App](/docs/app/api-reference/cli/create-next-app).
 
-### With TypeScript
+### Với TypeScript
 
-In addition to the Next.js ESLint rules, `create-next-app --typescript` will also add TypeScript-specific lint rules with `next/typescript` to your config:
+Ngoài các quy tắc ESLint của Next.js, `create-next-app --typescript` cũng sẽ thêm các quy tắc lint dành riêng cho TypeScript với `next/typescript` vào cấu hình của bạn:
 
 ```js filename="eslint.config.mjs"
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -218,9 +218,9 @@ import nextTs from 'eslint-config-next/typescript'
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
+  // Ghi đè các ignores mặc định của eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
+    // Ignores mặc định của eslint-config-next:
     '.next/**',
     'out/**',
     'build/**',
@@ -231,14 +231,14 @@ const eslintConfig = defineConfig([
 export default eslintConfig
 ```
 
-Those rules are based on [`plugin:@typescript-eslint/recommended`](https://typescript-eslint.io/linting/configs#recommended).
-See [typescript-eslint > Configs](https://typescript-eslint.io/linting/configs) for more details.
+Các quy tắc đó dựa trên [`plugin:@typescript-eslint/recommended`](https://typescript-eslint.io/linting/configs#recommended).
+Xem [typescript-eslint > Configs](https://typescript-eslint.io/linting/configs) để biết thêm chi tiết.
 
-### With Prettier
+### Với Prettier
 
-ESLint also contains code formatting rules, which can conflict with your existing [Prettier](https://prettier.io/) setup. We recommend including [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) in your ESLint config to make ESLint and Prettier work together.
+ESLint cũng chứa các quy tắc định dạng mã, có thể xung đột với thiết lập [Prettier](https://prettier.io/) hiện có của bạn. Chúng tôi khuyên bạn nên bao gồm [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) trong cấu hình ESLint của bạn để làm cho ESLint và Prettier hoạt động cùng nhau.
 
-First, install the dependency:
+Đầu tiên, cài đặt phụ thuộc:
 
 ```bash package="pnpm"
 pnpm add -D eslint-config-prettier
@@ -256,7 +256,7 @@ yarn add --dev eslint-config-prettier
 bun add -d eslint-config-prettier
 ```
 
-Then, add `prettier` to your existing ESLint config:
+Sau đó, thêm `prettier` vào cấu hình ESLint hiện có của bạn:
 
 ```js filename="eslint.config.mjs"
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -266,9 +266,9 @@ import prettier from 'eslint-config-prettier/flat'
 const eslintConfig = defineConfig([
   ...nextVitals,
   prettier,
-  // Override default ignores of eslint-config-next.
+  // Ghi đè các ignores mặc định của eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
+    // Ignores mặc định của eslint-config-next:
     '.next/**',
     'out/**',
     'build/**',
@@ -279,9 +279,9 @@ const eslintConfig = defineConfig([
 export default eslintConfig
 ```
 
-### Running lint on staged files
+### Chạy lint trên các tệp đã staged
 
-If you would like to use ESLint with [lint-staged](https://github.com/okonet/lint-staged) to run the linter on staged git files, add the following to the `.lintstagedrc.js` file in the root of your project:
+Nếu bạn muốn sử dụng ESLint với [lint-staged](https://github.com/okonet/lint-staged) để chạy linter trên các tệp git đã staged, hãy thêm phần sau vào tệp `.lintstagedrc.js` trong thư mục gốc của dự án của bạn:
 
 ```js filename=".lintstagedrc.js"
 const path = require('path')
@@ -296,23 +296,23 @@ module.exports = {
 }
 ```
 
-### Migrating existing config
+### Di chuyển cấu hình hiện có
 
-If you already have ESLint configured in your application, we recommend extending from this plugin directly instead of including `eslint-config-next` unless a few conditions are met.
+Nếu bạn đã cấu hình ESLint trong ứng dụng của mình, chúng tôi khuyên bạn nên mở rộng trực tiếp từ plugin này thay vì bao gồm `eslint-config-next` trừ khi một vài điều kiện được đáp ứng.
 
-#### Recommended plugin ruleset
+#### Bộ quy tắc plugin được đề xuất
 
-If the following conditions are true:
+Nếu các điều kiện sau là đúng:
 
-- You have one or more of the following plugins already installed (either separately or through a different config such as `airbnb` or `react-app`):
+- Bạn đã cài đặt một hoặc nhiều plugin sau (riêng biệt hoặc thông qua một cấu hình khác như `airbnb` hoặc `react-app`):
   - `react`
   - `react-hooks`
   - `jsx-a11y`
   - `import`
-- You've defined specific `parserOptions` that are different from how Babel is configured within Next.js (this is not recommended unless you have [customized your Babel configuration](/docs/pages/guides/babel))
-- You have `eslint-plugin-import` installed with Node.js and/or TypeScript [resolvers](https://github.com/benmosher/eslint-plugin-import#resolvers) defined to handle imports
+- Bạn đã xác định `parserOptions` cụ thể khác với cách Babel được cấu hình trong Next.js (điều này không được khuyến nghị trừ khi bạn đã [tùy chỉnh cấu hình Babel của mình](/docs/pages/guides/babel))
+- Bạn đã cài đặt `eslint-plugin-import` với Node.js và/hoặc TypeScript [resolvers](https://github.com/benmosher/eslint-plugin-import#resolvers) được xác định để xử lý imports
 
-Then we recommend either removing these settings if you prefer how these properties have been configured within [`eslint-config-next`](https://github.com/vercel/next.js/blob/canary/packages/eslint-config-next/index.js) or extending directly from the Next.js ESLint plugin instead:
+Sau đó, chúng tôi khuyên bạn nên xóa các cài đặt này nếu bạn thích cách các thuộc tính này đã được cấu hình trong [`eslint-config-next`](https://github.com/vercel/next.js/blob/canary/packages/eslint-config-next/index.js) hoặc mở rộng trực tiếp từ plugin Next.js ESLint thay thế:
 
 ```js
 module.exports = {
@@ -323,7 +323,7 @@ module.exports = {
 }
 ```
 
-The plugin can be installed normally in your project:
+Plugin có thể được cài đặt bình thường trong dự án của bạn:
 
 ```bash package="pnpm"
 pnpm add -D @next/eslint-plugin-next
@@ -341,11 +341,11 @@ yarn add --dev @next/eslint-plugin-next
 bun add -d @next/eslint-plugin-next
 ```
 
-This eliminates the risk of collisions or errors that can occur due to importing the same plugin or parser across multiple configurations.
+Điều này giúp loại bỏ nguy cơ xung đột hoặc lỗi có thể xảy ra do việc import cùng một plugin hoặc parser qua nhiều cấu hình.
 
-#### Additional configurations
+#### Cấu hình bổ sung
 
-If you already use a separate ESLint configuration and want to include `eslint-config-next`, ensure that it is extended last after other configurations. For example:
+Nếu bạn đã sử dụng một cấu hình ESLint riêng biệt và muốn bao gồm `eslint-config-next`, hãy đảm bảo rằng nó được mở rộng cuối cùng sau các cấu hình khác. Ví dụ:
 
 ```js filename="eslint.config.mjs"
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -353,17 +353,17 @@ import nextPlugin from '@next/eslint-plugin-next'
 
 const eslintConfig = defineConfig([
   nextPlugin.configs['core-web-vitals'],
-  // List of ignore patterns.
+  // Danh sách các mẫu bỏ qua.
   globalIgnores([]),
 ])
 
 export default eslintConfig
 ```
 
-The `next` configuration already handles setting default values for the `parser`, `plugins` and `settings` properties. There is no need to manually re-declare any of these properties unless you need a different configuration for your use case.
+Cấu hình `next` đã xử lý việc thiết lập các giá trị mặc định cho các thuộc tính `parser`, `plugins` và `settings`. Không cần phải khai báo lại thủ công bất kỳ thuộc tính nào trong số này trừ khi bạn cần một cấu hình khác cho trường hợp sử dụng của mình.
 
-If you include any other shareable configurations, **you will need to make sure that these properties are not overwritten or modified**. Otherwise, we recommend removing any configurations that share behavior with the `next` configuration or extending directly from the Next.js ESLint plugin as mentioned above.
+Nếu bạn bao gồm bất kỳ cấu hình có thể chia sẻ nào khác, **bạn sẽ cần đảm bảo rằng các thuộc tính này không bị ghi đè hoặc sửa đổi**. Nếu không, chúng tôi khuyên bạn nên xóa bất kỳ cấu hình nào chia sẻ hành vi với cấu hình `next` hoặc mở rộng trực tiếp từ plugin Next.js ESLint như đã đề cập ở trên.
 
-| Version   | Changes                                                                                                                                                                                                             |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v16.0.0` | `next lint` and the `eslint` next.config.js option were removed in favor of the ESLint CLI. A [codemod](/docs/app/guides/upgrading/codemods#migrate-from-next-lint-to-eslint-cli) is available to help you migrate. |
+| Phiên bản | Thay đổi                                                                                                                                                                                                        |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v16.0.0` | `next lint` và tùy chọn `eslint` trong next.config.js đã bị loại bỏ để ủng hộ ESLint CLI. Một [codemod](/docs/app/guides/upgrading/codemods#migrate-from-next-lint-to-eslint-cli) có sẵn để giúp bạn di chuyển. |

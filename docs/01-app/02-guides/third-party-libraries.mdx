@@ -1,38 +1,38 @@
 ---
-title: How to optimize third-party libraries
-nav_title: Third Party Libraries
-description: Optimize the performance of third-party libraries in your application with the `@next/third-parties` package.
+title: Cách tối ưu hóa các thư viện của bên thứ ba
+nav_title: Thư viện của bên thứ ba
+description: Tối ưu hóa hiệu suất của các thư viện của bên thứ ba trong ứng dụng của bạn với gói `@next/third-parties`.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa bộ định tuyến ứng dụng và các trang. Bạn có thể sử dụng thành phần `<PagesOnly>Nội dung</PagesOnly>` để thêm nội dung dành riêng cho Bộ định tuyến trang. Bất kỳ nội dung được chia sẻ nào cũng không nên được bao bọc trong một thành phần. */}
 
-**`@next/third-parties`** is a library that provides a collection of components and utilities that improve the performance and developer experience of loading popular third-party libraries in your Next.js application.
+**`@next/third-parties`** là một thư viện cung cấp một bộ sưu tập các thành phần và tiện ích giúp cải thiện hiệu suất và trải nghiệm của nhà phát triển khi tải các thư viện phổ biến của bên thứ ba trong ứng dụng Next.js của bạn.
 
-All third-party integrations provided by `@next/third-parties` have been optimized for performance and ease of use.
+Tất cả các tích hợp của bên thứ ba do `@next/third-parties` cung cấp đều đã được tối ưu hóa về hiệu suất và dễ sử dụng.
 
-## Getting Started
+## Bắt đầu
 
-To get started, install the `@next/third-parties` library:
+Để bắt đầu, hãy cài đặt thư viện `@next/third-parties`:
 
 ```bash filename="Terminal"
 npm install @next/third-parties@latest next@latest
 ```
 
-{/* To do: Remove this paragraph once package becomes stable */}
+{/* Việc cần làm: Xóa đoạn này sau khi gói trở nên ổn định */}
 
-`@next/third-parties` is currently an **experimental** library under active development. We recommend installing it with the **latest** or **canary** flags while we work on adding more third-party integrations.
+`@next/third-parties` hiện là một thư viện **thử nghiệm** đang được phát triển tích cực. Chúng tôi khuyên bạn nên cài đặt nó với các cờ **latest** hoặc **canary** trong khi chúng tôi đang làm việc để thêm nhiều tích hợp của bên thứ ba hơn.
 
-## Google Third-Parties
+## Các bên thứ ba của Google
 
-All supported third-party libraries from Google can be imported from `@next/third-parties/google`.
+Tất cả các thư viện của bên thứ ba được hỗ trợ từ Google có thể được nhập từ `@next/third-parties/google`.
 
-### Google Tag Manager
+### Trình quản lý thẻ của Google
 
-The `GoogleTagManager` component can be used to instantiate a [Google Tag Manager](https://developers.google.com/tag-platform/tag-manager) container to your page. By default, it fetches the original inline script after hydration occurs on the page.
+Thành phần `GoogleTagManager` có thể được sử dụng để khởi tạo một vùng chứa [Trình quản lý thẻ của Google](https://developers.google.com/tag-platform/tag-manager) cho trang của bạn. Theo mặc định, nó tìm nạp tập lệnh nội tuyến ban đầu sau khi quá trình hydrat hóa xảy ra trên trang.
 
 <AppOnly>
 
-To load Google Tag Manager for all routes, include the component directly in your root layout and pass in your GTM container ID:
+Để tải Trình quản lý thẻ của Google cho tất cả các tuyến đường, hãy bao gồm thành phần trực tiếp trong bố cục gốc của bạn và chuyển vào ID vùng chứa GTM của bạn:
 
 ```tsx filename="app/layout.tsx" switcher
 import { GoogleTagManager } from '@next/third-parties/google'
@@ -68,8 +68,8 @@ export default function RootLayout({ children }) {
 
 <PagesOnly>
 
-To load Google Tag Manager for all routes, include the component directly in your custom `_app` and
-pass in your GTM container ID:
+Để tải Trình quản lý thẻ của Google cho tất cả các tuyến đường, hãy bao gồm thành phần trực tiếp trong `_app` tùy chỉnh của bạn và
+chuyển vào ID vùng chứa GTM của bạn:
 
 ```jsx filename="pages/_app.js"
 import { GoogleTagManager } from '@next/third-parties/google'
@@ -86,7 +86,7 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-To load Google Tag Manager for a single route, include the component in your page file:
+Để tải Trình quản lý thẻ của Google cho một tuyến đường duy nhất, hãy bao gồm thành phần trong tệp trang của bạn:
 
 <AppOnly>
 
@@ -112,11 +112,11 @@ export default function Page() {
 
 </PagesOnly>
 
-#### Sending Events
+#### Gửi sự kiện
 
-The `sendGTMEvent` function can be used to track user interactions on your page by sending events
-using the `dataLayer` object. For this function to work, the `<GoogleTagManager />` component must be
-included in either a parent layout, page, or component, or directly in the same file.
+Hàm `sendGTMEvent` có thể được sử dụng để theo dõi các tương tác của người dùng trên trang của bạn bằng cách gửi các sự kiện
+sử dụng đối tượng `dataLayer`. Để hàm này hoạt động, thành phần `<GoogleTagManager />` phải được
+bao gồm trong một bố cục, trang hoặc thành phần mẹ, hoặc trực tiếp trong cùng một tệp.
 
 <AppOnly>
 
@@ -131,7 +131,7 @@ export function EventButton() {
       <button
         onClick={() => sendGTMEvent({ event: 'buttonClicked', value: 'xyz' })}
       >
-        Send Event
+        Gửi sự kiện
       </button>
     </div>
   )
@@ -151,7 +151,7 @@ export function EventButton() {
       <button
         onClick={() => sendGTMEvent({ event: 'buttonClicked', value: 'xyz' })}
       >
-        Send Event
+        Gửi sự kiện
       </button>
     </div>
   )
@@ -160,45 +160,43 @@ export function EventButton() {
 
 </PagesOnly>
 
-Refer to the Tag Manager [developer
-documentation](https://developers.google.com/tag-platform/tag-manager/datalayer) to learn about the
-different variables and events that can be passed into the function.
+Tham khảo tài liệu dành cho nhà phát triển [Trình quản lý thẻ](https://developers.google.com/tag-platform/tag-manager/datalayer) để tìm hiểu về các
+biến và sự kiện khác nhau có thể được chuyển vào hàm.
 
-#### Server-side Tagging
+#### Gắn thẻ phía máy chủ
 
-If you're using a server-side tag manager and serving `gtm.js` scripts from your tagging server you can
-use `gtmScriptUrl` option to specify the URL of the script.
+Nếu bạn đang sử dụng trình quản lý thẻ phía máy chủ và phân phát các tập lệnh `gtm.js` từ máy chủ gắn thẻ của mình, bạn có thể
+sử dụng tùy chọn `gtmScriptUrl` để chỉ định URL của tập lệnh.
 
-#### Options
+#### Tùy chọn
 
-Options to pass to the Google Tag Manager. For a full list of options, read the [Google Tag Manager
-docs](https://developers.google.com/tag-platform/tag-manager/datalayer).
+Các tùy chọn để chuyển cho Trình quản lý thẻ của Google. Để có danh sách đầy đủ các tùy chọn, hãy đọc [tài liệu Trình quản lý thẻ của Google](https://developers.google.com/tag-platform/tag-manager/datalayer).
 
-| Name            | Type     | Description                                                              |
-| --------------- | -------- | ------------------------------------------------------------------------ |
-| `gtmId`         | Required | Your GTM container ID. Usually starts with `GTM-`.                       |
-| `gtmScriptUrl`  | Optional | GTM script URL. Defaults to `https://www.googletagmanager.com/gtm.js`.   |
-| `dataLayer`     | Optional | Data layer object to instantiate the container with.                     |
-| `dataLayerName` | Optional | Name of the data layer. Defaults to `dataLayer`.                         |
-| `auth`          | Optional | Value of authentication parameter (`gtm_auth`) for environment snippets. |
-| `preview`       | Optional | Value of preview parameter (`gtm_preview`) for environment snippets.     |
+| Tên             | Loại     | Mô tả                                                                     |
+| --------------- | -------- | ------------------------------------------------------------------------- |
+| `gtmId`         | Bắt buộc | ID vùng chứa GTM của bạn. Thường bắt đầu bằng `GTM-`.                     |
+| `gtmScriptUrl`  | Tùy chọn | URL tập lệnh GTM. Mặc định là `https://www.googletagmanager.com/gtm.js`.  |
+| `dataLayer`     | Tùy chọn | Đối tượng lớp dữ liệu để khởi tạo vùng chứa với.                          |
+| `dataLayerName` | Tùy chọn | Tên của lớp dữ liệu. Mặc định là `dataLayer`.                             |
+| `auth`          | Tùy chọn | Giá trị của tham số xác thực (`gtm_auth`) cho các đoạn mã môi trường.     |
+| `preview`       | Tùy chọn | Giá trị của tham số xem trước (`gtm_preview`) cho các đoạn mã môi trường. |
 
 ### Google Analytics
 
-The `GoogleAnalytics` component can be used to include [Google Analytics
-4](https://developers.google.com/analytics/devguides/collection/ga4) to your page via the Google tag
-(`gtag.js`). By default, it fetches the original scripts after hydration occurs on the page.
+Thành phần `GoogleAnalytics` có thể được sử dụng để bao gồm [Google Analytics
+4](https://developers.google.com/analytics/devguides/collection/ga4) vào trang của bạn thông qua thẻ Google
+(`gtag.js`). Theo mặc định, nó tìm nạp các tập lệnh gốc sau khi quá trình hydrat hóa xảy ra trên trang.
 
-> **Recommendation**: If Google Tag Manager is already included in your application, you can
-> configure Google Analytics directly using it, rather than including Google Analytics as a separate
-> component. Refer to the
-> [documentation](https://developers.google.com/analytics/devguides/collection/ga4/tag-options#what-is-gtm)
-> to learn more about the differences between Tag Manager and `gtag.js`.
+> **Khuyến nghị**: Nếu Trình quản lý thẻ của Google đã được bao gồm trong ứng dụng của bạn, bạn có thể
+> định cấu hình trực tiếp Google Analytics bằng cách sử dụng nó, thay vì bao gồm Google Analytics như một thành phần riêng biệt
+> . Tham khảo
+> [tài liệu](https://developers.google.com/analytics/devguides/collection/ga4/tag-options#what-is-gtm)
+> để tìm hiểu thêm về sự khác biệt giữa Trình quản lý thẻ và `gtag.js`.
 
 <AppOnly>
 
-To load Google Analytics for all routes, include the component directly in your root layout and pass
-in your measurement ID:
+Để tải Google Analytics cho tất cả các tuyến đường, hãy bao gồm thành phần trực tiếp trong bố cục gốc của bạn và chuyển
+vào ID đo lường của bạn:
 
 ```tsx filename="app/layout.tsx" switcher
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -234,8 +232,8 @@ export default function RootLayout({ children }) {
 
 <PagesOnly>
 
-To load Google Analytics for all routes, include the component directly in your custom `_app` and
-pass in your measurement ID:
+Để tải Google Analytics cho tất cả các tuyến đường, hãy bao gồm thành phần trực tiếp trong `_app` tùy chỉnh của bạn và
+chuyển vào ID đo lường của bạn:
 
 ```jsx filename="pages/_app.js"
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -252,7 +250,7 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-To load Google Analytics for a single route, include the component in your page file:
+Để tải Google Analytics cho một tuyến đường duy nhất, hãy bao gồm thành phần trong tệp trang của bạn:
 
 <AppOnly>
 
@@ -278,11 +276,11 @@ export default function Page() {
 
 </PagesOnly>
 
-#### Sending Events
+#### Gửi sự kiện
 
-The `sendGAEvent` function can be used to measure user interactions on your page by sending events
-using the `dataLayer` object. For this function to work, the `<GoogleAnalytics />` component must be
-included in either a parent layout, page, or component, or directly in the same file.
+Hàm `sendGAEvent` có thể được sử dụng để đo lường các tương tác của người dùng trên trang của bạn bằng cách gửi các sự kiện
+sử dụng đối tượng `dataLayer`. Để hàm này hoạt động, thành phần `<GoogleAnalytics />` phải được
+bao gồm trong một bố cục, trang hoặc thành phần mẹ, hoặc trực tiếp trong cùng một tệp.
 
 <AppOnly>
 
@@ -297,7 +295,7 @@ export function EventButton() {
       <button
         onClick={() => sendGAEvent('event', 'buttonClicked', { value: 'xyz' })}
       >
-        Send Event
+        Gửi sự kiện
       </button>
     </div>
   )
@@ -317,7 +315,7 @@ export function EventButton() {
       <button
         onClick={() => sendGAEvent('event', 'buttonClicked', { value: 'xyz' })}
       >
-        Send Event
+        Gửi sự kiện
       </button>
     </div>
   )
@@ -326,40 +324,36 @@ export function EventButton() {
 
 </PagesOnly>
 
-Refer to the Google Analytics [developer
-documentation](https://developers.google.com/analytics/devguides/collection/ga4/event-parameters) to learn
-more about event parameters.
+Tham khảo tài liệu dành cho nhà phát triển [Google Analytics](https://developers.google.com/analytics/devguides/collection/ga4/event-parameters) để tìm hiểu
+thêm về các tham số sự kiện.
 
-#### Tracking Pageviews
+#### Theo dõi lượt xem trang
 
-Google Analytics automatically tracks pageviews when the browser history state changes. This means
-that client-side navigations between Next.js routes will send pageview data without any configuration.
+Google Analytics tự động theo dõi lượt xem trang khi trạng thái lịch sử trình duyệt thay đổi. Điều này có nghĩa
+là các điều hướng phía máy khách giữa các tuyến đường Next.js sẽ gửi dữ liệu lượt xem trang mà không cần cấu hình.
 
-To ensure that client-side navigations are being measured correctly, verify that the [_“Enhanced
-Measurement”_](https://support.google.com/analytics/answer/9216061#enable_disable) property is
-enabled in your Admin panel and the _“Page changes based on browser history events”_ checkbox is
-selected.
+Để đảm bảo rằng các điều hướng phía máy khách đang được đo lường chính xác, hãy xác minh rằng thuộc tính [_“Đo lường nâng cao”_](https://support.google.com/analytics/answer/9216061#enable_disable) được
+bật trong bảng quản trị của bạn và hộp kiểm _“Thay đổi trang dựa trên các sự kiện lịch sử trình duyệt”_ được
+chọn.
 
-> **Note**: If you decide to manually send pageview events, make sure to disable the default
-> pageview measurement to avoid having duplicate data. Refer to the Google Analytics [developer
-> documentation](https://developers.google.com/analytics/devguides/collection/ga4/views?client_type=gtag#manual_pageviews)
-> to learn more.
+> **Lưu ý**: Nếu bạn quyết định gửi các sự kiện lượt xem trang theo cách thủ công, hãy đảm bảo tắt phép đo
+> lượt xem trang mặc định để tránh có dữ liệu trùng lặp. Tham khảo tài liệu dành cho nhà phát triển [Google Analytics](https://developers.google.com/analytics/devguides/collection/ga4/views?client_type=gtag#manual_pageviews)
+> để tìm hiểu thêm.
 
-#### Options
+#### Tùy chọn
 
-Options to pass to the `<GoogleAnalytics>` component.
+Các tùy chọn để chuyển cho thành phần `<GoogleAnalytics>`.
 
-| Name            | Type     | Description                                                                                            |
+| Tên             | Loại     | Mô tả                                                                                                  |
 | --------------- | -------- | ------------------------------------------------------------------------------------------------------ |
-| `gaId`          | Required | Your [measurement ID](https://support.google.com/analytics/answer/12270356). Usually starts with `G-`. |
-| `dataLayerName` | Optional | Name of the data layer. Defaults to `dataLayer`.                                                       |
-| `nonce`         | Optional | A [nonce](/docs/app/guides/content-security-policy#nonces).                                            |
+| `gaId`          | Bắt buộc | [ID đo lường](https://support.google.com/analytics/answer/12270356) của bạn. Thường bắt đầu bằng `G-`. |
+| `dataLayerName` | Tùy chọn | Tên của lớp dữ liệu. Mặc định là `dataLayer`.                                                          |
+| `nonce`         | Tùy chọn | Một [nonce](/docs/app/guides/content-security-policy#nonces).                                          |
 
-### Google Maps Embed
+### Nhúng Google Maps
 
-The `GoogleMapsEmbed` component can be used to add a [Google Maps
-Embed](https://developers.google.com/maps/documentation/embed/embedding-map) to your page. By
-default, it uses the `loading` attribute to lazy-load the embed below the fold.
+Thành phần `GoogleMapsEmbed` có thể được sử dụng để thêm một [Nhúng Google Maps](https://developers.google.com/maps/documentation/embed/embedding-map) vào trang của bạn. Theo
+mặc định, nó sử dụng thuộc tính `loading` để tải lười nhúng bên dưới màn hình.
 
 <AppOnly>
 
@@ -401,32 +395,29 @@ export default function Page() {
 
 </PagesOnly>
 
-#### Options
+#### Tùy chọn
 
-Options to pass to the Google Maps Embed. For a full list of options, read the [Google Map Embed
-docs](https://developers.google.com/maps/documentation/embed/embedding-map).
+Các tùy chọn để chuyển cho Nhúng Google Maps. Để có danh sách đầy đủ các tùy chọn, hãy đọc [tài liệu Nhúng Google Map](https://developers.google.com/maps/documentation/embed/embedding-map).
 
-| Name              | Type     | Description                                                                                         |
-| ----------------- | -------- | --------------------------------------------------------------------------------------------------- |
-| `apiKey`          | Required | Your api key.                                                                                       |
-| `mode`            | Required | [Map mode](https://developers.google.com/maps/documentation/embed/embedding-map#choosing_map_modes) |
-| `height`          | Optional | Height of the embed. Defaults to `auto`.                                                            |
-| `width`           | Optional | Width of the embed. Defaults to `auto`.                                                             |
-| `style`           | Optional | Pass styles to the iframe.                                                                          |
-| `allowfullscreen` | Optional | Property to allow certain map parts to go full screen.                                              |
-| `loading`         | Optional | Defaults to lazy. Consider changing if you know your embed will be above the fold.                  |
-| `q`               | Optional | Defines map marker location. _This may be required depending on the map mode_.                      |
-| `center`          | Optional | Defines the center of the map view.                                                                 |
-| `zoom`            | Optional | Sets initial zoom level of the map.                                                                 |
-| `maptype`         | Optional | Defines type of map tiles to load.                                                                  |
-| `language`        | Optional | Defines the language to use for UI elements and for the display of labels on map tiles.             |
-| `region`          | Optional | Defines the appropriate borders and labels to display, based on geo-political sensitivities.        |
+| Tên               | Loại     | Mô tả                                                                                                       |
+| ----------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
+| `apiKey`          | Bắt buộc | Khóa api của bạn.                                                                                           |
+| `mode`            | Bắt buộc | [Chế độ bản đồ](https://developers.google.com/maps/documentation/embed/embedding-map#choosing_map_modes)    |
+| `height`          | Tùy chọn | Chiều cao của nhúng. Mặc định là `auto`.                                                                    |
+| `width`           | Tùy chọn | Chiều rộng của nhúng. Mặc định là `auto`.                                                                   |
+| `style`           | Tùy chọn | Chuyển các kiểu cho iframe.                                                                                 |
+| `allowfullscreen` | Tùy chọn | Thuộc tính để cho phép một số phần bản đồ chuyển sang chế độ toàn màn hình.                                 |
+| `loading`         | Tùy chọn | Mặc định là lười biếng. Hãy cân nhắc thay đổi nếu bạn biết nhúng của mình sẽ ở trên màn hình.               |
+| `q`               | Tùy chọn | Xác định vị trí điểm đánh dấu bản đồ. _Điều này có thể được yêu cầu tùy thuộc vào chế độ bản đồ_.           |
+| `center`          | Tùy chọn | Xác định trung tâm của chế độ xem bản đồ.                                                                   |
+| `zoom`            | Tùy chọn | Đặt mức thu phóng ban đầu của bản đồ.                                                                       |
+| `maptype`         | Tùy chọn | Xác định loại ô bản đồ để tải.                                                                              |
+| `language`        | Tùy chọn | Xác định ngôn ngữ để sử dụng cho các thành phần giao diện người dùng và để hiển thị nhãn trên các ô bản đồ. |
+| `region`          | Tùy chọn | Xác định các đường viền và nhãn thích hợp để hiển thị, dựa trên sự nhạy cảm về địa chính trị.               |
 
-### YouTube Embed
+### Nhúng YouTube
 
-The `YouTubeEmbed` component can be used to load and display a YouTube embed. This component loads
-faster by using [`lite-youtube-embed`](https://github.com/paulirish/lite-youtube-embed) under the
-hood.
+Thành phần `YouTubeEmbed` có thể được sử dụng để tải và hiển thị một nhúng YouTube. Thành phần này tải nhanh hơn bằng cách sử dụng [`lite-youtube-embed`](https://github.com/paulirish/lite-youtube-embed) bên dưới.
 
 <AppOnly>
 
@@ -452,13 +443,13 @@ export default function Page() {
 
 </PagesOnly>
 
-#### Options
+#### Tùy chọn
 
-| Name        | Type     | Description                                                                                                                                                                                                  |
-| ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `videoid`   | Required | YouTube video id.                                                                                                                                                                                            |
-| `width`     | Optional | Width of the video container. Defaults to `auto`                                                                                                                                                             |
-| `height`    | Optional | Height of the video container. Defaults to `auto`                                                                                                                                                            |
-| `playlabel` | Optional | A visually hidden label for the play button for accessibility.                                                                                                                                               |
-| `params`    | Optional | The video player params defined [here](https://developers.google.com/youtube/player_parameters#Parameters). <br/> Params are passed as a query param string. <br/> Eg: `params="controls=0&start=10&end=30"` |
-| `style`     | Optional | Used to apply styles to the video container.                                                                                                                                                                 |
+| Tên         | Loại     | Mô tả                                                                                                                                                                                                                                |
+| ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `videoid`   | Bắt buộc | ID video YouTube.                                                                                                                                                                                                                    |
+| `width`     | Tùy chọn | Chiều rộng của vùng chứa video. Mặc định là `auto`                                                                                                                                                                                   |
+| `height`    | Tùy chọn | Chiều cao của vùng chứa video. Mặc định là `auto`                                                                                                                                                                                    |
+| `playlabel` | Tùy chọn | Một nhãn ẩn trực quan cho nút phát để hỗ trợ tiếp cận.                                                                                                                                                                               |
+| `params`    | Tùy chọn | Các tham số trình phát video được xác định [tại đây](https://developers.google.com/youtube/player_parameters#Parameters). <br/> Các tham số được chuyển dưới dạng chuỗi truy vấn. <br/> Ví dụ: `params="controls=0&start=10&end=30"` |
+| `style`     | Tùy chọn | Được sử dụng để áp dụng các kiểu cho vùng chứa video.                                                                                                                                                                                |

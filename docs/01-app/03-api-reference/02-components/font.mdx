@@ -1,23 +1,23 @@
 ---
 title: Font Module
 nav_title: Font
-description: Optimizing loading web fonts with the built-in `next/font` loaders.
+description: Tối ưu hóa loading web fonts với built-in `next/font` loaders.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-[`next/font`](/docs/app/api-reference/components/font) automatically optimizes your fonts (including custom fonts) and removes external network requests for improved privacy and performance.
+[`next/font`](/docs/app/api-reference/components/font) tự động tối ưu hóa fonts của bạn (bao gồm custom fonts) và loại bỏ các external network requests để cải thiện quyền riêng tư và hiệu suất.
 
-It includes **built-in automatic self-hosting** for any font file. This means you can optimally load web fonts with no [layout shift](https://web.dev/articles/cls).
+Nó bao gồm **built-in automatic self-hosting** cho bất kỳ font file nào. Điều này có nghĩa là bạn có thể tối ưu load web fonts mà không có [layout shift](https://web.dev/articles/cls).
 
-You can also conveniently use all [Google Fonts](https://fonts.google.com/). CSS and font files are downloaded at build time and self-hosted with the rest of your static assets. **No requests are sent to Google by the browser.**
+Bạn cũng có thể dễ dàng sử dụng tất cả [Google Fonts](https://fonts.google.com/). CSS và font files được download tại build time và self-hosted với phần còn lại của static assets của bạn. **Không có requests nào được gửi đến Google bởi trình duyệt.**
 
 <AppOnly>
 
 ```tsx filename="app/layout.tsx" switcher
 import { Inter } from 'next/font/google'
 
-// If loading a variable font, you don't need to specify the font weight
+// Nếu loading variable font, bạn không cần chỉ định font weight
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -39,7 +39,7 @@ export default function RootLayout({
 ```jsx filename="app/layout.js" switcher
 import { Inter } from 'next/font/google'
 
-// If loading a variable font, you don't need to specify the font weight
+// Nếu loading variable font, bạn không cần chỉ định font weight
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -58,12 +58,12 @@ export default function RootLayout({ children }) {
 
 <PagesOnly>
 
-To use the font in all your pages, add it to [`_app.js` file](/docs/pages/building-your-application/routing/custom-app) under `/pages` as shown below:
+Để sử dụng font trong tất cả các pages của bạn, thêm nó vào [file `_app.js`](/docs/pages/building-your-application/routing/custom-app) trong `/pages` như được hiển thị bên dưới:
 
 ```jsx filename="pages/_app.js"
 import { Inter } from 'next/font/google'
 
-// If loading a variable font, you don't need to specify the font weight
+// Nếu loading variable font, bạn không cần chỉ định font weight
 const inter = Inter({ subsets: ['latin'] })
 
 export default function MyApp({ Component, pageProps }) {
@@ -77,184 +77,183 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-> **🎥 Watch:** Learn more about using `next/font` → [YouTube (6 minutes)](https://www.youtube.com/watch?v=L8_98i_bMMA).
+> **🎥 Xem:** Tìm hiểu thêm về cách sử dụng `next/font` → [YouTube (6 phút)](https://www.youtube.com/watch?v=L8_98i_bMMA).
 
-## Reference
+## Tham khảo
 
-| Key                                         | `font/google`       | `font/local`        | Type                       | Required          |
-| ------------------------------------------- | ------------------- | ------------------- | -------------------------- | ----------------- |
-| [`src`](#src)                               | <Cross size={18} /> | <Check size={18} /> | String or Array of Objects | Yes               |
-| [`weight`](#weight)                         | <Check size={18} /> | <Check size={18} /> | String or Array            | Required/Optional |
-| [`style`](#style)                           | <Check size={18} /> | <Check size={18} /> | String or Array            | -                 |
-| [`subsets`](#subsets)                       | <Check size={18} /> | <Cross size={18} /> | Array of Strings           | -                 |
-| [`axes`](#axes)                             | <Check size={18} /> | <Cross size={18} /> | Array of Strings           | -                 |
-| [`display`](#display)                       | <Check size={18} /> | <Check size={18} /> | String                     | -                 |
-| [`preload`](#preload)                       | <Check size={18} /> | <Check size={18} /> | Boolean                    | -                 |
-| [`fallback`](#fallback)                     | <Check size={18} /> | <Check size={18} /> | Array of Strings           | -                 |
-| [`adjustFontFallback`](#adjustfontfallback) | <Check size={18} /> | <Check size={18} /> | Boolean or String          | -                 |
-| [`variable`](#variable)                     | <Check size={18} /> | <Check size={18} /> | String                     | -                 |
-| [`declarations`](#declarations)             | <Cross size={18} /> | <Check size={18} /> | Array of Objects           | -                 |
+| Key                                         | `font/google`       | `font/local`        | Type                         | Bắt buộc          |
+| ------------------------------------------- | ------------------- | ------------------- | ---------------------------- | ----------------- | --- | ----------------- | ------------------- | ------------------- | ----------------- | --- |
+| [`src`](#src)                               | <Cross size={18} /> | <Check size={18} /> | String hoặc Array of Objects | Có                |
+| [`weight`](#weight)                         | <Check size={18} /> | <Check size={18} /> | String hoặc Array            | Bắt buộc/Tùy chọn | \n  | [`style`](#style) | <Check size={18} /> | <Check size={18} /> | String hoặc Array | -   |
+| [`subsets`](#subsets)                       | <Check size={18} /> | <Cross size={18} /> | Array of Strings             | -                 |
+| [`axes`](#axes)                             | <Check size={18} /> | <Cross size={18} /> | Array of Strings             | -                 |
+| [`display`](#display)                       | <Check size={18} /> | <Check size={18} /> | String                       | -                 |
+| [`preload`](#preload)                       | <Check size={18} /> | <Check size={18} /> | Boolean                      | -                 |
+| [`fallback`](#fallback)                     | <Check size={18} /> | <Check size={18} /> | Array of Strings             | -                 |
+| [`adjustFontFallback`](#adjustfontfallback) | <Check size={18} /> | <Check size={18} /> | Boolean hoặc String          | -                 |
+| [`variable`](#variable)                     | <Check size={18} /> | <Check size={18} /> | String                       | -                 |
+| [`declarations`](#declarations)             | <Cross size={18} /> | <Check size={18} /> | Array of Objects             | -                 |
 
 ### `src`
 
-The path of the font file as a string or an array of objects (with type `Array<{path: string, weight?: string, style?: string}>`) relative to the directory where the font loader function is called.
+Path của font file dưới dạng string hoặc array of objects (với type `Array<{path: string, weight?: string, style?: string}>`) tương đối với thư mục nơi font loader function được gọi.
 
-Used in `next/font/local`
+Được sử dụng trong `next/font/local`
 
-- Required
+- Bắt buộc
 
-Examples:
+Ví dụ:
 
-- `src:'./fonts/my-font.woff2'` where `my-font.woff2` is placed in a directory named `fonts` inside the `app` directory
+- `src:'./fonts/my-font.woff2'` trong đó `my-font.woff2` được đặt trong thư mục có tên `fonts` bên trong thư mục `app`
 - `src:[{path: './inter/Inter-Thin.ttf', weight: '100',},{path: './inter/Inter-Regular.ttf',weight: '400',},{path: './inter/Inter-Bold-Italic.ttf', weight: '700',style: 'italic',},]`
-- if the font loader function is called in `app/page.tsx` using `src:'../styles/fonts/my-font.ttf'`, then `my-font.ttf` is placed in `styles/fonts` at the root of the project
+- nếu font loader function được gọi trong `app/page.tsx` sử dụng `src:'../styles/fonts/my-font.ttf'`, thì `my-font.ttf` được đặt trong `styles/fonts` ở root của project
 
 ### `weight`
 
-The font [`weight`](https://fonts.google.com/knowledge/glossary/weight) with the following possibilities:
+Font [`weight`](https://fonts.google.com/knowledge/glossary/weight) với các khả năng sau:
 
-- A string with possible values of the weights available for the specific font or a range of values if it's a [variable](https://fonts.google.com/variablefonts) font
-- An array of weight values if the font is not a [variable google font](https://fonts.google.com/variablefonts). It applies to `next/font/google` only.
+- Một string với các giá trị có thể của weights có sẵn cho font cụ thể hoặc một range of values nếu đó là [variable](https://fonts.google.com/variablefonts) font
+- Một array of weight values nếu font không phải là [variable google font](https://fonts.google.com/variablefonts). Nó áp dụng cho `next/font/google` only.
 
-Used in `next/font/google` and `next/font/local`
+Được sử dụng trong `next/font/google` và `next/font/local`
 
-- Required if the font being used is **not** [variable](https://fonts.google.com/variablefonts)
+- Bắt buộc nếu font được sử dụng **không phải** là [variable](https://fonts.google.com/variablefonts)
 
-Examples:
+Ví dụ:
 
-- `weight: '400'`: A string for a single weight value - for the font [`Inter`](https://fonts.google.com/specimen/Inter?query=inter), the possible values are `'100'`, `'200'`, `'300'`, `'400'`, `'500'`, `'600'`, `'700'`, `'800'`, `'900'` or `'variable'` where `'variable'` is the default)
-- `weight: '100 900'`: A string for the range between `100` and `900` for a variable font
-- `weight: ['100','400','900']`: An array of 3 possible values for a non variable font
+- `weight: '400'`: Một string cho single weight value - đối với font [`Inter`](https://fonts.google.com/specimen/Inter?query=inter), các giá trị có thể là `'100'`, `'200'`, `'300'`, `'400'`, `'500'`, `'600'`, `'700'`, `'800'`, `'900'` hoặc `'variable'` trong đó `'variable'` là mặc định)
+- `weight: '100 900'`: Một string cho range giữa `100` và `900` cho variable font
+- `weight: ['100','400','900']`: Một array of 3 giá trị có thể cho non variable font
 
 ### `style`
 
-The font [`style`](https://developer.mozilla.org/docs/Web/CSS/font-style) with the following possibilities:
+Font [`style`](https://developer.mozilla.org/docs/Web/CSS/font-style) với các khả năng sau:
 
-- A string [value](https://developer.mozilla.org/docs/Web/CSS/font-style#values) with default value of `'normal'`
-- An array of style values if the font is not a [variable google font](https://fonts.google.com/variablefonts). It applies to `next/font/google` only.
+- Một string [value](https://developer.mozilla.org/docs/Web/CSS/font-style#values) với giá trị mặc định là `'normal'`
+- Một array of style values nếu font không phải là [variable google font](https://fonts.google.com/variablefonts). Nó áp dụng cho `next/font/google` only.
 
-Used in `next/font/google` and `next/font/local`
+Được sử dụng trong `next/font/google` và `next/font/local`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
-- `style: 'italic'`: A string - it can be `normal` or `italic` for `next/font/google`
-- `style: 'oblique'`: A string - it can take any value for `next/font/local` but is expected to come from [standard font styles](https://developer.mozilla.org/docs/Web/CSS/font-style)
-- `style: ['italic','normal']`: An array of 2 values for `next/font/google` - the values are from `normal` and `italic`
+- `style: 'italic'`: Một string - nó có thể là `normal` hoặc `italic` cho `next/font/google`
+- `style: 'oblique'`: Một string - nó có thể nhận bất kỳ giá trị nào cho `next/font/local` nhưng được mong đợi đến từ [standard font styles](https://developer.mozilla.org/docs/Web/CSS/font-style)
+- `style: ['italic','normal']`: Một array of 2 values cho `next/font/google` - các giá trị từ `normal` và `italic`
 
 ### `subsets`
 
-The font [`subsets`](https://fonts.google.com/knowledge/glossary/subsetting) defined by an array of string values with the names of each subset you would like to be [preloaded](/docs/app/api-reference/components/font#specifying-a-subset). Fonts specified via `subsets` will have a link preload tag injected into the head when the [`preload`](#preload) option is true, which is the default.
+Font [`subsets`](https://fonts.google.com/knowledge/glossary/subsetting) được định nghĩa bởi một array of string values với tên của mỗi subset bạn muốn được [preloaded](/docs/app/api-reference/components/font#specifying-a-subset). Fonts được chỉ định thông qua `subsets` sẽ có link preload tag được inject vào head khi tùy chọn [`preload`](#preload) là true, đó là mặc định.
 
-Used in `next/font/google`
+Được sử dụng trong `next/font/google`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
-- `subsets: ['latin']`: An array with the subset `latin`
+- `subsets: ['latin']`: Một array với subset `latin`
 
-You can find a list of all subsets on the Google Fonts page for your font.
+Bạn có thể tìm danh sách tất cả subsets trên trang Google Fonts cho font của bạn.
 
 ### `axes`
 
-Some variable fonts have extra `axes` that can be included. By default, only the font weight is included to keep the file size down. The possible values of `axes` depend on the specific font.
+Một số variable fonts có thêm `axes` có thể được bao gồm. Mặc định, chỉ font weight được bao gồm để giữ kích thước file nhỏ. Các giá trị có thể của `axes` phụ thuộc vào font cụ thể.
 
-Used in `next/font/google`
+Được sử dụng trong `next/font/google`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
-- `axes: ['slnt']`: An array with value `slnt` for the `Inter` variable font which has `slnt` as additional `axes` as shown [here](https://fonts.google.com/variablefonts?vfquery=inter#font-families). You can find the possible `axes` values for your font by using the filter on the [Google variable fonts page](https://fonts.google.com/variablefonts#font-families) and looking for axes other than `wght`
+- `axes: ['slnt']`: Một array với value `slnt` cho `Inter` variable font có `slnt` như additional `axes` như được hiển thị [ở đây](https://fonts.google.com/variablefonts?vfquery=inter#font-families). Bạn có thể tìm các giá trị `axes` có thể cho font của mình bằng cách sử dụng filter trên [Google variable fonts page](https://fonts.google.com/variablefonts#font-families) và tìm kiếm axes khác ngoài `wght`
 
 ### `display`
 
-The font [`display`](https://developer.mozilla.org/docs/Web/CSS/@font-face/font-display) with possible string [values](https://developer.mozilla.org/docs/Web/CSS/@font-face/font-display#values) of `'auto'`, `'block'`, `'swap'`, `'fallback'` or `'optional'` with default value of `'swap'`.
+Font [`display`](https://developer.mozilla.org/docs/Web/CSS/@font-face/font-display) với các string [values](https://developer.mozilla.org/docs/Web/CSS/@font-face/font-display#values) có thể là `'auto'`, `'block'`, `'swap'`, `'fallback'` hoặc `'optional'` với giá trị mặc định là `'swap'`.
 
-Used in `next/font/google` and `next/font/local`
+Được sử dụng trong `next/font/google` và `next/font/local`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
-- `display: 'optional'`: A string assigned to the `optional` value
+- `display: 'optional'`: Một string được gán cho giá trị `optional`
 
 ### `preload`
 
-A boolean value that specifies whether the font should be [preloaded](/docs/app/api-reference/components/font#preloading) or not. The default is `true`.
+Một boolean value chỉ định xem font có nên được [preloaded](/docs/app/api-reference/components/font#preloading) hay không. Mặc định là `true`.
 
-Used in `next/font/google` and `next/font/local`
+Được sử dụng trong `next/font/google` và `next/font/local`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
 - `preload: false`
 
 ### `fallback`
 
-The fallback font to use if the font cannot be loaded. An array of strings of fallback fonts with no default.
+Fallback font để sử dụng nếu font không thể được load. Một array of strings của fallback fonts không có mặc định.
 
-- Optional
+- Tùy chọn
 
-Used in `next/font/google` and `next/font/local`
+Được sử dụng trong `next/font/google` và `next/font/local`
 
-Examples:
+Ví dụ:
 
-- `fallback: ['system-ui', 'arial']`: An array setting the fallback fonts to `system-ui` or `arial`
+- `fallback: ['system-ui', 'arial']`: Một array đặt fallback fonts thành `system-ui` hoặc `arial`
 
 ### `adjustFontFallback`
 
-- For `next/font/google`: A boolean value that sets whether an automatic fallback font should be used to reduce [Cumulative Layout Shift](https://web.dev/cls/). The default is `true`.
-- For `next/font/local`: A string or boolean `false` value that sets whether an automatic fallback font should be used to reduce [Cumulative Layout Shift](https://web.dev/cls/). The possible values are `'Arial'`, `'Times New Roman'` or `false`. The default is `'Arial'`.
+- Đối với `next/font/google`: Một boolean value đặt xem một automatic fallback font có nên được sử dụng để giảm [Cumulative Layout Shift](https://web.dev/cls/) hay không. Mặc định là `true`.
+- Đối với `next/font/local`: Một string hoặc boolean `false` value đặt xem một automatic fallback font có nên được sử dụng để giảm [Cumulative Layout Shift](https://web.dev/cls/) hay không. Các giá trị có thể là `'Arial'`, `'Times New Roman'` hoặc `false`. Mặc định là `'Arial'`.
 
-Used in `next/font/google` and `next/font/local`
+Được sử dụng trong `next/font/google` và `next/font/local`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
-- `adjustFontFallback: false`: for `next/font/google`
-- `adjustFontFallback: 'Times New Roman'`: for `next/font/local`
+- `adjustFontFallback: false`: cho `next/font/google`
+- `adjustFontFallback: 'Times New Roman'`: cho `next/font/local`
 
 ### `variable`
 
-A string value to define the CSS variable name to be used if the style is applied with the [CSS variable method](#css-variables).
+Một string value để định nghĩa CSS variable name sẽ được sử dụng nếu style được áp dụng với [CSS variable method](#css-variables).
 
-Used in `next/font/google` and `next/font/local`
+Được sử dụng trong `next/font/google` và `next/font/local`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
-- `variable: '--my-font'`: The CSS variable `--my-font` is declared
+- `variable: '--my-font'`: CSS variable `--my-font` được khai báo
 
 ### `declarations`
 
-An array of font face [descriptor](https://developer.mozilla.org/docs/Web/CSS/@font-face#descriptors) key-value pairs that define the generated `@font-face` further.
+Một array of font face [descriptor](https://developer.mozilla.org/docs/Web/CSS/@font-face#descriptors) key-value pairs định nghĩa `@font-face` được tạo thêm.
 
-Used in `next/font/local`
+Được sử dụng trong `next/font/local`
 
-- Optional
+- Tùy chọn
 
-Examples:
+Ví dụ:
 
 - `declarations: [{ prop: 'ascent-override', value: '90%' }]`
 
-## Examples
+## Ví dụ
 
 ## Google Fonts
 
-To use a Google font, import it from `next/font/google` as a function. We recommend using [variable fonts](https://fonts.google.com/variablefonts) for the best performance and flexibility.
+Để sử dụng Google font, import nó từ `next/font/google` như một function. Chúng tôi khuyến nghị sử dụng [variable fonts](https://fonts.google.com/variablefonts) để có hiệu suất và tính linh hoạt tốt nhất.
 
 <AppOnly>
 
 ```tsx filename="app/layout.tsx" switcher
 import { Inter } from 'next/font/google'
 
-// If loading a variable font, you don't need to specify the font weight
+// Nếu loading variable font, bạn không cần chỉ định font weight
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -276,7 +275,7 @@ export default function RootLayout({
 ```jsx filename="app/layout.js" switcher
 import { Inter } from 'next/font/google'
 
-// If loading a variable font, you don't need to specify the font weight
+// Nếu loading variable font, bạn không cần chỉ định font weight
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -291,7 +290,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-If you can't use a variable font, you will **need to specify a weight**:
+Nếu bạn không thể sử dụng variable font, bạn sẽ **cần chỉ định weight**:
 
 ```tsx filename="app/layout.tsx" switcher
 import { Roboto } from 'next/font/google'
@@ -337,12 +336,12 @@ export default function RootLayout({ children }) {
 
 <PagesOnly>
 
-To use the font in all your pages, add it to [`_app.js` file](/docs/pages/building-your-application/routing/custom-app) under `/pages` as shown below:
+Để sử dụng font trong tất cả các pages của bạn, thêm nó vào [file `_app.js`](/docs/pages/building-your-application/routing/custom-app) trong `/pages` như được hiển thị bên dưới:
 
 ```jsx filename="pages/_app.js"
 import { Inter } from 'next/font/google'
 
-// If loading a variable font, you don't need to specify the font weight
+// Nếu loading variable font, bạn không cần chỉ định font weight
 const inter = Inter({ subsets: ['latin'] })
 
 export default function MyApp({ Component, pageProps }) {
@@ -354,7 +353,7 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-If you can't use a variable font, you will **need to specify a weight**:
+Nếu bạn không thể sử dụng variable font, bạn sẽ **cần chỉ định weight**:
 
 ```jsx filename="pages/_app.js"
 import { Roboto } from 'next/font/google'
@@ -375,7 +374,7 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-You can specify multiple weights and/or styles by using an array:
+Bạn có thể chỉ định nhiều weights và/hoặc styles bằng cách sử dụng array:
 
 ```jsx filename="app/layout.js"
 const roboto = Roboto({
@@ -386,13 +385,13 @@ const roboto = Roboto({
 })
 ```
 
-> **Good to know**: Use an underscore (\_) for font names with multiple words. E.g. `Roboto Mono` should be imported as `Roboto_Mono`.
+> **Lưu ý**: Sử dụng underscore (\_) cho tên font có nhiều từ. Ví dụ: `Roboto Mono` nên được import như `Roboto_Mono`.
 
 <PagesOnly>
 
-### Apply the font in `<head>`
+### Áp dụng font trong `<head>`
 
-You can also use the font without a wrapper and `className` by injecting it inside the `<head>` as follows:
+Bạn cũng có thể sử dụng font mà không có wrapper và `className` bằng cách inject nó vào `<head>` như sau:
 
 ```jsx filename="pages/_app.js"
 import { Inter } from 'next/font/google'
@@ -413,9 +412,9 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-### Single page usage
+### Sử dụng trên single page
 
-To use the font on a single page, add it to the specific page as shown below:
+Để sử dụng font trên single page, thêm nó vào page cụ thể như được hiển thị bên dưới:
 
 ```jsx filename="pages/index.js"
 import { Inter } from 'next/font/google'
@@ -433,11 +432,11 @@ export default function Home() {
 
 </PagesOnly>
 
-### Specifying a subset
+### Chỉ định subset
 
-Google Fonts are automatically [subset](https://fonts.google.com/knowledge/glossary/subsetting). This reduces the size of the font file and improves performance. You'll need to define which of these subsets you want to preload. Failing to specify any subsets while [`preload`](/docs/app/api-reference/components/font#preload) is `true` will result in a warning.
+Google Fonts được tự động [subset](https://fonts.google.com/knowledge/glossary/subsetting). Điều này giảm kích thước của font file và cải thiện hiệu suất. Bạn sẽ cần định nghĩa subset nào bạn muốn preload. Không chỉ định bất kỳ subsets nào trong khi [`preload`](/docs/app/api-reference/components/font#preload) là `true` sẽ dẫn đến warning.
 
-This can be done by adding it to the function call:
+Điều này có thể được thực hiện bằng cách thêm nó vào function call:
 
 <AppOnly>
 
@@ -459,13 +458,13 @@ const inter = Inter({ subsets: ['latin'] })
 
 </PagesOnly>
 
-View the [Font API Reference](/docs/app/api-reference/components/font) for more information.
+Xem [Font API Reference](/docs/app/api-reference/components/font) để biết thêm thông tin.
 
-## Using Multiple Fonts
+## Sử dụng nhiều Fonts
 
-You can import and use multiple fonts in your application. There are two approaches you can take.
+Bạn có thể import và sử dụng nhiều fonts trong ứng dụng của mình. Có hai cách tiếp cận bạn có thể thực hiện.
 
-The first approach is to create a utility function that exports a font, imports it, and applies its `className` where needed. This ensures the font is preloaded only when it's rendered:
+Cách tiếp cận đầu tiên là tạo một utility function export một font, import nó, và áp dụng `className` của nó khi cần. Điều này đảm bảo font chỉ được preload khi nó được render:
 
 ```ts filename="app/fonts.ts" switcher
 import { Inter, Roboto_Mono } from 'next/font/google'
@@ -551,9 +550,9 @@ export default function Page() {
 
 </AppOnly>
 
-In the example above, `Inter` will be applied globally, and `Roboto Mono` can be imported and applied as needed.
+Trong ví dụ trên, `Inter` sẽ được áp dụng globally, và `Roboto Mono` có thể được import và áp dụng khi cần.
 
-Alternatively, you can create a [CSS variable](/docs/app/api-reference/components/font#variable) and use it with your preferred CSS solution:
+Ngoài ra, bạn có thể tạo một [CSS variable](/docs/app/api-reference/components/font#variable) và sử dụng nó với CSS solution ưa thích của bạn:
 
 <AppOnly>
 
@@ -628,20 +627,20 @@ h1 {
 }
 ```
 
-In the example above, `Inter` will be applied globally, and any `<h1>` tags will be styled with `Roboto Mono`.
+Trong ví dụ trên, `Inter` sẽ được áp dụng globally, và bất kỳ thẻ `<h1>` nào sẽ được styled với `Roboto Mono`.
 
-> **Recommendation**: Use multiple fonts conservatively since each new font is an additional resource the client has to download.
+> **Khuyến nghị**: Sử dụng nhiều fonts một cách tiết kiệm vì mỗi font mới là một resource bổ sung mà client phải download.
 
 ### Local Fonts
 
-Import `next/font/local` and specify the `src` of your local font file. We recommend using [variable fonts](https://fonts.google.com/variablefonts) for the best performance and flexibility.
+Import `next/font/local` và chỉ định `src` của local font file của bạn. Chúng tôi khuyến nghị sử dụng [variable fonts](https://fonts.google.com/variablefonts) để có hiệu suất và tính linh hoạt tốt nhất.
 
 <AppOnly>
 
 ```tsx filename="app/layout.tsx" switcher
 import localFont from 'next/font/local'
 
-// Font files can be colocated inside of `app`
+// Font files có thể được colocated bên trong `app`
 const myFont = localFont({
   src: './my-font.woff2',
   display: 'swap',
@@ -663,7 +662,7 @@ export default function RootLayout({
 ```jsx filename="app/layout.js" switcher
 import localFont from 'next/font/local'
 
-// Font files can be colocated inside of `app`
+// Font files có thể được colocated bên trong `app`
 const myFont = localFont({
   src: './my-font.woff2',
   display: 'swap',
@@ -685,7 +684,7 @@ export default function RootLayout({ children }) {
 ```jsx filename="pages/_app.js"
 import localFont from 'next/font/local'
 
-// Font files can be colocated inside of `pages`
+// Font files có thể được colocated bên trong `pages`
 const myFont = localFont({ src: './my-font.woff2' })
 
 export default function MyApp({ Component, pageProps }) {
@@ -699,7 +698,7 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-If you want to use multiple files for a single font family, `src` can be an array:
+Nếu bạn muốn sử dụng nhiều files cho một font family duy nhất, `src` có thể là một array:
 
 ```js
 const roboto = localFont({
@@ -728,15 +727,15 @@ const roboto = localFont({
 })
 ```
 
-View the [Font API Reference](/docs/app/api-reference/components/font) for more information.
+Xem [Font API Reference](/docs/app/api-reference/components/font) để biết thêm thông tin.
 
-### With Tailwind CSS
+### Với Tailwind CSS
 
-`next/font` integrates seamlessly with [Tailwind CSS](https://tailwindcss.com/) using [CSS variables](/docs/app/api-reference/components/font#css-variables).
+`next/font` tích hợp liền mạch với [Tailwind CSS](https://tailwindcss.com/) sử dụng [CSS variables](/docs/app/api-reference/components/font#css-variables).
 
-In the example below, we use the `Inter` and `Roboto_Mono` fonts from `next/font/google` (you can use any Google Font or Local Font). Use the `variable` option to define a CSS variable name, such as `inter` and `roboto_mono` for these fonts, respectively. Then, apply `inter.variable` and `roboto_mono.variable` to include the CSS variables in your HTML document.
+Trong ví dụ bên dưới, chúng tôi sử dụng fonts `Inter` và `Roboto_Mono` từ `next/font/google` (bạn có thể sử dụng bất kỳ Google Font hoặc Local Font nào). Sử dụng tùy chọn `variable` để định nghĩa CSS variable name, chẳng hạn như `inter` và `roboto_mono` cho các fonts này tương ứng. Sau đó, áp dụng `inter.variable` và `roboto_mono.variable` để bao gồm CSS variables trong HTML document của bạn.
 
-> **Good to know**: You can add these variables to the `<html>` or `<body>` tag, depending on your preference, styling needs or project requirements.
+> **Lưu ý**: Bạn có thể thêm các variables này vào thẻ `<html>` hoặc `<body>`, tùy thuộc vào sở thích, nhu cầu styling hoặc yêu cầu dự án của bạn.
 
 <AppOnly>
 
@@ -827,7 +826,7 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-Finally, add the CSS variable to your [Tailwind CSS config](/docs/app/getting-started/css#tailwind-css):
+Cuối cùng, thêm CSS variable vào [Tailwind CSS config](/docs/app/getting-started/css#tailwind-css) của bạn:
 
 ```css filename="global.css"
 @import 'tailwindcss';
@@ -860,16 +859,16 @@ module.exports = {
 }
 ```
 
-You can now use the `font-sans` and `font-mono` utility classes to apply the font to your elements.
+Bây giờ bạn có thể sử dụng các utility classes `font-sans` và `font-mono` để áp dụng font cho các elements của bạn.
 
 ```html
 <p class="font-sans ...">The quick brown fox ...</p>
 <p class="font-mono ...">The quick brown fox ...</p>
 ```
 
-### Applying Styles
+### Áp dụng Styles
 
-You can apply the font styles in three ways:
+Bạn có thể áp dụng font styles theo ba cách:
 
 - [`className`](#classname)
 - [`style`](#style-1)
@@ -877,7 +876,7 @@ You can apply the font styles in three ways:
 
 #### `className`
 
-Returns a read-only CSS `className` for the loaded font to be passed to an HTML element.
+Trả về một read-only CSS `className` cho font đã load để được truyền cho một HTML element.
 
 ```tsx
 <p className={inter.className}>Hello, Next.js!</p>
@@ -885,7 +884,7 @@ Returns a read-only CSS `className` for the loaded font to be passed to an HTML 
 
 #### `style`
 
-Returns a read-only CSS `style` object for the loaded font to be passed to an HTML element, including `style.fontFamily` to access the font family name and fallback fonts.
+Trả về một read-only CSS `style` object cho font đã load để được truyền cho một HTML element, bao gồm `style.fontFamily` để truy cập font family name và fallback fonts.
 
 ```tsx
 <p style={inter.style}>Hello World</p>
@@ -893,9 +892,9 @@ Returns a read-only CSS `style` object for the loaded font to be passed to an HT
 
 #### CSS Variables
 
-If you would like to set your styles in an external style sheet and specify additional options there, use the CSS variable method.
+Nếu bạn muốn đặt styles của mình trong external style sheet và chỉ định các tùy chọn bổ sung ở đó, hãy sử dụng CSS variable method.
 
-In addition to importing the font, also import the CSS file where the CSS variable is defined and set the variable option of the font loader object as follows:
+Ngoài việc import font, cũng import CSS file nơi CSS variable được định nghĩa và đặt variable option của font loader object như sau:
 
 ```tsx filename="app/page.tsx" switcher
 import { Inter } from 'next/font/google'
@@ -915,7 +914,7 @@ const inter = Inter({
 })
 ```
 
-To use the font, set the `className` of the parent container of the text you would like to style to the font loader's `variable` value and the `className` of the text to the `styles` property from the external CSS file.
+Để sử dụng font, đặt `className` của parent container của text bạn muốn style thành giá trị `variable` của font loader và `className` của text thành property `styles` từ external CSS file.
 
 ```tsx filename="app/page.tsx" switcher
 <main className={inter.variable}>
@@ -929,7 +928,7 @@ To use the font, set the `className` of the parent container of the text you wou
 </main>
 ```
 
-Define the `text` selector class in the `component.module.css` CSS file as follows:
+Định nghĩa `text` selector class trong CSS file `component.module.css` như sau:
 
 ```css filename="styles/component.module.css"
 .text {
@@ -939,27 +938,27 @@ Define the `text` selector class in the `component.module.css` CSS file as follo
 }
 ```
 
-In the example above, the text `Hello World` is styled using the `Inter` font and the generated font fallback with `font-weight: 200` and `font-style: italic`.
+Trong ví dụ trên, text `Hello World` được styled bằng font `Inter` và generated font fallback với `font-weight: 200` và `font-style: italic`.
 
-### Using a font definitions file
+### Sử dụng font definitions file
 
-Every time you call the `localFont` or Google font function, that font will be hosted as one instance in your application. Therefore, if you need to use the same font in multiple places, you should load it in one place and import the related font object where you need it. This is done using a font definitions file.
+Mỗi lần bạn gọi `localFont` hoặc Google font function, font đó sẽ được hosted như một instance trong ứng dụng của bạn. Do đó, nếu bạn cần sử dụng cùng một font ở nhiều nơi, bạn nên load nó ở một nơi và import related font object nơi bạn cần nó. Điều này được thực hiện bằng cách sử dụng font definitions file.
 
-For example, create a `fonts.ts` file in a `styles` folder at the root of your app directory.
+Ví dụ, tạo file `fonts.ts` trong thư mục `styles` ở root của app directory của bạn.
 
-Then, specify your font definitions as follows:
+Sau đó, chỉ định font definitions của bạn như sau:
 
 ```ts filename="styles/fonts.ts" switcher
 import { Inter, Lora, Source_Sans_3 } from 'next/font/google'
 import localFont from 'next/font/local'
 
-// define your variable fonts
+// định nghĩa variable fonts của bạn
 const inter = Inter()
 const lora = Lora()
-// define 2 weights of a non-variable font
+// định nghĩa 2 weights của non-variable font
 const sourceCodePro400 = Source_Sans_3({ weight: '400' })
 const sourceCodePro700 = Source_Sans_3({ weight: '700' })
-// define a custom local font where GreatVibes-Regular.ttf is stored in the styles folder
+// định nghĩa custom local font nơi GreatVibes-Regular.ttf được lưu trong thư mục styles
 const greatVibes = localFont({ src: './GreatVibes-Regular.ttf' })
 
 export { inter, lora, sourceCodePro400, sourceCodePro700, greatVibes }
@@ -969,19 +968,19 @@ export { inter, lora, sourceCodePro400, sourceCodePro700, greatVibes }
 import { Inter, Lora, Source_Sans_3 } from 'next/font/google'
 import localFont from 'next/font/local'
 
-// define your variable fonts
+// định nghĩa variable fonts của bạn
 const inter = Inter()
 const lora = Lora()
-// define 2 weights of a non-variable font
+// định nghĩa 2 weights của non-variable font
 const sourceCodePro400 = Source_Sans_3({ weight: '400' })
 const sourceCodePro700 = Source_Sans_3({ weight: '700' })
-// define a custom local font where GreatVibes-Regular.ttf is stored in the styles folder
+// định nghĩa custom local font nơi GreatVibes-Regular.ttf được lưu trong thư mục styles
 const greatVibes = localFont({ src: './GreatVibes-Regular.ttf' })
 
 export { inter, lora, sourceCodePro400, sourceCodePro700, greatVibes }
 ```
 
-You can now use these definitions in your code as follows:
+Bây giờ bạn có thể sử dụng các definitions này trong code của mình như sau:
 
 ```tsx filename="app/page.tsx" switcher
 import { inter, lora, sourceCodePro700, greatVibes } from '../styles/fonts'
@@ -1017,7 +1016,7 @@ export default function Page() {
 }
 ```
 
-To make it easier to access the font definitions in your code, you can define a path alias in your `tsconfig.json` or `jsconfig.json` files as follows:
+Để dễ dàng truy cập font definitions trong code của bạn, bạn có thể định nghĩa path alias trong files `tsconfig.json` hoặc `jsconfig.json` của bạn như sau:
 
 ```json filename="tsconfig.json"
 {
@@ -1029,7 +1028,7 @@ To make it easier to access the font definitions in your code, you can define a 
 }
 ```
 
-You can now import any font definition as follows:
+Bây giờ bạn có thể import bất kỳ font definition nào như sau:
 
 ```tsx filename="app/about/page.tsx" switcher
 import { greatVibes, sourceCodePro400 } from '@/fonts'
@@ -1043,26 +1042,26 @@ import { greatVibes, sourceCodePro400 } from '@/fonts'
 
 <AppOnly>
 
-When a font function is called on a page of your site, it is not globally available and preloaded on all routes. Rather, the font is only preloaded on the related routes based on the type of file where it is used:
+Khi một font function được gọi trên một page của site của bạn, nó không có sẵn globally và được preload trên tất cả routes. Thay vào đó, font chỉ được preload trên các related routes dựa trên type of file nơi nó được sử dụng:
 
-- If it's a [unique page](/docs/app/api-reference/file-conventions/page), it is preloaded on the unique route for that page.
-- If it's a [layout](/docs/app/api-reference/file-conventions/layout), it is preloaded on all the routes wrapped by the layout.
-- If it's the [root layout](/docs/app/api-reference/file-conventions/layout#root-layout), it is preloaded on all routes.
+- Nếu đó là một [unique page](/docs/app/api-reference/file-conventions/page), nó được preload trên unique route cho page đó.
+- Nếu đó là một [layout](/docs/app/api-reference/file-conventions/layout), nó được preload trên tất cả các routes được wrapped bởi layout.
+- Nếu đó là [root layout](/docs/app/api-reference/file-conventions/layout#root-layout), nó được preload trên tất cả routes.
 
 </AppOnly>
 
 <PagesOnly>
 
-When a font function is called on a page of your site, it is not globally available and preloaded on all routes. Rather, the font is only preloaded on the related route/s based on the type of file where it is used:
+Khi một font function được gọi trên một page của site của bạn, nó không có sẵn globally và được preload trên tất cả routes. Thay vào đó, font chỉ được preload trên related route/s dựa trên type of file nơi nó được sử dụng:
 
-- if it's a [unique page](/docs/pages/building-your-application/routing/pages-and-layouts), it is preloaded on the unique route for that page
-- if it's in the [custom App](/docs/pages/building-your-application/routing/custom-app), it is preloaded on all the routes of the site under `/pages`
+- nếu đó là một [unique page](/docs/pages/building-your-application/routing/pages-and-layouts), nó được preload trên unique route cho page đó
+- nếu đó là trong [custom App](/docs/pages/building-your-application/routing/custom-app), nó được preload trên tất cả các routes của site dưới `/pages`
 
 </PagesOnly>
 
-## Version Changes
+## Thay đổi phiên bản
 
-| Version   | Changes                                                               |
-| --------- | --------------------------------------------------------------------- |
-| `v13.2.0` | `@next/font` renamed to `next/font`. Installation no longer required. |
-| `v13.0.0` | `@next/font` was added.                                               |
+| Phiên bản | Thay đổi                                                                |
+| --------- | ----------------------------------------------------------------------- |
+| `v13.2.0` | `@next/font` được đổi tên thành `next/font`. Không còn yêu cầu cài đặt. |
+| `v13.0.0` | `@next/font` được thêm vào.                                             |

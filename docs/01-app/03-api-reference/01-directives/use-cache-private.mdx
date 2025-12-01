@@ -1,9 +1,9 @@
 ---
 title: 'use cache: private'
-description: 'Learn how to use the `"use cache: private"` directive to enable runtime prefetching of personalized content in your Next.js application.'
+description: 'Tìm hiểu cách sử dụng chỉ thị `"use cache: private"` để kích hoạt runtime prefetching của nội dung được cá nhân hóa trong ứng dụng Next.js của bạn.'
 related:
-  title: Related
-  description: View related API references.
+  title: Liên quan
+  description: Xem các tài liệu API liên quan.
   links:
     - app/api-reference/directives/use-cache
     - app/api-reference/config/next-config-js/cacheComponents
@@ -12,13 +12,13 @@ related:
     - app/guides/prefetching
 ---
 
-The `'use cache: private'` directive enables runtime prefetching of personalized content that depends on cookies, headers, or search params.
+Chỉ thị `'use cache: private'` kích hoạt runtime prefetching của nội dung được cá nhân hóa phụ thuộc vào cookies, headers, hoặc search params.
 
-> **Good to know:** `'use cache: private'` is a variant of [`use cache`](/docs/app/api-reference/directives/use-cache) designed specifically for user-specific content that needs to be prefetchable but should never be stored in server-side cache handlers.
+> **Lưu ý:** `'use cache: private'` là một biến thể của [`use cache`](/docs/app/api-reference/directives/use-cache) được thiết kế đặc biệt cho nội dung dành riêng cho người dùng cần có thể prefetch được nhưng không bao giờ được lưu trữ trong server-side cache handlers.
 
-## Usage
+## Cách sử dụng
 
-To use `'use cache: private'`, enable the [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) flag in your `next.config.ts` file:
+Để sử dụng `'use cache: private'`, kích hoạt cờ [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) trong file `next.config.ts` của bạn:
 
 ```tsx filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -39,16 +39,16 @@ const nextConfig = {
 export default nextConfig
 ```
 
-Then add `'use cache: private'` to your function along with a `cacheLife` configuration and export `unstable_prefetch` from your page.
+Sau đó thêm `'use cache: private'` vào hàm của bạn cùng với cấu hình `cacheLife` và export `unstable_prefetch` từ page của bạn.
 
-### Basic example
+### Ví dụ cơ bản
 
 ```tsx filename="app/product/[id]/page.tsx" switcher
 import { Suspense } from 'react'
 import { cookies } from 'next/headers'
 import { cacheLife, cacheTag } from 'next/cache'
 
-// REQUIRED: Enable runtime prefetching
+// BẮT BUỘC: Kích hoạt runtime prefetching
 export const unstable_prefetch = {
   mode: 'runtime',
   samples: [
@@ -66,7 +66,7 @@ export default async function ProductPage({
   return (
     <div>
       <ProductDetails id={id} />
-      <Suspense fallback={<div>Loading recommendations...</div>}>
+      <Suspense fallback={<div>Đang tải đề xuất...</div>}>
         <Recommendations productId={id} />
       </Suspense>
     </div>
@@ -88,9 +88,9 @@ async function Recommendations({ productId }: { productId: string }) {
 async function getRecommendations(productId: string) {
   'use cache: private'
   cacheTag(`recommendations-${productId}`)
-  cacheLife({ stale: 60 }) // Minimum 30 seconds required for runtime prefetch
+  cacheLife({ stale: 60 }) // Tối thiểu 30 giây yêu cầu cho runtime prefetch
 
-  // Access cookies within private cache functions
+  // Truy cập cookies trong private cache functions
   const sessionId = (await cookies()).get('session-id')?.value || 'guest'
 
   return getPersonalizedRecommendations(productId, sessionId)
@@ -102,7 +102,7 @@ import { Suspense } from 'react'
 import { cookies } from 'next/headers'
 import { cacheLife, cacheTag } from 'next/cache'
 
-// REQUIRED: Enable runtime prefetching
+// BẮT BUỘC: Kích hoạt runtime prefetching
 export const unstable_prefetch = {
   mode: 'runtime',
   samples: [
@@ -116,7 +116,7 @@ export default async function ProductPage({ params }) {
   return (
     <div>
       <ProductDetails id={id} />
-      <Suspense fallback={<div>Loading recommendations...</div>}>
+      <Suspense fallback={<div>Đang tải đề xuất...</div>}>
         <Recommendations productId={id} />
       </Suspense>
     </div>
@@ -138,96 +138,96 @@ async function Recommendations({ productId }) {
 async function getRecommendations(productId) {
   'use cache: private'
   cacheTag(`recommendations-${productId}`)
-  cacheLife({ stale: 60 }) // Minimum 30 seconds required for runtime prefetch
+  cacheLife({ stale: 60 }) // Tối thiểu 30 giây yêu cầu cho runtime prefetch
 
-  // Access cookies within private cache functions
+  // Truy cập cookies trong private cache functions
   const sessionId = (await cookies()).get('session-id')?.value || 'guest'
 
   return getPersonalizedRecommendations(productId, sessionId)
 }
 ```
 
-> **Note:** Private caches require a `cacheLife` stale time of at least 30 seconds to enable runtime prefetching. Values below 30 seconds are treated as dynamic.
+> **Lưu ý:** Private caches yêu cầu thời gian stale của `cacheLife` ít nhất 30 giây để kích hoạt runtime prefetching. Các giá trị dưới 30 giây được coi là động.
 
-## Difference from `use cache`
+## Sự khác biệt với `use cache`
 
-While regular `use cache` is designed for static, shared content that can be cached on the server, `'use cache: private'` is specifically for dynamic, user-specific content that needs to be:
+Trong khi `use cache` thông thường được thiết kế cho nội dung tĩnh, được chia sẻ có thể được cache trên server, `'use cache: private'` được thiết kế đặc biệt cho nội dung động, dành riêng cho người dùng cần:
 
-1. **Personalized** - varies based on cookies, headers, or search params
-2. **Prefetchable** - can be loaded before the user navigates to the page
-3. **Client-only** - never persisted to server-side cache handlers
+1. **Được cá nhân hóa** - thay đổi dựa trên cookies, headers, hoặc search params
+2. **Có thể prefetch** - có thể được tải trước khi người dùng điều hướng đến trang
+3. **Chỉ client** - không bao giờ được lưu trữ vào server-side cache handlers
 
-| Feature                            | `use cache`            | `'use cache: private'`              |
-| ---------------------------------- | ---------------------- | ----------------------------------- |
-| **Access to `await cookies()`**    | No                     | Yes                                 |
-| **Access to `await headers()`**    | No                     | Yes                                 |
-| **Access to `await searchParams`** | No                     | Yes                                 |
-| **Stored in cache handler**        | Yes (server-side)      | No (client-side only)               |
-| **Runtime prefetchable**           | N/A (already static)   | Yes (when configured)               |
-| **Cache scope**                    | Global (shared)        | Per-user (isolated)                 |
-| **Use case**                       | Static, shared content | Personalized, user-specific content |
+| Tính năng                         | `use cache`                 | `'use cache: private'`                               |
+| --------------------------------- | --------------------------- | ---------------------------------------------------- |
+| **Truy cập `await cookies()`**    | Không                       | Có                                                   |
+| **Truy cập `await headers()`**    | Không                       | Có                                                   |
+| **Truy cập `await searchParams`** | Không                       | Có                                                   |
+| **Lưu trữ trong cache handler**   | Có (phía server)            | Không (chỉ phía client)                              |
+| **Runtime prefetchable**          | N/A (đã là static)          | Có (khi được cấu hình)                               |
+| **Phạm vi cache**                 | Toàn cục (được chia sẻ)     | Theo người dùng (cô lập)                             |
+| **Trường hợp sử dụng**            | Nội dung tĩnh, được chia sẻ | Nội dung được cá nhân hóa, dành riêng cho người dùng |
 
-## How it works
+## Cách hoạt động
 
 ### Runtime prefetching
 
-When a user hovers over or views a link to a page with `unstable_prefetch = { mode: 'runtime' }`:
+Khi người dùng di chuột qua hoặc xem một liên kết đến một trang có `unstable_prefetch = { mode: 'runtime' }`:
 
-1. **Static content** is prefetched immediately (layouts, page shell)
-2. **Private cache functions** are executed with the user's current cookies/headers
-3. **Results are stored** in the client-side Resume Data Cache
-4. **Navigation is instant** - both static and personalized content are already loaded
+1. **Nội dung tĩnh** được prefetch ngay lập tức (layouts, page shell)
+2. **Private cache functions** được thực thi với cookies/headers hiện tại của người dùng
+3. **Kết quả được lưu trữ** trong Resume Data Cache phía client
+4. **Điều hướng là tức thì** - cả nội dung tĩnh và được cá nhân hóa đều đã được tải
 
-> **Good to know:** Without `'use cache: private'`, personalized content cannot be prefetched and must wait until after navigation completes. Runtime prefetching eliminates this delay by executing cache functions with the user's current request context.
+> **Lưu ý:** Không có `'use cache: private'`, nội dung được cá nhân hóa không thể được prefetch và phải đợi cho đến sau khi điều hướng hoàn tất. Runtime prefetching loại bỏ độ trễ này bằng cách thực thi các cache functions với ngữ cảnh request hiện tại của người dùng.
 
-### Storage behavior
+### Hành vi lưu trữ
 
-Private caches are **never persisted** to server-side cache handlers (like Redis, Vercel Data Cache, etc.). They exist only to:
+Private caches **không bao giờ được lưu trữ** vào server-side cache handlers (như Redis, Vercel Data Cache, v.v.). Chúng chỉ tồn tại để:
 
-1. Enable runtime prefetching of personalized content
-2. Store prefetched data in the client-side cache during the session
-3. Coordinate cache invalidation with tags and stale times
+1. Kích hoạt runtime prefetching của nội dung được cá nhân hóa
+2. Lưu trữ dữ liệu được prefetch trong client-side cache trong phiên làm việc
+3. Phối hợp cache invalidation với tags và stale times
 
-This ensures user-specific data is never accidentally shared between users while still enabling fast, prefetched navigation.
+Điều này đảm bảo dữ liệu dành riêng cho người dùng không bao giờ vô tình được chia sẻ giữa người dùng trong khi vẫn kích hoạt điều hướng nhanh, được prefetch.
 
-### Stale time requirements
+### Yêu cầu về stale time
 
-> **Note:** Functions with a `cacheLife` stale time less than 30 seconds will not be runtime prefetched, even when using `'use cache: private'`. This prevents prefetching of rapidly changing data that would likely be stale by navigation time.
+> **Lưu ý:** Các hàm có thời gian stale của `cacheLife` nhỏ hơn 30 giây sẽ không được runtime prefetch, ngay cả khi sử dụng `'use cache: private'`. Điều này ngăn prefetching dữ liệu thay đổi nhanh chóng có khả năng đã cũ vào thời điểm điều hướng.
 
 ```tsx
-// Will be runtime prefetched (stale ≥ 30s)
+// Sẽ được runtime prefetch (stale ≥ 30s)
 cacheLife({ stale: 60 })
 
-// Will be runtime prefetched (stale ≥ 30s)
+// Sẽ được runtime prefetch (stale ≥ 30s)
 cacheLife({ stale: 30 })
 
-// Will NOT be runtime prefetched (stale < 30s)
+// Sẽ KHÔNG được runtime prefetch (stale < 30s)
 cacheLife({ stale: 10 })
 ```
 
-## Request APIs allowed in private caches
+## Request APIs được phép trong private caches
 
-The following request-specific APIs can be used inside `'use cache: private'` functions:
+Các API cụ thể của request sau có thể được sử dụng bên trong các hàm `'use cache: private'`:
 
-| API            | Allowed in `use cache` | Allowed in `'use cache: private'` |
-| -------------- | ---------------------- | --------------------------------- |
-| `cookies()`    | No                     | Yes                               |
-| `headers()`    | No                     | Yes                               |
-| `searchParams` | No                     | Yes                               |
-| `connection()` | No                     | No                                |
+| API            | Được phép trong `use cache` | Được phép trong `'use cache: private'` |
+| -------------- | --------------------------- | -------------------------------------- |
+| `cookies()`    | Không                       | Có                                     |
+| `headers()`    | Không                       | Có                                     |
+| `searchParams` | Không                       | Có                                     |
+| `connection()` | Không                       | Không                                  |
 
-> **Note:** The [`connection()`](https://nextjs.org/docs/app/api-reference/functions/connection) API is prohibited in both `use cache` and `'use cache: private'` as it provides connection-specific information that cannot be safely cached.
+> **Lưu ý:** API [`connection()`](https://nextjs.org/docs/app/api-reference/functions/connection) bị cấm trong cả `use cache` và `'use cache: private'` vì nó cung cấp thông tin cụ thể về connection không thể được cache một cách an toàn.
 
-## Nesting rules
+## Quy tắc lồng nhau
 
-Private caches have specific nesting rules to prevent user-specific data from leaking into shared caches:
+Private caches có các quy tắc lồng nhau cụ thể để ngăn dữ liệu dành riêng cho người dùng rò rỉ vào shared caches:
 
-- Private caches **can** be nested inside other private caches
-- Private caches **cannot** be nested inside public caches (`'use cache'`, `'use cache: remote'`)
-- Public caches **can** be nested inside private caches
+- Private caches **có thể** được lồng bên trong các private caches khác
+- Private caches **không thể** được lồng bên trong public caches (`'use cache'`, `'use cache: remote'`)
+- Public caches **có thể** được lồng bên trong private caches
 
 ```tsx
-// VALID: Private inside private
+// HỢP LỆ: Private bên trong private
 async function outerPrivate() {
   'use cache: private'
   const result = await innerPrivate()
@@ -239,10 +239,10 @@ async function innerPrivate() {
   return getData()
 }
 
-// INVALID: Private inside public
+// KHÔNG HỢP LỆ: Private bên trong public
 async function outerPublic() {
   'use cache'
-  const result = await innerPrivate() // Error!
+  const result = await innerPrivate() // Lỗi!
   return result
 }
 
@@ -252,11 +252,11 @@ async function innerPrivate() {
 }
 ```
 
-## Examples
+## Ví dụ
 
-### Personalized product recommendations
+### Đề xuất sản phẩm được cá nhân hóa
 
-This example shows how to cache personalized product recommendations based on a user's session cookie. The recommendations are prefetched at runtime when the user hovers over product links.
+Ví dụ này cho thấy cách cache các đề xuất sản phẩm được cá nhân hóa dựa trên session cookie của người dùng. Các đề xuất được prefetch tại runtime khi người dùng di chuột qua các liên kết sản phẩm.
 
 ```tsx filename="app/product/[id]/page.tsx"
 import { cookies } from 'next/headers'
@@ -276,7 +276,7 @@ async function getRecommendations(productId: string) {
 
   const userId = (await cookies()).get('user-id')?.value
 
-  // Fetch personalized recommendations based on user's browsing history
+  // Lấy đề xuất được cá nhân hóa dựa trên lịch sử duyệt web của người dùng
   const recommendations = await db.recommendations.findMany({
     where: { userId, productId },
   })
@@ -285,9 +285,9 @@ async function getRecommendations(productId: string) {
 }
 ```
 
-### User-specific pricing
+### Giá dành riêng cho người dùng
 
-Cache pricing information that varies by user tier, allowing instant navigation to the pricing page with personalized rates already loaded.
+Cache thông tin giá thay đổi theo cấp độ người dùng, cho phép điều hướng tức thì đến trang giá với các mức giá được cá nhân hóa đã được tải.
 
 ```tsx filename="app/pricing/page.tsx"
 import { cookies } from 'next/headers'
@@ -300,18 +300,18 @@ export const unstable_prefetch = {
 
 async function getPricing() {
   'use cache: private'
-  cacheLife({ stale: 300 }) // 5 minutes
+  cacheLife({ stale: 300 }) // 5 phút
 
   const tier = (await cookies()).get('user-tier')?.value || 'free'
 
-  // Return tier-specific pricing
+  // Trả về giá cụ thể theo cấp độ
   return db.pricing.findMany({ where: { tier } })
 }
 ```
 
-### Localized content based on headers
+### Nội dung được bản địa hóa dựa trên headers
 
-Serve localized content based on the user's `Accept-Language` header, prefetching the correct language variant before navigation.
+Phục vụ nội dung được bản địa hóa dựa trên header `Accept-Language` của người dùng, prefetch biến thể ngôn ngữ chính xác trước khi điều hướng.
 
 ```tsx filename="app/page.tsx"
 import { headers } from 'next/headers'
@@ -325,7 +325,7 @@ export const unstable_prefetch = {
 async function getLocalizedContent() {
   'use cache: private'
   cacheTag('content')
-  cacheLife({ stale: 3600 }) // 1 hour
+  cacheLife({ stale: 3600 }) // 1 giờ
 
   const headersList = await headers()
   const locale = headersList.get('accept-language')?.split(',')[0] || 'en-US'
@@ -334,9 +334,9 @@ async function getLocalizedContent() {
 }
 ```
 
-### Search results with user preferences
+### Kết quả tìm kiếm với tùy chọn người dùng
 
-Prefetch search results that include user-specific preferences, ensuring personalized search results load instantly.
+Prefetch kết quả tìm kiếm bao gồm các tùy chọn dành riêng cho người dùng, đảm bảo kết quả tìm kiếm được cá nhân hóa tải ngay lập tức.
 
 ```tsx filename="app/search/page.tsx"
 import { cookies } from 'next/headers'
@@ -354,35 +354,35 @@ export const unstable_prefetch = {
 
 async function getSearchResults(query: string) {
   'use cache: private'
-  cacheLife({ stale: 120 }) // 2 minutes
+  cacheLife({ stale: 120 }) // 2 phút
 
   const preferences = (await cookies()).get('preferences')?.value
 
-  // Apply user preferences to search results
+  // Áp dụng tùy chọn người dùng vào kết quả tìm kiếm
   return searchWithPreferences(query, preferences)
 }
 ```
 
-> **Good to know**:
+> **Lưu ý**:
 >
-> - Private caches are ephemeral and only exist in the client-side cache for the session duration
-> - Private cache results are never written to server-side cache handlers
-> - The `unstable_prefetch` export is required for runtime prefetching to work
-> - A minimum stale time of 30 seconds is required for private caches to be prefetched
-> - You can use `cacheTag()` and `revalidateTag()` to invalidate private caches
-> - Each user gets their own private cache entries based on their cookies/headers
+> - Private caches là tạm thời và chỉ tồn tại trong client-side cache trong suốt phiên làm việc
+> - Kết quả private cache không bao giờ được ghi vào server-side cache handlers
+> - Export `unstable_prefetch` là bắt buộc để runtime prefetching hoạt động
+> - Thời gian stale tối thiểu 30 giây là bắt buộc để private caches được prefetch
+> - Bạn có thể sử dụng `cacheTag()` và `revalidateTag()` để invalidate private caches
+> - Mỗi người dùng nhận được các private cache entries riêng của họ dựa trên cookies/headers của họ
 
-## Platform Support
+## Hỗ trợ nền tảng
 
-| Deployment Option                                                   | Supported |
-| ------------------------------------------------------------------- | --------- |
-| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Yes       |
-| [Docker container](/docs/app/getting-started/deploying#docker)      | Yes       |
-| [Static export](/docs/app/getting-started/deploying#static-export)  | No        |
-| [Adapters](/docs/app/getting-started/deploying#adapters)            | Yes       |
+| Tùy chọn triển khai                                                 | Được hỗ trợ |
+| ------------------------------------------------------------------- | ----------- |
+| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Có          |
+| [Docker container](/docs/app/getting-started/deploying#docker)      | Có          |
+| [Static export](/docs/app/getting-started/deploying#static-export)  | Không       |
+| [Adapters](/docs/app/getting-started/deploying#adapters)            | Có          |
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                       |
-| --------- | ------------------------------------------------------------- |
-| `v16.0.0` | `'use cache: private'` introduced as an experimental feature. |
+| Phiên bản | Thay đổi                                                             |
+| --------- | -------------------------------------------------------------------- |
+| `v16.0.0` | `'use cache: private'` được giới thiệu như một tính năng thử nghiệm. |

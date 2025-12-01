@@ -1,9 +1,9 @@
 ---
 title: loading.js
-description: API reference for the loading.js file.
+description: Tài liệu tham khảo API cho file loading.js.
 ---
 
-The special file `loading.js` helps you create meaningful Loading UI with [React Suspense](https://react.dev/reference/react/Suspense). With this convention, you can show an [instant loading state](#instant-loading-states) from the server while the content of a route segment streams in. The new content is automatically swapped in once complete.
+File đặc biệt `loading.js` giúp bạn tạo Loading UI có ý nghĩa với [React Suspense](https://react.dev/reference/react/Suspense). Với quy ước này, bạn có thể hiển thị một [trạng thái loading tức thì](#instant-loading-states) từ server trong khi nội dung của một route segment đang stream vào. Nội dung mới sẽ tự động được hoán đổi vào sau khi hoàn tất.
 
 <Image
   alt="Loading UI"
@@ -15,41 +15,41 @@ The special file `loading.js` helps you create meaningful Loading UI with [React
 
 ```tsx filename="app/feed/loading.tsx" switcher
 export default function Loading() {
-  // Or a custom loading skeleton component
+  // Hoặc một custom loading skeleton component
   return <p>Loading...</p>
 }
 ```
 
 ```jsx filename="app/feed/loading.js" switcher
 export default function Loading() {
-  // Or a custom loading skeleton component
+  // Hoặc một custom loading skeleton component
   return <p>Loading...</p>
 }
 ```
 
-Inside the `loading.js` file, you can add any light-weight loading UI. You may find it helpful to use the [React Developer Tools](https://react.dev/learn/react-developer-tools) to manually toggle Suspense boundaries.
+Bên trong file `loading.js`, bạn có thể thêm bất kỳ loading UI nhẹ nào. Bạn có thể thấy hữu ích khi sử dụng [React Developer Tools](https://react.dev/learn/react-developer-tools) để bật/tắt thủ công các Suspense boundaries.
 
-By default, this file is a [Server Component](/docs/app/getting-started/server-and-client-components) - but can also be used as a Client Component through the `"use client"` directive.
+Mặc định, file này là một [Server Component](/docs/app/getting-started/server-and-client-components) - nhưng cũng có thể được sử dụng như một Client Component thông qua directive `"use client"`.
 
-## Reference
+## Tham khảo
 
-### Parameters
+### Tham số
 
-Loading UI components do not accept any parameters.
+Các Loading UI components không chấp nhận bất kỳ tham số nào.
 
-## Behavior
+## Hành vi
 
-### Navigation
+### Điều hướng
 
-- The Fallback UI is [prefetched](/docs/app/getting-started/linking-and-navigating#prefetching), making navigation immediate unless prefetching hasn't completed.
-- Navigation is interruptible, meaning changing routes does not need to wait for the content of the route to fully load before navigating to another route.
-- Shared layouts remain interactive while new route segments load.
+- Fallback UI được [prefetched](/docs/app/getting-started/linking-and-navigating#prefetching), làm cho việc điều hướng trở nên ngay lập tức trừ khi prefetching chưa hoàn tất.
+- Điều hướng có thể bị gián đoạn (interruptible), nghĩa là việc thay đổi routes không cần phải đợi nội dung của route tải đầy đủ trước khi điều hướng đến một route khác.
+- Shared layouts vẫn tương tác được trong khi các route segments mới đang tải.
 
-### Instant Loading States
+### Trạng thái Loading tức thì
 
-An instant loading state is fallback UI that is shown immediately upon navigation. You can pre-render loading indicators such as skeletons and spinners, or a small but meaningful part of future screens such as a cover photo, title, etc. This helps users understand the app is responding and provides a better user experience.
+Một trạng thái loading tức thì là fallback UI được hiển thị ngay lập tức khi điều hướng. Bạn có thể pre-render các chỉ báo loading như skeletons và spinners, hoặc một phần nhỏ nhưng có ý nghĩa của màn hình tương lai như ảnh bìa, tiêu đề, v.v. Điều này giúp người dùng hiểu rằng ứng dụng đang phản hồi và cung cấp trải nghiệm người dùng tốt hơn.
 
-Create a loading state by adding a `loading.js` file inside a folder.
+Tạo một trạng thái loading bằng cách thêm một file `loading.js` bên trong một thư mục.
 
 <Image
   alt="loading.js special file"
@@ -61,19 +61,19 @@ Create a loading state by adding a `loading.js` file inside a folder.
 
 ```tsx filename="app/dashboard/loading.tsx" switcher
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
+  // Bạn có thể thêm bất kỳ UI nào bên trong Loading, bao gồm một Skeleton.
   return <LoadingSkeleton />
 }
 ```
 
 ```jsx filename="app/dashboard/loading.js" switcher
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
+  // Bạn có thể thêm bất kỳ UI nào bên trong Loading, bao gồm một Skeleton.
   return <LoadingSkeleton />
 }
 ```
 
-In the same folder, `loading.js` will be nested inside `layout.js`. It will automatically wrap the `page.js` file and any children below in a `<Suspense>` boundary.
+Trong cùng một thư mục, `loading.js` sẽ được lồng bên trong `layout.js`. Nó sẽ tự động bao bọc file `page.js` và bất kỳ children nào bên dưới trong một `<Suspense>` boundary.
 
 <Image
   alt="loading.js overview"
@@ -85,55 +85,55 @@ In the same folder, `loading.js` will be nested inside `layout.js`. It will auto
 
 ### SEO
 
-- For bots that only scrape static HTML, and cannot execute JavaScript like a full browser, such as Twitterbot, Next.js resolves [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata) before streaming UI, and metadata is placed in the `<head>` of the initial HTML.
-- Otherwise, [streaming metadata](/docs/app/api-reference/functions/generate-metadata#streaming-metadata) may be used used. Next.js automatically detects user agents to choose between blocking and streaming behavior.
-- Since streaming is server-rendered, it does not impact SEO. You can use the [Rich Results Test](https://search.google.com/test/rich-results) tool from Google to see how your page appears to Google's web crawlers and view the serialized HTML ([source](https://web.dev/rendering-on-the-web/#seo-considerations)).
+- Đối với các bot chỉ scrape static HTML, và không thể thực thi JavaScript như một trình duyệt đầy đủ, chẳng hạn như Twitterbot, Next.js resolve [`generateMetadata`](/docs/app/api-reference/functions/generate-metadata) trước khi streaming UI, và metadata được đặt trong `<head>` của HTML ban đầu.
+- Nếu không, [streaming metadata](/docs/app/api-reference/functions/generate-metadata#streaming-metadata) có thể được sử dụng. Next.js tự động phát hiện user agents để chọn giữa hành vi blocking và streaming.
+- Vì streaming là server-rendered, nó không ảnh hưởng đến SEO. Bạn có thể sử dụng công cụ [Rich Results Test](https://search.google.com/test/rich-results) từ Google để xem trang của bạn xuất hiện như thế nào đối với các trình thu thập thông tin web của Google và xem serialized HTML ([nguồn](https://web.dev/rendering-on-the-web/#seo-considerations)).
 
-### Status Codes
+### Mã trạng thái (Status Codes)
 
-When streaming, a `200` status code will be returned to signal that the request was successful.
+Khi streaming, một mã trạng thái `200` sẽ được trả về để báo hiệu rằng yêu cầu đã thành công.
 
-The server can still communicate errors or issues to the client within the streamed content itself, for example, when using [`redirect`](/docs/app/api-reference/functions/redirect) or [`notFound`](/docs/app/api-reference/functions/not-found). Because the response headers have already been sent to the client, the status code of the response cannot be updated.
+Server vẫn có thể giao tiếp lỗi hoặc vấn đề cho client bên trong chính nội dung được stream, ví dụ, khi sử dụng [`redirect`](/docs/app/api-reference/functions/redirect) hoặc [`notFound`](/docs/app/api-reference/functions/not-found). Bởi vì response headers đã được gửi đến client, mã trạng thái của response không thể được cập nhật.
 
-For example, when a 404 page is streamed to the client, Next.js includes a `<meta name="robots" content="noindex">` tag in the streamed HTML. This prevents search engines from indexing that URL even if the HTTP status is 200. See Google’s guidance on the [`robots` meta tag](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag).
+Ví dụ, khi một trang 404 được stream đến client, Next.js bao gồm một thẻ `<meta name="robots" content="noindex">` trong HTML được stream. Điều này ngăn các công cụ tìm kiếm lập chỉ mục URL đó ngay cả khi trạng thái HTTP là 200. Xem hướng dẫn của Google về [`robots` meta tag](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag).
 
-Some crawlers may label these responses as “soft 404s”. In the streaming case, this does not lead to indexation because the page is explicitly marked `noindex` in the HTML.
+Một số trình thu thập thông tin có thể gắn nhãn các phản hồi này là “soft 404s”. Trong trường hợp streaming, điều này không dẫn đến việc lập chỉ mục vì trang được đánh dấu rõ ràng là `noindex` trong HTML.
 
-If you need a 404 status, for compliance or analytics, ensure the resource exists before the response body is streamed, so that the server can set the HTTP status code.
+Nếu bạn cần một trạng thái 404, để tuân thủ hoặc phân tích, hãy đảm bảo tài nguyên tồn tại trước khi response body được stream, để server có thể đặt mã trạng thái HTTP.
 
-You can run this check in [`proxy`](/docs/app/api-reference/file-conventions/proxy) to rewrite missing slugs to a not-found route, or [produce a 404 response](/docs/app/api-reference/file-conventions/proxy#producing-a-response). Keep proxy checks fast, and avoid fetching full content there.
+Bạn có thể chạy kiểm tra này trong [`proxy`](/docs/app/api-reference/file-conventions/proxy) để viết lại các slugs bị thiếu thành một route not-found, hoặc [tạo ra một phản hồi 404](/docs/app/api-reference/file-conventions/proxy#producing-a-response). Giữ cho các kiểm tra proxy nhanh chóng, và tránh fetch toàn bộ nội dung ở đó.
 
 <details>
-<summary>When is the response body streamed?</summary>
+<summary>Khi nào response body được stream?</summary>
 
-The response body starts streaming when a Suspense fallback renders (for example, a `loading.tsx`) or when a Server Component suspends under a `Suspense` boundary. Place `notFound()` before those boundaries and before any `await` that may suspend.
+Response body bắt đầu streaming khi một Suspense fallback render (ví dụ, một `loading.tsx`) hoặc khi một Server Component suspend dưới một `Suspense` boundary. Đặt `notFound()` trước các boundaries đó và trước bất kỳ `await` nào có thể suspend.
 
-To start streaming, the response headers must be set. This is why it is not possible to change the status code after streaming started.
+Để bắt đầu streaming, response headers phải được thiết lập. Đây là lý do tại sao không thể thay đổi mã trạng thái sau khi streaming bắt đầu.
 
 </details>
 
-### Browser limits
+### Giới hạn trình duyệt
 
-[Some browsers](https://bugs.webkit.org/show_bug.cgi?id=252413) buffer a streaming response. You may not see the streamed response until the response exceeds 1024 bytes. This typically only affects “hello world” applications, but not real applications.
+[Một số trình duyệt](https://bugs.webkit.org/show_bug.cgi?id=252413) buffer một streaming response. Bạn có thể không thấy phản hồi được stream cho đến khi phản hồi vượt quá 1024 bytes. Điều này thường chỉ ảnh hưởng đến các ứng dụng “hello world”, nhưng không ảnh hưởng đến các ứng dụng thực tế.
 
-## Platform Support
+## Hỗ trợ nền tảng
 
-| Deployment Option                                                   | Supported         |
-| ------------------------------------------------------------------- | ----------------- |
-| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Yes               |
-| [Docker container](/docs/app/getting-started/deploying#docker)      | Yes               |
-| [Static export](/docs/app/getting-started/deploying#static-export)  | No                |
-| [Adapters](/docs/app/getting-started/deploying#adapters)            | Platform-specific |
+| Tùy chọn triển khai                                                 | Được hỗ trợ  |
+| ------------------------------------------------------------------- | ------------ |
+| [Node.js server](/docs/app/getting-started/deploying#nodejs-server) | Có           |
+| [Docker container](/docs/app/getting-started/deploying#docker)      | Có           |
+| [Static export](/docs/app/getting-started/deploying#static-export)  | Không        |
+| [Adapters](/docs/app/getting-started/deploying#adapters)            | Tùy nền tảng |
 
-Learn how to [configure streaming](/docs/app/guides/self-hosting#streaming-and-suspense) when self-hosting Next.js.
+Tìm hiểu cách [cấu hình streaming](/docs/app/guides/self-hosting#streaming-and-suspense) khi tự host Next.js.
 
-## Examples
+## Ví dụ
 
-### Streaming with Suspense
+### Streaming với Suspense
 
-In addition to `loading.js`, you can also manually create Suspense Boundaries for your own UI components. The App Router supports streaming with [Suspense](https://react.dev/reference/react/Suspense).
+Ngoài `loading.js`, bạn cũng có thể tạo thủ công các Suspense Boundaries cho các UI components của riêng bạn. App Router hỗ trợ streaming với [Suspense](https://react.dev/reference/react/Suspense).
 
-`<Suspense>` works by wrapping a component that performs an asynchronous action (e.g. fetch data), showing fallback UI (e.g. skeleton, spinner) while it's happening, and then swapping in your component once the action completes.
+`<Suspense>` hoạt động bằng cách bao bọc một component thực hiện một hành động bất đồng bộ (ví dụ: fetch data), hiển thị fallback UI (ví dụ: skeleton, spinner) trong khi nó đang diễn ra, và sau đó hoán đổi component của bạn vào sau khi hành động hoàn tất.
 
 ```tsx filename="app/dashboard/page.tsx" switcher
 import { Suspense } from 'react'
@@ -171,15 +171,15 @@ export default function Posts() {
 }
 ```
 
-By using Suspense, you get the benefits of:
+Bằng cách sử dụng Suspense, bạn nhận được các lợi ích của:
 
-1. **Streaming Server Rendering** - Progressively rendering HTML from the server to the client.
-2. **Selective Hydration** - React prioritizes what components to make interactive first based on user interaction.
+1. **Streaming Server Rendering** - Render dần dần HTML từ server đến client.
+2. **Selective Hydration** - React ưu tiên các components nào để làm cho tương tác trước dựa trên tương tác của người dùng.
 
-For more Suspense examples and use cases, please see the [React Documentation](https://react.dev/reference/react/Suspense).
+Để biết thêm các ví dụ và trường hợp sử dụng Suspense, vui lòng xem [Tài liệu React](https://react.dev/reference/react/Suspense).
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes               |
-| --------- | --------------------- |
-| `v13.0.0` | `loading` introduced. |
+| Phiên bản | Thay đổi                   |
+| --------- | -------------------------- |
+| `v13.0.0` | `loading` được giới thiệu. |

@@ -1,16 +1,16 @@
 ---
 title: Intercepting Routes
-description: Use intercepting routes to load a new route within the current layout while masking the browser URL, useful for advanced routing patterns such as modals.
+description: Sử dụng intercepting routes để tải một route mới trong layout hiện tại trong khi che URL của trình duyệt, hữu ích cho các routing patterns nâng cao như modals.
 related:
-  title: Next Steps
-  description: Learn how to create modals with Intercepted and Parallel Routes.
+  title: Bước tiếp theo
+  description: Tìm hiểu cách tạo modals với Intercepted và Parallel Routes.
   links:
     - app/api-reference/file-conventions/parallel-routes
 ---
 
-Intercepting routes allows you to load a route from another part of your application within the current layout. This routing paradigm can be useful when you want to display the content of a route without the user switching to a different context.
+Intercepting routes cho phép bạn tải một route từ một phần khác của ứng dụng của bạn trong layout hiện tại. Paradigm routing này có thể hữu ích khi bạn muốn hiển thị nội dung của một route mà không cần người dùng chuyển sang một ngữ cảnh khác.
 
-For example, when clicking on a photo in a feed, you can display the photo in a modal, overlaying the feed. In this case, Next.js intercepts the `/photo/123` route, masks the URL, and overlays it over `/feed`.
+Ví dụ, khi nhấp vào một ảnh trong feed, bạn có thể hiển thị ảnh trong một modal, overlay feed. Trong trường hợp này, Next.js chặn route `/photo/123`, che URL và overlay nó lên `/feed`.
 
 <Image
   alt="Intercepting routes soft navigation"
@@ -20,7 +20,7 @@ For example, when clicking on a photo in a feed, you can display the photo in a 
   height="617"
 />
 
-However, when navigating to the photo by clicking a shareable URL or by refreshing the page, the entire photo page should render instead of the modal. No route interception should occur.
+Tuy nhiên, khi điều hướng đến ảnh bằng cách nhấp vào một URL có thể chia sẻ hoặc bằng cách refresh trang, toàn bộ trang ảnh nên render thay vì modal. Không nên có route interception xảy ra.
 
 <Image
   alt="Intercepting routes hard navigation"
@@ -30,18 +30,18 @@ However, when navigating to the photo by clicking a shareable URL or by refreshi
   height="604"
 />
 
-## Convention
+## Quy ước
 
-Intercepting routes can be defined with the `(..)` convention, which is similar to relative path convention `../` but for route segments.
+Intercepting routes có thể được định nghĩa với quy ước `(..)`, tương tự như quy ước relative path `../` nhưng cho các route segments.
 
-You can use:
+Bạn có thể sử dụng:
 
-- `(.)` to match segments on the **same level**
-- `(..)` to match segments **one level above**
-- `(..)(..)` to match segments **two levels above**
-- `(...)` to match segments from the **root** `app` directory
+- `(.)` để khớp các segments ở **cùng cấp độ**
+- `(..)` để khớp các segments **một cấp độ phía trên**
+- `(..)(..)` để khớp các segments **hai cấp độ phía trên**
+- `(...)` để khớp các segments từ thư mục **root** `app`
 
-For example, you can intercept the `photo` segment from within the `feed` segment by creating a `(..)photo` directory.
+Ví dụ, bạn có thể chặn segment `photo` từ trong segment `feed` bằng cách tạo một thư mục `(..)photo`.
 
 <Image
   alt="Intercepting routes folder structure"
@@ -51,20 +51,20 @@ For example, you can intercept the `photo` segment from within the `feed` segmen
   height="604"
 />
 
-> **Good to know:** The `(..)` convention is based on _route segments_, not the file-system. For example, it does not consider `@slot` folders in [Parallel Routes](/docs/app/api-reference/file-conventions/parallel-routes).
+> **Nên biết:** Quy ước `(..)` dựa trên _route segments_, không phải file-system. Ví dụ, nó không xem xét các thư mục `@slot` trong [Parallel Routes](/docs/app/api-reference/file-conventions/parallel-routes).
 
-## Examples
+## Ví dụ
 
 ### Modals
 
-Intercepting Routes can be used together with [Parallel Routes](/docs/app/api-reference/file-conventions/parallel-routes) to create modals. This allows you to solve common challenges when building modals, such as:
+Intercepting Routes có thể được sử dụng cùng với [Parallel Routes](/docs/app/api-reference/file-conventions/parallel-routes) để tạo modals. Điều này cho phép bạn giải quyết các thách thức phổ biến khi xây dựng modals, chẳng hạn như:
 
-- Making the modal content **shareable through a URL**.
-- **Preserving context** when the page is refreshed, instead of closing the modal.
-- **Closing the modal on backwards navigation** rather than going to the previous route.
-- **Reopening the modal on forwards navigation**.
+- Làm cho nội dung modal **có thể chia sẻ thông qua URL**.
+- **Bảo toàn ngữ cảnh** khi trang được refresh, thay vì đóng modal.
+- **Đóng modal khi điều hướng ngược** thay vì đi đến route trước đó.
+- **Mở lại modal khi điều hướng tiến**.
 
-Consider the following UI pattern, where a user can open a photo modal from a gallery using client-side navigation, or navigate to the photo page directly from a shareable URL:
+Xem xét UI pattern sau, nơi người dùng có thể mở một photo modal từ gallery bằng cách sử dụng client-side navigation, hoặc điều hướng đến trang ảnh trực tiếp từ một URL có thể chia sẻ:
 
 <Image
   alt="Intercepting routes modal example"
@@ -74,10 +74,10 @@ Consider the following UI pattern, where a user can open a photo modal from a ga
   height="976"
 />
 
-In the above example, the path to the `photo` segment can use the `(..)` matcher since `@modal` is a slot and **not** a segment. This means that the `photo` route is only one segment level higher, despite being two file-system levels higher.
+Trong ví dụ trên, path đến segment `photo` có thể sử dụng matcher `(..)` vì `@modal` là một slot và **không phải** là một segment. Điều này có nghĩa là route `photo` chỉ cao hơn một segment level, mặc dù cao hơn hai file-system levels.
 
-See the [Parallel Routes](/docs/app/api-reference/file-conventions/parallel-routes#modals) documentation for a step-by-step example, or see our [image gallery example](https://github.com/vercel-labs/nextgram).
+Xem tài liệu [Parallel Routes](/docs/app/api-reference/file-conventions/parallel-routes#modals) để biết ví dụ từng bước, hoặc xem [ví dụ image gallery](https://github.com/vercel-labs/nextgram) của chúng tôi.
 
-> **Good to know:**
+> **Nên biết:**
 >
-> - Other examples could include opening a login modal in a top navbar while also having a dedicated `/login` page, or opening a shopping cart in a side modal.
+> - Các ví dụ khác có thể bao gồm mở một login modal trong top navbar trong khi cũng có một trang `/login` chuyên dụng, hoặc mở một shopping cart trong một side modal.

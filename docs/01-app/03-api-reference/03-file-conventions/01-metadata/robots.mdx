@@ -1,11 +1,11 @@
 ---
 title: robots.txt
-description: API Reference for robots.txt file.
+description: Tài liệu tham khảo API cho tệp robots.txt.
 ---
 
-Add or generate a `robots.txt` file that matches the [Robots Exclusion Standard](https://en.wikipedia.org/wiki/Robots.txt#Standard) in the **root** of `app` directory to tell search engine crawlers which URLs they can access on your site.
+Thêm hoặc tạo một tệp `robots.txt` khớp với [Robots Exclusion Standard](https://en.wikipedia.org/wiki/Robots.txt#Standard) trong **root** của thư mục `app` để cho các crawler của công cụ tìm kiếm biết các URL nào chúng có thể truy cập trên trang web của bạn.
 
-## Static `robots.txt`
+## `robots.txt` tĩnh
 
 ```txt filename="app/robots.txt"
 User-Agent: *
@@ -15,11 +15,11 @@ Disallow: /private/
 Sitemap: https://acme.com/sitemap.xml
 ```
 
-## Generate a Robots file
+## Tạo một tệp Robots
 
-Add a `robots.js` or `robots.ts` file that returns a [`Robots` object](#robots-object).
+Thêm một tệp `robots.js` hoặc `robots.ts` trả về một [đối tượng `Robots`](#robots-object).
 
-> **Good to know**: `robots.js` is a special Route Handlers that is cached by default unless it uses a [Dynamic API](/docs/app/guides/caching#dynamic-apis) or [dynamic config](/docs/app/guides/caching#segment-config-options) option.
+> **Nên biết**: `robots.js` là một Route Handlers đặc biệt được cache theo mặc định trừ khi nó sử dụng một [Dynamic API](/docs/app/guides/caching#dynamic-apis) hoặc tùy chọn [dynamic config](/docs/app/guides/caching#segment-config-options).
 
 ```ts filename="app/robots.ts" switcher
 import type { MetadataRoute } from 'next'
@@ -49,7 +49,7 @@ export default function robots() {
 }
 ```
 
-Output:
+Đầu ra:
 
 ```txt
 User-Agent: *
@@ -59,9 +59,9 @@ Disallow: /private/
 Sitemap: https://acme.com/sitemap.xml
 ```
 
-### Customizing specific user agents
+### Tùy chỉnh các user agent cụ thể
 
-You can customise how individual search engine bots crawl your site by passing an array of user agents to the `rules` property. For example:
+Bạn có thể tùy chỉnh cách các bot công cụ tìm kiếm riêng lẻ crawl trang web của bạn bằng cách truyền một mảng các user agent vào thuộc tính `rules`. Ví dụ:
 
 ```ts filename="app/robots.ts" switcher
 import type { MetadataRoute } from 'next'
@@ -103,7 +103,7 @@ export default function robots() {
 }
 ```
 
-Output:
+Đầu ra:
 
 ```txt
 User-Agent: Googlebot
@@ -119,7 +119,7 @@ Disallow: /
 Sitemap: https://acme.com/sitemap.xml
 ```
 
-### Robots object
+### Đối tượng Robots
 
 ```tsx
 type Robots = {
@@ -141,8 +141,8 @@ type Robots = {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes              |
-| --------- | -------------------- |
-| `v13.3.0` | `robots` introduced. |
+| Phiên bản | Thay đổi                  |
+| --------- | ------------------------- |
+| `v13.3.0` | `robots` được giới thiệu. |

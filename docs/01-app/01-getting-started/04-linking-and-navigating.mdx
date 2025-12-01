@@ -1,6 +1,6 @@
 ---
-title: Linking and Navigating
-description: Learn how the built-in navigation optimizations work, including prefetching, prerendering, and client-side navigation, and how to optimize navigation for dynamic routes and slow networks.
+title: Linking và Navigating
+description: Tìm hiểu cách các tối ưu hóa điều hướng tích hợp sẵn hoạt động, bao gồm prefetching, prerendering, và client-side transitions, và cách tối ưu hóa điều hướng cho dynamic routes và mạng chậm.
 related:
   links:
     - app/api-reference/components/link
@@ -8,13 +8,13 @@ related:
     - app/guides/prefetching
 ---
 
-In Next.js, routes are rendered on the server by default. This often means the client has to wait for a server response before a new route can be shown. Next.js comes with built-in [prefetching](#prefetching), [streaming](#streaming), and [client-side transitions](#client-side-transitions) ensuring navigation stays fast and responsive.
+Trong Next.js, các routes được render trên server theo mặc định. Điều này thường có nghĩa là client phải đợi phản hồi từ server trước khi một route mới có thể được hiển thị. Next.js đi kèm với các tính năng tích hợp sẵn như [prefetching](#prefetching), [streaming](#streaming), và [client-side transitions](#client-side-transitions) đảm bảo việc điều hướng luôn nhanh chóng và phản hồi tốt.
 
-This guide explains how navigation works in Next.js and how you can optimize it for [dynamic routes](#dynamic-routes-without-loadingtsx) and [slow networks](#slow-networks).
+Hướng dẫn này giải thích cách điều hướng hoạt động trong Next.js và cách bạn có thể tối ưu hóa nó cho [dynamic routes](#dynamic-routes-without-loadingtsx) và [mạng chậm](#slow-networks).
 
-## How navigation works
+## Cách điều hướng hoạt động
 
-To understand how navigation works in Next.js, it helps to be familiar with the following concepts:
+Để hiểu cách điều hướng hoạt động trong Next.js, sẽ hữu ích khi làm quen với các khái niệm sau:
 
 - [Server Rendering](#server-rendering)
 - [Prefetching](#prefetching)
@@ -23,22 +23,22 @@ To understand how navigation works in Next.js, it helps to be familiar with the 
 
 ### Server Rendering
 
-In Next.js, [Layouts and Pages](/docs/app/getting-started/layouts-and-pages) are [React Server Components](https://react.dev/reference/rsc/server-components) by default. On initial and subsequent navigations, the [Server Component Payload](/docs/app/getting-started/server-and-client-components#how-do-server-and-client-components-work-in-nextjs) is generated on the server before being sent to the client.
+Trong Next.js, [Layouts và Pages](/docs/app/getting-started/layouts-and-pages) là [React Server Components](https://react.dev/reference/rsc/server-components) theo mặc định. Trong lần điều hướng ban đầu và các lần tiếp theo, [Server Component Payload](/docs/app/getting-started/server-and-client-components#how-do-server-and-client-components-work-in-nextjs) được tạo trên server trước khi được gửi đến client.
 
-There are two types of server rendering, based on _when_ it happens:
+Có hai loại server rendering, dựa trên _thời điểm_ nó xảy ra:
 
-- **Static Rendering (or Prerendering)** happens at build time or during [revalidation](/docs/app/getting-started/caching-and-revalidating) and the result is cached.
-- **Dynamic Rendering** happens at request time in response to a client request.
+- **Static Rendering (hoặc Prerendering)** xảy ra tại build time hoặc trong quá trình [revalidation](/docs/app/getting-started/caching-and-revalidating) và kết quả được cache.
+- **Dynamic Rendering** xảy ra tại request time để phản hồi lại yêu cầu của client.
 
-The trade-off of server rendering is that the client must wait for the server to respond before the new route can be shown. Next.js addresses this delay by [prefetching](#prefetching) routes the user is likely to visit and performing [client-side transitions](#client-side-transitions).
+Sự đánh đổi của server rendering là client phải đợi server phản hồi trước khi route mới có thể được hiển thị. Next.js giải quyết độ trễ này bằng cách [prefetching](#prefetching) các routes mà người dùng có khả năng truy cập và thực hiện [client-side transitions](#client-side-transitions).
 
-> **Good to know**: HTML is also generated for the initial visit.
+> **Lưu ý**: HTML cũng được tạo cho lần truy cập đầu tiên.
 
 ### Prefetching
 
-Prefetching is the process of loading a route in the background before the user navigates to it. This makes navigation between routes in your application feel instant, because by the time a user clicks on a link, the data to render the next route is already available client side.
+Prefetching là quá trình tải một route trong background trước khi người dùng điều hướng đến nó. Điều này làm cho việc điều hướng giữa các routes trong ứng dụng của bạn cảm thấy tức thì, bởi vì vào thời điểm người dùng nhấp vào một liên kết, dữ liệu để render route tiếp theo đã có sẵn ở phía client.
 
-Next.js automatically prefetches routes linked with the [`<Link>` component](/docs/app/api-reference/components/link) when they enter the user's viewport.
+Next.js tự động prefetches các routes được liên kết với [`<Link>` component](/docs/app/api-reference/components/link) khi chúng đi vào viewport của người dùng.
 
 ```tsx filename="app/layout.tsx" switcher
 import Link from 'next/link'
@@ -80,12 +80,12 @@ export default function Layout() {
 }
 ```
 
-How much of the route is prefetched depends on whether it's static or dynamic:
+Bao nhiêu phần của route được prefetched phụ thuộc vào việc nó là static hay dynamic:
 
-- **Static Route**: the full route is prefetched.
-- **Dynamic Route**: prefetching is skipped, or the route is partially prefetched if [`loading.tsx`](/docs/app/api-reference/file-conventions/loading) is present.
+- **Static Route**: toàn bộ route được prefetched.
+- **Dynamic Route**: prefetching bị bỏ qua, hoặc route được prefetched một phần nếu [`loading.tsx`](/docs/app/api-reference/file-conventions/loading) hiện diện.
 
-By skipping or partially prefetching dynamic routes, Next.js avoids unnecessary work on the server for routes the users may never visit. However, waiting for a server response before navigation can give the users the impression that the app is not responding.
+Bằng cách bỏ qua hoặc prefetching một phần các dynamic routes, Next.js tránh công việc không cần thiết trên server cho các routes mà người dùng có thể không bao giờ truy cập. Tuy nhiên, việc đợi phản hồi từ server trước khi điều hướng có thể mang lại cho người dùng ấn tượng rằng ứng dụng không phản hồi.
 
 <Image
   alt="Server Rendering without Streaming"
@@ -95,13 +95,13 @@ By skipping or partially prefetching dynamic routes, Next.js avoids unnecessary 
   height="748"
 />
 
-To improve the navigation experience to dynamic routes, you can use [streaming](#streaming).
+Để cải thiện trải nghiệm điều hướng đến các dynamic routes, bạn có thể sử dụng [streaming](#streaming).
 
 ### Streaming
 
-Streaming allows the server to send parts of a dynamic route to the client as soon as they're ready, rather than waiting for the entire route to be rendered. This means users see something sooner, even if parts of the page are still loading.
+Streaming cho phép server gửi các phần của một dynamic route đến client ngay khi chúng sẵn sàng, thay vì đợi toàn bộ route được render. Điều này có nghĩa là người dùng nhìn thấy thứ gì đó sớm hơn, ngay cả khi các phần của trang vẫn đang tải.
 
-For dynamic routes, it means they can be **partially prefetched**. That is, shared layouts and loading skeletons can be requested ahead of time.
+Đối với dynamic routes, điều đó có nghĩa là chúng có thể được **prefetched một phần**. Tức là, các shared layouts và loading skeletons có thể được yêu cầu trước thời hạn.
 
 <Image
   alt="How Server Rendering with Streaming Works"
@@ -111,7 +111,7 @@ For dynamic routes, it means they can be **partially prefetched**. That is, shar
   height="785"
 />
 
-To use streaming, create a `loading.tsx` in your route folder:
+Để sử dụng streaming, tạo một `loading.tsx` trong thư mục route của bạn:
 
 <Image
   alt="loading.js special file"
@@ -135,38 +135,38 @@ export default function Loading() {
 }
 ```
 
-Behind the scenes, Next.js will automatically wrap the `page.tsx` contents in a `<Suspense>` boundary. The prefetched fallback UI will be shown while the route is loading, and swapped for the actual content once ready.
+Đằng sau hậu trường, Next.js sẽ tự động bọc nội dung `page.tsx` trong một `<Suspense>` boundary. Fallback UI đã được prefetched sẽ được hiển thị trong khi route đang tải, và được thay thế bằng nội dung thực tế khi sẵn sàng.
 
-> **Good to know**: You can also use [`<Suspense>`](https://react.dev/reference/react/Suspense) to create loading UI for nested components.
+> **Lưu ý**: Bạn cũng có thể sử dụng [`<Suspense>`](https://react.dev/reference/react/Suspense) để tạo loading UI cho các nested components.
 
-Benefits of `loading.tsx`:
+Lợi ích của `loading.tsx`:
 
-- Immediate navigation and visual feedback for the user.
-- Shared layouts remain interactive and navigation is interruptible.
-- Improved Core Web Vitals: [TTFB](https://web.dev/articles/ttfb), [FCP](https://web.dev/articles/fcp), and [TTI](https://web.dev/articles/tti).
+- Điều hướng tức thì và phản hồi trực quan cho người dùng.
+- Shared layouts vẫn tương tác được và việc điều hướng có thể bị gián đoạn.
+- Cải thiện Core Web Vitals: [TTFB](https://web.dev/articles/ttfb), [FCP](https://web.dev/articles/fcp), và [TTI](https://web.dev/articles/tti).
 
-To further improve the navigation experience, Next.js performs a [client-side transition](#client-side-transitions) with the `<Link>` component.
+Để cải thiện hơn nữa trải nghiệm điều hướng, Next.js thực hiện một [client-side transition](#client-side-transitions) với component `<Link>`.
 
 ### Client-side transitions
 
-Traditionally, navigation to a server-rendered page triggers a full page load. This clears state, resets scroll position, and blocks interactivity.
+Theo truyền thống, việc điều hướng đến một trang server-rendered kích hoạt tải lại toàn bộ trang. Điều này xóa trạng thái, đặt lại vị trí cuộn và chặn tương tác.
 
-Next.js avoids this with client-side transitions using the `<Link>` component. Instead of reloading the page, it updates the content dynamically by:
+Next.js tránh điều này với client-side transitions sử dụng component `<Link>`. Thay vì tải lại trang, nó cập nhật nội dung một cách linh hoạt bằng cách:
 
-- Keeping any shared layouts and UI.
-- Replacing the current page with the prefetched loading state or a new page if available.
+- Giữ lại bất kỳ shared layouts và UI nào.
+- Thay thế trang hiện tại bằng trạng thái loading đã được prefetched hoặc một trang mới nếu có sẵn.
 
-Client-side transitions are what makes a server-rendered apps _feel_ like client-rendered apps. And when paired with [prefetching](#prefetching) and [streaming](#streaming), it enables fast transitions, even for dynamic routes.
+Client-side transitions là thứ làm cho các ứng dụng server-rendered _cảm thấy_ giống như các ứng dụng client-rendered. Và khi kết hợp với [prefetching](#prefetching) và [streaming](#streaming), nó cho phép chuyển đổi nhanh chóng, ngay cả đối với các dynamic routes.
 
-## What can make transitions slow?
+## Điều gì có thể làm cho transitions chậm?
 
-These Next.js optimizations make navigation fast and responsive. However, under certain conditions, transitions can still _feel_ slow. Here are some common causes and how to improve the user experience:
+Những tối ưu hóa này của Next.js làm cho việc điều hướng nhanh chóng và phản hồi tốt. Tuy nhiên, trong một số điều kiện nhất định, transitions vẫn có thể _cảm thấy_ chậm. Dưới đây là một số nguyên nhân phổ biến và cách cải thiện trải nghiệm người dùng:
 
-### Dynamic routes without `loading.tsx`
+### Dynamic routes không có `loading.tsx`
 
-When navigating to a dynamic route, the client must wait for the server response before showing the result. This can give the users the impression that the app is not responding.
+Khi điều hướng đến một dynamic route, client phải đợi phản hồi từ server trước khi hiển thị kết quả. Điều này có thể mang lại cho người dùng ấn tượng rằng ứng dụng không phản hồi.
 
-We recommend adding `loading.tsx` to dynamic routes to enable partial prefetching, trigger immediate navigation, and display a loading UI while the route renders.
+Chúng tôi khuyên bạn nên thêm `loading.tsx` vào các dynamic routes để kích hoạt partial prefetching, kích hoạt điều hướng tức thì và hiển thị loading UI trong khi route renders.
 
 ```tsx filename="app/blog/[slug]/loading.tsx" switcher
 export default function Loading() {
@@ -180,13 +180,13 @@ export default function Loading() {
 }
 ```
 
-> **Good to know**: In development mode, you can use the Next.js Devtools to identify if the route is static or dynamic. See [`devIndicators`](/docs/app/api-reference/config/next-config-js/devIndicators) for more information.
+> **Lưu ý**: Trong chế độ development, bạn có thể sử dụng Next.js Devtools để xác định xem route là static hay dynamic. Xem [`devIndicators`](/docs/app/api-reference/config/next-config-js/devIndicators) để biết thêm thông tin.
 
-### Dynamic segments without `generateStaticParams`
+### Dynamic segments không có `generateStaticParams`
 
-If a [dynamic segment](/docs/app/api-reference/file-conventions/dynamic-routes) could be prerendered but isn't because it's missing [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params), the route will fallback to dynamic rendering at request time.
+Nếu một [dynamic segment](/docs/app/api-reference/file-conventions/dynamic-routes) có thể được prerendered nhưng không được vì thiếu [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params), route sẽ fallback về dynamic rendering tại request time.
 
-Ensure the route is statically generated at build time by adding `generateStaticParams`:
+Đảm bảo route được tạo tĩnh tại build time bằng cách thêm `generateStaticParams`:
 
 ```tsx filename="app/blog/[slug]/page.tsx" switcher
 export async function generateStaticParams() {
@@ -221,11 +221,11 @@ export default async function Page({ params }) {
 }
 ```
 
-### Slow networks
+### Mạng chậm
 
-On slow or unstable networks, prefetching may not finish before the user clicks a link. This can affect both static and dynamic routes. In these cases, the `loading.js` fallback may not appear immediately because it hasn't been prefetched yet.
+Trên các mạng chậm hoặc không ổn định, prefetching có thể không hoàn thành trước khi người dùng nhấp vào một liên kết. Điều này có thể ảnh hưởng đến cả static và dynamic routes. Trong những trường hợp này, fallback `loading.js` có thể không xuất hiện ngay lập tức vì nó chưa được prefetched.
 
-To improve perceived performance, you can use the [`useLinkStatus` hook](/docs/app/api-reference/functions/use-link-status) to show immediate feedback while the transition is in progress.
+Để cải thiện perceived performance, bạn có thể sử dụng [`useLinkStatus` hook](/docs/app/api-reference/functions/use-link-status) để hiển thị phản hồi ngay lập tức trong khi quá trình chuyển đổi đang diễn ra.
 
 ```tsx filename="app/ui/loading-indicator.tsx" switcher
 'use client'
@@ -253,13 +253,13 @@ export default function LoadingIndicator() {
 }
 ```
 
-You can "debounce" the hint by adding an initial animation delay (e.g. 100ms) and starting as invisible (e.g. `opacity: 0`). This means the loading indicator will only be shown if the navigation takes longer than the specified delay. See the [`useLinkStatus` reference](/docs/app/api-reference/functions/use-link-status#gracefully-handling-fast-navigation) for a CSS example.
+Bạn có thể "debounce" gợi ý bằng cách thêm độ trễ hoạt ảnh ban đầu (ví dụ: 100ms) và bắt đầu ở trạng thái vô hình (ví dụ: `opacity: 0`). Điều này có nghĩa là chỉ báo tải sẽ chỉ được hiển thị nếu việc điều hướng mất nhiều thời gian hơn độ trễ đã chỉ định. Xem [tham khảo `useLinkStatus`](/docs/app/api-reference/functions/use-link-status#gracefully-handling-fast-navigation) để biết ví dụ CSS.
 
-> **Good to know**: You can use other visual feedback patterns like a progress bar. View an example [here](https://github.com/vercel/react-transition-progress).
+> **Lưu ý**: Bạn có thể sử dụng các mẫu phản hồi trực quan khác như thanh tiến trình. Xem ví dụ [tại đây](https://github.com/vercel/react-transition-progress).
 
-### Disabling prefetching
+### Vô hiệu hóa prefetching
 
-You can opt out of prefetching by setting the `prefetch` prop to `false` on the `<Link>` component. This is useful to avoid unnecessary usage of resources when rendering large lists of links (e.g. an infinite scroll table).
+Bạn có thể chọn không tham gia prefetching bằng cách đặt prop `prefetch` thành `false` trên component `<Link>`. Điều này hữu ích để tránh sử dụng tài nguyên không cần thiết khi render danh sách lớn các liên kết (ví dụ: bảng cuộn vô hạn).
 
 ```tsx
 <Link prefetch={false} href="/blog">
@@ -267,12 +267,12 @@ You can opt out of prefetching by setting the `prefetch` prop to `false` on the 
 </Link>
 ```
 
-However, disabling prefetching comes with trade-offs:
+Tuy nhiên, việc vô hiệu hóa prefetching đi kèm với sự đánh đổi:
 
-- **Static routes** will only be fetched when the user clicks the link.
-- **Dynamic routes** will need to be rendered on the server first before the client can navigate to it.
+- **Static routes** sẽ chỉ được fetch khi người dùng nhấp vào liên kết.
+- **Dynamic routes** sẽ cần được render trên server trước khi client có thể điều hướng đến nó.
 
-To reduce resource usage without fully disabling prefetch, you can prefetch only on hover. This limits prefetching to routes the user is more _likely_ to visit, rather than all links in the viewport.
+Để giảm sử dụng tài nguyên mà không vô hiệu hóa hoàn toàn prefetch, bạn có thể chỉ prefetch khi hover. Điều này giới hạn prefetching cho các routes mà người dùng có nhiều _khả năng_ truy cập hơn, thay vì tất cả các liên kết trong viewport.
 
 ```tsx filename="app/ui/hover-prefetch-link.tsx" switcher
 'use client'
@@ -322,26 +322,26 @@ function HoverPrefetchLink({ href, children }) {
 }
 ```
 
-### Hydration not completed
+### Hydration chưa hoàn tất
 
-`<Link>` is a Client Component and must be hydrated before it can prefetch routes. On the initial visit, large JavaScript bundles can delay hydration, preventing prefetching from starting right away.
+`<Link>` là một Client Component và phải được hydrated trước khi nó có thể prefetch routes. Trong lần truy cập đầu tiên, các gói JavaScript lớn có thể làm chậm quá trình hydration, ngăn cản prefetching bắt đầu ngay lập tức.
 
-React mitigates this with Selective Hydration and you can further improve this by:
+React giảm thiểu điều này với Selective Hydration và bạn có thể cải thiện điều này hơn nữa bằng cách:
 
-- Using the [`@next/bundle-analyzer`](/docs/app/guides/package-bundling#analyzing-javascript-bundles) plugin to identify and reduce bundle size by removing large dependencies.
-- Moving logic from the client to the server where possible. See the [Server and Client Components](/docs/app/getting-started/server-and-client-components) docs for guidance.
+- Sử dụng plugin [`@next/bundle-analyzer`](/docs/app/guides/package-bundling#analyzing-javascript-bundles) để xác định và giảm kích thước gói bằng cách loại bỏ các dependencies lớn.
+- Di chuyển logic từ client sang server nếu có thể. Xem tài liệu [Server và Client Components](/docs/app/getting-started/server-and-client-components) để được hướng dẫn.
 
-## Examples
+## Ví dụ
 
 ### Native History API
 
-Next.js allows you to use the native [`window.history.pushState`](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState) and [`window.history.replaceState`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState) methods to update the browser's history stack without reloading the page.
+Next.js cho phép bạn sử dụng các phương thức [`window.history.pushState`](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState) và [`window.history.replaceState`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState) native để cập nhật ngăn xếp lịch sử của trình duyệt mà không cần tải lại trang.
 
-`pushState` and `replaceState` calls integrate into the Next.js Router, allowing you to sync with [`usePathname`](/docs/app/api-reference/functions/use-pathname) and [`useSearchParams`](/docs/app/api-reference/functions/use-search-params).
+Các lệnh gọi `pushState` và `replaceState` tích hợp vào Next.js Router, cho phép bạn đồng bộ hóa với [`usePathname`](/docs/app/api-reference/functions/use-pathname) và [`useSearchParams`](/docs/app/api-reference/functions/use-search-params).
 
 #### `window.history.pushState`
 
-Use it to add a new entry to the browser's history stack. The user can navigate back to the previous state. For example, to sort a list of products:
+Sử dụng nó để thêm một mục mới vào ngăn xếp lịch sử của trình duyệt. Người dùng có thể điều hướng quay lại trạng thái trước đó. Ví dụ, để sắp xếp danh sách sản phẩm:
 
 ```tsx fileName="app/ui/sort-products.tsx" switcher
 'use client'
@@ -391,7 +391,7 @@ export default function SortProducts() {
 
 #### `window.history.replaceState`
 
-Use it to replace the current entry on the browser's history stack. The user is not able to navigate back to the previous state. For example, to switch the application's locale:
+Sử dụng nó để thay thế mục hiện tại trên ngăn xếp lịch sử của trình duyệt. Người dùng không thể điều hướng quay lại trạng thái trước đó. Ví dụ, để chuyển đổi locale của ứng dụng:
 
 ```tsx fileName="app/ui/locale-switcher.tsx" switcher
 'use client'

@@ -1,38 +1,38 @@
 ---
-title: How to configure PostCSS in Next.js
+title: Cách cấu hình PostCSS trong Next.js
 nav_title: PostCSS
-description: Extend the PostCSS config and plugins added by Next.js with your own.
+description: Mở rộng cấu hình PostCSS và plugins được thêm bởi Next.js với của riêng bạn.
 ---
 
-## Default Behavior
+## Hành vi mặc định
 
-Next.js compiles CSS for its [built-in CSS support](/docs/app/getting-started/css) using PostCSS.
+Next.js biên dịch CSS cho [hỗ trợ CSS tích hợp sẵn](/docs/app/getting-started/css) của nó bằng PostCSS.
 
-Out of the box, with no configuration, Next.js compiles CSS with the following transformations:
+Ngay từ đầu, không cần cấu hình, Next.js biên dịch CSS với các transformations sau:
 
-- [Autoprefixer](https://github.com/postcss/autoprefixer) automatically adds vendor prefixes to CSS rules (back to IE11).
-- [Cross-browser Flexbox bugs](https://github.com/philipwalton/flexbugs) are corrected to behave like [the spec](https://www.w3.org/TR/css-flexbox-1/).
-- New CSS features are automatically compiled for Internet Explorer 11 compatibility:
+- [Autoprefixer](https://github.com/postcss/autoprefixer) tự động thêm vendor prefixes vào CSS rules (back to IE11).
+- [Cross-browser Flexbox bugs](https://github.com/philipwalton/flexbugs) được sửa để hoạt động như [the spec](https://www.w3.org/TR/css-flexbox-1/).
+- Các tính năng CSS mới được tự động biên dịch để tương thích với Internet Explorer 11:
   - [`all` Property](https://developer.mozilla.org/docs/Web/CSS/all)
   - [Break Properties](https://developer.mozilla.org/docs/Web/CSS/break-after)
   - [`font-variant` Property](https://developer.mozilla.org/docs/Web/CSS/font-variant)
   - [Gap Properties](https://developer.mozilla.org/docs/Web/CSS/gap)
   - [Media Query Ranges](https://developer.mozilla.org/docs/Web/CSS/Media_Queries/Using_media_queries#Syntax_improvements_in_Level_4)
 
-By default, [CSS Grid](https://www.w3.org/TR/css-grid-1/) and [Custom Properties](https://developer.mozilla.org/docs/Web/CSS/var) (CSS variables) are **not compiled** for IE11 support.
+Theo mặc định, [CSS Grid](https://www.w3.org/TR/css-grid-1/) và [Custom Properties](https://developer.mozilla.org/docs/Web/CSS/var) (CSS variables) **không được biên dịch** để hỗ trợ IE11.
 
-To compile [CSS Grid Layout](https://developer.mozilla.org/docs/Web/CSS/grid) for IE11, you can place the following comment at the top of your CSS file:
+Để biên dịch [CSS Grid Layout](https://developer.mozilla.org/docs/Web/CSS/grid) cho IE11, bạn có thể đặt comment sau ở đầu tệp CSS của bạn:
 
 ```css
 /* autoprefixer grid: autoplace */
 ```
 
-You can also enable IE11 support for [CSS Grid Layout](https://developer.mozilla.org/docs/Web/CSS/grid)
-in your entire project by configuring autoprefixer with the configuration shown below (collapsed).
-See ["Customizing Plugins"](#customizing-plugins) below for more information.
+Bạn cũng có thể enable hỗ trợ IE11 cho [CSS Grid Layout](https://developer.mozilla.org/docs/Web/CSS/grid)
+trong toàn bộ dự án của bạn bằng cách cấu hình autoprefixer với cấu hình được hiển thị bên dưới (collapsed).
+Xem [\"Customizing Plugins\"](#customizing-plugins) bên dưới để biết thêm thông tin.
 
 <details>
-  <summary>Click to view the configuration to enable CSS Grid Layout</summary>
+  <summary>Click để xem cấu hình enable CSS Grid Layout</summary>
 
 ```json filename="postcss.config.json"
 {
@@ -57,14 +57,14 @@ See ["Customizing Plugins"](#customizing-plugins) below for more information.
 
 </details>
 
-CSS variables are not compiled because it is [not possible to safely do so](https://github.com/MadLittleMods/postcss-css-variables#caveats).
-If you must use variables, consider using something like [Sass variables](https://sass-lang.com/documentation/variables) which are compiled away by [Sass](https://sass-lang.com/).
+CSS variables không được biên dịch vì [không thể làm điều đó một cách an toàn](https://github.com/MadLittleMods/postcss-css-variables#caveats).
+Nếu bạn phải sử dụng variables, hãy xem xét sử dụng một cái gì đó như [Sass variables](https://sass-lang.com/documentation/variables) được biên dịch bởi [Sass](https://sass-lang.com/).
 
-## Customizing Target Browsers
+## Tùy chỉnh Target Browsers
 
-Next.js allows you to configure the target browsers (for [Autoprefixer](https://github.com/postcss/autoprefixer) and compiled css features) through [Browserslist](https://github.com/browserslist/browserslist).
+Next.js cho phép bạn cấu hình target browsers (cho [Autoprefixer](https://github.com/postcss/autoprefixer) và compiled css features) thông qua [Browserslist](https://github.com/browserslist/browserslist).
 
-To customize browserslist, create a `browserslist` key in your `package.json` like so:
+Để tùy chỉnh browserslist, hãy tạo một key `browserslist` trong `package.json` của bạn như sau:
 
 ```json filename="package.json"
 {
@@ -72,23 +72,23 @@ To customize browserslist, create a `browserslist` key in your `package.json` li
 }
 ```
 
-You can use the [browsersl.ist](https://browsersl.ist/?q=%3E0.3%25%2C+not+ie+11%2C+not+dead%2C+not+op_mini+all) tool to visualize what browsers you are targeting.
+Bạn có thể sử dụng công cụ [browsersl.ist](https://browsersl.ist/?q=%3E0.3%25%2C+not+ie+11%2C+not+dead%2C+not+op_mini+all) để visualize browsers bạn đang targeting.
 
 ## CSS Modules
 
-No configuration is needed to support CSS Modules. To enable CSS Modules for a file, rename the file to have the extension `.module.css`.
+Không cần cấu hình để hỗ trợ CSS Modules. Để enable CSS Modules cho một tệp, hãy đổi tên tệp thành có extension `.module.css`.
 
-You can learn more about [Next.js' CSS Module support here](/docs/app/getting-started/css).
+Bạn có thể tìm hiểu thêm về [hỗ trợ CSS Module của Next.js tại đây](/docs/app/getting-started/css).
 
-## Customizing Plugins
+## Tùy chỉnh Plugins
 
-> **Warning**: When you define a custom PostCSS configuration file, Next.js **completely disables** the [default behavior](#default-behavior).
-> Be sure to manually configure all the features you need compiled, including [Autoprefixer](https://github.com/postcss/autoprefixer).
-> You also need to install any plugins included in your custom configuration manually, i.e. `npm install postcss-flexbugs-fixes postcss-preset-env`.
+> **Cảnh báo**: Khi bạn định nghĩa một tệp cấu hình PostCSS tùy chỉnh, Next.js **hoàn toàn disable** [hành vi mặc định](#default-behavior).
+> Hãy đảm bảo cấu hình thủ công tất cả các tính năng bạn cần được biên dịch, bao gồm [Autoprefixer](https://github.com/postcss/autoprefixer).
+> Bạn cũng cần cài đặt thủ công bất kỳ plugins nào được bao gồm trong cấu hình tùy chỉnh của bạn, tức là `npm install postcss-flexbugs-fixes postcss-preset-env`.
 
-To customize the PostCSS configuration, create a `postcss.config.json` file in the root of your project.
+Để tùy chỉnh cấu hình PostCSS, hãy tạo một tệp `postcss.config.json` trong root của dự án của bạn.
 
-This is the default configuration used by Next.js:
+Đây là cấu hình mặc định được sử dụng bởi Next.js:
 
 ```json filename="postcss.config.json"
 {
@@ -110,9 +110,9 @@ This is the default configuration used by Next.js:
 }
 ```
 
-> **Good to know**: Next.js also allows the file to be named `.postcssrc.json`, or, to be read from the `postcss` key in `package.json`.
+> **Nên biết**: Next.js cũng cho phép tệp được đặt tên là `.postcssrc.json`, hoặc, được đọc từ key `postcss` trong `package.json`.
 
-It is also possible to configure PostCSS with a `postcss.config.js` file, which is useful when you want to conditionally include plugins based on environment:
+Cũng có thể cấu hình PostCSS với một tệp `postcss.config.js`, hữu ích khi bạn muốn conditionally include plugins dựa trên environment:
 
 ```js filename="postcss.config.js"
 module.exports = {
@@ -139,11 +139,11 @@ module.exports = {
 }
 ```
 
-> **Good to know**: Next.js also allows the file to be named `.postcssrc.js`.
+> **Nên biết**: Next.js cũng cho phép tệp được đặt tên là `.postcssrc.js`.
 
-Do **not use `require()`** to import the PostCSS Plugins. Plugins must be provided as strings.
+**Không sử dụng `require()`** để import PostCSS Plugins. Plugins phải được cung cấp dưới dạng strings.
 
-> **Good to know**: If your `postcss.config.js` needs to support other non-Next.js tools in the same project, you must use the interoperable object-based format instead:
+> **Nên biết**: Nếu `postcss.config.js` của bạn cần hỗ trợ các công cụ non-Next.js khác trong cùng dự án, bạn phải sử dụng định dạng object-based có thể tương tác thay thế:
 >
 > ```js
 > module.exports = {

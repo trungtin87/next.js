@@ -1,36 +1,36 @@
 ---
-title: How to set up instrumentation with OpenTelemetry
+title: Cách thiết lập instrumentation với OpenTelemetry
 nav_title: OpenTelemetry
-description: Learn how to instrument your Next.js app with OpenTelemetry.
+description: Tìm hiểu cách instrument ứng dụng Next.js của bạn với OpenTelemetry.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng component `<PagesOnly>Content</PagesOnly>` để thêm nội dung cụ thể cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bọc trong một component. */}
 
-Observability is crucial for understanding and optimizing the behavior and performance of your Next.js app.
+Observability (Khả năng quan sát) là rất quan trọng để hiểu và tối ưu hóa hành vi và hiệu suất của ứng dụng Next.js của bạn.
 
-As applications become more complex, it becomes increasingly difficult to identify and diagnose issues that may arise. By leveraging observability tools, such as logging and metrics, developers can gain insights into their application's behavior and identify areas for optimization. With observability, developers can proactively address issues before they become major problems and provide a better user experience. Therefore, it is highly recommended to use observability in your Next.js applications to improve performance, optimize resources, and enhance user experience.
+Khi các ứng dụng trở nên phức tạp hơn, việc xác định và chẩn đoán các vấn đề có thể phát sinh ngày càng trở nên khó khăn. Bằng cách tận dụng các công cụ observability, chẳng hạn như logging và metrics, các nhà phát triển có thể có được cái nhìn sâu sắc về hành vi của ứng dụng và xác định các khu vực cần tối ưu hóa. Với observability, các nhà phát triển có thể chủ động giải quyết các vấn đề trước khi chúng trở thành vấn đề lớn và cung cấp trải nghiệm người dùng tốt hơn. Do đó, rất khuyến khích sử dụng observability trong các ứng dụng Next.js của bạn để cải thiện hiệu suất, tối ưu hóa tài nguyên và nâng cao trải nghiệm người dùng.
 
-We recommend using OpenTelemetry for instrumenting your apps.
-It's a platform-agnostic way to instrument apps that allows you to change your observability provider without changing your code.
-Read [Official OpenTelemetry docs](https://opentelemetry.io/docs/) for more information about OpenTelemetry and how it works.
+Chúng tôi khuyên bạn nên sử dụng OpenTelemetry để instrument (gắn công cụ đo lường) cho các ứng dụng của mình.
+Đó là một cách không phụ thuộc vào nền tảng để instrument các ứng dụng, cho phép bạn thay đổi nhà cung cấp observability của mình mà không cần thay đổi mã.
+Đọc [Tài liệu OpenTelemetry chính thức](https://opentelemetry.io/docs/) để biết thêm thông tin về OpenTelemetry và cách nó hoạt động.
 
-This documentation uses terms like _Span_, _Trace_ or _Exporter_ throughout this doc, all of which can be found in [the OpenTelemetry Observability Primer](https://opentelemetry.io/docs/concepts/observability-primer/).
+Tài liệu này sử dụng các thuật ngữ như _Span_, _Trace_ hoặc _Exporter_ xuyên suốt tài liệu này, tất cả đều có thể được tìm thấy trong [OpenTelemetry Observability Primer](https://opentelemetry.io/docs/concepts/observability-primer/).
 
-Next.js supports OpenTelemetry instrumentation out of the box, which means that we already instrumented Next.js itself.
+Next.js hỗ trợ OpenTelemetry instrumentation ngay lập tức, có nghĩa là chúng tôi đã instrument Next.js.
 
 <PagesOnly>
-  When you enable OpenTelemetry we will automatically wrap all your code like
-  `getStaticProps` in _spans_ with helpful attributes.
+  Khi bạn bật OpenTelemetry, chúng tôi sẽ tự động bọc tất cả mã của bạn như
+  `getStaticProps` trong các _spans_ với các thuộc tính hữu ích.
 </PagesOnly>
 
-## Getting Started
+## Bắt đầu
 
-OpenTelemetry is extensible but setting it up properly can be quite verbose.
-That's why we prepared a package `@vercel/otel` that helps you get started quickly.
+OpenTelemetry có thể mở rộng nhưng việc thiết lập nó đúng cách có thể khá dài dòng.
+Đó là lý do tại sao chúng tôi đã chuẩn bị gói `@vercel/otel` giúp bạn bắt đầu nhanh chóng.
 
-### Using `@vercel/otel`
+### Sử dụng `@vercel/otel`
 
-To get started, install the following packages:
+Để bắt đầu, hãy cài đặt các gói sau:
 
 ```bash filename="Terminal"
 npm install @vercel/otel @opentelemetry/sdk-logs @opentelemetry/api-logs @opentelemetry/instrumentation
@@ -38,13 +38,13 @@ npm install @vercel/otel @opentelemetry/sdk-logs @opentelemetry/api-logs @opente
 
 <AppOnly>
 
-Next, create a custom [`instrumentation.ts`](/docs/app/guides/instrumentation) (or `.js`) file in the **root directory** of the project (or inside `src` folder if using one):
+Tiếp theo, tạo một tệp [`instrumentation.ts`](/docs/app/guides/instrumentation) (hoặc `.js`) tùy chỉnh trong **thư mục gốc** của dự án (hoặc bên trong thư mục `src` nếu đang sử dụng):
 
 </AppOnly>
 
 <PagesOnly>
 
-Next, create a custom [`instrumentation.ts`](/docs/pages/guides/instrumentation) (or `.js`) file in the **root directory** of the project (or inside `src` folder if using one):
+Tiếp theo, tạo một tệp [`instrumentation.ts`](/docs/pages/guides/instrumentation) (hoặc `.js`) tùy chỉnh trong **thư mục gốc** của dự án (hoặc bên trong thư mục `src` nếu đang sử dụng):
 
 </PagesOnly>
 
@@ -64,40 +64,40 @@ export function register() {
 }
 ```
 
-See the [`@vercel/otel` documentation](https://www.npmjs.com/package/@vercel/otel) for additional configuration options.
+Xem [tài liệu `@vercel/otel`](https://www.npmjs.com/package/@vercel/otel) để biết thêm các tùy chọn cấu hình.
 
 <AppOnly>
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - The `instrumentation` file should be in the root of your project and not inside the `app` or `pages` directory. If you're using the `src` folder, then place the file inside `src` alongside `pages` and `app`.
-> - If you use the [`pageExtensions` config option](/docs/app/api-reference/config/next-config-js/pageExtensions) to add a suffix, you will also need to update the `instrumentation` filename to match.
-> - We have created a basic [with-opentelemetry](https://github.com/vercel/next.js/tree/canary/examples/with-opentelemetry) example that you can use.
+> - Tệp `instrumentation` nên nằm trong thư mục gốc của dự án của bạn và không nằm trong thư mục `app` hoặc `pages`. Nếu bạn đang sử dụng thư mục `src`, hãy đặt tệp bên trong `src` cùng với `pages` và `app`.
+> - Nếu bạn sử dụng [tùy chọn cấu hình `pageExtensions`](/docs/app/api-reference/config/next-config-js/pageExtensions) để thêm hậu tố, bạn cũng sẽ cần cập nhật tên tệp `instrumentation` cho khớp.
+> - Chúng tôi đã tạo một ví dụ [with-opentelemetry](https://github.com/vercel/next.js/tree/canary/examples/with-opentelemetry) cơ bản mà bạn có thể sử dụng.
 
 </AppOnly>
 
 <PagesOnly>
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - The `instrumentation` file should be in the root of your project and not inside the `app` or `pages` directory. If you're using the `src` folder, then place the file inside `src` alongside `pages` and `app`.
-> - If you use the [`pageExtensions` config option](/docs/pages/api-reference/config/next-config-js/pageExtensions) to add a suffix, you will also need to update the `instrumentation` filename to match.
-> - We have created a basic [with-opentelemetry](https://github.com/vercel/next.js/tree/canary/examples/with-opentelemetry) example that you can use.
+> - Tệp `instrumentation` nên nằm trong thư mục gốc của dự án của bạn và không nằm trong thư mục `app` hoặc `pages`. Nếu bạn đang sử dụng thư mục `src`, hãy đặt tệp bên trong `src` cùng với `pages` và `app`.
+> - Nếu bạn sử dụng [tùy chọn cấu hình `pageExtensions`](/docs/pages/api-reference/config/next-config-js/pageExtensions) để thêm hậu tố, bạn cũng sẽ cần cập nhật tên tệp `instrumentation` cho khớp.
+> - Chúng tôi đã tạo một ví dụ [with-opentelemetry](https://github.com/vercel/next.js/tree/canary/examples/with-opentelemetry) cơ bản mà bạn có thể sử dụng.
 
 </PagesOnly>
 
-### Manual OpenTelemetry configuration
+### Cấu hình OpenTelemetry thủ công
 
-The `@vercel/otel` package provides many configuration options and should serve most of common use cases. But if it doesn't suit your needs, you can configure OpenTelemetry manually.
+Gói `@vercel/otel` cung cấp nhiều tùy chọn cấu hình và sẽ phục vụ hầu hết các trường hợp sử dụng phổ biến. Nhưng nếu nó không phù hợp với nhu cầu của bạn, bạn có thể cấu hình OpenTelemetry thủ công.
 
-Firstly you need to install OpenTelemetry packages:
+Đầu tiên bạn cần cài đặt các gói OpenTelemetry:
 
 ```bash filename="Terminal"
 npm install @opentelemetry/sdk-node @opentelemetry/resources @opentelemetry/semantic-conventions @opentelemetry/sdk-trace-node @opentelemetry/exporter-trace-otlp-http
 ```
 
-Now you can initialize `NodeSDK` in your `instrumentation.ts`.
-Unlike `@vercel/otel`, `NodeSDK` is not compatible with edge runtime, so you need to make sure that you are importing them only when `process.env.NEXT_RUNTIME === 'nodejs'`. We recommend creating a new file `instrumentation.node.ts` which you conditionally import only when using node:
+Bây giờ bạn có thể khởi tạo `NodeSDK` trong `instrumentation.ts` của mình.
+Không giống như `@vercel/otel`, `NodeSDK` không tương thích với edge runtime, vì vậy bạn cần đảm bảo rằng bạn chỉ import chúng khi `process.env.NEXT_RUNTIME === 'nodejs'`. Chúng tôi khuyên bạn nên tạo một tệp mới `instrumentation.node.ts` mà bạn import có điều kiện chỉ khi sử dụng node:
 
 ```ts filename="instrumentation.ts" switcher
 export async function register() {
@@ -147,53 +147,53 @@ const sdk = new NodeSDK({
 sdk.start()
 ```
 
-Doing this is equivalent to using `@vercel/otel`, but it's possible to modify and extend some features that are not exposed by the `@vercel/otel`. If edge runtime support is necessary, you will have to use `@vercel/otel`.
+Làm điều này tương đương với việc sử dụng `@vercel/otel`, nhưng có thể sửa đổi và mở rộng một số tính năng không được `@vercel/otel` để lộ. Nếu hỗ trợ edge runtime là cần thiết, bạn sẽ phải sử dụng `@vercel/otel`.
 
-## Testing your instrumentation
+## Kiểm tra instrumentation của bạn
 
-You need an OpenTelemetry collector with a compatible backend to test OpenTelemetry traces locally.
-We recommend using our [OpenTelemetry dev environment](https://github.com/vercel/opentelemetry-collector-dev-setup).
+Bạn cần một OpenTelemetry collector với backend tương thích để kiểm tra OpenTelemetry traces cục bộ.
+Chúng tôi khuyên bạn nên sử dụng [môi trường phát triển OpenTelemetry](https://github.com/vercel/opentelemetry-collector-dev-setup) của chúng tôi.
 
-If everything works well you should be able to see the root server span labeled as `GET /requested/pathname`.
-All other spans from that particular trace will be nested under it.
+Nếu mọi thứ hoạt động tốt, bạn sẽ có thể thấy root server span được gắn nhãn là `GET /requested/pathname`.
+Tất cả các spans khác từ trace cụ thể đó sẽ được lồng dưới nó.
 
-Next.js traces more spans than are emitted by default.
-To see more spans, you must set `NEXT_OTEL_VERBOSE=1`.
+Next.js traces nhiều spans hơn mức được phát ra theo mặc định.
+Để xem thêm spans, bạn phải đặt `NEXT_OTEL_VERBOSE=1`.
 
-## Deployment
+## Triển khai (Deployment)
 
-### Using OpenTelemetry Collector
+### Sử dụng OpenTelemetry Collector
 
-When you are deploying with OpenTelemetry Collector, you can use `@vercel/otel`.
-It will work both on Vercel and when self-hosted.
+Khi bạn đang deploy với OpenTelemetry Collector, bạn có thể sử dụng `@vercel/otel`.
+Nó sẽ hoạt động cả trên Vercel và khi self-hosted (tự host).
 
-#### Deploying on Vercel
+#### Deploy trên Vercel
 
-We made sure that OpenTelemetry works out of the box on Vercel.
+Chúng tôi đảm bảo rằng OpenTelemetry hoạt động ngay lập tức trên Vercel.
 
-Follow [Vercel documentation](https://vercel.com/docs/concepts/observability/otel-overview/quickstart) to connect your project to an observability provider.
+Làm theo [tài liệu Vercel](https://vercel.com/docs/concepts/observability/otel-overview/quickstart) để kết nối dự án của bạn với nhà cung cấp observability.
 
 #### Self-hosting
 
-Deploying to other platforms is also straightforward. You will need to spin up your own OpenTelemetry Collector to receive and process the telemetry data from your Next.js app.
+Deploy lên các nền tảng khác cũng rất đơn giản. Bạn sẽ cần khởi động OpenTelemetry Collector của riêng mình để nhận và xử lý dữ liệu telemetry từ ứng dụng Next.js của bạn.
 
-To do this, follow the [OpenTelemetry Collector Getting Started guide](https://opentelemetry.io/docs/collector/getting-started/), which will walk you through setting up the collector and configuring it to receive data from your Next.js app.
+Để làm điều này, hãy làm theo [Hướng dẫn Bắt đầu OpenTelemetry Collector](https://opentelemetry.io/docs/collector/getting-started/), hướng dẫn này sẽ hướng dẫn bạn thiết lập collector và cấu hình nó để nhận dữ liệu từ ứng dụng Next.js của bạn.
 
-Once you have your collector up and running, you can deploy your Next.js app to your chosen platform following their respective deployment guides.
+Khi bạn đã có collector hoạt động, bạn có thể deploy ứng dụng Next.js của mình lên nền tảng đã chọn theo hướng dẫn deploy tương ứng của họ.
 
 ### Custom Exporters
 
-OpenTelemetry Collector is not necessary. You can use a custom OpenTelemetry exporter with [`@vercel/otel`](#using-vercelotel) or [manual OpenTelemetry configuration](#manual-opentelemetry-configuration).
+OpenTelemetry Collector là không cần thiết. Bạn có thể sử dụng một OpenTelemetry exporter tùy chỉnh với [`@vercel/otel`](#using-vercelotel) hoặc [cấu hình OpenTelemetry thủ công](#manual-opentelemetry-configuration).
 
 ## Custom Spans
 
-You can add a custom span with [OpenTelemetry APIs](https://opentelemetry.io/docs/instrumentation/js/instrumentation).
+Bạn có thể thêm một custom span với [OpenTelemetry APIs](https://opentelemetry.io/docs/instrumentation/js/instrumentation).
 
 ```bash filename="Terminal"
 npm install @opentelemetry/api
 ```
 
-The following example demonstrates a function that fetches GitHub stars and adds a custom `fetchGithubStars` span to track the fetch request's result:
+Ví dụ sau minh họa một hàm fetch GitHub stars và thêm một custom span `fetchGithubStars` để theo dõi kết quả của fetch request:
 
 ```ts
 import { trace } from '@opentelemetry/api'
@@ -211,36 +211,36 @@ export async function fetchGithubStars() {
 }
 ```
 
-The `register` function will execute before your code runs in a new environment.
-You can start creating new spans, and they should be correctly added to the exported trace.
+Hàm `register` sẽ thực thi trước khi mã của bạn chạy trong một môi trường mới.
+Bạn có thể bắt đầu tạo các spans mới, và chúng sẽ được thêm chính xác vào trace đã export.
 
-## Default Spans in Next.js
+## Default Spans trong Next.js
 
-Next.js automatically instruments several spans for you to provide useful insights into your application's performance.
+Next.js tự động instruments một số spans cho bạn để cung cấp thông tin chi tiết hữu ích về hiệu suất ứng dụng của bạn.
 
-Attributes on spans follow [OpenTelemetry semantic conventions](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/). We also add some custom attributes under the `next` namespace:
+Các thuộc tính trên spans tuân theo [OpenTelemetry semantic conventions](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/). Chúng tôi cũng thêm một số thuộc tính tùy chỉnh dưới namespace `next`:
 
-- `next.span_name` - duplicates span name
-- `next.span_type` - each span type has a unique identifier
-- `next.route` - The route pattern of the request (e.g., `/[param]/user`).
-- `next.rsc` (true/false) - Whether the request is an RSC request, such as prefetch.
+- `next.span_name` - sao chép tên span
+- `next.span_type` - mỗi loại span có một định danh duy nhất
+- `next.route` - Mẫu route của request (v.d., `/[param]/user`).
+- `next.rsc` (true/false) - Liệu request có phải là RSC request hay không, chẳng hạn như prefetch.
 - `next.page`
-  - This is an internal value used by an app router.
-  - You can think about it as a route to a special file (like `page.ts`, `layout.ts`, `loading.ts` and others)
-  - It can be used as a unique identifier only when paired with `next.route` because `/layout` can be used to identify both `/(groupA)/layout.ts` and `/(groupB)/layout.ts`
+  - Đây là một giá trị nội bộ được sử dụng bởi app router.
+  - Bạn có thể nghĩ về nó như một route đến một tệp đặc biệt (như `page.ts`, `layout.ts`, `loading.ts` và các tệp khác)
+  - Nó chỉ có thể được sử dụng như một định danh duy nhất khi được ghép nối với `next.route` vì `/layout` có thể được sử dụng để xác định cả `/(groupA)/layout.ts` và `/(groupB)/layout.ts`
 
 ### `[http.method] [next.route]`
 
 - `next.span_type`: `BaseServer.handleRequest`
 
-This span represents the root span for each incoming request to your Next.js application. It tracks the HTTP method, route, target, and status code of the request.
+Span này đại diện cho root span cho mỗi request đến ứng dụng Next.js của bạn. Nó theo dõi phương thức HTTP, route, target, và mã trạng thái của request.
 
-Attributes:
+Thuộc tính:
 
-- [Common HTTP attributes](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#common-attributes)
+- [Các thuộc tính HTTP chung](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#common-attributes)
   - `http.method`
   - `http.status_code`
-- [Server HTTP attributes](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#http-server-semantic-conventions)
+- [Các thuộc tính HTTP Server](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#http-server-semantic-conventions)
   - `http.route`
   - `http.target`
 - `next.span_name`
@@ -251,9 +251,9 @@ Attributes:
 
 - `next.span_type`: `AppRender.getBodyResult`.
 
-This span represents the process of rendering a route in the app router.
+Span này đại diện cho quá trình render một route trong app router.
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -263,28 +263,28 @@ Attributes:
 
 - `next.span_type`: `AppRender.fetch`
 
-This span represents the fetch request executed in your code.
+Span này đại diện cho fetch request được thực thi trong mã của bạn.
 
-Attributes:
+Thuộc tính:
 
-- [Common HTTP attributes](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#common-attributes)
+- [Các thuộc tính HTTP chung](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#common-attributes)
   - `http.method`
-- [Client HTTP attributes](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#http-client)
+- [Các thuộc tính HTTP Client](https://opentelemetry.io/docs/reference/specification/trace/semantic_conventions/http/#http-client)
   - `http.url`
   - `net.peer.name`
-  - `net.peer.port` (only if specified)
+  - `net.peer.port` (chỉ khi được chỉ định)
 - `next.span_name`
 - `next.span_type`
 
-This span can be turned off by setting `NEXT_OTEL_FETCH_DISABLED=1` in your environment. This is useful when you want to use a custom fetch instrumentation library.
+Span này có thể được tắt bằng cách đặt `NEXT_OTEL_FETCH_DISABLED=1` trong môi trường của bạn. Điều này hữu ích khi bạn muốn sử dụng thư viện fetch instrumentation tùy chỉnh.
 
 ### `executing api route (app) [next.route]`
 
 - `next.span_type`: `AppRouteRouteHandlers.runHandler`.
 
-This span represents the execution of an API Route Handler in the app router.
+Span này đại diện cho việc thực thi API Route Handler trong app router.
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -294,9 +294,9 @@ Attributes:
 
 - `next.span_type`: `Render.getServerSideProps`.
 
-This span represents the execution of `getServerSideProps` for a specific route.
+Span này đại diện cho việc thực thi `getServerSideProps` cho một route cụ thể.
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -306,9 +306,9 @@ Attributes:
 
 - `next.span_type`: `Render.getStaticProps`.
 
-This span represents the execution of `getStaticProps` for a specific route.
+Span này đại diện cho việc thực thi `getStaticProps` cho một route cụ thể.
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -318,9 +318,9 @@ Attributes:
 
 - `next.span_type`: `Render.renderDocument`.
 
-This span represents the process of rendering the document for a specific route.
+Span này đại diện cho quá trình render tài liệu cho một route cụ thể.
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -330,9 +330,9 @@ Attributes:
 
 - `next.span_type`: `ResolveMetadata.generateMetadata`.
 
-This span represents the process of generating metadata for a specific page (a single route can have multiple of these spans).
+Span này đại diện cho quá trình tạo metadata cho một trang cụ thể (một route đơn lẻ có thể có nhiều span này).
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -342,9 +342,9 @@ Attributes:
 
 - `next.span_type`: `NextNodeServer.findPageComponents`.
 
-This span represents the process of resolving page components for a specific page.
+Span này đại diện cho quá trình phân giải các component trang cho một trang cụ thể.
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -354,9 +354,9 @@ Attributes:
 
 - `next.span_type`: `NextNodeServer.getLayoutOrPageModule`.
 
-This span represents loading of code modules for a layout or a page.
+Span này đại diện cho việc tải các module mã cho một layout hoặc một trang.
 
-Attributes:
+Thuộc tính:
 
 - `next.span_name`
 - `next.span_type`
@@ -366,4 +366,4 @@ Attributes:
 
 - `next.span_type`: `NextNodeServer.startResponse`.
 
-This zero-length span represents the time when the first byte has been sent in the response.
+Span có độ dài bằng không này đại diện cho thời điểm byte đầu tiên đã được gửi trong phản hồi.

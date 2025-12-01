@@ -1,43 +1,43 @@
 ---
-title: How to build micro-frontends using multi-zones and Next.js
+title: Cách xây dựng micro-frontends sử dụng multi-zones và Next.js
 nav_title: Multi-zones
-description: Learn how to build micro-frontends using Next.js Multi-Zones to deploy multiple Next.js apps under a single domain.
+description: Tìm hiểu cách xây dựng micro-frontends sử dụng Next.js Multi-Zones để deploy nhiều ứng dụng Next.js dưới một domain duy nhất.
 ---
 
-{/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
+{/* Nội dung của tài liệu này được chia sẻ giữa app và pages router. Bạn có thể sử dụng component `<PagesOnly>Content</PagesOnly>` để thêm nội dung cụ thể cho Pages Router. Bất kỳ nội dung được chia sẻ nào không nên được bọc trong một component. */}
 
 <details open>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
-- [With Zones](https://github.com/vercel/next.js/tree/canary/examples/with-zones)
+- [Với Zones](https://github.com/vercel/next.js/tree/canary/examples/with-zones)
 
 </details>
 
-Multi-Zones are an approach to micro-frontends that separate a large application on a domain into smaller Next.js applications that each serve a set of paths. This is useful when there are collections of pages unrelated to the other pages in the application. By moving those pages to a separate zone (i.e., a separate application), you can reduce the size of each application which improves build times and removes code that is only necessary for one of the zones. Since applications are decoupled, Multi-Zones also allows other applications on the domain to use their own choice of framework.
+Multi-Zones là một cách tiếp cận micro-frontends giúp tách một ứng dụng lớn trên một domain thành các ứng dụng Next.js nhỏ hơn, mỗi ứng dụng phục vụ một tập hợp các đường dẫn. Điều này hữu ích khi có các bộ sưu tập các trang không liên quan đến các trang khác trong ứng dụng. Bằng cách di chuyển các trang đó sang một zone riêng biệt (tức là một ứng dụng riêng biệt), bạn có thể giảm kích thước của mỗi ứng dụng, giúp cải thiện thời gian build và loại bỏ mã chỉ cần thiết cho một trong các zone. Vì các ứng dụng được tách rời, Multi-Zones cũng cho phép các ứng dụng khác trên domain sử dụng framework lựa chọn của riêng chúng.
 
-For example, let's say you have the following set of pages that you would like to split up:
+Ví dụ, giả sử bạn có tập hợp các trang sau mà bạn muốn chia nhỏ:
 
-- `/blog/*` for all blog posts
-- `/dashboard/*` for all pages when the user is logged-in to the dashboard
-- `/*` for the rest of your website not covered by other zones
+- `/blog/*` cho tất cả các bài đăng blog
+- `/dashboard/*` cho tất cả các trang khi người dùng đã đăng nhập vào dashboard
+- `/*` cho phần còn lại của trang web của bạn không được bao phủ bởi các zone khác
 
-With Multi-Zones support, you can create three applications that all are served on the same domain and look the same to the user, but you can develop and deploy each of the applications independently.
+Với hỗ trợ Multi-Zones, bạn có thể tạo ba ứng dụng đều được phục vụ trên cùng một domain và trông giống nhau đối với người dùng, nhưng bạn có thể phát triển và deploy từng ứng dụng một cách độc lập.
 
 <Image
-  alt="Three zones: A, B, C. Showing a hard navigation between routes from different zones, and soft navigations between routes within the same zone."
+  alt="Ba zone: A, B, C. Hiển thị điều hướng cứng giữa các route từ các zone khác nhau, và điều hướng mềm giữa các route trong cùng một zone."
   srcLight="/docs/light/multi-zones.png"
   srcDark="/docs/dark/multi-zones.png"
   width="1600"
   height="750"
 />
 
-Navigating between pages in the same zone will perform soft navigations, a navigation that does not require reloading the page. For example, in this diagram, navigating from `/` to `/products` will be a soft navigation.
+Điều hướng giữa các trang trong cùng một zone sẽ thực hiện soft navigations (điều hướng mềm), một điều hướng không yêu cầu tải lại trang. Ví dụ, trong sơ đồ này, điều hướng từ `/` đến `/products` sẽ là một soft navigation.
 
-Navigating from a page in one zone to a page in another zone, such as from `/` to `/dashboard`, will perform a hard navigation, unloading the resources of the current page and loading the resources of the new page. Pages that are frequently visited together should live in the same zone to avoid hard navigations.
+Điều hướng từ một trang trong một zone sang một trang trong một zone khác, chẳng hạn như từ `/` đến `/dashboard`, sẽ thực hiện hard navigation (điều hướng cứng), dỡ bỏ tài nguyên của trang hiện tại và tải tài nguyên của trang mới. Các trang thường xuyên được truy cập cùng nhau nên nằm trong cùng một zone để tránh hard navigations.
 
-## How to define a zone
+## Cách định nghĩa một zone
 
-A zone is a normal Next.js application where you also configure an [assetPrefix](/docs/app/api-reference/config/next-config-js/assetPrefix) to avoid conflicts with pages and static files in other zones.
+Một zone là một ứng dụng Next.js bình thường nơi bạn cũng cấu hình một [assetPrefix](/docs/app/api-reference/config/next-config-js/assetPrefix) để tránh xung đột với các trang và tệp tĩnh trong các zone khác.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -46,11 +46,11 @@ const nextConfig = {
 }
 ```
 
-Next.js assets, such as JavaScript and CSS, will be prefixed with `assetPrefix` to make sure that they don't conflict with assets from other zones. These assets will be served under `/assetPrefix/_next/...` for each of the zones.
+Các tài sản Next.js, chẳng hạn như JavaScript và CSS, sẽ được thêm tiền tố `assetPrefix` để đảm bảo rằng chúng không xung đột với các tài sản từ các zone khác. Các tài sản này sẽ được phục vụ dưới `/assetPrefix/_next/...` cho mỗi zone.
 
-The default application handling all paths not routed to another more specific zone does not need an `assetPrefix`.
+Ứng dụng mặc định xử lý tất cả các đường dẫn không được định tuyến đến một zone cụ thể khác không cần `assetPrefix`.
 
-In versions older than Next.js 15, you may also need an additional rewrite to handle the static assets. This is no longer necessary in Next.js 15.
+Trong các phiên bản cũ hơn Next.js 15, bạn cũng có thể cần một rewrite bổ sung để xử lý các tài sản tĩnh. Điều này không còn cần thiết trong Next.js 15.
 
 ```js filename="next.config.js"
 /** @type {import('next').NextConfig} */
@@ -69,11 +69,11 @@ const nextConfig = {
 }
 ```
 
-## How to route requests to the right zone
+## Cách định tuyến request đến đúng zone
 
-With the Multi Zones set-up, you need to route the paths to the correct zone since they are served by different applications. You can use any HTTP proxy to do this, but one of the Next.js applications can also be used to route requests for the entire domain.
+Với thiết lập Multi Zones, bạn cần định tuyến các đường dẫn đến đúng zone vì chúng được phục vụ bởi các ứng dụng khác nhau. Bạn có thể sử dụng bất kỳ HTTP proxy nào để làm điều này, nhưng một trong các ứng dụng Next.js cũng có thể được sử dụng để định tuyến các request cho toàn bộ domain.
 
-To route to the correct zone using a Next.js application, you can use [`rewrites`](/docs/app/api-reference/config/next-config-js/rewrites). For each path served by a different zone, you would add a rewrite rule to send that path to the domain of the other zone, and you also need to rewrite the requests for the static assets. For example:
+Để định tuyến đến đúng zone bằng ứng dụng Next.js, bạn có thể sử dụng [`rewrites`](/docs/app/api-reference/config/next-config-js/rewrites). Đối với mỗi đường dẫn được phục vụ bởi một zone khác nhau, bạn sẽ thêm một quy tắc rewrite để gửi đường dẫn đó đến domain của zone khác, và bạn cũng cần rewrite các request cho các tài sản tĩnh. Ví dụ:
 
 ```js filename="next.config.js"
 async rewrites() {
@@ -94,13 +94,13 @@ async rewrites() {
 }
 ```
 
-`destination` should be a URL that is served by the zone, including scheme and domain. This should point to the zone's production domain, but it can also be used to route requests to `localhost` in local development.
+`destination` phải là một URL được phục vụ bởi zone, bao gồm scheme và domain. Điều này nên trỏ đến domain production của zone, nhưng nó cũng có thể được sử dụng để định tuyến các request đến `localhost` trong quá trình phát triển cục bộ.
 
-> **Good to know**: URL paths should be unique to a zone. For example, two zones trying to serve `/blog` would create a routing conflict.
+> **Cần biết**: Các đường dẫn URL phải là duy nhất cho một zone. Ví dụ, hai zone cố gắng phục vụ `/blog` sẽ tạo ra xung đột định tuyến.
 
-### Routing requests using proxy
+### Định tuyến request sử dụng proxy
 
-Routing requests through [`rewrites`](/docs/app/api-reference/config/next-config-js/rewrites) is recommended to minimize latency overhead for the requests, but proxy can also be used when there is a need for a dynamic decision when routing. For example, if you are using a feature flag to decide where a path should be routed such as during a migration, you can use proxy.
+Định tuyến các request thông qua [`rewrites`](/docs/app/api-reference/config/next-config-js/rewrites) được khuyến nghị để giảm thiểu chi phí độ trễ cho các request, nhưng proxy cũng có thể được sử dụng khi cần quyết định động khi định tuyến. Ví dụ, nếu bạn đang sử dụng feature flag để quyết định nơi một đường dẫn nên được định tuyến chẳng hạn như trong quá trình di chuyển, bạn có thể sử dụng proxy.
 
 ```js filename="proxy.js"
 export async function proxy(request) {
@@ -111,21 +111,21 @@ export async function proxy(request) {
 }
 ```
 
-## Linking between zones
+## Liên kết giữa các zone
 
-Links to paths in a different zone should use an `a` tag instead of the Next.js [`<Link>`](/docs/pages/api-reference/components/link) component. This is because Next.js will try to prefetch and soft navigate to any relative path in `<Link>` component, which will not work across zones.
+Các liên kết đến các đường dẫn trong một zone khác nên sử dụng thẻ `a` thay vì component [`<Link>`](/docs/pages/api-reference/components/link) của Next.js. Điều này là do Next.js sẽ cố gắng prefetch và soft navigate đến bất kỳ đường dẫn tương đối nào trong component `<Link>`, điều này sẽ không hoạt động giữa các zone.
 
-## Sharing code
+## Chia sẻ mã
 
-The Next.js applications that make up the different zones can live in any repository. However, it is often convenient to put these zones in a [monorepo](https://en.wikipedia.org/wiki/Monorepo) to more easily share code. For zones that live in different repositories, code can also be shared using public or private NPM packages.
+Các ứng dụng Next.js tạo nên các zone khác nhau có thể nằm trong bất kỳ kho lưu trữ nào. Tuy nhiên, thường thuận tiện hơn khi đặt các zone này trong một [monorepo](https://en.wikipedia.org/wiki/Monorepo) để chia sẻ mã dễ dàng hơn. Đối với các zone nằm trong các kho lưu trữ khác nhau, mã cũng có thể được chia sẻ bằng cách sử dụng các gói NPM công khai hoặc riêng tư.
 
-Since the pages in different zones may be released at different times, feature flags can be useful for enabling or disabling features in unison across the different zones.
+Vì các trang trong các zone khác nhau có thể được phát hành vào các thời điểm khác nhau, feature flags có thể hữu ích để bật hoặc tắt các tính năng đồng thời trên các zone khác nhau.
 
 <AppOnly>
 
 ## Server Actions
 
-When using [Server Actions](/docs/app/getting-started/updating-data) with Multi-Zones, you must explicitly allow the user-facing origin since your user facing domain may serve multiple applications. In your `next.config.js` file, add the following lines:
+Khi sử dụng [Server Actions](/docs/app/getting-started/updating-data) với Multi-Zones, bạn phải cho phép nguồn gốc hướng tới người dùng một cách rõ ràng vì domain hướng tới người dùng của bạn có thể phục vụ nhiều ứng dụng. Trong tệp `next.config.js` của bạn, hãy thêm các dòng sau:
 
 ```js filename="next.config.js"
 const nextConfig = {
@@ -137,6 +137,6 @@ const nextConfig = {
 }
 ```
 
-See [`serverActions.allowedOrigins`](/docs/app/api-reference/config/next-config-js/serverActions#allowedorigins) for more information.
+Xem [`serverActions.allowedOrigins`](/docs/app/api-reference/config/next-config-js/serverActions#allowedorigins) để biết thêm thông tin.
 
 </AppOnly>

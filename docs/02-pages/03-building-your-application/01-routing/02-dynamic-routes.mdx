@@ -1,62 +1,62 @@
 ---
-title: Dynamic Routes
-description: Dynamic Routes are pages that allow you to add custom params to your URLs. Start creating Dynamic Routes and learn more here.
+title: Tuyến đường động
+description: Tuyến đường động là các trang cho phép bạn thêm các tham số tùy chỉnh vào URL của mình. Bắt đầu tạo Tuyến đường động và tìm hiểu thêm tại đây.
 related:
-  title: Next Steps
-  description: For more information on what to do next, we recommend the following sections
+  title: Các bước tiếp theo
+  description: Để biết thêm thông tin về những việc cần làm tiếp theo, chúng tôi khuyên bạn nên xem các phần sau
   links:
     - pages/building-your-application/routing/linking-and-navigating
     - pages/api-reference/functions/use-router
 ---
 
-When you don't know the exact segment names ahead of time and want to create routes from dynamic data, you can use Dynamic Segments that are filled in at request time or [prerendered](/docs/pages/building-your-application/data-fetching/get-static-paths) at build time.
+Khi bạn không biết trước tên phân đoạn chính xác và muốn tạo tuyến đường từ dữ liệu động, bạn có thể sử dụng Phân đoạn động được điền vào tại thời điểm yêu cầu hoặc [kết xuất trước](/docs/pages/building-your-application/data-fetching/get-static-paths) tại thời điểm xây dựng.
 
-## Convention
+## Quy ước
 
-A Dynamic Segment can be created by wrapping a file or folder name in square brackets: `[segmentName]`. For example, `[id]` or `[slug]`.
+Một Phân đoạn động có thể được tạo bằng cách bao bọc tên tệp hoặc thư mục trong dấu ngoặc vuông: `[segmentName]`. Ví dụ: `[id]` hoặc `[slug]`.
 
-Dynamic Segments can be accessed from [`useRouter`](/docs/pages/api-reference/functions/use-router).
+Các phân đoạn động có thể được truy cập từ [`useRouter`](/docs/pages/api-reference/functions/use-router).
 
-## Example
+## Ví dụ
 
-For example, a blog could include the following route `pages/blog/[slug].js` where `[slug]` is the Dynamic Segment for blog posts.
+Ví dụ, một blog có thể bao gồm tuyến đường sau `pages/blog/[slug].js` trong đó `[slug]` là Phân đoạn động cho các bài đăng trên blog.
 
 ```jsx
 import { useRouter } from 'next/router'
 
 export default function Page() {
   const router = useRouter()
-  return <p>Post: {router.query.slug}</p>
+  return <p>Bài đăng: {router.query.slug}</p>
 }
 ```
 
-| Route                  | Example URL | `params`        |
-| ---------------------- | ----------- | --------------- |
-| `pages/blog/[slug].js` | `/blog/a`   | `{ slug: 'a' }` |
-| `pages/blog/[slug].js` | `/blog/b`   | `{ slug: 'b' }` |
-| `pages/blog/[slug].js` | `/blog/c`   | `{ slug: 'c' }` |
+| Tuyến đường            | URL ví dụ | `params`        |
+| ---------------------- | --------- | --------------- |
+| `pages/blog/[slug].js` | `/blog/a` | `{ slug: 'a' }` |
+| `pages/blog/[slug].js` | `/blog/b` | `{ slug: 'b' }` |
+| `pages/blog/[slug].js` | `/blog/c` | `{ slug: 'c' }` |
 
-## Catch-all Segments
+## Phân đoạn Catch-all
 
-Dynamic Segments can be extended to **catch-all** subsequent segments by adding an ellipsis inside the brackets `[...segmentName]`.
+Các phân đoạn động có thể được mở rộng để **bắt tất cả** các phân đoạn tiếp theo bằng cách thêm dấu ba chấm vào trong dấu ngoặc `[...segmentName]`.
 
-For example, `pages/shop/[...slug].js` will match `/shop/clothes`, but also `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`, and so on.
+Ví dụ: `pages/shop/[...slug].js` sẽ khớp với `/shop/clothes`, nhưng cũng khớp với `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`, v.v.
 
-| Route                     | Example URL   | `params`                    |
+| Tuyến đường               | URL ví dụ     | `params`                    |
 | ------------------------- | ------------- | --------------------------- |
 | `pages/shop/[...slug].js` | `/shop/a`     | `{ slug: ['a'] }`           |
 | `pages/shop/[...slug].js` | `/shop/a/b`   | `{ slug: ['a', 'b'] }`      |
 | `pages/shop/[...slug].js` | `/shop/a/b/c` | `{ slug: ['a', 'b', 'c'] }` |
 
-## Optional Catch-all Segments
+## Phân đoạn Catch-all tùy chọn
 
-Catch-all Segments can be made **optional** by including the parameter in double square brackets: `[[...segmentName]]`.
+Các phân đoạn Catch-all có thể được đặt thành **tùy chọn** bằng cách bao gồm tham số trong dấu ngoặc vuông kép: `[[...segmentName]]`.
 
-For example, `pages/shop/[[...slug]].js` will **also** match `/shop`, in addition to `/shop/clothes`, `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`.
+Ví dụ: `pages/shop/[[...slug]].js` cũng sẽ khớp với `/shop`, ngoài `/shop/clothes`, `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`.
 
-The difference between **catch-all** and **optional catch-all** segments is that with optional, the route without the parameter is also matched (`/shop` in the example above).
+Sự khác biệt giữa các phân đoạn **catch-all** và **catch-all tùy chọn** là với tùy chọn, tuyến đường không có tham số cũng được khớp (`/shop` trong ví dụ trên).
 
-| Route                       | Example URL   | `params`                    |
+| Tuyến đường                 | URL ví dụ     | `params`                    |
 | --------------------------- | ------------- | --------------------------- |
 | `pages/shop/[[...slug]].js` | `/shop`       | `{ slug: undefined }`       |
 | `pages/shop/[[...slug]].js` | `/shop/a`     | `{ slug: ['a'] }`           |

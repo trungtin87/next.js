@@ -1,17 +1,17 @@
 ---
 title: use server
-description: Learn how to use the use server directive to execute code on the server.
+description: Tìm hiểu cách sử dụng chỉ thị use server để thực thi code trên server.
 ---
 
-The `use server` directive designates a function or file to be executed on the **server side**. It can be used at the top of a file to indicate that all functions in the file are server-side, or inline at the top of a function to mark the function as a [Server Function](https://19.react.dev/reference/rsc/server-functions). This is a React feature.
+Chỉ thị `use server` chỉ định một hàm hoặc file sẽ được thực thi ở **phía server**. Nó có thể được sử dụng ở đầu file để chỉ ra rằng tất cả các hàm trong file đều chạy phía server, hoặc inline ở đầu một hàm để đánh dấu hàm đó là một [Server Function](https://19.react.dev/reference/rsc/server-functions). Đây là một tính năng của React.
 
-## Using `use server` at the top of a file
+## Sử dụng `use server` ở đầu file
 
-The following example shows a file with a `use server` directive at the top. All functions in the file are executed on the server.
+Ví dụ sau đây cho thấy một file có chỉ thị `use server` ở đầu. Tất cả các hàm trong file sẽ được thực thi trên server.
 
 ```tsx filename="app/actions.ts" highlight={1} switcher
 'use server'
-import { db } from '@/lib/db' // Your database client
+import { db } from '@/lib/db' // Database client của bạn
 
 export async function createUser(data: { name: string; email: string }) {
   const user = await db.user.create({ data })
@@ -21,7 +21,7 @@ export async function createUser(data: { name: string; email: string }) {
 
 ```jsx filename="app/actions.js" highlight={1} switcher
 'use server'
-import { db } from '@/lib/db' // Your database client
+import { db } from '@/lib/db' // Database client của bạn
 
 export async function createUser(data) {
   const user = await db.user.create({ data })
@@ -29,15 +29,15 @@ export async function createUser(data) {
 }
 ```
 
-### Using Server Functions in a Client Component
+### Sử dụng Server Functions trong Client Component
 
-To use Server Functions in Client Components you need to create your Server Functions in a dedicated file using the `use server` directive at the top of the file. These Server Functions can then be imported into Client and Server Components and executed.
+Để sử dụng Server Functions trong Client Components, bạn cần tạo Server Functions trong một file riêng biệt sử dụng chỉ thị `use server` ở đầu file. Các Server Functions này sau đó có thể được import vào Client và Server Components và thực thi.
 
-Assuming you have a `fetchUsers` Server Function in `actions.ts`:
+Giả sử bạn có một Server Function `fetchUsers` trong `actions.ts`:
 
 ```tsx filename="app/actions.ts" highlight={1} switcher
 'use server'
-import { db } from '@/lib/db' // Your database client
+import { db } from '@/lib/db' // Database client của bạn
 
 export async function fetchUsers() {
   const users = await db.user.findMany()
@@ -47,7 +47,7 @@ export async function fetchUsers() {
 
 ```jsx filename="app/actions.js" highlight={1} switcher
 'use server'
-import { db } from '@/lib/db' // Your database client
+import { db } from '@/lib/db' // Database client của bạn
 
 export async function fetchUsers() {
   const users = await db.user.findMany()
@@ -55,14 +55,14 @@ export async function fetchUsers() {
 }
 ```
 
-Then you can import the `fetchUsers` Server Function into a Client Component and execute it on the client-side.
+Sau đó bạn có thể import Server Function `fetchUsers` vào một Client Component và thực thi nó ở phía client.
 
 ```tsx filename="app/components/my-button.tsx" highlight={1,2,8} switcher
 'use client'
 import { fetchUsers } from '../actions'
 
 export default function MyButton() {
-  return <button onClick={() => fetchUsers()}>Fetch Users</button>
+  return <button onClick={() => fetchUsers()}>Lấy Danh Sách Users</button>
 }
 ```
 
@@ -71,13 +71,13 @@ export default function MyButton() {
 import { fetchUsers } from '../actions'
 
 export default function MyButton() {
-  return <button onClick={() => fetchUsers()}>Fetch Users</button>
+  return <button onClick={() => fetchUsers()}>Lấy Danh Sách Users</button>
 }
 ```
 
-## Using `use server` inline
+## Sử dụng `use server` inline
 
-In the following example, `use server` is used inline at the top of a function to mark it as a [Server Function](https://19.react.dev/reference/rsc/server-functions):
+Trong ví dụ sau, `use server` được sử dụng inline ở đầu một hàm để đánh dấu nó là một [Server Function](https://19.react.dev/reference/rsc/server-functions):
 
 ```tsx filename="app/posts/[id]/page.tsx" switcher highlight={8}
 import { EditPost } from './edit-post'
@@ -113,19 +113,19 @@ export default async function PostPage({ params }) {
 }
 ```
 
-## Security considerations
+## Các vấn đề bảo mật cần lưu ý
 
-When using the `use server` directive, it's important to ensure that all server-side logic is secure and that sensitive data remains protected.
+Khi sử dụng chỉ thị `use server`, điều quan trọng là phải đảm bảo rằng tất cả logic phía server đều an toàn và dữ liệu nhạy cảm được bảo vệ.
 
-### Authentication and authorization
+### Xác thực và phân quyền
 
-Always authenticate and authorize users before performing sensitive server-side operations.
+Luôn xác thực và phân quyền người dùng trước khi thực hiện các thao tác nhạy cảm phía server.
 
 ```tsx filename="app/actions.ts" highlight={1,7,8,9,10} switcher
 'use server'
 
-import { db } from '@/lib/db' // Your database client
-import { authenticate } from '@/lib/auth' // Your authentication library
+import { db } from '@/lib/db' // Database client của bạn
+import { authenticate } from '@/lib/auth' // Thư viện xác thực của bạn
 
 export async function createUser(
   data: { name: string; email: string },
@@ -143,8 +143,8 @@ export async function createUser(
 ```jsx filename="app/actions.js" highlight={1,7,8,9,10} switcher
 'use server'
 
-import { db } from '@/lib/db' // Your database client
-import { authenticate } from '@/lib/auth' // Your authentication library
+import { db } from '@/lib/db' // Database client của bạn
+import { authenticate } from '@/lib/auth' // Thư viện xác thực của bạn
 
 export async function createUser(data, token) {
   const user = authenticate(token)
@@ -156,6 +156,6 @@ export async function createUser(data, token) {
 }
 ```
 
-## Reference
+## Tham khảo
 
-See the [React documentation](https://react.dev/reference/rsc/use-server) for more information on `use server`.
+Xem [tài liệu React](https://react.dev/reference/rsc/use-server) để biết thêm thông tin về `use server`.

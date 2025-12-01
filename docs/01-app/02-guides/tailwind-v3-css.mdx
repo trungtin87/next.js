@@ -1,18 +1,18 @@
 ---
-title: How to install Tailwind CSS v3 in your Next.js application
+title: Cách cài đặt Tailwind CSS v3 trong ứng dụng Next.js của bạn
 nav_title: Tailwind CSS v3
-description: Style your Next.js Application using Tailwind CSS v3 for broader browser support.
+description: Style ứng dụng Next.js của bạn bằng Tailwind CSS v3 để hỗ trợ trình duyệt rộng hơn.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-This guide will walk you through how to install [Tailwind CSS v3](https://v3.tailwindcss.com/) in your Next.js application.
+Hướng dẫn này sẽ hướng dẫn bạn cách cài đặt [Tailwind CSS v3](https://v3.tailwindcss.com/) trong ứng dụng Next.js của bạn.
 
-> **Good to know:** For the latest Tailwind 4 setup, see the [Tailwind CSS setup instructions](/docs/app/getting-started/css#tailwind-css).
+> **Nên biết:** Để thiết lập Tailwind 4 mới nhất, hãy xem [hướng dẫn thiết lập Tailwind CSS](/docs/app/getting-started/css#tailwind-css).
 
-## Installing Tailwind v3
+## Cài đặt Tailwind v3
 
-Install Tailwind CSS and its peer dependencies, then run the `init` command to generate both `tailwind.config.js` and `postcss.config.js` files:
+Cài đặt Tailwind CSS và các peer dependencies của nó, sau đó chạy lệnh `init` để tạo cả tệp `tailwind.config.js` và `postcss.config.js`:
 
 ```bash package="pnpm"
 pnpm add -D tailwindcss@^3 postcss autoprefixer
@@ -34,9 +34,9 @@ bun add -D tailwindcss@^3 postcss autoprefixer
 bunx tailwindcss init -p
 ```
 
-## Configuring Tailwind v3
+## Cấu hình Tailwind v3
 
-Configure your template paths in your `tailwind.config.js` file:
+Cấu hình các template paths của bạn trong tệp `tailwind.config.js`:
 
 <AppOnly>
 
@@ -55,7 +55,7 @@ module.exports = {
 }
 ```
 
-Add the Tailwind directives to your global CSS file:
+Thêm các Tailwind directives vào tệp CSS toàn cục của bạn:
 
 ```css filename="app/globals.css"
 @tailwind base;
@@ -63,7 +63,7 @@ Add the Tailwind directives to your global CSS file:
 @tailwind utilities;
 ```
 
-Import the CSS file in your root layout:
+Import tệp CSS trong root layout của bạn:
 
 ```tsx filename="app/layout.tsx" switcher
 import './globals.css'
@@ -112,7 +112,7 @@ module.exports = {
 }
 ```
 
-Add the Tailwind directives to your global CSS file:
+Thêm các Tailwind directives vào tệp CSS toàn cục của bạn:
 
 ```css filename="styles/globals.css"
 @tailwind base;
@@ -120,7 +120,7 @@ Add the Tailwind directives to your global CSS file:
 @tailwind utilities;
 ```
 
-Import the CSS file in your `pages/_app.js` file:
+Import tệp CSS trong tệp `pages/_app.js` của bạn:
 
 ```jsx filename="pages/_app.js"
 import '@/styles/globals.css'
@@ -132,9 +132,9 @@ export default function MyApp({ Component, pageProps }) {
 
 </PagesOnly>
 
-## Using classes
+## Sử dụng classes
 
-After installing Tailwind CSS and adding the global styles, you can use Tailwind's utility classes in your application.
+Sau khi cài đặt Tailwind CSS và thêm các global styles, bạn có thể sử dụng các utility classes của Tailwind trong ứng dụng của bạn.
 
 <AppOnly>
 
@@ -168,6 +168,6 @@ export default function Page() {
 
 </PagesOnly>
 
-## Usage with Turbopack
+## Sử dụng với Turbopack
 
-As of Next.js 13.1, Tailwind CSS and PostCSS are supported with [Turbopack](https://turbo.build/pack/docs/features/css#tailwind-css).
+Kể từ Next.js 13.1, Tailwind CSS và PostCSS được hỗ trợ với [Turbopack](https://turbo.build/pack/docs/features/css#tailwind-css).

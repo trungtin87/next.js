@@ -1,9 +1,9 @@
 ---
 title: getStaticPaths
-description: API reference for `getStaticPaths`. Learn how to fetch data and generate static pages with `getStaticPaths`.
+description: Tài liệu tham khảo API cho `getStaticPaths`. Tìm hiểu cách fetch data và tạo các trang tĩnh với `getStaticPaths`.
 ---
 
-When exporting a function called `getStaticPaths` from a page that uses [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes), Next.js will statically pre-render all the paths specified by `getStaticPaths`.
+Khi export một hàm có tên `getStaticPaths` từ một trang sử dụng [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes), Next.js sẽ pre-render tĩnh tất cả các paths được chỉ định bởi `getStaticPaths`.
 
 ```tsx filename="pages/repo/[name].tsx" switcher
 import type {
@@ -24,9 +24,9 @@ export const getStaticPaths = (async () => {
         params: {
           name: 'next.js',
         },
-      }, // See the "paths" section below
+      }, // Xem phần "paths" bên dưới
     ],
-    fallback: true, // false or "blocking"
+    fallback: true, // false hoặc "blocking"
   }
 }) satisfies GetStaticPaths
 
@@ -53,9 +53,9 @@ export async function getStaticPaths() {
         params: {
           name: 'next.js',
         },
-      }, // See the "paths" section below
+      }, // Xem phần "paths" bên dưới
     ],
-    fallback: true, // false or "blocking"
+    fallback: true, // false hoặc "blocking"
   }
 }
 
@@ -70,13 +70,13 @@ export default function Page({ repo }) {
 }
 ```
 
-## getStaticPaths return values
+## Giá trị trả về của getStaticPaths
 
-The `getStaticPaths` function should return an object with the following **required** properties:
+Hàm `getStaticPaths` nên trả về một object với các thuộc tính **bắt buộc** sau:
 
 ### `paths`
 
-The `paths` key determines which paths will be pre-rendered. For example, suppose that you have a page that uses [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes) named `pages/posts/[id].js`. If you export `getStaticPaths` from this page and return the following for `paths`:
+Key `paths` xác định những paths nào sẽ được pre-rendered. Ví dụ, giả sử bạn có một trang sử dụng [Dynamic Routes](/docs/pages/building-your-application/routing/dynamic-routes) có tên `pages/posts/[id].js`. Nếu bạn export `getStaticPaths` từ trang này và trả về như sau cho `paths`:
 
 ```js
 return {
@@ -84,7 +84,7 @@ return {
     { params: { id: '1' }},
     {
       params: { id: '2' },
-      // with i18n configured the locale for the path can be returned as well
+      // với i18n được cấu hình, locale cho path cũng có thể được trả về
       locale: "en",
     },
   ],
@@ -92,55 +92,55 @@ return {
 }
 ```
 
-Then, Next.js will statically generate `/posts/1` and `/posts/2` during `next build` using the page component in `pages/posts/[id].js`.
+Sau đó, Next.js sẽ tạo tĩnh `/posts/1` và `/posts/2` trong quá trình `next build` bằng cách sử dụng page component trong `pages/posts/[id].js`.
 
-The value for each `params` object must match the parameters used in the page name:
+Giá trị cho mỗi object `params` phải khớp với các tham số được sử dụng trong tên trang:
 
-- If the page name is `pages/posts/[postId]/[commentId]`, then `params` should contain `postId` and `commentId`.
-- If the page name uses [catch-all routes](/docs/pages/building-your-application/routing/dynamic-routes#catch-all-segments) like `pages/[...slug]`, then `params` should contain `slug` (which is an array). If this array is `['hello', 'world']`, then Next.js will statically generate the page at `/hello/world`.
-- If the page uses an [optional catch-all route](/docs/pages/building-your-application/routing/dynamic-routes#optional-catch-all-segments), use `null`, `[]`, `undefined` or `false` to render the root-most route. For example, if you supply `slug: false` for `pages/[[...slug]]`, Next.js will statically generate the page `/`.
+- Nếu tên trang là `pages/posts/[postId]/[commentId]`, thì `params` nên chứa `postId` và `commentId`.
+- Nếu tên trang sử dụng [catch-all routes](/docs/pages/building-your-application/routing/dynamic-routes#catch-all-segments) như `pages/[...slug]`, thì `params` nên chứa `slug` (là một mảng). Nếu mảng này là `['hello', 'world']`, thì Next.js sẽ tạo tĩnh trang tại `/hello/world`.
+- Nếu trang sử dụng [optional catch-all route](/docs/pages/building-your-application/routing/dynamic-routes#optional-catch-all-segments), sử dụng `null`, `[]`, `undefined` hoặc `false` để render route gốc nhất. Ví dụ, nếu bạn cung cấp `slug: false` cho `pages/[[...slug]]`, Next.js sẽ tạo tĩnh trang `/`.
 
-The `params` strings are **case-sensitive** and ideally should be normalized to ensure the paths are generated correctly. For example, if `WoRLD` is returned for a param it will only match if `WoRLD` is the actual path visited, not `world` or `World`.
+Các chuỗi `params` **phân biệt chữ hoa chữ thường** và lý tưởng nên được chuẩn hóa để đảm bảo các paths được tạo chính xác. Ví dụ, nếu `WoRLD` được trả về cho một param, nó sẽ chỉ khớp nếu `WoRLD` là path thực tế được truy cập, không phải `world` hoặc `World`.
 
-Separate of the `params` object a `locale` field can be returned when [i18n is configured](/docs/pages/guides/internationalization), which configures the locale for the path being generated.
+Tách biệt với object `params`, một trường `locale` có thể được trả về khi [i18n được cấu hình](/docs/pages/guides/internationalization), cấu hình locale cho path đang được tạo.
 
 ### `fallback: false`
 
-If `fallback` is `false`, then any paths not returned by `getStaticPaths` will result in a **404 page**.
+Nếu `fallback` là `false`, thì bất kỳ paths nào không được trả về bởi `getStaticPaths` sẽ dẫn đến **404 page**.
 
-When `next build` is run, Next.js will check if `getStaticPaths` returned `fallback: false`, it will then build **only** the paths returned by `getStaticPaths`. This option is useful if you have a small number of paths to create, or new page data is not added often. If you find that you need to add more paths, and you have `fallback: false`, you will need to run `next build` again so that the new paths can be generated.
+Khi `next build` được chạy, Next.js sẽ kiểm tra nếu `getStaticPaths` trả về `fallback: false`, sau đó nó sẽ build **chỉ** các paths được trả về bởi `getStaticPaths`. Tùy chọn này hữu ích nếu bạn có một số lượng nhỏ paths để tạo, hoặc dữ liệu trang mới không được thêm thường xuyên. Nếu bạn thấy rằng bạn cần thêm nhiều paths hơn, và bạn có `fallback: false`, bạn sẽ cần chạy lại `next build` để các paths mới có thể được tạo.
 
-The following example pre-renders one blog post per page called `pages/posts/[id].js`. The list of blog posts will be fetched from a CMS and returned by `getStaticPaths`. Then, for each page, it fetches the post data from a CMS using [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props).
+Ví dụ sau pre-renders một bài đăng blog cho mỗi trang có tên `pages/posts/[id].js`. Danh sách các bài đăng blog sẽ được fetch từ CMS và được trả về bởi `getStaticPaths`. Sau đó, cho mỗi trang, nó fetch dữ liệu bài đăng từ CMS bằng cách sử dụng [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props).
 
 ```jsx filename="pages/posts/[id].js"
 function Post({ post }) {
   // Render post...
 }
 
-// This function gets called at build time
+// Hàm này được gọi tại thời điểm build
 export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
+  // Gọi một API endpoint bên ngoài để lấy posts
   const res = await fetch('https://.../posts')
   const posts = await res.json()
 
-  // Get the paths we want to pre-render based on posts
+  // Lấy các paths chúng ta muốn pre-render dựa trên posts
   const paths = posts.map((post) => ({
     params: { id: post.id },
   }))
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
+  // Chúng ta sẽ chỉ pre-render các paths này tại thời điểm build.
+  // { fallback: false } có nghĩa là các routes khác nên 404.
   return { paths, fallback: false }
 }
 
-// This also gets called at build time
+// Hàm này cũng được gọi tại thời điểm build
 export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
+  // params chứa post `id`.
+  // Nếu route là /posts/1, thì params.id là 1
   const res = await fetch(`https://.../posts/${params.id}`)
   const post = await res.json()
 
-  // Pass post data to the page via props
+  // Truyền dữ liệu post cho trang thông qua props
   return { props: { post } }
 }
 
@@ -150,58 +150,58 @@ export default Post
 ### `fallback: true`
 
 <details>
-  <summary>Examples</summary>
+  <summary>Ví dụ</summary>
 
-- [Static generation of a large number of pages](https://react-tweet.vercel.app/)
+- [Static generation của một số lượng lớn các trang](https://react-tweet.vercel.app/)
 
 </details>
 
-If `fallback` is `true`, then the behavior of `getStaticProps` changes in the following ways:
+Nếu `fallback` là `true`, thì hành vi của `getStaticProps` thay đổi theo các cách sau:
 
-- The paths returned from `getStaticPaths` will be rendered to `HTML` at build time by `getStaticProps`.
-- The paths that have not been generated at build time will **not** result in a 404 page. Instead, Next.js will serve a [“fallback”](#fallback-pages) version of the page on the first request to such a path. Web crawlers, such as Google, won't be served a fallback and instead the path will behave as in [`fallback: 'blocking'`](#fallback-blocking).
-- When a page with `fallback: true` is navigated to through `next/link` or `next/router` (client-side) Next.js will _not_ serve a fallback and instead the page will behave as [`fallback: 'blocking'`](#fallback-blocking).
-- In the background, Next.js will statically generate the requested path `HTML` and `JSON`. This includes running `getStaticProps`.
-- When complete, the browser receives the `JSON` for the generated path. This will be used to automatically render the page with the required props. From the user’s perspective, the page will be swapped from the fallback page to the full page.
-- At the same time, Next.js adds this path to the list of pre-rendered pages. Subsequent requests to the same path will serve the generated page, like other pages pre-rendered at build time.
+- Các paths được trả về từ `getStaticPaths` sẽ được render thành `HTML` tại thời điểm build bởi `getStaticProps`.
+- Các paths chưa được tạo tại thời điểm build sẽ **không** dẫn đến trang 404. Thay vào đó, Next.js sẽ phục vụ một phiên bản ["fallback"](#fallback-pages) của trang trên request đầu tiên đến path đó. Web crawlers, như Google, sẽ không được phục vụ fallback và thay vào đó path sẽ hoạt động như trong [`fallback: 'blocking'`](#fallback-blocking).
+- Khi một trang với `fallback: true` được điều hướng đến thông qua `next/link` hoặc `next/router` (phía client) Next.js sẽ _không_ phục vụ fallback và thay vào đó trang sẽ hoạt động như [`fallback: 'blocking'`](#fallback-blocking).
+- Trong background, Next.js sẽ tạo tĩnh `HTML` và `JSON` của path được yêu cầu. Điều này bao gồm việc chạy `getStaticProps`.
+- Khi hoàn thành, trình duyệt nhận `JSON` cho path được tạo. Điều này sẽ được sử dụng để tự động render trang với các props cần thiết. Từ góc độ của người dùng, trang sẽ được chuyển từ trang fallback sang trang đầy đủ.
+- Đồng thời, Next.js thêm path này vào danh sách các trang đã pre-rendered. Các requests tiếp theo đến cùng một path sẽ phục vụ trang được tạo, giống như các trang khác được pre-rendered tại thời điểm build.
 
-> **Good to know**: `fallback: true` is not supported when using [`output: 'export'`](/docs/pages/guides/static-exports).
+> **Nên biết**: `fallback: true` không được hỗ trợ khi sử dụng [`output: 'export'`](/docs/pages/guides/static-exports).
 
-#### When is `fallback: true` useful?
+#### Khi nào `fallback: true` hữu ích?
 
-`fallback: true` is useful if your app has a very large number of static pages that depend on data (such as a very large e-commerce site). If you want to pre-render all product pages, the builds would take a very long time.
+`fallback: true` hữu ích nếu ứng dụng của bạn có một số lượng rất lớn các trang tĩnh phụ thuộc vào dữ liệu (như một trang web thương mại điện tử rất lớn). Nếu bạn muốn pre-render tất cả các trang sản phẩm, các bản build sẽ mất rất nhiều thời gian.
 
-Instead, you may statically generate a small subset of pages and use `fallback: true` for the rest. When someone requests a page that is not generated yet, the user will see the page with a loading indicator or skeleton component.
+Thay vào đó, bạn có thể tạo tĩnh một tập hợp con nhỏ các trang và sử dụng `fallback: true` cho phần còn lại. Khi ai đó yêu cầu một trang chưa được tạo, người dùng sẽ thấy trang với một loading indicator hoặc skeleton component.
 
-Shortly after, `getStaticProps` finishes and the page will be rendered with the requested data. From now on, everyone who requests the same page will get the statically pre-rendered page.
+Ngay sau đó, `getStaticProps` hoàn thành và trang sẽ được render với dữ liệu được yêu cầu. Từ bây giờ, mọi người yêu cầu cùng một trang sẽ nhận được trang đã pre-rendered tĩnh.
 
-This ensures that users always have a fast experience while preserving fast builds and the benefits of Static Generation.
+Điều này đảm bảo rằng người dùng luôn có trải nghiệm nhanh trong khi vẫn bảo toàn các bản build nhanh và lợi ích của Static Generation.
 
-`fallback: true` will not _update_ generated pages, for that take a look at [Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration).
+`fallback: true` sẽ không _cập nhật_ các trang đã tạo, để làm điều đó hãy xem [Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration).
 
 ### `fallback: 'blocking'`
 
-If `fallback` is `'blocking'`, new paths not returned by `getStaticPaths` will wait for the `HTML` to be generated, identical to SSR (hence why _blocking_), and then be cached for future requests so it only happens once per path.
+Nếu `fallback` là `'blocking'`, các paths mới không được trả về bởi `getStaticPaths` sẽ đợi `HTML` được tạo, giống hệt như SSR (do đó tại sao _blocking_), và sau đó được cache cho các requests trong tương lai nên nó chỉ xảy ra một lần cho mỗi path.
 
-`getStaticProps` will behave as follows:
+`getStaticProps` sẽ hoạt động như sau:
 
-- The paths returned from `getStaticPaths` will be rendered to `HTML` at build time by `getStaticProps`.
-- The paths that have not been generated at build time will **not** result in a 404 page. Instead, Next.js will SSR on the first request and return the generated `HTML`.
-- When complete, the browser receives the `HTML` for the generated path. From the user’s perspective, it will transition from "the browser is requesting the page" to "the full page is loaded". There is no flash of loading/fallback state.
-- At the same time, Next.js adds this path to the list of pre-rendered pages. Subsequent requests to the same path will serve the generated page, like other pages pre-rendered at build time.
+- Các paths được trả về từ `getStaticPaths` sẽ được render thành `HTML` tại thời điểm build bởi `getStaticProps`.
+- Các paths chưa được tạo tại thời điểm build sẽ **không** dẫn đến trang 404. Thay vào đó, Next.js sẽ SSR trên request đầu tiên và trả về `HTML` được tạo.
+- Khi hoàn thành, trình duyệt nhận `HTML` cho path được tạo. Từ góc độ của người dùng, nó sẽ chuyển từ "trình duyệt đang yêu cầu trang" sang "trang đầy đủ được tải". Không có flash của loading/fallback state.
+- Đồng thời, Next.js thêm path này vào danh sách các trang đã pre-rendered. Các requests tiếp theo đến cùng một path sẽ phục vụ trang được tạo, giống như các trang khác được pre-rendered tại thời điểm build.
 
-`fallback: 'blocking'` will not _update_ generated pages by default. To update generated pages, use [Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration) in conjunction with `fallback: 'blocking'`.
+`fallback: 'blocking'` sẽ không _cập nhật_ các trang đã tạo theo mặc định. Để cập nhật các trang đã tạo, sử dụng [Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration) kết hợp với `fallback: 'blocking'`.
 
-> **Good to know**: `fallback: 'blocking'` is not supported when using [`output: 'export'`](/docs/pages/guides/static-exports).
+> **Nên biết**: `fallback: 'blocking'` không được hỗ trợ khi sử dụng [`output: 'export'`](/docs/pages/guides/static-exports).
 
 ### Fallback pages
 
-In the “fallback” version of a page:
+Trong phiên bản "fallback" của một trang:
 
-- The page’s props will be empty.
-- Using the [router](/docs/pages/api-reference/functions/use-router), you can detect if the fallback is being rendered, `router.isFallback` will be `true`.
+- Props của trang sẽ trống.
+- Sử dụng [router](/docs/pages/api-reference/functions/use-router), bạn có thể phát hiện nếu fallback đang được render, `router.isFallback` sẽ là `true`.
 
-The following example showcases using `isFallback`:
+Ví dụ sau cho thấy cách sử dụng `isFallback`:
 
 ```jsx filename="pages/posts/[id].js"
 import { useRouter } from 'next/router'
@@ -209,8 +209,8 @@ import { useRouter } from 'next/router'
 function Post({ post }) {
   const router = useRouter()
 
-  // If the page is not yet generated, this will be displayed
-  // initially until getStaticProps() finishes running
+  // Nếu trang chưa được tạo, điều này sẽ được hiển thị
+  // ban đầu cho đến khi getStaticProps() hoàn thành việc chạy
   if (router.isFallback) {
     return <div>Loading...</div>
   }
@@ -218,29 +218,29 @@ function Post({ post }) {
   // Render post...
 }
 
-// This function gets called at build time
+// Hàm này được gọi tại thời điểm build
 export async function getStaticPaths() {
   return {
-    // Only `/posts/1` and `/posts/2` are generated at build time
+    // Chỉ `/posts/1` và `/posts/2` được tạo tại thời điểm build
     paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
-    // Enable statically generating additional pages
-    // For example: `/posts/3`
+    // Kích hoạt việc tạo tĩnh các trang bổ sung
+    // Ví dụ: `/posts/3`
     fallback: true,
   }
 }
 
-// This also gets called at build time
+// Hàm này cũng được gọi tại thời điểm build
 export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
+  // params chứa post `id`.
+  // Nếu route là /posts/1, thì params.id là 1
   const res = await fetch(`https://.../posts/${params.id}`)
   const post = await res.json()
 
-  // Pass post data to the page via props
+  // Truyền dữ liệu post cho trang thông qua props
   return {
     props: { post },
-    // Re-generate the post at most once per second
-    // if a request comes in
+    // Re-generate post nhiều nhất một lần mỗi giây
+    // nếu có request đến
     revalidate: 1,
   }
 }
@@ -248,12 +248,12 @@ export async function getStaticProps({ params }) {
 export default Post
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                                                                                                                                                                                           |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `v13.4.0` | [App Router](/docs/app/getting-started/fetching-data) is now stable with simplified data fetching, including [`generateStaticParams()`](/docs/app/api-reference/functions/generate-static-params) |
-| `v12.2.0` | [On-Demand Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration#on-demand-revalidation-with-revalidatepath) is stable.                                             |
-| `v12.1.0` | [On-Demand Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration#on-demand-revalidation-with-revalidatepath) added (beta).                                          |
-| `v9.5.0`  | Stable [Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration)                                                                                                      |
-| `v9.3.0`  | `getStaticPaths` introduced.                                                                                                                                                                      |
+| Phiên bản | Thay đổi                                                                                                                                                                                                |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `v13.4.0` | [App Router](/docs/app/getting-started/fetching-data) hiện đã ổn định với data fetching được đơn giản hóa, bao gồm [`generateStaticParams()`](/docs/app/api-reference/functions/generate-static-params) |
+| `v12.2.0` | [On-Demand Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration#on-demand-revalidation-with-revalidatepath) đã ổn định.                                                  |
+| `v12.1.0` | [On-Demand Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration#on-demand-revalidation-with-revalidatepath) được thêm vào (beta).                                        |
+| `v9.5.0`  | [Incremental Static Regeneration](/docs/pages/guides/incremental-static-regeneration) ổn định                                                                                                           |
+| `v9.3.0`  | `getStaticPaths` được giới thiệu.                                                                                                                                                                       |

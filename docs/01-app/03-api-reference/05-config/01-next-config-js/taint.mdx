@@ -1,17 +1,17 @@
 ---
 title: taint
-description: Enable tainting Objects and Values.
+description: Enable tainting Objects và Values.
 version: experimental
 ---
 
-## Usage
+## Sử dụng
 
-The `taint` option enables support for experimental React APIs for tainting objects and values. This feature helps prevent sensitive data from being accidentally passed to the client. When enabled, you can use:
+Tùy chọn `taint` cho phép hỗ trợ các React APIs thử nghiệm để tainting objects và values. Tính năng này giúp ngăn chặn dữ liệu nhạy cảm vô tình bị truyền xuống client. Khi được kích hoạt, bạn có thể sử dụng:
 
-- [`experimental_taintObjectReference`](https://react.dev/reference/react/experimental_taintObjectReference) taint objects references.
-- [`experimental_taintUniqueValue`](https://react.dev/reference/react/experimental_taintUniqueValue) to taint unique values.
+- [`experimental_taintObjectReference`](https://react.dev/reference/react/experimental_taintObjectReference) để taint objects references.
+- [`experimental_taintUniqueValue`](https://react.dev/reference/react/experimental_taintUniqueValue) để taint unique values.
 
-> **Good to know**: Activating this flag also enables the React `experimental` channel for `app` directory.
+> **Nên biết**: Kích hoạt cờ này cũng kích hoạt React `experimental` channel cho thư mục `app`.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -36,29 +36,29 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-> **Warning:** Do not rely on the taint API as your only mechanism to prevent exposing sensitive data to the client. See our [security recommendations](/blog/security-nextjs-server-components-actions).
+> **Cảnh báo:** Đừng dựa vào taint API như cơ chế duy nhất của bạn để ngăn chặn việc để lộ dữ liệu nhạy cảm cho client. Xem [khuyến nghị bảo mật](/blog/security-nextjs-server-components-actions) của chúng tôi.
 
-The taint APIs allows you to be defensive, by declaratively and explicitly marking data that is not allowed to pass through the Server-Client boundary. When an object or value, is passed through the Server-Client boundary, React throws an error.
+Các taint APIs cho phép bạn phòng thủ, bằng cách đánh dấu khai báo và rõ ràng dữ liệu không được phép đi qua ranh giới Server-Client. Khi một object hoặc value, được truyền qua ranh giới Server-Client, React sẽ ném ra một lỗi.
 
-This is helpful for cases where:
+Điều này hữu ích cho các trường hợp:
 
-- The methods to read data are out of your control
-- You have to work with sensitive data shapes not defined by you
-- Sensitive data is accessed during Server Component rendering
+- Các phương thức để đọc dữ liệu nằm ngoài tầm kiểm soát của bạn
+- Bạn phải làm việc với các hình dạng dữ liệu nhạy cảm không được định nghĩa bởi bạn
+- Dữ liệu nhạy cảm được truy cập trong quá trình render Server Component
 
-It is recommended to model your data and APIs so that sensitive data is not returned to contexts where it is not needed.
+Khuyến nghị mô hình hóa dữ liệu và APIs của bạn sao cho dữ liệu nhạy cảm không được trả về các contexts nơi nó không cần thiết.
 
 ## Caveats
 
-- Tainting can only keep track of objects by reference. Copying an object creates an untainted version, which loses all guarantees given by the API. You'll need to taint the copy.
-- Tainting cannot keep track of data derived from a tainted value. You also need to taint the derived value.
-- Values are tainted for as long as their lifetime reference is within scope. See the [`experimental_taintUniqueValue` parameters reference](https://react.dev/reference/react/experimental_taintUniqueValue#parameters), for more information.
+- Tainting chỉ có thể theo dõi các objects theo tham chiếu (reference). Sao chép một object tạo ra một phiên bản untainted, làm mất tất cả các đảm bảo được đưa ra bởi API. Bạn sẽ cần phải taint bản sao.
+- Tainting không thể theo dõi dữ liệu được dẫn xuất từ một tainted value. Bạn cũng cần phải taint giá trị được dẫn xuất.
+- Values được tainted miễn là tham chiếu vòng đời của chúng nằm trong phạm vi. Xem [`experimental_taintUniqueValue` parameters reference](https://react.dev/reference/react/experimental_taintUniqueValue#parameters), để biết thêm thông tin.
 
-## Examples
+## Ví dụ
 
-### Tainting an object reference
+### Tainting một object reference
 
-In this case, the `getUserDetails` function returns data about a given user. We taint the user object reference, so that it cannot cross a Server-Client boundary. For example, assuming `UserCard` is a Client Component.
+Trong trường hợp này, hàm `getUserDetails` trả về dữ liệu về một người dùng nhất định. Chúng ta taint tham chiếu user object, để nó không thể vượt qua ranh giới Server-Client. Ví dụ, giả sử `UserCard` là một Client Component.
 
 ```ts switcher
 import { experimental_taintObjectReference } from 'react'
@@ -90,7 +90,7 @@ function getUserDetails(id) {
 }
 ```
 
-We can still access individual fields from the tainted `userDetails` object.
+Chúng ta vẫn có thể truy cập các trường riêng lẻ từ object `userDetails` đã bị tainted.
 
 ```tsx filename="app/contact/page.tsx switcher
 export async function ContactPage({
@@ -124,7 +124,7 @@ export async function ContactPage({ params }) {
 }
 ```
 
-Now, passing the entire object to the Client Component will throw an error.
+Bây giờ, việc truyền toàn bộ object cho Client Component sẽ ném ra một lỗi.
 
 ```tsx switcher
 export async function ContactPage({
@@ -149,11 +149,11 @@ export async function ContactPage({ params }) {
 }
 ```
 
-### Tainting a unique value
+### Tainting một unique value
 
-In this case, we can access the server configuration by awaiting calls to `config.getConfigDetails`. However, the system configuration contains the `SERVICE_API_KEY` that we don't want to expose to clients.
+Trong trường hợp này, chúng ta có thể truy cập cấu hình server bằng cách awaiting các cuộc gọi đến `config.getConfigDetails`. Tuy nhiên, cấu hình hệ thống chứa `SERVICE_API_KEY` mà chúng ta không muốn để lộ cho clients.
 
-We can taint the `config.SERVICE_API_KEY` value.
+Chúng ta có thể taint giá trị `config.SERVICE_API_KEY`.
 
 ```ts switcher
 import { experimental_taintUniqueValue } from 'react'
@@ -187,7 +187,7 @@ function getSystemConfig() {
 }
 ```
 
-We can still access other properties of the `systemConfig` object.
+Chúng ta vẫn có thể truy cập các thuộc tính khác của object `systemConfig`.
 
 ```tsx
 export async function Dashboard() {
@@ -197,7 +197,7 @@ export async function Dashboard() {
 }
 ```
 
-However, passing `SERVICE_API_KEY` to `ClientDashboard` throws an error.
+Tuy nhiên, việc truyền `SERVICE_API_KEY` cho `ClientDashboard` sẽ ném ra một lỗi.
 
 ```tsx
 export async function Dashboard() {
@@ -209,9 +209,9 @@ export async function Dashboard() {
 }
 ```
 
-Note that, even though, `systemConfig.SERVICE_API_KEY` is reassigned to a new variable. Passing it to a Client Component still throws an error.
+Lưu ý rằng, ngay cả khi `systemConfig.SERVICE_API_KEY` được gán lại cho một biến mới. Việc truyền nó cho một Client Component vẫn ném ra một lỗi.
 
-Whereas, a value derived from a tainted unique value, will be exposed to the client.
+Trong khi đó, một giá trị được dẫn xuất từ một tainted unique value, sẽ bị lộ cho client.
 
 ```tsx
 export async function Dashboard() {
@@ -223,4 +223,4 @@ export async function Dashboard() {
 }
 ```
 
-A better approach is to remove `SERVICE_API_KEY` from the data returned by `getSystemConfig`.
+Một cách tiếp cận tốt hơn là loại bỏ `SERVICE_API_KEY` khỏi dữ liệu được trả về bởi `getSystemConfig`.

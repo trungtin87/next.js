@@ -1,9 +1,9 @@
 ---
 title: sassOptions
-description: Configure Sass options.
+description: Cấu hình các tùy chọn Sass.
 ---
 
-`sassOptions` allow you to configure the Sass compiler.
+`sassOptions` cho phép bạn cấu hình trình biên dịch Sass.
 
 ```ts filename="next.config.ts" switcher
 import type { NextConfig } from 'next'
@@ -43,7 +43,7 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-> **Good to know:**
+> **Thông tin hữu ích:**
 >
-> - `sassOptions` are not typed outside of `implementation` because Next.js does not maintain the other possible properties.
-> - The `functions` property for defining custom Sass functions is only supported with webpack. When using Turbopack, custom Sass functions are not available because Turbopack's Rust-based architecture cannot directly execute JavaScript functions passed through this option.
+> - `sassOptions` không được định kiểu bên ngoài `implementation` vì Next.js không duy trì các thuộc tính có thể có khác.
+> - Thuộc tính `functions` để định nghĩa các hàm Sass tùy chỉnh chỉ được hỗ trợ với webpack. Khi sử dụng Turbopack, các hàm Sass tùy chỉnh không khả dụng vì kiến trúc dựa trên Rust của Turbopack không thể thực thi trực tiếp các hàm JavaScript được truyền qua tùy chọn này.

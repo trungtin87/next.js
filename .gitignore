@@ -63,3 +63,5 @@ test-timings.json
 
 # Storybook
 *storybook.log
+untranslated_files.txt
+check_translation_status.py

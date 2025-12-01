@@ -1,56 +1,56 @@
 ---
-title: How to build single-page applications with Next.js
-nav_title: SPAs
-description: Next.js fully supports building Single-Page Applications (SPAs).
+title: Cách xây dựng ứng dụng trang đơn với Next.js
+nav_title: SPA
+description: Next.js hỗ trợ đầy đủ việc xây dựng Ứng dụng trang đơn (SPA).
 ---
 
-Next.js fully supports building Single-Page Applications (SPAs).
+Next.js hỗ trợ đầy đủ việc xây dựng Ứng dụng trang đơn (SPA).
 
-This includes fast route transitions with prefetching, client-side data fetching, using browser APIs, integrating with third-party client libraries, creating static routes, and more.
+Điều này bao gồm chuyển đổi tuyến đường nhanh chóng với tìm nạp trước, tìm nạp dữ liệu phía máy khách, sử dụng API trình duyệt, tích hợp với các thư viện máy khách của bên thứ ba, tạo các tuyến đường tĩnh, v.v.
 
-If you have an existing SPA, you can migrate to Next.js without large changes to your code. Next.js then allows you to progressively add server features as needed.
+Nếu bạn có một SPA hiện có, bạn có thể di chuyển sang Next.js mà không có thay đổi lớn đối với mã của mình. Next.js sau đó cho phép bạn dần dần thêm các tính năng máy chủ khi cần thiết.
 
-## What is a Single-Page Application?
+## Ứng dụng trang đơn là gì?
 
-The definition of a SPA varies. We’ll define a “strict SPA” as:
+Định nghĩa về SPA rất đa dạng. Chúng tôi sẽ định nghĩa một “SPA nghiêm ngặt” là:
 
-- **Client-side rendering (CSR)**: The app is served by one HTML file (e.g. `index.html`). Every route, page transition, and data fetch is handled by JavaScript in the browser.
-- **No full-page reloads**: Rather than requesting a new document for each route, client-side JavaScript manipulates the current page’s DOM and fetches data as needed.
+- **Kết xuất phía máy khách (CSR)**: Ứng dụng được phục vụ bởi một tệp HTML (ví dụ: `index.html`). Mọi tuyến đường, chuyển đổi trang và tìm nạp dữ liệu đều được xử lý bằng JavaScript trong trình duyệt.
+- **Không tải lại toàn bộ trang**: Thay vì yêu cầu một tài liệu mới cho mỗi tuyến đường, JavaScript phía máy khách sẽ thao tác với DOM của trang hiện tại và tìm nạp dữ liệu khi cần.
 
-Strict SPAs often require large amounts of JavaScript to load before the page can be interactive. Further, client data waterfalls can be challenging to manage. Building SPAs with Next.js can address these issues.
+Các SPA nghiêm ngặt thường yêu cầu một lượng lớn JavaScript để tải trước khi trang có thể tương tác. Hơn nữa, các thác nước dữ liệu máy khách có thể là một thách thức để quản lý. Xây dựng SPA với Next.js có thể giải quyết những vấn đề này.
 
-## Why use Next.js for SPAs?
+## Tại sao sử dụng Next.js cho SPA?
 
-Next.js can automatically code split your JavaScript bundles, and generate multiple HTML entry points into different routes. This avoids loading unnecessary JavaScript code on the client-side, reducing the bundle size and enabling faster page loads.
+Next.js có thể tự động chia mã các gói JavaScript của bạn và tạo nhiều điểm vào HTML cho các tuyến đường khác nhau. Điều này tránh tải mã JavaScript không cần thiết ở phía máy khách, giảm kích thước gói và cho phép tải trang nhanh hơn.
 
-The [`next/link`](/docs/app/api-reference/components/link) component automatically [prefetches](/docs/app/api-reference/components/link#prefetch) routes, giving you the fast page transitions of a strict SPA, but with the advantage of persisting application routing state to the URL for linking and sharing.
+Thành phần [`next/link`](/docs/app/api-reference/components/link) tự động [tìm nạp trước](/docs/app/api-reference/components/link#prefetch) các tuyến đường, giúp bạn chuyển trang nhanh như một SPA nghiêm ngặt, nhưng với lợi thế là duy trì trạng thái định tuyến ứng dụng vào URL để liên kết và chia sẻ.
 
-Next.js can start as a static site or even a strict SPA where everything is rendered client-side. If your project grows, Next.js allows you to progressively add more server features (e.g. [React Server Components](/docs/app/getting-started/server-and-client-components), [Server Actions](/docs/app/getting-started/updating-data), and more) as needed.
+Next.js có thể bắt đầu như một trang web tĩnh hoặc thậm chí là một SPA nghiêm ngặt trong đó mọi thứ đều được kết xuất phía máy khách. Nếu dự án của bạn phát triển, Next.js cho phép bạn dần dần thêm nhiều tính năng máy chủ hơn (ví dụ: [Thành phần máy chủ React](/docs/app/getting-started/server-and-client-components), [Hành động máy chủ](/docs/app/getting-started/updating-data), v.v.) khi cần thiết.
 
-## Examples
+## Ví dụ
 
-Let's explore common patterns used to build SPAs and how Next.js solves them.
+Hãy khám phá các mẫu phổ biến được sử dụng để xây dựng SPA và cách Next.js giải quyết chúng.
 
-### Using React’s `use` within a Context Provider
+### Sử dụng `use` của React trong một Nhà cung cấp ngữ cảnh
 
-We recommend fetching data in a parent component (or layout), returning the Promise, and then unwrapping the value in a Client Component with React’s [`use` hook](https://react.dev/reference/react/use).
+Chúng tôi khuyên bạn nên tìm nạp dữ liệu trong một thành phần mẹ (hoặc bố cục), trả về Promise, sau đó giải nén giá trị trong một Thành phần máy khách bằng hook [`use` của React](https://react.dev/reference/react/use).
 
-Next.js can start data fetching early on the server. In this example, that’s the root layout — the entry point to your application. The server can immediately begin streaming a response to the client.
+Next.js có thể bắt đầu tìm nạp dữ liệu sớm trên máy chủ. Trong ví dụ này, đó là bố cục gốc — điểm vào ứng dụng của bạn. Máy chủ có thể ngay lập tức bắt đầu truyền phản hồi đến máy khách.
 
-By “hoisting” your data fetching to the root layout, Next.js starts the specified requests on the server early before any other components in your application. This eliminates client waterfalls and prevents having multiple roundtrips between client and server. It can also significantly improve performance, as your server is closer (and ideally colocated) to where your database is located.
+Bằng cách “nâng” việc tìm nạp dữ liệu của bạn lên bố cục gốc, Next.js bắt đầu các yêu cầu được chỉ định trên máy chủ sớm trước bất kỳ thành phần nào khác trong ứng dụng của bạn. Điều này giúp loại bỏ các thác nước máy khách và ngăn chặn việc có nhiều chuyến đi khứ hồi giữa máy khách và máy chủ. Nó cũng có thể cải thiện đáng kể hiệu suất, vì máy chủ của bạn gần hơn (và lý tưởng nhất là được đặt cùng vị trí) với nơi đặt cơ sở dữ liệu của bạn.
 
-For example, update your root layout to call the Promise, but do _not_ await it.
+Ví dụ, cập nhật bố cục gốc của bạn để gọi Promise, nhưng _không_ await nó.
 
 ```tsx filename="app/layout.tsx" switcher
 import { UserProvider } from './user-provider'
-import { getUser } from './user' // some server-side function
+import { getUser } from './user' // một số hàm phía máy chủ
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  let userPromise = getUser() // do NOT await
+  let userPromise = getUser() // KHÔNG await
 
   return (
     <html lang="en">
@@ -64,10 +64,10 @@ export default function RootLayout({
 
 ```jsx filename="app/layout.js" switcher
 import { UserProvider } from './user-provider'
-import { getUser } from './user' // some server-side function
+import { getUser } from './user' // một số hàm phía máy chủ
 
 export default function RootLayout({ children }) {
-  let userPromise = getUser() // do NOT await
+  let userPromise = getUser() // KHÔNG await
 
   return (
     <html lang="en">
@@ -79,9 +79,9 @@ export default function RootLayout({ children }) {
 }
 ```
 
-While you can [defer and pass a single Promise](/docs/app/getting-started/fetching-data#streaming-data-with-the-use-hook) as a prop to a Client Component, we generally see this pattern paired with a React context provider. This enables easier access from Client Components with a custom React Hook.
+Mặc dù bạn có thể [hoãn và chuyển một Promise duy nhất](/docs/app/getting-started/fetching-data#streaming-data-with-the-use-hook) làm prop cho một Thành phần máy khách, chúng tôi thường thấy mẫu này được kết hợp với một nhà cung cấp ngữ cảnh React. Điều này cho phép truy cập dễ dàng hơn từ các Thành phần máy khách với một Hook React tùy chỉnh.
 
-You can forward a Promise to the React context provider:
+Bạn có thể chuyển tiếp một Promise đến nhà cung cấp ngữ cảnh React:
 
 ```ts filename="app/user-provider.ts" switcher
 'use client';
@@ -98,7 +98,7 @@ const UserContext = createContext<UserContextType | null>(null);
 export function useUser(): UserContextType {
   let context = useContext(UserContext);
   if (context === null) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error('useUser phải được sử dụng trong một UserProvider');
   }
   return context;
 }
@@ -128,7 +128,7 @@ const UserContext = createContext(null)
 export function useUser() {
   let context = useContext(UserContext)
   if (context === null) {
-    throw new Error('useUser must be used within a UserProvider')
+    throw new Error('useUser phải được sử dụng trong một UserProvider')
   }
   return context
 }
@@ -142,7 +142,7 @@ export function UserProvider({ children, userPromise }) {
 }
 ```
 
-Finally, you can call the `useUser()` custom hook in any Client Component and unwrap the Promise:
+Cuối cùng, bạn có thể gọi hook tùy chỉnh `useUser()` trong bất kỳ Thành phần máy khách nào và giải nén Promise:
 
 ```tsx filename="app/profile.tsx" switcher
 'use client'
@@ -172,23 +172,23 @@ export function Profile() {
 }
 ```
 
-The component that consumes the Promise (e.g. `Profile` above) will be suspended. This enables partial hydration. You can see the streamed and prerendered HTML before JavaScript has finished loading.
+Thành phần sử dụng Promise (ví dụ: `Profile` ở trên) sẽ bị tạm ngưng. Điều này cho phép hydrat hóa một phần. Bạn có thể thấy HTML được truyền trực tuyến và được kết xuất trước trước khi JavaScript tải xong.
 
-### SPAs with SWR
+### SPA với SWR
 
-[SWR](https://swr.vercel.app) is a popular React library for data fetching.
+[SWR](https://swr.vercel.app) là một thư viện React phổ biến để tìm nạp dữ liệu.
 
-With SWR 2.3.0 (and React 19+), you can gradually adopt server features alongside your existing SWR-based client data fetching code. This is an abstraction of the above `use()` pattern. This means you can move data fetching between the client and server-side, or use both:
+Với SWR 2.3.0 (và React 19+), bạn có thể dần dần áp dụng các tính năng máy chủ cùng với mã tìm nạp dữ liệu máy khách dựa trên SWR hiện có của mình. Đây là một sự trừu tượng hóa của mẫu `use()` ở trên. Điều này có nghĩa là bạn có thể di chuyển việc tìm nạp dữ liệu giữa phía máy khách và máy chủ, hoặc sử dụng cả hai:
 
-- **Client-only:** `useSWR(key, fetcher)`
-- **Server-only:** `useSWR(key)` + RSC-provided data
-- **Mixed:** `useSWR(key, fetcher)` + RSC-provided data
+- **Chỉ máy khách:** `useSWR(key, fetcher)`
+- **Chỉ máy chủ:** `useSWR(key)` + dữ liệu do RSC cung cấp
+- **Hỗn hợp:** `useSWR(key, fetcher)` + dữ liệu do RSC cung cấp
 
-For example, wrap your application with `<SWRConfig>` and a `fallback`:
+Ví dụ, bọc ứng dụng của bạn bằng `<SWRConfig>` và một `fallback`:
 
 ```tsx filename="app/layout.tsx" switcher
 import { SWRConfig } from 'swr'
-import { getUser } from './user' // some server-side function
+import { getUser } from './user' // một số hàm phía máy chủ
 
 export default function RootLayout({
   children,
@@ -199,8 +199,8 @@ export default function RootLayout({
     <SWRConfig
       value={{
         fallback: {
-          // We do NOT await getUser() here
-          // Only components that read this data will suspend
+          // Chúng tôi KHÔNG await getUser() ở đây
+          // Chỉ các thành phần đọc dữ liệu này mới bị tạm ngưng
           '/api/user': getUser(),
         },
       }}
@@ -213,15 +213,15 @@ export default function RootLayout({
 
 ```js filename="app/layout.js" switcher
 import { SWRConfig } from 'swr'
-import { getUser } from './user' // some server-side function
+import { getUser } from './user' // một số hàm phía máy chủ
 
 export default function RootLayout({ children }) {
   return (
     <SWRConfig
       value={{
         fallback: {
-          // We do NOT await getUser() here
-          // Only components that read this data will suspend
+          // Chúng tôi KHÔNG await getUser() ở đây
+          // Chỉ các thành phần đọc dữ liệu này mới bị tạm ngưng
           '/api/user': getUser(),
         },
       }}
@@ -232,7 +232,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Because this is a Server Component, `getUser()` can securely read cookies, headers, or talk to your database. No separate API route is needed. Client components below the `<SWRConfig>` can call `useSWR()` with the same key to retrieve the user data. The component code with `useSWR` **does not require any changes** from your existing client-fetching solution.
+Vì đây là một Thành phần máy chủ, `getUser()` có thể đọc cookie, tiêu đề hoặc nói chuyện với cơ sở dữ liệu của bạn một cách an toàn. Không cần tuyến API riêng biệt. Các thành phần máy khách bên dưới `<SWRConfig>` có thể gọi `useSWR()` với cùng một khóa để truy xuất dữ liệu người dùng. Mã thành phần với `useSWR` **không yêu cầu bất kỳ thay đổi nào** so với giải pháp tìm nạp máy khách hiện có của bạn.
 
 ```tsx filename="app/profile.tsx" switcher
 'use client'
@@ -241,7 +241,7 @@ import useSWR from 'swr'
 
 export function Profile() {
   const fetcher = (url) => fetch(url).then((res) => res.json())
-  // The same SWR pattern you already know
+  // Cùng một mẫu SWR mà bạn đã biết
   const { data, error } = useSWR('/api/user', fetcher)
 
   return '...'
@@ -255,33 +255,33 @@ import useSWR from 'swr'
 
 export function Profile() {
   const fetcher = (url) => fetch(url).then((res) => res.json())
-  // The same SWR pattern you already know
+  // Cùng một mẫu SWR mà bạn đã biết
   const { data, error } = useSWR('/api/user', fetcher)
 
   return '...'
 }
 ```
 
-The `fallback` data can be prerendered and included in the initial HTML response, then immediately read in the child components using `useSWR`. SWR’s polling, revalidation, and caching still run **client-side only**, so it preserves all the interactivity you rely on for an SPA.
+Dữ liệu `fallback` có thể được kết xuất trước và được bao gồm trong phản hồi HTML ban đầu, sau đó được đọc ngay lập tức trong các thành phần con bằng cách sử dụng `useSWR`. Việc thăm dò, xác thực lại và lưu vào bộ nhớ đệm của SWR vẫn chỉ chạy **phía máy khách**, vì vậy nó bảo toàn tất cả khả năng tương tác mà bạn dựa vào cho một SPA.
 
-Since the initial `fallback` data is automatically handled by Next.js, you can now delete any conditional logic previously needed to check if `data` was `undefined`. When the data is loading, the closest `<Suspense>` boundary will be suspended.
+Vì dữ liệu `fallback` ban đầu được Next.js tự động xử lý, giờ đây bạn có thể xóa mọi logic có điều kiện cần thiết trước đây để kiểm tra xem `data` có phải là `undefined` hay không. Khi dữ liệu đang tải, ranh giới `<Suspense>` gần nhất sẽ bị tạm ngưng.
 
-|                      | SWR                 | RSC                 | RSC + SWR           |
-| -------------------- | ------------------- | ------------------- | ------------------- |
-| SSR data             | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| Streaming while SSR  | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| Deduplicate requests | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| Client-side features | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> |
+|                              | SWR                 | RSC                 | RSC + SWR           |
+| ---------------------------- | ------------------- | ------------------- | ------------------- |
+| Dữ liệu SSR                  | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| Truyền phát trong khi SSR    | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| Sao chép yêu cầu             | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| Các tính năng phía máy khách | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> |
 
-### SPAs with React Query
+### SPA với React Query
 
-You can use React Query with Next.js on both the client and server. This enables you to build both strict SPAs, as well as take advantage of server features in Next.js paired with React Query.
+Bạn có thể sử dụng React Query với Next.js trên cả máy khách và máy chủ. Điều này cho phép bạn xây dựng cả các SPA nghiêm ngặt, cũng như tận dụng các tính năng máy chủ trong Next.js được kết hợp với React Query.
 
-Learn more in the [React Query documentation](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr).
+Tìm hiểu thêm trong [tài liệu React Query](https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr).
 
-### Rendering components only in the browser
+### Chỉ kết xuất các thành phần trong trình duyệt
 
-Client components are [prerendered](https://github.com/reactwg/server-components/discussions/4) during `next build`. If you want to disable prerendering for a Client Component and only load it in the browser environment, you can use [`next/dynamic`](/docs/app/guides/lazy-loading#nextdynamic):
+Các thành phần máy khách được [kết xuất trước](https://github.com/reactwg/server-components/discussions/4) trong `next build`. Nếu bạn muốn tắt kết xuất trước cho một Thành phần máy khách và chỉ tải nó trong môi trường trình duyệt, bạn có thể sử dụng [`next/dynamic`](/docs/app/guides/lazy-loading#nextdynamic):
 
 ```jsx
 import dynamic from 'next/dynamic'
@@ -291,15 +291,15 @@ const ClientOnlyComponent = dynamic(() => import('./component'), {
 })
 ```
 
-This can be useful for third-party libraries that rely on browser APIs like `window` or `document`. You can also add a `useEffect` that checks for the existence of these APIs, and if they do not exist, return `null` or a loading state which would be prerendered.
+Điều này có thể hữu ích cho các thư viện của bên thứ ba dựa vào các API trình duyệt như `window` hoặc `document`. Bạn cũng có thể thêm một `useEffect` kiểm tra sự tồn tại của các API này, và nếu chúng không tồn tại, trả về `null` hoặc một trạng thái tải sẽ được kết xuất trước.
 
-### Shallow routing on the client
+### Định tuyến nông trên máy khách
 
-If you are migrating from a strict SPA like [Create React App](/docs/app/guides/migrating/from-create-react-app) or [Vite](/docs/app/guides/migrating/from-vite), you might have existing code which shallow routes to update the URL state. This can be useful for manual transitions between views in your application _without_ using the default Next.js file-system routing.
+Nếu bạn đang di chuyển từ một SPA nghiêm ngặt như [Create React App](/docs/app/guides/migrating/from-create-react-app) hoặc [Vite](/docs/app/guides/migrating/from-vite), bạn có thể có mã hiện có định tuyến nông để cập nhật trạng thái URL. Điều này có thể hữu ích cho các chuyển đổi thủ công giữa các chế độ xem trong ứng dụng của bạn _mà không_ sử dụng định tuyến hệ thống tệp mặc định của Next.js.
 
-Next.js allows you to use the native [`window.history.pushState`](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState) and [`window.history.replaceState`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState) methods to update the browser's history stack without reloading the page.
+Next.js cho phép bạn sử dụng các phương thức [`window.history.pushState`](https://developer.mozilla.org/en-US/docs/Web/API/History/pushState) và [`window.history.replaceState`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState) gốc để cập nhật ngăn xếp lịch sử của trình duyệt mà không cần tải lại trang.
 
-`pushState` and `replaceState` calls integrate into the Next.js Router, allowing you to sync with [`usePathname`](/docs/app/api-reference/functions/use-pathname) and [`useSearchParams`](/docs/app/api-reference/functions/use-search-params).
+Các lệnh gọi `pushState` và `replaceState` tích hợp vào Bộ định tuyến Next.js, cho phép bạn đồng bộ hóa với [`usePathname`](/docs/app/api-reference/functions/use-pathname) và [`useSearchParams`](/docs/app/api-reference/functions/use-search-params).
 
 ```tsx fileName="app/ui/sort-products.tsx" switcher
 'use client'
@@ -317,8 +317,8 @@ export default function SortProducts() {
 
   return (
     <>
-      <button onClick={() => updateSorting('asc')}>Sort Ascending</button>
-      <button onClick={() => updateSorting('desc')}>Sort Descending</button>
+      <button onClick={() => updateSorting('asc')}>Sắp xếp tăng dần</button>
+      <button onClick={() => updateSorting('desc')}>Sắp xếp giảm dần</button>
     </>
   )
 }
@@ -340,20 +340,20 @@ export default function SortProducts() {
 
   return (
     <>
-      <button onClick={() => updateSorting('asc')}>Sort Ascending</button>
-      <button onClick={() => updateSorting('desc')}>Sort Descending</button>
+      <button onClick={() => updateSorting('asc')}>Sắp xếp tăng dần</button>
+      <button onClick={() => updateSorting('desc')}>Sắp xếp giảm dần</button>
     </>
   )
 }
 ```
 
-Learn more about how [routing and navigation](/docs/app/getting-started/linking-and-navigating#how-navigation-works) work in Next.js.
+Tìm hiểu thêm về cách [định tuyến và điều hướng](/docs/app/getting-started/linking-and-navigating#how-navigation-works) hoạt động trong Next.js.
 
-### Using Server Actions in Client Components
+### Sử dụng Hành động máy chủ trong các thành phần máy khách
 
-You can progressively adopt Server Actions while still using Client Components. This allows you to remove boilerplate code to call an API route, and instead use React features like `useActionState` to handle loading and error states.
+Bạn có thể dần dần áp dụng các Hành động máy chủ trong khi vẫn sử dụng các Thành phần máy khách. Điều này cho phép bạn xóa mã soạn sẵn để gọi một tuyến API, và thay vào đó sử dụng các tính năng của React như `useActionState` để xử lý các trạng thái tải và lỗi.
 
-For example, create your first Server Action:
+Ví dụ, tạo Hành động máy chủ đầu tiên của bạn:
 
 ```tsx filename="app/actions.ts" switcher
 'use server'
@@ -367,7 +367,7 @@ export async function create() {}
 export async function create() {}
 ```
 
-You can import and use a Server Action from the client, similar to calling a JavaScript function. You do not need to create an API endpoint manually:
+Bạn có thể nhập và sử dụng một Hành động máy chủ từ máy khách, tương tự như gọi một hàm JavaScript. Bạn không cần phải tạo một điểm cuối API theo cách thủ công:
 
 ```tsx filename="app/button.tsx" switcher
 'use client'
@@ -375,7 +375,7 @@ You can import and use a Server Action from the client, similar to calling a Jav
 import { create } from './actions'
 
 export function Button() {
-  return <button onClick={() => create()}>Create</button>
+  return <button onClick={() => create()}>Tạo</button>
 }
 ```
 
@@ -385,20 +385,20 @@ export function Button() {
 import { create } from './actions'
 
 export function Button() {
-  return <button onClick={() => create()}>Create</button>
+  return <button onClick={() => create()}>Tạo</button>
 }
 ```
 
-Learn more about [mutating data with Server Actions](/docs/app/getting-started/updating-data).
+Tìm hiểu thêm về [thay đổi dữ liệu bằng Hành động máy chủ](/docs/app/getting-started/updating-data).
 
-## Static export (optional)
+## Xuất tĩnh (tùy chọn)
 
-Next.js also supports generating a fully [static site](/docs/app/guides/static-exports). This has some advantages over strict SPAs:
+Next.js cũng hỗ trợ tạo một [trang web hoàn toàn tĩnh](/docs/app/guides/static-exports). Điều này có một số lợi thế so với các SPA nghiêm ngặt:
 
-- **Automatic code-splitting**: Instead of shipping a single `index.html`, Next.js will generate an HTML file per route, so your visitors get the content faster without waiting for the client JavaScript bundle.
-- **Improved user experience:** Instead of a minimal skeleton for all routes, you get fully rendered pages for each route. When users navigate client side, transitions remain instant and SPA-like.
+- **Tự động chia mã**: Thay vì vận chuyển một `index.html` duy nhất, Next.js sẽ tạo một tệp HTML cho mỗi tuyến đường, vì vậy khách truy cập của bạn sẽ nhận được nội dung nhanh hơn mà không cần phải đợi gói JavaScript của máy khách.
+- **Cải thiện trải nghiệm người dùng:** Thay vì một bộ khung tối thiểu cho tất cả các tuyến đường, bạn sẽ có các trang được kết xuất đầy đủ cho mỗi tuyến đường. Khi người dùng điều hướng phía máy khách, các chuyển đổi vẫn tức thì và giống như SPA.
 
-To enable a static export, update your configuration:
+Để bật xuất tĩnh, hãy cập nhật cấu hình của bạn:
 
 ```ts filename="next.config.ts"
 import type { NextConfig } from 'next'
@@ -410,15 +410,15 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-After running `next build`, Next.js will create an `out` folder with the HTML/CSS/JS assets for your application.
+Sau khi chạy `next build`, Next.js sẽ tạo một thư mục `out` với các tài sản HTML/CSS/JS cho ứng dụng của bạn.
 
-> **Note:** Next.js server features are not supported with static exports. [Learn more](/docs/app/guides/static-exports#unsupported-features).
+> **Lưu ý:** Các tính năng máy chủ Next.js không được hỗ trợ với xuất tĩnh. [Tìm hiểu thêm](/docs/app/guides/static-exports#unsupported-features).
 
-## Migrating existing projects to Next.js
+## Di chuyển các dự án hiện có sang Next.js
 
-You can incrementally migrate to Next.js by following our guides:
+Bạn có thể di chuyển dần dần sang Next.js bằng cách làm theo các hướng dẫn của chúng tôi:
 
-- [Migrating from Create React App](/docs/app/guides/migrating/from-create-react-app)
-- [Migrating from Vite](/docs/app/guides/migrating/from-vite)
+- [Di chuyển từ Create React App](/docs/app/guides/migrating/from-create-react-app)
+- [Di chuyển từ Vite](/docs/app/guides/migrating/from-vite)
 
-If you are already using a SPA with the Pages Router, you can learn how to [incrementally adopt the App Router](/docs/app/guides/migrating/app-router-migration).
+Nếu bạn đã sử dụng một SPA với Bộ định tuyến trang, bạn có thể tìm hiểu cách [áp dụng dần dần Bộ định tuyến ứng dụng](/docs/app/guides/migrating/app-router-migration).

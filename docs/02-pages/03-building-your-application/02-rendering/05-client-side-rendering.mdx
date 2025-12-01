@@ -1,24 +1,24 @@
 ---
 title: Client-side Rendering (CSR)
-description: Learn how to implement client-side rendering in the Pages Router.
+description: Tìm hiểu cách triển khai client-side rendering trong Pages Router.
 related:
-  description: Learn about the alternative rendering methods in Next.js.
+  description: Tìm hiểu về các phương pháp rendering thay thế trong Next.js.
   links:
     - pages/building-your-application/rendering/server-side-rendering
     - pages/building-your-application/rendering/static-site-generation
     - pages/guides/incremental-static-regeneration
 ---
 
-In Client-Side Rendering (CSR) with React, the browser downloads a minimal HTML page and the JavaScript needed for the page. The JavaScript is then used to update the DOM and render the page. When the application is first loaded, the user may notice a slight delay before they can see the full page, this is because the page isn't fully rendered until all the JavaScript is downloaded, parsed, and executed.
+Trong Client-Side Rendering (CSR) với React, trình duyệt tải xuống một trang HTML tối thiểu và JavaScript cần thiết cho trang. JavaScript sau đó được sử dụng để cập nhật DOM và render trang. Khi ứng dụng được tải lần đầu tiên, người dùng có thể nhận thấy một chút delay trước khi họ có thể thấy toàn bộ trang, điều này là do trang chưa được render đầy đủ cho đến khi tất cả JavaScript được tải xuống, parse và thực thi.
 
-After the page has been loaded for the first time, navigating to other pages on the same website is typically faster, as only necessary data needs to be fetched, and JavaScript can re-render parts of the page without requiring a full page refresh.
+Sau khi trang đã được tải lần đầu tiên, việc điều hướng đến các trang khác trên cùng một website thường nhanh hơn, vì chỉ cần fetch dữ liệu cần thiết, và JavaScript có thể render lại các phần của trang mà không yêu cầu refresh trang đầy đủ.
 
-In Next.js, there are two ways you can implement client-side rendering:
+Trong Next.js, có hai cách bạn có thể triển khai client-side rendering:
 
-1. Using React's `useEffect()` hook inside your pages instead of the server-side rendering methods ([`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) and [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props)).
-2. Using a data fetching library like [SWR](https://swr.vercel.app/) or [TanStack Query](https://tanstack.com/query/latest/) to fetch data on the client (recommended).
+1. Sử dụng hook `useEffect()` của React bên trong các trang của bạn thay vì các phương thức server-side rendering ([`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) và [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props)).
+2. Sử dụng một thư viện data fetching như [SWR](https://swr.vercel.app/) hoặc [TanStack Query](https://tanstack.com/query/latest/) để fetch dữ liệu trên client (được khuyến nghị).
 
-Here's an example of using `useEffect()` inside a Next.js page:
+Đây là một ví dụ về việc sử dụng `useEffect()` bên trong một trang Next.js:
 
 ```jsx filename="pages/index.js"
 import React, { useState, useEffect } from 'react'
@@ -46,9 +46,9 @@ export function Page() {
 }
 ```
 
-In the example above, the component starts by rendering `Loading...`. Then, once the data is fetched, it re-renders and displays the data.
+Trong ví dụ trên, component bắt đầu bằng cách render `Loading...`. Sau đó, một khi dữ liệu được fetch, nó render lại và hiển thị dữ liệu.
 
-Although fetching data in a `useEffect` is a pattern you may see in older React Applications, we recommend using a data-fetching library for better performance, caching, optimistic updates, and more. Here's a minimum example using [SWR](https://swr.vercel.app/) to fetch data on the client:
+Mặc dù việc fetch dữ liệu trong một `useEffect` là một pattern bạn có thể thấy trong các React Applications cũ hơn, chúng tôi khuyến nghị sử dụng một thư viện data-fetching để có hiệu suất tốt hơn, caching, optimistic updates và nhiều hơn nữa. Đây là một ví dụ tối thiểu sử dụng [SWR](https://swr.vercel.app/) để fetch dữ liệu trên client:
 
 ```jsx filename="pages/index.js"
 import useSWR from 'swr'
@@ -66,6 +66,6 @@ export function Page() {
 }
 ```
 
-> **Good to know**:
+> **Nên biết**:
 >
-> Keep in mind that CSR can impact SEO. Some search engine crawlers might not execute JavaScript and therefore only see the initial empty or loading state of your application. It can also lead to performance issues for users with slower internet connections or devices, as they need to wait for all the JavaScript to load and run before they can see the full page. Next.js promotes a hybrid approach that allows you to use a combination of [server-side rendering](/docs/pages/building-your-application/rendering/server-side-rendering), [static site generation](/docs/pages/building-your-application/rendering/static-site-generation), and client-side rendering, **depending on the needs of each page** in your application. In the App Router, you can also use [Loading UI with Suspense](/docs/app/api-reference/file-conventions/loading) to show a loading indicator while the page is being rendered.
+> Hãy nhớ rằng CSR có thể ảnh hưởng đến SEO. Một số search engine crawlers có thể không thực thi JavaScript và do đó chỉ thấy trạng thái empty hoặc loading ban đầu của ứng dụng của bạn. Nó cũng có thể dẫn đến các vấn đề về hiệu suất cho người dùng có kết nối internet hoặc thiết bị chậm hơn, vì họ cần đợi tất cả JavaScript tải và chạy trước khi họ có thể thấy toàn bộ trang. Next.js thúc đẩy một cách tiếp cận hybrid cho phép bạn sử dụng kết hợp [server-side rendering](/docs/pages/building-your-application/rendering/server-side-rendering), [static site generation](/docs/pages/building-your-application/rendering/static-site-generation) và client-side rendering, **tùy thuộc vào nhu cầu của mỗi trang** trong ứng dụng của bạn. Trong App Router, bạn cũng có thể sử dụng [Loading UI với Suspense](/docs/app/api-reference/file-conventions/loading) để hiển thị một loading indicator trong khi trang đang được render.

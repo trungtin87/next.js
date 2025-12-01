@@ -1,10 +1,10 @@
 ---
 title: Cache Components
-description: Learn how to use Cache Components and combine the benefits of static and dynamic rendering.
+description: Tìm hiểu cách sử dụng Cache Components và kết hợp lợi ích của static và dynamic rendering.
 version: beta
 related:
-  title: Next Steps
-  description: Learn more about the config option for Cache Components.
+  title: Các bước tiếp theo
+  description: Tìm hiểu thêm về tùy chọn cấu hình cho Cache Components.
   links:
     - app/api-reference/config/next-config-js/cacheComponents
     - app/api-reference/directives/use-cache
@@ -14,22 +14,22 @@ related:
     - app/api-reference/functions/updateTag
 ---
 
-Cache Components is a new approach to rendering and caching in Next.js that provides fine-grained control over what gets cached and when, while ensuring a great user experience through **Partial Prerendering (PPR)**.
+Cache Components là một cách tiếp cận mới để rendering và caching trong Next.js, cung cấp khả năng kiểm soát chi tiết về những gì được cache và khi nào, đồng thời đảm bảo trải nghiệm người dùng tuyệt vời thông qua **Partial Prerendering (PPR)**.
 
 ## Cache Components
 
-When developing dynamic applications, you have to balance two primary approaches:
+Khi phát triển các ứng dụng dynamic, bạn phải cân bằng giữa hai cách tiếp cận chính:
 
-- **Fully static pages** load fast but can't show personalized or real-time data
-- **Fully dynamic pages** can show fresh data but require rendering everything on each request, leading to slower initial loads
+- **Các trang hoàn toàn tĩnh (Fully static pages)** tải nhanh nhưng không thể hiển thị dữ liệu được cá nhân hóa hoặc thời gian thực
+- **Các trang hoàn toàn động (Fully dynamic pages)** có thể hiển thị dữ liệu mới nhưng yêu cầu render mọi thứ trên mỗi request, dẫn đến tải ban đầu chậm hơn
 
-With Cache Components enabled, Next.js treats all routes as **dynamic by default**. Every request renders with the latest available data. However, most pages are made up of both static and dynamic parts, and not all dynamic data needs to be resolved from source on every request.
+Khi Cache Components được bật, Next.js coi tất cả các routes là **dynamic theo mặc định**. Mọi request đều render với dữ liệu mới nhất hiện có. Tuy nhiên, hầu hết các trang được tạo thành từ cả các phần tĩnh và động, và không phải tất cả dữ liệu động đều cần được giải quyết từ nguồn trên mỗi request.
 
-Cache Components allows you to mark data, and even parts of your UI as cacheable, which includes them in the pre-render pass alongside static parts of the page.
+Cache Components cho phép bạn đánh dấu dữ liệu, và thậm chí các phần của UI của bạn là có thể cache (cacheable), bao gồm chúng trong quá trình pre-render cùng với các phần tĩnh của trang.
 
-> **Before Cache Components**, Next.js tried to statically optimize **entire** pages automatically, which could lead to unexpected behavior when adding dynamic code.
+> **Trước Cache Components**, Next.js đã cố gắng tối ưu hóa tĩnh **toàn bộ** trang một cách tự động, điều này có thể dẫn đến hành vi không mong muốn khi thêm mã dynamic.
 
-Cache Components implements **Partial Prerendering (PPR)**, and `use cache` to give you the best of both worlds:
+Cache Components triển khai **Partial Prerendering (PPR)**, và `use cache` để mang lại cho bạn những điều tốt nhất của cả hai thế giới:
 
 <Image
   alt="Partially re-rendered Product Page showing static nav and product information, and dynamic cart and recommended products"
@@ -39,45 +39,45 @@ Cache Components implements **Partial Prerendering (PPR)**, and `use cache` to g
   height="632"
 />
 
-When a user visits a route:
+Khi một người dùng truy cập một route:
 
-- The server sends a **static shell** containing cached content, ensuring a fast initial load
-- Dynamic sections wrapped in `Suspense` boundaries display fallback UI in the shell
-- Only the dynamic parts render to replace their fallbacks, streaming in parallel as they become ready
-- You can include otherwise-dynamic data in the initial shell by caching it with `use cache`
+- Server gửi một **static shell** chứa nội dung đã được cache, đảm bảo tải ban đầu nhanh
+- Các phần dynamic được bọc trong `Suspense` boundaries hiển thị fallback UI trong shell
+- Chỉ các phần dynamic mới render để thay thế các fallbacks của chúng, streaming song song khi chúng sẵn sàng
+- Bạn có thể bao gồm dữ liệu dynamic khác trong shell ban đầu bằng cách cache nó với `use cache`
 
-> **🎥 Watch:** Why PPR and how it works → [YouTube (10 minutes)](https://www.youtube.com/watch?v=MTcPrTIBkpA).
+> **🎥 Xem:** Tại sao PPR và nó hoạt động như thế nào → [YouTube (10 phút)](https://www.youtube.com/watch?v=MTcPrTIBkpA).
 
-## How it works
+## Cách nó hoạt động
 
-> **Good to know:** Cache Components is an opt-in feature. Enable it by setting the `cacheComponents` flag to `true` in your Next config file. See [Enabling Cache Components](#enabling-cache-components) for more details.
+> **Lưu ý:** Cache Components là một tính năng opt-in. Bật nó bằng cách đặt cờ `cacheComponents` thành `true` trong file cấu hình Next của bạn. Xem [Bật Cache Components](#enabling-cache-components) để biết thêm chi tiết.
 
-Cache Components gives you three key tools to control rendering:
+Cache Components cung cấp cho bạn ba công cụ chính để kiểm soát rendering:
 
-### 1. Suspense for runtime data
+### 1. Suspense cho dữ liệu runtime
 
-Some data is only available at runtime when an actual user makes a request. APIs like [`cookies`](/docs/app/api-reference/functions/cookies), [`headers`](/docs/app/api-reference/functions/headers), and [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) access request-specific information. Wrap components using these APIs in `Suspense` boundaries so the rest of the page can be pre-rendered as a static shell.
+Một số dữ liệu chỉ có sẵn tại runtime khi một người dùng thực tế thực hiện một request. Các API như [`cookies`](/docs/app/api-reference/functions/cookies), [`headers`](/docs/app/api-reference/functions/headers), và [`searchParams`](/docs/app/api-reference/file-conventions/page#searchparams-optional) truy cập thông tin cụ thể theo request. Bọc các components sử dụng các API này trong `Suspense` boundaries để phần còn lại của trang có thể được pre-render như một static shell.
 
-**Runtime APIs include:**
+**Các API Runtime bao gồm:**
 
 - [`cookies`](/docs/app/api-reference/functions/cookies)
 - [`headers`](/docs/app/api-reference/functions/headers)
 - [`searchParams` prop](/docs/app/api-reference/file-conventions/page#searchparams-optional)
-- [`params` prop](/docs/app/api-reference/file-conventions/page#params-optional) - This is runtime data unless you provide at least one example value through [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params). When provided, those specific param values are treated as static for prerendered paths, while other values remain runtime
+- [`params` prop](/docs/app/api-reference/file-conventions/page#params-optional) - Đây là dữ liệu runtime trừ khi bạn cung cấp ít nhất một giá trị ví dụ thông qua [`generateStaticParams`](/docs/app/api-reference/functions/generate-static-params). Khi được cung cấp, các giá trị param cụ thể đó được coi là tĩnh cho các đường dẫn được prerendered, trong khi các giá trị khác vẫn là runtime
 
-### 2. Suspense for dynamic data
+### 2. Suspense cho dữ liệu dynamic
 
-Dynamic data like [`fetch`](/docs/app/api-reference/functions/fetch) calls or database queries (`db.query(...)`) can change between requests but isn't user-specific. The [`connection`](/docs/app/api-reference/functions/connection) API is meta-dynamic—it represents waiting for a user navigation even though there's no actual data to return. Wrap components that use these in `Suspense` boundaries to enable streaming.
+Dữ liệu dynamic như các lệnh gọi [`fetch`](/docs/app/api-reference/functions/fetch) hoặc truy vấn cơ sở dữ liệu (`db.query(...)`) có thể thay đổi giữa các requests nhưng không phải là user-specific. API [`connection`](/docs/app/api-reference/functions/connection) là meta-dynamic—nó đại diện cho việc chờ đợi một điều hướng của người dùng ngay cả khi không có dữ liệu thực tế nào để trả về. Bọc các components sử dụng những thứ này trong `Suspense` boundaries để kích hoạt streaming.
 
-**Dynamic data patterns include:**
+**Các mẫu dữ liệu Dynamic bao gồm:**
 
-- [`fetch`](/docs/app/api-reference/functions/fetch) requests
-- Database queries
+- Các request [`fetch`](/docs/app/api-reference/functions/fetch)
+- Truy vấn cơ sở dữ liệu
 - [`connection`](/docs/app/api-reference/functions/connection)
 
-### 3. Cached data with `use cache`
+### 3. Dữ liệu đã cache với `use cache`
 
-Add `use cache` to any Server Component to make it cached and include it in the pre-rendered shell. You cannot use runtime APIs from inside a cached component. You can also mark utility functions as `use cache` and call them from Server Components.
+Thêm `use cache` vào bất kỳ Server Component nào để làm cho nó được cache và bao gồm nó trong pre-rendered shell. Bạn không thể sử dụng các API runtime từ bên trong một component đã được cache. Bạn cũng có thể đánh dấu các hàm tiện ích là `use cache` và gọi chúng từ Server Components.
 
 ```tsx
 export async function getProducts() {
@@ -87,13 +87,13 @@ export async function getProducts() {
 }
 ```
 
-## Using Suspense boundaries
+## Sử dụng Suspense boundaries
 
-React [Suspense](https://react.dev/reference/react/Suspense) boundaries let you define what fallback UI to use when it wraps dynamic or runtime data.
+React [Suspense](https://react.dev/reference/react/Suspense) boundaries cho phép bạn xác định fallback UI nào sẽ sử dụng khi nó bao bọc dữ liệu dynamic hoặc runtime.
 
-Content outside the boundary, including the fallback UI, is pre-rendered as a static shell, while content inside the boundary streams in when ready.
+Nội dung bên ngoài boundary, bao gồm fallback UI, được pre-rendered như một static shell, trong khi nội dung bên trong boundary streams vào khi sẵn sàng.
 
-Here's how to use `Suspense` with Cache Components:
+Dưới đây là cách sử dụng `Suspense` với Cache Components:
 
 ```tsx filename="app/page.tsx" switcher
 import { Suspense } from 'react'
@@ -137,37 +137,34 @@ async function DynamicContent() {
 }
 ```
 
-At build time, Next.js pre-renders the static content and the `fallback` UI, while the dynamic content is postponed until a user requests the route.
+Tại build time, Next.js pre-renders nội dung tĩnh và `fallback` UI, trong khi nội dung dynamic bị hoãn lại cho đến khi người dùng yêu cầu route.
 
-> **Good to know**: Wrapping a component in `Suspense` doesn't make it dynamic; your API usage does. `Suspense` acts as a boundary that encapsulates dynamic content and enables streaming.
+> **Lưu ý**: Việc bọc một component trong `Suspense` không làm cho nó trở nên dynamic; việc sử dụng API của bạn mới làm điều đó. `Suspense` hoạt động như một ranh giới đóng gói nội dung dynamic và kích hoạt streaming.
 
-### Missing Suspense boundaries
+### Thiếu Suspense boundaries
 
-Cache Components enforces that dynamic code must be wrapped in a `Suspense` boundary. If you forget, you'll see the [Uncached data was accessed outside of `<Suspense>`](https://nextjs.org/docs/messages/blocking-route) error:
+Cache Components bắt buộc mã dynamic phải được bọc trong một `Suspense` boundary. Nếu bạn quên, bạn sẽ thấy lỗi [Uncached data was accessed outside of `<Suspense>`](https://nextjs.org/docs/messages/blocking-route):
 
 > **Uncached data was accessed outside of `<Suspense>`**
 >
-> This delays the entire page from rendering, resulting in a slow user
-> experience. Next.js uses this error to ensure your app loads instantly
-> on every navigation.
+> Điều này làm chậm trễ việc render toàn bộ trang, dẫn đến trải nghiệm người dùng chậm. Next.js sử dụng lỗi này để đảm bảo ứng dụng của bạn tải ngay lập tức trên mỗi lần điều hướng.
 >
-> To fix this, you can either:
+> Để khắc phục điều này, bạn có thể:
 >
-> **Wrap the component in a `<Suspense>`** boundary. This allows Next.js to stream its contents to the user as soon as it's ready, without blocking the rest of the app.
+> **Bọc component trong một `<Suspense>`** boundary. Điều này cho phép Next.js stream nội dung của nó đến người dùng ngay khi nó sẵn sàng, mà không chặn phần còn lại của ứng dụng.
 >
-> or
+> hoặc
 >
-> **Move the asynchronous await into a Cache Component("use cache")**. This allows Next.js to statically prerender the component as part of the HTML document, so it's instantly visible to the user.
+> **Di chuyển asynchronous await vào một Cache Component("use cache")**. Điều này cho phép Next.js prerender tĩnh component như một phần của tài liệu HTML, vì vậy nó hiển thị ngay lập tức cho người dùng.
 >
-> Note that request-specific information, such as params, cookies, and headers, is not available during static prerendering, so it must be wrapped in `<Suspense>`.
+> Lưu ý rằng thông tin cụ thể theo request, chẳng hạn như params, cookies, và headers, không có sẵn trong quá trình static prerendering, vì vậy nó phải được bọc trong `<Suspense>`.
 
-This error helps prevent a situation where, instead of getting a static shell instantly, users would hit a blocking runtime render with nothing to show. To fix it, add a `Suspense` boundary or use `use cache` to cache the work instead.
+Lỗi này giúp ngăn chặn tình huống mà thay vì nhận được static shell ngay lập tức, người dùng sẽ gặp phải blocking runtime render mà không có gì để hiển thị. Để khắc phục, hãy thêm một `Suspense` boundary hoặc sử dụng `use cache` để cache công việc thay thế.
 
-### How streaming works
+### Cách streaming hoạt động
 
-Streaming splits the route into chunks and progressively streams them to the client as they become ready.
-This allows the user to see parts of the page immediately, before the entire content has finished
-rendering.
+Streaming chia route thành các phần (chunks) và dần dần streams chúng đến client khi chúng sẵn sàng.
+Điều này cho phép người dùng nhìn thấy các phần của trang ngay lập tức, trước khi toàn bộ nội dung đã hoàn tất rendering.
 
 <Image
   alt="Diagram showing partially rendered page on the client, with loading UI for chunks that are being streamed."
@@ -177,7 +174,7 @@ rendering.
   height="785"
 />
 
-With partial pre-rendering, the initial UI can be sent immediately to the browser while the dynamic parts render. This decreases time to UI and may decrease total request time depending on how much of your UI is pre-rendered.
+Với partial pre-rendering, UI ban đầu có thể được gửi ngay lập tức đến trình duyệt trong khi các phần dynamic render. Điều này làm giảm thời gian đến UI và có thể giảm tổng thời gian request tùy thuộc vào bao nhiêu phần UI của bạn được pre-rendered.
 
 <Image
   alt="Diagram showing parallelization of route segments during streaming, showing data fetching,rendering, and hydration of individual chunks."
@@ -187,15 +184,15 @@ With partial pre-rendering, the initial UI can be sent immediately to the browse
   height="525"
 />
 
-To reduce network overhead, the full response, including static HTML and streamed dynamic parts, is sent in a **single HTTP request**. This avoids extra round-trips and improves both initial load and overall performance.
+Để giảm chi phí mạng, phản hồi đầy đủ, bao gồm HTML tĩnh và các phần dynamic được streamed, được gửi trong một **HTTP request duy nhất**. Điều này tránh các round-trips bổ sung và cải thiện cả tải ban đầu và hiệu suất tổng thể.
 
-## Using `use cache`
+## Sử dụng `use cache`
 
-While `Suspense` boundaries manage dynamic content, the [`use cache`](/docs/app/api-reference/directives/use-cache) directive is available for caching data or computations that don't change often.
+Trong khi `Suspense` boundaries quản lý nội dung dynamic, directive [`use cache`](/docs/app/api-reference/directives/use-cache) có sẵn để caching dữ liệu hoặc các tính toán không thay đổi thường xuyên.
 
-### Basic usage
+### Sử dụng cơ bản
 
-Add `use cache` to cache a page, component, or async function, and define a lifetime with [`cacheLife`](/docs/app/api-reference/functions/cacheLife):
+Thêm `use cache` để cache một trang, component, hoặc async function, và xác định thời gian tồn tại với [`cacheLife`](/docs/app/api-reference/functions/cacheLife):
 
 ```tsx filename="app/page.tsx" highlight={1,4,5} switcher
 import { cacheLife } from 'next/cache'
@@ -219,17 +216,17 @@ export default async function Page() {
 }
 ```
 
-### Caveats
+### Những lưu ý
 
-When using `use cache`, keep these constraints in mind:
+Khi sử dụng `use cache`, hãy ghi nhớ các ràng buộc này:
 
-#### Arguments must be serializable
+#### Các đối số phải serializable
 
-Like Server Actions, arguments to cached functions must be serializable. This means you can pass primitives, plain objects, and arrays, but not class instances, functions, or other complex types.
+Giống như Server Actions, các đối số cho các hàm được cache phải serializable. Điều này có nghĩa là bạn có thể truyền các primitives, plain objects, và arrays, nhưng không phải class instances, functions, hoặc các kiểu phức tạp khác.
 
-#### Accepting unserializable values without introspection
+#### Chấp nhận các giá trị unserializable mà không cần introspection
 
-You can accept unserializable values as arguments as long as you don't introspect them. However, you can return them. This allows patterns like cached components that accept Server or Client Components as children:
+Bạn có thể chấp nhận các giá trị unserializable làm đối số miễn là bạn không kiểm tra (introspect) chúng. Tuy nhiên, bạn có thể trả về chúng. Điều này cho phép các patterns như cached components chấp nhận Server hoặc Client Components làm children:
 
 ```tsx filename="app/cached-wrapper.tsx" switcher
 import { ReactNode } from 'react'
@@ -259,17 +256,17 @@ export async function CachedWrapper({ children }) {
 }
 ```
 
-#### Avoid passing dynamic inputs
+#### Tránh truyền dynamic inputs
 
-You must not pass dynamic or runtime data into `use cache` functions unless you avoid introspecting them. Passing values from `cookies()`, `headers()`, or other runtime APIs as arguments will cause errors, as the cache key cannot be determined at pre-render time.
+Bạn không được truyền dữ liệu dynamic hoặc runtime vào các hàm `use cache` trừ khi bạn tránh kiểm tra chúng. Việc truyền các giá trị từ `cookies()`, `headers()`, hoặc các API runtime khác làm đối số sẽ gây ra lỗi, vì cache key không thể được xác định tại thời điểm pre-render.
 
-### Tagging and revalidating
+### Tagging và revalidating
 
-Tag cached data with [`cacheTag`](/docs/app/api-reference/functions/cacheTag) and revalidate it after mutations using [`updateTag`](/docs/app/api-reference/functions/updateTag) in Server Actions for immediate updates, or [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) delay in updates are acceptable.
+Gắn thẻ dữ liệu đã cache với [`cacheTag`](/docs/app/api-reference/functions/cacheTag) và revalidate nó sau các mutations bằng cách sử dụng [`updateTag`](/docs/app/api-reference/functions/updateTag) trong Server Actions để cập nhật ngay lập tức, hoặc [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag) nếu sự chậm trễ trong cập nhật là chấp nhận được.
 
-#### With `updateTag`
+#### Với `updateTag`
 
-Use `updateTag` when you need to expire and immediately refresh cached data within the same request:
+Sử dụng `updateTag` khi bạn cần hết hạn và làm mới ngay lập tức dữ liệu đã cache trong cùng một request:
 
 ```tsx filename="app/actions.ts" highlight={1,4,5,13}
 import { cacheTag, updateTag } from 'next/cache'
@@ -288,9 +285,9 @@ export async function updateCart(itemId: string) {
 }
 ```
 
-#### With `revalidateTag`
+#### Với `revalidateTag`
 
-Use `revalidateTag` when you want to invalidate only properly tagged cached entries with stale-while-revalidate behavior. This is ideal for static content that can tolerate eventual consistency.
+Sử dụng `revalidateTag` khi bạn muốn vô hiệu hóa chỉ các mục đã cache được gắn thẻ đúng cách với hành vi stale-while-revalidate. Điều này lý tưởng cho nội dung tĩnh có thể chấp nhận tính nhất quán cuối cùng (eventual consistency).
 
 ```tsx filename="app/actions.ts" highlight={1,4,5,12}
 import { cacheTag, revalidateTag } from 'next/cache'
@@ -308,11 +305,11 @@ export async function createPost(post: FormData) {
 }
 ```
 
-For more detailed explanation and usage examples, see the [`use cache` API reference](/docs/app/api-reference/directives/use-cache).
+Để giải thích chi tiết hơn và các ví dụ sử dụng, xem [tham khảo API `use cache`](/docs/app/api-reference/directives/use-cache).
 
-## Enabling Cache Components
+## Bật Cache Components
 
-You can enable Cache Components (which includes PPR) by adding the [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) option to your Next config file:
+Bạn có thể bật Cache Components (bao gồm PPR) bằng cách thêm tùy chọn [`cacheComponents`](/docs/app/api-reference/config/next-config-js/cacheComponents) vào file cấu hình Next của bạn:
 
 ```ts filename="next.config.ts" highlight={4} switcher
 import type { NextConfig } from 'next'
@@ -333,13 +330,13 @@ const nextConfig = {
 module.exports = nextConfig
 ```
 
-### Effect on route segment config
+### Ảnh hưởng đến cấu hình route segment
 
-When Cache Components is enabled, several route segment config options are no longer needed or supported. Here's what changes and how to migrate:
+Khi Cache Components được bật, một số tùy chọn cấu hình route segment không còn cần thiết hoặc được hỗ trợ. Dưới đây là những thay đổi và cách di chuyển:
 
 #### `dynamic = "force-dynamic"`
 
-**Not needed.** All pages are dynamic by default with Cache Components enabled, so this configuration is unnecessary.
+**Không cần thiết.** Tất cả các trang đều dynamic theo mặc định khi Cache Components được bật, vì vậy cấu hình này là không cần thiết.
 
 ```tsx
 // Before - No longer needed
@@ -359,9 +356,9 @@ export default function Page() {
 
 #### `dynamic = "force-static"`
 
-**Replace with `use cache`.** You must add `use cache` to each Layout and Page for the associated route instead.
+**Thay thế bằng `use cache`.** Bạn phải thêm `use cache` vào mỗi Layout và Page cho route liên quan thay thế.
 
-Note: `force-static` previously allowed the use of runtime APIs like `cookies()`, but this is no longer supported. If you add `use cache` and see an error related to runtime data, you must remove the use of runtime APIs.
+Lưu ý: `force-static` trước đây cho phép sử dụng các API runtime như `cookies()`, nhưng điều này không còn được hỗ trợ. Nếu bạn thêm `use cache` và thấy lỗi liên quan đến dữ liệu runtime, bạn phải loại bỏ việc sử dụng các API runtime.
 
 ```tsx
 // Before
@@ -384,7 +381,7 @@ export default async function Page() {
 
 #### `revalidate`
 
-**Replace with `cacheLife`.** Use the `cacheLife` function to define cache duration instead of the route segment config.
+**Thay thế bằng `cacheLife`.** Sử dụng hàm `cacheLife` để xác định thời gian cache thay vì cấu hình route segment.
 
 ```tsx
 // Before
@@ -408,7 +405,7 @@ export default async function Page() {
 
 #### `fetchCache`
 
-**Not needed.** With `use cache`, all data fetching within a cached scope is automatically cached, making `fetchCache` unnecessary.
+**Không cần thiết.** Với `use cache`, tất cả việc fetch dữ liệu trong phạm vi được cache sẽ tự động được cache, làm cho `fetchCache` không cần thiết.
 
 ```tsx
 // Before
@@ -426,32 +423,32 @@ export default async function Page() {
 
 #### `runtime = 'edge'`
 
-**Not supported.** Cache Components requires Node.js runtime and will throw errors with [Edge Runtime](/docs/app/api-reference/edge).
+**Không được hỗ trợ.** Cache Components yêu cầu Node.js runtime và sẽ báo lỗi với [Edge Runtime](/docs/app/api-reference/edge).
 
-## Before vs. after Cache Components
+## Trước và sau Cache Components
 
-Understanding how Cache Components changes your mental model:
+Hiểu cách Cache Components thay đổi mô hình tư duy của bạn:
 
-### Before Cache Components
+### Trước Cache Components
 
-- **Static by default**: Next.js tried to pre-render and cache as much as possible for you unless you opted out
-- **Route-level controls**: Switches like `dynamic`, `revalidate`, `fetchCache` controlled caching for the whole page
-- **Limits of `fetch`**: Using `fetch` alone was incomplete, as it didn't cover direct database clients or other server-side IO. A nested `fetch` switching to dynamic (e.g., `{ cache: 'no-store' }`) could unintentionally change the entire route behavior
+- **Static theo mặc định**: Next.js đã cố gắng pre-render và cache nhiều nhất có thể cho bạn trừ khi bạn chọn không tham gia
+- **Kiểm soát cấp độ Route**: Các chuyển đổi như `dynamic`, `revalidate`, `fetchCache` kiểm soát caching cho toàn bộ trang
+- **Giới hạn của `fetch`**: Sử dụng `fetch` một mình là không đầy đủ, vì nó không bao gồm các database clients trực tiếp hoặc server-side IO khác. Một `fetch` lồng nhau chuyển sang dynamic (ví dụ: `{ cache: 'no-store' }`) có thể vô tình thay đổi hành vi của toàn bộ route
 
-### With Cache Components
+### Với Cache Components
 
-- **Dynamic by default**: Everything is dynamic by default. You decide which parts to cache by adding [`use cache`](/docs/app/api-reference/directives/use-cache) where it helps
-- **Fine-grained control**: File/component/function-level [`use cache`](/docs/app/api-reference/directives/use-cache) and [`cacheLife`](/docs/app/api-reference/functions/cacheLife) control caching exactly where you need it
-- **Streaming stays**: Use `<Suspense>` or a `loading.(js|tsx)` file to stream dynamic parts while the shell shows immediately
-- **Beyond `fetch`**: Using the `use cache` directive caching can be applied to all server IO (database calls, APIs, computations), not just `fetch`. Nested `fetch` calls won't silently flip an entire route because behavior is governed by explicit cache boundaries and `Suspense`
+- **Dynamic theo mặc định**: Mọi thứ đều dynamic theo mặc định. Bạn quyết định phần nào cần cache bằng cách thêm [`use cache`](/docs/app/api-reference/directives/use-cache) ở nơi nó hữu ích
+- **Kiểm soát chi tiết**: [`use cache`](/docs/app/api-reference/directives/use-cache) và [`cacheLife`](/docs/app/api-reference/functions/cacheLife) cấp độ File/component/function kiểm soát caching chính xác nơi bạn cần
+- **Streaming vẫn giữ nguyên**: Sử dụng `<Suspense>` hoặc một file `loading.(js|tsx)` để stream các phần dynamic trong khi shell hiển thị ngay lập tức
+- **Vượt ra ngoài `fetch`**: Sử dụng directive `use cache` caching có thể được áp dụng cho tất cả server IO (các cuộc gọi cơ sở dữ liệu, APIs, tính toán), không chỉ `fetch`. Các cuộc gọi `fetch` lồng nhau sẽ không âm thầm lật toàn bộ route vì hành vi được điều chỉnh bởi các ranh giới cache rõ ràng và `Suspense`
 
-## Examples
+## Ví dụ
 
 ### Dynamic APIs
 
-When accessing runtime APIs like `cookies()`, Next.js will only pre-render the fallback UI above this component.
+Khi truy cập các API runtime như `cookies()`, Next.js sẽ chỉ pre-render fallback UI phía trên component này.
 
-In this example, we have no fallback defined, so Next.js shows an error instructing us to provide one. The `<User />` component needs to be wrapped in `Suspense` because it uses the `cookies` API:
+Trong ví dụ này, chúng tôi không có fallback được xác định, vì vậy Next.js hiển thị một lỗi hướng dẫn chúng tôi cung cấp một cái. Component `<User />` cần được bọc trong `Suspense` vì nó sử dụng API `cookies`:
 
 ```jsx filename="app/user.js" switcher
 import { cookies } from 'next/headers'
@@ -471,7 +468,7 @@ export async function User() {
 }
 ```
 
-Now we have a `Suspense` boundary around our User component we can pre-render the Page with a Skeleton UI and stream in the `<User />` UI when a specific user makes a request
+Bây giờ chúng ta có một `Suspense` boundary xung quanh User component của mình, chúng ta có thể pre-render Page với một Skeleton UI và stream trong `<User />` UI khi một người dùng cụ thể thực hiện một request
 
 ```tsx filename="app/page.tsx" switcher
 import { Suspense } from 'react'
@@ -505,9 +502,9 @@ export default function Page() {
 }
 ```
 
-### Passing dynamic props
+### Truyền dynamic props
 
-Components only opt into dynamic rendering when the value is accessed. For example, if you are reading `searchParams` from a `<Page />` component, you can forward this value to another component as a prop:
+Components chỉ chọn tham gia dynamic rendering khi giá trị được truy cập. Ví dụ, nếu bạn đang đọc `searchParams` từ một component `<Page />`, bạn có thể chuyển tiếp giá trị này đến một component khác dưới dạng prop:
 
 ```tsx filename="app/page.tsx" switcher
 import { Table, TableSkeleton } from './table'
@@ -545,7 +542,7 @@ export default function Page({ searchParams }) {
 }
 ```
 
-Inside of the table component, accessing the value from `searchParams` will make the component dynamic while the rest of the page will be pre-rendered.
+Bên trong table component, việc truy cập giá trị từ `searchParams` sẽ làm cho component trở nên dynamic trong khi phần còn lại của trang sẽ được pre-rendered.
 
 ```tsx filename="app/table.tsx" switcher
 export async function Table({ sortPromise }: { sortPromise: Promise<string> }) {
@@ -561,20 +558,20 @@ export async function Table({ sortPromise }) {
 }
 ```
 
-## Frequently Asked Questions
+## Các câu hỏi thường gặp
 
-### Does this replace Partial Prerendering (PPR)?
+### Điều này có thay thế Partial Prerendering (PPR) không?
 
-No. Cache Components **implements** PPR as a feature. The old experimental PPR flag has been removed but PPR is here to stay.
+Không. Cache Components **triển khai** PPR như một tính năng. Cờ PPR thử nghiệm cũ đã bị xóa nhưng PPR vẫn ở đây.
 
-PPR provides the static shell and streaming infrastructure; `use cache` lets you include optimized dynamic output in that shell when beneficial.
+PPR cung cấp static shell và cơ sở hạ tầng streaming; `use cache` cho phép bạn bao gồm đầu ra dynamic được tối ưu hóa trong shell đó khi có lợi.
 
-### What should I cache first?
+### Tôi nên cache cái gì trước?
 
-What you cache should be a function of what you want your UI loading states to be. If data doesn't depend on runtime data and you're okay with a cached value being served for multiple requests over a period of time, use `use cache` with `cacheLife` to describe that behavior.
+Những gì bạn cache nên là một hàm của những gì bạn muốn trạng thái tải UI của mình là. Nếu dữ liệu không phụ thuộc vào dữ liệu runtime và bạn chấp nhận một giá trị đã cache được phục vụ cho nhiều requests trong một khoảng thời gian, hãy sử dụng `use cache` với `cacheLife` để mô tả hành vi đó.
 
-For content management systems with update mechanisms, consider using tags with longer cache durations and rely on `revalidateTag` to mark static initial UI as ready for revalidation. This pattern allows you to serve fast, cached responses while still updating content when it actually changes, rather than expiring the cache preemptively.
+Đối với các hệ thống quản lý nội dung có cơ chế cập nhật, hãy xem xét sử dụng tags với thời lượng cache dài hơn và dựa vào `revalidateTag` để đánh dấu UI tĩnh ban đầu là sẵn sàng cho revalidation. Pattern này cho phép bạn phục vụ các phản hồi nhanh, đã cache trong khi vẫn cập nhật nội dung khi nó thực sự thay đổi, thay vì hết hạn cache một cách phủ đầu.
 
-### How do I update cached content quickly?
+### Làm thế nào để tôi cập nhật nội dung đã cache một cách nhanh chóng?
 
-Use [`cacheTag`](/docs/app/api-reference/functions/cacheTag) to tag your cached data, then trigger [`updateTag`](/docs/app/api-reference/functions/updateTag) or [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag).
+Sử dụng [`cacheTag`](/docs/app/api-reference/functions/cacheTag) để gắn thẻ dữ liệu đã cache của bạn, sau đó kích hoạt [`updateTag`](/docs/app/api-reference/functions/updateTag) hoặc [`revalidateTag`](/docs/app/api-reference/functions/revalidateTag).

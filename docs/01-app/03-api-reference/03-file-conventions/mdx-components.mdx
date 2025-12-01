@@ -1,15 +1,15 @@
 ---
 title: mdx-components.js
-description: API reference for the mdx-components.js file.
+description: Tài liệu tham khảo API cho tệp mdx-components.js.
 related:
-  title: Learn more about MDX Components
+  title: Tìm hiểu thêm về MDX Components
   links:
     - app/guides/mdx
 ---
 
-The `mdx-components.js|tsx` file is **required** to use [`@next/mdx` with App Router](/docs/app/guides/mdx) and will not work without it. Additionally, you can use it to [customize styles](/docs/app/guides/mdx#using-custom-styles-and-components).
+Tệp `mdx-components.js|tsx` là **bắt buộc** để sử dụng [`@next/mdx` với App Router](/docs/app/guides/mdx) và sẽ không hoạt động nếu không có nó. Ngoài ra, bạn có thể sử dụng nó để [tùy chỉnh styles](/docs/app/guides/mdx#using-custom-styles-and-components).
 
-Use the file `mdx-components.tsx` (or `.js`) in the root of your project to define MDX Components. For example, at the same level as `pages` or `app`, or inside `src` if applicable.
+Sử dụng tệp `mdx-components.tsx` (hoặc `.js`) trong thư mục gốc của dự án của bạn để định nghĩa MDX Components. Ví dụ, ở cùng cấp với `pages` hoặc `app`, hoặc bên trong `src` nếu có.
 
 ```tsx filename="mdx-components.tsx" switcher
 import type { MDXComponents } from 'mdx/types'
@@ -31,9 +31,9 @@ export function useMDXComponents() {
 
 ## Exports
 
-### `useMDXComponents` function
+### Hàm `useMDXComponents`
 
-The file must export a single function named `useMDXComponents`. This function does not accept any arguments.
+Tệp phải export một hàm duy nhất có tên `useMDXComponents`. Hàm này không chấp nhận bất kỳ đối số nào.
 
 ```tsx filename="mdx-components.tsx" switcher
 import type { MDXComponents } from 'mdx/types'
@@ -53,8 +53,8 @@ export function useMDXComponents() {
 }
 ```
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes              |
-| --------- | -------------------- |
-| `v13.1.2` | MDX Components added |
+| Phiên bản | Thay đổi                     |
+| --------- | ---------------------------- |
+| `v13.1.2` | MDX Components được thêm vào |

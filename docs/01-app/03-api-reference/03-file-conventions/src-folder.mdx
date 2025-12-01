@@ -1,7 +1,7 @@
 ---
-title: src Folder
+title: Thư mục src
 nav_title: src
-description: Save pages under the `src` folder as an alternative to the root `pages` directory.
+description: Lưu các trang dưới thư mục `src` như một thay thế cho thư mục `pages` gốc.
 related:
   links:
     - app/getting-started/project-structure
@@ -9,11 +9,11 @@ related:
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-As an alternative to having the special Next.js `app` or `pages` directories in the root of your project, Next.js also supports the common pattern of placing application code under the `src` folder.
+Như một thay thế cho việc có các thư mục Next.js đặc biệt `app` hoặc `pages` trong thư mục gốc của dự án của bạn, Next.js cũng hỗ trợ mẫu phổ biến là đặt mã ứng dụng dưới thư mục `src`.
 
-This separates application code from project configuration files which mostly live in the root of a project, which is preferred by some individuals and teams.
+Điều này tách mã ứng dụng khỏi các tệp cấu hình dự án chủ yếu nằm trong thư mục gốc của dự án, điều này được một số cá nhân và nhóm ưa thích.
 
-To use the `src` folder, move the `app` Router folder or `pages` Router folder to `src/app` or `src/pages` respectively.
+Để sử dụng thư mục `src`, hãy di chuyển thư mục App Router hoặc Pages Router tương ứng sang `src/app` hoặc `src/pages`.
 
 <Image
   alt="An example folder structure with the `src` folder"
@@ -23,13 +23,13 @@ To use the `src` folder, move the `app` Router folder or `pages` Router folder t
   height="687"
 />
 
-> **Good to know**:
+> **Thông tin hữu ích**:
 >
-> - The `/public` directory should remain in the root of your project.
-> - Config files like `package.json`, `next.config.js` and `tsconfig.json` should remain in the root of your project.
-> - `.env.*` files should remain in the root of your project.
-> - `src/app` or `src/pages` will be ignored if `app` or `pages` are present in the root directory.
-> - If you're using `src`, you'll probably also move other application folders such as `/components` or `/lib`.
-> - If you're using Proxy, ensure it is placed inside the `src` folder.
-> - If you're using Tailwind CSS, you'll need to add the `/src` prefix to the `tailwind.config.js` file in the [content section](https://tailwindcss.com/docs/content-configuration).
-> - If you are using TypeScript paths for imports such as `@/*`, you should update the `paths` object in `tsconfig.json` to include `src/`.
+> - Thư mục `/public` nên vẫn ở trong thư mục gốc của dự án của bạn.
+> - Các tệp cấu hình như `package.json`, `next.config.js` và `tsconfig.json` nên vẫn ở trong thư mục gốc của dự án của bạn.
+> - Các tệp `.env.*` nên vẫn ở trong thư mục gốc của dự án của bạn.
+> - `src/app` hoặc `src/pages` sẽ bị bỏ qua nếu `app` hoặc `pages` có trong thư mục gốc.
+> - Nếu bạn đang sử dụng `src`, bạn có thể cũng sẽ di chuyển các thư mục ứng dụng khác như `/components` hoặc `/lib`.
+> - Nếu bạn đang sử dụng Proxy, hãy đảm bảo nó được đặt bên trong thư mục `src`.
+> - Nếu bạn đang sử dụng Tailwind CSS, bạn sẽ cần thêm tiền tố `/src` vào tệp `tailwind.config.js` trong [phần content](https://tailwindcss.com/docs/content-configuration).
+> - Nếu bạn đang sử dụng đường dẫn TypeScript cho imports như `@/*`, bạn nên cập nhật đối tượng `paths` trong `tsconfig.json` để bao gồm `src/`.

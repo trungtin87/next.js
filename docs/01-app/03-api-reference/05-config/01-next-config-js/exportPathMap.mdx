@@ -1,22 +1,22 @@
 ---
 title: exportPathMap
-description: Customize the pages that will be exported as HTML files when using `next export`.
+description: Tùy chỉnh các trang sẽ được export dưới dạng tệp HTML khi sử dụng `next export`.
 version: legacy
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-> This feature is exclusive to `next export` and currently **deprecated** in favor of `getStaticPaths` with `pages` or `generateStaticParams` with `app`.
+> Tính năng này là độc quyền cho `next export` và hiện tại **deprecated** để ủng hộ `getStaticPaths` với `pages` hoặc `generateStaticParams` với `app`.
 
-`exportPathMap` allows you to specify a mapping of request paths to page destinations, to be used during export. Paths defined in `exportPathMap` will also be available when using [`next dev`](/docs/app/api-reference/cli/next#next-dev-options).
+`exportPathMap` cho phép bạn chỉ định một mapping của request paths đến page destinations, sẽ được sử dụng trong quá trình export. Các paths được định nghĩa trong `exportPathMap` cũng sẽ có sẵn khi sử dụng [`next dev`](/docs/app/api-reference/cli/next#next-dev-options).
 
-Let's start with an example, to create a custom `exportPathMap` for an app with the following pages:
+Hãy bắt đầu với một ví dụ, để tạo một `exportPathMap` tùy chỉnh cho một ứng dụng với các trang sau:
 
 - `pages/index.js`
 - `pages/about.js`
 - `pages/post.js`
 
-Open `next.config.js` and add the following `exportPathMap` config:
+Mở `next.config.js` và thêm cấu hình `exportPathMap` sau:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -35,30 +35,30 @@ module.exports = {
 }
 ```
 
-> **Good to know**: the `query` field in `exportPathMap` cannot be used with [automatically statically optimized pages](/docs/pages/building-your-application/rendering/automatic-static-optimization) or [`getStaticProps` pages](/docs/pages/building-your-application/data-fetching/get-static-props) as they are rendered to HTML files at build-time and additional query information cannot be provided during `next export`.
+> **Nên biết**: trường `query` trong `exportPathMap` không thể được sử dụng với [các trang được tối ưu hóa tĩnh tự động](/docs/pages/building-your-application/rendering/automatic-static-optimization) hoặc [các trang `getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) vì chúng được render thành các tệp HTML tại thời điểm build và thông tin query bổ sung không thể được cung cấp trong quá trình `next export`.
 
-The pages will then be exported as HTML files, for example, `/about` will become `/about.html`.
+Các trang sau đó sẽ được export dưới dạng các tệp HTML, ví dụ, `/about` sẽ trở thành `/about.html`.
 
-`exportPathMap` is an `async` function that receives 2 arguments: the first one is `defaultPathMap`, which is the default map used by Next.js. The second argument is an object with:
+`exportPathMap` là một hàm `async` nhận 2 tham số: tham số đầu tiên là `defaultPathMap`, là map mặc định được sử dụng bởi Next.js. Tham số thứ hai là một đối tượng với:
 
-- `dev` - `true` when `exportPathMap` is being called in development. `false` when running `next export`. In development `exportPathMap` is used to define routes.
-- `dir` - Absolute path to the project directory
-- `outDir` - Absolute path to the `out/` directory ([configurable with `-o`](#customizing-the-output-directory)). When `dev` is `true` the value of `outDir` will be `null`.
-- `distDir` - Absolute path to the `.next/` directory (configurable with the [`distDir`](/docs/pages/api-reference/config/next-config-js/distDir) config)
-- `buildId` - The generated build id
+- `dev` - `true` khi `exportPathMap` được gọi trong development. `false` khi chạy `next export`. Trong development `exportPathMap` được sử dụng để định nghĩa routes.
+- `dir` - Đường dẫn tuyệt đối đến thư mục dự án
+- `outDir` - Đường dẫn tuyệt đối đến thư mục `out/` ([có thể cấu hình với `-o`](#customizing-the-output-directory)). Khi `dev` là `true` giá trị của `outDir` sẽ là `null`.
+- `distDir` - Đường dẫn tuyệt đối đến thư mục `.next/` (có thể cấu hình với cấu hình [`distDir`](/docs/pages/api-reference/config/next-config-js/distDir))
+- `buildId` - Build id được tạo
 
-The returned object is a map of pages where the `key` is the `pathname` and the `value` is an object that accepts the following fields:
+Đối tượng được trả về là một map của các trang trong đó `key` là `pathname` và `value` là một đối tượng chấp nhận các trường sau:
 
-- `page`: `String` - the page inside the `pages` directory to render
-- `query`: `Object` - the `query` object passed to `getInitialProps` when prerendering. Defaults to `{}`
+- `page`: `String` - trang bên trong thư mục `pages` để render
+- `query`: `Object` - đối tượng `query` được truyền đến `getInitialProps` khi prerendering. Mặc định là `{}`
 
-> The exported `pathname` can also be a filename (for example, `/readme.md`), but you may need to set the `Content-Type` header to `text/html` when serving its content if it is different than `.html`.
+> `pathname` được export cũng có thể là một filename (ví dụ, `/readme.md`), nhưng bạn có thể cần đặt header `Content-Type` thành `text/html` khi phục vụ nội dung của nó nếu nó khác với `.html`.
 
-## Adding a trailing slash
+## Thêm trailing slash
 
-It is possible to configure Next.js to export pages as `index.html` files and require trailing slashes, `/about` becomes `/about/index.html` and is routable via `/about/`. This was the default behavior prior to Next.js 9.
+Có thể cấu hình Next.js để export các trang dưới dạng các tệp `index.html` và yêu cầu trailing slashes, `/about` trở thành `/about/index.html` và có thể route thông qua `/about/`. Đây là hành vi mặc định trước Next.js 9.
 
-To switch back and add a trailing slash, open `next.config.js` and enable the `trailingSlash` config:
+Để chuyển lại và thêm một trailing slash, hãy mở `next.config.js` và kích hoạt cấu hình `trailingSlash`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -66,17 +66,17 @@ module.exports = {
 }
 ```
 
-## Customizing the output directory
+## Tùy chỉnh thư mục output
 
 <AppOnly>
 
-[`next export`](/docs/app/guides/static-exports) will use `out` as the default output directory, you can customize this using the `-o` argument, like so:
+[`next export`](/docs/app/guides/static-exports) sẽ sử dụng `out` làm thư mục output mặc định, bạn có thể tùy chỉnh điều này bằng cách sử dụng tham số `-o`, như sau:
 
 </AppOnly>
 
 <PagesOnly>
 
-[`next export`](/docs/pages/guides/static-exports) will use `out` as the default output directory, you can customize this using the `-o` argument, like so:
+[`next export`](/docs/pages/guides/static-exports) sẽ sử dụng `out` làm thư mục output mặc định, bạn có thể tùy chỉnh điều này bằng cách sử dụng tham số `-o`, như sau:
 
 </PagesOnly>
 
@@ -84,4 +84,4 @@ module.exports = {
 next export -o outdir
 ```
 
-> **Warning**: Using `exportPathMap` is deprecated and is overridden by `getStaticPaths` inside `pages`. We don't recommend using them together.
+> **Cảnh báo**: Sử dụng `exportPathMap` đã bị deprecated và bị ghi đè bởi `getStaticPaths` bên trong `pages`. Chúng tôi không khuyến nghị sử dụng chúng cùng nhau.

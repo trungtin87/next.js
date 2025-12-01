@@ -1,109 +1,109 @@
 ---
 title: Fast Refresh
-description: Fast Refresh is a hot module reloading experience that gives you instantaneous feedback on edits made to your React components.
+description: Fast Refresh là trải nghiệm hot module reloading cung cấp phản hồi tức thì về các chỉnh sửa được thực hiện đối với các React components của bạn.
 ---
 
-Fast refresh is a React feature integrated into Next.js that allows you live reload the browser page while maintaining temporary client-side state when you save changes to a file. It's enabled by default in all Next.js applications on **9.4 or newer**. With Fast Refresh enabled, most edits should be visible within a second.
+Fast refresh là một tính năng React được tích hợp vào Next.js cho phép bạn live reload trang trình duyệt trong khi duy trì temporary client-side state khi bạn lưu thay đổi vào một tệp. Nó được enable theo mặc định trong tất cả các ứng dụng Next.js trên **9.4 hoặc mới hơn**. Với Fast Refresh được enable, hầu hết các chỉnh sửa sẽ hiển thị trong vòng một giây.
 
-## How It Works
+## Cách hoạt động
 
-- If you edit a file that **only exports React component(s)**, Fast Refresh will
-  update the code only for that file, and re-render your component. You can edit
-  anything in that file, including styles, rendering logic, event handlers, or
+- Nếu bạn chỉnh sửa một tệp **chỉ export React component(s)**, Fast Refresh sẽ
+  cập nhật code chỉ cho tệp đó, và re-render component của bạn. Bạn có thể chỉnh sửa
+  bất cứ thứ gì trong tệp đó, bao gồm styles, rendering logic, event handlers, hoặc
   effects.
-- If you edit a file with exports that _aren't_ React components, Fast Refresh
-  will re-run both that file, and the other files importing it. So if both
-  `Button.js` and `Modal.js` import `theme.js`, editing `theme.js` will update
-  both components.
-- Finally, if you **edit a file** that's **imported by files outside of the
-  React tree**, Fast Refresh **will fall back to doing a full reload**. You
-  might have a file which renders a React component but also exports a value
-  that is imported by a **non-React component**. For example, maybe your
-  component also exports a constant, and a non-React utility file imports it. In
-  that case, consider migrating the constant to a separate file and importing it
-  into both files. This will re-enable Fast Refresh to work. Other cases can
-  usually be solved in a similar way.
+- Nếu bạn chỉnh sửa một tệp với exports _không phải_ React components, Fast Refresh
+  sẽ re-run cả tệp đó, và các tệp khác import nó. Vì vậy, nếu cả
+  `Button.js` và `Modal.js` import `theme.js`, việc chỉnh sửa `theme.js` sẽ cập nhật
+  cả hai components.
+- Cuối cùng, nếu bạn **chỉnh sửa một tệp** được **import bởi các tệp bên ngoài
+  React tree**, Fast Refresh **sẽ fallback để thực hiện full reload**. Bạn
+  có thể có một tệp render một React component nhưng cũng export một giá trị
+  được import bởi một **non-React component**. Ví dụ, có thể component của bạn
+  cũng export một constant, và một non-React utility file import nó. Trong
+  trường hợp đó, hãy xem xét di chuyển constant sang một tệp riêng biệt và import nó
+  vào cả hai tệp. Điều này sẽ re-enable Fast Refresh để hoạt động. Các trường hợp khác có
+  thể thường được giải quyết theo cách tương tự.
 
 ## Error Resilience
 
 ### Syntax Errors
 
-If you make a syntax error during development, you can fix it and save the file
-again. The error will disappear automatically, so you won't need to reload the
-app. **You will not lose component state**.
+Nếu bạn tạo một syntax error trong quá trình development, bạn có thể sửa nó và lưu tệp
+lại. Lỗi sẽ tự động biến mất, vì vậy bạn sẽ không cần reload
+app. **Bạn sẽ không mất component state**.
 
 ### Runtime Errors
 
-If you make a mistake that leads to a runtime error inside your component,
-you'll be greeted with a contextual overlay. Fixing the error will automatically
-dismiss the overlay, without reloading the app.
+Nếu bạn tạo một lỗi dẫn đến runtime error bên trong component của bạn,
+bạn sẽ được chào đón với một contextual overlay. Sửa lỗi sẽ tự động
+dismiss overlay, mà không reload app.
 
-Component state will be retained if the error did not occur during rendering. If
-the error did occur during rendering, React will remount your application using
-the updated code.
+Component state sẽ được giữ lại nếu lỗi không xảy ra trong quá trình rendering. Nếu
+lỗi xảy ra trong quá trình rendering, React sẽ remount ứng dụng của bạn bằng cách sử dụng
+code đã cập nhật.
 
-If you have [error boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary)
-in your app (which is a good idea for graceful failures in production), they
-will retry rendering on the next edit after a rendering error. This means having
-an error boundary can prevent you from always getting reset to the root app
-state. However, keep in mind that error boundaries shouldn't be _too_ granular.
-They are used by React in production, and should always be designed
-intentionally.
+Nếu bạn có [error boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary)
+trong app của bạn (đây là một ý tưởng tốt cho graceful failures trong production), chúng
+sẽ retry rendering trên lần chỉnh sửa tiếp theo sau một rendering error. Điều này có nghĩa là có
+một error boundary có thể ngăn bạn luôn bị reset về root app
+state. Tuy nhiên, hãy nhớ rằng error boundaries không nên _quá_ granular.
+Chúng được sử dụng bởi React trong production, và nên luôn được thiết kế
+một cách có chủ ý.
 
 ## Limitations
 
-Fast Refresh tries to preserve local React state in the component you're
-editing, but only if it's safe to do so. Here's a few reasons why you might see
-local state being reset on every edit to a file:
+Fast Refresh cố gắng preserve local React state trong component bạn đang
+chỉnh sửa, nhưng chỉ khi an toàn để làm như vậy. Đây là một vài lý do tại sao bạn có thể thấy
+local state bị reset trên mỗi lần chỉnh sửa một tệp:
 
-- Local state is not preserved for class components (only function components
-  and Hooks preserve state).
-- The file you're editing might have _other_ exports in addition to a React
+- Local state không được preserve cho class components (chỉ function components
+  và Hooks preserve state).
+- Tệp bạn đang chỉnh sửa có thể có _các_ exports khác ngoài một React
   component.
-- Sometimes, a file would export the result of calling a higher-order component
-  like `HOC(WrappedComponent)`. If the returned component is a
-  class, its state will be reset.
-- Anonymous arrow functions like `export default () => <div />;` cause Fast Refresh to not preserve local component state. For large codebases you can use our [`name-default-component` codemod](/docs/pages/guides/upgrading/codemods#name-default-component).
+- Đôi khi, một tệp sẽ export kết quả của việc gọi một higher-order component
+  như `HOC(WrappedComponent)`. Nếu component được trả về là một
+  class, state của nó sẽ bị reset.
+- Anonymous arrow functions như `export default () => <div />;` khiến Fast Refresh không preserve local component state. Đối với các codebase lớn, bạn có thể sử dụng [`name-default-component` codemod](/docs/pages/guides/upgrading/codemods#name-default-component) của chúng tôi.
 
-As more of your codebase moves to function components and Hooks, you can expect
-state to be preserved in more cases.
+Khi nhiều codebase của bạn chuyển sang function components và Hooks, bạn có thể mong đợi
+state được preserve trong nhiều trường hợp hơn.
 
 ## Tips
 
-- Fast Refresh preserves React local state in function components (and Hooks) by
-  default.
-- Sometimes you might want to _force_ the state to be reset, and a component to
-  be remounted. For example, this can be handy if you're tweaking an animation
-  that only happens on mount. To do this, you can add `// @refresh reset`
-  anywhere in the file you're editing. This directive is local to the file, and
-  instructs Fast Refresh to remount components defined in that file on every
-  edit.
-- You can put `console.log` or `debugger;` into the components you edit during
-  development.
-- Remember that imports are case sensitive. Both fast and full refresh can fail,
-  when your import doesn't match the actual filename.
-  For example, `'./header'` vs `'./Header'`.
+- Fast Refresh preserve React local state trong function components (và Hooks) theo
+  mặc định.
+- Đôi khi bạn có thể muốn _force_ state bị reset, và một component
+  được remounted. Ví dụ, điều này có thể hữu ích nếu bạn đang tinh chỉnh một animation
+  chỉ xảy ra khi mount. Để làm điều này, bạn có thể thêm `// @refresh reset`
+  bất cứ đâu trong tệp bạn đang chỉnh sửa. Directive này là local cho tệp, và
+  hướng dẫn Fast Refresh remount các components được định nghĩa trong tệp đó trên mỗi
+  lần chỉnh sửa.
+- Bạn có thể đặt `console.log` hoặc `debugger;` vào các components bạn chỉnh sửa trong
+  quá trình development.
+- Hãy nhớ rằng imports phân biệt chữ hoa chữ thường. Cả fast và full refresh có thể fail,
+  khi import của bạn không khớp với filename thực tế.
+  Ví dụ, `'./header'` vs `'./Header'`.
 
-## Fast Refresh and Hooks
+## Fast Refresh và Hooks
 
-When possible, Fast Refresh attempts to preserve the state of your component
-between edits. In particular, `useState` and `useRef` preserve their previous
-values as long as you don't change their arguments or the order of the Hook
+Khi có thể, Fast Refresh cố gắng preserve state của component của bạn
+giữa các lần chỉnh sửa. Đặc biệt, `useState` và `useRef` preserve các giá trị trước đó của chúng
+miễn là bạn không thay đổi arguments của chúng hoặc thứ tự của các Hook
 calls.
 
-Hooks with dependencies—such as `useEffect`, `useMemo`, and `useCallback`—will
-_always_ update during Fast Refresh. Their list of dependencies will be ignored
-while Fast Refresh is happening.
+Các Hooks với dependencies—như `useEffect`, `useMemo`, và `useCallback`—sẽ
+_luôn_ cập nhật trong quá trình Fast Refresh. Danh sách dependencies của chúng sẽ bị ignore
+trong khi Fast Refresh đang diễn ra.
 
-For example, when you edit `useMemo(() => x * 2, [x])` to
-`useMemo(() => x * 10, [x])`, it will re-run even though `x` (the dependency)
-has not changed. If React didn't do that, your edit wouldn't reflect on the
-screen!
+Ví dụ, khi bạn chỉnh sửa `useMemo(() => x * 2, [x])` thành
+`useMemo(() => x * 10, [x])`, nó sẽ re-run ngay cả khi `x` (dependency)
+không thay đổi. Nếu React không làm điều đó, chỉnh sửa của bạn sẽ không phản ánh trên
+màn hình!
 
-Sometimes, this can lead to unexpected results. For example, even a `useEffect`
-with an empty array of dependencies would still re-run once during Fast Refresh.
+Đôi khi, điều này có thể dẫn đến kết quả không mong muốn. Ví dụ, ngay cả một `useEffect`
+với một mảng dependencies rỗng vẫn sẽ re-run một lần trong quá trình Fast Refresh.
 
-However, writing code resilient to occasional re-running of `useEffect` is a good practice even
-without Fast Refresh. It will make it easier for you to introduce new dependencies to it later on
-and it's enforced by [React Strict Mode](/docs/pages/api-reference/config/next-config-js/reactStrictMode),
-which we highly recommend enabling.
+Tuy nhiên, việc viết code resilient với occasional re-running của `useEffect` là một thực hành tốt ngay cả
+mà không có Fast Refresh. Nó sẽ giúp bạn dễ dàng giới thiệu các dependencies mới vào nó sau này
+và nó được enforce bởi [React Strict Mode](/docs/pages/api-reference/config/next-config-js/reactStrictMode),
+mà chúng tôi rất khuyến nghị enable.

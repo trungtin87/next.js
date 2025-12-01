@@ -1,17 +1,17 @@
 ---
-title: Custom App
-description: Control page initialization and add a layout that persists for all pages by overriding the default App component used by Next.js.
+title: Ứng dụng tùy chỉnh
+description: Kiểm soát việc khởi tạo trang và thêm một bố cục tồn tại cho tất cả các trang bằng cách ghi đè thành phần App mặc định được Next.js sử dụng.
 ---
 
-Next.js uses the `App` component to initialize pages. You can override it and control the page initialization and:
+Next.js sử dụng thành phần `App` để khởi tạo các trang. Bạn có thể ghi đè nó và kiểm soát việc khởi tạo trang và:
 
-- Create a shared layout between page changes
-- Inject additional data into pages
-- [Add global CSS](/docs/app/getting-started/css)
+- Tạo một bố cục được chia sẻ giữa các lần thay đổi trang
+- Chèn thêm dữ liệu vào các trang
+- [Thêm CSS toàn cục](/docs/app/getting-started/css)
 
-## Usage
+## Cách sử dụng
 
-To override the default `App`, create the file `pages/_app` as shown below:
+Để ghi đè `App` mặc định, hãy tạo tệp `pages/_app` như bên dưới:
 
 ```tsx filename="pages/_app.tsx" switcher
 import type { AppProps } from 'next/app'
@@ -27,20 +27,20 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-The `Component` prop is the active `page`, so whenever you navigate between routes, `Component` will change to the new `page`. Therefore, any props you send to `Component` will be received by the `page`.
+Prop `Component` là `page` đang hoạt động, vì vậy bất cứ khi nào bạn điều hướng giữa các tuyến, `Component` sẽ thay đổi thành `page` mới. Do đó, bất kỳ prop nào bạn gửi đến `Component` sẽ được `page` nhận.
 
-`pageProps` is an object with the initial props that were preloaded for your page by one of our [data fetching methods](/docs/pages/building-your-application/data-fetching), otherwise it's an empty object.
+`pageProps` là một đối tượng với các prop ban đầu đã được tải sẵn cho trang của bạn bằng một trong các [phương thức tìm nạp dữ liệu](/docs/pages/building-your-application/data-fetching) của chúng tôi, nếu không thì nó là một đối tượng trống.
 
-> **Good to know**:
+> **Cần biết**:
 >
-> - If your app is running and you added a custom `App`, you'll need to restart the development server. Only required if `pages/_app.js` didn't exist before.
-> - `App` does not support Next.js [Data Fetching methods](/docs/pages/building-your-application/data-fetching) like [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) or [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props).
+> - Nếu ứng dụng của bạn đang chạy và bạn đã thêm một `App` tùy chỉnh, bạn sẽ cần khởi động lại máy chủ phát triển. Chỉ bắt buộc nếu `pages/_app.js` không tồn tại trước đó.
+> - `App` không hỗ trợ các [phương thức tìm nạp dữ liệu](/docs/pages/building-your-application/data-fetching) của Next.js như [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) hoặc [`getServerSideProps`](/docs/pages/building-your-application/data-fetching/get-server-side-props).
 
-## `getInitialProps` with `App`
+## `getInitialProps` với `App`
 
-Using [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props) in `App` will disable [Automatic Static Optimization](/docs/pages/building-your-application/rendering/automatic-static-optimization) for pages without [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props).
+Sử dụng [`getInitialProps`](/docs/pages/api-reference/functions/get-initial-props) trong `App` sẽ vô hiệu hóa [Tối ưu hóa tĩnh tự động](/docs/pages/building-your-application/rendering/automatic-static-optimization) cho các trang không có [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props).
 
-**We do not recommend using this pattern.** Instead, consider [incrementally adopting](/docs/app/guides/migrating/app-router-migration) the App Router, which allows you to more easily fetch data for pages and layouts.
+**Chúng tôi không khuyến khích sử dụng mẫu này.** Thay vào đó, hãy xem xét [áp dụng dần dần](/docs/app/guides/migrating/app-router-migration) App Router, cho phép bạn tìm nạp dữ liệu cho các trang và bố cục dễ dàng hơn.
 
 ```tsx filename="pages/_app.tsx" switcher
 import App, { AppContext, AppInitialProps, AppProps } from 'next/app'

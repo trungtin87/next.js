@@ -1,13 +1,13 @@
 ---
 title: headers
-description: Add custom HTTP headers to your Next.js app.
+description: Thêm HTTP headers tùy chỉnh vào ứng dụng Next.js của bạn.
 ---
 
 {/* The content of this doc is shared between the app and pages router. You can use the `<PagesOnly>Content</PagesOnly>` component to add content that is specific to the Pages Router. Any shared content should not be wrapped in a component. */}
 
-Headers allow you to set custom HTTP headers on the response to an incoming request on a given path.
+Headers cho phép bạn đặt HTTP headers tùy chỉnh trên phản hồi cho một request đến trên một đường dẫn nhất định.
 
-To set custom HTTP headers you can use the `headers` key in `next.config.js`:
+Để đặt HTTP headers tùy chỉnh bạn có thể sử dụng khóa `headers` trong `next.config.js`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -31,20 +31,20 @@ module.exports = {
 }
 ```
 
-`headers` is an async function that expects an array to be returned holding objects with `source` and `headers` properties:
+`headers` là một hàm async mong đợi trả về một mảng chứa các objects với các thuộc tính `source` và `headers`:
 
-- `source` is the incoming request path pattern.
-- `headers` is an array of response header objects, with `key` and `value` properties.
-- `basePath`: `false` or `undefined` - if false the basePath won't be included when matching, can be used for external rewrites only.
-- `locale`: `false` or `undefined` - whether the locale should not be included when matching.
-- `has` is an array of [has objects](#header-cookie-and-query-matching) with the `type`, `key` and `value` properties.
-- `missing` is an array of [missing objects](#header-cookie-and-query-matching) with the `type`, `key` and `value` properties.
+- `source` là mẫu đường dẫn request đến.
+- `headers` là một mảng của các objects response header, với các thuộc tính `key` và `value`.
+- `basePath`: `false` hoặc `undefined` - nếu false basePath sẽ không được bao gồm khi khớp, chỉ có thể được sử dụng cho external rewrites.
+- `locale`: `false` hoặc `undefined` - liệu locale có nên không được bao gồm khi khớp hay không.
+- `has` là một mảng của [has objects](#header-cookie-and-query-matching) với các thuộc tính `type`, `key` và `value`.
+- `missing` là một mảng của [missing objects](#header-cookie-and-query-matching) với các thuộc tính `type`, `key` và `value`.
 
-Headers are checked before the filesystem which includes pages and `/public` files.
+Headers được kiểm tra trước hệ thống tệp bao gồm pages và các tệp `/public`.
 
-## Header Overriding Behavior
+## Hành vi ghi đè Header
 
-If two headers match the same path and set the same header key, the last header key will override the first. Using the below headers, the path `/hello` will result in the header `x-hello` being `world` due to the last header value set being `world`.
+Nếu hai headers khớp với cùng một đường dẫn và đặt cùng một header key, header key cuối cùng sẽ ghi đè cái đầu tiên. Sử dụng các headers bên dưới, đường dẫn `/hello` sẽ dẫn đến header `x-hello` là `world` do giá trị header cuối cùng được đặt là `world`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -75,7 +75,7 @@ module.exports = {
 
 ## Path Matching
 
-Path matches are allowed, for example `/blog/:slug` will match `/blog/hello-world` (no nested paths):
+Khớp đường dẫn được cho phép, ví dụ `/blog/:slug` sẽ khớp `/blog/hello-world` (không có nested paths):
 
 ```js filename="next.config.js"
 module.exports = {
@@ -101,7 +101,7 @@ module.exports = {
 
 ### Wildcard Path Matching
 
-To match a wildcard path you can use `*` after a parameter, for example `/blog/:slug*` will match `/blog/a/b/c/d/hello-world`:
+Để khớp một wildcard path bạn có thể sử dụng `*` sau một tham số, ví dụ `/blog/:slug*` sẽ khớp `/blog/a/b/c/d/hello-world`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -127,7 +127,7 @@ module.exports = {
 
 ### Regex Path Matching
 
-To match a regex path you can wrap the regex in parenthesis after a parameter, for example `/blog/:slug(\\d{1,})` will match `/blog/123` but not `/blog/abc`:
+Để khớp một regex path bạn có thể bọc regex trong dấu ngoặc đơn sau một tham số, ví dụ `/blog/:slug(\\d{1,})` sẽ khớp `/blog/123` nhưng không khớp `/blog/abc`:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -147,7 +147,7 @@ module.exports = {
 }
 ```
 
-The following characters `(`, `)`, `{`, `}`, `:`, `*`, `+`, `?` are used for regex path matching, so when used in the `source` as non-special values they must be escaped by adding `\\` before them:
+Các ký tự sau `(`, `)`, `{`, `}`, `:`, `*`, `+`, `?` được sử dụng cho regex path matching, vì vậy khi được sử dụng trong `source` như các giá trị không đặc biệt, chúng phải được escape bằng cách thêm `\\` trước chúng:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -168,15 +168,15 @@ module.exports = {
 }
 ```
 
-## Header, Cookie, and Query Matching
+## Header, Cookie, và Query Matching
 
-To only apply a header when header, cookie, or query values also match the `has` field or don't match the `missing` field can be used. Both the `source` and all `has` items must match and all `missing` items must not match for the header to be applied.
+Để chỉ áp dụng một header khi các giá trị header, cookie, hoặc query cũng khớp với trường `has` hoặc không khớp với trường `missing`. Cả `source` và tất cả các mục `has` phải khớp và tất cả các mục `missing` phải không khớp để header được áp dụng.
 
-`has` and `missing` items can have the following fields:
+Các mục `has` và `missing` có thể có các trường sau:
 
-- `type`: `String` - must be either `header`, `cookie`, `host`, or `query`.
-- `key`: `String` - the key from the selected type to match against.
-- `value`: `String` or `undefined` - the value to check for, if undefined any value will match. A regex like string can be used to capture a specific part of the value, e.g. if the value `first-(?<paramName>.*)` is used for `first-second` then `second` will be usable in the destination with `:paramName`.
+- `type`: `String` - phải là `header`, `cookie`, `host`, hoặc `query`.
+- `key`: `String` - key từ loại đã chọn để khớp.
+- `value`: `String` hoặc `undefined` - giá trị để kiểm tra, nếu undefined bất kỳ giá trị nào cũng sẽ khớp. Một chuỗi giống regex có thể được sử dụng để bắt một phần cụ thể của giá trị, ví dụ nếu giá trị `first-(?<paramName>.*)` được sử dụng cho `first-second` thì `second` sẽ có thể sử dụng được trong destination với `:paramName`.
 
 ```js filename="next.config.js"
 module.exports = {
@@ -282,9 +282,9 @@ module.exports = {
 }
 ```
 
-## Headers with basePath support
+## Headers với hỗ trợ basePath
 
-When leveraging [`basePath` support](/docs/app/api-reference/config/next-config-js/basePath) with headers each `source` is automatically prefixed with the `basePath` unless you add `basePath: false` to the header:
+Khi tận dụng [hỗ trợ `basePath`](/docs/app/api-reference/config/next-config-js/basePath) với headers mỗi `source` được tự động thêm tiền tố với `basePath` trừ khi bạn thêm `basePath: false` vào header:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -316,17 +316,17 @@ module.exports = {
 }
 ```
 
-## Headers with i18n support
+## Headers với hỗ trợ i18n
 
 <AppOnly>
 
-When leveraging [`i18n` support](/docs/app/guides/internationalization) with headers each `source` is automatically prefixed to handle the configured `locales` unless you add `locale: false` to the header. If `locale: false` is used you must prefix the `source` with a locale for it to be matched correctly.
+Khi tận dụng [hỗ trợ `i18n`](/docs/app/guides/internationalization) với headers mỗi `source` được tự động thêm tiền tố để xử lý các `locales` đã cấu hình trừ khi bạn thêm `locale: false` vào header. Nếu `locale: false` được sử dụng bạn phải thêm tiền tố `source` với một locale để nó được khớp chính xác.
 
 </AppOnly>
 
 <PagesOnly>
 
-When leveraging [`i18n` support](/docs/pages/guides/internationalization) with headers each `source` is automatically prefixed to handle the configured `locales` unless you add `locale: false` to the header. If `locale: false` is used you must prefix the `source` with a locale for it to be matched correctly.
+Khi tận dụng [hỗ trợ `i18n`](/docs/pages/guides/internationalization) với headers mỗi `source` được tự động thêm tiền tố để xử lý các `locales` đã cấu hình trừ khi bạn thêm `locale: false` vào header. Nếu `locale: false` được sử dụng bạn phải thêm tiền tố `source` với một locale để nó được khớp chính xác.
 
 </PagesOnly>
 
@@ -388,21 +388,21 @@ module.exports = {
 
 ## Cache-Control
 
-Next.js sets the `Cache-Control` header of `public, max-age=31536000, immutable` for truly immutable assets. It cannot be overridden. These immutable files contain a SHA-hash in the file name, so they can be safely cached indefinitely. For example, [Static Image Imports](/docs/app/getting-started/images#local-images). You cannot set `Cache-Control` headers in `next.config.js` for these assets.
+Next.js đặt header `Cache-Control` là `public, max-age=31536000, immutable` cho các tài sản thực sự bất biến (truly immutable assets). Nó không thể bị ghi đè. Các tệp bất biến này chứa một SHA-hash trong tên tệp, vì vậy chúng có thể được cache an toàn vô thời hạn. Ví dụ, [Static Image Imports](/docs/app/getting-started/images#local-images). Bạn không thể đặt headers `Cache-Control` trong `next.config.js` cho các tài sản này.
 
-However, you can set `Cache-Control` headers for other responses or data.
+Tuy nhiên, bạn có thể đặt headers `Cache-Control` cho các phản hồi hoặc dữ liệu khác.
 
 <AppOnly>
 
-Learn more about [caching](/docs/app/guides/caching) with the App Router.
+Tìm hiểu thêm về [caching](/docs/app/guides/caching) với App Router.
 
 </AppOnly>
 
 <PagesOnly>
 
-If you need to revalidate the cache of a page that has been [statically generated](/docs/pages/building-your-application/rendering/static-site-generation), you can do so by setting the `revalidate` prop in the page's [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) function.
+Nếu bạn cần revalidate cache của một trang đã được [tạo tĩnh](/docs/pages/building-your-application/rendering/static-site-generation), bạn có thể làm như vậy bằng cách đặt prop `revalidate` trong hàm [`getStaticProps`](/docs/pages/building-your-application/data-fetching/get-static-props) của trang.
 
-To cache the response from an [API Route](/docs/pages/building-your-application/routing/api-routes), you can use `res.setHeader`:
+Để cache phản hồi từ một [API Route](/docs/pages/building-your-application/routing/api-routes), bạn có thể sử dụng `res.setHeader`:
 
 ```ts filename="pages/api/hello.ts" switcher
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -427,7 +427,7 @@ export default function handler(req, res) {
 }
 ```
 
-You can also use caching headers (`Cache-Control`) inside `getServerSideProps` to cache dynamic responses. For example, using [`stale-while-revalidate`](https://web.dev/stale-while-revalidate/).
+Bạn cũng có thể sử dụng caching headers (`Cache-Control`) bên trong `getServerSideProps` để cache các phản hồi động. Ví dụ, sử dụng [`stale-while-revalidate`](https://web.dev/stale-while-revalidate/).
 
 ```ts filename="pages/index.tsx" switcher
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
@@ -473,11 +473,11 @@ export async function getServerSideProps({ req, res }) {
 
 </PagesOnly>
 
-## Options
+## Tùy chọn
 
 ### CORS
 
-[Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/docs/Web/HTTP/CORS) is a security feature that allows you to control which sites can access your resources. You can set the `Access-Control-Allow-Origin` header to allow a specific origin to access your <PagesOnly>API Endpoints</PagesOnly><AppOnly>Route Handlers</AppOnly>.
+[Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/docs/Web/HTTP/CORS) là một tính năng bảo mật cho phép bạn kiểm soát trang web nào có thể truy cập tài nguyên của bạn. Bạn có thể đặt header `Access-Control-Allow-Origin` để cho phép một origin cụ thể truy cập <PagesOnly>API Endpoints</PagesOnly><AppOnly>Route Handlers</AppOnly> của bạn.
 
 ```js
 async headers() {
@@ -505,7 +505,7 @@ async headers() {
 
 ### X-DNS-Prefetch-Control
 
-[This header](https://developer.mozilla.org/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control) controls DNS prefetching, allowing browsers to proactively perform domain name resolution on external links, images, CSS, JavaScript, and more. This prefetching is performed in the background, so the [DNS](https://developer.mozilla.org/docs/Glossary/DNS) is more likely to be resolved by the time the referenced items are needed. This reduces latency when the user clicks a link.
+[Header này](https://developer.mozilla.org/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control) kiểm soát DNS prefetching, cho phép các trình duyệt chủ động thực hiện phân giải tên miền trên các liên kết bên ngoài, hình ảnh, CSS, JavaScript, và nhiều hơn nữa. Việc prefetching này được thực hiện trong nền, vì vậy [DNS](https://developer.mozilla.org/docs/Glossary/DNS) có nhiều khả năng được phân giải vào thời điểm các mục được tham chiếu cần thiết. Điều này làm giảm độ trễ khi người dùng nhấp vào một liên kết.
 
 ```js
 {
@@ -516,7 +516,7 @@ async headers() {
 
 ### Strict-Transport-Security
 
-[This header](https://developer.mozilla.org/docs/Web/HTTP/Headers/Strict-Transport-Security) informs browsers it should only be accessed using HTTPS, instead of using HTTP. Using the configuration below, all present and future subdomains will use HTTPS for a `max-age` of 2 years. This blocks access to pages or subdomains that can only be served over HTTP.
+[Header này](https://developer.mozilla.org/docs/Web/HTTP/Headers/Strict-Transport-Security) thông báo cho các trình duyệt rằng nó chỉ nên được truy cập bằng HTTPS, thay vì sử dụng HTTP. Sử dụng cấu hình bên dưới, tất cả các tên miền phụ hiện tại và tương lai sẽ sử dụng HTTPS trong `max-age` là 2 năm. Điều này chặn quyền truy cập vào các trang hoặc tên miền phụ chỉ có thể được phục vụ qua HTTP.
 
 ```js
 {
@@ -527,9 +527,9 @@ async headers() {
 
 ### X-Frame-Options
 
-[This header](https://developer.mozilla.org/docs/Web/HTTP/Headers/X-Frame-Options) indicates whether the site should be allowed to be displayed within an `iframe`. This can prevent against clickjacking attacks.
+[Header này](https://developer.mozilla.org/docs/Web/HTTP/Headers/X-Frame-Options) cho biết liệu trang web có được phép hiển thị trong một `iframe` hay không. Điều này có thể ngăn chặn các cuộc tấn công clickjacking.
 
-**This header has been superseded by CSP's `frame-ancestors` option**, which has better support in modern browsers (see [Content Security Policy](/docs/app/guides/content-security-policy) for configuration details).
+**Header này đã được thay thế bởi tùy chọn `frame-ancestors` của CSP**, có hỗ trợ tốt hơn trong các trình duyệt hiện đại (xem [Content Security Policy](/docs/app/guides/content-security-policy) để biết chi tiết cấu hình).
 
 ```js
 {
@@ -540,7 +540,7 @@ async headers() {
 
 ### Permissions-Policy
 
-[This header](https://developer.mozilla.org/docs/Web/HTTP/Headers/Permissions-Policy) allows you to control which features and APIs can be used in the browser. It was previously named `Feature-Policy`.
+[Header này](https://developer.mozilla.org/docs/Web/HTTP/Headers/Permissions-Policy) cho phép bạn kiểm soát các tính năng và API nào có thể được sử dụng trong trình duyệt. Trước đây nó được đặt tên là `Feature-Policy`.
 
 ```js
 {
@@ -551,9 +551,9 @@ async headers() {
 
 ### X-Content-Type-Options
 
-[This header](https://developer.mozilla.org/docs/Web/HTTP/Headers/X-Content-Type-Options) prevents the browser from attempting to guess the type of content if the `Content-Type` header is not explicitly set. This can prevent XSS exploits for websites that allow users to upload and share files.
+[Header này](https://developer.mozilla.org/docs/Web/HTTP/Headers/X-Content-Type-Options) ngăn trình duyệt cố gắng đoán loại nội dung nếu header `Content-Type` không được đặt rõ ràng. Điều này có thể ngăn chặn các khai thác XSS cho các trang web cho phép người dùng tải lên và chia sẻ tệp.
 
-For example, a user trying to download an image, but having it treated as a different `Content-Type` like an executable, which could be malicious. This header also applies to downloading browser extensions. The only valid value for this header is `nosniff`.
+Ví dụ, một người dùng cố gắng tải xuống một hình ảnh, nhưng nó được xử lý như một `Content-Type` khác như một tệp thực thi, điều này có thể độc hại. Header này cũng áp dụng cho việc tải xuống các tiện ích mở rộng trình duyệt. Giá trị hợp lệ duy nhất cho header này là `nosniff`.
 
 ```js
 {
@@ -564,7 +564,7 @@ For example, a user trying to download an image, but having it treated as a diff
 
 ### Referrer-Policy
 
-[This header](https://developer.mozilla.org/docs/Web/HTTP/Headers/Referrer-Policy) controls how much information the browser includes when navigating from the current website (origin) to another.
+[Header này](https://developer.mozilla.org/docs/Web/HTTP/Headers/Referrer-Policy) kiểm soát lượng thông tin mà trình duyệt bao gồm khi điều hướng từ trang web hiện tại (origin) sang trang web khác.
 
 ```js
 {
@@ -575,12 +575,12 @@ For example, a user trying to download an image, but having it treated as a diff
 
 ### Content-Security-Policy
 
-Learn more about adding a [Content Security Policy](/docs/app/guides/content-security-policy) to your application.
+Tìm hiểu thêm về việc thêm [Content Security Policy](/docs/app/guides/content-security-policy) vào ứng dụng của bạn.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes          |
-| --------- | ---------------- |
-| `v13.3.0` | `missing` added. |
-| `v10.2.0` | `has` added.     |
-| `v9.5.0`  | Headers added.   |
+| Phiên bản | Thay đổi                 |
+| --------- | ------------------------ |
+| `v13.3.0` | `missing` được thêm vào. |
+| `v10.2.0` | `has` được thêm vào.     |
+| `v9.5.0`  | Headers được thêm vào.   |

@@ -1,51 +1,51 @@
 ---
-title: Caching in Next.js
+title: Caching trong Next.js
 nav_title: Caching
-description: An overview of caching mechanisms in Next.js.
+description: Tổng quan về các cơ chế caching trong Next.js.
 ---
 
-Next.js improves your application's performance and reduces costs by caching rendering work and data requests. This page provides an in-depth look at Next.js caching mechanisms, the APIs you can use to configure them, and how they interact with each other.
+Next.js cải thiện hiệu suất ứng dụng của bạn và giảm chi phí bằng cách caching công việc rendering và các yêu cầu dữ liệu. Trang này cung cấp cái nhìn sâu sắc về các cơ chế caching của Next.js, các API bạn có thể sử dụng để định cấu hình chúng và cách chúng tương tác với nhau.
 
-> **Good to know**: This page helps you understand how Next.js works under the hood but is **not** essential knowledge to be productive with Next.js. Most of Next.js' caching heuristics are determined by your API usage and have defaults for the best performance with zero or minimal configuration. If you instead want to jump to examples, [start here](/docs/app/getting-started/fetching-data).
+> **Thông tin hữu ích**: Trang này giúp bạn hiểu cách Next.js hoạt động "dưới nắp capo" nhưng **không** phải là kiến thức thiết yếu để làm việc hiệu quả với Next.js. Hầu hết các heuristic caching của Next.js được xác định bởi việc sử dụng API của bạn và có các giá trị mặc định cho hiệu suất tốt nhất với cấu hình bằng không hoặc tối thiểu. Nếu bạn muốn chuyển sang các ví dụ, [bắt đầu tại đây](/docs/app/getting-started/fetching-data).
 
-## Overview
+## Tổng quan
 
-Here's a high-level overview of the different caching mechanisms and their purpose:
+Dưới đây là tổng quan cấp cao về các cơ chế caching khác nhau và mục đích của chúng:
 
-| Mechanism                                   | What                       | Where  | Purpose                                         | Duration                        |
-| ------------------------------------------- | -------------------------- | ------ | ----------------------------------------------- | ------------------------------- |
-| [Request Memoization](#request-memoization) | Return values of functions | Server | Re-use data in a React Component tree           | Per-request lifecycle           |
-| [Data Cache](#data-cache)                   | Data                       | Server | Store data across user requests and deployments | Persistent (can be revalidated) |
-| [Full Route Cache](#full-route-cache)       | HTML and RSC payload       | Server | Reduce rendering cost and improve performance   | Persistent (can be revalidated) |
-| [Router Cache](#client-side-router-cache)   | RSC Payload                | Client | Reduce server requests on navigation            | User session or time-based      |
+| Cơ chế                                      | Cái gì                     | Ở đâu  | Mục đích                                                 | Thời lượng                               |
+| ------------------------------------------- | -------------------------- | ------ | -------------------------------------------------------- | ---------------------------------------- |
+| [Request Memoization](#request-memoization) | Giá trị trả về của các hàm | Server | Tái sử dụng dữ liệu trong React Component tree           | Vòng đời mỗi yêu cầu                     |
+| [Data Cache](#data-cache)                   | Dữ liệu                    | Server | Lưu trữ dữ liệu qua các yêu cầu người dùng và triển khai | Bền vững (có thể revalidate)             |
+| [Full Route Cache](#full-route-cache)       | HTML và RSC payload        | Server | Giảm chi phí rendering và cải thiện hiệu suất            | Bền vững (có thể revalidate)             |
+| [Router Cache](#client-side-router-cache)   | RSC Payload                | Client | Giảm yêu cầu server khi điều hướng                       | Phiên người dùng hoặc dựa trên thời gian |
 
-By default, Next.js will cache as much as possible to improve performance and reduce cost. This means routes are **statically rendered** and data requests are **cached** unless you opt out. The diagram below shows the default caching behavior: when a route is statically rendered at build time and when a static route is first visited.
+Theo mặc định, Next.js sẽ cache nhiều nhất có thể để cải thiện hiệu suất và giảm chi phí. Điều này có nghĩa là các routes được **statically rendered** và các yêu cầu dữ liệu được **cached** trừ khi bạn chọn không tham gia (opt out). Sơ đồ dưới đây hiển thị hành vi caching mặc định: khi một route được statically rendered tại build time và khi một static route được truy cập lần đầu tiên.
 
 <Image
-  alt="Diagram showing the default caching behavior in Next.js for the four mechanisms, with HIT, MISS and SET at build time and when a route is first visited."
+  alt="Sơ đồ hiển thị hành vi caching mặc định trong Next.js cho bốn cơ chế, với HIT, MISS và SET tại build time và khi một route được truy cập lần đầu tiên."
   srcLight="/docs/light/caching-overview.png"
   srcDark="/docs/dark/caching-overview.png"
   width="1600"
   height="1179"
 />
 
-Caching behavior changes depending on whether the route is statically or dynamically rendered, data is cached or uncached, and whether a request is part of an initial visit or a subsequent navigation. Depending on your use case, you can configure the caching behavior for individual routes and data requests.
+Hành vi caching thay đổi tùy thuộc vào việc route được render tĩnh hay động, dữ liệu được cache hay không cache, và liệu yêu cầu là một phần của lần truy cập đầu tiên hay điều hướng tiếp theo. Tùy thuộc vào trường hợp sử dụng của bạn, bạn có thể định cấu hình hành vi caching cho các routes và yêu cầu dữ liệu riêng lẻ.
 
-Fetch caching is **not** supported in `proxy`. Any fetches done inside of your `proxy` will be uncached.
+Fetch caching **không** được hỗ trợ trong `proxy`. Bất kỳ fetch nào được thực hiện bên trong `proxy` của bạn sẽ không được cache.
 
-## Rendering Strategies
+## Chiến lược Rendering
 
-To understand how caching works in Next.js, it's helpful to understand the rendering strategies available. The rendering strategy determines when your route's HTML is generated, which directly impacts what can be cached.
+Để hiểu cách caching hoạt động trong Next.js, sẽ hữu ích khi hiểu các chiến lược rendering có sẵn. Chiến lược rendering xác định khi nào HTML của route của bạn được tạo, điều này ảnh hưởng trực tiếp đến những gì có thể được cache.
 
 ### Static Rendering
 
-With Static Rendering, routes are rendered at **build time** or in the background after [data revalidation](/docs/app/guides/incremental-static-regeneration). The result is cached and can be reused across requests. Static routes are fully cached in the [Full Route Cache](#full-route-cache).
+Với Static Rendering, các routes được render tại **build time** hoặc trong nền sau khi [data revalidation](/docs/app/guides/incremental-static-regeneration). Kết quả được cache và có thể được sử dụng lại qua các yêu cầu. Các static routes được cache đầy đủ trong [Full Route Cache](#full-route-cache).
 
 ### Dynamic Rendering
 
-With Dynamic Rendering, routes are rendered at **request time**. This happens when your route uses request-specific information like cookies, headers, or search params.
+Với Dynamic Rendering, các routes được render tại **request time**. Điều này xảy ra khi route của bạn sử dụng thông tin cụ thể theo yêu cầu như cookies, headers, hoặc search params.
 
-A route becomes dynamic when it uses any of these APIs:
+Một route trở thành dynamic khi nó sử dụng bất kỳ API nào sau đây:
 
 - [`cookies`](/docs/app/api-reference/functions/cookies)
 - [`headers`](/docs/app/api-reference/functions/headers)
@@ -53,15 +53,15 @@ A route becomes dynamic when it uses any of these APIs:
 - [`draftMode`](/docs/app/api-reference/functions/draft-mode)
 - [`searchParams` prop](/docs/app/api-reference/file-conventions/page#searchparams-optional)
 - [`unstable_noStore`](/docs/app/api-reference/functions/unstable_noStore)
-- [`fetch`](/docs/app/api-reference/functions/fetch) with `{ cache: 'no-store' }`
+- [`fetch`](/docs/app/api-reference/functions/fetch) với `{ cache: 'no-store' }`
 
-Dynamic routes are not cached in the Full Route Cache, but can still use the [Data Cache](#data-cache) for data requests.
+Dynamic routes không được cache trong Full Route Cache, nhưng vẫn có thể sử dụng [Data Cache](#data-cache) cho các yêu cầu dữ liệu.
 
-> **Good to know**: You can use [Cache Components](/docs/app/getting-started/cache-components) to mix static and dynamic rendering within the same route.
+> **Thông tin hữu ích**: Bạn có thể sử dụng [Cache Components](/docs/app/getting-started/cache-components) để kết hợp static và dynamic rendering trong cùng một route.
 
 ## Request Memoization
 
-Next.js extends the [`fetch` API](#fetch) to automatically **memoize** requests that have the same URL and options. This means you can call a fetch function for the same data in multiple places in a React component tree while only executing it once.
+Next.js mở rộng [`fetch` API](#fetch) để tự động **memoize** các yêu cầu có cùng URL và tùy chọn. Điều này có nghĩa là bạn có thể gọi một hàm fetch cho cùng một dữ liệu ở nhiều nơi trong React component tree trong khi chỉ thực thi nó một lần.
 
 <Image
   alt="Deduplicated Fetch Requests"
@@ -71,7 +71,7 @@ Next.js extends the [`fetch` API](#fetch) to automatically **memoize** requests 
   height="857"
 />
 
-For example, if you need to use the same data across a route (e.g. in a Layout, Page, and multiple components), you do not have to fetch data at the top of the tree, and forward props between components. Instead, you can fetch data in the components that need it without worrying about the performance implications of making multiple requests across the network for the same data.
+Ví dụ, nếu bạn cần sử dụng cùng một dữ liệu trong một route (ví dụ: trong Layout, Page, và nhiều components), bạn không cần phải fetch dữ liệu ở đầu tree, và chuyển props giữa các components. Thay vào đó, bạn có thể fetch dữ liệu trong các components cần nó mà không phải lo lắng về tác động hiệu suất của việc thực hiện nhiều yêu cầu qua mạng cho cùng một dữ liệu.
 
 ```tsx filename="app/example.tsx" switcher
 async function getItem() {
@@ -103,43 +103,43 @@ const item = await getItem() // cache MISS
 const item = await getItem() // cache HIT
 ```
 
-**How Request Memoization Works**
+**Cách Request Memoization hoạt động**
 
 <Image
-  alt="Diagram showing how fetch memoization works during React rendering."
+  alt="Sơ đồ hiển thị cách fetch memoization hoạt động trong quá trình render React."
   srcLight="/docs/light/request-memoization.png"
   srcDark="/docs/dark/request-memoization.png"
   width="1600"
   height="742"
 />
 
-- While rendering a route, the first time a particular request is called, its result will not be in memory and it'll be a cache `MISS`.
-- Therefore, the function will be executed, and the data will be fetched from the external source, and the result will be stored in memory.
-- Subsequent function calls of the request in the same render pass will be a cache `HIT`, and the data will be returned from memory without executing the function.
-- Once the route has been rendered and the rendering pass is complete, memory is "reset" and all request memoization entries are cleared.
+- Trong khi render một route, lần đầu tiên một yêu cầu cụ thể được gọi, kết quả của nó sẽ không có trong bộ nhớ và nó sẽ là một cache `MISS`.
+- Do đó, hàm sẽ được thực thi, và dữ liệu sẽ được fetch từ nguồn bên ngoài, và kết quả sẽ được lưu trữ trong bộ nhớ.
+- Các lệnh gọi hàm tiếp theo của yêu cầu trong cùng một lần render pass sẽ là một cache `HIT`, và dữ liệu sẽ được trả về từ bộ nhớ mà không cần thực thi hàm.
+- Khi route đã được render và rendering pass hoàn tất, bộ nhớ được "reset" và tất cả các mục request memoization bị xóa.
 
-> **Good to know**:
+> **Thông tin hữu ích**:
 >
-> - Request memoization is a React feature, not a Next.js feature. It's included here to show how it interacts with the other caching mechanisms.
-> - Memoization only applies to the `GET` method in `fetch` requests.
-> - Memoization only applies to the React Component tree, this means:
->   - It applies to `fetch` requests in `generateMetadata`, `generateStaticParams`, Layouts, Pages, and other Server Components.
->   - It doesn't apply to `fetch` requests in Route Handlers as they are not a part of the React component tree.
-> - For cases where `fetch` is not suitable (e.g. some database clients, CMS clients, or GraphQL clients), you can use the [React `cache` function](#react-cache-function) to memoize functions.
+> - Request memoization là một tính năng của React, không phải tính năng của Next.js. Nó được đưa vào đây để hiển thị cách nó tương tác với các cơ chế caching khác.
+> - Memoization chỉ áp dụng cho phương thức `GET` trong các yêu cầu `fetch`.
+> - Memoization chỉ áp dụng cho React Component tree, điều này có nghĩa là:
+>   - Nó áp dụng cho các yêu cầu `fetch` trong `generateMetadata`, `generateStaticParams`, Layouts, Pages, và các Server Components khác.
+>   - Nó không áp dụng cho các yêu cầu `fetch` trong Route Handlers vì chúng không phải là một phần của React component tree.
+> - Đối với các trường hợp `fetch` không phù hợp (ví dụ: một số database clients, CMS clients, hoặc GraphQL clients), bạn có thể sử dụng [hàm React `cache`](#react-cache-function) để memoize các hàm.
 
-### Duration
+### Thời lượng
 
-The cache lasts the lifetime of a server request until the React component tree has finished rendering.
+Cache tồn tại trong suốt thời gian tồn tại của một yêu cầu server cho đến khi React component tree đã hoàn tất rendering.
 
 ### Revalidating
 
-Since the memoization is not shared across server requests and only applies during rendering, there is no need to revalidate it.
+Vì memoization không được chia sẻ giữa các yêu cầu server và chỉ áp dụng trong quá trình rendering, nên không cần phải revalidate nó.
 
 ### Opting out
 
-Memoization only applies to the `GET` method in `fetch` requests, other methods, such as `POST` and `DELETE`, are not memoized. This default behavior is a React optimization and we do not recommend opting out of it.
+Memoization chỉ áp dụng cho phương thức `GET` trong các yêu cầu `fetch`, các phương thức khác, chẳng hạn như `POST` và `DELETE`, không được memoized. Hành vi mặc định này là một tối ưu hóa của React và chúng tôi không khuyên bạn nên chọn không tham gia (opt out) nó.
 
-To manage individual requests, you can use the [`signal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal) property from [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
+Để quản lý các yêu cầu riêng lẻ, bạn có thể sử dụng thuộc tính [`signal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal) từ [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
 
 ```js filename="app/example.js"
 const { signal } = new AbortController()
@@ -148,97 +148,97 @@ fetch(url, { signal })
 
 ## Data Cache
 
-Next.js has a built-in Data Cache that **persists** the result of data fetches across incoming **server requests** and **deployments**. This is possible because Next.js extends the native `fetch` API to allow each request on the server to set its own persistent caching semantics.
+Next.js có một Data Cache tích hợp sẵn giúp **duy trì** kết quả của các lần fetch dữ liệu qua các **yêu cầu server** đến và **các lần triển khai**. Điều này có thể thực hiện được vì Next.js mở rộng `fetch` API gốc để cho phép mỗi yêu cầu trên server đặt ngữ nghĩa caching bền vững của riêng nó.
 
-> **Good to know**: In the browser, the `cache` option of `fetch` indicates how a request will interact with the browser's HTTP cache, in Next.js, the `cache` option indicates how a server-side request will interact with the server's Data Cache.
+> **Thông tin hữu ích**: Trong trình duyệt, tùy chọn `cache` của `fetch` cho biết cách một yêu cầu sẽ tương tác với HTTP cache của trình duyệt, trong Next.js, tùy chọn `cache` cho biết cách một yêu cầu phía server sẽ tương tác với Data Cache của server.
 
-You can use the [`cache`](#fetch-optionscache) and [`next.revalidate`](#fetch-optionsnextrevalidate) options of `fetch` to configure the caching behavior.
+Bạn có thể sử dụng các tùy chọn [`cache`](#fetch-optionscache) và [`next.revalidate`](#fetch-optionsnextrevalidate) của `fetch` để định cấu hình hành vi caching.
 
-In development mode, `fetch` data is [reused for Hot Module Replacement (HMR)](/docs/app/api-reference/functions/fetch#fetch-default-auto-no-store-and-cache-no-store-not-showing-fresh-data-in-development), and caching options are ignored for [hard refreshes](/docs/app/api-reference/functions/fetch#hard-refresh-and-caching-in-development).
+Trong chế độ phát triển, dữ liệu `fetch` được [tái sử dụng cho Hot Module Replacement (HMR)](/docs/app/api-reference/functions/fetch#fetch-default-auto-no-store-and-cache-no-store-not-showing-fresh-data-in-development), và các tùy chọn caching bị bỏ qua cho [hard refreshes](/docs/app/api-reference/functions/fetch#hard-refresh-and-caching-in-development).
 
-**How the Data Cache Works**
+**Cách Data Cache hoạt động**
 
 <Image
-  alt="Diagram showing how cached and uncached fetch requests interact with the Data Cache. Cached requests are stored in the Data Cache, and memoized, uncached requests are fetched from the data source, not stored in the Data Cache, and memoized."
+  alt="Sơ đồ hiển thị cách các yêu cầu fetch được cache và không được cache tương tác với Data Cache. Các yêu cầu được cache được lưu trữ trong Data Cache, và được memoized, các yêu cầu không được cache được fetch từ nguồn dữ liệu, không được lưu trữ trong Data Cache, và được memoized."
   srcLight="/docs/light/data-cache.png"
   srcDark="/docs/dark/data-cache.png"
   width="1600"
   height="661"
 />
 
-- The first time a `fetch` request with the `'force-cache'` option is called during rendering, Next.js checks the Data Cache for a cached response.
-- If a cached response is found, it's returned immediately and [memoized](#request-memoization).
-- If a cached response is not found, the request is made to the data source, the result is stored in the Data Cache, and memoized.
-- For uncached data (e.g. no `cache` option defined or using `{ cache: 'no-store' }`), the result is always fetched from the data source, and memoized.
-- Whether the data is cached or uncached, the requests are always memoized to avoid making duplicate requests for the same data during a React render pass.
+- Lần đầu tiên một yêu cầu `fetch` với tùy chọn `'force-cache'` được gọi trong quá trình rendering, Next.js kiểm tra Data Cache để tìm phản hồi đã được cache.
+- Nếu tìm thấy phản hồi đã được cache, nó được trả về ngay lập tức và [được memoized](#request-memoization).
+- Nếu không tìm thấy phản hồi đã được cache, yêu cầu được thực hiện đến nguồn dữ liệu, kết quả được lưu trữ trong Data Cache, và được memoized.
+- Đối với dữ liệu không được cache (ví dụ: không có tùy chọn `cache` được xác định hoặc sử dụng `{ cache: 'no-store' }`), kết quả luôn được fetch từ nguồn dữ liệu, và được memoized.
+- Cho dù dữ liệu được cache hay không được cache, các yêu cầu luôn được memoized để tránh thực hiện các yêu cầu trùng lặp cho cùng một dữ liệu trong một React render pass.
 
-> **Differences between the Data Cache and Request Memoization**
+> **Sự khác biệt giữa Data Cache và Request Memoization**
 >
-> While both caching mechanisms help improve performance by re-using cached data, the Data Cache is persistent across incoming requests and deployments, whereas memoization only lasts the lifetime of a request.
+> Trong khi cả hai cơ chế caching đều giúp cải thiện hiệu suất bằng cách tái sử dụng dữ liệu đã được cache, Data Cache bền vững qua các yêu cầu đến và các lần triển khai, trong khi memoization chỉ tồn tại trong suốt thời gian tồn tại của một yêu cầu.
 
-### Duration
+### Thời lượng
 
-The Data Cache is persistent across incoming requests and deployments unless you revalidate or opt-out.
+Data Cache bền vững qua các yêu cầu đến và các lần triển khai trừ khi bạn revalidate hoặc opt-out.
 
 ### Revalidating
 
-Cached data can be revalidated in two ways, with:
+Dữ liệu đã được cache có thể được revalidate theo hai cách, với:
 
-- **Time-based Revalidation**: Revalidate data after a certain amount of time has passed and a new request is made. This is useful for data that changes infrequently and freshness is not as critical.
-- **On-demand Revalidation:** Revalidate data based on an event (e.g. form submission). On-demand revalidation can use a tag-based or path-based approach to revalidate groups of data at once. This is useful when you want to ensure the latest data is shown as soon as possible (e.g. when content from your headless CMS is updated).
+- **Time-based Revalidation**: Revalidate dữ liệu sau khi một khoảng thời gian nhất định đã trôi qua và một yêu cầu mới được thực hiện. Điều này hữu ích cho dữ liệu thay đổi không thường xuyên và độ mới không quá quan trọng.
+- **On-demand Revalidation:** Revalidate dữ liệu dựa trên một sự kiện (ví dụ: gửi biểu mẫu). On-demand revalidation có thể sử dụng phương pháp dựa trên tag hoặc dựa trên path để revalidate các nhóm dữ liệu cùng một lúc. Điều này hữu ích khi bạn muốn đảm bảo dữ liệu mới nhất được hiển thị càng sớm càng tốt (ví dụ: khi nội dung từ headless CMS của bạn được cập nhật).
 
 #### Time-based Revalidation
 
-To revalidate data at a timed interval, you can use the `next.revalidate` option of `fetch` to set the cache lifetime of a resource (in seconds).
+Để revalidate dữ liệu theo khoảng thời gian định giờ, bạn có thể sử dụng tùy chọn `next.revalidate` của `fetch` để đặt thời gian tồn tại cache của một tài nguyên (tính bằng giây).
 
 ```js
 // Revalidate at most every hour
 fetch('https://...', { next: { revalidate: 3600 } })
 ```
 
-Alternatively, you can use [Route Segment Config options](#segment-config-options) to configure all `fetch` requests in a segment or for cases where you're not able to use `fetch`.
+Ngoài ra, bạn có thể sử dụng [các tùy chọn Route Segment Config](#segment-config-options) để định cấu hình tất cả các yêu cầu `fetch` trong một segment hoặc cho các trường hợp bạn không thể sử dụng `fetch`.
 
-**How Time-based Revalidation Works**
+**Cách Time-based Revalidation hoạt động**
 
 <Image
-  alt="Diagram showing how time-based revalidation works, after the revalidation period, stale data is returned for the first request, then data is revalidated."
+  alt="Sơ đồ hiển thị cách time-based revalidation hoạt động, sau thời gian revalidation, dữ liệu cũ được trả về cho yêu cầu đầu tiên, sau đó dữ liệu được revalidate."
   srcLight="/docs/light/time-based-revalidation.png"
   srcDark="/docs/dark/time-based-revalidation.png"
   width="1600"
   height="1252"
 />
 
-- The first time a fetch request with `revalidate` is called, the data will be fetched from the external data source and stored in the Data Cache.
-- Any requests that are called within the specified timeframe (e.g. 60-seconds) will return the cached data.
-- After the timeframe, the next request will still return the cached (now stale) data.
-  - Next.js will trigger a revalidation of the data in the background.
-  - Once the data is fetched successfully, Next.js will update the Data Cache with the fresh data.
-  - If the background revalidation fails, the previous data will be kept unaltered.
+- Lần đầu tiên một yêu cầu fetch với `revalidate` được gọi, dữ liệu sẽ được fetch từ nguồn dữ liệu bên ngoài và được lưu trữ trong Data Cache.
+- Bất kỳ yêu cầu nào được gọi trong khung thời gian đã chỉ định (ví dụ: 60 giây) sẽ trả về dữ liệu đã được cache.
+- Sau khung thời gian, yêu cầu tiếp theo vẫn sẽ trả về dữ liệu đã được cache (bây giờ là cũ).
+  - Next.js sẽ kích hoạt revalidation dữ liệu trong nền.
+  - Khi dữ liệu được fetch thành công, Next.js sẽ cập nhật Data Cache với dữ liệu mới.
+  - Nếu revalidation trong nền thất bại, dữ liệu trước đó sẽ được giữ nguyên không thay đổi.
 
-This is similar to [**stale-while-revalidate**](https://web.dev/articles/stale-while-revalidate) behavior.
+Điều này tương tự như hành vi [**stale-while-revalidate**](https://web.dev/articles/stale-while-revalidate).
 
 #### On-demand Revalidation
 
-Data can be revalidated on-demand by path ([`revalidatePath`](#revalidatepath)) or by cache tag ([`revalidateTag`](#fetch-optionsnexttags-and-revalidatetag)).
+Dữ liệu có thể được revalidate theo yêu cầu theo path ([`revalidatePath`](#revalidatepath)) hoặc theo cache tag ([`revalidateTag`](#fetch-optionsnexttags-and-revalidatetag)).
 
-**How On-Demand Revalidation Works**
+**Cách On-Demand Revalidation hoạt động**
 
 <Image
-  alt="Diagram showing how on-demand revalidation works, the Data Cache is updated with fresh data after a revalidation request."
+  alt="Sơ đồ hiển thị cách on-demand revalidation hoạt động, Data Cache được cập nhật với dữ liệu mới sau một yêu cầu revalidation."
   srcLight="/docs/light/on-demand-revalidation.png"
   srcDark="/docs/dark/on-demand-revalidation.png"
   width="1600"
   height="1082"
 />
 
-- The first time a `fetch` request is called, the data will be fetched from the external data source and stored in the Data Cache.
-- When an on-demand revalidation is triggered, the appropriate cache entries will be purged from the cache.
-  - This is different from time-based revalidation, which keeps the stale data in the cache until the fresh data is fetched.
-- The next time a request is made, it will be a cache `MISS` again, and the data will be fetched from the external data source and stored in the Data Cache.
+- Lần đầu tiên một yêu cầu `fetch` được gọi, dữ liệu sẽ được fetch từ nguồn dữ liệu bên ngoài và được lưu trữ trong Data Cache.
+- Khi một on-demand revalidation được kích hoạt, các mục cache thích hợp sẽ bị xóa khỏi cache.
+  - Điều này khác với time-based revalidation, giữ dữ liệu cũ trong cache cho đến khi dữ liệu mới được fetch.
+- Lần tiếp theo một yêu cầu được thực hiện, nó sẽ là một cache `MISS` một lần nữa, và dữ liệu sẽ được fetch từ nguồn dữ liệu bên ngoài và được lưu trữ trong Data Cache.
 
 ### Opting out
 
-If you do _not_ want to cache the response from `fetch`, you can do the following:
+Nếu bạn _không_ muốn cache phản hồi từ `fetch`, bạn có thể làm như sau:
 
 ```js
 let data = await fetch('https://api.vercel.app/blog', { cache: 'no-store' })
@@ -246,314 +246,314 @@ let data = await fetch('https://api.vercel.app/blog', { cache: 'no-store' })
 
 ## Full Route Cache
 
-> **Related terms**:
+> **Các thuật ngữ liên quan**:
 >
-> You may see the terms **Automatic Static Optimization**, **Static Site Generation**, or **Static Rendering** being used interchangeably to refer to the process of rendering and caching routes of your application at build time.
+> Bạn có thể thấy các thuật ngữ **Automatic Static Optimization**, **Static Site Generation**, hoặc **Static Rendering** được sử dụng thay thế cho nhau để đề cập đến quá trình rendering và caching các routes của ứng dụng của bạn tại build time.
 
-Next.js automatically renders and caches routes at build time. This is an optimization that allows you to serve the cached route instead of rendering on the server for every request, resulting in faster page loads.
+Next.js tự động render và cache các routes tại build time. Đây là một tối ưu hóa cho phép bạn phục vụ route đã được cache thay vì render trên server cho mỗi yêu cầu, dẫn đến tải trang nhanh hơn.
 
-To understand how the Full Route Cache works, it's helpful to look at how React handles rendering, and how Next.js caches the result:
+Để hiểu cách Full Route Cache hoạt động, sẽ hữu ích khi xem cách React xử lý rendering, và cách Next.js cache kết quả:
 
-### 1. React Rendering on the Server
+### 1. React Rendering trên Server
 
-On the server, Next.js uses React's APIs to orchestrate rendering. The rendering work is split into chunks: by individual routes segments and Suspense boundaries.
+Trên server, Next.js sử dụng các API của React để điều phối rendering. Công việc rendering được chia thành các phần: theo các phân đoạn routes riêng lẻ và Suspense boundaries.
 
-Each chunk is rendered in two steps:
+Mỗi phần được render theo hai bước:
 
-1. React renders Server Components into a special data format, optimized for streaming, called the **React Server Component Payload**.
-2. Next.js uses the React Server Component Payload and Client Component JavaScript instructions to render **HTML** on the server.
+1. React render các Server Components thành một định dạng dữ liệu đặc biệt, được tối ưu hóa cho streaming, được gọi là **React Server Component Payload**.
+2. Next.js sử dụng React Server Component Payload và các hướng dẫn JavaScript của Client Component để render **HTML** trên server.
 
-This means we don't have to wait for everything to render before caching the work or sending a response. Instead, we can stream a response as work is completed.
+Điều này có nghĩa là chúng ta không phải đợi mọi thứ render xong trước khi cache công việc hoặc gửi phản hồi. Thay vào đó, chúng ta có thể stream một phản hồi khi công việc hoàn tất.
 
-> **What is the React Server Component Payload?**
+> **React Server Component Payload là gì?**
 >
-> The React Server Component Payload is a compact binary representation of the rendered React Server Components tree. It's used by React on the client to update the browser's DOM. The React Server Component Payload contains:
+> React Server Component Payload là một biểu diễn nhị phân nhỏ gọn của React Server Components tree đã được render. Nó được sử dụng bởi React trên client để cập nhật DOM của trình duyệt. React Server Component Payload chứa:
 >
-> - The rendered result of Server Components
-> - Placeholders for where Client Components should be rendered and references to their JavaScript files
-> - Any props passed from a Server Component to a Client Component
+> - Kết quả đã render của Server Components
+> - Các placeholder cho nơi Client Components sẽ được render và tham chiếu đến các tệp JavaScript của chúng
+> - Bất kỳ props nào được truyền từ một Server Component đến một Client Component
 >
-> To learn more, see the [Server Components](/docs/app/getting-started/server-and-client-components) documentation.
+> Để tìm hiểu thêm, xem tài liệu [Server Components](/docs/app/getting-started/server-and-client-components).
 
-### 2. Next.js Caching on the Server (Full Route Cache)
+### 2. Next.js Caching trên Server (Full Route Cache)
 
 <Image
-  alt="Default behavior of the Full Route Cache, showing how the React Server Component Payload and HTML are cached on the server for statically rendered routes."
+  alt="Hành vi mặc định của Full Route Cache, hiển thị cách React Server Component Payload và HTML được cache trên server cho các routes được render tĩnh."
   srcLight="/docs/light/full-route-cache.png"
   srcDark="/docs/dark/full-route-cache.png"
   width="1600"
   height="888"
 />
 
-The default behavior of Next.js is to cache the rendered result (React Server Component Payload and HTML) of a route on the server. This applies to statically rendered routes at build time, or during revalidation.
+Hành vi mặc định của Next.js là cache kết quả đã render (React Server Component Payload và HTML) của một route trên server. Điều này áp dụng cho các routes được render tĩnh tại build time, hoặc trong quá trình revalidation.
 
-### 3. React Hydration and Reconciliation on the Client
+### 3. React Hydration và Reconciliation trên Client
 
-At request time, on the client:
+Tại request time, trên client:
 
-1. The HTML is used to immediately show a fast non-interactive initial preview of the Client and Server Components.
-2. The React Server Components Payload is used to reconcile the Client and rendered Server Component trees, and update the DOM.
-3. The JavaScript instructions are used to [hydrate](https://react.dev/reference/react-dom/client/hydrateRoot) Client Components and make the application interactive.
+1. HTML được sử dụng để hiển thị ngay lập tức bản xem trước ban đầu không tương tác nhanh của Client và Server Components.
+2. React Server Components Payload được sử dụng để đối chiếu Client và Server Component trees đã render, và cập nhật DOM.
+3. Các hướng dẫn JavaScript được sử dụng để [hydrate](https://react.dev/reference/react-dom/client/hydrateRoot) Client Components và làm cho ứng dụng tương tác.
 
-### 4. Next.js Caching on the Client (Router Cache)
+### 4. Next.js Caching trên Client (Router Cache)
 
-The React Server Component Payload is stored in the client-side [Router Cache](#client-side-router-cache) - a separate in-memory cache, split by individual route segment. This Router Cache is used to improve the navigation experience by storing previously visited routes and prefetching future routes.
+React Server Component Payload được lưu trữ trong client-side [Router Cache](#client-side-router-cache) - một bộ nhớ cache trong bộ nhớ riêng biệt, được chia theo từng phân đoạn route riêng lẻ. Router Cache này được sử dụng để cải thiện trải nghiệm điều hướng bằng cách lưu trữ các routes đã truy cập trước đó và prefetching các routes trong tương lai.
 
-### 5. Subsequent Navigations
+### 5. Các điều hướng tiếp theo
 
-On subsequent navigations or during prefetching, Next.js will check if the React Server Components Payload is stored in the Router Cache. If so, it will skip sending a new request to the server.
+Trên các điều hướng tiếp theo hoặc trong quá trình prefetching, Next.js sẽ kiểm tra xem React Server Components Payload có được lưu trữ trong Router Cache hay không. Nếu có, nó sẽ bỏ qua việc gửi yêu cầu mới đến server.
 
-If the route segments are not in the cache, Next.js will fetch the React Server Components Payload from the server, and populate the Router Cache on the client.
+Nếu các phân đoạn route không có trong cache, Next.js sẽ fetch React Server Components Payload từ server, và điền vào Router Cache trên client.
 
-### Static and Dynamic Rendering
+### Static và Dynamic Rendering
 
-Whether a route is cached or not at build time depends on whether it's statically or dynamically rendered. Static routes are cached by default, whereas dynamic routes are rendered at request time, and not cached.
+Việc một route có được cache hay không tại build time phụ thuộc vào việc nó được render tĩnh hay động. Static routes được cache theo mặc định, trong khi dynamic routes được render tại request time, và không được cache.
 
-This diagram shows the difference between statically and dynamically rendered routes, with cached and uncached data:
+Sơ đồ này hiển thị sự khác biệt giữa các routes được render tĩnh và động, với dữ liệu được cache và không được cache:
 
 <Image
-  alt="How static and dynamic rendering affects the Full Route Cache. Static routes are cached at build time or after data revalidation, whereas dynamic routes are never cached"
+  alt="Cách static và dynamic rendering ảnh hưởng đến Full Route Cache. Static routes được cache tại build time hoặc sau khi data revalidation, trong khi dynamic routes không bao giờ được cache"
   srcLight="/docs/light/static-and-dynamic-routes.png"
   srcDark="/docs/dark/static-and-dynamic-routes.png"
   width="1600"
   height="1314"
 />
 
-Learn more about [static and dynamic rendering](#rendering-strategies).
+Tìm hiểu thêm về [static và dynamic rendering](#rendering-strategies).
 
-### Duration
+### Thời lượng
 
-By default, the Full Route Cache is persistent. This means that the render output is cached across user requests.
+Theo mặc định, Full Route Cache là bền vững. Điều này có nghĩa là đầu ra render được cache qua các yêu cầu người dùng.
 
 ### Invalidation
 
-There are two ways you can invalidate the Full Route Cache:
+Có hai cách bạn có thể invalidate Full Route Cache:
 
-- **[Revalidating Data](/docs/app/guides/caching#revalidating)**: Revalidating the [Data Cache](#data-cache), will in turn invalidate the Router Cache by re-rendering components on the server and caching the new render output.
-- **Redeploying**: Unlike the Data Cache, which persists across deployments, the Full Route Cache is cleared on new deployments.
+- **[Revalidating Data](/docs/app/guides/caching#revalidating)**: Revalidating [Data Cache](#data-cache), sẽ lần lượt invalidate Router Cache bằng cách render lại các components trên server và cache đầu ra render mới.
+- **Redeploying**: Không giống như Data Cache, tồn tại qua các lần triển khai, Full Route Cache bị xóa khi triển khai mới.
 
 ### Opting out
 
-You can opt out of the Full Route Cache, or in other words, dynamically render components for every incoming request, by:
+Bạn có thể chọn không tham gia (opt out) Full Route Cache, hay nói cách khác, render động các components cho mỗi yêu cầu đến, bằng cách:
 
-- **Using a [Dynamic API](#dynamic-apis)**: This will opt the route out from the Full Route Cache and dynamically render it at request time. The Data Cache can still be used.
-- **Using the `dynamic = 'force-dynamic'` or `revalidate = 0` route segment config options**: This will skip the Full Route Cache and the Data Cache. Meaning components will be rendered and data fetched on every incoming request to the server. The Router Cache will still apply as it's a client-side cache.
-- **Opting out of the [Data Cache](#data-cache)**: If a route has a `fetch` request that is not cached, this will opt the route out of the Full Route Cache. The data for the specific `fetch` request will be fetched for every incoming request. Other `fetch` requests that explicitly enable caching will still be cached in the Data Cache. This allows for a hybrid of cached and uncached data.
+- **Sử dụng một [Dynamic API](#dynamic-apis)**: Điều này sẽ opt route ra khỏi Full Route Cache và render động nó tại request time. Data Cache vẫn có thể được sử dụng.
+- **Sử dụng các tùy chọn cấu hình phân đoạn route `dynamic = 'force-dynamic'` hoặc `revalidate = 0`**: Điều này sẽ bỏ qua Full Route Cache và Data Cache. Có nghĩa là các components sẽ được render và dữ liệu được fetch trên mỗi yêu cầu đến server. Router Cache vẫn sẽ áp dụng vì nó là một cache phía client.
+- **Opting out của [Data Cache](#data-cache)**: Nếu một route có một yêu cầu `fetch` không được cache, điều này sẽ opt route ra khỏi Full Route Cache. Dữ liệu cho yêu cầu `fetch` cụ thể sẽ được fetch cho mỗi yêu cầu đến. Các yêu cầu `fetch` khác cho phép caching một cách rõ ràng vẫn sẽ được cache trong Data Cache. Điều này cho phép kết hợp dữ liệu được cache và không được cache.
 
 ## Client-side Router Cache
 
-Next.js has an in-memory client-side router cache that stores the RSC payload of route segments, split by layouts, loading states, and pages.
+Next.js có một bộ nhớ cache router phía client trong bộ nhớ lưu trữ RSC payload của các phân đoạn route, được chia theo layouts, loading states, và pages.
 
-When a user navigates between routes, Next.js caches the visited route segments and [prefetches](/docs/app/getting-started/linking-and-navigating#prefetching) the routes the user is likely to navigate to. This results in instant back/forward navigation, no full-page reload between navigations, and preservation of browser state and React state in shared layouts.
+Khi người dùng điều hướng giữa các routes, Next.js cache các phân đoạn route đã truy cập và [prefetches](/docs/app/getting-started/linking-and-navigating#prefetching) các routes mà người dùng có khả năng điều hướng đến. Điều này dẫn đến điều hướng quay lại/tiến lên ngay lập tức, không tải lại toàn bộ trang giữa các điều hướng, và bảo tồn trạng thái trình duyệt và trạng thái React trong các layouts được chia sẻ.
 
-With the Router Cache:
+Với Router Cache:
 
-- **Layouts** are cached and reused on navigation ([partial rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions)).
-- **Loading states** are cached and reused on navigation for [instant navigation](/docs/app/api-reference/file-conventions/loading#instant-loading-states).
-- **Pages** are not cached by default, but are reused during browser backward and forward navigation. You can enable caching for page segments by using the experimental [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes) config option.
+- **Layouts** được cache và tái sử dụng khi điều hướng ([partial rendering](/docs/app/getting-started/linking-and-navigating#client-side-transitions)).
+- **Loading states** được cache và tái sử dụng khi điều hướng cho [instant navigation](/docs/app/api-reference/file-conventions/loading#instant-loading-states).
+- **Pages** không được cache theo mặc định, nhưng được tái sử dụng trong quá trình điều hướng quay lại và tiến lên của trình duyệt. Bạn có thể bật caching cho các phân đoạn page bằng cách sử dụng tùy chọn cấu hình thử nghiệm [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes).
 
 {/* TODO: Update diagram to match v15 behavior */}
 
-> **Good to know:** This cache specifically applies to Next.js and Server Components, and is different to the browser's [bfcache](https://web.dev/bfcache/), though it has a similar result.
+> **Thông tin hữu ích:** Cache này áp dụng cụ thể cho Next.js và Server Components, và khác với [bfcache](https://web.dev/bfcache/) của trình duyệt, mặc dù nó có kết quả tương tự.
 
-### Duration
+### Thời lượng
 
-The cache is stored in the browser's temporary memory. Two factors determine how long the router cache lasts:
+Cache được lưu trữ trong bộ nhớ tạm thời của trình duyệt. Hai yếu tố xác định thời gian tồn tại của router cache:
 
-- **Session**: The cache persists across navigation. However, it's cleared on page refresh.
-- **Automatic Invalidation Period**: The cache of layouts and loading states is automatically invalidated after a specific time. The duration depends on how the resource was [prefetched](/docs/app/api-reference/components/link#prefetch), and if the resource was [statically generated](#static-rendering):
-  - **Default Prefetching** (`prefetch={null}` or unspecified): not cached for dynamic pages, 5 minutes for static pages.
-  - **Full Prefetching** (`prefetch={true}` or `router.prefetch`): 5 minutes for both static & dynamic pages.
+- **Phiên (Session)**: Cache tồn tại qua điều hướng. Tuy nhiên, nó bị xóa khi refresh trang.
+- **Thời gian Invalidation Tự động**: Cache của layouts và loading states được tự động invalidate sau một thời gian cụ thể. Thời lượng phụ thuộc vào cách tài nguyên được [prefetched](/docs/app/api-reference/components/link#prefetch), và liệu tài nguyên có được [tạo tĩnh](#static-rendering) hay không:
+  - **Default Prefetching** (`prefetch={null}` hoặc không xác định): không được cache cho dynamic pages, 5 phút cho static pages.
+  - **Full Prefetching** (`prefetch={true}` hoặc `router.prefetch`): 5 phút cho cả static & dynamic pages.
 
-While a page refresh will clear **all** cached segments, the automatic invalidation period only affects the individual segment from the time it was prefetched.
+Trong khi refresh trang sẽ xóa **tất cả** các phân đoạn đã được cache, thời gian invalidation tự động chỉ ảnh hưởng đến phân đoạn riêng lẻ từ thời điểm nó được prefetched.
 
-> **Good to know**: The experimental [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes) config option can be used to adjust the automatic invalidation times mentioned above.
+> **Thông tin hữu ích**: Tùy chọn cấu hình thử nghiệm [`staleTimes`](/docs/app/api-reference/config/next-config-js/staleTimes) có thể được sử dụng để điều chỉnh thời gian invalidation tự động được đề cập ở trên.
 
 ### Invalidation
 
-There are two ways you can invalidate the Router Cache:
+Có hai cách bạn có thể invalidate Router Cache:
 
-- In a **Server Action**:
-  - Revalidating data on-demand by path with ([`revalidatePath`](/docs/app/api-reference/functions/revalidatePath)) or by cache tag with ([`revalidateTag`](/docs/app/api-reference/functions/revalidateTag))
-  - Using [`cookies.set`](/docs/app/api-reference/functions/cookies#setting-a-cookie) or [`cookies.delete`](/docs/app/api-reference/functions/cookies#deleting-cookies) invalidates the Router Cache to prevent routes that use cookies from becoming stale (e.g. authentication).
-- Calling [`router.refresh`](/docs/app/api-reference/functions/use-router) will invalidate the Router Cache and make a new request to the server for the current route.
+- Trong một **Server Action**:
+  - Revalidating dữ liệu theo yêu cầu theo path với ([`revalidatePath`](/docs/app/api-reference/functions/revalidatePath)) hoặc theo cache tag với ([`revalidateTag`](/docs/app/api-reference/functions/revalidateTag))
+  - Sử dụng [`cookies.set`](/docs/app/api-reference/functions/cookies#setting-a-cookie) hoặc [`cookies.delete`](/docs/app/api-reference/functions/cookies#deleting-cookies) invalidates Router Cache để ngăn các routes sử dụng cookies trở nên cũ (ví dụ: xác thực).
+- Gọi [`router.refresh`](/docs/app/api-reference/functions/use-router) sẽ invalidate Router Cache và thực hiện một yêu cầu mới đến server cho route hiện tại.
 
 ### Opting out
 
-As of Next.js 15, page segments are opted out by default.
+Kể từ Next.js 15, các phân đoạn page được chọn không tham gia (opted out) theo mặc định.
 
-> **Good to know:** You can also opt out of [prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) by setting the `prefetch` prop of the `<Link>` component to `false`.
+> **Thông tin hữu ích:** Bạn cũng có thể chọn không tham gia [prefetching](/docs/app/getting-started/linking-and-navigating#prefetching) bằng cách đặt prop `prefetch` của component `<Link>` thành `false`.
 
-## Cache Interactions
+## Tương tác Cache
 
-When configuring the different caching mechanisms, it's important to understand how they interact with each other:
+Khi định cấu hình các cơ chế caching khác nhau, điều quan trọng là phải hiểu cách chúng tương tác với nhau:
 
-### Data Cache and Full Route Cache
+### Data Cache và Full Route Cache
 
-- Revalidating or opting out of the Data Cache **will** invalidate the Full Route Cache, as the render output depends on data.
-- Invalidating or opting out of the Full Route Cache **does not** affect the Data Cache. You can dynamically render a route that has both cached and uncached data. This is useful when most of your page uses cached data, but you have a few components that rely on data that needs to be fetched at request time. You can dynamically render without worrying about the performance impact of re-fetching all the data.
+- Revalidating hoặc opting out của Data Cache **sẽ** invalidate Full Route Cache, vì đầu ra render phụ thuộc vào dữ liệu.
+- Invalidating hoặc opting out của Full Route Cache **không** ảnh hưởng đến Data Cache. Bạn có thể render động một route có cả dữ liệu được cache và không được cache. Điều này hữu ích khi hầu hết trang của bạn sử dụng dữ liệu được cache, nhưng bạn có một vài components dựa vào dữ liệu cần được fetch tại request time. Bạn có thể render động mà không phải lo lắng về tác động hiệu suất của việc fetch lại tất cả dữ liệu.
 
-### Data Cache and Client-side Router cache
+### Data Cache và Client-side Router cache
 
-- To immediately invalidate the Data Cache and Router cache, you can use [`revalidatePath`](#revalidatepath) or [`revalidateTag`](#fetch-optionsnexttags-and-revalidatetag) in a [Server Action](/docs/app/getting-started/updating-data).
-- Revalidating the Data Cache in a [Route Handler](/docs/app/api-reference/file-conventions/route) **will not** immediately invalidate the Router Cache as the Route Handler isn't tied to a specific route. This means Router Cache will continue to serve the previous payload until a hard refresh, or the automatic invalidation period has elapsed.
+- Để invalidate ngay lập tức Data Cache và Router cache, bạn có thể sử dụng [`revalidatePath`](#revalidatepath) hoặc [`revalidateTag`](#fetch-optionsnexttags-and-revalidatetag) trong một [Server Action](/docs/app/getting-started/updating-data).
+- Revalidating Data Cache trong một [Route Handler](/docs/app/api-reference/file-conventions/route) **sẽ không** invalidate ngay lập tức Router Cache vì Route Handler không gắn liền với một route cụ thể. Điều này có nghĩa là Router Cache sẽ tiếp tục phục vụ payload trước đó cho đến khi hard refresh, hoặc thời gian invalidation tự động đã trôi qua.
 
 ## APIs
 
-The following table provides an overview of how different Next.js APIs affect caching:
+Bảng sau đây cung cấp cái nhìn tổng quan về cách các API Next.js khác nhau ảnh hưởng đến caching:
 
-| API                                                                     | Router Cache               | Full Route Cache      | Data Cache            | React Cache          |
-| ----------------------------------------------------------------------- | -------------------------- | --------------------- | --------------------- | -------------------- |
-| [`<Link prefetch>`](#link)                                              | Cache                      |                       |                       |                      |
-| [`router.prefetch`](#routerprefetch)                                    | Cache                      |                       |                       |                      |
-| [`router.refresh`](#routerrefresh)                                      | Revalidate                 |                       |                       |                      |
-| [`fetch`](#fetch)                                                       |                            |                       | Cache                 | Cache (GET and HEAD) |
-| [`fetch` `options.cache`](#fetch-optionscache)                          |                            |                       | Cache or Opt out      |                      |
-| [`fetch` `options.next.revalidate`](#fetch-optionsnextrevalidate)       |                            | Revalidate            | Revalidate            |                      |
-| [`fetch` `options.next.tags`](#fetch-optionsnexttags-and-revalidatetag) |                            | Cache                 | Cache                 |                      |
-| [`revalidateTag`](#fetch-optionsnexttags-and-revalidatetag)             | Revalidate (Server Action) | Revalidate            | Revalidate            |                      |
-| [`revalidatePath`](#revalidatepath)                                     | Revalidate (Server Action) | Revalidate            | Revalidate            |                      |
-| [`const revalidate`](#segment-config-options)                           |                            | Revalidate or Opt out | Revalidate or Opt out |                      |
-| [`const dynamic`](#segment-config-options)                              |                            | Cache or Opt out      | Cache or Opt out      |                      |
-| [`cookies`](#cookies)                                                   | Revalidate (Server Action) | Opt out               |                       |                      |
-| [`headers`, `searchParams`](#dynamic-apis)                              |                            | Opt out               |                       |                      |
-| [`generateStaticParams`](#generatestaticparams)                         |                            | Cache                 |                       |                      |
-| [`React.cache`](#react-cache-function)                                  |                            |                       |                       | Cache                |
-| [`unstable_cache`](/docs/app/api-reference/functions/unstable_cache)    |                            |                       | Cache                 |                      |
+| API                                                                     | Router Cache               | Full Route Cache        | Data Cache              | React Cache         |
+| ----------------------------------------------------------------------- | -------------------------- | ----------------------- | ----------------------- | ------------------- |
+| [`<Link prefetch>`](#link)                                              | Cache                      |                         |                         |                     |
+| [`router.prefetch`](#routerprefetch)                                    | Cache                      |                         |                         |                     |
+| [`router.refresh`](#routerrefresh)                                      | Revalidate                 |                         |                         |                     |
+| [`fetch`](#fetch)                                                       |                            |                         | Cache                   | Cache (GET và HEAD) |
+| [`fetch` `options.cache`](#fetch-optionscache)                          |                            |                         | Cache hoặc Opt out      |                     |
+| [`fetch` `options.next.revalidate`](#fetch-optionsnextrevalidate)       |                            | Revalidate              | Revalidate              |                     |
+| [`fetch` `options.next.tags`](#fetch-optionsnexttags-and-revalidatetag) |                            | Cache                   | Cache                   |                     |
+| [`revalidateTag`](#fetch-optionsnexttags-and-revalidatetag)             | Revalidate (Server Action) | Revalidate              | Revalidate              |                     |
+| [`revalidatePath`](#revalidatepath)                                     | Revalidate (Server Action) | Revalidate              | Revalidate              |                     |
+| [`const revalidate`](#segment-config-options)                           |                            | Revalidate hoặc Opt out | Revalidate hoặc Opt out |                     |
+| [`const dynamic`](#segment-config-options)                              |                            | Cache hoặc Opt out      | Cache hoặc Opt out      |                     |
+| [`cookies`](#cookies)                                                   | Revalidate (Server Action) | Opt out                 |                         |                     |
+| [`headers`, `searchParams`](#dynamic-apis)                              |                            | Opt out                 |                         |                     |
+| [`generateStaticParams`](#generatestaticparams)                         |                            | Cache                   |                         |                     |
+| [`React.cache`](#react-cache-function)                                  |                            |                         |                         | Cache               |
+| [`unstable_cache`](/docs/app/api-reference/functions/unstable_cache)    |                            |                         | Cache                   |                     |
 
 ### `<Link>`
 
-By default, the `<Link>` component automatically prefetches routes from the Full Route Cache and adds the React Server Component Payload to the Router Cache.
+Theo mặc định, component `<Link>` tự động prefetches các routes từ Full Route Cache và thêm React Server Component Payload vào Router Cache.
 
-To disable prefetching, you can set the `prefetch` prop to `false`. But this will not skip the cache permanently, the route segment will still be cached client-side when the user visits the route.
+Để tắt prefetching, bạn có thể đặt prop `prefetch` thành `false`. Nhưng điều này sẽ không bỏ qua cache vĩnh viễn, phân đoạn route vẫn sẽ được cache phía client khi người dùng truy cập route.
 
-Learn more about the [`<Link>` component](/docs/app/api-reference/components/link).
+Tìm hiểu thêm về [`<Link>` component](/docs/app/api-reference/components/link).
 
 ### `router.prefetch`
 
-The `prefetch` option of the `useRouter` hook can be used to manually prefetch a route. This adds the React Server Component Payload to the Router Cache.
+Tùy chọn `prefetch` của hook `useRouter` có thể được sử dụng để prefetch thủ công một route. Điều này thêm React Server Component Payload vào Router Cache.
 
-See the [`useRouter` hook](/docs/app/api-reference/functions/use-router) API reference.
+Xem tham chiếu API [`useRouter` hook](/docs/app/api-reference/functions/use-router).
 
 ### `router.refresh`
 
-The `refresh` option of the `useRouter` hook can be used to manually refresh a route. This completely clears the Router Cache, and makes a new request to the server for the current route. `refresh` does not affect the Data or Full Route Cache.
+Tùy chọn `refresh` của hook `useRouter` có thể được sử dụng để refresh thủ công một route. Điều này xóa hoàn toàn Router Cache, và thực hiện một yêu cầu mới đến server cho route hiện tại. `refresh` không ảnh hưởng đến Data hoặc Full Route Cache.
 
-The rendered result will be reconciled on the client while preserving React state and browser state.
+Kết quả đã render sẽ được đối chiếu trên client trong khi bảo tồn trạng thái React và trạng thái trình duyệt.
 
-See the [`useRouter` hook](/docs/app/api-reference/functions/use-router) API reference.
+Xem tham chiếu API [`useRouter` hook](/docs/app/api-reference/functions/use-router).
 
 ### `fetch`
 
-Data returned from `fetch` is _not_ automatically cached in the Data Cache.
+Dữ liệu trả về từ `fetch` _không_ được tự động cache trong Data Cache.
 
-By default, when no `cache` or `next.revalidate` options are provided:
+Theo mặc định, khi không có tùy chọn `cache` hoặc `next.revalidate` nào được cung cấp:
 
-- [Dynamic rendering](#dynamic-rendering): Fetch runs on every request and always returns fresh data.
-- [Static rendering](#static-rendering): Fetched data is stored in the [Data Cache](#data-cache), and the rendered output in the [Full Route Cache](#full-route-cache). Next.js serves this cached result until the path is revalidated.
+- [Dynamic rendering](#dynamic-rendering): Fetch chạy trên mỗi yêu cầu và luôn trả về dữ liệu mới.
+- [Static rendering](#static-rendering): Dữ liệu đã fetch được lưu trữ trong [Data Cache](#data-cache), và đầu ra đã render trong [Full Route Cache](#full-route-cache). Next.js phục vụ kết quả đã cache này cho đến khi đường dẫn được revalidate.
 
-See the [`fetch` API Reference](/docs/app/api-reference/functions/fetch) for more options.
+Xem [`fetch` API Reference](/docs/app/api-reference/functions/fetch) để biết thêm các tùy chọn.
 
 ### `fetch options.cache`
 
-You can opt individual `fetch` into caching by setting the `cache` option to `force-cache`:
+Bạn có thể chọn tham gia caching cho `fetch` riêng lẻ bằng cách đặt tùy chọn `cache` thành `force-cache`:
 
 ```jsx
 // Opt into caching
 fetch(`https://...`, { cache: 'force-cache' })
 ```
 
-See the [`fetch` API Reference](/docs/app/api-reference/functions/fetch) for more options.
+Xem [`fetch` API Reference](/docs/app/api-reference/functions/fetch) để biết thêm các tùy chọn.
 
 ### `fetch options.next.revalidate`
 
-You can use the `next.revalidate` option of `fetch` to set the revalidation period (in seconds) of an individual `fetch` request. This will revalidate the Data Cache, which in turn will revalidate the Full Route Cache. Fresh data will be fetched, and components will be re-rendered on the server.
+Bạn có thể sử dụng tùy chọn `next.revalidate` của `fetch` để đặt thời gian revalidation (tính bằng giây) của một yêu cầu `fetch` riêng lẻ. Điều này sẽ revalidate Data Cache, từ đó sẽ revalidate Full Route Cache. Dữ liệu mới sẽ được fetch, và các components sẽ được render lại trên server.
 
 ```jsx
 // Revalidate at most after 1 hour
 fetch(`https://...`, { next: { revalidate: 3600 } })
 ```
 
-See the [`fetch` API reference](/docs/app/api-reference/functions/fetch) for more options.
+Xem [`fetch` API reference](/docs/app/api-reference/functions/fetch) để biết thêm các tùy chọn.
 
-### `fetch options.next.tags` and `revalidateTag`
+### `fetch options.next.tags` và `revalidateTag`
 
-Next.js has a cache tagging system for fine-grained data caching and revalidation.
+Next.js có một hệ thống gắn thẻ cache cho việc caching và revalidation dữ liệu chi tiết.
 
-1. When using `fetch` or [`unstable_cache`](/docs/app/api-reference/functions/unstable_cache), you have the option to tag cache entries with one or more tags.
-2. Then, you can call `revalidateTag` to purge the cache entries associated with that tag.
+1. Khi sử dụng `fetch` hoặc [`unstable_cache`](/docs/app/api-reference/functions/unstable_cache), bạn có tùy chọn gắn thẻ các mục cache với một hoặc nhiều tags.
+2. Sau đó, bạn có thể gọi `revalidateTag` để xóa các mục cache được liên kết với tag đó.
 
-For example, you can set a tag when fetching data:
+Ví dụ, bạn có thể đặt một tag khi fetching dữ liệu:
 
 ```jsx
 // Cache data with a tag
 fetch(`https://...`, { next: { tags: ['a', 'b', 'c'] } })
 ```
 
-Then, call `revalidateTag` with a tag to purge the cache entry:
+Sau đó, gọi `revalidateTag` với một tag để xóa mục cache:
 
 ```jsx
 // Revalidate entries with a specific tag
 revalidateTag('a')
 ```
 
-There are two places you can use `revalidateTag`, depending on what you're trying to achieve:
+Có hai nơi bạn có thể sử dụng `revalidateTag`, tùy thuộc vào những gì bạn đang cố gắng đạt được:
 
-1. [Route Handlers](/docs/app/api-reference/file-conventions/route) - to revalidate data in response of a third party event (e.g. webhook). This will not invalidate the Router Cache immediately as the Router Handler isn't tied to a specific route.
-2. [Server Actions](/docs/app/getting-started/updating-data) - to revalidate data after a user action (e.g. form submission). This will invalidate the Router Cache for the associated route.
+1. [Route Handlers](/docs/app/api-reference/file-conventions/route) - để revalidate dữ liệu trong phản hồi của một sự kiện bên thứ ba (ví dụ: webhook). Điều này sẽ không invalidate Router Cache ngay lập tức vì Router Handler không gắn liền với một route cụ thể.
+2. [Server Actions](/docs/app/getting-started/updating-data) - để revalidate dữ liệu sau một hành động của người dùng (ví dụ: gửi biểu mẫu). Điều này sẽ invalidate Router Cache cho route được liên kết.
 
 ### `revalidatePath`
 
-`revalidatePath` allows you manually revalidate data **and** re-render the route segments below a specific path in a single operation. Calling the `revalidatePath` method revalidates the Data Cache, which in turn invalidates the Full Route Cache.
+`revalidatePath` cho phép bạn revalidate thủ công dữ liệu **và** render lại các phân đoạn route bên dưới một đường dẫn cụ thể trong một thao tác duy nhất. Gọi phương thức `revalidatePath` revalidates Data Cache, từ đó invalidates Full Route Cache.
 
 ```jsx
 revalidatePath('/')
 ```
 
-There are two places you can use `revalidatePath`, depending on what you're trying to achieve:
+Có hai nơi bạn có thể sử dụng `revalidatePath`, tùy thuộc vào những gì bạn đang cố gắng đạt được:
 
-1. [Route Handlers](/docs/app/api-reference/file-conventions/route) - to revalidate data in response to a third party event (e.g. webhook).
-2. [Server Actions](/docs/app/getting-started/updating-data) - to revalidate data after a user interaction (e.g. form submission, clicking a button).
+1. [Route Handlers](/docs/app/api-reference/file-conventions/route) - để revalidate dữ liệu trong phản hồi của một sự kiện bên thứ ba (ví dụ: webhook).
+2. [Server Actions](/docs/app/getting-started/updating-data) - để revalidate dữ liệu sau một tương tác của người dùng (ví dụ: gửi biểu mẫu, nhấp vào nút).
 
-See the [`revalidatePath` API reference](/docs/app/api-reference/functions/revalidatePath) for more information.
+Xem [`revalidatePath` API reference](/docs/app/api-reference/functions/revalidatePath) để biết thêm thông tin.
 
-> **`revalidatePath`** vs. **`router.refresh`**:
+> **`revalidatePath`** so với **`router.refresh`**:
 >
-> Calling `router.refresh` will clear the Router cache, and re-render route segments on the server without invalidating the Data Cache or the Full Route Cache.
+> Gọi `router.refresh` sẽ xóa Router cache, và render lại các phân đoạn route trên server mà không invalidate Data Cache hoặc Full Route Cache.
 >
-> The difference is that `revalidatePath` purges the Data Cache and Full Route Cache, whereas `router.refresh()` does not change the Data Cache and Full Route Cache, as it is a client-side API.
+> Sự khác biệt là `revalidatePath` xóa Data Cache và Full Route Cache, trong khi `router.refresh()` không thay đổi Data Cache và Full Route Cache, vì nó là một API phía client.
 
 ### Dynamic APIs
 
-Dynamic APIs like `cookies` and `headers`, and the `searchParams` prop in Pages depend on runtime incoming request information. Using them will opt a route out of the Full Route Cache, in other words, the route will be dynamically rendered.
+Dynamic APIs như `cookies` và `headers`, và prop `searchParams` trong Pages phụ thuộc vào thông tin yêu cầu đến tại runtime. Sử dụng chúng sẽ opt một route ra khỏi Full Route Cache, nói cách khác, route sẽ được render động.
 
 #### `cookies`
 
-Using `cookies.set` or `cookies.delete` in a Server Action invalidates the Router Cache to prevent routes that use cookies from becoming stale (e.g. to reflect authentication changes).
+Sử dụng `cookies.set` hoặc `cookies.delete` trong một Server Action invalidates Router Cache để ngăn các routes sử dụng cookies trở nên cũ (ví dụ: để phản ánh các thay đổi xác thực).
 
-See the [`cookies`](/docs/app/api-reference/functions/cookies) API reference.
+Xem [`cookies`](/docs/app/api-reference/functions/cookies) API reference.
 
-### Segment Config Options
+### Tùy chọn cấu hình phân đoạn
 
-The Route Segment Config options can be used to override the route segment defaults or when you're not able to use the `fetch` API (e.g. database client or 3rd party libraries).
+Các tùy chọn Route Segment Config có thể được sử dụng để ghi đè các giá trị mặc định của phân đoạn route hoặc khi bạn không thể sử dụng `fetch` API (ví dụ: database client hoặc thư viện bên thứ 3).
 
-The following Route Segment Config options will opt out of the Full Route Cache:
+Các tùy chọn Route Segment Config sau đây sẽ opt out của Full Route Cache:
 
 - `const dynamic = 'force-dynamic'`
 
-This config option will opt all fetches out of the Data Cache (i.e. `no-store`):
+Tùy chọn cấu hình này sẽ opt tất cả các fetches ra khỏi Data Cache (tức là `no-store`):
 
 - `const fetchCache = 'default-no-store'`
 
-See the [`fetchCache`](/docs/app/api-reference/file-conventions/route-segment-config#fetchcache) to see more advanced options.
+Xem [`fetchCache`](/docs/app/api-reference/file-conventions/route-segment-config#fetchcache) để xem thêm các tùy chọn nâng cao.
 
-See the [Route Segment Config](/docs/app/api-reference/file-conventions/route-segment-config) documentation for more options.
+Xem tài liệu [Route Segment Config](/docs/app/api-reference/file-conventions/route-segment-config) để biết thêm các tùy chọn.
 
 ### `generateStaticParams`
 
-For [dynamic segments](/docs/app/api-reference/file-conventions/dynamic-routes) (e.g. `app/blog/[slug]/page.js`), paths provided by `generateStaticParams` are cached in the Full Route Cache at build time. At request time, Next.js will also cache paths that weren't known at build time the first time they're visited.
+Đối với [dynamic segments](/docs/app/api-reference/file-conventions/dynamic-routes) (ví dụ: `app/blog/[slug]/page.js`), các đường dẫn được cung cấp bởi `generateStaticParams` được cache trong Full Route Cache tại build time. Tại request time, Next.js cũng sẽ cache các đường dẫn không được biết đến tại build time lần đầu tiên chúng được truy cập.
 
-To statically render all paths at build time, supply the full list of paths to `generateStaticParams`:
+Để render tĩnh tất cả các đường dẫn tại build time, cung cấp danh sách đầy đủ các đường dẫn cho `generateStaticParams`:
 
 ```jsx filename="app/blog/[slug]/page.js"
 export async function generateStaticParams() {
@@ -565,7 +565,7 @@ export async function generateStaticParams() {
 }
 ```
 
-To statically render a subset of paths at build time, and the rest the first time they're visited at runtime, return a partial list of paths:
+Để render tĩnh một tập hợp con các đường dẫn tại build time, và phần còn lại lần đầu tiên chúng được truy cập tại runtime, trả về một danh sách một phần các đường dẫn:
 
 ```jsx filename="app/blog/[slug]/page.js"
 export async function generateStaticParams() {
@@ -578,7 +578,7 @@ export async function generateStaticParams() {
 }
 ```
 
-To statically render all paths the first time they're visited, return an empty array (no paths will be rendered at build time) or utilize [`export const dynamic = 'force-static'`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic):
+Để render tĩnh tất cả các đường dẫn lần đầu tiên chúng được truy cập, trả về một mảng trống (không có đường dẫn nào sẽ được render tại build time) hoặc sử dụng [`export const dynamic = 'force-static'`](/docs/app/api-reference/file-conventions/route-segment-config#dynamic):
 
 ```jsx filename="app/blog/[slug]/page.js"
 export async function generateStaticParams() {
@@ -586,19 +586,19 @@ export async function generateStaticParams() {
 }
 ```
 
-> **Good to know:** You must return an array from `generateStaticParams`, even if it's empty. Otherwise, the route will be dynamically rendered.
+> **Thông tin hữu ích:** Bạn phải trả về một mảng từ `generateStaticParams`, ngay cả khi nó trống. Nếu không, route sẽ được render động.
 
 ```jsx filename="app/changelog/[slug]/page.js"
 export const dynamic = 'force-static'
 ```
 
-To disable caching at request time, add the `export const dynamicParams = false` option in a route segment. When this config option is used, only paths provided by `generateStaticParams` will be served, and other routes will 404 or match (in the case of [catch-all routes](/docs/app/api-reference/file-conventions/dynamic-routes#catch-all-segments)).
+Để tắt caching tại request time, thêm tùy chọn `export const dynamicParams = false` trong một phân đoạn route. Khi tùy chọn cấu hình này được sử dụng, chỉ các đường dẫn được cung cấp bởi `generateStaticParams` sẽ được phục vụ, và các routes khác sẽ 404 hoặc khớp (trong trường hợp [catch-all routes](/docs/app/api-reference/file-conventions/dynamic-routes#catch-all-segments)).
 
-### React `cache` function
+### Hàm React `cache`
 
-The React `cache` function allows you to memoize the return value of a function, allowing you to call the same function multiple times while only executing it once.
+Hàm React `cache` cho phép bạn memoize giá trị trả về của một hàm, cho phép bạn gọi cùng một hàm nhiều lần trong khi chỉ thực thi nó một lần.
 
-`fetch` requests using the `GET` or `HEAD` methods are automatically memoized, so you do not need to wrap it in React `cache`. However, for other `fetch` methods, or when using data fetching libraries (such as some database, CMS, or GraphQL clients) that don't inherently memoize requests, you can use `cache` to manually memoize data requests.
+Các yêu cầu `fetch` sử dụng các phương thức `GET` hoặc `HEAD` được tự động memoized, vì vậy bạn không cần bọc nó trong React `cache`. Tuy nhiên, đối với các phương thức `fetch` khác, hoặc khi sử dụng các thư viện fetching dữ liệu (chẳng hạn như một số database, CMS, hoặc GraphQL clients) không vốn có memoize các yêu cầu, bạn có thể sử dụng `cache` để memoize thủ công các yêu cầu dữ liệu.
 
 ```ts filename="utils/get-item.ts" switcher
 import { cache } from 'react'

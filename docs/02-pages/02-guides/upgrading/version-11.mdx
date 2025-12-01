@@ -1,10 +1,10 @@
 ---
-title: How to upgrade to version 11
-nav_title: Version 11
-description: Upgrade your Next.js Application from Version 10 to Version 11.
+title: Cách nâng cấp lên phiên bản 11
+nav_title: Phiên bản 11
+description: Nâng cấp Ứng dụng Next.js của bạn từ Phiên bản 10 lên Phiên bản 11.
 ---
 
-To upgrade to version 11, run the following command:
+Để nâng cấp lên phiên bản 11, hãy chạy lệnh sau:
 
 ```bash filename="Terminal"
 npm i next@11 react@17 react-dom@17
@@ -22,31 +22,31 @@ pnpm up next@11 react@17 react-dom@17
 bun add next@11 react@17 react-dom@17
 ```
 
-> **Good to know:** If you are using TypeScript, ensure you also upgrade `@types/react` and `@types/react-dom` to their corresponding versions.
+> **Nên biết:** Nếu bạn đang sử dụng TypeScript, hãy đảm bảo bạn cũng nâng cấp `@types/react` và `@types/react-dom` lên các phiên bản tương ứng của chúng.
 
 ### Webpack 5
 
-Webpack 5 is now the default for all Next.js applications. If you did not have a custom webpack configuration, your application is already using webpack 5. If you do have a custom webpack configuration, you can refer to the [Next.js webpack 5 documentation](/docs/messages/webpack5) for upgrade guidance.
+Webpack 5 hiện là mặc định cho tất cả các ứng dụng Next.js. Nếu bạn không có cấu hình webpack tùy chỉnh, ứng dụng của bạn đã sử dụng webpack 5. Nếu bạn có cấu hình webpack tùy chỉnh, bạn có thể tham khảo [tài liệu Next.js webpack 5](/docs/messages/webpack5) để được hướng dẫn nâng cấp.
 
-### Cleaning the `distDir` is now a default
+### Dọn dẹp `distDir` hiện là mặc định
 
-The build output directory (defaults to `.next`) is now cleared by default except for the Next.js caches. You can refer to [the cleaning `distDir` RFC](https://github.com/vercel/next.js/discussions/6009) for more information.
+Thư mục build output (mặc định là `.next`) hiện được xóa theo mặc định ngoại trừ Next.js caches. Bạn có thể tham khảo [RFC dọn dẹp `distDir`](https://github.com/vercel/next.js/discussions/6009) để biết thêm thông tin.
 
-If your application was relying on this behavior previously you can disable the new default behavior by adding the `cleanDistDir: false` flag in `next.config.js`.
+Nếu ứng dụng của bạn dựa vào hành vi này trước đây, bạn có thể vô hiệu hóa hành vi mặc định mới bằng cách thêm cờ `cleanDistDir: false` trong `next.config.js`.
 
-### `PORT` is now supported for `next dev` and `next start`
+### `PORT` hiện được hỗ trợ cho `next dev` và `next start`
 
-Next.js 11 supports the `PORT` environment variable to set the port the application runs on. Using `-p`/`--port` is still recommended but if you were prohibited from using `-p` in any way you can now use `PORT` as an alternative:
+Next.js 11 hỗ trợ biến môi trường `PORT` để đặt cổng mà ứng dụng chạy trên đó. Sử dụng `-p`/`--port` vẫn được khuyến nghị nhưng nếu bạn bị cấm sử dụng `-p` theo bất kỳ cách nào, bạn có thể sử dụng `PORT` như một giải pháp thay thế:
 
-Example:
+Ví dụ:
 
 ```
 PORT=4000 next start
 ```
 
-### `next.config.js` customization to import images
+### Tùy chỉnh `next.config.js` để import hình ảnh
 
-Next.js 11 supports static image imports with `next/image`. This new feature relies on being able to process image imports. If you previously added the `next-images` or `next-optimized-images` packages you can either move to the new built-in support using `next/image` or disable the feature:
+Next.js 11 hỗ trợ static image imports với `next/image`. Tính năng mới này dựa vào khả năng xử lý image imports. Nếu bạn trước đây đã thêm các gói `next-images` hoặc `next-optimized-images`, bạn có thể chuyển sang hỗ trợ tích hợp mới bằng cách sử dụng `next/image` hoặc vô hiệu hóa tính năng này:
 
 ```js filename="next.config.js"
 module.exports = {
@@ -56,45 +56,45 @@ module.exports = {
 }
 ```
 
-### Remove `super.componentDidCatch()` from `pages/_app.js`
+### Loại bỏ `super.componentDidCatch()` khỏi `pages/_app.js`
 
-The `next/app` component's `componentDidCatch` was deprecated in Next.js 9 as it's no longer needed and has since been a no-op. In Next.js 11, it was removed.
+`componentDidCatch` của component `next/app` đã bị deprecate trong Next.js 9 vì nó không còn cần thiết và kể từ đó đã là no-op. Trong Next.js 11, nó đã bị loại bỏ.
 
-If your `pages/_app.js` has a custom `componentDidCatch` method you can remove `super.componentDidCatch` as it is no longer needed.
+Nếu `pages/_app.js` của bạn có phương thức `componentDidCatch` tùy chỉnh, bạn có thể loại bỏ `super.componentDidCatch` vì nó không còn cần thiết.
 
-### Remove `Container` from `pages/_app.js`
+### Loại bỏ `Container` khỏi `pages/_app.js`
 
-This export was deprecated in Next.js 9 as it's no longer needed and has since been a no-op with a warning during development. In Next.js 11 it was removed.
+Export này đã bị deprecate trong Next.js 9 vì nó không còn cần thiết và kể từ đó đã là no-op với một cảnh báo trong quá trình phát triển. Trong Next.js 11, nó đã bị loại bỏ.
 
-If your `pages/_app.js` imports `Container` from `next/app` you can remove `Container` as it was removed. Learn more in [the documentation](/docs/messages/app-container-deprecated).
+Nếu `pages/_app.js` của bạn import `Container` từ `next/app`, bạn có thể loại bỏ `Container` vì nó đã bị loại bỏ. Tìm hiểu thêm trong [tài liệu](/docs/messages/app-container-deprecated).
 
-### Remove `props.url` usage from page components
+### Loại bỏ việc sử dụng `props.url` từ page components
 
-This property was deprecated in Next.js 4 and has since shown a warning during development. With the introduction of `getStaticProps` / `getServerSideProps` these methods already disallowed the usage of `props.url`. In Next.js 11, it was removed completely.
+Thuộc tính này đã bị deprecate trong Next.js 4 và kể từ đó đã hiển thị cảnh báo trong quá trình phát triển. Với sự ra đời của `getStaticProps` / `getServerSideProps`, các phương thức này đã không cho phép sử dụng `props.url`. Trong Next.js 11, nó đã bị loại bỏ hoàn toàn.
 
-You can learn more in [the documentation](/docs/messages/url-deprecated).
+Bạn có thể tìm hiểu thêm trong [tài liệu](/docs/messages/url-deprecated).
 
-### Remove `unsized` property on `next/image`
+### Loại bỏ thuộc tính `unsized` trên `next/image`
 
-The `unsized` property on `next/image` was deprecated in Next.js 10.0.1. You can use `layout="fill"` instead. In Next.js 11 `unsized` was removed.
+Thuộc tính `unsized` trên `next/image` đã bị deprecate trong Next.js 10.0.1. Bạn có thể sử dụng `layout="fill"` thay thế. Trong Next.js 11 `unsized` đã bị loại bỏ.
 
-### Remove `modules` property on `next/dynamic`
+### Loại bỏ thuộc tính `modules` trên `next/dynamic`
 
-The `modules` and `render` option for `next/dynamic` were deprecated in Next.js 9.5. This was done in order to make the `next/dynamic` API closer to `React.lazy`. In Next.js 11, the `modules` and `render` options were removed.
+Tùy chọn `modules` và `render` cho `next/dynamic` đã bị deprecate trong Next.js 9.5. Điều này được thực hiện để làm cho API `next/dynamic` gần hơn với `React.lazy`. Trong Next.js 11, các tùy chọn `modules` và `render` đã bị loại bỏ.
 
-This option hasn't been mentioned in the documentation since Next.js 8 so it's less likely that your application is using it.
+Tùy chọn này chưa được đề cập trong tài liệu kể từ Next.js 8 nên ít có khả năng ứng dụng của bạn đang sử dụng nó.
 
-If your application does use `modules` and `render` you can refer to [the documentation](/docs/messages/next-dynamic-modules).
+Nếu ứng dụng của bạn sử dụng `modules` và `render`, bạn có thể tham khảo [tài liệu](/docs/messages/next-dynamic-modules).
 
-### Remove `Head.rewind`
+### Loại bỏ `Head.rewind`
 
-`Head.rewind` has been a no-op since Next.js 9.5, in Next.js 11 it was removed. You can safely remove your usage of `Head.rewind`.
+`Head.rewind` đã là no-op kể từ Next.js 9.5, trong Next.js 11 nó đã bị loại bỏ. Bạn có thể loại bỏ việc sử dụng `Head.rewind` một cách an toàn.
 
-### Moment.js locales excluded by default
+### Moment.js locales bị loại trừ theo mặc định
 
-Moment.js includes translations for a lot of locales by default. Next.js now automatically excludes these locales by default to optimize bundle size for applications using Moment.js.
+Moment.js bao gồm các bản dịch cho rất nhiều locales theo mặc định. Next.js hiện tự động loại trừ các locales này theo mặc định để tối ưu hóa kích thước bundle cho các ứng dụng sử dụng Moment.js.
 
-To load a specific locale use this snippet:
+Để tải một locale cụ thể, hãy sử dụng đoạn mã này:
 
 ```js
 import moment from 'moment'
@@ -103,11 +103,11 @@ import 'moment/locale/ja'
 moment.locale('ja')
 ```
 
-You can opt-out of this new default by adding `excludeDefaultMomentLocales: false` to `next.config.js` if you do not want the new behavior, do note it's highly recommended to not disable this new optimization as it significantly reduces the size of Moment.js.
+Bạn có thể chọn không tham gia mặc định mới này bằng cách thêm `excludeDefaultMomentLocales: false` vào `next.config.js` nếu bạn không muốn hành vi mới, nhưng lưu ý rằng rất khuyến khích không vô hiệu hóa tối ưu hóa mới này vì nó giảm đáng kể kích thước của Moment.js.
 
-### Update usage of `router.events`
+### Cập nhật việc sử dụng `router.events`
 
-In case you're accessing `router.events` during rendering, in Next.js 11 `router.events` is no longer provided during pre-rendering. Ensure you're accessing `router.events` in `useEffect`:
+Trong trường hợp bạn đang truy cập `router.events` trong quá trình render, trong Next.js 11 `router.events` không còn được cung cấp trong quá trình pre-rendering. Đảm bảo bạn đang truy cập `router.events` trong `useEffect`:
 
 ```js
 useEffect(() => {
@@ -129,21 +129,21 @@ useEffect(() => {
 }, [router])
 ```
 
-If your application uses `router.router.events` which was an internal property that was not public please make sure to use `router.events` as well.
+Nếu ứng dụng của bạn sử dụng `router.router.events` là một thuộc tính nội bộ không công khai, vui lòng đảm bảo sử dụng `router.events` thay thế.
 
-## React 16 to 17
+## React 16 lên 17
 
-React 17 introduced a new [JSX Transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) that brings a long-time Next.js feature to the wider React ecosystem: Not having to `import React from 'react'` when using JSX. When using React 17 Next.js will automatically use the new transform. This transform does not make the `React` variable global, which was an unintended side-effect of the previous Next.js implementation. A [codemod is available](/docs/pages/guides/upgrading/codemods#add-missing-react-import) to automatically fix cases where you accidentally used `React` without importing it.
+React 17 giới thiệu một [JSX Transform](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html) mới mang lại một tính năng Next.js lâu đời cho hệ sinh thái React rộng lớn hơn: Không cần phải `import React from 'react'` khi sử dụng JSX. Khi sử dụng React 17 Next.js sẽ tự động sử dụng transform mới. Transform này không làm cho biến `React` trở thành toàn cục, đây là một tác dụng phụ không mong muốn của triển khai Next.js trước đó. Một [codemod có sẵn](/docs/pages/guides/upgrading/codemods#add-missing-react-import) để tự động sửa các trường hợp bạn vô tình sử dụng `React` mà không import nó.
 
-Most applications already use the latest version of React, with Next.js 11 the minimum React version has been updated to 17.0.2.
+Hầu hết các ứng dụng đã sử dụng phiên bản mới nhất của React, với Next.js 11 phiên bản React tối thiểu đã được cập nhật lên 17.0.2.
 
-To upgrade you can run the following command:
+Để nâng cấp bạn có thể chạy lệnh sau:
 
 ```
 npm install react@latest react-dom@latest
 ```
 
-Or using `yarn`:
+Hoặc sử dụng `yarn`:
 
 ```
 yarn add react@latest react-dom@latest

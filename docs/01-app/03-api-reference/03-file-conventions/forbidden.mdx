@@ -1,13 +1,13 @@
 ---
 title: forbidden.js
-description: API reference for the forbidden.js special file.
+description: Tài liệu tham khảo API cho tệp đặc biệt forbidden.js.
 related:
   links:
     - app/api-reference/functions/forbidden
 version: experimental
 ---
 
-The **forbidden** file is used to render UI when the [`forbidden`](/docs/app/api-reference/functions/forbidden) function is invoked during authentication. Along with allowing you to customize the UI, Next.js will return a `403` status code.
+Tệp **forbidden** được sử dụng để render UI khi hàm [`forbidden`](/docs/app/api-reference/functions/forbidden) được gọi trong quá trình xác thực. Cùng với việc cho phép bạn tùy chỉnh UI, Next.js sẽ trả về mã trạng thái `403`.
 
 ```tsx filename="app/forbidden.tsx" switcher
 import Link from 'next/link'
@@ -37,14 +37,14 @@ export default function Forbidden() {
 }
 ```
 
-## Reference
+## Tham khảo
 
 ### Props
 
-`forbidden.js` components do not accept any props.
+Các component `forbidden.js` không chấp nhận bất kỳ props nào.
 
-## Version History
+## Lịch sử phiên bản
 
-| Version   | Changes                    |
-| --------- | -------------------------- |
-| `v15.1.0` | `forbidden.js` introduced. |
+| Phiên bản | Thay đổi                        |
+| --------- | ------------------------------- |
+| `v15.1.0` | `forbidden.js` được giới thiệu. |
